@@ -179,3 +179,27 @@ TO_DO_BATTLE_TEST("Aerilate doesn't affect Max Strike's type");
 TO_DO_BATTLE_TEST("Aerilate doesn't affect Terrain Pulse's type");
 TO_DO_BATTLE_TEST("Aerilate doesn't affect damaging Z-Move types");
 TO_DO_BATTLE_TEST("(DYNAMAX) Aerilate turns Max Strike into Max Airstream"); // All other -ate abilities do this, so interpolating this as no Aerilate mon is available in a Dynamax game
+
+SINGLE_BATTLE_TEST("INNATE: Aerilate can not turn certain moves into Flying type moves")
+{
+    u32 move;
+    PARAMETRIZE { move = MOVE_WEATHER_BALL; }
+    // PARAMETRIZE { move = MOVE_NATURAL_GIFT; } TODO: handle this case via Skill Swap
+    PARAMETRIZE { move = MOVE_JUDGMENT; }
+    PARAMETRIZE { move = MOVE_TECHNO_BLAST; }
+    PARAMETRIZE { move = MOVE_REVELATION_DANCE; }
+    PARAMETRIZE { move = MOVE_MULTI_ATTACK; }
+    PARAMETRIZE { move = MOVE_TERRAIN_PULSE; }
+    GIVEN {
+        PLAYER(SPECIES_MEGANIUM);
+        OPPONENT(SPECIES_SALAMENCE) { Item(ITEM_SALAMENCITE); }
+    } WHEN {
+        TURN { MOVE(opponent, move, gimmick: GIMMICK_MEGA); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, move, opponent);
+        NONE_OF {
+            MESSAGE("It's super effective!");
+        }
+    }
+}

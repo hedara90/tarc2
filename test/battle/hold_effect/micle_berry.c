@@ -97,3 +97,17 @@ SINGLE_BATTLE_TEST("Micle Berry increases the accuracy of the next used move the
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, player);
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Micle Berry raises the holder's accuracy by 1.2 when HP drops to 1/2 or below")
+{
+    GIVEN {
+        PLAYER(SPECIES_BELLSPROUT) { MaxHP(80); HP(80); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_GLUTTONY); Item(ITEM_MICLE_BERRY); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_DRAGON_RAGE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DRAGON_RAGE, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        MESSAGE("Bellsprout boosted the accuracy of its next move using Micle Berry!");
+    }
+}

@@ -186,3 +186,18 @@ SINGLE_BATTLE_TEST("Flying-type Tera Blast does not have its priority boosted by
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TERA_BLAST, player);
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Flying-type Tera Blast does not have its priority boosted by Gale Wings")
+{
+    GIVEN {
+        PLAYER(SPECIES_TALONFLAME) { Ability(ABILITY_FLAME_BODY); Innates(ABILITY_GALE_WINGS); TeraType(TYPE_FLYING); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_TERA_BLAST, gimmick: GIMMICK_TERA); MOVE(opponent, MOVE_QUICK_ATTACK); }
+    } SCENE {
+        MESSAGE("The opposing Wobbuffet used Quick Attack!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_QUICK_ATTACK, opponent);
+        MESSAGE("Talonflame used Tera Blast!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TERA_BLAST, player);
+    }
+}

@@ -305,3 +305,29 @@ DOUBLE_BATTLE_TEST("Instructed move will be redirected by Rage Powder after inst
         HP_BAR(opponentLeft);
     }
 }
+
+DOUBLE_BATTLE_TEST("INNATE: Instructed move will be redirected and absorbed by Lightning Rod if it turns into an Electric Type move")
+{
+    struct BattlePokemon *moveTarget = NULL;
+    PARAMETRIZE { moveTarget = opponentLeft; }
+    PARAMETRIZE { moveTarget = opponentRight; }
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_PIKACHU) { Ability(ABILITY_STATIC); Innates(ABILITY_LIGHTNING_ROD); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN {
+            MOVE(playerLeft, MOVE_TACKLE, target: moveTarget);
+            MOVE(opponentLeft, MOVE_PLASMA_FISTS, target: playerLeft);
+            MOVE(playerRight, MOVE_INSTRUCT, target: playerLeft);
+            MOVE(opponentRight, MOVE_CELEBRATE);
+        }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_PLASMA_FISTS, opponentLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_INSTRUCT, playerRight);
+        ABILITY_POPUP(opponentLeft, ABILITY_LIGHTNING_ROD);
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+    }
+}

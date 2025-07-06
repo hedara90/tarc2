@@ -99,3 +99,52 @@ DOUBLE_BATTLE_TEST("Teraform Zero shouldn't cause Neutralizing Gas to show it's 
         MESSAGE("Terapagos used Celebrate!");
     }
 }
+
+DOUBLE_BATTLE_TEST("INNATE: Teraform Zero clears weather and terrain upon activation")
+{
+    GIVEN {
+        PLAYER(SPECIES_TERAPAGOS_TERASTAL);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_KYOGRE) {Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DRIZZLE); }
+        OPPONENT(SPECIES_TAPU_KOKO) {Ability(ABILITY_TELEPATHY); Innates(ABILITY_ELECTRIC_SURGE); }
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_TERA); }
+    } SCENE {
+        ABILITY_POPUP(playerLeft, ABILITY_TERAFORM_ZERO);
+        MESSAGE("The rain stopped.");
+        MESSAGE("The electricity disappeared from the battlefield.");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Teraform Zero cannot be copied")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_ROLE_PLAY) == EFFECT_ROLE_PLAY);
+        PLAYER(SPECIES_TERAPAGOS);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE, gimmick: GIMMICK_TERA); MOVE(opponent, MOVE_ROLE_PLAY); }
+    } SCENE {
+        MESSAGE("The opposing Wobbuffet used Role Play!");
+        MESSAGE("But it failed!");
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Teraform Zero shouldn't cause Neutralizing Gas to show it's popup when trying to activate")
+{
+    KNOWN_FAILING; // #5010
+    GIVEN {
+        PLAYER(SPECIES_TERAPAGOS_TERASTAL);
+        PLAYER(SPECIES_ABSOL) {Ability(ABILITY_SUPER_LUCK); Innates(ABILITY_PRESSURE); }
+        PLAYER(SPECIES_WEEZING) {Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
+        OPPONENT(SPECIES_KYOGRE) {Ability(ABILITY_DRIZZLE); }
+        OPPONENT(SPECIES_TAPU_KOKO) {Ability(ABILITY_ELECTRIC_SURGE); }
+    } WHEN {
+        TURN {  SWITCH(playerRight, 2); MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_TERA); }
+    } SCENE {
+        MESSAGE("Terapagos is storing energy!");
+        MESSAGE("Terapagos terastalized into the Stellar type!");
+        NOT ABILITY_POPUP(playerRight, ABILITY_NEUTRALIZING_GAS);
+        MESSAGE("Terapagos used Celebreate!");
+    }
+}

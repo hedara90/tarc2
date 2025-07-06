@@ -25,6 +25,7 @@
 #undef TestRunner_Battle_AfterLastTurn
 #undef TestRunner_Battle_CheckBattleRecordActionType
 #undef TestRunner_Battle_GetForcedAbility
+#undef TestRunner_Battle_GetForcedInnates
 #endif
 
 #define INVALID(fmt, ...) Test_ExitWithResult(TEST_RESULT_INVALID, sourceLine, ":L%s:%d: " fmt, gTestRunnerState.test->filename, sourceLine, ##__VA_ARGS__)
@@ -1664,6 +1665,20 @@ void Ability_(u32 sourceLine, u32 ability)
     }
 }
 
+void Innates_(u32 sourceLine, u32 innates[MAX_MON_INNATES])
+{
+    s32 i;
+    INVALID_IF(!DATA.currentMon, "Innates outside of PLAYER/OPPONENT");
+
+    // Overwrites the target pokemon with the given Innate list.
+    // If the list is empty, the pokemon will have no Innates to remain compatible with vanilla tests.
+    for (i = 0; i < MAX_MON_INNATES; i++)
+    {
+        INVALID_IF(innates[i] >= ABILITIES_COUNT, "Illegal ability id: %d", innates[i]);
+        DATA.forcedInnates[DATA.currentSide][DATA.currentPartyIndex][i] = innates[i];
+    }
+}
+
 void Level_(u32 sourceLine, u32 level)
 {
     // TODO: Preserve any explicitly-set stats.
@@ -2754,6 +2769,11 @@ void ValidateFinally(u32 sourceLine)
 u32 TestRunner_Battle_GetForcedAbility(u32 side, u32 partyIndex)
 {
     return DATA.forcedAbilities[side][partyIndex];
+}
+
+u32 TestRunner_Battle_GetForcedInnates(u32 side, u32 partyIndex, s32 i)
+{
+    return DATA.forcedInnates[side][partyIndex][i];
 }
 
 u32 TestRunner_Battle_GetChosenGimmick(u32 side, u32 partyIndex)

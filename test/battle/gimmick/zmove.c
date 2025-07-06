@@ -679,3 +679,71 @@ SINGLE_BATTLE_TEST("(Z-MOVE) Z-Revelation Dance always transforms into Breakneck
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
     }
 }
+SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Z-Moves are not affected by -ate abilities")
+{
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_TACKLE) == TYPE_NORMAL);
+        ASSUME(gSpeciesInfo[SPECIES_SWELLOW].types[1] == TYPE_FLYING);
+        PLAYER(SPECIES_AURORUS) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_REFRIGERATE); Item(ITEM_NORMALIUM_Z); }
+        OPPONENT(SPECIES_SWELLOW);
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_Z_MOVE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
+        NOT { MESSAGE("It's super effective!"); }
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: (Z-MOVE) Dancer does not use a Z-Move if the battler has used a Z-Move the same turn")
+{
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_TACKLE) == TYPE_NORMAL);
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_DANCER); Item(ITEM_NORMALIUM_Z); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft, gimmick: GIMMICK_Z_MOVE);
+               MOVE(playerRight, MOVE_FIERY_DANCE, target: opponentRight); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FIERY_DANCE, playerRight);
+        ABILITY_POPUP(playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FIERY_DANCE, playerLeft);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Splintered Stormshards removes terrain")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_SPLINTERED_STORMSHARDS) == EFFECT_HIT_SET_REMOVE_TERRAIN);
+        PLAYER(SPECIES_LYCANROC_DUSK) { Item(ITEM_LYCANIUM_Z); }
+        OPPONENT(SPECIES_TAPU_LELE) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_PSYCHIC_SURGE); HP(1000); MaxHP(1000); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_STONE_EDGE, gimmick: GIMMICK_Z_MOVE); }
+        TURN { MOVE(player, MOVE_QUICK_ATTACK); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SPLINTERED_STORMSHARDS, player);
+        MESSAGE("The weirdness disappeared from the battlefield!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_QUICK_ATTACK, player);
+        HP_BAR(opponent);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Searing Sunraze Smash ignores the target's abilities")
+{
+    GIVEN {
+        PLAYER(SPECIES_SOLGALEO) { Item(ITEM_SOLGANIUM_Z); }
+        OPPONENT(SPECIES_LAPRAS) { Ability(ABILITY_WATER_ABSORB); Innates(ABILITY_BATTLE_ARMOR); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SUNSTEEL_STRIKE, gimmick: GIMMICK_Z_MOVE, criticalHit: TRUE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SEARING_SUNRAZE_SMASH, player);
+        HP_BAR(opponent);
+        MESSAGE("A critical hit!");
+    }
+}

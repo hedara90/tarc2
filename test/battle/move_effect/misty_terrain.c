@@ -87,3 +87,21 @@ SINGLE_BATTLE_TEST("Misty Terrain lasts for 5 turns")
         MESSAGE("The mist disappeared from the battlefield.");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Misty Terrain protects grounded battlers from non-volatile status conditions")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLAYDOL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LEVITATE); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_MISTY_TERRAIN); MOVE(opponent, MOVE_TOXIC); }
+        TURN { MOVE(player, MOVE_TOXIC); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Misty Terrain!");
+        MESSAGE("The opposing Claydol used Toxic!");
+        MESSAGE("Wobbuffet surrounds itself with a protective mist!");
+        NOT { STATUS_ICON(opponent, badPoison: TRUE); }
+        MESSAGE("Wobbuffet used Toxic!");
+        STATUS_ICON(opponent, badPoison: TRUE);
+    }
+}

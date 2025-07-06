@@ -539,3 +539,132 @@ SINGLE_BATTLE_TEST("Red Card activates before Eject Pack")
     }
 }
 
+SINGLE_BATTLE_TEST("INNATE: Red Card does not activate if stolen by Magician")
+{
+    u32 item;
+    bool32 activate;
+    PARAMETRIZE { item = ITEM_NONE; activate = FALSE; }
+    PARAMETRIZE { item = ITEM_POTION; activate = TRUE; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
+        OPPONENT(SPECIES_FENNEKIN) { Ability(ABILITY_BLAZE); Innates(ABILITY_MAGICIAN); Item(item); }
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        if (activate) {
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+            MESSAGE("Wobbuffet held up its Red Card against the opposing Fennekin!");
+        } else {
+            NONE_OF {
+                ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+                MESSAGE("Wobbuffet held up its Red Card against the opposing Fennekin!");
+            }
+        }
+    } THEN {
+        EXPECT(player->item == ITEM_NONE);
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Red Card activates but fails if the attacker has Suction Cups")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_OCTILLERY) { Ability(ABILITY_MOODY); Innates(ABILITY_SUCTION_CUPS); }
+        OPPONENT(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_UNOWN);
+    } WHEN {
+        TURN {
+            MOVE(opponentLeft, MOVE_TACKLE, target: playerLeft);
+            MOVE(opponentRight, MOVE_TACKLE, target: playerLeft);
+        }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentLeft);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, playerLeft);
+        MESSAGE("Wobbuffet held up its Red Card against the opposing Octillery!");
+        MESSAGE("The opposing Octillery anchors itself with Suction Cups!");
+        NOT MESSAGE("The opposing Unown was dragged out!");
+
+        // Red Card already consumed so cannot activate.
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentRight);
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, playerLeft);
+            MESSAGE("Wobbuffet held up its Red Card against the opposing Wynaut!");
+        }
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Red Card activates but fails if the attacker has Guard Dog")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_OKIDOGI) { Ability(ABILITY_TOXIC_CHAIN); Innates(ABILITY_GUARD_DOG); }
+        OPPONENT(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_UNOWN);
+    } WHEN {
+        TURN {
+            MOVE(opponentLeft, MOVE_TACKLE, target: playerLeft);
+            MOVE(opponentRight, MOVE_TACKLE, target: playerLeft);
+        }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentLeft);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, playerLeft);
+        MESSAGE("Wobbuffet held up its Red Card against the opposing Okidogi!");
+        NOT MESSAGE("The opposing Unown was dragged out!");
+
+        // Red Card already consumed so cannot activate.
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentRight);
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, playerLeft);
+            MESSAGE("Wobbuffet held up its Red Card against the opposing Wynaut!");
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Red Card does not activate if attacker's Sheer Force applied")
+{
+    u32 move;
+    bool32 activate;
+    PARAMETRIZE { move = MOVE_TACKLE; activate = TRUE; }
+    PARAMETRIZE { move = MOVE_STOMP; activate = FALSE; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
+        OPPONENT(SPECIES_TAUROS) { Ability(ABILITY_ANGER_POINT); Innates(ABILITY_SHEER_FORCE); }
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(opponent, move); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, move, opponent);
+        if (activate) {
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+            MESSAGE("Wobbuffet held up its Red Card against the opposing Tauros!");
+        } else {
+            NONE_OF {
+                ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+                MESSAGE("Wobbuffet held up its Red Card against the opposing Tauros!");
+            }
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Red Card prevents Emergency Exit activation when triggered")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_GOLISOPOD) { Item(ITEM_RED_CARD); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_EMERGENCY_EXIT); MaxHP(263); HP(262); };
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_SUPER_FANG); MOVE(opponent, MOVE_CELEBRATE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SUPER_FANG, player);
+        HP_BAR(opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
+        NOT ABILITY_POPUP(opponent, ABILITY_EMERGENCY_EXIT);
+    }
+}

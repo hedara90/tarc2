@@ -119,6 +119,9 @@ enum {
     MON_DATA_GIGANTAMAX_FACTOR,
     MON_DATA_TERA_TYPE,
     MON_DATA_EVOLUTION_TRACKER,
+    MON_DATA_INNATE1,
+    MON_DATA_INNATE2,
+    MON_DATA_INNATE3,
 };
 
 struct PokemonSubstruct0
@@ -389,6 +392,7 @@ struct SpeciesInfo /*0xC4*/
     u8 eggGroups[2];
     u16 abilities[NUM_ABILITY_SLOTS]; // 3 abilities, no longer u8 because we have over 255 abilities now.
     u8 safariZoneFleeRate;
+    u16 innates[MAX_MON_INNATES_INTERNAL];
 
     // Pokédex data
     u8 categoryName[13];
@@ -831,4 +835,9 @@ u32 GetRegionalFormByRegion(u32 species, u32 region);
 bool32 IsSpeciesForeignRegionalForm(u32 species, u32 currentRegion);
 u32 GetTeraTypeFromPersonality(struct Pokemon *mon);
 
+u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerandomizer);
+u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disablerandomizer);
+//u8 GetSpeciesInnateNum(u16 species, u16 ability, u32 personality, bool8 disableRandomizer);
+bool8 BoxMonHasInnate(struct BoxPokemon* boxmon, u16 ability, bool8 disableRandomizer);
+bool8 MonHasTrait(struct Pokemon* mon, u16 ability, bool8 disableRandomizer);
 #endif // GUARD_POKEMON_H

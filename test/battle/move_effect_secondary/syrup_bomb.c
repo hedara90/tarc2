@@ -217,3 +217,20 @@ SINGLE_BATTLE_TEST("Sticky Syrup is removed when the user faints")
         }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Syrup Bomb is prevented by Bulletproof")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CHESPIN) { Ability(ABILITY_OVERGROW); Innates(ABILITY_BULLETPROOF); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SYRUP_BOMB); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_BULLETPROOF);
+        MESSAGE("The opposing Chespin's Bulletproof blocks Syrup Bomb!");
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_SYRUP_BOMB, player);
+            HP_BAR(opponent);
+        }
+    }
+}

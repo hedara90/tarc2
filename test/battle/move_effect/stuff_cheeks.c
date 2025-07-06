@@ -103,3 +103,16 @@ SINGLE_BATTLE_TEST("Stuff Cheeks fails if the user's berry is removed before the
         MESSAGE("But it failed!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Stuff Cheeks can be used even if Unnerve is present")
+{
+    GIVEN {
+        PLAYER(SPECIES_SKWOVET) { Item(ITEM_LIECHI_BERRY); }
+        OPPONENT(SPECIES_EKANS) { Ability(ABILITY_SHED_SKIN); Innates(ABILITY_UNNERVE); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_STUFF_CHEEKS); }
+    } SCENE {
+        MESSAGE("Skwovet used Stuff Cheeks!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_STUFF_CHEEKS, player);
+    }
+}

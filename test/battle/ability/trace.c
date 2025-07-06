@@ -111,3 +111,5 @@ DOUBLE_BATTLE_TEST("Trace respects the turn order")
         ABILITY_POPUP(opponentLeft, ABILITY_SAND_STREAM);
     }
 }
+
+// Trace only works on Abilities and should only be an Ability, so it doesn't need Innate tests.

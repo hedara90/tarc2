@@ -120,3 +120,21 @@ DOUBLE_BATTLE_TEST("Corrosive Gas destroys foes and ally's items if they have on
 
 TO_DO_BATTLE_TEST("Corrosive Gas doesn't destroy the item of a Pokemon behind a Substitute");
 TO_DO_BATTLE_TEST("Corrosive Gas doesn't destroy items if they change the Pokémon's form"); // Giratina, Genesect, Silvally, Zacian, Zamazenta. Bulbapedia hasn't confirmed Arceus or Ogerpon, but it's a safe assumption that they will also fail.
+
+SINGLE_BATTLE_TEST("INNATE: Corrosive Gas doesn't destroy the item of a Pokemon with the Sticky Hold ability")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_MUK) {Item(ITEM_POISON_BARB); Ability(ABILITY_STICKY_HOLD); Innates(ABILITY_STICKY_HOLD); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CORROSIVE_GAS); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Corrosive Gas!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_CORROSIVE_GAS, player);
+        NOT MESSAGE("Wobbuffet corroded the opposing Wobbuffet's Potion!");
+        ABILITY_POPUP(opponent, ABILITY_STICKY_HOLD);
+        MESSAGE("The opposing Muk's Sticky Hold made Corrosive Gas ineffective!");
+    } THEN {
+        EXPECT_EQ(opponent->item, ITEM_POISON_BARB);
+    }
+}

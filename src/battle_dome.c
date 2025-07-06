@@ -2403,7 +2403,7 @@ static int GetTypeEffectivenessPoints(int move, int targetSpecies, int mode)
     defAbility = gSpeciesInfo[targetSpecies].abilities[0];
     moveType = GetMoveType(move);
 
-    if (defAbility == ABILITY_LEVITATE && moveType == TYPE_GROUND)
+    if ((defAbility == ABILITY_LEVITATE || SpeciesHasInnate(targetSpecies, ABILITY_LEVITATE, 0, TRUE)) && moveType == TYPE_GROUND)
     {
         // They likely meant to return here, as 8 is the number of points normally used in this mode for moves with no effect.
         // Because there's no return the value instead gets interpreted by the switch, and the number of points becomes 0.
@@ -2424,7 +2424,7 @@ static int GetTypeEffectivenessPoints(int move, int targetSpecies, int mode)
         if (defType2 != defType1)
             typePower = (typeEffectiveness2 * typePower) / 10;
 
-        if (defAbility == ABILITY_WONDER_GUARD && typeEffectiveness1 != TYPE_x1 && typeEffectiveness2 != TYPE_x1)
+        if ((defAbility == ABILITY_WONDER_GUARD || SpeciesHasInnate(targetSpecies, ABILITY_WONDER_GUARD, 0, TRUE)) && typeEffectiveness1 != TYPE_x1 && typeEffectiveness2 != TYPE_x1)
             typePower = 0;
     }
 
@@ -5150,7 +5150,7 @@ static u16 GetWinningMove(int winnerTournamentId, int loserTournamentId, u8 roun
                 else
                     targetAbility = gSpeciesInfo[targetSpecies].abilities[0];
 
-                typeMultiplier = CalcPartyMonTypeEffectivenessMultiplier(moves[i * 4 + j], targetSpecies, targetAbility);
+                typeMultiplier = CalcPartyMonTypeEffectivenessMultiplier(moves[i * 4 + j], targetSpecies, targetAbility, 0);
                 if (typeMultiplier == UQ_4_12(0))
                     moveScores[i * MAX_MON_MOVES + j] += 0;
                 else if (typeMultiplier >= UQ_4_12(2))

@@ -110,3 +110,35 @@ SINGLE_BATTLE_TEST("Protective Pads protects from Protect's secondary effects")
         }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Protective Pads doesn't reduce tough claws damage", s16 damage)
+{
+    u32 item;
+    PARAMETRIZE { item = ITEM_NONE; }
+    PARAMETRIZE { item = ITEM_PROTECTIVE_PADS; }
+    GIVEN {
+        PLAYER(SPECIES_BINACLE) { Ability(ABILITY_SNIPER); Innates(ABILITY_TOUGH_CLAWS); Item(item); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE); }
+    } SCENE {
+        MESSAGE("Binacle used Tackle!");
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Protective Pads doesn't invalid unseen fist")
+{
+    GIVEN {
+        PLAYER(SPECIES_URSHIFU_RAPID_STRIKE) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_UNSEEN_FIST); Item(ITEM_PROTECTIVE_PADS); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_PROTECT); MOVE(player, MOVE_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_PROTECT, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        HP_BAR(opponent);
+    }
+}

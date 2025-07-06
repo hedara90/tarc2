@@ -142,3 +142,93 @@ SINGLE_BATTLE_TEST("Psychic Terrain lasts for 5 turns")
         MESSAGE("The weirdness disappeared from the battlefield!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Psychic Terrain protects grounded battlers from priority moves")
+{
+    GIVEN {
+        PLAYER(SPECIES_CLAYDOL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LEVITATE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(player, MOVE_QUICK_ATTACK); MOVE(opponent, MOVE_QUICK_ATTACK); }
+    } SCENE {
+        MESSAGE("Claydol used Psychic Terrain!");
+        MESSAGE("Claydol cannot use Quick Attack!");
+        NOT { HP_BAR(opponent); }
+        MESSAGE("The opposing Wobbuffet used Quick Attack!");
+        HP_BAR(player);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target the user")
+{
+    GIVEN {
+        PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); HP(1); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(player, MOVE_RECOVER); }
+    } SCENE {
+        MESSAGE("Sableye used Psychic Terrain!");
+        MESSAGE("Sableye used Recover!");
+        HP_BAR(player);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target all battlers")
+{
+    GIVEN {
+        PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(player, MOVE_HAZE); }
+    } SCENE {
+        MESSAGE("Sableye used Psychic Terrain!");
+        MESSAGE("Sableye used Haze!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target all opponents")
+{
+    GIVEN {
+        PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(player, MOVE_SPIKES); }
+    } SCENE {
+        MESSAGE("Sableye used Psychic Terrain!");
+        MESSAGE("Sableye used Spikes!");
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target allies")
+{
+    GIVEN {
+        PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(1); }
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(playerLeft, MOVE_HEAL_PULSE, target: playerRight); }
+    } SCENE {
+        MESSAGE("Sableye used Psychic Terrain!");
+        MESSAGE("Sableye used Heal Pulse!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority field moves")
+{
+    GIVEN {
+        PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_PSYCHIC_TERRAIN); }
+        TURN { MOVE(player, MOVE_SUNNY_DAY); }
+    } SCENE {
+        MESSAGE("Sableye used Psychic Terrain!");
+        MESSAGE("Sableye used Sunny Day!");
+    }
+}

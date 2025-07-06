@@ -48,3 +48,15 @@ WILD_BATTLE_TEST("Poke Toy lets the player escape from a wild battle even if an 
         MESSAGE("{PLAY_SE SE_FLEE}You got away safely!\p");
     }
 }
+
+WILD_BATTLE_TEST("INNATE: Poke Toy lets the player escape from a wild battle even if an ability forbid them to")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_DIGLETT) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_ARENA_TRAP); }
+    } WHEN {
+        TURN { USE_ITEM(player, ITEM_POKE_TOY); }
+    } SCENE {
+        MESSAGE("{PLAY_SE SE_FLEE}You got away safely!\p");
+    }
+}

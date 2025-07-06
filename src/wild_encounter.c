@@ -323,8 +323,8 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
         // check ability for max level mon
         if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         {
-            u16 ability = GetMonAbility(&gPlayerParty[0]);
-            if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
+            //u16 ability = GetMonAbility(&gPlayerParty[0]);
+            if (MonHasTrait(&gPlayerParty[0], ABILITY_HUSTLE , TRUE) || MonHasTrait(&gPlayerParty[0], ABILITY_VITAL_SPIRIT, TRUE) || MonHasTrait(&gPlayerParty[0], ABILITY_PRESSURE, TRUE))
             {
                 if (Random() % 2 == 0)
                     return max;
@@ -440,7 +440,7 @@ u8 PickWildMonNature(void)
     }
     // check synchronize for a Pokémon with the same ability
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
-        && GetMonAbility(&gPlayerParty[0]) == ABILITY_SYNCHRONIZE
+        && MonHasTrait(&gPlayerParty[0], ABILITY_SYNCHRONIZE, TRUE)
         && (OW_SYNCHRONIZE_NATURE >= GEN_8 || Random() % 2 == 0))
     {
         return GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY) % NUM_NATURES;
@@ -467,7 +467,7 @@ void CreateWildMon(u16 species, u8 level)
 
     if (checkCuteCharm
         && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
-        && GetMonAbility(&gPlayerParty[0]) == ABILITY_CUTE_CHARM
+        && MonHasTrait(&gPlayerParty[0], ABILITY_CUTE_CHARM, TRUE)
         && Random() % 3 != 0)
     {
         u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
@@ -607,27 +607,27 @@ static bool8 WildEncounterCheck(u32 encounterRate, bool8 ignoreAbility)
         encounterRate *= 2;
     if (!ignoreAbility && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
     {
-        u32 ability = GetMonAbility(&gPlayerParty[0]);
+        //u32 ability = GetMonAbility(&gPlayerParty[0]);
 
-        if (ability == ABILITY_STENCH && gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
+        if (MonHasTrait(&gPlayerParty[0], ABILITY_STENCH, TRUE) && gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
             encounterRate = encounterRate * 3 / 4;
-        else if (ability == ABILITY_STENCH)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_STENCH, TRUE))
             encounterRate /= 2;
-        else if (ability == ABILITY_ILLUMINATE)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_ILLUMINATE, TRUE))
             encounterRate *= 2;
-        else if (ability == ABILITY_WHITE_SMOKE)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_WHITE_SMOKE, TRUE))
             encounterRate /= 2;
-        else if (ability == ABILITY_ARENA_TRAP)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_ARENA_TRAP, TRUE))
             encounterRate *= 2;
-        else if (ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_SAND_VEIL, TRUE) && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM)
             encounterRate /= 2;
-        else if (ability == ABILITY_SNOW_CLOAK && gSaveBlock1Ptr->weather == WEATHER_SNOW)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_SNOW_CLOAK, TRUE) && gSaveBlock1Ptr->weather == WEATHER_SNOW)
             encounterRate /= 2;
-        else if (ability == ABILITY_QUICK_FEET)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_QUICK_FEET, TRUE))
             encounterRate /= 2;
-        else if (ability == ABILITY_INFILTRATOR && OW_INFILTRATOR >= GEN_8)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_INFILTRATOR, TRUE) && OW_INFILTRATOR >= GEN_8)
             encounterRate /= 2;
-        else if (ability == ABILITY_NO_GUARD)
+        else if (MonHasTrait(&gPlayerParty[0], ABILITY_NO_GUARD, TRUE))
             encounterRate *= 2;
     }
     if (encounterRate > MAX_ENCOUNTER_RATE)
@@ -1096,13 +1096,13 @@ static bool8 IsWildLevelAllowedByRepel(u8 wildLevel)
 
 static bool8 IsAbilityAllowingEncounter(u8 level)
 {
-    u16 ability;
+    //u16 ability;
 
     if (GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
         return TRUE;
 
-    ability = GetMonAbility(&gPlayerParty[0]);
-    if (ability == ABILITY_KEEN_EYE || ability == ABILITY_INTIMIDATE)
+    //ability = GetMonAbility(&gPlayerParty[0]);
+    if (MonHasTrait(&gPlayerParty[0], ABILITY_KEEN_EYE, TRUE) || MonHasTrait(&gPlayerParty[0], ABILITY_INTIMIDATE, TRUE))
     {
         u8 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
         if (playerMonLevel > 5 && level <= playerMonLevel - 5 && !(Random() % 2))

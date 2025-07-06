@@ -47,3 +47,51 @@ SINGLE_BATTLE_TEST("Mold Breaker, Teravolt and Turboblaze ignore Battle Armor an
         MESSAGE("A critical hit!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Battle Armor and Shell Armor block critical hits")
+{
+    u32 species;
+    u32 ability;
+    u32 innate;
+
+    PARAMETRIZE { species = SPECIES_KINGLER; ability = ABILITY_HYPER_CUTTER; innate = ABILITY_SHELL_ARMOR; }
+    PARAMETRIZE { species = SPECIES_ARMALDO; ability = ABILITY_SWIFT_SWIM; innate = ABILITY_BATTLE_ARMOR; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(species) { Ability(ability); Innates(innate); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE, criticalHit: TRUE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        NOT MESSAGE("A critical hit!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Mold Breaker, Teravolt and Turboblaze ignore Battle Armor and Shell Armor")
+{
+    u32 j;
+    u32 species1, species2, ability1, ability2, innate1, innate2;
+    static const u32 breakerData[][3] =
+    {
+        {SPECIES_PINSIR,   ABILITY_MOLD_BREAKER, ABILITY_HYPER_CUTTER},
+        {SPECIES_ZEKROM,   ABILITY_TERAVOLT,     ABILITY_LIGHT_METAL},
+        {SPECIES_RESHIRAM, ABILITY_TURBOBLAZE,   ABILITY_LIGHT_METAL},
+    };
+
+    for (j = 0; j < ARRAY_COUNT(breakerData); j++)
+    {
+        PARAMETRIZE { species1 = breakerData[j][0]; innate1 = breakerData[j][1]; ability1 = breakerData[j][2]; species2 = SPECIES_KINGLER; ability2 = ABILITY_SHELL_ARMOR, innate2 = ABILITY_SHELL_ARMOR; }
+        PARAMETRIZE { species1 = breakerData[j][0]; innate1 = breakerData[j][1]; ability1 = breakerData[j][2]; species2 = SPECIES_ARMALDO; ability2 = ABILITY_SWIFT_SWIM, innate2 = ABILITY_BATTLE_ARMOR; }
+    }
+
+    GIVEN {
+        PLAYER(species1) { Ability(ability1); Innates(innate1); }
+        OPPONENT(species2) { Ability(ability2); Innates(innate2); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE, criticalHit: TRUE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        MESSAGE("A critical hit!");
+    }
+}

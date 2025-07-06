@@ -281,3 +281,49 @@ DOUBLE_BATTLE_TEST("Transistor Damage calculation", s16 damage)
         EXPECT_EQ(damagePlayerRight, expectedDamageTransistorPhys);
     }
 }
+
+DOUBLE_BATTLE_TEST("INNATE: Transistor Damage calculation", s16 damage)
+{
+    s16 expectedDamageTransistorSpec = 0, expectedDamageRegularPhys = 0, expectedDamageRegularSpec = 0, expectedDamageTransistorPhys = 0;
+    s16 damagePlayerLeft, damagePlayerRight, damageOpponentLeft, damageOpponentRight;
+    for (u32 spread = 0; spread < 16; ++spread) {
+        PARAMETRIZE { expectedDamageTransistorSpec = sThunderShockTransistorSpread[spread],
+                      expectedDamageRegularSpec = sThunderShockRegularSpread[spread],
+                      expectedDamageTransistorPhys = sWildChargeTransistorSpread[spread],
+                      expectedDamageRegularPhys = sWildChargeRegularSpread[spread];
+                    }
+    }
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_WILD_CHARGE) == TYPE_ELECTRIC);
+        ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
+        ASSUME(GetMoveCategory(MOVE_WILD_CHARGE) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_THUNDER_SHOCK) == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(NUM_DAMAGE_SPREADS == 16);
+
+        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); }
+        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); Innates(ABILITY_TRANSISTOR); }
+        OPPONENT(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); }
+        OPPONENT(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); Innates(ABILITY_TRANSISTOR); }
+    } WHEN {
+        TURN {
+            MOVE(playerLeft, MOVE_THUNDER_SHOCK, target: opponentLeft, WITH_RNG(RNG_DAMAGE_MODIFIER, 15 - i));
+            MOVE(playerRight, MOVE_THUNDER_SHOCK, target: opponentRight, WITH_RNG(RNG_DAMAGE_MODIFIER, 15 - i));
+            MOVE(opponentLeft, MOVE_WILD_CHARGE, target: playerLeft, WITH_RNG(RNG_DAMAGE_MODIFIER, 15 - i));
+            MOVE(opponentRight, MOVE_WILD_CHARGE, target: playerRight, WITH_RNG(RNG_DAMAGE_MODIFIER, 15 - i));
+        }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_THUNDER_SHOCK, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damageOpponentLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_THUNDER_SHOCK, playerRight);
+        HP_BAR(opponentRight, captureDamage: &damageOpponentRight);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WILD_CHARGE, opponentLeft);
+        HP_BAR(playerLeft, captureDamage: &damagePlayerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WILD_CHARGE, opponentRight);
+        HP_BAR(playerRight, captureDamage: &damagePlayerRight);
+    } THEN {
+        EXPECT_EQ(damageOpponentLeft, expectedDamageRegularSpec);
+        EXPECT_EQ(damageOpponentRight, expectedDamageTransistorSpec);
+        EXPECT_EQ(damagePlayerLeft, expectedDamageRegularPhys);
+        EXPECT_EQ(damagePlayerRight, expectedDamageTransistorPhys);
+    }
+}

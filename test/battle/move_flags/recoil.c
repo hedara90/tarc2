@@ -102,3 +102,22 @@ SINGLE_BATTLE_TEST("Recoil: Flare Blitz is absorbed by Flash Fire and no recoil 
         }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Flare Blitz is absorbed by Flash Fire and no recoil damage is dealt")
+{
+    GIVEN {
+        ASSUME(GetMoveRecoil(MOVE_FLARE_BLITZ) > 0);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_VULPIX) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FLASH_FIRE); };
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_TACKLE); MOVE(player, MOVE_FLARE_BLITZ); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        HP_BAR(player);
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_FLARE_BLITZ, player);
+            HP_BAR(opponent);
+            HP_BAR(player);
+        }
+    }
+}

@@ -85,3 +85,30 @@ DOUBLE_BATTLE_TEST("Shell Side Arm chooses its category for each battler on the 
         HP_BAR(playerLeft);
     }
 }
+
+DOUBLE_BATTLE_TEST("INNATE: Shell Side Arm does not change category mid-turn")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_SCREECH) == EFFECT_DEFENSE_DOWN_2);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_SHUCKLE) { Ability(ABILITY_STURDY); Innates(ABILITY_CONTRARY); Defense(100); SpDefense(120); }
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_SHELL_SIDE_ARM, target: opponentLeft); MOVE(opponentLeft, MOVE_MIRROR_COAT, target: opponentLeft); }
+        TURN { MOVE(playerRight, MOVE_SCREECH, target: opponentLeft); MOVE(playerLeft, MOVE_SHELL_SIDE_ARM, target: opponentLeft); MOVE(opponentLeft, MOVE_MIRROR_COAT, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SHELL_SIDE_ARM, target: opponentLeft); MOVE(opponentLeft, MOVE_MIRROR_COAT, target: opponentLeft); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SHELL_SIDE_ARM, playerLeft);
+        HP_BAR(opponentLeft);
+        NOT HP_BAR(playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCREECH, playerRight);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SHELL_SIDE_ARM, playerLeft);
+        HP_BAR(opponentLeft);
+        NOT HP_BAR(playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SHELL_SIDE_ARM, playerLeft);
+        HP_BAR(opponentLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_MIRROR_COAT, opponentLeft);
+        HP_BAR(playerLeft);
+    }
+}

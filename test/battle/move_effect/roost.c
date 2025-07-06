@@ -442,3 +442,112 @@ SINGLE_BATTLE_TEST("Roost does not suppress the ungrounded effect of Telekinesis
 // Transform does not copy the Roost "status" either.
 // Probably better as a Transform test.
 TO_DO_BATTLE_TEST("Roost's suppression does not prevent others who are Transforming into the user from copying its Flying-type");
+
+SINGLE_BATTLE_TEST("INNATE: Roost suppresses the user's Flying-typing this turn, then restores it at the end of the turn")
+{
+    GIVEN {
+        ASSUME(gSpeciesInfo[SPECIES_SKARMORY].types[0] == TYPE_STEEL);
+        ASSUME(gSpeciesInfo[SPECIES_SKARMORY].types[1] == TYPE_FLYING);
+        PLAYER(SPECIES_SKARMORY) { HP(50); MaxHP(100); Ability(ABILITY_KEEN_EYE); Innates(ABILITY_STURDY); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, MOVE_EARTHQUAKE); }
+        TURN { MOVE(opponent, MOVE_EARTHQUAKE); }
+    } SCENE {
+        // Turn 1: EQ hits when Roosted
+        MESSAGE("Skarmory used Roost!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
+        MESSAGE("Skarmory's HP was restored.");
+        MESSAGE("The opposing Wobbuffet used Earthquake!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EARTHQUAKE, opponent);
+        MESSAGE("It's super effective!");
+        // Turn 2: EQ has no effect because Roost expired
+        MESSAGE("The opposing Wobbuffet used Earthquake!");
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_EARTHQUAKE, opponent);
+        MESSAGE("It doesn't affect Skarmory…");
+        NOT HP_BAR(player);
+    }
+}
+
+// Tested in ORAS
+DOUBLE_BATTLE_TEST("INNATE: Roost suppresses the user's not-yet-aquired Flying-type this turn")
+{
+    GIVEN {
+        ASSUME(gSpeciesInfo[SPECIES_KECLEON].types[0] != TYPE_FLYING);
+        ASSUME(gSpeciesInfo[SPECIES_KECLEON].types[1] != TYPE_FLYING);
+        PLAYER(SPECIES_KECLEON) { Speed(40); HP(150); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COLOR_CHANGE); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(10); }
+        OPPONENT(SPECIES_PIDGEY) { Speed(30); }
+        OPPONENT(SPECIES_SANDSHREW) { Speed(20); }
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ROOST);
+               MOVE(opponentLeft, MOVE_GUST, target: playerLeft);
+               MOVE(opponentRight, MOVE_EARTHQUAKE, target: playerLeft); }
+    } SCENE {
+        MESSAGE("Kecleon used Roost!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, playerLeft);
+        MESSAGE("Kecleon's HP was restored.");
+        MESSAGE("The opposing Pidgey used Gust!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_GUST, opponentLeft);
+        MESSAGE("Kecleon's Color Change made it the Flying type!");
+        MESSAGE("The opposing Sandshrew used Earthquake!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EARTHQUAKE, opponentRight);
+        MESSAGE("Kecleon's Color Change made it the Ground type!");
+    }
+}
+
+// Tested in ORAS
+SINGLE_BATTLE_TEST("INNATE: Roost prevents a Flying-type user from being protected by Delta Stream")
+{
+    GIVEN {
+        ASSUME(gSpeciesInfo[SPECIES_RAYQUAZA].types[1] == TYPE_FLYING);
+        PLAYER(SPECIES_RAYQUAZA) { HP(1); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LIGHT_METAL); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, MOVE_ICE_BEAM); }
+    } SCENE {
+        MESSAGE("Rayquaza used Roost!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
+        MESSAGE("Rayquaza's HP was restored.");
+        MESSAGE("The opposing Wobbuffet used Ice Beam!");
+        NOT MESSAGE("The mysterious strong winds weakened the attack!");
+    }
+}
+
+// https://www.smogon.com/forums/threads/sword-shield-battle-mechanics-research.3655528/page-64#post-9244179
+SINGLE_BATTLE_TEST("INNATE: Roost's effect is lifted after Grassy Terrain's healing")
+{
+    GIVEN {
+        ASSUME(gSpeciesInfo[SPECIES_SWELLOW].types[0] == TYPE_NORMAL);
+        ASSUME(gSpeciesInfo[SPECIES_SWELLOW].types[1] == TYPE_FLYING);
+        PLAYER(SPECIES_SWELLOW) { HP(1); Ability(ABILITY_GUTS); Innates(ABILITY_GRASSY_SURGE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_ROOST); }
+    } SCENE {
+        MESSAGE("Swellow used Roost!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
+        MESSAGE("Swellow's HP was restored.");
+        MESSAGE("Swellow is healed by the grassy terrain!");
+        HP_BAR(player);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Roost does not suppress the ungrounded effect of Levitate")
+{
+    GIVEN {
+        PLAYER(SPECIES_FLYGON) { HP(1); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LEVITATE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, MOVE_EARTHQUAKE); }
+    } SCENE {
+        MESSAGE("Flygon used Roost!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
+        MESSAGE("Flygon's HP was restored.");
+        MESSAGE("The opposing Wobbuffet used Earthquake!");
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_EARTHQUAKE, opponent);
+            HP_BAR(player);
+        }
+    }
+}

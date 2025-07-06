@@ -170,3 +170,145 @@ DOUBLE_BATTLE_TEST("Order Up is always boosted by Sheer Force", s16 damage)
         EXPECT_MUL_EQ(results[0].damage, UQ_4_12(1.3), results[2].damage);
     }
 }
+
+DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form")
+{
+    u32 species = 0;
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_CURLY; }
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_DROOPY; }
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_STRETCHY; }
+
+    GIVEN {
+        PLAYER(species) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COMMANDER); }
+        PLAYER(SPECIES_DONDOZO);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_VOLBEAT) { Ability(ABILITY_ILLUMINATE); Innates(ABILITY_PRANKSTER); };
+    } WHEN {
+        TURN { MOVE(opponentRight, MOVE_HAZE); MOVE(playerRight, MOVE_ORDER_UP, target: opponentLeft); }
+    } SCENE {
+        ABILITY_POPUP(playerLeft, ABILITY_COMMANDER);
+        MESSAGE("Tatsugiri was swallowed by Dondozo and became Dondozo's commander!");
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HAZE, opponentRight); // Remove previous stat boosts
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ORDER_UP, playerRight);
+        switch (species)
+        {
+        case SPECIES_TATSUGIRI_CURLY:
+            MESSAGE("Dondozo's Attack rose!");
+            break;
+        case SPECIES_TATSUGIRI_DROOPY:
+            MESSAGE("Dondozo's Defense rose!");
+            break;
+        case SPECIES_TATSUGIRI_STRETCHY:
+            MESSAGE("Dondozo's Speed rose!");
+            break;
+        }
+    } THEN {
+        switch (species)
+        {
+        case SPECIES_TATSUGIRI_CURLY:
+            EXPECT_EQ(playerRight->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1);
+            break;
+        case SPECIES_TATSUGIRI_DROOPY:
+            EXPECT_EQ(playerRight->statStages[STAT_DEF], DEFAULT_STAT_STAGE + 1);
+            break;
+        case SPECIES_TATSUGIRI_STRETCHY:
+            EXPECT_EQ(playerRight->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 1);
+            break;
+        }
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form even if Tatsugiri fainted inside Dondozo")
+{
+    u32 species = 0;
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_CURLY; }
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_DROOPY; }
+    PARAMETRIZE { species = SPECIES_TATSUGIRI_STRETCHY; }
+
+    GIVEN {
+        PLAYER(species) { HP(1); Status1(STATUS1_POISON); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COMMANDER); }
+        PLAYER(SPECIES_DONDOZO);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_VOLBEAT) { Ability(ABILITY_ILLUMINATE); Innates(ABILITY_PRANKSTER); };
+    } WHEN {
+        TURN { }
+        TURN { MOVE(opponentRight, MOVE_HAZE); MOVE(playerRight, MOVE_ORDER_UP, target: opponentLeft); }
+    } SCENE {
+        ABILITY_POPUP(playerLeft, ABILITY_COMMANDER);
+        MESSAGE("Tatsugiri was swallowed by Dondozo and became Dondozo's commander!");
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
+        MESSAGE("Tatsugiri was hurt by its poisoning!");
+        MESSAGE("Tatsugiri fainted!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HAZE, opponentRight); // Remove previous stat boosts
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ORDER_UP, playerRight);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
+        switch (species)
+        {
+        case SPECIES_TATSUGIRI_CURLY:
+            MESSAGE("Dondozo's Attack rose!");
+            break;
+        case SPECIES_TATSUGIRI_DROOPY:
+            MESSAGE("Dondozo's Defense rose!");
+            break;
+        case SPECIES_TATSUGIRI_STRETCHY:
+            MESSAGE("Dondozo's Speed rose!");
+            break;
+        }
+    } THEN {
+        switch (species)
+        {
+        case SPECIES_TATSUGIRI_CURLY:
+            EXPECT_EQ(playerRight->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1);
+            break;
+        case SPECIES_TATSUGIRI_DROOPY:
+            EXPECT_EQ(playerRight->statStages[STAT_DEF], DEFAULT_STAT_STAGE + 1);
+            break;
+        case SPECIES_TATSUGIRI_STRETCHY:
+            EXPECT_EQ(playerRight->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 1);
+            break;
+        }
+    }
+}
+
+DOUBLE_BATTLE_TEST("INNATE: Order Up is boosted by Sheer Force without removing the stat boosting effect")
+{
+    GIVEN {
+        PLAYER(SPECIES_DONDOZO) { Speed(10); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_SHEER_FORCE); }
+        PLAYER(SPECIES_TATSUGIRI_CURLY) { Speed(9); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(8); }
+        OPPONENT(SPECIES_TAUROS) { Speed(21); Ability(ABILITY_ANGER_POINT); Innates(ABILITY_SHEER_FORCE); }
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ORDER_UP, target: opponentLeft); }
+    } SCENE {
+        MESSAGE("Dondozo used Order Up!");
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
+    }
+}
+DOUBLE_BATTLE_TEST("INNATE: Order Up is always boosted by Sheer Force", s16 damage)
+{
+    u32 innate;
+    u32 ability;
+    PARAMETRIZE(innate = ABILITY_LIGHT_METAL, ability = ABILITY_STORM_DRAIN);
+    PARAMETRIZE(innate = ABILITY_SHEER_FORCE, ability = ABILITY_STORM_DRAIN);
+    PARAMETRIZE(innate = ABILITY_SHEER_FORCE, ability = ABILITY_COMMANDER);
+    //Look for example of trade, sheerforce steelix
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_HAZE) == EFFECT_HAZE);
+        ASSUME(GetMoveEffect(MOVE_ENTRAINMENT) == EFFECT_ENTRAINMENT);
+        PLAYER(SPECIES_DONDOZO) { Speed(10); Innates(innate); }
+        PLAYER(SPECIES_TATSUGIRI_CURLY) { Speed(9); Ability(ability); }
+        OPPONENT(SPECIES_TAUROS) { Speed(21); Ability(ABILITY_LIGHT_METAL); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(22); }
+    } WHEN {
+        TURN { MOVE(opponentRight, MOVE_HAZE);
+               MOVE(playerLeft, MOVE_ORDER_UP, target: opponentRight); }
+    } SCENE {
+        MESSAGE("The opposing Wobbuffet used Haze!");
+        MESSAGE("Dondozo used Order Up!");
+        HP_BAR(opponentRight, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[0].damage, UQ_4_12(1.3), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, UQ_4_12(1.3), results[2].damage);
+    }
+}

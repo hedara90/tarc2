@@ -71,3 +71,17 @@ SINGLE_BATTLE_TEST("Lansat Berry raises the holder's critical-hit-ratio by 2 sta
         MESSAGE("A critical hit!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Lansat Berry raises the holder's critical-hit-ratio by two stages when HP drops to 1/2 or below")
+{
+    GIVEN {
+        PLAYER(SPECIES_BELLSPROUT) { MaxHP(80); HP(80); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_GLUTTONY); Item(ITEM_LANSAT_BERRY); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_DRAGON_RAGE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DRAGON_RAGE, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        MESSAGE("Bellsprout used the Lansat Berry to get pumped!");
+    }
+}

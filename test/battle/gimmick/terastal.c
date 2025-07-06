@@ -886,3 +886,99 @@ SINGLE_BATTLE_TEST("(TERA) All type indicators function correctly - Opponent")
         TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_TERA); }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after Technician", s16 damage)
+{
+    bool32 tera;
+    PARAMETRIZE { tera = GIMMICK_NONE; }
+    PARAMETRIZE { tera = GIMMICK_TERA; }
+    GIVEN {
+        ASSUME(GetMovePower(MOVE_MEGA_DRAIN) == 40);
+        PLAYER(SPECIES_MR_MIME) { Ability(ABILITY_SOUNDPROOF); Innates(ABILITY_TECHNICIAN); TeraType(TYPE_GRASS); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_MEGA_DRAIN, gimmick: tera); }
+    } SCENE {
+        MESSAGE("Mr. Mime used Mega Drain!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_MEGA_DRAIN, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        // This should be the same as a normal Tera boost.
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(1.5), results[1].damage);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after Technician", s16 damage)
+{
+    bool32 tera;
+    PARAMETRIZE { tera = GIMMICK_NONE; }
+    PARAMETRIZE { tera = GIMMICK_TERA; }
+    GIVEN {
+        PLAYER(SPECIES_MR_MIME) { Ability(ABILITY_SOUNDPROOF); Innates(ABILITY_TECHNICIAN); TeraType(TYPE_PSYCHIC); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_STORED_POWER, gimmick: tera); }
+    } SCENE {
+        MESSAGE("Mr. Mime used Stored Power!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_STORED_POWER, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        // The jump from 45 BP (20 * 1.5x * 1.5x) to 120 BP (60 * 2.0x) is a 2.667x boost.
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(2.667), results[1].damage);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: (TERA) Protean cannot change the type of a Terastallized Pokemon")
+{
+    GIVEN {
+        PLAYER(SPECIES_GRENINJA) { Ability(ABILITY_TORRENT); Innates(ABILITY_PROTEAN); TeraType(TYPE_GRASS); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_BUBBLE, gimmick: GIMMICK_TERA);
+               MOVE(opponent, MOVE_EMBER); }
+    } SCENE {
+        MESSAGE("Greninja used Bubble!");
+        MESSAGE("The opposing Wobbuffet used Ember!");
+        MESSAGE("It's super effective!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: (TERA) Stellar type's one-time boost factors in dynamically-typed moves")
+{
+    s16 damage[4];
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_WEATHER_BALL) == TYPE_NORMAL);
+        PLAYER(SPECIES_PELIPPER) { Ability(ABILITY_RAIN_DISH); Innates(ABILITY_DRIZZLE); TeraType(TYPE_STELLAR); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_WEATHER_BALL, gimmick: GIMMICK_TERA); MOVE(opponent, MOVE_RECOVER); }
+        TURN { MOVE(player, MOVE_TAKE_DOWN); MOVE(opponent, MOVE_RECOVER); }
+        TURN { MOVE(player, MOVE_TAKE_DOWN); MOVE(opponent, MOVE_RECOVER); }
+        TURN { MOVE(player, MOVE_WATER_PULSE); MOVE(opponent, MOVE_RECOVER); }
+        TURN { MOVE(player, MOVE_WATER_PULSE); MOVE(opponent, MOVE_RECOVER); }
+    } SCENE {
+        MESSAGE("Pelipper used Weather Ball!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, player);
+        // turn 2
+        MESSAGE("Pelipper used Take Down!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TAKE_DOWN, player);
+        HP_BAR(opponent, captureDamage: &damage[0]);
+        // turn 3
+        MESSAGE("Pelipper used Take Down!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TAKE_DOWN, player);
+        HP_BAR(opponent, captureDamage: &damage[1]);
+        // turn 4
+        MESSAGE("Pelipper used Water Pulse!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_PULSE, player);
+        HP_BAR(opponent, captureDamage: &damage[2]);
+        // turn 5
+        MESSAGE("Pelipper used Water Pulse!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_PULSE, player);
+        HP_BAR(opponent, captureDamage: &damage[3]);
+    } THEN {
+        // Take Down should have a Normal type boost applied
+        EXPECT_MUL_EQ(damage[1], UQ_4_12(1.20), damage[0]);
+        // Water Pulse should not have a Water type boost applied
+        EXPECT_EQ(damage[3], damage[2]);
+    }
+}

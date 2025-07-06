@@ -132,3 +132,76 @@ AI_SINGLE_BATTLE_TEST("AI won't use Upper Hand unless it has seen a priority mov
         TURN { MOVE(player, move); EXPECT_MOVE(opponent, move == MOVE_QUICK_ATTACK ? MOVE_UPPER_HAND : MOVE_KARATE_CHOP); }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target is not using a priority move")
+{
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(GetMovePriority(MOVE_DRAINING_KISS) == 0);
+        PLAYER(SPECIES_MIENSHAO);
+        OPPONENT(SPECIES_COMFEY) { Ability(ABILITY_NATURAL_CURE); Innates(ABILITY_FLOWER_VEIL); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_DRAINING_KISS); MOVE(player, MOVE_UPPER_HAND); }
+    } SCENE {
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_UPPER_HAND, player);
+        MESSAGE("Mienshao used Upper Hand!");
+        MESSAGE("But it failed!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DRAINING_KISS, opponent);
+        HP_BAR(player);
+        HP_BAR(opponent);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Upper Hand succeeds if the target's move is boosted in priority by an Ability")
+{
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(GetMovePriority(MOVE_DRAINING_KISS) == 0);
+        PLAYER(SPECIES_MIENSHAO) { Speed(10); }
+        OPPONENT(SPECIES_COMFEY) { Speed(5); Ability(ABILITY_NATURAL_CURE); Innates(ABILITY_TRIAGE); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_DRAINING_KISS); MOVE(player, MOVE_UPPER_HAND); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_UPPER_HAND, player);
+        HP_BAR(opponent);
+        MESSAGE("The opposing Comfey flinched and couldn't move!");
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_DRAINING_KISS, opponent);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target moves first")
+{
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(GetMovePriority(MOVE_DRAINING_KISS) == 0);
+        PLAYER(SPECIES_MIENSHAO) { Speed(5); }
+        OPPONENT(SPECIES_COMFEY) { Speed(10); Ability(ABILITY_NATURAL_CURE); Innates(ABILITY_TRIAGE); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_DRAINING_KISS); MOVE(player, MOVE_UPPER_HAND); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DRAINING_KISS, opponent);
+        HP_BAR(player);
+        HP_BAR(opponent);
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_UPPER_HAND, player);
+        MESSAGE("Mienshao used Upper Hand!");
+        MESSAGE("But it failed!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Upper Hand is boosted by Sheer Force")
+{
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_EXTREME_SPEED) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMovePriority(MOVE_EXTREME_SPEED) == 2);
+        ASSUME(MoveIsAffectedBySheerForce(MOVE_UPPER_HAND) == TRUE);
+        PLAYER(SPECIES_HARIYAMA) { Ability(ABILITY_GUTS); Innates(ABILITY_SHEER_FORCE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_EXTREME_SPEED); MOVE(player, MOVE_UPPER_HAND); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_UPPER_HAND, player);
+        HP_BAR(opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EXTREME_SPEED, opponent);
+        HP_BAR(player);
+    }
+}

@@ -140,7 +140,6 @@ SINGLE_BATTLE_TEST("Heal Bell cures inactive Soundproof Pokemon (Gen5+)")
     }
 }
 
-
 SINGLE_BATTLE_TEST("Heal Bell cures a Soundproof user (Gen5, Gen8+)")
 {
     u32 config;
@@ -152,6 +151,30 @@ SINGLE_BATTLE_TEST("Heal Bell cures a Soundproof user (Gen5, Gen8+)")
         ASSUME(IsSoundMove(MOVE_HEAL_BELL));
         WITH_CONFIG(GEN_CONFIG_HEAL_BELL_SOUNDPROOF, config);
         PLAYER(SPECIES_EXPLOUD) { Ability(ABILITY_SOUNDPROOF); Status1(STATUS1_POISON); }
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(player, MOVE_HEAL_BELL, target: player); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HEAL_BELL, player);
+        if (config == GEN_5 || config >= GEN_8) {
+            NOT MESSAGE("Exploud was hurt by its poisoning!");
+        } else {
+            MESSAGE("Exploud was hurt by its poisoning!");
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Heal Bell cures a Soundproof user (Gen5, Gen8+)")
+{
+    u32 config;
+    PARAMETRIZE { config = GEN_4; }
+    PARAMETRIZE { config = GEN_5; }
+    PARAMETRIZE { config = GEN_6; }
+    PARAMETRIZE { config = GEN_8; }
+    GIVEN {
+        ASSUME(IsSoundMove(MOVE_HEAL_BELL));
+        WITH_CONFIG(GEN_CONFIG_HEAL_BELL_SOUNDPROOF, config);
+        PLAYER(SPECIES_EXPLOUD) { Ability(ABILITY_SCRAPPY); Innates(ABILITY_SOUNDPROOF); Status1(STATUS1_POISON); }
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(player, MOVE_HEAL_BELL, target: player); }

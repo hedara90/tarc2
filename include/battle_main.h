@@ -134,4 +134,14 @@ extern const u8 gStatusConditionString_LoveJpn[8];
 
 extern const u8 *const gStatusConditionStringsTable[7][2];
 
+static inline u32 SearchTraits(u16 *battlerTraits, u32 abilityToCheck)
+{
+  for (u32 i = 0; i < MAX_MON_TRAITS; i++)
+  {
+    if (battlerTraits[i] == abilityToCheck)
+      return i + 1;
+  }
+  return 0;
+}
+
 #endif // GUARD_BATTLE_MAIN_H

@@ -149,3 +149,39 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would normally choose predicti
         TURN { MOVE(player, MOVE_CRUNCH); EXPECT_MOVE(opponent, MOVE_SPORE); }
     }
 }
+
+// Passes if given natural innates
+TO_DO_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective")
+// {
+//AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective")
+// {
+//     // Switching in trapper is an advanced feature of ShouldSwitch that requires GetMostSuitableMonToSwitchInto to also return a specific mon; this passing means the AI can use both in prediction
+//     PASSES_RANDOMLY(5, 10, RNG_AI_PREDICT_SWITCH);
+//     GIVEN {
+//         ASSUME(B_POWDER_GRASS >= GEN_6);
+//         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_PREDICT_SWITCH | AI_FLAG_PREDICT_INCOMING_MON);
+//         PLAYER(SPECIES_SKARMORY) { Moves(MOVE_TACKLE); }
+//         PLAYER(SPECIES_DUGTRIO) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_ARENA_TRAP); Moves(MOVE_ACROBATICS); }
+//         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); Moves(MOVE_HEADBUTT, MOVE_THUNDERPUNCH); }
+//         OPPONENT(SPECIES_BRELOOM);
+//     } WHEN {
+//         TURN { SWITCH(player, 1); EXPECT_MOVE(opponent, MOVE_HEADBUTT); }
+//         TURN { MOVE(player, MOVE_ACROBATICS); EXPECT_MOVE(opponent, MOVE_HEADBUTT); EXPECT_SEND_OUT(opponent, 1); }
+//     }
+// }
+
+// Passes if set as a natural Innate
+TO_DO_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case")
+// AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case")
+// {
+//     GIVEN {
+//         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES);
+//         PLAYER(SPECIES_BRELOOM) { Speed(5); Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); Moves(MOVE_PURSUIT, MOVE_BITE); }
+//         PLAYER(SPECIES_BRELOOM) { Speed(5); }
+//         OPPONENT(SPECIES_CACNEA) { Speed(6); Moves(MOVE_ABSORB); }
+//         OPPONENT(SPECIES_DUGTRIO) { Speed(6); Ability(ABILITY_SAND_VEIL); Innates(ABILITY_ARENA_TRAP); Moves(MOVE_ACROBATICS); }
+//     } WHEN {
+//         TURN { MOVE(player, MOVE_PURSUIT); EXPECT_SWITCH(opponent, 1); }
+//         TURN { EXPECT_MOVE(opponent, MOVE_ACROBATICS); MOVE(player, MOVE_BITE); SEND_OUT(player, 1); }
+//     }
+// }

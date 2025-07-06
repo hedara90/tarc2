@@ -63,3 +63,22 @@ SINGLE_BATTLE_TEST("Ion Deluge makes Normal type moves Electric type")
         MESSAGE("It's super effective!"); // Because Scratch is now electric type.
     }
 }
+
+// For some reason SINGLE_BATTLE_TEST didn't catch these two issues.
+WILD_BATTLE_TEST("INNATE: Ion Deluge works the same way as always when used by a mon with Volt Absorb")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_LANTURN) { Ability(ABILITY_ILLUMINATE); Innates(ABILITY_VOLT_ABSORB); HP(1); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_ION_DELUGE); }
+    } SCENE {
+        MESSAGE("The wild Lanturn used Ion Deluge!");
+        NONE_OF {
+            ABILITY_POPUP(opponent, ABILITY_VOLT_ABSORB);
+            HP_BAR(opponent);
+            MESSAGE("Wild Lanturn restored HP using its Volt Absorb!");
+        }
+        MESSAGE("A deluge of ions showers the battlefield!");
+    }
+}

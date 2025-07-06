@@ -114,3 +114,21 @@ SINGLE_BATTLE_TEST("Dream Eater works if the target is behind a Substitute (Gen 
     }
 }
 #endif
+
+SINGLE_BATTLE_TEST("INNATE: Dream Eater works on targets with Comatose")
+{
+    s16 damage;
+    s16 healed;
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { HP(1); }
+        OPPONENT(SPECIES_KOMALA) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COMATOSE); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_DREAM_EATER); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DREAM_EATER, player);
+        HP_BAR(opponent, captureDamage: &damage);
+        HP_BAR(player, captureDamage: &healed);
+    } THEN {
+        EXPECT_MUL_EQ(damage, Q_4_12(-1.0/2.0), healed);
+    }
+}

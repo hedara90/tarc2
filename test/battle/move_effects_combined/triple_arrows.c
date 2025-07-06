@@ -96,3 +96,19 @@ SINGLE_BATTLE_TEST("Triple Arrows's flinching is prevented by Inner Focus")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Triple Arrows's flinching is prevented by Inner Focus")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_RIOLU) { Ability(ABILITY_STEADFAST); Innates(ABILITY_INNER_FOCUS); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TRIPLE_ARROWS);
+               MOVE(opponent, MOVE_TACKLE);
+        }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TRIPLE_ARROWS, player);
+        NONE_OF { MESSAGE("The opposing Wobbuffet flinched and couldn't move!"); }
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+    }
+}

@@ -90,3 +90,21 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_RISKY | AI_FLAG_PREFER_HIGHEST_DAMAGE_MOVE: AI pr
             TURN { MOVE(player, MOVE_SCRATCH); EXPECT_MOVE(opponent, aiRiskyFlag ? MOVE_THUNDER : MOVE_THUNDERBOLT); }
     }
 }
+
+AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_RISKY: Mid-battle switches prioritize offensive options")
+{
+    u32 aiRiskyFlag = 0;
+
+    PARAMETRIZE { aiRiskyFlag = 0; }
+    PARAMETRIZE { aiRiskyFlag = AI_FLAG_RISKY; }
+
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT | AI_FLAG_SMART_MON_CHOICES | aiRiskyFlag);
+        PLAYER(SPECIES_SWELLOW) { Level(30); Moves(MOVE_WING_ATTACK, MOVE_BOOMBURST); Speed(5); }
+        OPPONENT(SPECIES_PONYTA) { Level(1); Moves(MOVE_NONE); Speed(4); } // Forces switchout
+        OPPONENT(SPECIES_ARON) { Level(30); Moves(MOVE_HEADBUTT); Speed(4); SpDefense(41); } // Mid battle, AI sends out Aron
+        OPPONENT(SPECIES_ELECTRODE) { Level(30); Moves(MOVE_CHARGE_BEAM); Speed(6); Ability(ABILITY_AFTERMATH); Innates(ABILITY_STATIC); }
+    } WHEN {
+            TURN { MOVE(player, MOVE_WING_ATTACK); EXPECT_SWITCH(opponent, aiRiskyFlag? 2 : 1); }
+    }
+}

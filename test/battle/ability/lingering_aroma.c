@@ -2,3 +2,5 @@
 #include "test/battle.h"
 
 // Tests for Lingering Aroma are handled in test/battle/ability/mummy.c
+
+// Tests for Lingering Aroma are handled in test/battle/ability/mummy.c

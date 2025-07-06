@@ -195,3 +195,40 @@ SINGLE_BATTLE_TEST("Electric Seed doesn't activate on existing Electric Terrain 
         ABILITY_POPUP(player, ABILITY_GRASSY_SURGE);
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Electric Seed is consumed on Electric Terrain before other abilities change the terrain")
+{
+    GIVEN {
+        PLAYER(SPECIES_TAPU_BULU) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_GRASSY_SURGE); Item(ITEM_ELECTRIC_SEED); Speed(5); }
+        OPPONENT(SPECIES_TAPU_KOKO) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_ELECTRIC_SURGE); Item(ITEM_ELECTRIC_SEED); Speed(10); }
+    } WHEN {
+        TURN { }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_ELECTRIC_SURGE);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        MESSAGE("Using Electric Seed, the Defense of the opposing Tapu Koko rose!");
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+        MESSAGE("Using Electric Seed, the Defense of Tapu Bulu rose!");
+        ABILITY_POPUP(player, ABILITY_GRASSY_SURGE);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Electric Seed doesn't activate on existing Electric Terrain before user's ability changes the terrain")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_TAPU_BULU) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_GRASSY_SURGE); Item(ITEM_ELECTRIC_SEED); }
+        OPPONENT(SPECIES_TAPU_KOKO) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_ELECTRIC_SURGE); }
+    } WHEN {
+        TURN { SWITCH(player, 1); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_ELECTRIC_SURGE);
+        SWITCH_OUT_MESSAGE("Wobbuffet");
+        SEND_IN_MESSAGE("Tapu Bulu");
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+            MESSAGE("Using Electric Seed, the Defense of Tapu Bulu rose!");
+        }
+        ABILITY_POPUP(player, ABILITY_GRASSY_SURGE);
+    }
+}

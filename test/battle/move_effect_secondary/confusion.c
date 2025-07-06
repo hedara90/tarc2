@@ -48,3 +48,22 @@ SINGLE_BATTLE_TEST("Alluring Voice confuse effect is removed if it is Sheer Forc
         }
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Alluring Voice confuse effect is removed if it is Sheer Force boosted")
+{
+    GIVEN {
+        ASSUME(MoveHasAdditionalEffect(MOVE_ALLURING_VOICE, MOVE_EFFECT_CONFUSION));
+        PLAYER(SPECIES_NIDOKING) { Ability(ABILITY_POISON_POINT); Innates(ABILITY_SHEER_FORCE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SWORDS_DANCE); MOVE(player, MOVE_ALLURING_VOICE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ALLURING_VOICE, player);
+        HP_BAR(opponent);
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_CONFUSION, opponent);
+            MESSAGE("The opposing Wobbuffet became confused!");
+        }
+    }
+}

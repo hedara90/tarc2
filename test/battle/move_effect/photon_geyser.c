@@ -51,3 +51,17 @@ SINGLE_BATTLE_TEST("Photon Geyser ignores ignorable Abilities like Battle Armor"
         MESSAGE("A critical hit!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Photon Geyser ignores ignorable Abilities like Battle Armor")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_LAPRAS) { Ability(ABILITY_WATER_ABSORB); Innates(ABILITY_SHELL_ARMOR); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_PHOTON_GEYSER, criticalHit: TRUE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_PHOTON_GEYSER, player, );
+        HP_BAR(opponent);
+        MESSAGE("A critical hit!");
+    }
+}

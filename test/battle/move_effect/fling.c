@@ -457,3 +457,83 @@ SINGLE_BATTLE_TEST("Fling deals damage based on items fling power")
         EXPECT_EQ(damage[0], damage[1]);
     }
 }
+
+
+SINGLE_BATTLE_TEST("INNATE: Fling's secondary effects are blocked by Shield Dust")
+{
+    u16 item;
+
+    PARAMETRIZE {item = ITEM_FLAME_ORB; }
+    PARAMETRIZE {item = ITEM_LIGHT_BALL; }
+    PARAMETRIZE {item = ITEM_POISON_BARB; }
+    PARAMETRIZE {item = ITEM_TOXIC_ORB; }
+    PARAMETRIZE {item = ITEM_RAZOR_FANG; }
+    PARAMETRIZE {item = ITEM_KINGS_ROCK; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(item); }
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_SHIELD_DUST); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_FLING); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Fling!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_FLING, player);
+        HP_BAR(opponent);
+        switch (item)
+        {
+        case ITEM_FLAME_ORB:
+            {
+                NONE_OF {
+                    MESSAGE("The opposing Wobbuffet was burned!");
+                    STATUS_ICON(opponent, STATUS1_BURN);
+                }
+                MESSAGE("The Flame Orb was used up…");
+            }
+            break;
+        case ITEM_LIGHT_BALL:
+            {
+                NONE_OF {
+                    MESSAGE("The opposing Wobbuffet is paralyzed, so it may be unable to move!");
+                    STATUS_ICON(opponent, STATUS1_PARALYSIS);
+                }
+                MESSAGE("The Light Ball was used up…");
+            }
+            break;
+        case ITEM_POISON_BARB:
+            {
+                NONE_OF {
+                    MESSAGE("The opposing Wobbuffet was poisoned!");
+                    STATUS_ICON(opponent, STATUS1_POISON);
+                }
+                MESSAGE("The Poison Barb was used up…");
+            }
+            break;
+        case ITEM_TOXIC_ORB:
+            {
+                NONE_OF {
+                    MESSAGE("The opposing Wobbuffet was badly poisoned!");
+                    STATUS_ICON(opponent, STATUS1_TOXIC_POISON);
+                }
+                MESSAGE("The Toxic Orb was used up…");
+            }
+            break;
+        case ITEM_RAZOR_FANG:
+        case ITEM_KINGS_ROCK:
+            {
+                NONE_OF {
+                    MESSAGE("The opposing Wobbuffet flinched and couldn't move!");
+                }
+                switch (item)
+                {
+                    case ITEM_RAZOR_FANG:
+                        MESSAGE("The Razor Fang was used up…");
+                        break;
+                    case ITEM_KINGS_ROCK:
+                        MESSAGE("The King's Rock was used up…");
+                        break;
+                }
+            }
+            break;
+        }
+    }
+}

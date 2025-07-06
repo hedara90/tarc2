@@ -702,7 +702,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ILLUSIONWOREOFF]                      = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s illusion wore off!"),
     [STRINGID_ATTACKERCUREDTARGETSTATUS]            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} cured {B_DEF_NAME_WITH_PREFIX2}'s problem!"),
     [STRINGID_ATTACKERLOSTFIRETYPE]                 = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} burned itself out!"),
-    [STRINGID_HEALERCURE]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_LAST_ABILITY} cured {B_SCR_NAME_WITH_PREFIX2}'s problem!"),
+    [STRINGID_HEALERCURE]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_LAST_ABILITY} cured {B_ATK_PARTNER_NAME_WITH_PREFIX}'s problem!"),
     [STRINGID_SCRIPTINGABILITYSTATRAISE]            = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} raised its {B_BUFF1}!"),
     [STRINGID_RECEIVERABILITYTAKEOVER]              = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} was taken over!"),
     [STRINGID_PKNMABSORBINGPOWER]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is absorbing power!"),
@@ -2707,6 +2707,9 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
             case B_TXT_ATK_NAME_WITH_PREFIX: // attacker name with prefix
                 HANDLE_NICKNAME_STRING_CASE(gBattlerAttacker)
                 break;
+            case B_TXT_ATK_PARTNER_NAME_WITH_PREFIX: // attacker partner name with prefix
+                HANDLE_NICKNAME_STRING_LOWERCASE(BATTLE_PARTNER(gBattleScripting.battler))
+                break;
             case B_TXT_DEF_NAME_WITH_PREFIX: // target name with prefix
                 HANDLE_NICKNAME_STRING_CASE(gBattlerTarget)
                 break;
@@ -2786,16 +2789,16 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 }
                 break;
             case B_TXT_LAST_ABILITY: // last used ability
-                toCpy = gAbilitiesInfo[gLastUsedAbility].name;
+                toCpy = gAbilitiesInfo[gDisplayAbility].name;
                 break;
             case B_TXT_ATK_ABILITY: // attacker ability
-                toCpy = gAbilitiesInfo[sBattlerAbilities[gBattlerAttacker]].name;
+                toCpy = gAbilitiesInfo[gDisplayAbility].name;
                 break;
             case B_TXT_DEF_ABILITY: // target ability
-                toCpy = gAbilitiesInfo[sBattlerAbilities[gBattlerTarget]].name;
+                toCpy = gAbilitiesInfo[gDisplayAbility].name;
                 break;
             case B_TXT_SCR_ACTIVE_ABILITY: // scripting active ability
-                toCpy = gAbilitiesInfo[sBattlerAbilities[gBattleScripting.battler]].name;
+                toCpy = gAbilitiesInfo[gDisplayAbility].name;
                 break;
             case B_TXT_EFF_ABILITY: // effect battler ability
                 toCpy = gAbilitiesInfo[sBattlerAbilities[gEffectBattler]].name;
@@ -3180,7 +3183,7 @@ static void IllusionNickHack(u32 battler, u32 partyId, u8 *dst)
     // we know it's gEnemyParty
     struct Pokemon *mon = &gEnemyParty[partyId], *partnerMon;
 
-    if (GetMonAbility(mon) == ABILITY_ILLUSION)
+    if (MonHasTrait(mon, ABILITY_ILLUSION, TRUE))
     {
         if (IsBattlerAlive(BATTLE_PARTNER(battler)))
             partnerMon = GetBattlerMon(BATTLE_PARTNER(battler));

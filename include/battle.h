@@ -175,6 +175,8 @@ struct ProtectStruct
     u16 specialDmg;
     u8 physicalBattlerId;
     u8 specialBattlerId;
+    u8 contraryDefiant; // 1 - Contrary + Defiant triggered (do not repeat). 0 - abilities not triggered together yet
+    u8 contraryCompetitive; // 1 - Contrary + Competitive triggered (do not repeat). 0 - abilities not triggered together yet
 };
 
 // Cleared at the start of HandleAction_ActionFinished
@@ -193,6 +195,7 @@ struct SpecialStatus
     u8 stormDrainRedirected:1;
     // End of byte
     u8 switchInAbilityDone:1;
+    bool8 switchInTraitDone[MAX_MON_TRAITS];
     u8 switchInItemDone:1;
     u8 instructedChosenTarget:3;
     u8 berryReduced:1;
@@ -316,6 +319,7 @@ struct SimulatedDamage
 struct AiLogicData
 {
     u16 abilities[MAX_BATTLERS_COUNT];
+    u16 innates[MAX_BATTLERS_COUNT][MAX_MON_INNATES];
     u16 items[MAX_BATTLERS_COUNT];
     u16 holdEffects[MAX_BATTLERS_COUNT];
     u8 holdEffectParams[MAX_BATTLERS_COUNT];
@@ -631,6 +635,7 @@ struct BattleStruct
     u8 moneyMultiplierMove:1;
     u8 savedTurnActionNumber;
     u8 eventsBeforeFirstTurnState;
+    u8 switchInAbilitiesCounter;
     u8 faintedActionsState;
     u8 faintedActionsBattlerId;
     u8 scriptPartyIdx; // for printing the nickname
@@ -1053,6 +1058,10 @@ extern u16 gCalledMove;
 extern s32 gBideDmg[MAX_BATTLERS_COUNT];
 extern u16 gLastUsedItem;
 extern u16 gLastUsedAbility;
+extern u16 gDisplayAbility;
+extern u16 gDisplayAbility2;
+extern u8 gDisplayBattler;
+extern u16 gTraitStack[MAX_BATTLERS_COUNT * MAX_MON_TRAITS][2];
 extern u8 gBattlerAttacker;
 extern u8 gBattlerTarget;
 extern u8 gBattlerFainted;

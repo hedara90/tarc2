@@ -56,3 +56,20 @@ DOUBLE_BATTLE_TEST("Teeter Dance can confuse foes and allies")
         MESSAGE("The opposing Wynaut became confused!");
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Teeter Dance confusion is blocked by Own Tempo")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TEETER_DANCE); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_OWN_TEMPO);
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_TEETER_DANCE, player);
+            ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_CONFUSION, opponent);
+            MESSAGE("The opposing Wobbuffet became confused!");
+        }
+    }
+}

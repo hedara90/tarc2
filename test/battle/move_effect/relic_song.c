@@ -197,3 +197,89 @@ SINGLE_BATTLE_TEST("Relic Song transforms Meloetta after Magician was activated"
         EXPECT_EQ(player->species, SPECIES_MELOETTA_PIROUETTE);
     }
 }
+
+SINGLE_BATTLE_TEST("INNATE: Relic Song is prevented by Soundproof")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_VOLTORB) { Ability(ABILITY_STATIC); Innates(ABILITY_SOUNDPROOF); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_RELIC_SONG); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_SOUNDPROOF);
+        MESSAGE("The opposing Voltorb's Soundproof blocks Relic Song!");
+        NONE_OF {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
+            HP_BAR(opponent);
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Relic Song will become a Water-type move when used by a Pokémon with the Ability Liquid Voice")
+{
+    GIVEN {
+        PLAYER(SPECIES_VULPIX);
+        OPPONENT(SPECIES_POPPLIO) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_LIQUID_VOICE); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_RELIC_SONG); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, opponent);
+        HP_BAR(player);
+        MESSAGE("It's super effective!");
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Relic Song transformation is the last thing that happens after it hits")
+{
+    GIVEN {
+        PLAYER(SPECIES_MELOETTA_ARIA);
+        OPPONENT(SPECIES_GOSSIFLEUR) { HP(1); Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_RELIC_SONG); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
+        HP_BAR(opponent);
+        MESSAGE("The opposing Gossifleur fainted!");
+        ABILITY_POPUP(opponent, ABILITY_COTTON_DOWN);
+        MESSAGE("Meloetta's Speed fell!");
+        MESSAGE("Meloetta transformed!");
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_MELOETTA_PIROUETTE);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Relic Song loses the form-changing effect with Sheer Force")
+{
+    GIVEN {
+        PLAYER(SPECIES_MELOETTA_ARIA) { Innates(ABILITY_SHEER_FORCE); }
+        OPPONENT(SPECIES_NIDOKING) { Ability(ABILITY_POISON_POINT); Innates(ABILITY_SHEER_FORCE); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SKILL_SWAP); MOVE(player, MOVE_RELIC_SONG); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
+        HP_BAR(opponent);
+        NOT MESSAGE("Meloetta transformed!");
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_MELOETTA_ARIA);
+    }
+}
+
+SINGLE_BATTLE_TEST("INNATE: Relic Song transforms Meloetta after Magician was activated")
+{
+    GIVEN {
+        PLAYER(SPECIES_MELOETTA_ARIA) { Innates(ABILITY_MAGICIAN); }
+        OPPONENT(SPECIES_DELPHOX) { Ability(ABILITY_BLAZE); Innates(ABILITY_MAGICIAN); Item(ITEM_POTION); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SKILL_SWAP); MOVE(player, MOVE_RELIC_SONG); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
+        HP_BAR(opponent);
+        ABILITY_POPUP(player, ABILITY_MAGICIAN);
+        MESSAGE("Meloetta stole the opposing Delphox's Potion!");
+        MESSAGE("Meloetta transformed!");
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_MELOETTA_PIROUETTE);
+    }
+}
