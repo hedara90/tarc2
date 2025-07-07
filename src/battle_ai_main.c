@@ -1163,22 +1163,22 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             // target partner ability checks & not attacking partner
             if (isDoubleBattle)
             {
-                if (AISearchTraits(AIBattlerTraits, ABILITY_LIGHTNING_ROD)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_LIGHTNING_ROD)
                  && moveType == TYPE_ELECTRIC && !IsMoveRedirectionPrevented(battlerAtk, move, aiData->abilities[battlerAtk]))
                     RETURN_SCORE_MINUS(20);
-                if (AISearchTraits(AIBattlerTraits, ABILITY_STORM_DRAIN)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_STORM_DRAIN)
                  && moveType == TYPE_WATER && !IsMoveRedirectionPrevented(battlerAtk, move, aiData->abilities[battlerAtk]))
                     RETURN_SCORE_MINUS(20);
-                if (AISearchTraits(AIBattlerTraits, ABILITY_MAGIC_BOUNCE)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_MAGIC_BOUNCE)
                  && (MoveCanBeBouncedBack(move) && moveTarget & (MOVE_TARGET_BOTH | MOVE_TARGET_FOES_AND_ALLY | MOVE_TARGET_OPPONENTS_FIELD)))
                     RETURN_SCORE_MINUS(20);
-                if (AISearchTraits(AIBattlerTraits, ABILITY_SWEET_VEIL)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_SWEET_VEIL)
                  && (nonVolatileStatus == MOVE_EFFECT_SLEEP))
                     RETURN_SCORE_MINUS(20);
-                if (AISearchTraits(AIBattlerTraits, ABILITY_FLOWER_VEIL)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_FLOWER_VEIL)
                  && ((IS_BATTLER_OF_TYPE(battlerDef, TYPE_GRASS)) && (IsNonVolatileStatusMove(moveEffect) || IsStatLoweringEffect(moveEffect))))
                     RETURN_SCORE_MINUS(10);
-                if (AISearchTraits(AIBattlerTraits, ABILITY_AROMA_VEIL)
+                if (AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerDef), ABILITY_AROMA_VEIL)
                  && (IsAromaVeilProtectedEffect(moveEffect)))
                     RETURN_SCORE_MINUS(10);
             } // def partner ability checks
@@ -1468,7 +1468,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                       && (!BattlerStatCanRise(BATTLE_PARTNER(battlerAtk), aiData->abilities[BATTLE_PARTNER(battlerAtk)], STAT_SPATK) || !HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_SPECIAL)))
                         ADJUST_SCORE(-10);
                 }
-                else if (!AISearchTraits(AIBattlerTraits, ABILITY_PLUS) && !AISearchTraits(AIBattlerTraits, ABILITY_MINUS))
+                else if (!AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerAtk), ABILITY_PLUS) && !AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerAtk), ABILITY_MINUS))
                 {
                     ADJUST_SCORE(-10);    // nor our or our partner's ability is plus/minus
                 }
@@ -1500,7 +1500,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                     else if (!BattlerStatCanRise(BATTLE_PARTNER(battlerAtk), aiData->abilities[BATTLE_PARTNER(battlerAtk)], STAT_SPDEF))
                         ADJUST_SCORE(-8);
                 }
-                else if (!AISearchTraits(AIBattlerTraits, ABILITY_PLUS) && !AISearchTraits(AIBattlerTraits, ABILITY_MINUS))
+                else if (!AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerAtk), ABILITY_PLUS) && !AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerAtk), ABILITY_MINUS))
                 {
                     ADJUST_SCORE(-10);    // nor our or our partner's ability is plus/minus
                 }
@@ -1809,7 +1809,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             {
                 if (CountUsablePartyMons(battlerAtk) == 0
                   && !AISearchTraits(AIBattlerTraits, ABILITY_SOUNDPROOF)
-                  && !AISearchTraits(AIBattlerTraits, ABILITY_SOUNDPROOF)
+                  && !AI_BATTLER_HAS_TRAIT(BATTLE_PARTNER(battlerAtk), ABILITY_SOUNDPROOF)
                   && CountUsablePartyMons(FOE(battlerAtk)) >= 1)
                 {
                     ADJUST_SCORE(-10); //Don't wipe your team if you're going to lose
@@ -3462,7 +3462,7 @@ static s32 AI_DoubleBattle(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 }
                 break;
             case EFFECT_BEAT_UP:
-                if (AI_BATTLER_HAS_TRAIT(battlerAtk, ABILITY_JUSTIFIED)
+                if (AI_BATTLER_HAS_TRAIT(battlerAtkPartner, ABILITY_JUSTIFIED)
                   && moveType == TYPE_DARK
                   && !DoesBattlerIgnoreAbilityChecks(battlerAtk, aiData->abilities[battlerAtk], move)
                   && !IsBattleMoveStatus(move)
@@ -6162,7 +6162,8 @@ void ResetDynamicAiFunc(void)
 }
 
 //Returns the slot the Innate is found in accouting for randomization and ability disabling. Assumes the Ability is already slot 1.  Returns 0 if not found.
-u8 BattlerHasInnate(u8 battlerId, u16 ability) {
+u8 BattlerHasInnate(u8 battlerId, u16 ability)
+{
     bool8 isEnemyMon = GetBattlerSide(battlerId) == B_SIDE_OPPONENT;
 
     /*if (BattlerIgnoresAbility(gBattlerAttacker, battlerId, ability) && B_MOLD_BREAKER_WORKS_ON_INNATES == TRUE)
@@ -6170,6 +6171,12 @@ u8 BattlerHasInnate(u8 battlerId, u16 ability) {
     else if (BattlerAbilityWasRemoved(battlerId, ability) && B_NEUTRALIZING_GAS_WORKS_ON_INNATES == TRUE)
         return 0;
     else*/
+
+    //Check for Mold Breaker type negation
+    if (battlerId != gBattlerAttacker
+     && !gBattleStruct->bypassMoldBreakerChecks
+     && CanBreakThroughAbility(gBattlerAttacker, battlerId, ability, FALSE))
+        return 0;
 
     #if TESTING
     if (gTestRunnerEnabled)
@@ -6195,28 +6202,22 @@ u8 BattlerHasInnate(u8 battlerId, u16 ability) {
     }
     #endif
 
-            return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].personality, isEnemyMon); 
+    return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].personality, isEnemyMon); 
 }
 
 //Returns the trait slot number of the given ability. Starts at 1 for the primary Ability and returns 0 if the ability is not found. Use for individual checks.
 u8 BattlerHasTrait(u8 battlerId, u16 ability) 
 {
-    bool32 hasAbilityShield = GetBattlerHoldEffectIgnoreAbility(battlerId, TRUE) == HOLD_EFFECT_ABILITY_SHIELD;
     u8 traitNum = 0;
+
+    // if (ability == ABILITY_PASTEL_VEIL)
+    // DebugPrintf("BATTLERIDTARGET %d, Bypassmoldbreaker %d, CanBreakThroughAbility %d", battlerId == gBattlerTarget, !gBattleStruct->bypassMoldBreakerChecks, CanBreakThroughAbility(gBattlerAttacker, battlerId, ability, FALSE));
 
     if (GetBattlerAbility(battlerId) == ability)
         traitNum = 1;
     else 
         traitNum = BattlerHasInnate(battlerId, ability);
 
-        // Check if ability is nullified
-        if (traitNum > 1
-         && !gBattleStruct->bypassMoldBreakerChecks
-         && GetBattlerHoldEffectIgnoreAbility(battlerId, TRUE) != HOLD_EFFECT_ABILITY_SHIELD
-         && CanBreakThroughAbility(gBattlerAttacker, battlerId, ability, hasAbilityShield))
-        {
-            return 0;
-        }
     return traitNum;
 }
 
@@ -6231,12 +6232,14 @@ u8 BattlerHasTraitPlain(u8 battlerId, u16 ability)
 
 void PushTraitStack(u8 battlerId, u16 ability)
 {
+
     for (int i = 0; i < (MAX_BATTLERS_COUNT * MAX_MON_TRAITS); i++)
     {
         if (gTraitStack[i][1] == ABILITY_NONE)
         {
             gTraitStack[i][0] = battlerId;
             gTraitStack[i][1] = ability;
+            //DebugPrintf("TRAIT STACK: [%d] - %S", i, gAbilitiesInfo[gTraitStack[i][1]].name);
             break;
         }
     }
@@ -6272,8 +6275,8 @@ u16 PullTraitStackAbility()
             ability = gTraitStack[i-1][1]; //Return the ability in the slot before the most recent empty slot
             break;
         }
-        //else
-           //DebugPrintf("TRAIT STACK: [%d] - %S", i, gAbilitiesInfo[gTraitStack[i][1]].name);
+        // else
+        //     DebugPrintf("TRAIT STACK: [%d] - %S", i, gAbilitiesInfo[gTraitStack[i][1]].name);
     }
     return ability;
 }

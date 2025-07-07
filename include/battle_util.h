@@ -66,7 +66,7 @@ enum {
 #define STORE_BATTLER_TRAITS(battler) \
 ({for (int traitLoop = 0; traitLoop < MAX_MON_TRAITS; traitLoop++)\
 {battlerTraits[traitLoop] = GetBattlerTrait(battler, traitLoop);\
-}})
+}}) 
 //DebugPrintf("%S - Battler[%d] - Trait[%d]: %S", GetSpeciesName(gBattleMons[battler].species), battler, traitLoop,  gAbilitiesInfo[battlerTraits[traitLoop]].name);\
 
 // Special cases

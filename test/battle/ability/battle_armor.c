@@ -81,7 +81,7 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker, Teravolt and Turboblaze ignore Battle 
 
     for (j = 0; j < ARRAY_COUNT(breakerData); j++)
     {
-        PARAMETRIZE { species1 = breakerData[j][0]; innate1 = breakerData[j][1]; ability1 = breakerData[j][2]; species2 = SPECIES_KINGLER; ability2 = ABILITY_SHELL_ARMOR, innate2 = ABILITY_SHELL_ARMOR; }
+        PARAMETRIZE { species1 = breakerData[j][0]; innate1 = breakerData[j][1]; ability1 = breakerData[j][2]; species2 = SPECIES_KINGLER; ability2 = ABILITY_HYPER_CUTTER, innate2 = ABILITY_SHELL_ARMOR; }
         PARAMETRIZE { species1 = breakerData[j][0]; innate1 = breakerData[j][1]; ability1 = breakerData[j][2]; species2 = SPECIES_ARMALDO; ability2 = ABILITY_SWIFT_SWIM, innate2 = ABILITY_BATTLE_ARMOR; }
     }
 

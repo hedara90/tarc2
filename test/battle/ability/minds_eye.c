@@ -112,7 +112,7 @@ SINGLE_BATTLE_TEST("INNATE: Mind's Eye doesn't bypass a Ghost-type's Wonder Guar
 
 //// AI TESTS ////
 
-AI_SINGLE_BATTLE_TEST("INNATE: AI doesn't use accuracy-lowering moves if it knows that the foe has Mind's Eye")
+AI_SINGLE_BATTLE_TEST("AI doesn't use accuracy-lowering moves if it knows that the foe has Mind's Eye (INNATE)")
 {
     u32 abilityAI = ABILITY_NONE, moveAI = MOVE_NONE, j = 0;
 

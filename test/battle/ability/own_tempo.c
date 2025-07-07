@@ -132,7 +132,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents Intimidate but no other stat down
         ASSUME(B_UPDATED_INTIMIDATE >= GEN_8);
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_UNNERVE); Innates(ABILITY_INTIMIDATE); };
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); };
     } WHEN {
         TURN { MOVE(player, MOVE_SCARY_FACE); }
     } SCENE {
@@ -152,7 +152,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the oppon
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); };
     } WHEN {
         TURN { MOVE(player, MOVE_CONFUSE_RAY); }
     } SCENE {
@@ -166,7 +166,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the user"
     GIVEN {
         ASSUME(MoveHasAdditionalEffectSelf(MOVE_PETAL_DANCE, MOVE_EFFECT_THRASH));
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); };
     } WHEN {
         TURN { MOVE(opponent, MOVE_PETAL_DANCE); }
         TURN { MOVE(opponent, MOVE_PETAL_DANCE); }
@@ -186,7 +186,7 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker ignores Own Tempo")
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
         PLAYER(SPECIES_PINSIR) { Ability(ABILITY_HYPER_CUTTER); Innates(ABILITY_MOLD_BREAKER); }
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); };
     } WHEN {
         TURN { MOVE(player, MOVE_CONFUSE_RAY); }
     } SCENE {
@@ -200,7 +200,7 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker does not prevent Own Tempo from curing 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
         PLAYER(SPECIES_PINSIR) { Ability(ABILITY_HYPER_CUTTER); Innates(ABILITY_MOLD_BREAKER); };
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); };
     } WHEN {
         TURN { MOVE(player, MOVE_CONFUSE_RAY); }
     } SCENE {
@@ -219,7 +219,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from items")
     GIVEN {
         ASSUME(gItemsInfo[ITEM_BERSERK_GENE].holdEffect == HOLD_EFFECT_BERSERK_GENE);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_OBLIVIOUS); Innates(ABILITY_OWN_TEMPO); Item(ITEM_BERSERK_GENE); };
+        OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); Item(ITEM_BERSERK_GENE); };
     } WHEN {
         TURN { MOVE(opponent, MOVE_TACKLE); }
     } SCENE {

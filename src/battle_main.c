@@ -5799,11 +5799,11 @@ u32 TrySetAteType(u32 move, u32 battlerAtk, u32 attackerAbility)
 
     if (BattlerHasTrait(battlerAtk, ABILITY_PIXILATE))
         ateType = TYPE_FAIRY;
-    if (BattlerHasTrait(battlerAtk, ABILITY_REFRIGERATE))
+    else if (BattlerHasTrait(battlerAtk, ABILITY_REFRIGERATE))
         ateType = TYPE_ICE;
-    if (BattlerHasTrait(battlerAtk, ABILITY_AERILATE))
+    else if (BattlerHasTrait(battlerAtk, ABILITY_AERILATE))
         ateType = TYPE_FLYING;
-    if (BattlerHasTrait(battlerAtk, ABILITY_GALVANIZE))
+    else if (BattlerHasTrait(battlerAtk, ABILITY_GALVANIZE))
         ateType = TYPE_ELECTRIC;
 
     return ateType;
@@ -6014,7 +6014,9 @@ u32 GetDynamicMoveType(struct Pokemon *mon, u32 move, u32 battler, enum MonState
     {
         return TYPE_WATER;
     }
-    else if (moveEffect == EFFECT_AURA_WHEEL && species == SPECIES_MORPEKO_HANGRY)
+    else if (moveEffect == EFFECT_AURA_WHEEL
+     && species == SPECIES_MORPEKO_HANGRY 
+     && !BattlerHasTrait(battler, ABILITY_NORMALIZE))
     {
         return TYPE_DARK;
     }

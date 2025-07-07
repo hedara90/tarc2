@@ -1682,14 +1682,15 @@ SINGLE_BATTLE_TEST("INNATE: Dynamax: Dynamaxed Pokemon that changes forms does n
 {
     u16 capturedHP, finalHP;
     GIVEN {
+        WITH_CONFIG(GEN_CONFIG_BATTLE_BOND, GEN_8);
         PLAYER(SPECIES_GRENINJA_BATTLE_BOND) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_BATTLE_BOND); HP(100); Speed(100); }
         OPPONENT(SPECIES_CATERPIE) { HP(1); Speed(1000); }
         OPPONENT(SPECIES_WOBBUFFET) { Speed(10); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_DYNAMAX); SEND_OUT(opponent, 1); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); SEND_OUT(opponent, 1); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player, captureHP: &capturedHP);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_FORM_CHANGE, player);
@@ -1709,11 +1710,11 @@ SINGLE_BATTLE_TEST("INNATE: Dynamax: Dynamaxed Pokemon that changes forms does n
         PLAYER(species) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_POWER_CONSTRUCT); HP(hp); MaxHP(maxHP); DynamaxLevel(0); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_DYNAMAX); }
+        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_FORM_CHANGE, player);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_POWER_CONSTRUCT, player);
     } THEN {
         EXPECT_MUL_EQ(maxHP - hp, GetDynamaxLevelHPMultiplier(0, FALSE), player->maxHP - player->hp);
     }
@@ -1801,6 +1802,6 @@ SINGLE_BATTLE_TEST("INNATE: Dynamax: Moxie clones can be triggered by Max Moves 
     } SCENE {
         MESSAGE("The opposing Wobbuffet fainted!");
         ABILITY_POPUP(player, ABILITY_MOXIE);
-        MESSAGE("Gyarados's Moxie raised its Attack!");
+        MESSAGE("Gyarados's Attack rose!");
     }
 }

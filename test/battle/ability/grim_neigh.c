@@ -116,22 +116,16 @@ DOUBLE_BATTLE_TEST("INNATE: Grim Neigh raises Sp. Attack by one stage after dire
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_DISCHARGE); SEND_OUT(opponentLeft, 2);  }
     } SCENE {
-        int i;
-
         ANIMATION(ANIM_TYPE_MOVE, MOVE_DISCHARGE, playerLeft);
-        for (i = 0; i < 3; i++) {
-            ONE_OF {
-                MESSAGE("Snorunt fainted!");
-                MESSAGE("The opposing Glalie fainted!");
-                MESSAGE("The opposing Abra fainted!");
-            }
-            ABILITY_POPUP(playerLeft, abilityPopUp);
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
-            if (species == SPECIES_SPECTRIER)
-                MESSAGE("Spectrier's Grim Neigh raised its Sp. Atk!");
-            else
-                MESSAGE("Calyrex's Grim Neigh raised its Sp. Atk!");
-        }
+        MESSAGE("The opposing Glalie fainted!");
+        MESSAGE("Snorunt fainted!");
+        MESSAGE("The opposing Abra fainted!");
+        ABILITY_POPUP(playerLeft, abilityPopUp);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
+        if (species == SPECIES_SPECTRIER)
+            MESSAGE("Spectrier's Sp. Atk drastically rose!");
+        else
+            MESSAGE("Calyrex's Sp. Atk drastically rose!");
     } THEN {
         EXPECT_EQ(playerLeft->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 3);
     }
@@ -198,9 +192,9 @@ DOUBLE_BATTLE_TEST("INNATE: Grim Neigh does not increase damage done by the same
         ABILITY_POPUP(playerLeft, abilityPopUp);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
         if (species == SPECIES_SPECTRIER)
-            MESSAGE("Spectrier's Grim Neigh raised its Sp. Atk!");
+            MESSAGE("Spectrier's Sp. Atk rose!");
         else
-            MESSAGE("Calyrex's Grim Neigh raised its Sp. Atk!");
+            MESSAGE("Calyrex's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(playerLeft->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
         EXPECT_EQ(damage[0], damage[1]);

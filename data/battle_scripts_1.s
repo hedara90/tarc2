@@ -9436,8 +9436,7 @@ BattleScript_RedCardIngrainContinue:
 	restoreattacker
 	return
 BattleScript_RedCardSuctionCups:
-	pushtraitstack BS_TARGET ABILITY_SUCTION_CUPS
-	call BattleScript_AbilityPopUp
+	sethword gDisplayAbility, ABILITY_SUCTION_CUPS
     printstring STRINGID_PKMNANCHORSITSELFWITH
     goto BattleScript_RedCardIngrainContinue
 BattleScript_RedCardDynamaxed:

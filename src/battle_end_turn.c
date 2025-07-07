@@ -110,7 +110,7 @@ enum FourthEventBlock
 
 static inline bool32 IsBattlerProtectedByMagicGuard(u32 battler, u32 ability)
 {
-    if (ability != ABILITY_MAGIC_GUARD)
+    if (!BattlerHasTrait(battler, ABILITY_MAGIC_GUARD))
         return FALSE;
 
     RecordAbilityBattle(battler, ability);
@@ -199,6 +199,8 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
 
     u32 ability = GetBattlerAbility(battler);
     u32 currBattleWeather = GetCurrentBattleWeather();
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
 
     if (currBattleWeather == 0xFF)
     {
@@ -222,7 +224,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
     case BATTLE_WEATHER_RAIN:
     case BATTLE_WEATHER_RAIN_PRIMAL:
     case BATTLE_WEATHER_RAIN_DOWNPOUR:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_RAIN_DISH)
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_RAIN_DISH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
@@ -230,17 +232,17 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER)
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
         }
         break;
     case BATTLE_WEATHER_SANDSTORM:
-        if (ability != ABILITY_SAND_VEIL
-         && ability != ABILITY_SAND_FORCE
-         && ability != ABILITY_SAND_RUSH
-         && ability != ABILITY_OVERCOAT
+        if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL)
+         && !BattlerHasTrait(battler, ABILITY_SAND_FORCE)
+         && !BattlerHasTrait(battler, ABILITY_SAND_RUSH)
+         && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
          && !IS_BATTLER_ANY_TYPE(gBattlerAttacker, TYPE_ROCK, TYPE_GROUND, TYPE_STEEL)
          && !(gStatuses3[gBattlerAttacker] & (STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
          && GetBattlerHoldEffect(gBattlerAttacker, TRUE) != HOLD_EFFECT_SAFETY_GOGGLES
@@ -256,15 +258,15 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (ability == ABILITY_ICE_BODY)
+        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
         }
         else if (currBattleWeather == BATTLE_WEATHER_HAIL)
         {
-            if (ability != ABILITY_SNOW_CLOAK
-             && ability != ABILITY_OVERCOAT
+            if (!BattlerHasTrait(battler, ABILITY_SNOW_CLOAK)
+             && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
              && !IS_BATTLER_OF_TYPE(battler, TYPE_ICE)
              && !(gStatuses3[battler] & (STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
              && GetBattlerHoldEffect(battler, TRUE) != HOLD_EFFECT_SAFETY_GOGGLES
@@ -301,11 +303,11 @@ static bool32 HandleEndTurnGenThreeBerryActivation(u32 battler)
 static bool32 HandleEndTurnEmergencyExit(u32 battler)
 {
     bool32 effect = FALSE;
-    u32 ability = GetBattlerAbility(battler);
+    //u32 ability = GetBattlerAbility(battler);
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    if (ability == ABILITY_EMERGENCY_EXIT || ability == ABILITY_WIMP_OUT)
+    if (BattlerHasTrait(battler, ABILITY_EMERGENCY_EXIT) || BattlerHasTrait(battler, ABILITY_WIMP_OUT))
     {
         u32 cutoff = gBattleMons[battler].maxHP / 2;
         bool32 HadMoreThanHalfHpNowDoesnt = gBattleStruct->hpBefore[battler] > cutoff && gBattleMons[battler].hp <= cutoff;
@@ -318,8 +320,12 @@ static bool32 HandleEndTurnEmergencyExit(u32 battler)
          && !(gStatuses3[battler] & STATUS3_SKY_DROPPED)) // Not currently held by Sky Drop
         {
             gBattlerAbility = battler;
-            gLastUsedAbility = ability;
+            if (BattlerHasTrait(battler, ABILITY_EMERGENCY_EXIT))
+                gLastUsedAbility = ABILITY_EMERGENCY_EXIT;
+            else 
+                gLastUsedAbility = ABILITY_WIMP_OUT;
 
+            PushTraitStack(battler, gLastUsedAbility);
             if (gBattleTypeFlags & BATTLE_TYPE_TRAINER || IsOnPlayerSide(battler))
                 BattleScriptExecute(BattleScript_EmergencyExitEnd2);
             else
@@ -502,15 +508,11 @@ static bool32 HandleEndTurnFirstEventBlock(u32 battler)
     case FIRST_EVENT_BLOCK_ABILITIES:
     {
         u32 ability = GetBattlerAbility(battler);
-        switch (ability)
-        {
-        case ABILITY_HEALER:
-        case ABILITY_HYDRATION:
-        case ABILITY_SHED_SKIN:
+        if (BattlerHasTrait(battler, ABILITY_HEALER)
+         || BattlerHasTrait(battler, ABILITY_HYDRATION)
+         || BattlerHasTrait(battler, ABILITY_SHED_SKIN))
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
-            break;
-        }
         gBattleStruct->eventBlockCounter++;
         break;
     }
@@ -591,10 +593,11 @@ static bool32 HandleEndTurnLeechSeed(u32 battler)
         gBattleStruct->moveDamage[gBattlerAttacker] = max(1, GetNonDynamaxMaxHP(battler) / 8);
         gBattleStruct->moveDamage[gBattlerTarget] = GetDrainedBigRootHp(gBattlerTarget, gBattleStruct->moveDamage[gBattlerAttacker]);
         gHitMarker |= HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE;
-        if (GetBattlerAbility(battler) == ABILITY_LIQUID_OOZE)
+        if (BattlerHasTrait(battler, ABILITY_LIQUID_OOZE))
         {
             gBattleStruct->moveDamage[gBattlerTarget] = gBattleStruct->moveDamage[gBattlerTarget] * -1;
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_LEECH_SEED_OOZE;
+            PushTraitStack(battler, ABILITY_LIQUID_OOZE);
             BattleScriptExecute(BattleScript_LeechSeedTurnDrainLiquidOoze);
         }
         else if (gStatuses3[gBattlerTarget] & STATUS3_HEAL_BLOCK)
@@ -624,7 +627,7 @@ static bool32 HandleEndTurnPoison(u32 battler)
      && IsBattlerAlive(battler)
      && !IsBattlerProtectedByMagicGuard(battler, ability))
     {
-        if (ability == ABILITY_POISON_HEAL)
+        if (BattlerHasTrait(battler, ABILITY_POISON_HEAL))
         {
             if (!IsBattlerAtMaxHp(battler) && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
             {
@@ -632,6 +635,7 @@ static bool32 HandleEndTurnPoison(u32 battler)
                 if (gBattleStruct->moveDamage[battler] == 0)
                     gBattleStruct->moveDamage[battler] = 1;
                 gBattleStruct->moveDamage[battler] *= -1;
+                PushTraitStack(battler, ABILITY_POISON_HEAL);
                 BattleScriptExecute(BattleScript_PoisonHealActivates);
                 effect = TRUE;
             }
@@ -673,7 +677,7 @@ static bool32 HandleEndTurnBurn(u32 battler)
      && !IsBattlerProtectedByMagicGuard(battler, ability))
     {
         gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / (B_BURN_DAMAGE >= GEN_7 ? 16 : 8);
-        if (ability == ABILITY_HEATPROOF)
+        if (BattlerHasTrait(battler, ABILITY_HEATPROOF))
         {
             if (gBattleStruct->moveDamage[battler] > (gBattleStruct->moveDamage[battler] / 2) + 1) // Record ability if the burn takes less damage than it normally would.
                 RecordAbilityBattle(battler, ABILITY_HEATPROOF);
@@ -681,6 +685,7 @@ static bool32 HandleEndTurnBurn(u32 battler)
         }
         if (gBattleStruct->moveDamage[battler] == 0)
             gBattleStruct->moveDamage[battler] = 1;
+        PushTraitStack(battler, ABILITY_HEATPROOF);
         BattleScriptExecute(BattleScript_BurnTurnDmg);
         effect = TRUE;
     }
@@ -1018,8 +1023,8 @@ static bool32 HandleEndTurnYawn(u32 battler)
     {
         gStatuses3[battler] -= STATUS3_YAWN_TURN(1);
         if (!(gStatuses3[battler] & STATUS3_YAWN) && !(gBattleMons[battler].status1 & STATUS1_ANY)
-         && ability != ABILITY_VITAL_SPIRIT
-         && ability != ABILITY_INSOMNIA
+         && !BattlerHasTrait(battler, ABILITY_VITAL_SPIRIT)
+         && !BattlerHasTrait(battler, ABILITY_INSOMNIA)
          && !UproarWakeUpCheck(battler)
          && !IsLeafGuardProtected(battler, ability))
         {
@@ -1363,7 +1368,7 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
             for (gBattlerAttacker = 0; gBattlerAttacker < gBattlersCount; gBattlerAttacker++)
             {
                 if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP)
-                && GetBattlerAbility(gBattlerAttacker) != ABILITY_SOUNDPROOF)
+                && !BattlerHasTrait(gBattlerAttacker, ABILITY_SOUNDPROOF))
                 {
                     gBattleMons[gBattlerAttacker].status1 &= ~STATUS1_SLEEP;
                     gBattleMons[gBattlerAttacker].status2 &= ~STATUS2_NIGHTMARE;
@@ -1406,21 +1411,22 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
     case THIRD_EVENT_BLOCK_ABILITIES:
     {
         u32 ability = GetBattlerAbility(battler);
-        switch (ability)
-        {
-        case ABILITY_TRUANT: // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
-        case ABILITY_CUD_CHEW:
-        case ABILITY_SLOW_START:
-        case ABILITY_BAD_DREAMS:
-        case ABILITY_BALL_FETCH:
-        case ABILITY_HARVEST:
-        case ABILITY_MOODY:
-        case ABILITY_PICKUP:
-        case ABILITY_SPEED_BOOST:
+
+        u16 battlerTraits[MAX_MON_TRAITS];
+        STORE_BATTLER_TRAITS(battler);
+
+        if (SearchTraits(battlerTraits, ABILITY_TRUANT) // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
+         || SearchTraits(battlerTraits, ABILITY_CUD_CHEW)
+         || SearchTraits(battlerTraits, ABILITY_SLOW_START)
+         || SearchTraits(battlerTraits, ABILITY_BAD_DREAMS)
+         || SearchTraits(battlerTraits, ABILITY_BALL_FETCH)
+         || SearchTraits(battlerTraits, ABILITY_HARVEST)
+         || SearchTraits(battlerTraits, ABILITY_MOODY)
+         || SearchTraits(battlerTraits, ABILITY_PICKUP)
+         || SearchTraits(battlerTraits, ABILITY_SPEED_BOOST))
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
-            break;
-        }
+
         gBattleStruct->eventBlockCounter++;
         break;
     }
@@ -1459,15 +1465,15 @@ static bool32 HandleEndTurnAbilities(u32 battler)
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    switch (ability)
-    {
-    case ABILITY_POWER_CONSTRUCT:
-    case ABILITY_SCHOOLING:
-    case ABILITY_SHIELDS_DOWN:
-    case ABILITY_ZEN_MODE:
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
+
+    if (SearchTraits(battlerTraits, ABILITY_POWER_CONSTRUCT) // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
+     || SearchTraits(battlerTraits, ABILITY_SCHOOLING)
+     || SearchTraits(battlerTraits, ABILITY_SHIELDS_DOWN)
+     || SearchTraits(battlerTraits, ABILITY_ZEN_MODE))
         if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
             effect = TRUE;
-    }
 
     return effect;
 }
@@ -1481,7 +1487,7 @@ static bool32 HandleEndTurnFourthEventBlock(u32 battler)
     case FOURTH_EVENT_BLOCK_HUNGER_SWITCH:
     {
         u32 ability = GetBattlerAbility(battler);
-        if (ability == ABILITY_HUNGER_SWITCH)
+        if (BattlerHasTrait(battler, ABILITY_HUNGER_SWITCH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;

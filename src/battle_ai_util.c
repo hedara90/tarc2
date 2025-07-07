@@ -1949,8 +1949,9 @@ void ProtectChecks(u32 battlerAtk, u32 battlerDef, u32 move, u32 predictedMove, 
 // stat stages
 bool32 ShouldLowerStat(u32 battlerAtk, u32 battlerDef, u32 abilityDef, u32 stat)
 {
-    u16 AIBattlerTraits[MAX_MON_TRAITS];
-    AI_STORE_BATTLER_TRAITS(battlerDef);
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battlerDef); //Normal storage used since the AI ability is set manually
+    battlerTraits[0] = abilityDef; //First trait set manually to deal with timing issue
 
     if (gBattleMons[battlerDef].statStages[stat] == MIN_STAT_STAGE)
         return FALSE;
@@ -1958,29 +1959,33 @@ bool32 ShouldLowerStat(u32 battlerAtk, u32 battlerDef, u32 abilityDef, u32 stat)
     if (gAiLogicData->holdEffects[battlerDef] == HOLD_EFFECT_CLEAR_AMULET)
         return FALSE;
 
-    if (AISearchTraits(AIBattlerTraits, ABILITY_SPEED_BOOST))
-        if (stat == STAT_SPEED)
+    //Mold Breaker checked here to deal with timing issues
+    if (!IsMoldBreakerTypeAbility(battlerAtk, GetBattlerAbility(battlerAtk)))
+    {
+        if (SearchTraits(battlerTraits, ABILITY_SPEED_BOOST))
+            if (stat == STAT_SPEED)
+                return FALSE;
+        if (SearchTraits(battlerTraits, ABILITY_HYPER_CUTTER))
+            if (stat == STAT_ATK)
+                return FALSE;
+        if (SearchTraits(battlerTraits, ABILITY_BIG_PECKS))
+            if (stat == STAT_DEF)
+                return FALSE;
+        if ((SearchTraits(battlerTraits, ABILITY_ILLUMINATE)
+            && B_ILLUMINATE_EFFECT >= GEN_9)
+        || SearchTraits(battlerTraits, ABILITY_KEEN_EYE)
+        || SearchTraits(battlerTraits, ABILITY_MINDS_EYE))
+            if (stat == STAT_ACC)
+                return FALSE;
+        if (SearchTraits(battlerTraits, ABILITY_FLOWER_VEIL))
+            if (IS_BATTLER_OF_TYPE(battlerDef, TYPE_GRASS))
+                return FALSE;
+        if (SearchTraits(battlerTraits, ABILITY_CONTRARY)
+        || SearchTraits(battlerTraits, ABILITY_CLEAR_BODY)
+        || SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE)
+        || SearchTraits(battlerTraits, ABILITY_FULL_METAL_BODY))
             return FALSE;
-    if (AISearchTraits(AIBattlerTraits, ABILITY_HYPER_CUTTER))
-        if (stat == STAT_ATK)
-            return FALSE;
-    if (AISearchTraits(AIBattlerTraits, ABILITY_BIG_PECKS))
-        if (stat == STAT_DEF)
-            return FALSE;
-    if ((AISearchTraits(AIBattlerTraits, ABILITY_ILLUMINATE)
-        && B_ILLUMINATE_EFFECT < GEN_9)
-     || AISearchTraits(AIBattlerTraits, ABILITY_KEEN_EYE)
-     || AISearchTraits(AIBattlerTraits, ABILITY_MINDS_EYE))
-        if (stat == STAT_ACC)
-            return FALSE;
-    if (AISearchTraits(AIBattlerTraits, ABILITY_FLOWER_VEIL))
-        if (IS_BATTLER_OF_TYPE(battlerDef, TYPE_GRASS))
-            return FALSE;
-    if (AISearchTraits(AIBattlerTraits, ABILITY_CONTRARY)
-     || AISearchTraits(AIBattlerTraits, ABILITY_CLEAR_BODY)
-     || AISearchTraits(AIBattlerTraits, ABILITY_WHITE_SMOKE)
-     || AISearchTraits(AIBattlerTraits, ABILITY_FULL_METAL_BODY))
-        return FALSE;
+    }
 
     // This should be a viability check
     if (stat == STAT_SPEED)
@@ -2156,7 +2161,7 @@ bool32 ShouldLowerAccuracy(u32 battlerAtk, u32 battlerDef, u32 defAbility)
             && (gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_TRY_TO_FAINT)
             && CanAIFaintTarget(battlerAtk, battlerDef, 0))
         return FALSE; // Don't bother lowering stats if can kill enemy.
-    
+
     u16 AIBattlerTraits[MAX_MON_TRAITS];
     AI_STORE_BATTLER_TRAITS(battlerDef);
 
@@ -2166,6 +2171,7 @@ bool32 ShouldLowerAccuracy(u32 battlerAtk, u32 battlerDef, u32 defAbility)
       && !AISearchTraits(AIBattlerTraits, ABILITY_FULL_METAL_BODY)
       && !AISearchTraits(AIBattlerTraits, ABILITY_KEEN_EYE)
       && !AISearchTraits(AIBattlerTraits, ABILITY_MINDS_EYE)
+      //&& !GetBattlerAbility(battlerDef) != ABILITY_MINDS_EYE
       && (B_ILLUMINATE_EFFECT >= GEN_9 && !AISearchTraits(AIBattlerTraits, ABILITY_ILLUMINATE))
       && gAiLogicData->holdEffects[battlerDef] != HOLD_EFFECT_CLEAR_AMULET)
         return TRUE;

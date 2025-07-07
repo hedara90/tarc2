@@ -2575,3 +2575,7 @@
 	.byte \battler
 	.2byte \ability
 	.endm
+
+	.macro debugprint
+	callnative BS_DebugPrint
+	.endm
