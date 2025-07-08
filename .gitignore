@@ -45,4 +45,6 @@ tools/trainerproc/trainerproc
 *.smol
 *.fastSmol
 *.smolTM
+helpfulporytiles.sh
+triple_layer_converter
 __pycache__
