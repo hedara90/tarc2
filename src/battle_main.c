@@ -250,6 +250,9 @@ EWRAM_DATA u8 gPartyCriticalHits[PARTY_SIZE] = {0};
 EWRAM_DATA static u8 sTriedEvolving = 0;
 EWRAM_DATA u8 gCategoryIconSpriteId = 0;
 
+EWRAM_DATA struct BattlePokemon gLeftMon;
+EWRAM_DATA struct BattlePokemon gRightMon;
+
 COMMON_DATA void (*gPreBattleCallback1)(void) = NULL;
 COMMON_DATA void (*gBattleMainFunc)(void) = NULL;
 COMMON_DATA struct BattleResults gBattleResults = {0};
@@ -3738,6 +3741,8 @@ static void DoBattleIntro(void)
                 gBattleStruct->startingStatusTimer = VarGet(B_VAR_STARTING_STATUS_TIMER);
             }
             gBattleMainFunc = TryDoEventsBeforeFirstTurn;
+            PokemonToBattleMon(&gPlayerParty[1], &gLeftMon);
+            PokemonToBattleMon(&gPlayerParty[2], &gRightMon);
         }
         break;
     }

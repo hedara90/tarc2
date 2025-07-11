@@ -1144,6 +1144,9 @@ extern bool8 gLastUsedBallMenuPresent;
 extern u8 gPartyCriticalHits[PARTY_SIZE];
 extern u8 gCategoryIconSpriteId;
 
+extern struct BattlePokemon gLeftMon;
+extern struct BattlePokemon gRightMon;
+
 static inline bool32 IsBattlerAlive(u32 battler)
 {
     if (gBattleMons[battler].hp == 0)
