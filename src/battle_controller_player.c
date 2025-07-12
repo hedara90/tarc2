@@ -665,6 +665,25 @@ static void TryShowAsTarget(u32 battler)
     }
 }
 
+#define taskTimer data[0]
+
+static void PacifyShinyHunters(u8 taskId)
+{
+    if (gBattlerControllerFuncs[0] != PlayerHandleChooseMove)
+        DestroyTask(taskId);
+    if (gTasks[taskId].taskTimer == 0)
+    {
+        PlaySE12WithPanning(SE_SHINY, -64);
+    }
+    else
+    {
+        DestroyTask(taskId);
+    }
+    gTasks[taskId].taskTimer++;
+}
+
+#undef taskTimer
+
 EWRAM_DATA static u32 sMonSwitchState;
 
 static void TestThing(u32 battler)
@@ -679,13 +698,24 @@ static void TestThing(u32 battler)
     {
         //  Switch mon sprirte
         u16 *palette = (u16 *)(OBJ_PLTT);
+        const u16 *targetPalette;
+        if (GetMonData(&gPlayerParty[0], MON_DATA_IS_SHINY))
+        {
+            targetPalette = gSpeciesInfo[gBattleMons[0].species].shinyPalette;
+            MgbaPrintf(MGBA_LOG_WARN, "Shiny");
+        }
+        else
+        {
+            MgbaPrintf(MGBA_LOG_WARN, "Normal");
+            targetPalette = gSpeciesInfo[gBattleMons[0].species].palette;
+        }
         u32 *spriteTiles = (u32 *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[0]].oam.tileNum * TILE_SIZE_4BPP);
         LZDecompressVram(gSpeciesInfo[gBattleMons[0].species].backPic, spriteTiles);
         for (u32 i = 0; i < 16; i++)
         {
-            palette[i] = gSpeciesInfo[gBattleMons[0].species].palette[i];
-            gPlttBufferUnfaded[OBJ_PLTT_ID(0) + i] = gSpeciesInfo[gBattleMons[0].species].palette[i];
-            gPlttBufferFaded[OBJ_PLTT_ID(0) + i] = gSpeciesInfo[gBattleMons[0].species].palette[i];
+            palette[i] = targetPalette[i];
+            gPlttBufferUnfaded[OBJ_PLTT_ID(0) + i] = targetPalette[i];
+            gPlttBufferFaded[OBJ_PLTT_ID(0) + i] = targetPalette[i];
         }
 
         gSprites[gBattlerSpriteIds[0]].y = 80 + gSpeciesInfo[gBattleMons[0].species].backPicYOffset;
@@ -724,6 +754,13 @@ static void TestThing(u32 battler)
     else
     {
         gBattlerControllerFuncs[battler] = PlayerHandleChooseMove;
+        if (GetMonData(&gPlayerParty[0], MON_DATA_IS_SHINY))
+        {
+            u32 taskId = CreateTask(PacifyShinyHunters, 1);
+            gTasks[taskId].data[0] = 0;
+        }
+        sMonSwitchState = 0;
+        return;
     }
     sMonSwitchState++;
 }
@@ -978,17 +1015,21 @@ void HandleInputChooseMove(u32 battler)
             gBattlerControllerFuncs[battler] = HandleMoveSwitching;
         }
     }
-    else if (JOY_NEW(R_BUTTON))
-    {
-        MgbaPrintf(MGBA_LOG_WARN, "R Button");
-        //  Switch Active mon to right mon
-        SwitchActiveMonRight();
-    }
     else if (JOY_NEW(L_BUTTON))
     {
-        MgbaPrintf(MGBA_LOG_WARN, "L Button");
         //  Switch Active mon to left mon
-        SwitchActiveMonLeft();
+        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
+            SwitchActiveMonLeft();
+        else
+            PlaySE(SE_FAILURE);
+    }
+    else if (JOY_NEW(R_BUTTON))
+    {
+        //  Switch Active mon to right mon
+        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) > 0)
+            SwitchActiveMonRight();
+        else
+            PlaySE(SE_FAILURE);
     }
     else if (gBattleStruct->descriptionSubmenu)
     {
@@ -2322,8 +2363,16 @@ static void PlayerHandleChooseItem(u32 battler)
         gBattlePartyCurrentOrder[i] = gBattleResources->bufferA[battler][1 + i];
 }
 
+//  New choose mon handling
+static void NewPlayerHandleChoosePokemon(u32 battler)
+{
+    MgbaPrintf(MGBA_LOG_WARN, "Going into new handling");
+}
+
 static void PlayerHandleChoosePokemon(u32 battler)
 {
+    gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemon;
+    return;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
