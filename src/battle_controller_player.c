@@ -49,6 +49,8 @@
 #include "pokedex.h"
 
 #include "decompress.h"
+#include "even_sprite.h"
+#include "malloc.h"
 
 static void PlayerBufferExecCompleted(u32 battler);
 static void PlayerHandleLoadMonSprite(u32 battler);
@@ -691,7 +693,7 @@ static void TestThing(u32 battler)
     if (sMonSwitchState < 20)
     {
         //  Slide out mon
-        gSprites[gBattlerSpriteIds[0]].x2 -= 4;
+        gSprites[gBattlerSpriteIds[0]].x2 -= 5;
         gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 += 6;
     }
     else if (sMonSwitchState < 21)
@@ -699,18 +701,15 @@ static void TestThing(u32 battler)
         //  Switch mon sprirte
         u16 *palette = (u16 *)(OBJ_PLTT);
         const u16 *targetPalette;
+
         if (GetMonData(&gPlayerParty[0], MON_DATA_IS_SHINY))
-        {
             targetPalette = gSpeciesInfo[gBattleMons[0].species].shinyPalette;
-            MgbaPrintf(MGBA_LOG_WARN, "Shiny");
-        }
         else
-        {
-            MgbaPrintf(MGBA_LOG_WARN, "Normal");
             targetPalette = gSpeciesInfo[gBattleMons[0].species].palette;
-        }
+
         u32 *spriteTiles = (u32 *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[0]].oam.tileNum * TILE_SIZE_4BPP);
         LZDecompressVram(gSpeciesInfo[gBattleMons[0].species].backPic, spriteTiles);
+
         for (u32 i = 0; i < 16; i++)
         {
             palette[i] = targetPalette[i];
@@ -748,7 +747,7 @@ static void TestThing(u32 battler)
     else if (sMonSwitchState < 43)
     {
         //  Slide out mon
-        gSprites[gBattlerSpriteIds[0]].x2 += 4;
+        gSprites[gBattlerSpriteIds[0]].x2 += 5;
         gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 -= 6;
     }
     else
@@ -783,8 +782,6 @@ static void SwitchActiveMonLeft(void)
         activeMon[i] = backMon[i];
         backMon[i] = tempData;
     }
-    sMonSwitchState = 0;
-    gBattlerControllerFuncs[0] = TestThing;
 }
 
 static void SwitchActiveMonRight(void)
@@ -805,8 +802,6 @@ static void SwitchActiveMonRight(void)
         activeMon[i] = backMon[i];
         backMon[i] = tempData;
     }
-    sMonSwitchState = 0;
-    gBattlerControllerFuncs[0] = TestThing;
 }
 
 void HandleInputChooseMove(u32 battler)
@@ -941,10 +936,12 @@ void HandleInputChooseMove(u32 battler)
             gMoveSelectionCursor[battler] ^= 1;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+            /*
             if (B_SHOW_EFFECTIVENESS)
                 MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
             MoveSelectionDisplayPpNumber(battler);
             MoveSelectionDisplayMoveType(battler);
+            */
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -958,10 +955,12 @@ void HandleInputChooseMove(u32 battler)
             gMoveSelectionCursor[battler] ^= 1;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+            /*
             if (B_SHOW_EFFECTIVENESS)
                 MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
             MoveSelectionDisplayPpNumber(battler);
             MoveSelectionDisplayMoveType(battler);
+            */
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -974,10 +973,12 @@ void HandleInputChooseMove(u32 battler)
             gMoveSelectionCursor[battler] ^= 2;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+            /*
             if (B_SHOW_EFFECTIVENESS)
                 MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
             MoveSelectionDisplayPpNumber(battler);
             MoveSelectionDisplayMoveType(battler);
+            */
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -991,10 +992,12 @@ void HandleInputChooseMove(u32 battler)
             gMoveSelectionCursor[battler] ^= 2;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+            /*
             if (B_SHOW_EFFECTIVENESS)
                 MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
             MoveSelectionDisplayPpNumber(battler);
             MoveSelectionDisplayMoveType(battler);
+            */
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -1019,17 +1022,29 @@ void HandleInputChooseMove(u32 battler)
     {
         //  Switch Active mon to left mon
         if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
+        {
             SwitchActiveMonLeft();
+            sMonSwitchState = 0;
+            gBattlerControllerFuncs[0] = TestThing;
+        }
         else
+        {
             PlaySE(SE_FAILURE);
+        }
     }
     else if (JOY_NEW(R_BUTTON))
     {
         //  Switch Active mon to right mon
         if (GetMonData(&gPlayerParty[2], MON_DATA_HP) > 0)
+        {
             SwitchActiveMonRight();
+            sMonSwitchState = 0;
+            gBattlerControllerFuncs[0] = TestThing;
+        }
         else
+        {
             PlaySE(SE_FAILURE);
+        }
     }
     else if (gBattleStruct->descriptionSubmenu)
     {
@@ -1082,10 +1097,12 @@ static void ReloadMoveNames(u32 battler)
         MoveSelectionDestroyCursorAt(battler);
         MoveSelectionDisplayMoveNames(battler);
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+        /*
         if (B_SHOW_EFFECTIVENESS)
             MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
         MoveSelectionDisplayPpNumber(battler);
         MoveSelectionDisplayMoveType(battler);
+        */
     }
 }
 
@@ -2343,12 +2360,14 @@ void InitMoveSelectionsVarsAndStrings(u32 battler)
     MoveSelectionDisplayMoveNames(battler);
     gMultiUsePlayerCursor = 0xFF;
     MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
+    /*
     if (B_SHOW_EFFECTIVENESS)
         MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
     else
         MoveSelectionDisplayPpString(battler);
     MoveSelectionDisplayPpNumber(battler);
     MoveSelectionDisplayMoveType(battler);
+    */
 }
 
 static void PlayerHandleChooseItem(u32 battler)
@@ -2364,14 +2383,76 @@ static void PlayerHandleChooseItem(u32 battler)
 }
 
 //  New choose mon handling
-static void NewPlayerHandleChoosePokemon(u32 battler)
+static void NewPlayerHandleChoosePokemonInput(u32 battler);
+
+struct NewSwitchData
 {
-    MgbaPrintf(MGBA_LOG_WARN, "Going into new handling");
+    u32 state;
+    u8 spriteIdLeft;
+    u8 spriteidRight;
+};
+
+EWRAM_DATA struct NewSwitchData *sSwitchData;
+
+static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
+{
+    if (sSwitchData->state == 0)
+    {
+        //  Load left Sprite
+    }
+    else if (sSwitchData->state == 1)
+    {
+        //  Load right Sprite
+    }
+    else if (sSwitchData->state < 34)
+    {
+        //  Move sprites in
+    }
+    else
+    {
+        //  Call input handler
+        gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonInput;
+        sSwitchData->state = 0;
+        return;
+    }
+    sSwitchData->state++;
+}
+
+static void NewPlayerHandleChoosePokemonHide(u32 battler)
+{
+    if (sSwitchData->state < 32)
+    {
+        //  Move sprites out
+    }
+    else
+    {
+        //  Remove sprites and done
+        Free(sSwitchData);
+        sSwitchData = NULL;
+        PlayerBufferExecCompleted(battler);
+        return;
+    }
+    sSwitchData->state++;
+}
+
+static void NewPlayerHandleChoosePokemonInput(u32 battler)
+{
+    if (JOY_NEW(L_BUTTON))
+    {
+        SwitchActiveMonLeft();
+        BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
+    }
+    else if (JOY_NEW(R_BUTTON))
+    {
+        SwitchActiveMonRight();
+        BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
+    }
 }
 
 static void PlayerHandleChoosePokemon(u32 battler)
 {
-    gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemon;
+    gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonDisplay;
+    sSwitchData = AllocZeroed(sizeof(struct NewSwitchData));
     return;
     s32 i;
 

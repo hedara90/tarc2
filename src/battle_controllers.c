@@ -2245,6 +2245,9 @@ static void Controller_FaintPlayerMon(u32 battler)
         BattleGfxSfxDummy2(GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES));
         FreeOamMatrix(gSprites[spriteId].oam.matrixNum);
         DestroySprite(&gSprites[spriteId]);
+        //gSprites[spriteId].callback = SpriteCallbackDummy;
+        //gSprites[spriteId].x -= 80;
+        //gSprites[spriteId].y2 = 0;
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[battler]);
         BattleControllerComplete(battler);
     }
