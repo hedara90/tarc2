@@ -2389,7 +2389,7 @@ struct NewSwitchData
 {
     u32 state;
     u8 spriteIdLeft;
-    u8 spriteidRight;
+    u8 spriteIdRight;
 };
 
 EWRAM_DATA struct NewSwitchData *sSwitchData;
@@ -2398,15 +2398,63 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
 {
     if (sSwitchData->state == 0)
     {
+        sSwitchData->spriteIdLeft = 255;
+        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) == 0)
+        {
+            sSwitchData->state++;
+            return;
+        }
         //  Load left Sprite
+        u32 species = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+        struct Even_CreateSpriteStruct createStruct = {0};
+        createStruct.sprite = gSpeciesInfo[species].frontPic;
+        createStruct.spriteCompressed = TRUE;
+        createStruct.tileTag = 0xCEC1;
+        if (GetMonData(&gPlayerParty[1], MON_DATA_IS_SHINY))
+            createStruct.palette = gSpeciesInfo[species].shinyPalette;
+        else
+            createStruct.palette = gSpeciesInfo[species].palette;
+        createStruct.palTag = 0xCEC1;
+        createStruct.spriteSize = SPRITE_SIZE(64x64);
+        createStruct.spriteShape = SPRITE_SHAPE(64x64);
+        createStruct.posX = -32;
+        createStruct.posY = 80;
+        createStruct.subpriority = 0;
+        sSwitchData->spriteIdLeft = Even_CreateSprite(&createStruct);
     }
     else if (sSwitchData->state == 1)
     {
+        sSwitchData->spriteIdRight = 255;
+        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) == 0)
+        {
+            sSwitchData->state++;
+            return;
+        }
         //  Load right Sprite
+        u32 species = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+        struct Even_CreateSpriteStruct createStruct = {0};
+        createStruct.sprite = gSpeciesInfo[species].frontPic;
+        createStruct.spriteCompressed = TRUE;
+        createStruct.tileTag = 0xCEC2;
+        if (GetMonData(&gPlayerParty[2], MON_DATA_IS_SHINY))
+            createStruct.palette = gSpeciesInfo[species].shinyPalette;
+        else
+            createStruct.palette = gSpeciesInfo[species].palette;
+        createStruct.palTag = 0xCEC2;
+        createStruct.spriteSize = SPRITE_SIZE(64x64);
+        createStruct.spriteShape = SPRITE_SHAPE(64x64);
+        createStruct.posX = 272;
+        createStruct.posY = 80;
+        createStruct.subpriority = 0;
+        sSwitchData->spriteIdRight = Even_CreateSprite(&createStruct);
     }
-    else if (sSwitchData->state < 34)
+    else if (sSwitchData->state < 18)
     {
         //  Move sprites in
+        if (sSwitchData->spriteIdLeft != 255)
+            gSprites[sSwitchData->spriteIdLeft].x += 4;
+        if (sSwitchData->spriteIdRight != 255)
+            gSprites[sSwitchData->spriteIdRight].x -= 4;
     }
     else
     {
@@ -2420,13 +2468,17 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
 
 static void NewPlayerHandleChoosePokemonHide(u32 battler)
 {
-    if (sSwitchData->state < 32)
+    if (sSwitchData->state < 16)
     {
         //  Move sprites out
+        if (sSwitchData->spriteIdLeft != 255)
+            gSprites[sSwitchData->spriteIdLeft].x -= 4;
+        if (sSwitchData->spriteIdRight != 255)
+            gSprites[sSwitchData->spriteIdRight].x += 4;
     }
     else
     {
-        //  Remove sprites and done
+        //  Remove sprites and data
         Free(sSwitchData);
         sSwitchData = NULL;
         PlayerBufferExecCompleted(battler);
@@ -2439,13 +2491,19 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
 {
     if (JOY_NEW(L_BUTTON))
     {
+        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) == 0)
+            return;
         SwitchActiveMonLeft();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
+        gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;
     }
     else if (JOY_NEW(R_BUTTON))
     {
+        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) == 0)
+            return;
         SwitchActiveMonRight();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
+        gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;
     }
 }
 
