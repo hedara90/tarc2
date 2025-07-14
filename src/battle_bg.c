@@ -184,16 +184,16 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     },
     [B_WIN_MOVE_NAME_1] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 5,
         .tilemapTop = 55,
-        .width = 16,    //for z move names
+        .width = 8,    //for z move names
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0300,
     },
     [B_WIN_MOVE_NAME_2] = {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 15,
         .tilemapTop = 55,
         .width = 8,
         .height = 2,
@@ -202,16 +202,16 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     },
     [B_WIN_MOVE_NAME_3] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 5,
         .tilemapTop = 57,
-        .width = 16,    //for z effect descriptions
+        .width = 8,    //for z effect descriptions
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0328,
     },
     [B_WIN_MOVE_NAME_4] = {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 15,
         .tilemapTop = 57,
         .width = 8,
         .height = 2,
