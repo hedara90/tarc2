@@ -10050,3 +10050,19 @@ BattleScript_ForfeitBattleGaveMoney::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
+BattleScript_BossRestore::
+	playfaintcry BS_OPPONENT1
+	printstring STRINGID_BOSSRESTORED
+	updatefgbar
+	healbossfull
+	cureboss
+	attackanimation
+	waitanimation
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	printstring STRINGID_BOSSRESTORED
+	waitmessage B_WAIT_TIME_LONG
+	updatestatusicon BS_ATTACKER
+	updatebgbar
+	goto BattleScript_MoveEnd

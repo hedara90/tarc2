@@ -901,6 +901,8 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_FORFEITBATTLEGAVEMONEY]               = COMPOUND_STRING("You gave ¥{B_BUFF1} to the winner…{PAUSE_UNTIL_PRESS}"),
     [STRINGID_POWERCONSTRUCTPRESENCEOFMANY]         = COMPOUND_STRING("You sense the presence of many!"),
     [STRINGID_POWERCONSTRUCTTRANSFORM]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} transformed into its Complete Forme!"),
+    [STRINGID_BOSSWILLRESTORE]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} endured!"),
+    [STRINGID_BOSSRESTORED]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} recovered!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =
