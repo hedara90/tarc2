@@ -2652,6 +2652,7 @@ static void Cmd_datahpupdate(void)
         return;
 
     u32 battler = GetBattlerForBattleScript(cmd->battler);
+    //  TARC insert boss multi HP bars here
 
     if (!(gBattleStruct->moveResultFlags[battler] & MOVE_RESULT_NO_EFFECT) || (gHitMarker & HITMARKER_PASSIVE_DAMAGE))
     {

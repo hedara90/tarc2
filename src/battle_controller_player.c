@@ -710,6 +710,12 @@ static void TestThing(u32 battler)
         u32 *spriteTiles = (u32 *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[0]].oam.tileNum * TILE_SIZE_4BPP);
         LZDecompressVram(gSpeciesInfo[gBattleMons[0].species].backPic, spriteTiles);
 
+        u32 *ptrTiles = (u32 *)gMonSpritesGfxPtr->spritesGfx[0];
+        for (u32 i = 0; i < 64 * 8; i++)
+        {
+            ptrTiles[i] = spriteTiles[i];
+        }
+
         for (u32 i = 0; i < 16; i++)
         {
             palette[i] = targetPalette[i];
