@@ -674,7 +674,11 @@ u8 CreateBattlerHealthboxSprites(u8 battler)
             healthboxLeftSpriteId = CreateSprite(&sHealthboxOpponentSpriteTemplates[0], DISPLAY_WIDTH, DISPLAY_HEIGHT, 1);
             healthboxRightSpriteId = CreateSpriteAtEnd(&sHealthboxOpponentSpriteTemplates[0], DISPLAY_WIDTH, DISPLAY_HEIGHT, 1);
 
-            gSprites[healthboxRightSpriteId].oam.tileNum += 32;
+            //gSprites[healthboxRightSpriteId].oam.tileNum += 32;
+            gSprites[healthboxLeftSpriteId].oam.shape = ST_OAM_SQUARE;
+
+            gSprites[healthboxRightSpriteId].oam.shape = ST_OAM_SQUARE;
+            gSprites[healthboxRightSpriteId].oam.tileNum += 64;
 
             data6 = 2;
         }
@@ -777,7 +781,7 @@ static void SpriteCB_HealthBar(struct Sprite *sprite)
     case 2:
     default:
         sprite->x = gSprites[healthboxSpriteId].x + 8;
-        sprite->y = gSprites[healthboxSpriteId].y;
+        sprite->y = gSprites[healthboxSpriteId].y + 8;
         break;
     }
 
@@ -1057,6 +1061,7 @@ static void UpdateOpponentHpTextSingles(u32 healthboxSpriteId, s16 value, u32 ma
 
 void UpdateHpTextInHealthbox(u32 healthboxSpriteId, u32 maxOrCurrent, s16 currHp, s16 maxHp)
 {
+    /*
     u32 battler = gSprites[healthboxSpriteId].hMain_Battler;
     switch (GetBattlerCoordsIndex(battler))
     {
@@ -1079,6 +1084,7 @@ void UpdateHpTextInHealthbox(u32 healthboxSpriteId, u32 maxOrCurrent, s16 currHp
         break;
     }
     }
+    */
 }
 
 static void UpdateHpTextInHealthboxInDoubles(u32 healthboxSpriteId, u32 maxOrCurrent, s16 currHp, s16 maxHp)
@@ -1768,7 +1774,19 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
     }
     else
     {
-        TextIntoHealthboxObject((void *)(OBJ_VRAM0 + 0x20 + spriteTileNum), windowTileData, 6);
+        //TextIntoHealthboxObject((void *)(OBJ_VRAM0 + 0x20 + spriteTileNum), windowTileData, 6);
+        TextIntoHealthboxObject((void *)(OBJ_VRAM0 + 0x1A0 + spriteTileNum), windowTileData, 3);
+        ptr = (void *)(OBJ_VRAM0);
+        switch (GetBattlerCoordsIndex(gSprites[healthboxSpriteId].data[6]))
+        {
+        case BATTLE_COORDS_SINGLES:
+            ptr += spriteTileNum + 0x900;
+            break;
+        default:
+            ptr += spriteTileNum + 0x400;
+            break;
+        }
+        TextIntoHealthboxObject(ptr, windowTileData + 0x60, 4);
     }
 
     RemoveWindowOnHealthbox(windowId);
@@ -1824,7 +1842,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
     else
     {
         status = GetMonData(GetBattlerMon(battler), MON_DATA_STATUS);
-        tileNumAdder = 0x11;
+        tileNumAdder = 0x5C;
     }
 
     if (status & STATUS1_SLEEP)
@@ -1863,7 +1881,14 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
         statusGfxPtr = GetHealthboxElementGfxPtr(GetStatusIconForBattlerId(HEALTHBOX_GFX_STATUS_PSN_BATTLER0, battler)) + 32;
 
         //for (i = 0; i < 3; i++)
-        CpuCopy32(statusGfxPtr, (void *)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder + 0) * TILE_SIZE_4BPP), 32);
+        if (IsOnPlayerSide(battler))
+        {
+            CpuCopy32(statusGfxPtr, (void *)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder + 0) * TILE_SIZE_4BPP), 32);
+        }
+        else
+        {
+            CpuCopy32(statusGfxPtr, (void *)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder + 0) * TILE_SIZE_4BPP), 32);
+        }
 
         /*
         if (!gBattleSpritesDataPtr->battlerData[battler].hpNumbersNoBars)
