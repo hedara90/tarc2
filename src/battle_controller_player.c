@@ -2007,8 +2007,8 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 {
     u16 src[2];
-    src[0] = baseTileNum + 1;
-    src[1] = baseTileNum + 2;
+    src[0] = baseTileNum + 0x61;
+    src[1] = baseTileNum + 0x62;
 
     CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 6, 55 + (cursorPosition & 2), 1, 2, 0x11);
     CopyBgTilemapBufferToVram(0);
@@ -2017,10 +2017,10 @@ void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 void MoveSelectionDestroyCursorAt(u8 cursorPosition)
 {
     u16 src[2];
-    src[0] = 0x1000;
-    src[1] = 0x1000;
+    src[0] = 0x1034;
+    src[1] = 0x1034;
 
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 6, 55 + (cursorPosition & 2), 1, 2, 0x11);
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 6, 55 + (cursorPosition & 2), 1, 2, 0x0);
     CopyBgTilemapBufferToVram(0);
 }
 
