@@ -3758,6 +3758,8 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
+        // Set max phases for the battle
+        gBattleStruct->maxPhases = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].maxPhases;
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {

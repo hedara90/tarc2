@@ -1555,14 +1555,14 @@ static const u8 sText_EmptyStatus[] = _("$$$$$$$");
 static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
 {
     [B_WIN_MSG] = {
-        .fillValue = PIXEL_FILL(0xF),
+        .fillValue = PIXEL_FILL(0x2),
         .fontId = FONT_NORMAL,
         .x = 0,
         .y = 1,
         .speed = 1,
-        .fgColor = 1,
-        .bgColor = 15,
-        .shadowColor = 6,
+        .fgColor = 13,
+        .bgColor = 2,
+        .shadowColor = 15,
     },
     [B_WIN_ACTION_PROMPT] = {
         .fillValue = PIXEL_FILL(0xF),

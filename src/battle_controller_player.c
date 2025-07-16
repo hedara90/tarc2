@@ -2335,6 +2335,7 @@ static void PlayerChooseMoveInBattlePalace(u32 battler)
 
 void PlayerHandleChooseMove(u32 battler)
 {
+    DoBounceEffect(battler, BOUNCE_MON, 7, 1);
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
     {
         gBattleStruct->arenaMindPoints[battler] = 8;
