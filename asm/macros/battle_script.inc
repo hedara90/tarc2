@@ -2579,3 +2579,19 @@
 	.macro debugprint
 	callnative BS_DebugPrint
 	.endm
+
+	.macro healbossfull
+	callnative BS_HealBossFull
+	.endm
+
+	.macro cureboss
+	callnative BS_CureBoss
+	.endm
+
+	.macro updatefgbar
+	callnative BS_UpdateFgBar
+	.endm
+
+	.macro updatebgbar
+	callnative BS_UpdateBgBar
+	.endm

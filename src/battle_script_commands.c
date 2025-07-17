@@ -2652,6 +2652,7 @@ static void Cmd_datahpupdate(void)
         return;
 
     u32 battler = GetBattlerForBattleScript(cmd->battler);
+    bool32 isBossRestore = FALSE;
 
     if (!(gBattleStruct->moveResultFlags[battler] & MOVE_RESULT_NO_EFFECT) || (gHitMarker & HITMARKER_PASSIVE_DAMAGE))
     {
@@ -2726,6 +2727,19 @@ static void Cmd_datahpupdate(void)
                 {
                     gBattleStruct->moveDamage[battler] = gBattleMons[battler].hp;
                     gBattleMons[battler].hp = 0;
+                    if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases - 1)
+                    {
+                        isBossRestore = TRUE;
+                        gBattleMons[battler].hp = 1;
+                        gBattlerAttacker = 1;
+                        gBattlerTarget = 1;
+                        gMultiHitCounter = 0;
+                        gCurrentMove = MOVE_RECOVER;
+                        BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gBattlerAttacker].status1), &gBattleMons[gBattlerAttacker].status1);
+                        MarkBattlerForControllerExec(gBattlerAttacker);
+                        gBattlescriptCurrInstr = BattleScript_BossRestore;
+                        gBattleStruct->currentPhase++;
+                    }
                 }
 
                 enum BattleMoveEffects effect = GetMoveEffect(gCurrentMove);
@@ -2766,7 +2780,8 @@ static void Cmd_datahpupdate(void)
     }
 
     TryRestoreDamageAfterCheekPouch(battler);
-    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (!isBossRestore)
+        gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 static void Cmd_critmessage(void)
@@ -18990,6 +19005,55 @@ void BS_DebugPrint(void)
     NATIVE_ARGS();
 
     DebugPrintf("ScriptingBatter = %d", gBattleScripting.battler);
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_HealBossFull(void)
+{
+    NATIVE_ARGS();
+
+    gBattleStruct->moveDamage[gBattlerTarget] = GetNonDynamaxMaxHP(gBattlerTarget) - 1;
+    if (gBattleStruct->moveDamage[gBattlerTarget] == 0)
+        gBattleStruct->moveDamage[gBattlerTarget] = 1;
+    gBattleStruct->moveDamage[gBattlerTarget] *= -1;
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_CureBoss(void)
+{
+    NATIVE_ARGS();
+
+    gCurrentMove = MOVE_REFRESH;
+
+    for (u32 j = 0; j < NUM_BATTLE_STATS; j++)
+    {
+        if (gBattleMons[1].statStages[j] < DEFAULT_STAT_STAGE)
+            gBattleMons[1].statStages[j] = DEFAULT_STAT_STAGE;
+    }
+
+    gBattleMons[gBattlerAttacker].status1 = 0;
+    //  Also reset most other stats
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gBattlerAttacker].status1), &gBattleMons[gBattlerAttacker].status1);
+    MarkBattlerForControllerExec(gBattlerAttacker);
+}
+
+
+void BS_UpdateFgBar(void)
+{
+    NATIVE_ARGS();
+    //  Change the colour in the palette for the boss HP bar to the next phase colour
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_UpdateBgBar(void)
+{
+    NATIVE_ARGS();
+    //  Change the colour in the palette for the boss HP bar background to the next phase colour
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

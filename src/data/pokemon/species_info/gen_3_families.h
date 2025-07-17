@@ -1078,6 +1078,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
 
     [SPECIES_ZIGZAGOON] =
     {
+        .maxPhases = 2,
         .baseHP        = 38,
         .baseAttack    = 30,
         .baseDefense   = 41,

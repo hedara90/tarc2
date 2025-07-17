@@ -250,6 +250,9 @@ EWRAM_DATA u8 gPartyCriticalHits[PARTY_SIZE] = {0};
 EWRAM_DATA static u8 sTriedEvolving = 0;
 EWRAM_DATA u8 gCategoryIconSpriteId = 0;
 
+EWRAM_DATA struct BattlePokemon gLeftMon;
+EWRAM_DATA struct BattlePokemon gRightMon;
+
 COMMON_DATA void (*gPreBattleCallback1)(void) = NULL;
 COMMON_DATA void (*gBattleMainFunc)(void) = NULL;
 COMMON_DATA struct BattleResults gBattleResults = {0};
@@ -257,6 +260,8 @@ COMMON_DATA u8 gLeveledUpInBattle = 0;
 COMMON_DATA u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT] = {0};
 COMMON_DATA u8 gMultiUsePlayerCursor = 0;
 COMMON_DATA u8 gNumberOfMovesToChoose = 0;
+
+EWRAM_DATA struct SideMons gSideMons;
 
 static const struct ScanlineEffectParams sIntroScanlineParams16Bit =
 {
@@ -465,6 +470,50 @@ void CB2_InitBattle(void)
     }
 }
 
+void InitializeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        gSideMons.sideSprites[i].species = species;
+        gSideMons.sideSprites[i].sprite = Alloc(32 * 16);
+        gSideMons.sideSprites[i].palette = Alloc(32);
+
+        u32 *iconPtr;
+        if (gSpeciesInfo[species].iconSpriteFemale != NULL && IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY)))
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSpriteFemale;
+        }
+        else
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSprite;
+        }
+
+        //  Copy Sprite to buffer
+        for (u32 j = 0; j < 128; j++)
+        {
+            gSideMons.sideSprites[i].sprite[j] = iconPtr[j];
+        }
+
+        //  Copy palette to buffer
+        for (u32 j = 0; j < 16; j++)
+        {
+            gSideMons.sideSprites[i].palette[j] = gMonIconPalettes[gSpeciesInfo[species].iconPalIndex][j];
+        }
+    }
+}
+
+void FreeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        Free(gSideMons.sideSprites[i].sprite);
+        Free(gSideMons.sideSprites[i].palette);
+        gSideMons.sideSprites[i].sprite = NULL;
+        gSideMons.sideSprites[i].palette = NULL;
+    }
+}
+
 static void CB2_InitBattleInternal(void)
 {
     s32 i;
@@ -592,6 +641,8 @@ static void CB2_InitBattleInternal(void)
         gPlayerPartyCount = CalculatePartyCount(gPlayerParty);
         gEnemyPartyCount = CalculatePartyCount(gEnemyParty);
     }
+
+    InitializeSideSprites();
 
     gBattleCommunication[MULTIUSE_STATE] = 0;
 }
@@ -3738,6 +3789,8 @@ static void DoBattleIntro(void)
                 gBattleStruct->startingStatusTimer = VarGet(B_VAR_STARTING_STATUS_TIMER);
             }
             gBattleMainFunc = TryDoEventsBeforeFirstTurn;
+            PokemonToBattleMon(&gPlayerParty[1], &gLeftMon);
+            PokemonToBattleMon(&gPlayerParty[2], &gRightMon);
         }
         break;
     }
@@ -3753,6 +3806,8 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
+        // Set max phases for the battle
+        gBattleStruct->maxPhases = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].maxPhases;
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
@@ -5721,6 +5776,7 @@ static void WaitForEvoSceneToFinish(void)
 
 static void ReturnFromBattleToOverworld(void)
 {
+    FreeSideSprites();
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
         RandomlyGivePartyPokerus(gPlayerParty);
