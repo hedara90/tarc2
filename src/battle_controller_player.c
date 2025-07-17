@@ -111,6 +111,7 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, u32 batt
 
 static void HideSideMons(void);
 static void Task_SlideOutSideSprites(u8 taskId);
+static const u32 *GetMiniHPBar(u32 currHP, u32 maxHP);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
@@ -697,7 +698,6 @@ static void UpdateSideSprite(void)
     //  This is a fucking mess
     u32 spriteId;
     u32 barId;
-    u32 hpFrac;
     u32 sideSpecies;
     u32 *dest;
     const u32 *src;
@@ -705,7 +705,6 @@ static void UpdateSideSprite(void)
     {
         spriteId = gSideMons.spriteIdLeft;
         barId = gSideMons.hpBarIdLeft;
-        hpFrac = gLeftMon.hp * 24 / gLeftMon.maxHP;
         sideSpecies = gLeftMon.species;
         dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC3) * TILE_SIZE_4BPP);
         for (u32 i = 0; i < 3; i++)
@@ -727,7 +726,7 @@ static void UpdateSideSprite(void)
                 }
             }
         }
-        src = &gSideHPBars[(24 - hpFrac) * 64];
+        src = GetMiniHPBar(gLeftMon.hp, gLeftMon.maxHP);
         dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC5) * TILE_SIZE_4BPP);
         for (u32 i = 0; i < 64; i++)
             dest[i] = src[i];
@@ -736,7 +735,6 @@ static void UpdateSideSprite(void)
     {
         spriteId = gSideMons.spriteIdRight;
         barId = gSideMons.hpBarIdRight;
-        hpFrac = gRightMon.hp * 24 / gRightMon.maxHP;
         sideSpecies = gRightMon.species;
         dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC4) * TILE_SIZE_4BPP);
         for (u32 i = 0; i < 3; i++)
@@ -758,7 +756,7 @@ static void UpdateSideSprite(void)
                 }
             }
         }
-        src = &gSideHPBars[(24 - hpFrac) * 64];
+        src = GetMiniHPBar(gRightMon.hp, gRightMon.maxHP);
         dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC6) * TILE_SIZE_4BPP);
         for (u32 i = 0; i < 64; i++)
             dest[i] = src[i];
@@ -2472,6 +2470,17 @@ static void Task_SlideOutSideSprites(u8 taskId)
     gTasks[taskId].data[0]++;
 }
 
+static const u32 *GetMiniHPBar(u32 currHP, u32 maxHP)
+{
+    if (currHP == 0)
+        return &gSideHPBars[24 * 64];
+
+    if (currHP == maxHP)
+        return &gSideHPBars[0];
+    u32 hpFrac = 23 * currHP / maxHP;
+    return &gSideHPBars[(24 - hpFrac) * 64];
+}
+
 static void ShowSideMons(void)
 {
     if (gSideMons.isShown)
@@ -2515,8 +2524,7 @@ static void ShowSideMons(void)
     gSideMons.spriteIdRight = Even_CreateSprite(&createStruct);
     gSprites[gSideMons.spriteIdRight].oam.priority = 0;
     //  Create left hp bar
-    u32 hpFrac = gLeftMon.hp * 24 / gLeftMon.maxHP;
-    createStruct.sprite = &gSideHPBars[(24 - hpFrac) * 64];
+    createStruct.sprite = GetMiniHPBar(gLeftMon.hp, gLeftMon.maxHP);
     createStruct.tileTag = 0xCEC5;
     createStruct.palTag = TAG_HEALTHBOX_PAL;
     createStruct.spriteSize = SPRITE_SIZE(32x16);
@@ -2527,8 +2535,7 @@ static void ShowSideMons(void)
     gSideMons.hpBarIdLeft = Even_CreateSprite(&createStruct);
     gSprites[gSideMons.hpBarIdLeft].oam.priority = 0;
     //  Create right hp bar
-    hpFrac = gRightMon.hp * 24 / gRightMon.maxHP;
-    createStruct.sprite = &gSideHPBars[(24 - hpFrac) * 64];
+    createStruct.sprite = GetMiniHPBar(gRightMon.hp, gRightMon.maxHP);
     createStruct.tileTag = 0xCEC6;
     createStruct.posX = 256;
     gSideMons.hpBarIdRight = Even_CreateSprite(&createStruct);
@@ -2547,11 +2554,15 @@ static void HideSideMons(void)
     FreeSpriteTilesByTag(0xCEC3);
     FreeSpritePaletteByTag(0xCEC3);
     //  Destroy left hp bar
+    DestroySprite(&gSprites[gSideMons.hpBarIdLeft]);
+    FreeSpriteTilesByTag(0xCEC5);
     //  Destroy right sprite
     DestroySprite(&gSprites[gSideMons.spriteIdRight]);
     FreeSpriteTilesByTag(0xCEC4);
     FreeSpritePaletteByTag(0xCEC4);
     //  Destroy right hp bar
+    DestroySprite(&gSprites[gSideMons.hpBarIdRight]);
+    FreeSpriteTilesByTag(0xCEC6);
 }
 
 void PlayerHandleChooseMove(u32 battler)
