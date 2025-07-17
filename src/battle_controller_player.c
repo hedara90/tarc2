@@ -51,6 +51,7 @@
 #include "decompress.h"
 #include "even_sprite.h"
 #include "malloc.h"
+#include "graphics.h"
 
 static void PlayerBufferExecCompleted(u32 battler);
 static void PlayerHandleLoadMonSprite(u32 battler);
@@ -107,6 +108,9 @@ static void ReloadMoveNames(u32 battler);
 static u32 CheckTypeEffectiveness(u32 targetId, u32 battler);
 static u32 CheckTargetTypeEffectiveness(u32 battler);
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, u32 battler);
+
+static void HideSideMons(void);
+static void Task_SlideOutSideSprites(u8 taskId);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
@@ -688,13 +692,104 @@ static void PacifyShinyHunters(u8 taskId)
 
 EWRAM_DATA static u32 sMonSwitchState;
 
+static void UpdateSideSprite(void)
+{
+    //  This is a fucking mess
+    u32 spriteId;
+    u32 barId;
+    u32 hpFrac;
+    u32 sideSpecies;
+    u32 *dest;
+    const u32 *src;
+    if (gSideMons.leftSwitch)
+    {
+        spriteId = gSideMons.spriteIdLeft;
+        barId = gSideMons.hpBarIdLeft;
+        hpFrac = gLeftMon.hp * 24 / gLeftMon.maxHP;
+        sideSpecies = gLeftMon.species;
+        dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC3) * TILE_SIZE_4BPP);
+        for (u32 i = 0; i < 3; i++)
+        {
+            if (gSideMons.sideSprites[i].species == sideSpecies)
+            {
+                src = gSideMons.sideSprites[i].sprite;
+                u32 palId = gSprites[gSideMons.spriteIdLeft].oam.paletteNum;
+                u16 *palDst = (u16 *)(OBJ_PLTT + 32 * palId);
+                for (u32 j = 0; j < 128; j++)
+                {
+                    dest[j] = src[j];
+                }
+                for (u32 j = 0; j < 16; j++)
+                {
+                    palDst[j] = gSideMons.sideSprites[i].palette[j];
+                    gPlttBufferUnfaded[OBJ_PLTT_ID(palId) + j] = gSideMons.sideSprites[i].palette[j];
+                    gPlttBufferFaded[OBJ_PLTT_ID(palId) + j] = gSideMons.sideSprites[i].palette[j];
+                }
+            }
+        }
+        src = &gSideHPBars[(24 - hpFrac) * 64];
+        dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC5) * TILE_SIZE_4BPP);
+        for (u32 i = 0; i < 64; i++)
+            dest[i] = src[i];
+    }
+    else
+    {
+        spriteId = gSideMons.spriteIdRight;
+        barId = gSideMons.hpBarIdRight;
+        hpFrac = gRightMon.hp * 24 / gRightMon.maxHP;
+        sideSpecies = gRightMon.species;
+        dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC4) * TILE_SIZE_4BPP);
+        for (u32 i = 0; i < 3; i++)
+        {
+            if (gSideMons.sideSprites[i].species == sideSpecies)
+            {
+                src = gSideMons.sideSprites[i].sprite;
+                u32 palId = gSprites[gSideMons.spriteIdRight].oam.paletteNum;
+                u16 *palDst = (u16 *)(OBJ_PLTT + 32 * palId);
+                for (u32 j = 0; j < 128; j++)
+                {
+                    dest[j] = src[j];
+                }
+                for (u32 j = 0; j < 16; j++)
+                {
+                    palDst[j] = gSideMons.sideSprites[i].palette[j];
+                    gPlttBufferUnfaded[OBJ_PLTT_ID(palId) + j] = gSideMons.sideSprites[i].palette[j];
+                    gPlttBufferFaded[OBJ_PLTT_ID(palId) + j] = gSideMons.sideSprites[i].palette[j];
+                }
+            }
+        }
+        src = &gSideHPBars[(24 - hpFrac) * 64];
+        dest = (u32 *)(OBJ_VRAM0 + GetSpriteTileStartByTag(0xCEC6) * TILE_SIZE_4BPP);
+        for (u32 i = 0; i < 64; i++)
+            dest[i] = src[i];
+    }
+
+
+}
+
 static void TestThing(u32 battler)
 {
+    u32 sideId = 255;
+    u32 sideBarId = 255;
+    s32 direction = 1;
+    if (gSideMons.leftSwitch)
+    {
+        sideId = gSideMons.spriteIdLeft;
+        sideBarId = gSideMons.hpBarIdLeft;
+    }
+    else if (gSideMons.rightSwitch)
+    {
+        sideId = gSideMons.spriteIdRight;
+        sideBarId = gSideMons.hpBarIdRight;
+        direction = -1;
+    }
     if (sMonSwitchState < 20)
     {
         //  Slide out mon
         gSprites[gBattlerSpriteIds[0]].x2 -= 5;
         gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 += 6;
+        gSprites[sideId].x -= 2*direction;
+        gSprites[sideBarId].x -= 2*direction;
     }
     else if (sMonSwitchState < 21)
     {
@@ -730,6 +825,8 @@ static void TestThing(u32 battler)
     {
         //  Update healthbox
         UpdateHealthboxAttribute(gHealthboxSpriteIds[battler], GetBattlerMon(battler), HEALTHBOX_ALL);
+        //  Switch side sprite
+        UpdateSideSprite();
     }
     else if (sMonSwitchState < 23)
     {
@@ -755,6 +852,8 @@ static void TestThing(u32 battler)
         //  Slide out mon
         gSprites[gBattlerSpriteIds[0]].x2 += 5;
         gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 -= 6;
+        gSprites[sideId].x += 2*direction;
+        gSprites[sideBarId].x += 2*direction;
     }
     else
     {
@@ -825,6 +924,9 @@ void HandleInputChooseMove(u32 battler)
     {
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
+
+        u32 taskId = CreateTask(Task_SlideOutSideSprites, 0);
+        gTasks[taskId].data[0] = 0;
 
         moveTarget = GetBattlerMoveTargetType(battler, moveInfo->moves[gMoveSelectionCursor[battler]]);
 
@@ -1030,6 +1132,8 @@ void HandleInputChooseMove(u32 battler)
         if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
         {
             SwitchActiveMonLeft();
+            gSideMons.leftSwitch = TRUE;
+            gSideMons.rightSwitch = FALSE;
             sMonSwitchState = 0;
             gBattlerControllerFuncs[0] = TestThing;
         }
@@ -1044,6 +1148,8 @@ void HandleInputChooseMove(u32 battler)
         if (GetMonData(&gPlayerParty[2], MON_DATA_HP) > 0)
         {
             SwitchActiveMonRight();
+            gSideMons.rightSwitch = TRUE;
+            gSideMons.leftSwitch = FALSE;
             sMonSwitchState = 0;
             gBattlerControllerFuncs[0] = TestThing;
         }
@@ -2333,9 +2439,127 @@ static void PlayerChooseMoveInBattlePalace(u32 battler)
     }
 }
 
+static void Task_SlideInSideSprites(u8 taskId)
+{
+    if (gTasks[taskId].data[0] < 16)
+    {
+        gSprites[gSideMons.spriteIdLeft].x += 2;
+        gSprites[gSideMons.spriteIdRight].x -= 2;
+        gSprites[gSideMons.hpBarIdLeft].x += 2;
+        gSprites[gSideMons.hpBarIdRight].x -= 2;
+    }
+    else
+    {
+        DestroyTask(taskId);
+    }
+    gTasks[taskId].data[0]++;
+}
+
+static void Task_SlideOutSideSprites(u8 taskId)
+{
+    if (gTasks[taskId].data[0] < 16)
+    {
+        gSprites[gSideMons.spriteIdLeft].x -= 2;
+        gSprites[gSideMons.spriteIdRight].x += 2;
+        gSprites[gSideMons.hpBarIdLeft].x -= 2;
+        gSprites[gSideMons.hpBarIdRight].x += 2;
+    }
+    else
+    {
+        HideSideMons();
+        DestroyTask(taskId);
+    }
+    gTasks[taskId].data[0]++;
+}
+
+static void ShowSideMons(void)
+{
+    if (gSideMons.isShown)
+        return;
+    gSideMons.isShown = TRUE;
+    //  Create left sprite
+    struct Even_CreateSpriteStruct createStruct = {0};
+    u32 leftSpecies = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+    for (u32 i = 0; i < 3; i++)
+    {
+        if (gSideMons.sideSprites[i].species == leftSpecies)
+        {
+            createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            createStruct.palette = gSideMons.sideSprites[i].palette;
+            break;
+        }
+    }
+    createStruct.tileTag = 0xCEC3;
+    createStruct.palTag = 0xCEC3;
+    createStruct.spriteSize = SPRITE_SIZE(32x32);
+    createStruct.spriteShape = SPRITE_SHAPE(32x32);
+    createStruct.posX = -16;
+    createStruct.posY = 128;
+    createStruct.subpriority = 0;
+    gSideMons.spriteIdLeft = Even_CreateSprite(&createStruct);
+    gSprites[gSideMons.spriteIdLeft].oam.priority = 0;
+    //  Create right sprite
+    u32 rightSpecies = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+    for (u32 i = 0; i < 3; i++)
+    {
+        if (gSideMons.sideSprites[i].species == rightSpecies)
+        {
+            createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            createStruct.palette = gSideMons.sideSprites[i].palette;
+            break;
+        }
+    }
+    createStruct.tileTag = 0xCEC4;
+    createStruct.palTag = 0xCEC4;
+    createStruct.posX = 256;
+    gSideMons.spriteIdRight = Even_CreateSprite(&createStruct);
+    gSprites[gSideMons.spriteIdRight].oam.priority = 0;
+    //  Create left hp bar
+    u32 hpFrac = gLeftMon.hp * 24 / gLeftMon.maxHP;
+    createStruct.sprite = &gSideHPBars[(24 - hpFrac) * 64];
+    createStruct.tileTag = 0xCEC5;
+    createStruct.palTag = TAG_HEALTHBOX_PAL;
+    createStruct.spriteSize = SPRITE_SIZE(32x16);
+    createStruct.spriteShape = SPRITE_SHAPE(32x16);
+    createStruct.posX = -16;
+    createStruct.posY = 148;
+    createStruct.subpriority = 0;
+    gSideMons.hpBarIdLeft = Even_CreateSprite(&createStruct);
+    gSprites[gSideMons.hpBarIdLeft].oam.priority = 0;
+    //  Create right hp bar
+    hpFrac = gRightMon.hp * 24 / gRightMon.maxHP;
+    createStruct.sprite = &gSideHPBars[(24 - hpFrac) * 64];
+    createStruct.tileTag = 0xCEC6;
+    createStruct.posX = 256;
+    gSideMons.hpBarIdRight = Even_CreateSprite(&createStruct);
+    gSprites[gSideMons.hpBarIdRight].oam.priority = 0;
+
+    //  Slide in the sprites
+    u32 taskId = CreateTask(Task_SlideInSideSprites, 0);
+    gTasks[taskId].data[0] = 0;
+}
+
+static void HideSideMons(void)
+{
+    gSideMons.isShown = FALSE;
+    //  Destroy left sprite
+    DestroySprite(&gSprites[gSideMons.spriteIdLeft]);
+    FreeSpriteTilesByTag(0xCEC3);
+    FreeSpritePaletteByTag(0xCEC3);
+    //  Destroy left hp bar
+    //  Destroy right sprite
+    DestroySprite(&gSprites[gSideMons.spriteIdRight]);
+    FreeSpriteTilesByTag(0xCEC4);
+    FreeSpritePaletteByTag(0xCEC4);
+    //  Destroy right hp bar
+}
+
 void PlayerHandleChooseMove(u32 battler)
 {
     DoBounceEffect(battler, BOUNCE_MON, 7, 1);
+    //  Handle side mon displays
+    ShowSideMons();
+
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
     {
         gBattleStruct->arenaMindPoints[battler] = 8;

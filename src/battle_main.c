@@ -261,6 +261,8 @@ COMMON_DATA u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT] = {0};
 COMMON_DATA u8 gMultiUsePlayerCursor = 0;
 COMMON_DATA u8 gNumberOfMovesToChoose = 0;
 
+EWRAM_DATA struct SideMons gSideMons;
+
 static const struct ScanlineEffectParams sIntroScanlineParams16Bit =
 {
     &REG_BG3HOFS, SCANLINE_EFFECT_DMACNT_16BIT, 1
@@ -468,6 +470,50 @@ void CB2_InitBattle(void)
     }
 }
 
+void InitializeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        gSideMons.sideSprites[i].species = species;
+        gSideMons.sideSprites[i].sprite = Alloc(32 * 16);
+        gSideMons.sideSprites[i].palette = Alloc(32);
+
+        u32 *iconPtr;
+        if (gSpeciesInfo[species].iconSpriteFemale != NULL && IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY)))
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSpriteFemale;
+        }
+        else
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSprite;
+        }
+
+        //  Copy Sprite to buffer
+        for (u32 j = 0; j < 128; j++)
+        {
+            gSideMons.sideSprites[i].sprite[j] = iconPtr[j];
+        }
+
+        //  Copy palette to buffer
+        for (u32 j = 0; j < 16; j++)
+        {
+            gSideMons.sideSprites[i].palette[j] = gMonIconPalettes[gSpeciesInfo[species].iconPalIndex][j];
+        }
+    }
+}
+
+void FreeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        Free(gSideMons.sideSprites[i].sprite);
+        Free(gSideMons.sideSprites[i].palette);
+        gSideMons.sideSprites[i].sprite = NULL;
+        gSideMons.sideSprites[i].palette = NULL;
+    }
+}
+
 static void CB2_InitBattleInternal(void)
 {
     s32 i;
@@ -595,6 +641,8 @@ static void CB2_InitBattleInternal(void)
         gPlayerPartyCount = CalculatePartyCount(gPlayerParty);
         gEnemyPartyCount = CalculatePartyCount(gEnemyParty);
     }
+
+    InitializeSideSprites();
 
     gBattleCommunication[MULTIUSE_STATE] = 0;
 }
@@ -5728,6 +5776,7 @@ static void WaitForEvoSceneToFinish(void)
 
 static void ReturnFromBattleToOverworld(void)
 {
+    FreeSideSprites();
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
         RandomlyGivePartyPokerus(gPlayerParty);

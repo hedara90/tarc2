@@ -771,7 +771,7 @@ static void SpriteCB_HealthBar(struct Sprite *sprite)
     switch (sprite->hBar_Data6)
     {
     case 0:
-        sprite->x = gSprites[healthboxSpriteId].x + 16;
+        sprite->x = gSprites[healthboxSpriteId].x + 9;
         sprite->y = gSprites[healthboxSpriteId].y + 8;
         break;
     case 1:
@@ -878,7 +878,7 @@ static const s16 sBattlerHealthboxCoords[BATTLE_COORDS_COUNT][MAX_BATTLERS_COUNT
     [BATTLE_COORDS_SINGLES] =
     {
         [B_POSITION_PLAYER_LEFT]   = { 140, 84 },
-        [B_POSITION_OPPONENT_LEFT] = { 44,  30 },
+        [B_POSITION_OPPONENT_LEFT] = { 20,  20 },
     },
     [BATTLE_COORDS_DOUBLES] =
     {

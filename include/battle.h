@@ -1257,4 +1257,26 @@ static inline bool32 IsBattlerInvalidForSpreadMove(u32 battlerAtk, u32 battlerDe
         || (battlerDef == BATTLE_PARTNER(battlerAtk) && (moveTarget == MOVE_TARGET_BOTH));
 }
 
+struct SideSprite
+{
+    u16 species;
+    u32 *sprite;
+    u16 *palette;
+};
+
+struct SideMons
+{
+    u8 spriteIdLeft;
+    u8 spriteIdRight;
+    u8 hpBarIdLeft;
+    u8 hpBarIdRight;
+    bool8 isShown;
+    bool8 leftSwitch;
+    bool8 rightSwitch;
+    u8 padding;
+    struct SideSprite sideSprites[3];
+};
+
+extern struct SideMons gSideMons;
+
 #endif // GUARD_BATTLE_H
