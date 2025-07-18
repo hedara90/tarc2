@@ -4420,6 +4420,16 @@
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/Tilemaptest/border.bin",
       "blockdata_filepath": "data/layouts/Tilemaptest/map.bin"
+    },
+    {
+      "id": "LAYOUT_MYTH_HUB",
+      "name": "MythHub_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/MythHub/border.bin",
+      "blockdata_filepath": "data/layouts/MythHub/map.bin"
     }
   ]
 }

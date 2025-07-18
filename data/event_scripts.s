@@ -1159,3 +1159,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/scripts/dexnav.inc"
 
 	.include "data/maps/Tilemaptest/scripts.inc"
+
+	.include "data/maps/MythHub/scripts.inc"

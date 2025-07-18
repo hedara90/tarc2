@@ -36,7 +36,9 @@
     "gMapGroup_IndoorRoute119",
     "gMapGroup_IndoorRoute124"
   ],
-  "gMapGroup_MythMaps": [],
+  "gMapGroup_MythMaps": [
+    "MythHub"
+  ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
     "SlateportCity",
