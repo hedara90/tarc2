@@ -1265,6 +1265,8 @@ struct SideSprite
     u16 *palette;
 };
 
+void FreeSideSprites(void);
+
 struct SideMons
 {
     u8 spriteIdLeft;

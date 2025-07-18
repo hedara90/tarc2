@@ -50,6 +50,7 @@ void AllocateBattleResources(void)
 
 void FreeBattleResources(void)
 {
+    FreeSideSprites();
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
         FreeTrainerHillBattleStruct();
 
