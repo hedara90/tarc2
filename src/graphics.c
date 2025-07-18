@@ -725,6 +725,7 @@ const u8 gHealthboxElementsGfxTable[][32] = INCBIN_U8("graphics/battle_interface
 const u8 gBossHealthBar[][32] = INCBIN_U8("graphics/battle_interface/hpbarBoss.4bpp");
 
 const u32 gSideHPBars[] = INCBIN_U32("graphics/battle_interface/hpbarMini.4bpp");
+const u16 gBossHPBarPalette[] = INCBIN_U16("graphics/battle_interface/boss_hp_bar_palette.gbapal");
 
 const u32 gBattleInterfaceGfx_UnusedWindow3[] = INCBIN_U32("graphics/battle_interface/unused_window3.4bpp.lz");
 const u32 gBattleInterfaceGfx_UnusedWindow4[] = INCBIN_U32("graphics/battle_interface/unused_window4.4bpp.lz");

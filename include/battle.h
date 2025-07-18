@@ -670,7 +670,8 @@ struct BattleStruct
     u8 anyMonHasTransformed:1; // Only used in battle_tv.c
     u8 multipleSwitchInState:2;
     u8 multipleSwitchInCursor:3;
-    u8 padding1:2;
+    u8 hasLoadedBoxPalette:1;
+    u8 padding1:1;
     u8 multipleSwitchInSortedBattlers[MAX_BATTLERS_COUNT];
     void (*savedCallback)(void);
     u16 usedHeldItems[PARTY_SIZE][NUM_BATTLE_SIDES]; // For each party member and side. For harvest, recycle
@@ -1278,5 +1279,9 @@ struct SideMons
 };
 
 extern struct SideMons gSideMons;
+
+void SetActiveBossBarColour(void);
+void SetInactiveBossBarColour(void);
+void SetBossBarOtherColour(void);
 
 #endif // GUARD_BATTLE_H

@@ -746,6 +746,13 @@ bool8 BattleLoadAllHealthBoxesGfx(u8 state)
             LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[1]);
             LoadIndicatorSpritesGfx();
             CategoryIcons_LoadSpritesGfx();
+            if (!gBattleStruct->hasLoadedBoxPalette)
+            {
+                //  Load correct healthbar colours for phase
+                SetActiveBossBarColour();
+                SetInactiveBossBarColour();
+                gBattleStruct->hasLoadedBoxPalette = TRUE;
+            }
         }
         else if (!IsDoubleBattle())
         {
