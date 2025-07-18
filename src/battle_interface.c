@@ -654,6 +654,7 @@ u8 CreateBattlerHealthboxSprites(u8 battler)
     u8 healthbarSpriteId;
     struct Sprite *healthBarSpritePtr;
 
+
     switch (GetBattlerCoordsIndex(battler))
     {
     default:
@@ -712,6 +713,13 @@ u8 CreateBattlerHealthboxSprites(u8 battler)
     }
 
     healthbarSpriteId = CreateSpriteAtEnd(&sHealthbarSpriteTemplates[gBattlerPositions[battler]], 140, 60, 0);
+    if (battler == 1)
+    {
+        gSprites[healthbarSpriteId].oam.paletteNum = 3;
+        SetActiveBossBarColour();
+        SetInactiveBossBarColour();
+        SetBossBarOtherColour();
+    }
     healthBarSpritePtr = &gSprites[healthbarSpriteId];
     SetSubspriteTables(healthBarSpritePtr, &sHealthBar_SubspriteTables[GetBattlerSide(battler)]);
     healthBarSpritePtr->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;

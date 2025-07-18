@@ -2727,7 +2727,7 @@ static void Cmd_datahpupdate(void)
                 {
                     gBattleStruct->moveDamage[battler] = gBattleMons[battler].hp;
                     gBattleMons[battler].hp = 0;
-                    if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases - 1)
+                    if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases)
                     {
                         isBossRestore = TRUE;
                         gBattleMons[battler].hp = 1;
@@ -19046,6 +19046,7 @@ void BS_UpdateFgBar(void)
 {
     NATIVE_ARGS();
     //  Change the colour in the palette for the boss HP bar to the next phase colour
+    SetActiveBossBarColour();
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
@@ -19054,6 +19055,7 @@ void BS_UpdateBgBar(void)
 {
     NATIVE_ARGS();
     //  Change the colour in the palette for the boss HP bar background to the next phase colour
+    SetInactiveBossBarColour();
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

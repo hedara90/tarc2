@@ -2483,6 +2483,7 @@ static const u32 *GetMiniHPBar(u32 currHP, u32 maxHP)
 
 static void ShowSideMons(void)
 {
+    SetActiveBossBarColour();
     if (gSideMons.isShown)
         return;
     gSideMons.isShown = TRUE;

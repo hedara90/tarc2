@@ -2073,6 +2073,8 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         }
     }
 
+    gBattleStruct->maxPhases = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].maxPhases;
+    gBattleStruct->currentPhase = 1;
     return trainer->partySize;
 }
 
@@ -3806,8 +3808,6 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
-        // Set max phases for the battle
-        gBattleStruct->maxPhases = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].maxPhases;
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
@@ -6195,4 +6195,30 @@ bool32 DidPlayerForfeitNormalTrainerBattle(void)
         return FALSE;
 
     return (gBattleOutcome == B_OUTCOME_FORFEITED);
+}
+
+void SetActiveBossBarColour(void)
+{
+    u32 palIndex = gBattleStruct->maxPhases - gBattleStruct->currentPhase + 1;
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[13] = gBossHPBarPalette[palIndex];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 13] = gBossHPBarPalette[palIndex];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 13] = gBossHPBarPalette[palIndex];
+}
+
+void SetInactiveBossBarColour(void)
+{
+    u32 palIndex = gBattleStruct->maxPhases - gBattleStruct->currentPhase;
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[14] = gBossHPBarPalette[palIndex];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 14] = gBossHPBarPalette[palIndex];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 14] = gBossHPBarPalette[palIndex];
+}
+
+void SetBossBarOtherColour(void)
+{
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[2] = gBattleInterface_BallStatusBarPal[2];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 2] = gBattleInterface_BallStatusBarPal[2];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 2] = gBattleInterface_BallStatusBarPal[2];
 }

@@ -2010,6 +2010,7 @@ extern const u8 gHealthboxElementsGfxTable[][32];
 extern const u8 gBossHealthBar[][32];
 
 extern const u32 gSideHPBars[];
+extern const u16 gBossHPBarPalette[];
 
 extern const u16 gNamingScreenMenu_Pal[6][16];
 extern const u32 gNamingScreenMenu_Gfx[];
