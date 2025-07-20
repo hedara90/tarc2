@@ -13,6 +13,8 @@
 #include "battle_scripts.h"
 #include "constants/battle_string_ids.h"
 
+#include "tarc_ai.h"
+
 void AllocateBattleResources(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
@@ -40,6 +42,9 @@ void AllocateBattleResources(void)
 
     gBattleAnimBgTileBuffer = AllocZeroed(0x2000);
     gBattleAnimBgTilemapBuffer = AllocZeroed(0x1000);
+
+    //  TARC set boss
+    SetBossInBattle();
 
     if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
     {

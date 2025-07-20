@@ -1,3 +1,6 @@
+#ifndef GUARD_TARC_AI
+#define GUARD_TARC_AI
+
 #include "global.h"
 
 enum AiMoveLists
@@ -35,3 +38,7 @@ struct BossAi
 };
 
 void SetNextBossMove(void);
+void ResetTurnCounter(void);
+void SetBossInBattle(void);
+
+#endif

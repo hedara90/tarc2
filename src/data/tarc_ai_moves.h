@@ -27,9 +27,9 @@ const struct BossMoveList sMoltres1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
+        MOVE_EMBER,
+        MOVE_FIRE_SPIN,
+        MOVE_FIRE_BLAST,
         MOVE_ROOST
     },
 };

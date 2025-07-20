@@ -22,6 +22,8 @@
 #include "random.h" // for rng_value_t
 #include "trainer_slide.h"
 
+#include "tarc_ai.h"
+
 // Helper for accessing command arguments and advancing gBattlescriptCurrInstr.
 //
 // For example accuracycheck is defined as:
@@ -788,7 +790,10 @@ struct BattleStruct
     u8 trainerSlideSpriteIds[MAX_BATTLERS_COUNT];
     u16 opponentMonCanTera:6;
     u16 opponentMonCanDynamax:6;
-    u16 maxPhases:4;
+    u16 maxPhases:3;
+    u16 skipIncrement:1;
+    u8 aiTurnCounter;
+    enum Bosses currentBoss;
 };
 
 struct AiBattleData

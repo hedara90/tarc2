@@ -3982,6 +3982,16 @@ static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
 
+    //  Increment the AI turn counter
+    if (gBattleStruct->skipIncrement)
+    {
+        gBattleStruct->skipIncrement = FALSE;
+    }
+    else
+    {
+        gBattleStruct->aiTurnCounter++;
+    }
+
     if (gBattleControllerExecFlags == 0)
     {
         gBattleMainFunc = BattleTurnPassed;
@@ -4231,7 +4241,7 @@ static void HandleTurnActionSelectionState(void)
             //  New AI move handling here
             if (!TESTING)
             {
-                MgbaPrintf(MGBA_LOG_WARN, "thing");
+                SetNextBossMove();
             }
             RecordedBattle_CopyBattlerMoves(battler);
             gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
