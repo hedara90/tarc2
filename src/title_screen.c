@@ -441,7 +441,7 @@ static void CreateCopyrightBanner(s16 x, s16 y)
     u8 i;
     u8 spriteId;
 
-    x -= 64;
+    x -= 69;
     for (i = 0; i < NUM_COPYRIGHT_FRAMES; i++, x += 32)
     {
         spriteId = CreateSprite(&sStartCopyrightBannerSpriteTemplate, x, y, 0);
