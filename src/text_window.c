@@ -114,7 +114,7 @@ void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
 
 void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 {
-    if (gMain.inBattle)
+    if (!gMain.inBattle)
     {
         LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sWindowFrames[frameId].tiles, 0x120, destOffset);
         LoadPalette(sWindowFrames[frameId].pal, palOffset, PLTT_SIZE_4BPP);
