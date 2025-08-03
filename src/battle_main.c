@@ -517,6 +517,7 @@ void FreeSideSprites(void)
 static void CB2_InitBattleInternal(void)
 {
     s32 i;
+    gMain.inBattle = TRUE;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
