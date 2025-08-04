@@ -7174,21 +7174,20 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
     u8 i;
     u8 innateNum = 0;
 
-    for (i = 0; i < MAX_MON_INNATES; i++)
+    if (gSpeciesInfo[species].isPlayer)
     {
-        if (gSpeciesInfo[species].innates[i] == ability)
+    }
+    else
+    {
+        for (i = 0; i < MAX_MON_INNATES; i++)
+        {
+            if (gSpeciesInfo[species].innates[i] == ability)
             {
                 innateNum = i + 2;
-                //DebugPrintf("INNATE FOUND: %d", innateNum - 1);
             }
+        }
     }
-    
-    //if (!disablerandomizer) {
-    //    innate1 = RandomizeInnate(gBaseStats[species].innates[0], species, personality);
-    //    innate2 = RandomizeInnate(gBaseStats[species].innates[1], species, personality);
-    //    innate3 = RandomizeInnate(gBaseStats[species].innates[2], species, personality);
-    //}
-        return innateNum;
+    return innateNum;
 }
 
 bool8 BoxMonHasInnate(struct BoxPokemon *boxmon, u16 ability, bool8 disableRandomizer) {

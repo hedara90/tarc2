@@ -7657,6 +7657,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sCacturneLevelUpLearnset,
         .teachableLearnset = sCacturneTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_CACNEA
 

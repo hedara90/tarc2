@@ -4805,6 +4805,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         )
         .levelUpLearnset = sHippowdonLevelUpLearnset,
         .teachableLearnset = sHippowdonTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_HIPPOPOTAS
 
