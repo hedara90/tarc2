@@ -3406,4 +3406,12 @@ extern const u16 gBattleIcons_Pal2[];
 //New Summary Pages
 extern const u32 gSummaryPage_Traits_Tilemap[];
 
+// TARC stuff
+extern const u16 gStartMenu_Pal[];
+extern const u16 gStartMenu_Pal2[];
+extern const u32 gStartMenu_Info[];
+extern const u32 gStartMenu_Options[];
+extern const u32 gStartMenu_Pokemon[];
+extern const u32 gStartMenu_Save[];
+
 #endif //GUARD_GRAPHICS_H
