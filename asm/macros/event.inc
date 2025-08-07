@@ -2639,3 +2639,9 @@
 	callnative ScriptChangeFollowerNPCBattlePartner
 	.2byte \battlePartner
 	.endm
+
+	@ Sets up a hunt with given input
+	.macro setuphunt target:req
+	callnative SetupHuntFromScript
+	.byte \target
+	.endm
