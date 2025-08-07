@@ -73,3 +73,10 @@ const struct BossAi sAiLists[] =
     [BOSS_ZAPDOS] = sZapdosAi,
     [BOSS_MOLTRES] = sMoltresAi,
 };
+
+const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
+{
+    [SPECIES_ARTICUNO] = BOSS_ARTICUNO,
+    [SPECIES_ZAPDOS] = BOSS_ZAPDOS,
+    [SPECIES_MOLTRES] = BOSS_MOLTRES,
+};

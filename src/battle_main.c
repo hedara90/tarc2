@@ -3809,6 +3809,9 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
+        //  TARC set boss
+        SetBossInBattle();
+
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {

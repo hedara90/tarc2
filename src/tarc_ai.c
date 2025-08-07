@@ -23,5 +23,5 @@ void ResetTurnCounter(void)
 
 void SetBossInBattle(void)
 {
-    gBattleStruct->currentBoss = BOSS_MOLTRES;
+    gBattleStruct->currentBoss = sSpeciesToBossTable[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)];
 }
