@@ -10067,3 +10067,9 @@ BattleScript_BossRestore::
 	updatestatusicon BS_ATTACKER
 	updatebgbar
 	goto BattleScript_MoveEnd
+
+BattleScript_BacklineRestore::
+	flushtextbox
+	playse SE_M_MORNING_SUN
+	printstring STRINGID_RESTORE_BACKLINE
+	end2
