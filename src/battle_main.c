@@ -3809,6 +3809,9 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
+        //  TARC set boss
+        SetBossInBattle();
+
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
@@ -3982,6 +3985,16 @@ static void TryDoEventsBeforeFirstTurn(void)
 static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
+
+    //  Increment the AI turn counter
+    if (gBattleStruct->skipIncrement)
+    {
+        gBattleStruct->skipIncrement = FALSE;
+    }
+    else
+    {
+        gBattleStruct->aiTurnCounter++;
+    }
 
     if (gBattleControllerExecFlags == 0)
     {
@@ -4229,6 +4242,11 @@ static void HandleTurnActionSelectionState(void)
         switch (gBattleCommunication[battler])
         {
         case STATE_TURN_START_RECORD: // Recorded battle related action on start of every turn.
+            //  New AI move handling here
+            if (!TESTING)
+            {
+                SetNextBossMove();
+            }
             RecordedBattle_CopyBattlerMoves(battler);
             gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
             ComputeBattlerDecisions(battler); // Do AI score computations here so we can use them in AI_TrySwitchOrUseItem
