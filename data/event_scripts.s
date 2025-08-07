@@ -1161,3 +1161,23 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Tilemaptest/scripts.inc"
 
 	.include "data/maps/MythHub/scripts.inc"
+
+	.include "data/maps/Area1/scripts.inc"
+
+	.include "data/maps/Area2/scripts.inc"
+
+	.include "data/maps/Area3/scripts.inc"
+
+	.include "data/maps/Area4/scripts.inc"
+
+	.include "data/maps/Area5/scripts.inc"
+
+	.include "data/maps/Area6/scripts.inc"
+
+	.include "data/maps/Boss/scripts.inc"
+
+	.include "data/maps/Area8/scripts.inc"
+
+	.include "data/maps/Area7/scripts.inc"
+
+	.include "data/maps/Area9/scripts.inc"

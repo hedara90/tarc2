@@ -4430,6 +4430,106 @@
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/MythHub/border.bin",
       "blockdata_filepath": "data/layouts/MythHub/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA1",
+      "name": "Area1_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area1/border.bin",
+      "blockdata_filepath": "data/layouts/Area1/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA2",
+      "name": "Area2_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area2/border.bin",
+      "blockdata_filepath": "data/layouts/Area2/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA3",
+      "name": "Area3_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area3/border.bin",
+      "blockdata_filepath": "data/layouts/Area3/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA4",
+      "name": "Area4_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area4/border.bin",
+      "blockdata_filepath": "data/layouts/Area4/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA5",
+      "name": "Area5_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area5/border.bin",
+      "blockdata_filepath": "data/layouts/Area5/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA6",
+      "name": "Area6_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area6/border.bin",
+      "blockdata_filepath": "data/layouts/Area6/map.bin"
+    },
+    {
+      "id": "LAYOUT_BOSS",
+      "name": "Boss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Boss/border.bin",
+      "blockdata_filepath": "data/layouts/Boss/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA8",
+      "name": "Area8_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area8/border.bin",
+      "blockdata_filepath": "data/layouts/Area8/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA9",
+      "name": "Area9_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area9/border.bin",
+      "blockdata_filepath": "data/layouts/Area9/map.bin"
+    },
+    {
+      "id": "LAYOUT_AREA7",
+      "name": "Area7_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Area7/border.bin",
+      "blockdata_filepath": "data/layouts/Area7/map.bin"
     }
   ]
 }

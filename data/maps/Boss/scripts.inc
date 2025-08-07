@@ -1,0 +1,2 @@
+Boss_MapScripts::
+	.byte 0
