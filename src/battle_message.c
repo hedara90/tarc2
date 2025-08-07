@@ -903,6 +903,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_POWERCONSTRUCTTRANSFORM]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} transformed into its Complete Forme!"),
     [STRINGID_BOSSWILLRESTORE]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} endured!"),
     [STRINGID_BOSSRESTORED]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} recovered!"),
+    [STRINGID_RESTORE_BACKLINE]                     = COMPOUND_STRING("{B_BUFF1}{B_BUFF2}{B_BUFF3} recovered a little!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

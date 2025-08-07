@@ -12,6 +12,9 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 
+#include "constants/characters.h"
+#include "string_util.h"
+
 // General End Turn Effects based on research from smogon from vanilla games:
 // https://www.smogon.com/forums/threads/sword-shield-battle-mechanics-research.3655528/page-64#post-9244179
 enum EndTurnResolutionOrder
@@ -64,6 +67,7 @@ enum EndTurnResolutionOrder
     ENDTURN_ABILITIES,
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
+    ENDTURN_BACKLINE_RESTORE,
     ENDTURN_COUNT,
 };
 
@@ -1529,6 +1533,58 @@ static bool32 HandleEndTurnDynamax(u32 battler)
     return effect;
 }
 
+static void BuildBacklineStringBuffer(void)
+{
+    u32 count = 0;
+
+    if (LeftMonHurt())
+        count++;
+    if (RightMonHurt())
+        count++;
+
+    gBattleTextBuff1[0] = EOS;
+    gBattleTextBuff2[0] = EOS;
+    gBattleTextBuff3[0] = EOS;
+    if (count == 1)
+    {
+        if (LeftMonHurt())
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        else
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+    }
+    else
+    {
+        gBattleTextBuff2[0] = CHAR_SPACE;
+        gBattleTextBuff2[1] = CHAR_a;
+        gBattleTextBuff2[2] = CHAR_n;
+        gBattleTextBuff2[3] = CHAR_d;
+        gBattleTextBuff2[4] = CHAR_SPACE;
+        gBattleTextBuff2[5] = EOS;
+        StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        StringCopy(gBattleTextBuff3, gRightMon.nickname);
+    }
+}
+
+static bool32 HandleEndTurnBacklineRestore(u32 battler)
+{
+    if (TESTING)
+        return FALSE;
+    gBattleStruct->turnEffectsBattlerId++;
+    if (battler != 0 || !BacklineIsHurt())
+        return FALSE;
+
+    BuildBacklineStringBuffer();
+
+    if (LeftMonHurt())
+        HealBackLineMon(&gLeftMon);
+
+    if (RightMonHurt())
+        HealBackLineMon(&gRightMon);
+
+    BattleScriptExecute(BattleScript_BacklineRestore);
+    return TRUE;
+}
+
 static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
 {
     [ENDTURN_ORDER] = HandleEndTurnOrder,
@@ -1579,6 +1635,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_ABILITIES] = HandleEndTurnAbilities,
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
+    [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
 };
 
 u32 DoEndTurnEffects(void)
