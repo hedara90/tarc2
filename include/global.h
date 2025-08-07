@@ -1167,6 +1167,7 @@ struct SaveBlock1
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3???
     struct HuntTargets huntTargets;
+    u32 playerAffinity;
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

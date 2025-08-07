@@ -2,8 +2,16 @@
 #include "hunt_setup.h"
 #include "random.h"
 #include "move.h"
+#include "script.h"
+#include "constants/hunt_setup.h"
 
 #include "data/hunt_setup_data.h"
+
+void SetupHuntFromScript(struct ScriptContext *ctx)
+{
+    enum FinalBossList boss = ScriptReadByte(ctx);
+    SetupHuntTargets(boss);
+}
 
 void SetupHuntTargets(enum FinalBossList finalBoss)
 {
@@ -57,4 +65,20 @@ void SetupPlayerMons(enum PlayerMonList monList)
 {
     //  Clear current mons for player
     //  Give player all the mons from the current list
+    switch (gSaveBlock1Ptr->playerAffinity)
+    {
+        case MON_LIST_RANDOM:
+        case MON_LIST_RAIN_DIRECT:
+        case MON_LIST_RAIN_CONDITIONAL:
+        case MON_LIST_RAIN_MANUAL:
+        case MON_LIST_SUN_DIRECT:
+        case MON_LIST_SUN_CONDITIONAL:
+        case MON_LIST_SUN_MANUAL:
+        case MON_LIST_SNOW_DIRECT:
+        case MON_LIST_SNOW_CONDITIONAL:
+        case MON_LIST_SNOW_MANUAL:
+        case MON_LIST_SAND_DIRECT:
+        case MON_LIST_SAND_CONDITIONAL:
+        case MON_LIST_SAND_MANUAL:
+    }
 }
