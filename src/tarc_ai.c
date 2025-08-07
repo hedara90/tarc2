@@ -24,4 +24,17 @@ void ResetTurnCounter(void)
 void SetBossInBattle(void)
 {
     gBattleStruct->currentBoss = sSpeciesToBossTable[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)];
+    u32 value = 0;
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE2, &value);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE3, &value);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE4, &value);
+    SetMonData(&gEnemyParty[0], MON_DATA_PP2, &value);
+    SetMonData(&gEnemyParty[0], MON_DATA_PP3, &value);
+    SetMonData(&gEnemyParty[0], MON_DATA_PP4, &value);
+    gBattleMons[1].moves[1] = 0;
+    gBattleMons[1].moves[2] = 0;
+    gBattleMons[1].moves[3] = 0;
+    gBattleMons[1].pp[1] = 0;
+    gBattleMons[1].pp[2] = 0;
+    gBattleMons[1].pp[3] = 0;
 }
