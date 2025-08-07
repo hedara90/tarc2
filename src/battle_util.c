@@ -11750,3 +11750,71 @@ bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId)
     }
     return FALSE;
 }
+
+bool32 LeftMonHurt(void)
+{
+    if (gLeftMon.hp < gLeftMon.maxHP)
+        return TRUE;
+
+    if (gLeftMon.status1 != 0 && gLeftMon.turnsInBack == TARC_STATUS_CURE_TURN)
+        return TRUE;
+
+    for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+        if (gLeftMon.statStages[i] < 0 && gLeftMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+            return TRUE;
+
+    return FALSE;
+}
+
+bool32 RightMonHurt(void)
+{
+    if (gRightMon.hp < gRightMon.maxHP)
+        return TRUE;
+
+    if (gRightMon.status1 != 0 && gRightMon.turnsInBack == TARC_STATUS_CURE_TURN)
+        return TRUE;
+
+    for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+        if (gRightMon.statStages[i] < 0 && gRightMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+            return TRUE;
+
+    return FALSE;
+}
+
+bool32 BacklineIsHurt(void)
+{
+    if (LeftMonHurt() || RightMonHurt())
+        return TRUE;
+    return FALSE;
+}
+
+void HealBackLineMon(struct BattlePokemon *mon)
+{
+    if (mon->hp < mon->maxHP && mon->hp != 0)
+    {
+        u32 healFrac = mon->maxHP / TARC_HP_RESTORE_FRAC;
+        if (healFrac > (mon->maxHP - mon->hp))
+            mon->hp = mon->maxHP;
+        else
+            mon->hp += healFrac;
+    }
+
+    if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
+        mon->status1 = 0;
+    if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status2 != 0)
+        mon->status2 = 0;
+
+    if (mon->turnsInBack >= TARC_STAT_RESTORE_TURN)
+    {
+        for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            if (mon->statStages[i] < 0)
+                mon->statStages[i]++;
+    }
+}
+
+void UpdateBacklineTurns(void)
+{
+    gLeftMon.turnsInBack++;
+    gRightMon.turnsInBack++;
+    gBattleMons[0].turnsInBack = 0;
+}

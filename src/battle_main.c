@@ -5355,6 +5355,9 @@ static void CheckChangingTurnOrderEffects(void)
 {
     u32 i, battler;
 
+    if (!TESTING)
+        UpdateBacklineTurns();
+
     if (!(gHitMarker & HITMARKER_RUN))
     {
         while (gBattleStruct->quickClawBattlerId < gBattlersCount)
