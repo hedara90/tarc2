@@ -47,7 +47,8 @@
     "Area7",
     "Area8",
     "Area9",
-    "Boss"
+    "Boss",
+    "Entrance"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",

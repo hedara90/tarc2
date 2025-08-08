@@ -2645,3 +2645,9 @@
 	callnative SetupHuntFromScript
 	.byte \target
 	.endm
+
+	@ Set affinity
+	.macro setaffinity affinity:req
+	callnative SetAffinityFromScript
+	.byte \affinity
+	.endm

@@ -1,0 +1,117 @@
+raw `
+Entrance_MapScripts::
+	.byte 0
+`
+
+script Entrance_Random {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_RANDOM)
+    }
+    closemessage
+}
+
+script Entrance_RainDirect {
+    msgbox("Set affinity to direct rain?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_RAIN_DIRECT)
+    }
+    closemessage
+}
+
+script Entrance_RainIndirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_RAIN_CONDITIONAL)
+    }
+    closemessage
+}
+
+script Entrance_RainManual {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_RAIN_MANUAL)
+    }
+    closemessage
+}
+
+script Entrance_SunDirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SUN_DIRECT)
+    }
+    closemessage
+}
+
+script Entrance_SunIndirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SUN_CONDITIONAL)
+    }
+    closemessage
+}
+
+script Entrance_SunManual {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SUN_MANUAL)
+    }
+    closemessage
+}
+
+script Entrance_SnowDirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SNOW_DIRECT)
+    }
+    closemessage
+}
+
+script Entrance_SnowIndirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SNOW_CONDITIONAL)
+    }
+    closemessage
+}
+
+script Entrance_SnowManual {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SNOW_MANUAL)
+    }
+    closemessage
+}
+
+script Entrance_SandDirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SAND_DIRECT)
+    }
+    closemessage
+}
+
+script Entrance_SandIndirect {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SAND_CONDITIONAL)
+    }
+    closemessage
+}
+
+script Entrance_SandManual {
+    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        setaffinity(MON_LIST_SAND_MANUAL)
+    }
+    closemessage
+}
+
+script Entrance_Lugia {
+    msgbox("Hunt Lugia?", MSGBOX_YESNO)
+    closemessage
+    if (var(VAR_RESULT) == YES) {
+        setuphunt(FINAL_BOSS_LUGIA)
+        warpsilent(MAP_MYTH_HUB, 20, 18)
+    }
+}
