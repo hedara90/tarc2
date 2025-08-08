@@ -2,6 +2,7 @@
 #define GUARD_HUNT_SETUP_H
 
 #include "global.h"
+#include "script.h"
 #include "constants/hunt_setup.h"
 
 struct BossGroup
@@ -19,5 +20,6 @@ struct StarterMon
 
 void SetupHuntTargets(enum FinalBossList finalBoss);
 void SetupPlayerMons(enum PlayerMonList monList);
+void SetAffinityFromScript(struct ScriptContext *ctx);
 
 #endif //GUARD_HUNT_SETUP_H
