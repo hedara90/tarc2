@@ -1,3 +1,4 @@
+raw `
 MythHub_MapScripts::
 	.byte 0
 
@@ -63,3 +64,4 @@ MythHub_ExitBoss::
 MythHub_TextFinalBoss::
 	.string "Beyond lies the final foe.\p"
 	.string "Do you want to go through?$"
+`
