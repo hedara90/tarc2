@@ -38,9 +38,9 @@ enum MiniBossList
     MINI_BOSS_COUNT
 };
 
+//  MON_LIST_RANDOM must be last
 enum PlayerMonList
 {
-    MON_LIST_RANDOM,
     MON_LIST_RAIN_DIRECT,
     MON_LIST_RAIN_CONDITIONAL,
     MON_LIST_RAIN_MANUAL,
@@ -53,6 +53,7 @@ enum PlayerMonList
     MON_LIST_SAND_DIRECT,
     MON_LIST_SAND_CONDITIONAL,
     MON_LIST_SAND_MANUAL,
+    MON_LIST_RANDOM
 };
 
 #endif
