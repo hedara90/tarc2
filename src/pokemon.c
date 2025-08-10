@@ -7170,16 +7170,29 @@ u32 GetTeraTypeFromPersonality(struct Pokemon *mon)
 }
 
 //Returns the slot the Innate is found in, assuming the Ability is already slot 1.  Returns 0 if not found.
-u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerandomizer) {
-    u8 i;
-    u8 innateNum = 0;
+u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerandomizer)
+{
+    u32 innateNum = 0;
 
     if (gSpeciesInfo[species].isPlayer)
     {
+        for (u32 i = 0; i < 3; i++)
+        {
+            u32 currSpecies = gSaveBlock1Ptr->playerSpecies[i];
+            if (gSaveBlock1Ptr->playerSpecies[i] == species)
+            {
+                for (u32 j = 0; j < 3; j++)
+                {
+                    if (gSaveBlock1Ptr->extraAbilities[i][j] == ability)
+                        return j + 2;
+                }
+                break;
+            }
+        }
     }
     else
     {
-        for (i = 0; i < MAX_MON_INNATES; i++)
+        for (u32 i = 0; i < MAX_MON_INNATES; i++)
         {
             if (gSpeciesInfo[species].innates[i] == ability)
             {

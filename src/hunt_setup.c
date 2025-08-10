@@ -78,6 +78,8 @@ static void GiveHuntMon(enum PlayerMonList monList, u32 index)
     bool8 isShiny = (Random32() % 0xFFF) == 0;
 
     ScriptGiveMonParameterized(0, index, sStarterMons[monList][index].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+
+    gSaveBlock1Ptr->playerSpecies[index] = sStarterMons[monList][index].species;
 }
 
 void SetupPlayerMons(enum PlayerMonList monList)
