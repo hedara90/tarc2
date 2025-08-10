@@ -1168,6 +1168,8 @@ struct SaveBlock1
     // sizeof: 0x3???
     struct HuntTargets huntTargets;
     u32 playerAffinity;
+    u16 abilityStorage[9];
+    u16 moveStorage[36];
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
