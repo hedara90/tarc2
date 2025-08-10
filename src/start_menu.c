@@ -49,7 +49,9 @@
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+
 #include "even_sprite.h"
+#include "constants/map_types.h"
 
 // Menu actions
 enum
@@ -644,9 +646,12 @@ static bool8 HandleStartMenuInput(void)
 {
     if (JOY_NEW(DPAD_UP))
     {
-        sStartMenuCursorPos = 0;
-        PlaySE(SE_NOTE_G);
-        SetTarcSpriteToActive(0);
+        if (gMapHeader.mapType != MAP_TYPE_CITY)
+        {
+            sStartMenuCursorPos = 0;
+            PlaySE(SE_NOTE_G);
+            SetTarcSpriteToActive(0);
+        }
     }
 
     if (JOY_NEW(DPAD_DOWN))
@@ -1541,6 +1546,8 @@ void Script_ForceSaveGame(struct ScriptContext *ctx)
     sSaveDialogCallback = SaveSavingMessageCallback;
 }
 
+const u32 sBlankSprite[512] = {0};
+
 static void ShowTarcMenu(void)
 {
     struct SpritePalette spritePalette;
@@ -1560,7 +1567,10 @@ static void ShowTarcMenu(void)
     cs.spriteShape = SPRITE_SHAPE(64x32);
     cs.subpriority = 0;
 
-    cs.sprite = gStartMenu_Pokemon;
+    if (gMapHeader.mapType != MAP_TYPE_CITY)
+        cs.sprite = gStartMenu_Pokemon;
+    else
+        cs.sprite = sBlankSprite;
     cs.tileTag = 0xDED1;
     cs.posX = 120;
     cs.posY = 48;

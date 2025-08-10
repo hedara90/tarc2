@@ -2,8 +2,17 @@
 #include "hunt_setup.h"
 #include "random.h"
 #include "move.h"
+#include "script.h"
+#include "script_pokemon_util.h"
+#include "constants/hunt_setup.h"
 
 #include "data/hunt_setup_data.h"
+
+void SetupHuntFromScript(struct ScriptContext *ctx)
+{
+    enum FinalBossList boss = ScriptReadByte(ctx);
+    SetupHuntTargets(boss);
+}
 
 void SetupHuntTargets(enum FinalBossList finalBoss)
 {
@@ -51,10 +60,52 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
     }
 
     //  TODO: Randomize the minibosses when they've been decided
+
+    //  Setup player mons
+    SetupPlayerMons(gSaveBlock1Ptr->playerAffinity);
+}
+
+static void GiveHuntMon(enum PlayerMonList monList, u32 index)
+{
+    u8 stats[6] = {0, 0, 0, 0, 0, 0};
+
+    u16 moves[4];
+    for (u32 i = 0; i < 4; i++)
+    {
+        moves[i] = sStarterMons[monList][index].moves[i];
+    }
+
+    bool8 isShiny = (Random32() % 0xFFF) == 0;
+
+    ScriptGiveMonParameterized(0, index, sStarterMons[monList][index].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 }
 
 void SetupPlayerMons(enum PlayerMonList monList)
 {
     //  Clear current mons for player
+    for (u32 i = 0; i < 6; i++)
+    {
+        memset(&gSaveBlock1Ptr->playerParty[i], 0, sizeof(struct Pokemon));
+        memset(&gPlayerParty[i], 0, sizeof(struct Pokemon));
+    }
+
+    //  REMOVE THIS WHEN ALL THE LISTS ARE SET UP
+    if (monList != MON_LIST_RAIN_DIRECT)
+        monList = MON_LIST_RAIN_DIRECT;
+
     //  Give player all the mons from the current list
+    switch (monList)
+    {
+        case MON_LIST_RANDOM:
+        default:
+            GiveHuntMon(monList, 0);
+            GiveHuntMon(monList, 1);
+            GiveHuntMon(monList, 2);
+            break;
+    }
+}
+
+void SetAffinityFromScript(struct ScriptContext *ctx)
+{
+    gSaveBlock1Ptr->playerAffinity = ScriptReadByte(ctx);
 }
