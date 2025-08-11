@@ -389,6 +389,9 @@ static void TarcUi_InitSelector(void);
 static void TryMoveSelection(void);
 static u32 CompactMoveStorage(void);
 static u32 CompactAbilityStorage(void);
+static void TarcUi_WriteMonData(void);
+
+static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
 void OpenFromScript(void)
 {
@@ -771,6 +774,13 @@ static void Task_TarcUiMainInput(u8 taskId)
     if (JOY_NEW(A_BUTTON))
     {
         TryMoveSelection();
+    }
+
+    if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_PC_OFF);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_TarcUiWaitFadeAndExitGracefully;
     }
 }
 
@@ -1289,4 +1299,30 @@ static u32 CompactAbilityStorage(void)
         gSaveBlock1Ptr->abilityStorage[i] = abilities[i];
     }
     return abilityCount;
+}
+
+static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        SetMainCallback2(sTarcUiState->savedCallback);
+        TarcUi_WriteMonData();
+        TarcUi_FreeResources();
+        DestroyTask(taskId);
+    }
+}
+
+static void TarcUi_WriteMonData(void)
+{
+    for (u32 monIndex = 0; monIndex < 3; monIndex++)
+    {
+        for (u32 moveIndex = 0; moveIndex < 4; moveIndex++)
+        {
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + moveIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+        }
+        for (u32 abilityIndex = 1; abilityIndex < 4; abilityIndex++)
+        {
+            gSaveBlock1Ptr->extraAbilities[monIndex][abilityIndex - 1] = sTarcUiState->mons[monIndex].abilities[abilityIndex];
+        }
+    }
 }
