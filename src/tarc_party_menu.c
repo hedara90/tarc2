@@ -1,23 +1,32 @@
 #include "gba/types.h"
 #include "bg.h"
 #include "decompress.h"
+#include "even_sprite.h"
 #include "global.h"
 #include "gpu_regs.h"
 #include "graphics.h"
+#include "international_string_util.h"
 #include "list_menu.h"
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
 #include "menu_helpers.h"
+#include "move.h"
 #include "overworld.h"
 #include "palette.h"
 #include "scanline_effect.h"
+#include "sound.h"
+#include "string_util.h"
 #include "task.h"
+#include "text.h"
 #include "window.h"
 #include "tarc_party_menu.h"
 
+#include "constants/abilities.h"
 #include "constants/characters.h"
+#include "constants/moves.h"
 #include "constants/rgb.h"
+#include "constants/songs.h"
 
 struct Tarc_Mon
 {
@@ -39,8 +48,18 @@ struct Tarc_PartyMenuState
     u8 loadState;
     bool8 listIsInitialized;
     u8 listTaskid;
+    u8 monSpriteId;
+    bool8 hasMonSprite;
+    u8 activeMon;
+    bool8 rightSelected;
+    u8 selectPos;
+    u8 listPosition;
+    u8 selectorSpriteId;
+    u8 scrollOffset;
+    u8 selectedRow;
     struct ListMenuItem listBuffer[36];
     struct ListMenuTemplate list;
+    u8 listNames[36][20];
     bool8 switchedMode;
     u8 mode;
     struct Tarc_Mon mons[3];
@@ -66,6 +85,27 @@ enum WindowIds
     WIN_COUNT
 };
 
+static const struct ListMenuTemplate sItemListMenu =
+{
+    .items = NULL,
+    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
+    .totalItems = 0,
+    .maxShowed = 5,
+    .windowId = WIN_LIST,
+    .header_X = 0,
+    .item_X = 8,
+    .cursor_X = 0,
+    .upText_Y = 1,
+    .cursorPal = 15,
+    .fillValue = 0,
+    .cursorShadowPal = 3,
+    .lettersSpacing = 0,
+    .itemVerticalPadding = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
+    .fontId = FONT_NARROW,
+    .cursorKind = CURSOR_BLACK_ARROW,
+};
+
 static EWRAM_DATA struct Tarc_PartyMenuState *sTarcUiState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 
@@ -79,12 +119,11 @@ static const u32 sTarcTiles[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles
 static const u32 sTarcTilemap[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.bin.lz");
 static const u16 sTarcPalette[] = INCBIN_U16("graphics/tarc_party/tarc_party_tiles.gbapal");
 
+static const u32 sTarcSelectorGfx[] = INCBIN_U32("graphics/tarc_party/selector.4bpp");
+static const u16 sTarcSelectorPal[] = INCBIN_U16("graphics/tarc_party/selector.gbapal");
+
 static const u8 sTextMoves[] = _("Moves");
 static const u8 sTextAbilities[] = _("Abilities");
-static const u8 *const sModeNames[3] = {
-    [MODE_MOVES]   = sTextMoves,
-    [MODE_ABILITIES]  = sTextAbilities,
-};
 
 static const struct BgTemplate sTarcUiBgTemplates[] =
 {
@@ -112,7 +151,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define INFO_HEIGHT 8
 #define SUB_WIDTH   20
 #define SUB_HEIGHT  2
-#define CONTROLLS_WIDTH  21
+#define CONTROLLS_WIDTH  22
 #define CONTROLLS_HEIGHT 2
 #define HP_WIDTH  9
 #define HP_HEIGHT 2
@@ -176,7 +215,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SELECT1] =
     {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 12,
         .tilemapTop = 0,
         .width = SELECT_WIDTH,
         .height = SELECT_HEIGHT,
@@ -186,8 +225,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SELECT2] =
     {
         .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 21,
+        .tilemapLeft = 21,
+        .tilemapTop = 0,
         .width = SELECT_WIDTH,
         .height = SELECT_HEIGHT,
         .paletteNum = 15,
@@ -196,8 +235,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SELECT3] =
     {
         .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 11,
+        .tilemapLeft = 12,
+        .tilemapTop = 2,
         .width = SELECT_WIDTH,
         .height = SELECT_HEIGHT,
         .paletteNum = 15,
@@ -206,8 +245,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SELECT4] =
     {
         .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 21,
+        .tilemapLeft = 21,
+        .tilemapTop = 2,
         .width = SELECT_WIDTH,
         .height = SELECT_HEIGHT,
         .paletteNum = 15,
@@ -236,7 +275,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_CONTROLLS] =
     {
         .bg = 0,
-        .tilemapLeft = 9,
+        .tilemapLeft = 8,
         .tilemapTop = 18,
         .width = CONTROLLS_WIDTH,
         .height = CONTROLLS_HEIGHT,
@@ -338,6 +377,16 @@ static void TarcUi_LoadMons(void);
 static void TarcUi_InitScrollList(void);
 static void TarcUi_BuildListMoves(void);
 static void TarcUi_BuildListAbilities(void);
+static void TarcUi_PrintListHeader();
+static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId);
+static void TarcUi_PrintMon(void);
+static void TarcUi_PrintButtonHints(void);
+static void TarcUi_PrintSelection(void);
+static void TarcUi_UpdateSelector(void);
+static void TarcUi_InitSelector(void);
+static void TryMoveSelection(void);
+static u32 CompactMoveStorage(void);
+static u32 CompactAbilityStorage(void);
 
 void OpenFromScript(void)
 {
@@ -400,18 +449,14 @@ static void TarcUi_SetupCB(void)
     case 5:
         TarcUi_LoadMons();
         TarcUi_InitScrollList();
+        TarcUi_PrintListHeader();
+        TarcUi_PrintButtonHints();
 
-        /*
-        EvenCraftingUi_PrintFixedUiButtonHints();
+        TarcUi_PrintMon();
 
-        EvenCraftingUi_PrintDynamicUiButtonHints();
+        TarcUi_PrintSelection();
 
-        EvenCraftingUi_PrintListHeader();
-
-        EvenCraftingUi_PrintListCategory();
-
-        EvenCraftingUi_PrintList();
-        */
+        TarcUi_InitSelector();
 
         CreateTask(Task_TarcUiWaitFadeIn, 0);
         gMain.state++;
@@ -582,6 +627,110 @@ static void Task_TarcUiWaitFadeIn(u8 taskId)
 
 static void Task_TarcUiMainInput(u8 taskId)
 {
+    if (!sTarcUiState->rightSelected)
+    {
+        ListMenu_ProcessInput(sTarcUiState->listTaskid);
+        struct ListMenu *list = (void *)gTasks[sTarcUiState->listTaskid].data;
+        sTarcUiState->scrollOffset = list->scrollOffset;
+        sTarcUiState->selectedRow = list->selectedRow;
+    }
+
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (sTarcUiState->rightSelected && (sTarcUiState->selectPos == 0 || sTarcUiState->selectPos == 2))
+        {
+            sTarcUiState->rightSelected = FALSE;
+            TarcUi_InitScrollList();
+        }
+        else if (sTarcUiState->rightSelected)
+        {
+            sTarcUiState->selectPos -= 1;
+        }
+
+        TarcUi_UpdateSelector();
+    }
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (!sTarcUiState->rightSelected)
+        {
+            //  Remove selector from list menu
+            sTarcUiState->rightSelected = TRUE;
+            TarcUi_InitScrollList();
+        }
+        else if (sTarcUiState->selectPos == 0 || sTarcUiState->selectPos == 2)
+        {
+            sTarcUiState->selectPos += 1;
+        }
+        else
+        {
+            //  Play error sound
+        }
+
+        TarcUi_UpdateSelector();
+    }
+
+    if (sTarcUiState->rightSelected && JOY_NEW(DPAD_UP))
+    {
+        if (sTarcUiState->selectPos > 1)
+            sTarcUiState->selectPos -= 2;
+
+        TarcUi_UpdateSelector();
+    }
+
+    if (sTarcUiState->rightSelected && JOY_NEW(DPAD_DOWN))
+    {
+        if (sTarcUiState->selectPos < 2)
+            sTarcUiState->selectPos += 2;
+        //else
+
+        TarcUi_UpdateSelector();
+    }
+
+    if (JOY_NEW(L_BUTTON))
+    {
+        if (sTarcUiState->activeMon == 0)
+            sTarcUiState->activeMon = 2;
+        else
+            sTarcUiState->activeMon--;
+
+        TarcUi_PrintMon();
+    }
+
+    if (JOY_NEW(R_BUTTON))
+    {
+        if (sTarcUiState->activeMon == 2)
+            sTarcUiState->activeMon = 0;
+        else
+            sTarcUiState->activeMon++;
+
+        TarcUi_PrintMon();
+    }
+
+    if (JOY_NEW(START_BUTTON))
+    {
+        sTarcUiState->scrollOffset = 0;
+        sTarcUiState->selectedRow = 0;
+        switch (sTarcUiState->mode)
+        {
+        case MODE_MOVES:
+            sTarcUiState->scrollOffset = 0;
+            sTarcUiState->selectedRow = 0;
+            sTarcUiState->mode = MODE_ABILITIES;
+            break;
+        case MODE_ABILITIES:
+            sTarcUiState->mode = MODE_MOVES;
+            break;
+        }
+        TarcUi_PrintListHeader();
+        TarcUi_PrintMon();
+        TarcUi_InitScrollList();
+    }
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        TryMoveSelection();
+    }
 }
 
 static void TarcUi_LoadMons(void)
@@ -593,6 +742,11 @@ static void TarcUi_LoadMons(void)
         for (u32 j = 0; j < 4; j++)
         {
             sTarcUiState->mons[i].moves[j] = GetMonData(mon, MON_DATA_MOVE1 + j);
+        }
+        sTarcUiState->mons[i].abilities[0] = gSpeciesInfo[sTarcUiState->mons[i].species].abilities[GetMonData(mon, MON_DATA_ABILITY_NUM)];
+        for (u32 j = 0; j < 3; j++)
+        {
+            sTarcUiState->mons[i].abilities[j + 1] = gSaveBlock1Ptr->extraAbilities[i][j];
         }
         sTarcUiState->mons[i].hp = GetMonData(mon, MON_DATA_HP);
         sTarcUiState->mons[i].maxHP = GetMonData(mon, MON_DATA_MAX_HP);
@@ -606,13 +760,10 @@ static void TarcUi_LoadMons(void)
 
 static void TarcUi_InitScrollList(void)
 {
-    u16 scrollPos = 0;
+    u16 scrollPos = sTarcUiState->listPosition;
     if (sTarcUiState->listIsInitialized)
     {
-        if (sTarcUiState->switchedMode)
-            DestroyListMenuTask(sTarcUiState->listTaskid, NULL, NULL);
-        else
-            DestroyListMenuTask(sTarcUiState->listTaskid, NULL, &scrollPos);
+        DestroyListMenuTask(sTarcUiState->listTaskid, NULL, &scrollPos);
     }
     switch (sTarcUiState->mode)
     {
@@ -623,7 +774,11 @@ static void TarcUi_InitScrollList(void)
         TarcUi_BuildListAbilities();
         break;
     }
-    sTarcUiState->listTaskid = ListMenuInit(&sTarcUiState->list, 0, scrollPos);
+    if (sTarcUiState->rightSelected)
+    {
+        sTarcUiState->list.cursorKind = CURSOR_INVISIBLE;
+    }
+    sTarcUiState->listTaskid = ListMenuInit(&sTarcUiState->list, sTarcUiState->scrollOffset, sTarcUiState->selectedRow);
     sTarcUiState->listIsInitialized = TRUE;
     CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
     sTarcUiState->switchedMode = FALSE;
@@ -631,84 +786,443 @@ static void TarcUi_InitScrollList(void)
 
 static void TarcUi_BuildListMoves(void)
 {
-    /*
     u32 itemCount = 0;
-    struct ListIngredients ingredients[40];
-    u32 totalBagSlots = EvenCraftingUi_GetTotalBagSlots();
+    for (u32 i = 0; i < 36; i++)
+    {
+        if (gSaveBlock1Ptr->moveStorage[i] == MOVE_NONE)
+            break;
 
-    struct ItemSlot *pCurrSlot = &gSaveBlock1Ptr->bagPocket_Items[0];
-    enum IngredientCategories category = sEvenCraftingUiState->currIngredientCategory;
-    for (u32 i = 0; i < totalBagSlots; i++)
-    {
-        u16 currItem = pCurrSlot->itemId;
-        if (currItem == ITEM_NONE)
-        {
-            pCurrSlot++;
-            continue;
-        }
-        if(IsItemInCurrentCategory(category, currItem))
-        {
-            struct ListIngredients currIngredient;
-            currIngredient.item = currItem;
-            currIngredient.count = pCurrSlot->quantity;
-            ingredients[itemCount] = currIngredient;
-            itemCount++;
-        }
-        pCurrSlot++;
+        sTarcUiState->listBuffer[i].name = gMovesInfo[gSaveBlock1Ptr->moveStorage[i]].name;
+        u8 *end;
+        end = StringCopy(sTarcUiState->listNames[i], gMovesInfo[gSaveBlock1Ptr->moveStorage[i]].name);
+        PrependFontIdToFit(sTarcUiState->listNames[i], end, FONT_NORMAL, 72);
+        sTarcUiState->listBuffer[i].name = sTarcUiState->listNames[i];
+        sTarcUiState->listBuffer[i].id = gSaveBlock1Ptr->moveStorage[i];
+        itemCount++;
     }
-    for (u32 i = 0; i < itemCount; i++)
-    {
-        sEvenCraftingUiState->listBuffer[i].name = gItemsInfo[ingredients[i].item].name;
-        sEvenCraftingUiState->listBuffer[i].id = ingredients[i].item;
-    }
-    sEvenCraftingUiState->list = sItemListMenu;
-    sEvenCraftingUiState->list.items = sEvenCraftingUiState->listBuffer;
-    sEvenCraftingUiState->list.totalItems = itemCount;
-    if (itemCount > 0)
-        sEvenCraftingUiState->currentIngredient = ingredients[0].item;
-    else
-        sEvenCraftingUiState->currentIngredient = ITEM_NONE;
-    */
+    sTarcUiState->list = sItemListMenu;
+    sTarcUiState->list.items = sTarcUiState->listBuffer;
+    sTarcUiState->list.totalItems = itemCount;
 }
 
 static void TarcUi_BuildListAbilities(void)
 {
-    /*
     u32 itemCount = 0;
-    struct ListIngredients ingredients[40];
-    u32 totalBagSlots = EvenCraftingUi_GetTotalBagSlots();
+    for (u32 i = 0; i < 9; i++)
+    {
+        if (gSaveBlock1Ptr->abilityStorage[i] == ABILITY_NONE)
+            break;
 
-    struct ItemSlot *pCurrSlot = &gSaveBlock1Ptr->bagPocket_Items[0];
-    enum IngredientCategories category = sEvenCraftingUiState->currIngredientCategory;
-    for (u32 i = 0; i < totalBagSlots; i++)
-    {
-        u16 currItem = pCurrSlot->itemId;
-        if (currItem == ITEM_NONE)
-        {
-            pCurrSlot++;
-            continue;
-        }
-        if(IsItemInCurrentCategory(category, currItem))
-        {
-            struct ListIngredients currIngredient;
-            currIngredient.item = currItem;
-            currIngredient.count = pCurrSlot->quantity;
-            ingredients[itemCount] = currIngredient;
-            itemCount++;
-        }
-        pCurrSlot++;
+        u8 *end;
+        end = StringCopy(sTarcUiState->listNames[i], gAbilitiesInfo[gSaveBlock1Ptr->abilityStorage[i]].name);
+        PrependFontIdToFit(sTarcUiState->listNames[i], end, FONT_NORMAL, 72);
+        sTarcUiState->listBuffer[i].name = sTarcUiState->listNames[i];
+        sTarcUiState->listBuffer[i].id = gSaveBlock1Ptr->abilityStorage[i];
+        itemCount++;
     }
-    for (u32 i = 0; i < itemCount; i++)
-    {
-        sEvenCraftingUiState->listBuffer[i].name = gItemsInfo[ingredients[i].item].name;
-        sEvenCraftingUiState->listBuffer[i].id = ingredients[i].item;
-    }
-    sEvenCraftingUiState->list = sItemListMenu;
-    sEvenCraftingUiState->list.items = sEvenCraftingUiState->listBuffer;
-    sEvenCraftingUiState->list.totalItems = itemCount;
-    if (itemCount > 0)
-        sEvenCraftingUiState->currentIngredient = ingredients[0].item;
+    sTarcUiState->list = sItemListMenu;
+    sTarcUiState->list.items = sTarcUiState->listBuffer;
+    sTarcUiState->list.totalItems = itemCount;
+}
+
+void SetupSomeStuff(void)
+{
+    gSaveBlock1Ptr->moveStorage[0] = MOVE_STOMPING_TANTRUM;
+    gSaveBlock1Ptr->moveStorage[1] = MOVE_HYPER_BEAM;
+    gSaveBlock1Ptr->moveStorage[2] = MOVE_EARTHQUAKE;
+    for (u32 i = 3; i < 18; i++)
+        gSaveBlock1Ptr->moveStorage[i] = MOVE_LEECH_SEED + i;
+
+    gSaveBlock1Ptr->abilityStorage[0] = ABILITY_SIMPLE;
+    gSaveBlock1Ptr->abilityStorage[1] = ABILITY_BATTLE_ARMOR;
+    gSaveBlock1Ptr->abilityStorage[2] = ABILITY_INTIMIDATE;
+}
+
+static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId)
+{
+    u32 currWidth = GetStringWidth(fontId, input, 0);
+    if (currWidth < width)
+        return (width - currWidth) >> 1;
     else
-        sEvenCraftingUiState->currentIngredient = ITEM_NONE;
-    */
+        return 0;
+}
+
+static void TarcUi_PrintListHeader()
+{
+    FillWindowPixelBuffer(WIN_MODE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    switch (sTarcUiState->mode)
+    {
+    case MODE_MOVES:
+        AddTextPrinterParameterized4(WIN_MODE,
+                                     FONT_NORMAL,
+                                     TarcUi_JustifyCenter(sTextMoves, 80, FONT_NORMAL), 0, 0 ,0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     sTextMoves);
+        break;
+    case MODE_ABILITIES:
+        AddTextPrinterParameterized4(WIN_MODE,
+                                     FONT_NORMAL,
+                                     TarcUi_JustifyCenter(sTextAbilities, 80, FONT_NORMAL), 0, 0 ,0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     sTextAbilities);
+        break;
+    }
+    CopyWindowToVram(WIN_MODE, COPYWIN_GFX);
+}
+
+static void PrintMove(u32 window, u32 move)
+{
+    FillWindowPixelBuffer(window, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    if (move == MOVE_NONE)
+    {
+        CopyWindowToVram(window, COPYWIN_GFX);
+        return;
+    }
+
+    const u8 *str = gMovesInfo[move].name;
+    AddTextPrinterParameterized4(window,
+                                 GetFontIdToFit(str, FONT_NORMAL, 0, 64),
+                                 0, 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 str);
+    CopyWindowToVram(window, COPYWIN_GFX);
+}
+
+static void PrintAbility(u32 window, u32 ability)
+{
+    FillWindowPixelBuffer(window, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    if (ability == ABILITY_NONE)
+    {
+        CopyWindowToVram(window, COPYWIN_GFX);
+        return;
+    }
+
+    const u8 *str = gAbilitiesInfo[ability].name;
+    AddTextPrinterParameterized4(window,
+                                 GetFontIdToFit(str, FONT_NORMAL, 0, 64),
+                                 0, 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 str);
+    CopyWindowToVram(window, COPYWIN_GFX);
+}
+
+static void TarcUi_PrintMon(void)
+{
+    u32 activeMon = sTarcUiState->activeMon;
+    //  Print mon
+    if (sTarcUiState->hasMonSprite)
+    {
+        //  Remove existing sprite
+        DestroySprite(&gSprites[sTarcUiState->monSpriteId]);
+        FreeSpriteTilesByTag(0xCEC1);
+        FreeSpritePaletteByTag(0xCEC1);
+    }
+    sTarcUiState->hasMonSprite = TRUE;
+
+    //  Show new mon sprite
+    struct Even_CreateSpriteStruct cs = {0};
+    u32 species = GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_SPECIES);
+    cs.sprite = gSpeciesInfo[species].frontPic;
+    cs.tileTag = 0xCEC1;
+    cs.spriteCompressed = TRUE;
+    if (GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_IS_SHINY))
+        cs.palette = gSpeciesInfo[species].shinyPalette;
+    else
+        cs.palette = gSpeciesInfo[species].palette;
+    cs.palTag = 0xCEC1;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+    cs.posX = 32;
+    cs.posY = 128;
+    sTarcUiState->monSpriteId = Even_CreateSprite(&cs);
+
+    //  Print mon stats
+    FillWindowPixelBuffer(WIN_HP, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_ATK, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_DEF, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SPA, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SPD, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SPE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+
+    u8 tempStr[10];
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].hp, STR_CONV_MODE_LEFT_ALIGN, 3);
+    u32 currChar = 0;
+    while (tempStr[currChar] != EOS)
+        currChar++;
+    tempStr[currChar++] = CHAR_SLASH;
+    ConvertIntToDecimalStringN(&tempStr[currChar], sTarcUiState->mons[sTarcUiState->activeMon].maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+
+    AddTextPrinterParameterized4(WIN_HP,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 71), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_HP, COPYWIN_GFX);
+
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].atk, STR_CONV_MODE_LEFT_ALIGN, 3);
+    AddTextPrinterParameterized4(WIN_ATK,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_ATK, COPYWIN_GFX);
+
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].def, STR_CONV_MODE_LEFT_ALIGN, 3);
+    AddTextPrinterParameterized4(WIN_DEF,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_DEF, COPYWIN_GFX);
+
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spa, STR_CONV_MODE_LEFT_ALIGN, 3);
+    AddTextPrinterParameterized4(WIN_SPA,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_SPA, COPYWIN_GFX);
+
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spd, STR_CONV_MODE_LEFT_ALIGN, 3);
+    AddTextPrinterParameterized4(WIN_SPD,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_SPD, COPYWIN_GFX);
+
+    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spe, STR_CONV_MODE_LEFT_ALIGN, 3);
+    AddTextPrinterParameterized4(WIN_SPE,
+                                 FONT_NORMAL,
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_SPE, COPYWIN_GFX);
+
+    //  Print mon moves/abilities
+    switch (sTarcUiState->mode)
+    {
+    case MODE_MOVES:
+        for (u32 i = 0; i < 4; i++)
+            PrintMove(WIN_SELECT1 + i, sTarcUiState->mons[activeMon].moves[i]);
+        break;
+    case MODE_ABILITIES:
+        for (u32 i = 0; i < 4; i++)
+            PrintAbility(WIN_SELECT1 + i, sTarcUiState->mons[activeMon].abilities[i]);
+        break;
+    }
+}
+
+static const u8 sButtonHints[] = _("L/R Change mon : {DPAD_NONE} Cursor : {A_BUTTON} Move Selection");
+
+static void TarcUi_PrintButtonHints(void)
+{
+    FillWindowPixelBuffer(WIN_CONTROLLS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_CONTROLLS,
+                                 FONT_SHORT_NARROWER,
+                                 TarcUi_JustifyCenter(sButtonHints, 176, FONT_SHORT_NARROWER), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 sButtonHints);
+    CopyWindowToVram(WIN_CONTROLLS, COPYWIN_GFX);
+}
+
+static void TarcUi_PrintSelection(void)
+{
+    const u8 *origStr;
+    switch (sTarcUiState->mode)
+    {
+    case MODE_MOVES:
+        break;
+    case MODE_ABILITIES:
+        break;
+    }
+}
+
+static void TarcUi_UpdateSelector(void)
+{
+    u32 spriteId = sTarcUiState->selectorSpriteId;
+    if (sTarcUiState->rightSelected)
+    {
+        u32 pos = sTarcUiState->selectPos;
+        u32 posX = 92;
+        u32 posY = 8;
+        if (pos == 1 || pos == 3)
+            posX += 72;
+        if (pos > 1)
+            posY += 16;
+        gSprites[spriteId].invisible = FALSE;
+        gSprites[spriteId].x = posX;
+        gSprites[spriteId].y = posY;
+    }
+    else
+    {
+        gSprites[spriteId].invisible = TRUE;
+    }
+}
+
+static void TarcUi_InitSelector(void)
+{
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = sTarcSelectorGfx;
+    cs.tileTag = 0xCEC2;
+    cs.palette = sTarcSelectorPal;
+    cs.palTag = 0xCEC2;
+    cs.spriteSize = SPRITE_SIZE(8x16);
+    cs.spriteShape = SPRITE_SHAPE(8x16);
+    cs.posX = 92;
+    cs.posY = 8;
+    sTarcUiState->selectorSpriteId = Even_CreateSprite(&cs);
+    gSprites[sTarcUiState->selectorSpriteId].invisible = TRUE;
+}
+
+static void TryMoveSelection(void)
+{
+    u32 activeMon = sTarcUiState->activeMon;
+    u32 pos = sTarcUiState->selectPos;
+    if (sTarcUiState->rightSelected)
+    {
+        if (sTarcUiState->mode == MODE_MOVES)
+        {
+            u32 numItems = 0;
+            for (u32 i = 0; i < 4; i++)
+            {
+                if (sTarcUiState->mons[activeMon].moves[i] != MOVE_NONE)
+                    numItems++;
+            }
+
+            if (numItems == 1)
+            {
+                PlaySE(SE_PC_OFF);
+                return;
+            }
+
+            u32 storageIndex = 0;
+            while (gSaveBlock1Ptr->moveStorage[storageIndex] != MOVE_NONE)
+                storageIndex++;
+            gSaveBlock1Ptr->moveStorage[storageIndex] = sTarcUiState->mons[activeMon].moves[pos];
+            sTarcUiState->mons[activeMon].moves[pos] = MOVE_NONE;
+        }
+        else
+        {
+            if (pos == 0 || sTarcUiState->mons[activeMon].abilities[pos] == ABILITY_NONE)
+            {
+                PlaySE(SE_PC_OFF);
+                return;
+            }
+            u32 storageIndex = 0;
+            while (gSaveBlock1Ptr->abilityStorage[storageIndex] != MOVE_NONE)
+                storageIndex++;
+            gSaveBlock1Ptr->abilityStorage[storageIndex] = sTarcUiState->mons[activeMon].abilities[pos];
+            sTarcUiState->mons[activeMon].abilities[pos] = MOVE_NONE;
+        }
+    }
+    else
+    {
+        u32 listPos = sTarcUiState->scrollOffset + sTarcUiState->selectedRow;
+        u32 numItems = 0;
+        if (sTarcUiState->mode == MODE_MOVES)
+        {
+            for (u32 i = 0; i < 4; i++)
+            {
+                if (sTarcUiState->mons[activeMon].moves[i] != MOVE_NONE)
+                    numItems++;
+            }
+            if (numItems == 4)
+            {
+                PlaySE(SE_PC_OFF);
+                return;
+            }
+            u32 putIndex = 0;
+            while (sTarcUiState->mons[activeMon].moves[putIndex] != MOVE_NONE)
+                putIndex++;
+
+            sTarcUiState->mons[activeMon].moves[putIndex] = gSaveBlock1Ptr->moveStorage[listPos];
+            gSaveBlock1Ptr->moveStorage[listPos] = MOVE_NONE;
+            numItems = CompactMoveStorage();
+        }
+        else
+        {
+            for (u32 i = 0; i < 4; i++)
+            {
+                if (sTarcUiState->mons[activeMon].abilities[i] != ABILITY_NONE)
+                    numItems++;
+            }
+            if (numItems == 4)
+            {
+                PlaySE(SE_PC_OFF);
+                return;
+            }
+            u32 putIndex = 0;
+            while (sTarcUiState->mons[activeMon].abilities[putIndex] != ABILITY_NONE)
+                putIndex++;
+
+            sTarcUiState->mons[activeMon].abilities[putIndex] = gSaveBlock1Ptr->abilityStorage[listPos];
+            gSaveBlock1Ptr->abilityStorage[listPos] = ABILITY_NONE;
+            numItems = CompactAbilityStorage();
+        }
+        if (listPos == numItems && numItems != 0)
+        {
+            if (sTarcUiState->scrollOffset > 0)
+                sTarcUiState->scrollOffset--;
+            else
+            {
+                MgbaPrintf(MGBA_LOG_WARN, "Reducing select pos");
+                sTarcUiState->selectedRow--;
+            }
+        }
+    }
+    TarcUi_PrintMon();
+    TarcUi_InitScrollList();
+}
+
+//  This can be improved, but I can't be arsed right now
+static u32 CompactMoveStorage(void)
+{
+    u16 moves[36];
+    u32 moveCount = 0;
+    for (u32 i = 0; i < 36; i++)
+    {
+        if (gSaveBlock1Ptr->moveStorage[i] != MOVE_NONE)
+        {
+            moves[moveCount++] = gSaveBlock1Ptr->moveStorage[i];
+            gSaveBlock1Ptr->moveStorage[i] = MOVE_NONE;
+        }
+    }
+
+    for (u32 i = 0; i < moveCount; i++)
+    {
+        gSaveBlock1Ptr->moveStorage[i] = moves[i];
+    }
+    return moveCount;
+}
+
+static u32 CompactAbilityStorage(void)
+{
+    u16 abilities[9];
+    u32 abilityCount = 0;
+    for (u32 i = 0; i < 9; i++)
+    {
+        if (gSaveBlock1Ptr->abilityStorage[i] != ABILITY_NONE)
+        {
+            abilities[abilityCount++] = gSaveBlock1Ptr->abilityStorage[i];
+            gSaveBlock1Ptr->abilityStorage[i] = ABILITY_NONE;
+        }
+    }
+
+    for (u32 i = 0; i < abilityCount; i++)
+    {
+        gSaveBlock1Ptr->abilityStorage[i] = abilities[i];
+    }
+    return abilityCount;
 }
