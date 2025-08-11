@@ -16,6 +16,7 @@
 #include "palette.h"
 #include "scanline_effect.h"
 #include "sound.h"
+#include "strings.h"
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
@@ -57,6 +58,7 @@ struct Tarc_PartyMenuState
     u8 selectorSpriteId;
     u8 scrollOffset;
     u8 selectedRow;
+    u8 prevListPos;
     struct ListMenuItem listBuffer[36];
     struct ListMenuTemplate list;
     u8 listNames[36][20];
@@ -103,7 +105,7 @@ static const struct ListMenuTemplate sItemListMenu =
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_NARROW,
-    .cursorKind = CURSOR_BLACK_ARROW,
+    .cursorKind = CURSOR_RED_ARROW,
 };
 
 static EWRAM_DATA struct Tarc_PartyMenuState *sTarcUiState = NULL;
@@ -147,9 +149,9 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define LIST_HEIGHT 10
 #define SELECT_WIDTH      8
 #define SELECT_HEIGHT     2
-#define INFO_WIDTH  20
+#define INFO_WIDTH  19
 #define INFO_HEIGHT 8
-#define SUB_WIDTH   20
+#define SUB_WIDTH   19
 #define SUB_HEIGHT  2
 #define CONTROLLS_WIDTH  22
 #define CONTROLLS_HEIGHT 2
@@ -255,7 +257,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_INFO] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
+        .tilemapLeft = 11,
         .tilemapTop = 4,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
@@ -315,7 +317,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SPA] =
     {
         .bg = 0,
-        .tilemapLeft = 12,
+        .tilemapLeft = 18,
         .tilemapTop = 16,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -325,7 +327,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SPD] =
     {
         .bg = 0,
-        .tilemapLeft = 18,
+        .tilemapLeft = 24,
         .tilemapTop = 16,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -335,7 +337,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SPE] =
     {
         .bg = 0,
-        .tilemapLeft = 24,
+        .tilemapLeft = 12,
         .tilemapTop = 16,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -625,6 +627,20 @@ static void Task_TarcUiWaitFadeIn(u8 taskId)
         gTasks[taskId].func = Task_TarcUiMainInput;
 }
 
+static bool32 TarcUi_ListChanged(void)
+{
+    u32 newListPos = sTarcUiState->scrollOffset + sTarcUiState->selectedRow;
+    if (sTarcUiState->prevListPos != newListPos)
+    {
+        sTarcUiState->prevListPos = newListPos;
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+
 static void Task_TarcUiMainInput(u8 taskId)
 {
     if (!sTarcUiState->rightSelected)
@@ -633,6 +649,8 @@ static void Task_TarcUiMainInput(u8 taskId)
         struct ListMenu *list = (void *)gTasks[sTarcUiState->listTaskid].data;
         sTarcUiState->scrollOffset = list->scrollOffset;
         sTarcUiState->selectedRow = list->selectedRow;
+        if (TarcUi_ListChanged())
+            TarcUi_PrintSelection();
     }
 
     if (JOY_NEW(DPAD_LEFT))
@@ -645,6 +663,11 @@ static void Task_TarcUiMainInput(u8 taskId)
         else if (sTarcUiState->rightSelected)
         {
             sTarcUiState->selectPos -= 1;
+            TarcUi_PrintSelection();
+        }
+        else
+        {
+            PlaySE(SE_PC_OFF);
         }
 
         TarcUi_UpdateSelector();
@@ -657,14 +680,17 @@ static void Task_TarcUiMainInput(u8 taskId)
             //  Remove selector from list menu
             sTarcUiState->rightSelected = TRUE;
             TarcUi_InitScrollList();
+            TarcUi_PrintSelection();
         }
         else if (sTarcUiState->selectPos == 0 || sTarcUiState->selectPos == 2)
         {
             sTarcUiState->selectPos += 1;
+            TarcUi_PrintSelection();
         }
         else
         {
             //  Play error sound
+            PlaySE(SE_PC_OFF);
         }
 
         TarcUi_UpdateSelector();
@@ -673,7 +699,14 @@ static void Task_TarcUiMainInput(u8 taskId)
     if (sTarcUiState->rightSelected && JOY_NEW(DPAD_UP))
     {
         if (sTarcUiState->selectPos > 1)
+        {
             sTarcUiState->selectPos -= 2;
+            TarcUi_PrintSelection();
+        }
+        else
+        {
+            PlaySE(SE_PC_OFF);
+        }
 
         TarcUi_UpdateSelector();
     }
@@ -681,8 +714,14 @@ static void Task_TarcUiMainInput(u8 taskId)
     if (sTarcUiState->rightSelected && JOY_NEW(DPAD_DOWN))
     {
         if (sTarcUiState->selectPos < 2)
+        {
             sTarcUiState->selectPos += 2;
-        //else
+            TarcUi_PrintSelection();
+        }
+        else
+        {
+            PlaySE(SE_PC_OFF);
+        }
 
         TarcUi_UpdateSelector();
     }
@@ -695,6 +734,7 @@ static void Task_TarcUiMainInput(u8 taskId)
             sTarcUiState->activeMon--;
 
         TarcUi_PrintMon();
+        TarcUi_PrintSelection();
     }
 
     if (JOY_NEW(R_BUTTON))
@@ -705,6 +745,7 @@ static void Task_TarcUiMainInput(u8 taskId)
             sTarcUiState->activeMon++;
 
         TarcUi_PrintMon();
+        TarcUi_PrintSelection();
     }
 
     if (JOY_NEW(START_BUTTON))
@@ -782,6 +823,7 @@ static void TarcUi_InitScrollList(void)
     sTarcUiState->listIsInitialized = TRUE;
     CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
     sTarcUiState->switchedMode = FALSE;
+    TarcUi_PrintSelection();
 }
 
 static void TarcUi_BuildListMoves(void)
@@ -792,7 +834,6 @@ static void TarcUi_BuildListMoves(void)
         if (gSaveBlock1Ptr->moveStorage[i] == MOVE_NONE)
             break;
 
-        sTarcUiState->listBuffer[i].name = gMovesInfo[gSaveBlock1Ptr->moveStorage[i]].name;
         u8 *end;
         end = StringCopy(sTarcUiState->listNames[i], gMovesInfo[gSaveBlock1Ptr->moveStorage[i]].name);
         PrependFontIdToFit(sTarcUiState->listNames[i], end, FONT_NORMAL, 72);
@@ -1039,14 +1080,38 @@ static void TarcUi_PrintButtonHints(void)
 
 static void TarcUi_PrintSelection(void)
 {
-    const u8 *origStr;
+    u32 currSelection;
+    const u8 *origStr = gMovesInfo[MOVE_NONE].description;
+    u32 listPos = sTarcUiState->scrollOffset + sTarcUiState->selectedRow;
+    FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     switch (sTarcUiState->mode)
     {
     case MODE_MOVES:
+        if (sTarcUiState->rightSelected)
+            currSelection = sTarcUiState->mons[sTarcUiState->activeMon].moves[sTarcUiState->selectPos];
+        else
+            currSelection = gSaveBlock1Ptr->moveStorage[listPos];
+        origStr = gMovesInfo[currSelection].description;
         break;
     case MODE_ABILITIES:
+        if (sTarcUiState->rightSelected)
+            currSelection = sTarcUiState->mons[sTarcUiState->activeMon].abilities[sTarcUiState->selectPos];
+        else
+            currSelection = gSaveBlock1Ptr->abilityStorage[listPos];
+        origStr = gAbilitiesInfo[currSelection].description;
         break;
     }
+    u32 currChar = 0;
+    while (origStr[currChar] != EOS)
+        currChar++;
+
+    AddTextPrinterParameterized4(WIN_INFO,
+                                 FONT_NORMAL,
+                                 0, 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 origStr);
+    CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
 }
 
 static void TarcUi_UpdateSelector(void)
@@ -1177,7 +1242,6 @@ static void TryMoveSelection(void)
                 sTarcUiState->scrollOffset--;
             else
             {
-                MgbaPrintf(MGBA_LOG_WARN, "Reducing select pos");
                 sTarcUiState->selectedRow--;
             }
         }
