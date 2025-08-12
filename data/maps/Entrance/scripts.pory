@@ -20,7 +20,7 @@ script Entrance_RainDirect {
 }
 
 script Entrance_RainIndirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to indirect rain?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_RAIN_CONDITIONAL)
     }
@@ -28,7 +28,7 @@ script Entrance_RainIndirect {
 }
 
 script Entrance_RainManual {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to manual rain?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_RAIN_MANUAL)
     }
@@ -36,7 +36,7 @@ script Entrance_RainManual {
 }
 
 script Entrance_SunDirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to direct sun?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SUN_DIRECT)
     }
@@ -44,7 +44,7 @@ script Entrance_SunDirect {
 }
 
 script Entrance_SunIndirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to indirect sun?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SUN_CONDITIONAL)
     }
@@ -52,7 +52,7 @@ script Entrance_SunIndirect {
 }
 
 script Entrance_SunManual {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to manual sun?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SUN_MANUAL)
     }
@@ -60,7 +60,7 @@ script Entrance_SunManual {
 }
 
 script Entrance_SnowDirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to direct snow?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SNOW_DIRECT)
     }
@@ -68,7 +68,7 @@ script Entrance_SnowDirect {
 }
 
 script Entrance_SnowIndirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to indirect snow?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SNOW_CONDITIONAL)
     }
@@ -76,7 +76,7 @@ script Entrance_SnowIndirect {
 }
 
 script Entrance_SnowManual {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to manual snow?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SNOW_MANUAL)
     }
@@ -84,7 +84,7 @@ script Entrance_SnowManual {
 }
 
 script Entrance_SandDirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to direct sand?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SAND_DIRECT)
     }
@@ -92,7 +92,7 @@ script Entrance_SandDirect {
 }
 
 script Entrance_SandIndirect {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to indirect sand?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SAND_CONDITIONAL)
     }
@@ -100,7 +100,7 @@ script Entrance_SandIndirect {
 }
 
 script Entrance_SandManual {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
+    msgbox("Set affinity to manual sand?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         setaffinity(MON_LIST_SAND_MANUAL)
     }

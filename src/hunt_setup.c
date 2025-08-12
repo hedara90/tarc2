@@ -62,27 +62,78 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
     //  TODO: Randomize the minibosses when they've been decided
 
     //  Setup player mons
-    SetupPlayerMons(gSaveBlock1Ptr->playerAffinity);
+    SetupPlayerMons(gSaveBlock1Ptr->playerAffinity, &localRngState);
 }
 
-static void GiveHuntMon(enum PlayerMonList monList, u32 index)
+static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
 {
     u8 stats[6] = {0, 0, 0, 0, 0, 0};
 
-    u16 moves[4];
-    for (u32 i = 0; i < 4; i++)
+    u16 moves[4] = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE};
+
+    //  Give the fixed setter
+    for (u32 i = 0; i < 2; i++)
     {
-        moves[i] = sStarterMons[monList][index].moves[i];
+        moves[i] = sStarterSetters[monList].moves[i];
     }
 
-    bool8 isShiny = (Random32() % 0xFFF) == 0;
+    bool8 isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
 
-    ScriptGiveMonParameterized(0, index, sStarterMons[monList][index].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 0, sStarterSetters[monList].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 
-    gSaveBlock1Ptr->playerSpecies[index] = sStarterMons[monList][index].species;
+    gSaveBlock1Ptr->playerSpecies[0] = sStarterSetters[monList].species;
+
+    //  Give random mons from pool
+    const struct StarterPool *pool = &sRainPool;
+    switch (monList)
+    {
+    case MON_LIST_RAIN_DIRECT:
+    case MON_LIST_RAIN_CONDITIONAL:
+    case MON_LIST_RAIN_MANUAL:
+        pool = &sRainPool;
+        break;
+    case MON_LIST_SUN_DIRECT:
+    case MON_LIST_SUN_CONDITIONAL:
+    case MON_LIST_SUN_MANUAL:
+        pool = &sSunPool;
+        break;
+    case MON_LIST_SNOW_DIRECT:
+    case MON_LIST_SNOW_CONDITIONAL:
+    case MON_LIST_SNOW_MANUAL:
+        pool = &sSnowPool;
+        break;
+    case MON_LIST_SAND_DIRECT:
+    case MON_LIST_SAND_CONDITIONAL:
+    case MON_LIST_SAND_MANUAL:
+        pool = &sSandPool;
+        break;
+    case MON_LIST_RANDOM:
+        pool = &sRainPool;
+        break;
+    }
+
+    u32 index1 = LocalRandom32(localRngState) % pool->numMons;
+    u32 index2 = LocalRandom32(localRngState) % pool->numMons;
+    while (index1 == index2)
+        index2 = LocalRandom32(localRngState) % pool->numMons;
+
+
+    isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
+    for (u32 i = 0; i < 2; i++)
+    {
+        moves[i] = pool->mons[index1].moves[i];
+    }
+    ScriptGiveMonParameterized(0, 1, pool->mons[index1].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+
+    isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
+    for (u32 i = 0; i < 2; i++)
+    {
+        moves[i] = pool->mons[index2].moves[i];
+    }
+    ScriptGiveMonParameterized(0, 2, pool->mons[index2].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 }
 
-void SetupPlayerMons(enum PlayerMonList monList)
+void SetupPlayerMons(enum PlayerMonList monList, rng_value_t *localRngState)
 {
     //  Clear current mons for player
     for (u32 i = 0; i < 6; i++)
@@ -91,18 +142,12 @@ void SetupPlayerMons(enum PlayerMonList monList)
         memset(&gPlayerParty[i], 0, sizeof(struct Pokemon));
     }
 
-    //  REMOVE THIS WHEN ALL THE LISTS ARE SET UP
-    if (monList != MON_LIST_RAIN_DIRECT)
-        monList = MON_LIST_RAIN_DIRECT;
-
     //  Give player all the mons from the current list
     switch (monList)
     {
         case MON_LIST_RANDOM:
         default:
-            GiveHuntMon(monList, 0);
-            GiveHuntMon(monList, 1);
-            GiveHuntMon(monList, 2);
+            GiveHuntMons(monList, localRngState);
             break;
     }
 }

@@ -181,39 +181,194 @@ const struct BossGroup *sBossGroups[] =
     &sPseudos,
 };
 
-const struct StarterMon sStarterMons[MON_LIST_RANDOM][3] =
+const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =
 {
     [MON_LIST_RAIN_DIRECT] =
     {
+        .species = SPECIES_POLITOED,
+        .moves = {MOVE_SURF, MOVE_AMNESIA},
+    },
+    [MON_LIST_RAIN_CONDITIONAL] =
+    {
+        .species = SPECIES_BRONZONG,
+        .moves = {MOVE_METAL_BURST, MOVE_RECOVER},
+    },
+    [MON_LIST_RAIN_MANUAL] =
+    {
+        .species = SPECIES_MARACTUS,
+        .moves = {MOVE_RAIN_DANCE, MOVE_PETAL_BLIZZARD},
+    },
+    [MON_LIST_SUN_DIRECT] =
+    {
+        .species = SPECIES_TORKOAL,
+        .moves = {MOVE_YAWN, MOVE_LAVA_PLUME},
+    },
+    [MON_LIST_SUN_CONDITIONAL] =
+    {
+        .species = SPECIES_SOLROCK,
+        .moves = {MOVE_FLARE_BLITZ, MOVE_ROCK_SLIDE},
+    },
+    [MON_LIST_SUN_MANUAL] =
+    {
+        .species = SPECIES_SUNFLORA,
+        .moves = {MOVE_SUNNY_DAY, MOVE_SOLAR_BEAM},
+    },
+    [MON_LIST_SNOW_DIRECT] =
+    {
+        .species = SPECIES_ABOMASNOW,
+        .moves = {MOVE_AVALANCHE, MOVE_HORN_LEECH},
+    },
+    [MON_LIST_SNOW_CONDITIONAL] =
+    {
+        .species = SPECIES_LUNATONE,
+        .moves = {MOVE_MOONBLAST, MOVE_METEOR_BEAM},
+    },
+    [MON_LIST_SNOW_MANUAL] =
+    {
+        .species = SPECIES_FROSLASS,
+        .moves = {MOVE_SNOWSCAPE, MOVE_WILL_O_WISP},
+    },
+    [MON_LIST_SAND_DIRECT] =
+    {
+        .species = SPECIES_GIGALITH,
+        .moves = {MOVE_COUNTER, MOVE_ROCK_SLIDE},
+    },
+    [MON_LIST_SAND_CONDITIONAL] =
+    {
+        .species = SPECIES_SANDACONDA,
+        .moves = {MOVE_GLARE, MOVE_BULLDOZE},
+    },
+    [MON_LIST_SAND_MANUAL] =
+    {
+        .species = SPECIES_SANDY_SHOCKS,
+        .moves = {MOVE_SANDSTORM, MOVE_VOLT_SWITCH},
+    },
+};
+
+const struct StarterPool sRainPool =
+{
+    .numMons = 6,
+    .mons =
+    {
         {
-            .species = SPECIES_POLITOED,
-            .moves =
-            {
-                MOVE_TACKLE,
-                MOVE_TACKLE,
-                MOVE_TACKLE,
-                MOVE_TACKLE
-            }
+            .species = SPECIES_KINGDRA,
+            .moves = {MOVE_SURF, MOVE_HURRICANE},
+        },
+        {
+            .species = SPECIES_BASCULEGION,
+            .moves = {MOVE_WAVE_CRASH, MOVE_HEAD_SMASH},
+        },
+        {
+            .species = SPECIES_OVERQWIL,
+            .moves = {MOVE_BARB_BARRAGE, MOVE_FLIP_TURN},
+        },
+        {
+            .species = SPECIES_ARCHALUDON,
+            .moves = {MOVE_ELECTRO_SHOT, MOVE_IRON_DEFENSE},
+        },
+        {
+            .species = SPECIES_WHISCASH,
+            .moves = {MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE},
         },
         {
             .species = SPECIES_KILOWATTREL,
-            .moves =
-            {
-                MOVE_HURRICANE,
-                MOVE_THUNDER,
-                MOVE_TACKLE,
-                MOVE_TACKLE
-            }
+            .moves = {MOVE_WEATHER_BALL, MOVE_THUNDER},
+        },
+    },
+};
+
+const struct StarterPool sSunPool =
+{
+    .numMons = 6,
+    .mons =
+    {
+        {
+            .species = SPECIES_TAUROS_PALDEA_BLAZE,
+            .moves = {MOVE_RAGING_BULL, MOVE_CLOSE_COMBAT},
         },
         {
-            .species = SPECIES_ARMALDO,
-            .moves =
-            {
-                MOVE_TACKLE,
-                MOVE_TACKLE,
-                MOVE_TACKLE,
-                MOVE_TACKLE
-            },
+            .species = SPECIES_HELIOLISK,
+            .moves = {MOVE_HYPER_VOICE, MOVE_THUNDERBOLT},
+        },
+        {
+            .species = SPECIES_TROPIUS,
+            .moves = {MOVE_LEECH_SEED, MOVE_TAILWIND},
+        },
+        {
+            .species = SPECIES_CHANDELURE,
+            .moves = {MOVE_OVERHEAT, MOVE_SHADOW_BALL},
+        },
+        {
+            .species = SPECIES_LEAFEON,
+            .moves = {MOVE_SWORDS_DANCE, MOVE_SOLAR_BLADE},
+        },
+        {
+            .species = SPECIES_FLORGES,
+            .moves = {MOVE_CALM_MIND, MOVE_MOONBLAST},
+        },
+    },
+};
+
+const struct StarterPool sSnowPool =
+{
+    .numMons = 6,
+    .mons =
+    {
+        {
+            .species = SPECIES_ESCAVALIER,
+            .moves = {MOVE_MEGAHORN, MOVE_SHELTER},
+        },
+        {
+            .species = SPECIES_GLACEON,
+            .moves = {MOVE_BLIZZARD, MOVE_FREEZE_DRY},
+        },
+        {
+            .species = SPECIES_TALONFLAME,
+            .moves = {MOVE_TAILWIND, MOVE_FLAMETHROWER},
+        },
+        {
+            .species = SPECIES_WALREIN,
+            .moves = {MOVE_PROTECT, MOVE_ICY_WIND},
+        },
+        {
+            .species = SPECIES_EMPOLEON,
+            .moves = {MOVE_METAL_SOUND, MOVE_BRINE},
+        },
+        {
+            .species = SPECIES_SNEASLER,
+            .moves = {MOVE_SWORDS_DANCE, MOVE_DIRE_CLAW},
+        },
+    },
+};
+
+const struct StarterPool sSandPool =
+{
+    .numMons = 6,
+    .mons =
+    {
+        {
+            .species = SPECIES_OMASTAR,
+            .moves = {MOVE_SHELL_SMASH, MOVE_POWER_GEM},
+        },
+        {
+            .species = SPECIES_DRACOZOLT,
+            .moves = {MOVE_BOLT_BEAK, MOVE_DRAGON_RUSH},
+        },
+        {
+            .species = SPECIES_STEELIX,
+            .moves = {MOVE_COIL, MOVE_EARTHQUAKE},
+        },
+        {
+            .species = SPECIES_GASTRODON,
+            .moves = {MOVE_CHILLING_WATER, MOVE_RECOVER},
+        },
+        {
+            .species = SPECIES_MANDIBUZZ,
+            .moves = {MOVE_PARTING_SHOT, MOVE_TAILWIND},
+        },
+        {
+            .species = SPECIES_PALOSSAND,
+            .moves = {MOVE_SHORE_UP, MOVE_SHADOW_BALL},
         },
     },
 };
