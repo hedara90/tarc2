@@ -1044,6 +1044,16 @@ struct ExternalEventFlags
 
 } __attribute__((packed));/*size = 0x15*/
 
+struct HuntTargets
+{
+    u16 finalBoss;
+    u16 bosses[9];
+    u16 miniBosses[27];
+    u8 finalBossDefeated;
+    bool8 bossesDefeated[9];
+    bool8 miniBossesDefeated[27];
+};
+
 struct SaveBlock1
 {
     /*0x00*/ struct Coords16 pos;
@@ -1156,6 +1166,12 @@ struct SaveBlock1
 #endif //FREE_TRAINER_HILL
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3???
+    struct HuntTargets huntTargets;
+    u16 extraAbilities[3][3];
+    u16 playerSpecies[3];
+    u32 playerAffinity;
+    u16 abilityStorage[9];
+    u16 moveStorage[36];
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

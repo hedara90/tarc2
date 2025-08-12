@@ -32,3 +32,21 @@ SINGLE_BATTLE_TEST("Solar Beam does not need a charging turn if Sun is up")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SOLAR_BEAM, player);
     }
 }
+
+SINGLE_BATTLE_TEST("Tackle does damage")
+{
+    s16 damage;
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_GASTLY);
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Tackle!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        HP_BAR(opponent, captureDamage:&damage);
+    } THEN {
+        EXPECT_GT(damage, 0);
+    }
+}

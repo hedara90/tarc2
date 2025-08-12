@@ -13,6 +13,8 @@
 #include "battle_scripts.h"
 #include "constants/battle_string_ids.h"
 
+#include "tarc_ai.h"
+
 void AllocateBattleResources(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
@@ -50,6 +52,7 @@ void AllocateBattleResources(void)
 
 void FreeBattleResources(void)
 {
+    FreeSideSprites();
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
         FreeTrainerHillBattleStruct();
 

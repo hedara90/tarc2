@@ -61,6 +61,7 @@
 #include "constants/union_room.h"
 #include "constants/vars.h"
 #include "constants/weather.h"
+#include "constants/hunt_setup.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/event.inc"
 	.include "constants/constants.inc"
@@ -1157,3 +1158,29 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
 	.include "data/scripts/dexnav.inc"
+
+	.include "data/maps/Tilemaptest/scripts.inc"
+
+	.include "data/maps/MythHub/scripts.inc"
+
+	.include "data/maps/Area1/scripts.inc"
+
+	.include "data/maps/Area2/scripts.inc"
+
+	.include "data/maps/Area3/scripts.inc"
+
+	.include "data/maps/Area4/scripts.inc"
+
+	.include "data/maps/Area5/scripts.inc"
+
+	.include "data/maps/Area6/scripts.inc"
+
+	.include "data/maps/Boss/scripts.inc"
+
+	.include "data/maps/Area8/scripts.inc"
+
+	.include "data/maps/Area7/scripts.inc"
+
+	.include "data/maps/Area9/scripts.inc"
+
+	.include "data/maps/Entrance/scripts.inc"

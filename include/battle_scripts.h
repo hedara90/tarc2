@@ -535,6 +535,9 @@ extern const u8 BattleScript_AlreadyParalyzed[];
 extern const u8 BattleScript_AlreadyBurned[];
 extern const u8 BattleScript_PrintAbilityMadeIneffective[];
 
+//New abilities
+extern const u8 BattleScript_CloudburstActivates[];
+
 // zmoves
 extern const u8 BattleScript_ZMoveActivateDamaging[];
 extern const u8 BattleScript_ZMoveActivateStatus[];
@@ -871,5 +874,7 @@ extern const u8 BattleScript_FickleBeamDoubled[];
 extern const u8 BattleScript_QuestionForfeitBattle[];
 extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
+extern const u8 BattleScript_BossRestore[];
+extern const u8 BattleScript_BacklineRestore[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

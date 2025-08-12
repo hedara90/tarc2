@@ -1,0 +1,82 @@
+const struct BossMoveList sArticuno1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossMoveList sZapdos1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossMoveList sMoltres1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_EMBER,
+        MOVE_FIRE_SPIN,
+        MOVE_FIRE_BLAST,
+        MOVE_ROOST
+    },
+};
+
+const struct BossAi sArticunoAi =
+{
+    .phaseMoves =
+    {
+        &sArticuno1,
+        &sArticuno1,
+        &sArticuno1,
+        &sArticuno1,
+    },
+};
+
+const struct BossAi sZapdosAi =
+{
+    .phaseMoves =
+    {
+        &sZapdos1,
+        &sZapdos1,
+        &sZapdos1,
+        &sZapdos1,
+    },
+};
+
+const struct BossAi sMoltresAi =
+{
+    .phaseMoves =
+    {
+        &sMoltres1,
+        &sMoltres1,
+        &sMoltres1,
+        &sMoltres1,
+    },
+};
+
+const struct BossAi sAiLists[] =
+{
+    [BOSS_ARTICUNO] = sArticunoAi,
+    [BOSS_ZAPDOS] = sZapdosAi,
+    [BOSS_MOLTRES] = sMoltresAi,
+};
+
+const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
+{
+    [SPECIES_ARTICUNO] = BOSS_ARTICUNO,
+    [SPECIES_ZAPDOS] = BOSS_ZAPDOS,
+    [SPECIES_MOLTRES] = BOSS_MOLTRES,
+};

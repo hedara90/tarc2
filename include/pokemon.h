@@ -346,6 +346,7 @@ struct BattlePokemon
     /*0x55*/ u32 otId;
     /*0x59*/ u8 metLevel;
     /*0x5A*/ bool8 isShiny;
+    u8 turnsInBack;
 };
 
 struct EvolutionParam
@@ -471,7 +472,8 @@ struct SpeciesInfo /*0xC4*/
     s8 enemyShadowYOffset; // This determines the Y-offset for an enemy Pokémon's shadow during battle; negative values point up, positive values point down.
     u16 enemyShadowSize:3; // This determines the size of the shadow sprite used for an enemy Pokémon's front sprite during battle.
     u16 suppressEnemyShadow:1; // If set to true, then a shadow will not be drawn beneath an enemy Pokémon's front sprite during battle.
-    u16 padding5:12;
+    u16 maxPhases:3;
+    u16 padding5:9;
     // Move Data
     const struct LevelUpMove *levelUpLearnset;
     const u16 *teachableLearnset;
@@ -493,6 +495,7 @@ struct SpeciesInfo /*0xC4*/
 #endif //P_GENDER_DIFFERENCES
 #endif //OW_PKMN_OBJECTS_SHARE_PALETTES
 #endif //OW_POKEMON_OBJECT_EVENTS
+    bool32 isPlayer;
 };
 
 struct Ability

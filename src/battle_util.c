@@ -3234,6 +3234,36 @@ bool32 CanAbilityAbsorbMove(u32 battlerAtk, u32 battlerDef, u32 abilityDef, u32 
         PushTraitStack(battlerDef, ABILITY_EARTH_EATER);
         effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
     }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_SHAPE_OF_STONE) : SearchTraits(battlerTraits, ABILITY_SHAPE_OF_STONE) || abilityDef == ABILITY_SHAPE_OF_STONE)
+     && moveType == TYPE_ROCK)
+    {
+        PushTraitStack(battlerDef, ABILITY_SHAPE_OF_STONE);
+        effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+    }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_SHAPE_OF_STEEL) : SearchTraits(battlerTraits, ABILITY_SHAPE_OF_STEEL) || abilityDef == ABILITY_SHAPE_OF_STEEL)
+     && moveType == TYPE_STEEL)
+    {
+        PushTraitStack(battlerDef, ABILITY_SHAPE_OF_STEEL);
+        effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+    }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_SHAPE_OF_ICE) : SearchTraits(battlerTraits, ABILITY_SHAPE_OF_ICE) || abilityDef == ABILITY_SHAPE_OF_ICE)
+     && moveType == TYPE_ICE)
+    {
+        PushTraitStack(battlerDef, ABILITY_SHAPE_OF_ICE);
+        effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+    }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_SHAPE_OF_CURRENT) : SearchTraits(battlerTraits, ABILITY_SHAPE_OF_CURRENT) || abilityDef == ABILITY_SHAPE_OF_CURRENT)
+     && moveType == TYPE_ELECTRIC)
+    {
+        PushTraitStack(battlerDef, ABILITY_SHAPE_OF_CURRENT);
+        effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+    }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_SHAPE_OF_ENERGY) : SearchTraits(battlerTraits, ABILITY_SHAPE_OF_ENERGY) || abilityDef == ABILITY_SHAPE_OF_ENERGY)
+     && moveType == TYPE_DRAGON)
+    {
+        PushTraitStack(battlerDef, ABILITY_SHAPE_OF_ENERGY);
+        effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+    }
     if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_MOTOR_DRIVE) : SearchTraits(battlerTraits, ABILITY_MOTOR_DRIVE) || abilityDef == ABILITY_MOTOR_DRIVE)
      && moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
     {
@@ -4977,6 +5007,28 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 gBattleScripting.battler = battler;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_SandSpitActivates;
+                effect++;
+            }
+        }
+        if (SearchTraits(battlerTraits, ABILITY_CLOUDBURST)
+         && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
+         && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && !(gBattleWeather & B_WEATHER_RAIN && HasWeatherEffect()))
+        {
+            if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
+            {
+                PushTraitStack(battler, ABILITY_CLOUDBURST);
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
+                effect++;
+            }
+            else if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+            {
+                PushTraitStack(battler, ABILITY_CLOUDBURST);
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_CloudburstActivates;
                 effect++;
             }
         }
@@ -9908,6 +9960,10 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
         mod = UQ_4_12(1.0);
     if (GetMoveEffect(move) == EFFECT_SUPER_EFFECTIVE_ON_ARG && defType == GetMoveArgType(move))
         mod = UQ_4_12(2.0);
+    if (SearchTraits(battlerTraits, ABILITY_HEAT_EROSION) && (moveType == TYPE_FIRE) && (defType == TYPE_GROUND || defType == TYPE_ROCK)){
+        mod = UQ_4_12(2.0);
+        CreateAbilityPopUp(battlerAtk, ABILITY_HEAT_EROSION, FALSE);
+        }
     if (moveType == TYPE_GROUND && defType == TYPE_FLYING && IsBattlerGrounded(battlerDef) && mod == UQ_4_12(0.0))
         mod = UQ_4_12(1.0);
     if (moveType == TYPE_STELLAR && GetActiveGimmick(battlerDef) == GIMMICK_TERA)
@@ -11751,4 +11807,72 @@ bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId)
             return TRUE;
     }
     return FALSE;
+}
+
+bool32 LeftMonHurt(void)
+{
+    if (gLeftMon.hp < gLeftMon.maxHP)
+        return TRUE;
+
+    if (gLeftMon.status1 != 0 && gLeftMon.turnsInBack == TARC_STATUS_CURE_TURN)
+        return TRUE;
+
+    for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+        if (gLeftMon.statStages[i] < 0 && gLeftMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+            return TRUE;
+
+    return FALSE;
+}
+
+bool32 RightMonHurt(void)
+{
+    if (gRightMon.hp < gRightMon.maxHP)
+        return TRUE;
+
+    if (gRightMon.status1 != 0 && gRightMon.turnsInBack == TARC_STATUS_CURE_TURN)
+        return TRUE;
+
+    for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+        if (gRightMon.statStages[i] < 0 && gRightMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+            return TRUE;
+
+    return FALSE;
+}
+
+bool32 BacklineIsHurt(void)
+{
+    if (LeftMonHurt() || RightMonHurt())
+        return TRUE;
+    return FALSE;
+}
+
+void HealBackLineMon(struct BattlePokemon *mon)
+{
+    if (mon->hp < mon->maxHP && mon->hp != 0)
+    {
+        u32 healFrac = mon->maxHP / TARC_HP_RESTORE_FRAC;
+        if (healFrac > (mon->maxHP - mon->hp))
+            mon->hp = mon->maxHP;
+        else
+            mon->hp += healFrac;
+    }
+
+    if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
+        mon->status1 = 0;
+    if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status2 != 0)
+        mon->status2 = 0;
+
+    if (mon->turnsInBack >= TARC_STAT_RESTORE_TURN)
+    {
+        for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            if (mon->statStages[i] < 0)
+                mon->statStages[i]++;
+    }
+}
+
+void UpdateBacklineTurns(void)
+{
+    gLeftMon.turnsInBack++;
+    gRightMon.turnsInBack++;
+    gBattleMons[0].turnsInBack = 0;
 }

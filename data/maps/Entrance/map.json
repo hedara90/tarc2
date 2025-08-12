@@ -1,0 +1,133 @@
+{
+  "id": "MAP_ENTRANCE",
+  "name": "Entrance",
+  "layout": "LAYOUT_ENTRANCE",
+  "music": "MUS_DUMMY",
+  "region_map_section": "MAPSEC_ABANDONED_SHIP",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_CITY",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [],
+  "coord_events": [],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 21,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_Random"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 18,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_RainDirect"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 24,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SunDirect"
+    },
+    {
+      "type": "sign",
+      "x": 22,
+      "y": 21,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SnowDirect"
+    },
+    {
+      "type": "sign",
+      "x": 16,
+      "y": 21,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SandDirect"
+    },
+    {
+      "type": "sign",
+      "x": 24,
+      "y": 23,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SnowIndirect"
+    },
+    {
+      "type": "sign",
+      "x": 24,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SnowManual"
+    },
+    {
+      "type": "sign",
+      "x": 14,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SandManual"
+    },
+    {
+      "type": "sign",
+      "x": 14,
+      "y": 23,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SandIndirect"
+    },
+    {
+      "type": "sign",
+      "x": 17,
+      "y": 26,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SunIndirect"
+    },
+    {
+      "type": "sign",
+      "x": 21,
+      "y": 26,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_SunManual"
+    },
+    {
+      "type": "sign",
+      "x": 21,
+      "y": 16,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_RainManual"
+    },
+    {
+      "type": "sign",
+      "x": 17,
+      "y": 16,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_RainIndirect"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 8,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_Lugia"
+    }
+  ]
+}

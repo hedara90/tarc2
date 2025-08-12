@@ -22,6 +22,8 @@
 #include "random.h" // for rng_value_t
 #include "trainer_slide.h"
 
+#include "tarc_ai.h"
+
 // Helper for accessing command arguments and advancing gBattlescriptCurrInstr.
 //
 // For example accuracycheck is defined as:
@@ -670,7 +672,8 @@ struct BattleStruct
     u8 anyMonHasTransformed:1; // Only used in battle_tv.c
     u8 multipleSwitchInState:2;
     u8 multipleSwitchInCursor:3;
-    u8 padding1:2;
+    u8 hasLoadedBoxPalette:1;
+    u8 padding1:1;
     u8 multipleSwitchInSortedBattlers[MAX_BATTLERS_COUNT];
     void (*savedCallback)(void);
     u16 usedHeldItems[PARTY_SIZE][NUM_BATTLE_SIDES]; // For each party member and side. For harvest, recycle
@@ -767,7 +770,7 @@ struct BattleStruct
     u8 additionalEffectsCounter:4; // A counter for the additionalEffects applied by the current move in Cmd_setadditionaleffects
     s16 savedcheekPouchDamage; // Cheek Pouch can happen in the middle of an attack execution so we need to store the current dmg
     u8 cheekPouchActivated:1;
-    u8 padding2:3;
+    u8 currentPhase:3;
     u8 pursuitStoredSwitch; // Stored id for the Pursuit target's switch
     s32 battlerExpReward;
     u16 prevTurnSpecies[MAX_BATTLERS_COUNT]; // Stores species the AI has in play at start of turn
@@ -787,7 +790,10 @@ struct BattleStruct
     u8 trainerSlideSpriteIds[MAX_BATTLERS_COUNT];
     u16 opponentMonCanTera:6;
     u16 opponentMonCanDynamax:6;
-    u16 padding:4;
+    u16 maxPhases:3;
+    u16 skipIncrement:1;
+    u8 aiTurnCounter;
+    enum Bosses currentBoss;
 };
 
 struct AiBattleData
@@ -1144,6 +1150,9 @@ extern bool8 gLastUsedBallMenuPresent;
 extern u8 gPartyCriticalHits[PARTY_SIZE];
 extern u8 gCategoryIconSpriteId;
 
+extern struct BattlePokemon gLeftMon;
+extern struct BattlePokemon gRightMon;
+
 static inline bool32 IsBattlerAlive(u32 battler)
 {
     if (gBattleMons[battler].hp == 0)
@@ -1253,5 +1262,33 @@ static inline bool32 IsBattlerInvalidForSpreadMove(u32 battlerAtk, u32 battlerDe
         || !IsBattlerAlive(battlerDef)
         || (battlerDef == BATTLE_PARTNER(battlerAtk) && (moveTarget == MOVE_TARGET_BOTH));
 }
+
+struct SideSprite
+{
+    u16 species;
+    u32 *sprite;
+    u16 *palette;
+};
+
+void FreeSideSprites(void);
+
+struct SideMons
+{
+    u8 spriteIdLeft;
+    u8 spriteIdRight;
+    u8 hpBarIdLeft;
+    u8 hpBarIdRight;
+    bool8 isShown;
+    bool8 leftSwitch;
+    bool8 rightSwitch;
+    u8 padding;
+    struct SideSprite sideSprites[3];
+};
+
+extern struct SideMons gSideMons;
+
+void SetActiveBossBarColour(void);
+void SetInactiveBossBarColour(void);
+void SetBossBarOtherColour(void);
 
 #endif // GUARD_BATTLE_H

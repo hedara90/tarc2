@@ -50,6 +50,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+#include "even_sprite.h"
+#include "constants/map_types.h"
+
 // Menu actions
 enum
 {
@@ -143,6 +146,21 @@ static void SaveGameTask(u8 taskId);
 static void Task_SaveAfterLinkBattle(u8 taskId);
 static void Task_WaitForBattleTowerLinkSave(u8 taskId);
 static bool8 FieldCB_ReturnToFieldStartMenu(void);
+
+// TARC stuff
+static void ShowTarcMenu(void);
+static void HideTarcMenu(void);
+static void SetTarcSpriteToActive(u32 id);
+
+const u16 gStartMenu_Pal[] = INCBIN_U16("graphics/tarc_start_menu/start_menu.gbapal");
+const u16 gStartMenu_Pal2[] = INCBIN_U16("graphics/tarc_start_menu/start_menu2.gbapal");
+const u32 gStartMenu_Info[] = INCBIN_U32("graphics/tarc_start_menu/start_info.4bpp");
+const u32 gStartMenu_Options[] = INCBIN_U32("graphics/tarc_start_menu/start_options.4bpp");
+const u32 gStartMenu_Pokemon[] = INCBIN_U32("graphics/tarc_start_menu/start_pokemon.4bpp");
+const u32 gStartMenu_Save[] = INCBIN_U32("graphics/tarc_start_menu/start_save.4bpp");
+
+EWRAM_DATA static u8 sTarcMenuSpriteIds[4];
+EWRAM_DATA static u8 sTarcPalSlots[2];
 
 static const struct WindowTemplate sWindowTemplate_SafariBalls = {
     .bg = 0,
@@ -330,6 +348,7 @@ static void AddStartMenuAction(u8 action)
 
 static void BuildNormalStartMenu(void)
 {
+    /*
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
         AddStartMenuAction(MENU_ACTION_POKEDEX);
 
@@ -337,13 +356,14 @@ static void BuildNormalStartMenu(void)
         AddStartMenuAction(MENU_ACTION_DEXNAV);
 
     if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
-        AddStartMenuAction(MENU_ACTION_POKEMON);
 
     AddStartMenuAction(MENU_ACTION_BAG);
 
     if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
         AddStartMenuAction(MENU_ACTION_POKENAV);
+    */
 
+    AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_SAVE);
     AddStartMenuAction(MENU_ACTION_OPTION);
@@ -520,8 +540,8 @@ static bool32 InitStartMenuStep(void)
         sInitStartMenuData[0]++;
         break;
     case 2:
-        LoadMessageBoxAndBorderGfx();
-        DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
+        //LoadMessageBoxAndBorderGfx();
+        //DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
         sInitStartMenuData[1] = 0;
         sInitStartMenuData[0]++;
         break;
@@ -533,12 +553,15 @@ static bool32 InitStartMenuStep(void)
         sInitStartMenuData[0]++;
         break;
     case 4:
-        if (PrintStartMenuActions(&sInitStartMenuData[1], 2))
-            sInitStartMenuData[0]++;
+        //if (PrintStartMenuActions(&sInitStartMenuData[1], 2))
+        //    sInitStartMenuData[0]++;
+        ShowTarcMenu();
+        sInitStartMenuData[0]++;
         break;
     case 5:
-        sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
-        CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
+        //sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
+        //CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
+        sStartMenuCursorPos = 4;
         return TRUE;
     }
 
@@ -623,27 +646,38 @@ static bool8 HandleStartMenuInput(void)
 {
     if (JOY_NEW(DPAD_UP))
     {
-        PlaySE(SE_SELECT);
-        sStartMenuCursorPos = Menu_MoveCursor(-1);
+        if (gMapHeader.mapType != MAP_TYPE_CITY)
+        {
+            sStartMenuCursorPos = 0;
+            PlaySE(SE_NOTE_G);
+            SetTarcSpriteToActive(0);
+        }
     }
 
     if (JOY_NEW(DPAD_DOWN))
     {
-        PlaySE(SE_SELECT);
-        sStartMenuCursorPos = Menu_MoveCursor(1);
+        sStartMenuCursorPos = 3;
+        PlaySE(SE_NOTE_G);
+        SetTarcSpriteToActive(1);
+    }
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        sStartMenuCursorPos = 2;
+        PlaySE(SE_NOTE_G);
+        SetTarcSpriteToActive(2);
+    }
+
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        sStartMenuCursorPos = 1;
+        PlaySE(SE_NOTE_G);
+        SetTarcSpriteToActive(3);
     }
 
     if (JOY_NEW(A_BUTTON))
     {
-        PlaySE(SE_SELECT);
-        if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback)
-        {
-            if (GetNationalPokedexCount(FLAG_GET_SEEN) == 0)
-                return FALSE;
-        }
-        if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_DEXNAV
-          && MapHasNoEncounterData())
-            return FALSE;
+        PlaySE(SE_NOTE_A);
 
         gMenuCallback = sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void;
 
@@ -655,6 +689,11 @@ static bool8 HandleStartMenuInput(void)
         {
            FadeScreen(FADE_TO_BLACK, 0);
         }
+        else
+        {
+            HideTarcMenu();
+        }
+        sStartMenuCursorPos = 4;
 
         return FALSE;
     }
@@ -663,6 +702,7 @@ static bool8 HandleStartMenuInput(void)
     {
         RemoveExtraStartMenuWindows();
         HideStartMenu();
+        HideTarcMenu();
         return TRUE;
     }
 
@@ -1504,4 +1544,79 @@ void Script_ForceSaveGame(struct ScriptContext *ctx)
     ShowSaveInfoWindow();
     gMenuCallback = SaveCallback;
     sSaveDialogCallback = SaveSavingMessageCallback;
+}
+
+const u32 sBlankSprite[512] = {0};
+
+static void ShowTarcMenu(void)
+{
+    struct SpritePalette spritePalette;
+    spritePalette.tag = 0xDED1;
+    spritePalette.data = gStartMenu_Pal;
+    sTarcPalSlots[0] = LoadSpritePalette(&spritePalette);
+
+    spritePalette.tag = 0xDED2;
+    spritePalette.data = gStartMenu_Pal2;
+    sTarcPalSlots[1] = LoadSpritePalette(&spritePalette);
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.spriteCompressed = FALSE;
+    cs.palette = gStartMenu_Pal;
+    cs.palTag = 0xDED1;
+    cs.spriteSize = SPRITE_SIZE(64x32);
+    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.subpriority = 0;
+
+    if (gMapHeader.mapType != MAP_TYPE_CITY)
+        cs.sprite = gStartMenu_Pokemon;
+    else
+        cs.sprite = sBlankSprite;
+    cs.tileTag = 0xDED1;
+    cs.posX = 120;
+    cs.posY = 48;
+    sTarcMenuSpriteIds[0] = Even_CreateSprite(&cs);
+
+    cs.sprite = gStartMenu_Options;
+    cs.tileTag = 0xDED2;
+    cs.posY = 104;
+    sTarcMenuSpriteIds[1] = Even_CreateSprite(&cs);
+
+    cs.sprite = gStartMenu_Save;
+    cs.tileTag = 0xDED3;
+    cs.posX = 160;
+    cs.posY = 76;
+    sTarcMenuSpriteIds[2] = Even_CreateSprite(&cs);
+
+    cs.sprite = gStartMenu_Info;
+    cs.tileTag = 0xDED4;
+    cs.posX = 80;
+    cs.posY = 76;
+    sTarcMenuSpriteIds[3] = Even_CreateSprite(&cs);
+}
+
+static void HideTarcMenu(void)
+{
+    for (u32 i = 0; i < 4; i++)
+    {
+        DestroySprite(&gSprites[sTarcMenuSpriteIds[i]]);
+    }
+    FreeSpritePaletteByTag(0xDED1);
+    FreeSpritePaletteByTag(0xDED2);
+    FreeSpriteTilesByTag(0xDED1);
+    FreeSpriteTilesByTag(0xDED2);
+    FreeSpriteTilesByTag(0xDED3);
+    FreeSpriteTilesByTag(0xDED4);
+}
+
+static void SetTarcSpriteToActive(u32 id)
+{
+    for (u32 i = 0; i < 4; i++)
+    {
+        u32 slot;
+        if (i == id)
+            slot = sTarcPalSlots[1];
+        else
+            slot = sTarcPalSlots[0];
+        gSprites[sTarcMenuSpriteIds[i]].oam.paletteNum = slot;
+    }
 }

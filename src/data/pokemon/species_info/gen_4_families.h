@@ -3901,7 +3901,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MINERAL),
-        .abilities = { ABILITY_LEVITATE, ABILITY_HEATPROOF, ABILITY_HEAVY_METAL },
+        .abilities = { ABILITY_LEVITATE, ABILITY_HEATPROOF, ABILITY_CLOUDBURST },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Bronzong"),
         .cryId = CRY_BRONZONG,
@@ -4805,6 +4805,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         )
         .levelUpLearnset = sHippowdonLevelUpLearnset,
         .teachableLearnset = sHippowdonTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_HIPPOPOTAS
 

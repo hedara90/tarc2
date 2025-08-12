@@ -392,5 +392,14 @@ bool32 IsFutureSightAttackerInParty(u32 battlerAtk, u32 battlerDef, u32 move);
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler);
 void UpdateStallMons(void);
 bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId);
+bool32 LeftMonHurt(void);
+bool32 RightMonHurt(void);
+bool32 BacklineIsHurt(void);
+void HealBackLineMon(struct BattlePokemon *mon);
+void UpdateBacklineTurns(void);
+
+#define TARC_STATUS_CURE_TURN  5
+#define TARC_STAT_RESTORE_TURN 3
+#define TARC_HP_RESTORE_FRAC   24
 
 #endif // GUARD_BATTLE_UTIL_H

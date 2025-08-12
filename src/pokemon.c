@@ -3722,6 +3722,23 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
 
+    if (gSpeciesInfo[dst->species].isPlayer)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            dst->maxHP += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].hpBonus;
+            dst->attack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].atkBonus;
+            dst->defense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].defBonus;
+            dst->spAttack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spaBonus;
+            dst->spDefense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spdBonus;
+            dst->speed += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].speBonus;
+        }
+        dst->hp = dst->maxHP - GetMonData(src, MON_DATA_HP_LOST);
+    }
+    else
+    {
+    }
+
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
 
@@ -7170,25 +7187,37 @@ u32 GetTeraTypeFromPersonality(struct Pokemon *mon)
 }
 
 //Returns the slot the Innate is found in, assuming the Ability is already slot 1.  Returns 0 if not found.
-u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerandomizer) {
-    u8 i;
-    u8 innateNum = 0;
+u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerandomizer)
+{
+    u32 innateNum = 0;
 
-    for (i = 0; i < MAX_MON_INNATES; i++)
+    if (gSpeciesInfo[species].isPlayer)
     {
-        if (gSpeciesInfo[species].innates[i] == ability)
+        for (u32 i = 0; i < 3; i++)
+        {
+            u32 currSpecies = gSaveBlock1Ptr->playerSpecies[i];
+            if (gSaveBlock1Ptr->playerSpecies[i] == species)
+            {
+                for (u32 j = 0; j < 3; j++)
+                {
+                    if (gSaveBlock1Ptr->extraAbilities[i][j] == ability)
+                        return j + 2;
+                }
+                break;
+            }
+        }
+    }
+    else
+    {
+        for (u32 i = 0; i < MAX_MON_INNATES; i++)
+        {
+            if (gSpeciesInfo[species].innates[i] == ability)
             {
                 innateNum = i + 2;
-                //DebugPrintf("INNATE FOUND: %d", innateNum - 1);
             }
+        }
     }
-    
-    //if (!disablerandomizer) {
-    //    innate1 = RandomizeInnate(gBaseStats[species].innates[0], species, personality);
-    //    innate2 = RandomizeInnate(gBaseStats[species].innates[1], species, personality);
-    //    innate3 = RandomizeInnate(gBaseStats[species].innates[2], species, personality);
-    //}
-        return innateNum;
+    return innateNum;
 }
 
 bool8 BoxMonHasInnate(struct BoxPokemon *boxmon, u16 ability, bool8 disableRandomizer) {

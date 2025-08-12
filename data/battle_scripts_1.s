@@ -5277,7 +5277,7 @@ BattleScript_HandleFaintedMon::
 	setbyte sSHIFT_SWITCHED, 0
 	checkteamslost BattleScript_HandleFaintedMonMultiple
 	jumpifbyte CMP_NOT_EQUAL, gBattleOutcome, 0, BattleScript_FaintedMonEnd
-	jumpifbattletype BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE, BattleScript_FaintedMonTryChoose
+	goto BattleScript_FaintedMonTryChoose
 	jumpifword CMP_NO_COMMON_BITS, gHitMarker, HITMARKER_PLAYER_FAINTED, BattleScript_FaintedMonTryChoose
 @ Yes/No for sending out a new Pokémon if one is defeated in a wild battle
 	printstring STRINGID_USENEXTPKMN
@@ -5288,6 +5288,7 @@ BattleScript_HandleFaintedMon::
 	jumpifplayerran BattleScript_FaintedMonEnd
 	printstring STRINGID_CANTESCAPE2
 BattleScript_FaintedMonTryChoose:
+	printstring STRINGID_USENEXTPKMN
 	openpartyscreen BS_FAINTED, BattleScript_FaintedMonEnd
 	switchhandleorder BS_FAINTED, 2
 	jumpifnotbattletype BATTLE_TYPE_TRAINER, BattleScript_FaintedMonSendOutNew
@@ -10050,3 +10051,34 @@ BattleScript_ForfeitBattleGaveMoney::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
+BattleScript_BossRestore::
+	playfaintcry BS_OPPONENT1
+	printstring STRINGID_BOSSRESTORED
+	updatefgbar
+	healbossfull
+	cureboss
+	attackanimation
+	waitanimation
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	printstring STRINGID_BOSSRESTORED
+	waitmessage B_WAIT_TIME_LONG
+	updatestatusicon BS_ATTACKER
+	updatebgbar
+	goto BattleScript_MoveEnd
+
+BattleScript_BacklineRestore::
+	flushtextbox
+	playse SE_M_MORNING_SUN
+	printstring STRINGID_RESTORE_BACKLINE
+	end2
+
+BattleScript_CloudburstActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_RAINSTARTEDPOURING
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
+	call BattleScript_ActivateWeatherAbilities
+	return

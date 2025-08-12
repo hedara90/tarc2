@@ -970,6 +970,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_DEFENSE_CURL, COMBO_STARTER_HARDEN, COMBO_STARTER_LEER},
         .battleAnimScript = gBattleAnimMove_Tackle,
+        .hpBonus = 7,
     },
 
     [MOVE_BODY_SLAM] =
