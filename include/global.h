@@ -1167,7 +1167,11 @@ struct SaveBlock1
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3???
     struct HuntTargets huntTargets;
+    u16 extraAbilities[3][3];
+    u16 playerSpecies[3];
     u32 playerAffinity;
+    u16 abilityStorage[9];
+    u16 moveStorage[36];
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

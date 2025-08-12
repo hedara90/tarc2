@@ -1378,8 +1378,8 @@ static void ListMenuRemoveRedOutlineCursorObject(u8 taskId)
 
 static void SpriteCallback_RedArrowCursor(struct Sprite *sprite)
 {
-    sprite->x2 = gSineTable[(u8)(sprite->data[0])] / 64;
-    sprite->data[0] += 8;
+    //sprite->x2 = gSineTable[(u8)(sprite->data[0])] / 64;
+    //sprite->data[0] += 8;
 }
 
 static void Task_RedArrowCursor(u8 taskId)
