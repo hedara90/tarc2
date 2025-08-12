@@ -100,9 +100,9 @@ static const struct ListMenuTemplate sItemListMenu =
     .item_X = 8,
     .cursor_X = 0,
     .upText_Y = 1,
-    .cursorPal = 15,
+    .cursorPal = 3,
     .fillValue = 0,
-    .cursorShadowPal = 3,
+    .cursorShadowPal = 4,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
@@ -125,6 +125,8 @@ static const u16 sTarcPalette[] = INCBIN_U16("graphics/tarc_party/tarc_party_til
 
 static const u32 sTarcSelectorGfx[] = INCBIN_U32("graphics/tarc_party/selector.4bpp");
 static const u16 sTarcSelectorPal[] = INCBIN_U16("graphics/tarc_party/selector.gbapal");
+
+static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 
 static const u8 sTextMoves[] = _("Moves");
 static const u8 sTextAbilities[] = _("Abilities");
@@ -157,9 +159,9 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define SUB_HEIGHT  2
 #define CONTROLLS_WIDTH  22
 #define CONTROLLS_HEIGHT 2
-#define HP_WIDTH  9
+#define HP_WIDTH  8
 #define HP_HEIGHT 2
-#define STAT_WIDTH  6
+#define STAT_WIDTH  5
 #define STAT_HEIGHT 2
 
 #define MODE_SIZE MODE_WIDTH * MODE_HEIGHT
@@ -289,7 +291,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_HP] =
     {
         .bg = 0,
-        .tilemapLeft = 9,
+        .tilemapLeft = 10,
         .tilemapTop = 14,
         .width = HP_WIDTH,
         .height = HP_HEIGHT,
@@ -309,7 +311,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_DEF] =
     {
         .bg = 0,
-        .tilemapLeft = 24,
+        .tilemapLeft = 23,
         .tilemapTop = 14,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -329,7 +331,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SPD] =
     {
         .bg = 0,
-        .tilemapLeft = 24,
+        .tilemapLeft = 23,
         .tilemapTop = 16,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -339,7 +341,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SPE] =
     {
         .bg = 0,
-        .tilemapLeft = 12,
+        .tilemapLeft = 13,
         .tilemapTop = 16,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
@@ -353,15 +355,15 @@ enum FontColor
 {
     FONT_BLACK,
     FONT_WHITE,
-    FONT_RED,
+    FONT_FADED,
     FONT_BLUE,
 };
 
 static const u8 sTarcUiWindowFontColors[][3] =
 {
-    [FONT_BLACK]  = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY,  TEXT_COLOR_LIGHT_GRAY},
-    [FONT_WHITE]  = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE,      TEXT_COLOR_DARK_GRAY},
-    [FONT_RED]    = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED,        TEXT_COLOR_LIGHT_GRAY},
+    [FONT_BLACK]  = {TEXT_COLOR_TRANSPARENT, 3,  4},
+    [FONT_WHITE]  = {TEXT_COLOR_TRANSPARENT, 1,  2},
+    [FONT_FADED]    = {TEXT_COLOR_TRANSPARENT, 5,  6},
     [FONT_BLUE]   = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE,       TEXT_COLOR_LIGHT_GRAY},
 };
 
@@ -603,7 +605,7 @@ static bool8 TarcUi_LoadGraphics(void)
         break;
     case 2:
         LoadPalette(sTarcPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
-        LoadPalette(gMessageBox_Pal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
+        LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
     default:
         sTarcUiState->loadState = 0;
@@ -941,7 +943,7 @@ static void PrintMove(u32 window, u32 move)
     const u8 *str = gMovesInfo[move].name;
     AddTextPrinterParameterized4(window,
                                  GetFontIdToFit(str, FONT_NORMAL, 0, 64),
-                                 0, 0, 0 ,0,
+                                 0, 2, 0 ,0,
                                  sTarcUiWindowFontColors[FONT_BLACK],
                                  TEXT_SKIP_DRAW,
                                  str);
@@ -960,7 +962,7 @@ static void PrintAbility(u32 window, u32 ability)
     const u8 *str = gAbilitiesInfo[ability].name;
     AddTextPrinterParameterized4(window,
                                  GetFontIdToFit(str, FONT_NORMAL, 0, 64),
-                                 0, 0, 0 ,0,
+                                 0, 2, 0 ,0,
                                  sTarcUiWindowFontColors[FONT_BLACK],
                                  TEXT_SKIP_DRAW,
                                  str);
@@ -993,7 +995,7 @@ static void TarcUi_PrintMon(void)
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
-    cs.posX = 32;
+    cs.posX = 39;
     cs.posY = 128;
     sTarcUiState->monSpriteId = Even_CreateSprite(&cs);
 
@@ -1041,8 +1043,8 @@ static void TarcUi_PrintMon(void)
 
     AddTextPrinterParameterized4(WIN_HP,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 71), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 63), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_HP, COPYWIN_GFX);
@@ -1050,8 +1052,8 @@ static void TarcUi_PrintMon(void)
     ConvertIntToDecimalStringN(tempStr, atk, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_ATK,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 39), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_ATK, COPYWIN_GFX);
@@ -1059,8 +1061,8 @@ static void TarcUi_PrintMon(void)
     ConvertIntToDecimalStringN(tempStr, def, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_DEF,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 39), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_DEF, COPYWIN_GFX);
@@ -1068,8 +1070,8 @@ static void TarcUi_PrintMon(void)
     ConvertIntToDecimalStringN(tempStr, spa, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPA,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 39), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_SPA, COPYWIN_GFX);
@@ -1077,8 +1079,8 @@ static void TarcUi_PrintMon(void)
     ConvertIntToDecimalStringN(tempStr, spd, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPD,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 39), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_SPD, COPYWIN_GFX);
@@ -1086,8 +1088,8 @@ static void TarcUi_PrintMon(void)
     ConvertIntToDecimalStringN(tempStr, spe, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPE,
                                  FONT_NORMAL,
-                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 39), 0, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  tempStr);
     CopyWindowToVram(WIN_SPE, COPYWIN_GFX);
@@ -1106,7 +1108,7 @@ static void TarcUi_PrintMon(void)
     }
 }
 
-static const u8 sButtonHints[] = _("L/R Change mon : {DPAD_NONE} Cursor : {A_BUTTON} Move Selection");
+static const u8 sButtonHints[] = _("{SELECT_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
 
 static void TarcUi_PrintButtonHints(void)
 {
@@ -1149,8 +1151,8 @@ static void TarcUi_PrintSelection(void)
 
     AddTextPrinterParameterized4(WIN_INFO,
                                  FONT_NORMAL,
-                                 0, 0, 0 ,0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 0, 5, 0 ,0,
+                                 sTarcUiWindowFontColors[FONT_FADED],
                                  TEXT_SKIP_DRAW,
                                  origStr);
     CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
