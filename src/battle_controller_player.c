@@ -1127,7 +1127,8 @@ void HandleInputChooseMove(u32 battler)
     else if (JOY_NEW(L_BUTTON))
     {
         //  Switch Active mon to left mon
-        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
+        //if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
+        if (gLeftMon.hp > 0)
         {
             SwitchActiveMonLeft();
             gSideMons.leftSwitch = TRUE;
@@ -1143,7 +1144,7 @@ void HandleInputChooseMove(u32 battler)
     else if (JOY_NEW(R_BUTTON))
     {
         //  Switch Active mon to right mon
-        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) > 0)
+        if (gRightMon.hp > 0)
         {
             SwitchActiveMonRight();
             gSideMons.rightSwitch = TRUE;
@@ -2489,7 +2490,7 @@ static void ShowSideMons(void)
     gSideMons.isShown = TRUE;
     //  Create left sprite
     struct Even_CreateSpriteStruct createStruct = {0};
-    u32 leftSpecies = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+    u32 leftSpecies = gLeftMon.species;
     for (u32 i = 0; i < 3; i++)
     {
         if (gSideMons.sideSprites[i].species == leftSpecies)
@@ -2509,7 +2510,7 @@ static void ShowSideMons(void)
     gSideMons.spriteIdLeft = Even_CreateSprite(&createStruct);
     gSprites[gSideMons.spriteIdLeft].oam.priority = 0;
     //  Create right sprite
-    u32 rightSpecies = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+    u32 rightSpecies = gRightMon.species;
     for (u32 i = 0; i < 3; i++)
     {
         if (gSideMons.sideSprites[i].species == rightSpecies)
@@ -2642,13 +2643,13 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
     if (sSwitchData->state == 0)
     {
         sSwitchData->spriteIdLeft = 255;
-        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) == 0)
+        if (gLeftMon.hp == 0)
         {
             sSwitchData->state++;
             return;
         }
         //  Load left Sprite
-        u32 species = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+        u32 species = gLeftMon.species;
         struct Even_CreateSpriteStruct createStruct = {0};
         createStruct.sprite = gSpeciesInfo[species].frontPic;
         createStruct.spriteCompressed = TRUE;
@@ -2668,13 +2669,13 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
     else if (sSwitchData->state == 1)
     {
         sSwitchData->spriteIdRight = 255;
-        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) == 0)
+        if (gRightMon.hp == 0)
         {
             sSwitchData->state++;
             return;
         }
         //  Load right Sprite
-        u32 species = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+        u32 species = gRightMon.species;
         struct Even_CreateSpriteStruct createStruct = {0};
         createStruct.sprite = gSpeciesInfo[species].frontPic;
         createStruct.spriteCompressed = TRUE;
@@ -2734,7 +2735,7 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
 {
     if (JOY_NEW(L_BUTTON))
     {
-        if (GetMonData(&gPlayerParty[1], MON_DATA_HP) == 0)
+        if (gLeftMon.hp == 0)
             return;
         SwitchActiveMonLeft();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
@@ -2742,7 +2743,7 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
     }
     else if (JOY_NEW(R_BUTTON))
     {
-        if (GetMonData(&gPlayerParty[2], MON_DATA_HP) == 0)
+        if (gRightMon.hp == 0)
             return;
         SwitchActiveMonRight();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);

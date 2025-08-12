@@ -1280,6 +1280,7 @@ static void TryMoveSelection(void)
             gSaveBlock1Ptr->abilityStorage[listPos] = ABILITY_NONE;
             numItems = CompactAbilityStorage();
         }
+
         if (listPos == numItems && numItems != 0)
         {
             if (sTarcUiState->scrollOffset > 0)
@@ -1289,6 +1290,10 @@ static void TryMoveSelection(void)
                 sTarcUiState->selectedRow--;
             }
         }
+
+        if (numItems - 1 == sTarcUiState->scrollOffset + sTarcUiState->selectedRow)
+            sTarcUiState->scrollOffset--;
+
     }
     TarcUi_PrintMon();
     TarcUi_InitScrollList();
