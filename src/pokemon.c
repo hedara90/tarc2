@@ -3722,6 +3722,23 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
 
+    if (gSpeciesInfo[dst->species].isPlayer)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            dst->maxHP += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].hpBonus;
+            dst->attack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].atkBonus;
+            dst->defense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].defBonus;
+            dst->spAttack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spaBonus;
+            dst->spDefense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spdBonus;
+            dst->speed += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].speBonus;
+        }
+        dst->hp = dst->maxHP - GetMonData(src, MON_DATA_HP_LOST);
+    }
+    else
+    {
+    }
+
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
 
