@@ -2448,7 +2448,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Galeforce"),
         .description = COMPOUND_STRING("Powers up wind moves."),
-        .aiRating = 8,
+        .aiRating = 7,
     },
     [ABILITY_HEAT_EROSION] =
     {
