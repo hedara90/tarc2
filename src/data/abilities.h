@@ -2408,4 +2408,52 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+    [ABILITY_SHAPE_OF_STONE] =
+    {
+        .name = _("Shape of Stone"),
+        .description = COMPOUND_STRING("Converts rocks to HP."),
+        .aiRating = 8,
+    },
+    [ABILITY_SHAPE_OF_ICE] =
+    {
+        .name = _("Shape of Ice"),
+        .description = COMPOUND_STRING("Converts ice to HP."),
+        .aiRating = 8,
+    },
+    [ABILITY_SHAPE_OF_STEEL] =
+    {
+        .name = _("Shape of Steel"),
+        .description = COMPOUND_STRING("Converts steel to HP."),
+        .aiRating = 8,
+    },
+    [ABILITY_SHAPE_OF_CURRENT] =
+    {
+        .name = _("Shape of Current"),
+        .description = COMPOUND_STRING("Converts electricity to HP."),
+        .aiRating = 8,
+    },
+    [ABILITY_SHAPE_OF_ENERGY] =
+    {
+        .name = _("Shape of Energy"),
+        .description = COMPOUND_STRING("Turns draconic energy into HP."),
+        .aiRating = 8,
+    },
+    [ABILITY_CLOUDBURST] =
+    {
+        .name = _("Cloudburst"),
+        .description = COMPOUND_STRING("Summons rain when hit."),
+        .aiRating = 8,
+    },
+    [ABILITY_GALEFORCE] =
+    {
+        .name = _("Galeforce"),
+        .description = COMPOUND_STRING("Powers up wind moves."),
+        .aiRating = 8,
+    },
+    [ABILITY_HEAT_EROSION] =
+    {
+        .name = _("Heat Erosion"),
+        .description = COMPOUND_STRING("Fire hits Ground and Rock super effective."),
+        .aiRating = 8,
+    },
 };
