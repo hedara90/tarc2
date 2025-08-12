@@ -1291,7 +1291,8 @@ static void TryMoveSelection(void)
             }
         }
 
-        if (numItems - 1 == sTarcUiState->scrollOffset + sTarcUiState->selectedRow)
+        if (numItems - 1 == sTarcUiState->scrollOffset + sTarcUiState->selectedRow
+         && sTarcUiState->scrollOffset != 0)
             sTarcUiState->scrollOffset--;
 
     }
