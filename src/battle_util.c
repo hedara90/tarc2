@@ -8778,6 +8778,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_SHARPNESS) && IsSlicingMove(move))
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+    if (SearchTraits(battlerTraits, ABILITY_GALEFORCE) && IsWindMove(move))
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_SUPREME_OVERLORD))
         modifier = uq4_12_multiply(modifier, GetSupremeOverlordModifier(battlerAtk));
 

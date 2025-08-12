@@ -2408,4 +2408,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+    [ABILITY_GALEFORCE] =
+    {
+        .name = _("Galeforce"),
+        .description = COMPOUND_STRING("Powers up wind moves."),
+        .aiRating = 7,
+    },
 };
