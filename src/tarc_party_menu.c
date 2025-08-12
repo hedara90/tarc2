@@ -31,6 +31,7 @@
 
 struct Tarc_Mon
 {
+    u16 damage;
     u16 species;
     u16 hp;
     u16 maxHP;
@@ -41,6 +42,7 @@ struct Tarc_Mon
     u16 spe;
     u16 moves[4];
     u16 abilities[4];
+    bool8 isFainted;
 };
 
 struct Tarc_PartyMenuState
@@ -806,6 +808,10 @@ static void TarcUi_LoadMons(void)
         sTarcUiState->mons[i].spa = GetMonData(mon, MON_DATA_SPATK);
         sTarcUiState->mons[i].spd = GetMonData(mon, MON_DATA_SPDEF);
         sTarcUiState->mons[i].spe = GetMonData(mon, MON_DATA_SPEED);
+
+        sTarcUiState->mons[i].damage = sTarcUiState->mons[i].maxHP - sTarcUiState->mons[i].hp;
+        if (sTarcUiState->mons[i].hp == 0)
+            sTarcUiState->mons[i].isFainted = TRUE;
     }
 }
 
@@ -999,13 +1005,39 @@ static void TarcUi_PrintMon(void)
     FillWindowPixelBuffer(WIN_SPD, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WIN_SPE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
 
+    u32 maxhp = sTarcUiState->mons[sTarcUiState->activeMon].maxHP;
+    u32 atk = sTarcUiState->mons[sTarcUiState->activeMon].atk;
+    u32 def = sTarcUiState->mons[sTarcUiState->activeMon].def;
+    u32 spa = sTarcUiState->mons[sTarcUiState->activeMon].spa;
+    u32 spd = sTarcUiState->mons[sTarcUiState->activeMon].spd;
+    u32 spe = sTarcUiState->mons[sTarcUiState->activeMon].spe;
+
+    for (u32 i = 0; i < 4; i++)
+    {
+        maxhp += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].hpBonus;
+        atk += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].atkBonus;
+        def += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].defBonus;
+        spa += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].spaBonus;
+        spd += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].spdBonus;
+        spe += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].speBonus;
+    }
+
+    u32 hp;
+    if (sTarcUiState->mons[sTarcUiState->activeMon].isFainted)
+        hp = 0;
+    else if (sTarcUiState->mons[sTarcUiState->activeMon].damage > maxhp)
+        hp = 1;
+    else
+        hp = maxhp - sTarcUiState->mons[sTarcUiState->activeMon].damage;
+
     u8 tempStr[10];
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].hp, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, hp, STR_CONV_MODE_LEFT_ALIGN, 3);
     u32 currChar = 0;
     while (tempStr[currChar] != EOS)
         currChar++;
     tempStr[currChar++] = CHAR_SLASH;
-    ConvertIntToDecimalStringN(&tempStr[currChar], sTarcUiState->mons[sTarcUiState->activeMon].maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+
+    ConvertIntToDecimalStringN(&tempStr[currChar], maxhp, STR_CONV_MODE_LEFT_ALIGN, 3);
 
     AddTextPrinterParameterized4(WIN_HP,
                                  FONT_NORMAL,
@@ -1015,7 +1047,7 @@ static void TarcUi_PrintMon(void)
                                  tempStr);
     CopyWindowToVram(WIN_HP, COPYWIN_GFX);
 
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].atk, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, atk, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_ATK,
                                  FONT_NORMAL,
                                  GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
@@ -1024,7 +1056,7 @@ static void TarcUi_PrintMon(void)
                                  tempStr);
     CopyWindowToVram(WIN_ATK, COPYWIN_GFX);
 
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].def, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, def, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_DEF,
                                  FONT_NORMAL,
                                  GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
@@ -1033,7 +1065,7 @@ static void TarcUi_PrintMon(void)
                                  tempStr);
     CopyWindowToVram(WIN_DEF, COPYWIN_GFX);
 
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spa, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, spa, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPA,
                                  FONT_NORMAL,
                                  GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
@@ -1042,7 +1074,7 @@ static void TarcUi_PrintMon(void)
                                  tempStr);
     CopyWindowToVram(WIN_SPA, COPYWIN_GFX);
 
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spd, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, spd, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPD,
                                  FONT_NORMAL,
                                  GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
@@ -1051,7 +1083,7 @@ static void TarcUi_PrintMon(void)
                                  tempStr);
     CopyWindowToVram(WIN_SPD, COPYWIN_GFX);
 
-    ConvertIntToDecimalStringN(tempStr, sTarcUiState->mons[sTarcUiState->activeMon].spe, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(tempStr, spe, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized4(WIN_SPE,
                                  FONT_NORMAL,
                                  GetStringRightAlignXOffset(FONT_NORMAL, tempStr, 47), 0, 0 ,0,
@@ -1316,13 +1348,51 @@ static void TarcUi_WriteMonData(void)
 {
     for (u32 monIndex = 0; monIndex < 3; monIndex++)
     {
+        u32 targetIndex = 0;
+        u32 removeCount = 0;
+        u32 noMove = MOVE_NONE;
         for (u32 moveIndex = 0; moveIndex < 4; moveIndex++)
         {
-            SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + moveIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+            if (sTarcUiState->mons[monIndex].moves[moveIndex] == MOVE_NONE)
+            {
+                SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE4 - removeCount, &noMove);
+                removeCount++;
+                continue;
+            }
+
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + targetIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+            targetIndex++;
         }
+
+        targetIndex = 0;
+        removeCount = 0;
         for (u32 abilityIndex = 1; abilityIndex < 4; abilityIndex++)
         {
-            gSaveBlock1Ptr->extraAbilities[monIndex][abilityIndex - 1] = sTarcUiState->mons[monIndex].abilities[abilityIndex];
+            if (sTarcUiState->mons[monIndex].abilities[abilityIndex] == ABILITY_NONE)
+            {
+                gSaveBlock1Ptr->extraAbilities[monIndex][2 - removeCount] = ABILITY_NONE;
+                continue;
+            }
+
+            gSaveBlock1Ptr->extraAbilities[monIndex][targetIndex] = sTarcUiState->mons[monIndex].abilities[abilityIndex];
+            targetIndex++;
         }
+
+        //  handle potential new HP
+        u32 maxhp = sTarcUiState->mons[monIndex].maxHP;
+        for (u32 i = 0; i < 4; i++)
+        {
+            maxhp += gMovesInfo[sTarcUiState->mons[monIndex].moves[i]].hpBonus;
+        }
+        u32 hp;
+        if (sTarcUiState->mons[monIndex].isFainted)
+            hp = 0;
+        else if (sTarcUiState->mons[monIndex].damage > maxhp)
+            hp = 1;
+        else
+            hp = maxhp - sTarcUiState->mons[monIndex].damage;
+        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
+        u32 damage = maxhp - hp;
+        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP_LOST, &damage);
     }
 }
