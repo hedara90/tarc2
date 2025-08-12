@@ -535,6 +535,9 @@ extern const u8 BattleScript_AlreadyParalyzed[];
 extern const u8 BattleScript_AlreadyBurned[];
 extern const u8 BattleScript_PrintAbilityMadeIneffective[];
 
+//New abilities
+extern const u8 BattleScript_CloudburstActivates[];
+
 // zmoves
 extern const u8 BattleScript_ZMoveActivateDamaging[];
 extern const u8 BattleScript_ZMoveActivateStatus[];
