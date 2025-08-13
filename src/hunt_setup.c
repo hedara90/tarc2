@@ -5,6 +5,7 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "constants/hunt_setup.h"
+#include "constants/abilities.h"
 
 #include "data/hunt_setup_data.h"
 
@@ -63,6 +64,13 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
 
     //  Setup player mons
     SetupPlayerMons(gSaveBlock1Ptr->playerAffinity, &localRngState);
+
+    //  Clear out saveblock data
+    for (u32 i = 0; i < 36; i++)
+        gSaveBlock1Ptr->moveStorage[i] = MOVE_NONE;
+
+    for (u32 i = 0; i < 9; i++)
+        gSaveBlock1Ptr->abilityStorage[i] = ABILITY_NONE;
 }
 
 static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
