@@ -496,6 +496,8 @@ struct SpeciesInfo /*0xC4*/
 #endif //OW_PKMN_OBJECTS_SHARE_PALETTES
 #endif //OW_POKEMON_OBJECT_EVENTS
     bool32 isPlayer;
+    u16 moveReward;
+    u16 abilityReward;
 };
 
 struct Ability

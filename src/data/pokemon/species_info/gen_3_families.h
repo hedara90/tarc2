@@ -218,6 +218,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sSceptileTeachableLearnset,
         .formSpeciesIdTable = sSceptileFormSpeciesIdTable,
         .formChangeTable = sSceptileFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_LEAF_BLADE,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -1229,6 +1231,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sLinooneLevelUpLearnset,
         .teachableLearnset = sLinooneTeachableLearnset,
         .formSpeciesIdTable = sLinooneFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_EXTREMESPEED,
     },
 
 #if P_GALARIAN_FORMS
@@ -2879,6 +2883,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sGardevoirTeachableLearnset,
         .formSpeciesIdTable = sGardevoirFormSpeciesIdTable,
         .formChangeTable = sGardevoirFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_MOONBLAST,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -3800,6 +3806,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sNinjaskLevelUpLearnset,
         .teachableLearnset = sNinjaskTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_BATON_PASS,
     },
 
     [SPECIES_SHEDINJA] =
@@ -4093,6 +4101,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sExploudLevelUpLearnset,
         .teachableLearnset = sExploudTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_BOOMBURST,
     },
 #endif //P_FAMILY_WHISMUR
 
@@ -4240,6 +4250,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sHariyamaLevelUpLearnset,
         .teachableLearnset = sHariyamaTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_ARM_THRUST,
     },
 #endif //P_FAMILY_MAKUHITA
 
@@ -4390,6 +4402,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sProbopassLevelUpLearnset,
         .teachableLearnset = sProbopassTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_GRAVITY,
     },
 #endif //P_GEN_4_CROSS_EVOS
 #endif //P_FAMILY_NOSEPASS
@@ -4779,6 +4793,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sMawileEggMoveLearnset,
         .formSpeciesIdTable = sMawileFormSpeciesIdTable,
         .formChangeTable = sMawileFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_FOCUS_PUNCH,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -5072,6 +5088,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sAggronTeachableLearnset,
         .formSpeciesIdTable = sAggronFormSpeciesIdTable,
         .formChangeTable = sAggronFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_IRON_HEAD,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -5831,6 +5849,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sVolbeatLevelUpLearnset,
         .teachableLearnset = sVolbeatTeachableLearnset,
         .eggMoveLearnset = sVolbeatEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_TAIL_GLOW,
     },
 
     [SPECIES_ILLUMISE] =
@@ -6161,6 +6181,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sRoseradeLevelUpLearnset,
         .teachableLearnset = sRoseradeTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_LEAF_STORM,
     },
 #endif //P_GEN_4_CROSS_EVOS
 #endif //P_FAMILY_ROSELIA
@@ -6487,6 +6509,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sSharpedoTeachableLearnset,
         .formSpeciesIdTable = sSharpedoFormSpeciesIdTable,
         .formChangeTable = sSharpedoFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_CRUNCH,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -7031,6 +7055,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sTorkoalLevelUpLearnset,
         .teachableLearnset = sTorkoalTeachableLearnset,
         .eggMoveLearnset = sTorkoalEggMoveLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_TORKOAL
 
@@ -7495,6 +7520,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sFlygonLevelUpLearnset,
         .teachableLearnset = sFlygonTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_SAND_TOMB,
     },
 #endif //P_FAMILY_TRAPINCH
 
@@ -7806,6 +7833,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sAltariaTeachableLearnset,
         .formSpeciesIdTable = sAltariaFormSpeciesIdTable,
         .formChangeTable = sAltariaFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_DRAGON_DANCE,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -8110,6 +8139,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sLunatoneLevelUpLearnset,
         .teachableLearnset = sLunatoneTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_LUNATONE
 
@@ -8190,6 +8220,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sSolrockLevelUpLearnset,
         .teachableLearnset = sSolrockTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SOLROCK
 
@@ -8357,6 +8388,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sWhiscashLevelUpLearnset,
         .teachableLearnset = sWhiscashTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_BARBOACH
 
@@ -8808,6 +8840,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sCradilyLevelUpLearnset,
         .teachableLearnset = sCradilyTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_ANCIENT_POWER,
     },
 #endif //P_FAMILY_LILEEP
 
@@ -9134,6 +9168,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sMiloticLevelUpLearnset,
         .teachableLearnset = sMiloticTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_LIFE_DEW,
     },
 #endif //P_FAMILY_FEEBAS
 
@@ -9211,6 +9247,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sCastformEggMoveLearnset,
         .formSpeciesIdTable = sCastformFormSpeciesIdTable,
         .formChangeTable = sCastformFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_WEATHER_BALL,
     },
 
     [SPECIES_CASTFORM_SUNNY] =
@@ -9288,6 +9326,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sCastformEggMoveLearnset,
         .formSpeciesIdTable = sCastformFormSpeciesIdTable,
         .formChangeTable = sCastformFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_WEATHER_BALL,
     },
 
     [SPECIES_CASTFORM_RAINY] =
@@ -9363,6 +9403,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sCastformEggMoveLearnset,
         .formSpeciesIdTable = sCastformFormSpeciesIdTable,
         .formChangeTable = sCastformFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_WEATHER_BALL,
     },
 
     [SPECIES_CASTFORM_SNOWY] =
@@ -9438,6 +9480,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sCastformEggMoveLearnset,
         .formSpeciesIdTable = sCastformFormSpeciesIdTable,
         .formChangeTable = sCastformFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_WEATHER_BALL,
     },
 #endif //P_FAMILY_CASTFORM
 
@@ -9675,6 +9719,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sBanetteTeachableLearnset,
         .formSpeciesIdTable = sBanetteFormSpeciesIdTable,
         .formChangeTable = sBanetteFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_PHANTOM_FORCE,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -10069,6 +10115,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sTropiusLevelUpLearnset,
         .teachableLearnset = sTropiusTeachableLearnset,
         .eggMoveLearnset = sTropiusEggMoveLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_TROPIUS
 
@@ -10311,6 +10358,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .eggMoveLearnset = sAbsolEggMoveLearnset,
         .formSpeciesIdTable = sAbsolFormSpeciesIdTable,
         .formChangeTable = sAbsolFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_PUNISHMENT,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -10678,6 +10727,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sFroslassLevelUpLearnset,
         .teachableLearnset = sFroslassTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_GEN_4_CROSS_EVOS
 #endif //P_FAMILY_SNORUNT
@@ -10913,6 +10963,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sWalreinLevelUpLearnset,
         .teachableLearnset = sWalreinTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SPHEAL
 
@@ -11292,6 +11343,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sLuvdiscLevelUpLearnset,
         .teachableLearnset = sLuvdiscTeachableLearnset,
         .eggMoveLearnset = sLuvdiscEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_SCALE_SHOT,
     },
 #endif //P_FAMILY_LUVDISC
 

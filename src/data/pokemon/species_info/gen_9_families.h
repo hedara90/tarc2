@@ -388,6 +388,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sSkeledirgeLevelUpLearnset,
         .teachableLearnset = sSkeledirgeTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_WILL_O_WISP,
     },
 #endif //P_FAMILY_FUECOCO
 
@@ -907,6 +909,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sSpidopsLevelUpLearnset,
         .teachableLearnset = sSpidopsTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_SILK_TRAP,
     },
 #endif //P_FAMILY_TAROUNTULA
 
@@ -2206,6 +2210,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGarganaclLevelUpLearnset,
         .teachableLearnset = sGarganaclTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_ROCK_POLISH,
     },
 #endif //P_FAMILY_NACLI
 
@@ -2531,6 +2537,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sBelliboltLevelUpLearnset,
         .teachableLearnset = sBelliboltTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_PARABOLIC_CHARGE,
     },
 #endif //P_FAMILY_TADBULB
 
@@ -2661,6 +2669,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sKilowattrelLevelUpLearnset,
         .teachableLearnset = sKilowattrelTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_WATTREL
 
@@ -3641,6 +3650,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sEspathraLevelUpLearnset,
         .teachableLearnset = sEspathraTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_STORED_POWER,
     },
 #endif //P_FAMILY_FLITTLE
 
@@ -4029,6 +4040,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sBombirdierLevelUpLearnset,
         .teachableLearnset = sBombirdierTeachableLearnset,
         .eggMoveLearnset = sBombirdierEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_DUAL_WINGBEAT,
     },
 #endif //P_FAMILY_BOMBIRDIER
 
@@ -4749,6 +4762,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sHoundstoneLevelUpLearnset,
         .teachableLearnset = sHoundstoneTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_LAST_RESPECTS,
     },
 #endif //P_FAMILY_GREAVARD
 
@@ -5408,6 +5423,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sScreamTailLevelUpLearnset,
         .teachableLearnset = sScreamTailTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_HYPER_VOICE,
     },
 #endif //P_FAMILY_SCREAM_TAIL
 
@@ -5678,6 +5695,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sSandyShocksLevelUpLearnset,
         .teachableLearnset = sSandyShocksTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SANDY_SHOCKS
 
@@ -6462,6 +6480,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGholdengoLevelUpLearnset,
         .teachableLearnset = sGholdengoTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_MAKE_IT_RAIN,
     },
 #endif //P_FAMILY_GIMMIGHOUL
 
