@@ -467,6 +467,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sIncineroarLevelUpLearnset,
         .teachableLearnset = sIncineroarTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_PARTING_SHOT,
     },
 #endif //P_FAMILY_LITTEN
 
@@ -1465,6 +1467,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sCrabominableLevelUpLearnset,
         .teachableLearnset = sCrabominableTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_ICE_HAMMER,
     },
 #endif //P_FAMILY_CRABRAWLER
 
@@ -2819,6 +2823,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sAraquanidLevelUpLearnset,
         .teachableLearnset = sAraquanidTeachableLearnset,
         .formSpeciesIdTable = sAraquanidFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_SOAK,
     },
 
     [SPECIES_ARAQUANID_TOTEM] =
@@ -3016,6 +3022,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sLurantisLevelUpLearnset,
         .teachableLearnset = sLurantisTeachableLearnset,
         .formSpeciesIdTable = sLurantisFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_SOLAR_BLADE,
     },
 
     [SPECIES_LURANTIS_TOTEM] =
@@ -3347,6 +3355,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sSalazzleLevelUpLearnset,
         .teachableLearnset = sSalazzleTeachableLearnset,
         .formSpeciesIdTable = sSalanditFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_TOXIC,
     },
 
     [SPECIES_SALAZZLE_TOTEM] =
@@ -3816,6 +3826,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sComfeyLevelUpLearnset,
         .teachableLearnset = sComfeyTeachableLearnset,
         .eggMoveLearnset = sComfeyEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_DRAINING_KISS,
     },
 #endif //P_FAMILY_COMFEY
 
@@ -4224,6 +4236,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sPalossandLevelUpLearnset,
         .teachableLearnset = sPalossandTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SANDYGAST
 
@@ -4477,7 +4490,9 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         FOOTPRINT(Minior)                                                   \
         .levelUpLearnset = sMiniorLevelUpLearnset,                          \
         .teachableLearnset = sMiniorTeachableLearnset,                      \
-        .formSpeciesIdTable = sMiniorFormSpeciesIdTable
+        .formSpeciesIdTable = sMiniorFormSpeciesIdTable,                    \
+        .maxPhases = 2,                                                     \
+        .moveReward = MOVE_METEOR_BEAM
 
 #define MINIOR_METEOR_SPECIES_INFO(Form)                    \
     {                                                       \
@@ -4698,6 +4713,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTurtonatorLevelUpLearnset,
         .teachableLearnset = sTurtonatorTeachableLearnset,
         .eggMoveLearnset = sTurtonatorEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_SHELL_TRAP,
     },
 #endif //P_FAMILY_TURTONATOR
 
@@ -4762,6 +4779,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .teachableLearnset = sTogedemaruTeachableLearnset,
         .eggMoveLearnset = sTogedemaruEggMoveLearnset,
         .formSpeciesIdTable = sTogedemaruFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_ZING_ZAP,
     },
 
     [SPECIES_TOGEDEMARU_TOTEM] =

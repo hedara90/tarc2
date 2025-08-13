@@ -32,12 +32,6 @@ enum BossGroupList
     BOSS_PSEUDOS,
 };
 
-enum MiniBossList
-{
-    MINI_BOSS_LAPRAS,
-    MINI_BOSS_COUNT
-};
-
 //  MON_LIST_RANDOM must be last
 enum PlayerMonList
 {

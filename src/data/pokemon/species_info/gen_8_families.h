@@ -1109,6 +1109,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sCorviknightTeachableLearnset,
         .formSpeciesIdTable = sCorviknightFormSpeciesIdTable,
         .formChangeTable = sCorviknightFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_IRON_DEFENSE,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2339,6 +2341,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sCoalossalTeachableLearnset,
         .formSpeciesIdTable = sCoalossalFormSpeciesIdTable,
         .formChangeTable = sCoalossalFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_TAR_SHOT,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2842,6 +2846,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sHydrappleLevelUpLearnset,
         .teachableLearnset = sHydrappleTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_SYRUP_BOMB,
     },
 #endif //P_GEN_9_CROSS_EVOS
 #endif //P_FAMILY_APPLIN
@@ -2974,6 +2980,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sSandacondaTeachableLearnset,
         .formSpeciesIdTable = sSandacondaFormSpeciesIdTable,
         .formChangeTable = sSandacondaFormChangeTable,
+        .isPlayer = TRUE,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -3344,6 +3351,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sBarraskewdaLevelUpLearnset,
         .teachableLearnset = sBarraskewdaTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_FLIP_TURN,
     },
 #endif //P_FAMILY_ARROKUDA
 
@@ -6140,6 +6149,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sDracozoltLevelUpLearnset,
         .teachableLearnset = sDracozoltTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_DRACOZOLT
 
@@ -6530,6 +6540,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sArchaludonLevelUpLearnset,
         .teachableLearnset = sArchaludonTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_GEN_9_CROSS_EVOS
 #endif //P_FAMILY_DURALUDON
