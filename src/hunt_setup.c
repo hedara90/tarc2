@@ -6,6 +6,7 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "constants/hunt_setup.h"
+#include "constants/abilities.h"
 
 #include "data/hunt_setup_data.h"
 
@@ -71,7 +72,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         monList = gSaveBlock1Ptr->playerAffinity;
     SetupPlayerMons(monList, &localRngState);
 
-    //  TODO: Randomize the minibosses when they've been decided
+    //  Randomize minibosses
     u32 numMinibosses = 0;
     const u16 *miniBossList;
     switch (monList)
@@ -127,6 +128,12 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i] = FALSE;
     }
 
+    //  Clear out saveblock data
+    for (u32 i = 0; i < 36; i++)
+        gSaveBlock1Ptr->moveStorage[i] = MOVE_NONE;
+
+    for (u32 i = 0; i < 9; i++)
+        gSaveBlock1Ptr->abilityStorage[i] = ABILITY_NONE;
 }
 
 static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
