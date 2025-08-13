@@ -1,6 +1,7 @@
 #include "global.h"
 #include "hunt_setup.h"
 #include "random.h"
+#include "malloc.h"
 #include "move.h"
 #include "script.h"
 #include "script_pokemon_util.h"
@@ -26,8 +27,10 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
     {
         gSaveBlock1Ptr->huntTargets.finalBoss = finalBoss;
     }
+    gSaveBlock1Ptr->huntTargets.finalBossDefeated = FALSE;
 
     gSaveBlock1Ptr->huntTargets.bosses[0] = BOSS_PSEUDOS;
+    gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
 
     enum BossGroupList bosses[BOSS_COUNT] =
     {
@@ -54,15 +57,76 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         bosses[currIndex] = tempValue;
     }
 
-    for (u32 i = 0; i < 8 - 1; i++)
+    for (u32 i = 0; i < 8; i++)
     {
         gSaveBlock1Ptr->huntTargets.bosses[1 + i] = bosses[i];
+        gSaveBlock1Ptr->huntTargets.bossesDefeated[i] = FALSE;
     }
 
-    //  TODO: Randomize the minibosses when they've been decided
-
     //  Setup player mons
-    SetupPlayerMons(gSaveBlock1Ptr->playerAffinity, &localRngState);
+    enum PlayerMonList monList;
+    if (gSaveBlock1Ptr->playerAffinity == MON_LIST_RANDOM)
+        monList = LocalRandom32(&localRngState) % MON_LIST_RANDOM;
+    else
+        monList = gSaveBlock1Ptr->playerAffinity;
+    SetupPlayerMons(monList, &localRngState);
+
+    //  TODO: Randomize the minibosses when they've been decided
+    u32 numMinibosses = 0;
+    const u16 *miniBossList;
+    switch (monList)
+    {
+    case MON_LIST_RAIN_DIRECT:
+    case MON_LIST_RAIN_CONDITIONAL:
+    case MON_LIST_RAIN_MANUAL:
+        miniBossList = sRainMiniBosses;
+        numMinibosses = ARRAY_COUNT(sRainMiniBosses);
+        break;
+    case MON_LIST_SUN_DIRECT:
+    case MON_LIST_SUN_CONDITIONAL:
+    case MON_LIST_SUN_MANUAL:
+        miniBossList = sSunMiniBosses;
+        numMinibosses = ARRAY_COUNT(sSunMiniBosses);
+        break;
+    case MON_LIST_SNOW_DIRECT:
+    case MON_LIST_SNOW_CONDITIONAL:
+    case MON_LIST_SNOW_MANUAL:
+        miniBossList = sSnowMiniBosses;
+        numMinibosses = ARRAY_COUNT(sSnowMiniBosses);
+        break;
+    case MON_LIST_SAND_DIRECT:
+    case MON_LIST_SAND_CONDITIONAL:
+    case MON_LIST_SAND_MANUAL:
+        miniBossList = sRainMiniBosses;
+        numMinibosses = ARRAY_COUNT(sRainMiniBosses);
+        break;
+    case MON_LIST_RANDOM:
+        //  Shouldn't be reached
+        miniBossList = sSandMiniBosses;
+        numMinibosses = ARRAY_COUNT(sSandMiniBosses);
+    }
+
+    u16 *shuffleList = Alloc(2*numMinibosses);
+    for (u32 i = 0; i < numMinibosses; i++)
+    {
+        shuffleList[i] = miniBossList[i];
+    }
+
+    for (u32 i = 0; i < numMinibosses - 1; i++)
+    {
+        u32 rnd = LocalRandom32(&localRngState);
+        u32 currIndex = rnd % (numMinibosses - i);
+        u16 tempValue = shuffleList[numMinibosses - 1 - i];
+        shuffleList[numMinibosses - 1 - i] = shuffleList[currIndex];
+        shuffleList[currIndex] = tempValue;
+    }
+
+    for (u32 i = 0; i < 27; i++)
+    {
+        gSaveBlock1Ptr->huntTargets.miniBosses[i] = shuffleList[i];
+        gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i] = FALSE;
+    }
+
 }
 
 static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
@@ -108,6 +172,7 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
         pool = &sSandPool;
         break;
     case MON_LIST_RANDOM:
+        //  Shouldn't be reached
         pool = &sRainPool;
         break;
     }

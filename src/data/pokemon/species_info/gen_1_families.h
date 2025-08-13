@@ -19942,7 +19942,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMoltresLevelUpLearnset,
         .teachableLearnset = sMoltresTeachableLearnset,
         .formSpeciesIdTable = sMoltresFormSpeciesIdTable,
-        .maxPhases = 2,
+        .maxPhases = 4,
     },
 
 #if P_GALARIAN_FORMS
