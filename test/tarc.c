@@ -15,3 +15,14 @@ TEST("Print Bosses")
         }
     }
 }
+
+TEST("Print Minibosses")
+{
+    for (u32 i = 0; i < SPECIES_EGG; i++)
+    {
+        if (gSpeciesInfo[i].maxPhases == 2)
+        {
+            Test_MgbaPrintf("%S", gSpeciesInfo[i].speciesName);
+        }
+    }
+}
