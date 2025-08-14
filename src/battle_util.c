@@ -7932,6 +7932,8 @@ u32 GetBattleMoveTarget(u16 move, u8 setTarget)
 
 u8 GetAttackerObedienceForAction()
 {
+    return OBEYS;
+    /*
     s32 rnd;
     s32 calc;
     u8 obedienceLevel = 0;
@@ -8031,6 +8033,7 @@ u8 GetAttackerObedienceForAction()
         else
             return DISOBEYS_LOAFS;
     }
+    */
 }
 
 enum ItemHoldEffect GetBattlerHoldEffect(u32 battler, bool32 checkNegating)

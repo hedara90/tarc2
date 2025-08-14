@@ -2,3 +2,10 @@ raw `
 Area1_MapScripts::
 	.byte 0
 `
+
+script Area1_BossBattle {
+    callnative(SetBossForBattle)
+    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    dowildbattle
+    release
+}

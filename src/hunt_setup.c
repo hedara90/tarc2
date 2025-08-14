@@ -380,3 +380,8 @@ static void ReplaceShownSprite(void)
     cs.posY = 80;
     sBossSelect.spriteId = Even_CreateSprite(&cs);
 }
+
+void SetBossForBattle(void)
+{
+    gSpecialVar_Result = SPECIES_DRAGONITE;
+}

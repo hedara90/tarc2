@@ -6294,6 +6294,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sBaxcaliburLevelUpLearnset,
         .teachableLearnset = sBaxcaliburTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_FRIGIBAX
 
@@ -6549,6 +6550,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sWoChienLevelUpLearnset,
         .teachableLearnset = sWoChienTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_WO_CHIEN
 
@@ -6616,6 +6618,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sChienPaoLevelUpLearnset,
         .teachableLearnset = sChienPaoTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_CHIEN_PAO
 
@@ -6683,6 +6686,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTingLuLevelUpLearnset,
         .teachableLearnset = sTingLuTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_TING_LU
 
@@ -6751,6 +6755,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sChiYuLevelUpLearnset,
         .teachableLearnset = sChiYuTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_CHI_YU
 
@@ -7088,6 +7093,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sWalkingWakeLevelUpLearnset,
         .teachableLearnset = sWalkingWakeTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_WALKING_WAKE
 
@@ -7154,6 +7160,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronLeavesLevelUpLearnset,
         .teachableLearnset = sIronLeavesTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_IRON_LEAVES
 
@@ -7483,6 +7490,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sOkidogiLevelUpLearnset,
         .teachableLearnset = sOkidogiTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_OKIDOGI
 
@@ -7550,6 +7558,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sMunkidoriLevelUpLearnset,
         .teachableLearnset = sMunkidoriTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_MUNKIDORI
 
@@ -7617,6 +7626,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sFezandipitiLevelUpLearnset,
         .teachableLearnset = sFezandipitiTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_FEZANDIPITI
 
@@ -7763,6 +7773,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sGougingFireLevelUpLearnset,
         .teachableLearnset = sGougingFireTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_GOUGING_FIRE
 
@@ -7830,6 +7841,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sRagingBoltLevelUpLearnset,
         .teachableLearnset = sRagingBoltTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_RAGING_BOLT
 
@@ -7896,6 +7908,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronBoulderLevelUpLearnset,
         .teachableLearnset = sIronBoulderTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_IRON_BOULDER
 
@@ -7963,6 +7976,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronCrownLevelUpLearnset,
         .teachableLearnset = sIronCrownTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_IRON_CROWN
 
