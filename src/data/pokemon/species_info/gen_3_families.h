@@ -11569,6 +11569,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sSalamenceTeachableLearnset,
         .formSpeciesIdTable = sSalamenceFormSpeciesIdTable,
         .formChangeTable = sSalamenceFormChangeTable,
+        .maxPhases = 4,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -11864,6 +11865,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sMetagrossTeachableLearnset,
         .formSpeciesIdTable = sMetagrossFormSpeciesIdTable,
         .formChangeTable = sMetagrossFormChangeTable,
+        .maxPhases = 4,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -12015,6 +12017,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegirockLevelUpLearnset,
         .teachableLearnset = sRegirockTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_REGIROCK
 
@@ -12094,6 +12097,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegiceLevelUpLearnset,
         .teachableLearnset = sRegiceTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_REGICE
 
@@ -12174,6 +12178,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegisteelLevelUpLearnset,
         .teachableLearnset = sRegisteelTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_REGISTEEL
 

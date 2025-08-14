@@ -4594,6 +4594,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGoodraLevelUpLearnset,
         .teachableLearnset = sGoodraTeachableLearnset,
         .formSpeciesIdTable = sGoodraFormSpeciesIdTable,
+        .maxPhases = 4,
     },
 
 #if P_HISUIAN_FORMS
@@ -4729,6 +4730,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGoodraHisuiLevelUpLearnset,
         .teachableLearnset = sGoodraHisuiTeachableLearnset,
         .formSpeciesIdTable = sGoodraFormSpeciesIdTable,
+        .maxPhases = 4,
     },
 #endif //P_HISUIAN_FORMS
 #endif //P_FAMILY_GOOMY

@@ -7868,6 +7868,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRaikouLevelUpLearnset,
         .teachableLearnset = sRaikouTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_RAIKOU
 
@@ -7949,6 +7950,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEnteiLevelUpLearnset,
         .teachableLearnset = sEnteiTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_ENTEI
 
@@ -8030,6 +8032,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sSuicuneLevelUpLearnset,
         .teachableLearnset = sSuicuneTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_SUICUNE
 
@@ -8245,6 +8248,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachableLearnset = sTyranitarTeachableLearnset,
         .formSpeciesIdTable = sTyranitarFormSpeciesIdTable,
         .formChangeTable = sTyranitarFormChangeTable,
+        .maxPhases = 4,
     },
 
 #if P_MEGA_EVOLUTIONS

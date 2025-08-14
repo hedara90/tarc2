@@ -1,71 +1,16 @@
-const struct BossMoveList sArticuno1 =
-{
-    .numMoves = 4,
-    .moves =
-    {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
-    },
-};
-
-const struct BossMoveList sZapdos1 =
-{
-    .numMoves = 4,
-    .moves =
-    {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
-    },
-};
-
-const struct BossMoveList sMoltres1 =
-{
-    .numMoves = 4,
-    .moves =
-    {
-        MOVE_EMBER,
-        MOVE_FIRE_SPIN,
-        MOVE_FIRE_BLAST,
-        MOVE_ROOST
-    },
-};
-
-const struct BossAi sArticunoAi =
-{
-    .phaseMoves =
-    {
-        &sArticuno1,
-        &sArticuno1,
-        &sArticuno1,
-        &sArticuno1,
-    },
-};
-
-const struct BossAi sZapdosAi =
-{
-    .phaseMoves =
-    {
-        &sZapdos1,
-        &sZapdos1,
-        &sZapdos1,
-        &sZapdos1,
-    },
-};
-
-const struct BossAi sMoltresAi =
-{
-    .phaseMoves =
-    {
-        &sMoltres1,
-        &sMoltres1,
-        &sMoltres1,
-        &sMoltres1,
-    },
-};
+#include "tarc_ai_birds.h"
+#include "tarc_ai_beasts.h"
+#include "tarc_ai_golems.h"
+#include "tarc_ai_lakes.h"
+#include "tarc_ai_swords.h"
+#include "tarc_ai_genies.h"
+#include "tarc_ai_tapus.h"
+#include "tarc_ai_treasures.h"
+#include "tarc_ai_loyal.h"
+#include "tarc_ai_galar_birds.h"
+#include "tarc_ai_paradox_beasts.h"
+#include "tarc_ai_paradox_swords.h"
+#include "tarc_ai_pseudos.h"
 
 const struct BossAi sAiLists[] =
 {
@@ -79,4 +24,53 @@ const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
     [SPECIES_ARTICUNO] = BOSS_ARTICUNO,
     [SPECIES_ZAPDOS] = BOSS_ZAPDOS,
     [SPECIES_MOLTRES] = BOSS_MOLTRES,
+    [SPECIES_RAIKOU] = BOSS_RAIKOU,
+    [SPECIES_ENTEI] = BOSS_ENTEI,
+    [SPECIES_SUICUNE] = BOSS_SUICUNE,
+    [SPECIES_REGIROCK] = BOSS_REGIROCK,
+    [SPECIES_REGICE] = BOSS_REGICE,
+    [SPECIES_REGISTEEL] = BOSS_REGISTEEL,
+    [SPECIES_REGIELEKI] = BOSS_REGIELEKI,
+    [SPECIES_REGIDRAGO] = BOSS_REGIDRAGO,
+    [SPECIES_UXIE] = BOSS_UXIE,
+    [SPECIES_MESPRIT] = BOSS_MESPRIT,
+    [SPECIES_AZELF] = BOSS_AZELF,
+    [SPECIES_COBALION] = BOSS_COBALION,
+    [SPECIES_TERRAKION] = BOSS_TERRAKION,
+    [SPECIES_VIRIZION] = BOSS_VIRIZION,
+    [SPECIES_KELDEO] = BOSS_KELDEO,
+    [SPECIES_TORNADUS_THERIAN] = BOSS_TORNADUS_THERIAN,
+    [SPECIES_THUNDURUS_THERIAN] = BOSS_THUNDURUS_THERIAN,
+    [SPECIES_LANDORUS_THERIAN] = BOSS_LANDORUS_THERIAN,
+    [SPECIES_ENAMORUS_THERIAN] = BOSS_ENAMORUS_THERIAN,
+    [SPECIES_TAPU_KOKO] = BOSS_TAPU_KOKO,
+    [SPECIES_TAPU_LELE] = BOSS_TAPU_LELE,
+    [SPECIES_TAPU_BULU] = BOSS_TAPU_BULU,
+    [SPECIES_TAPU_FINI] = BOSS_TAPU_FINI,
+    [SPECIES_WO_CHIEN] = BOSS_WO_CHIEN,
+    [SPECIES_CHIEN_PAO] = BOSS_CHIEN_PAO,
+    [SPECIES_TING_LU] = BOSS_TING_LU,
+    [SPECIES_CHI_YU] = BOSS_CHI_YU,
+    [SPECIES_OKIDOGI] = BOSS_OKIDOGI,
+    [SPECIES_MUNKIDORI] = BOSS_MUNKIDORI,
+    [SPECIES_FEZANDIPITI] = BOSS_FEZANDIPITI,
+    [SPECIES_ARTICUNO_GALAR] = BOSS_ARTICUNO_GALAR,
+    [SPECIES_ZAPDOS_GALAR] = BOSS_ZAPDOS_GALAR,
+    [SPECIES_MOLTRES_GALAR] = BOSS_MOLTRES_GALAR,
+    [SPECIES_WALKING_WAKE] = BOSS_WALKING_WAKE,
+    [SPECIES_GOUGING_FIRE] = BOSS_GOUGING_FIRE,
+    [SPECIES_RAGING_BOLT] = BOSS_RAGING_BOLT,
+    [SPECIES_IRON_LEAVES] = BOSS_IRON_LEAVES,
+    [SPECIES_IRON_BOULDER] = BOSS_IRON_BOULDER,
+    [SPECIES_IRON_CROWN] = BOSS_IRON_CROWN,
+    [SPECIES_DRAGONITE] = BOSS_DRAGONITE,
+    [SPECIES_TYRANITAR] = BOSS_TYRANITAR,
+    [SPECIES_METAGROSS] = BOSS_METAGROSS,
+    [SPECIES_SALAMENCE] = BOSS_SALAMENCE,
+    [SPECIES_GARCHOMP] = BOSS_GARCHOMP,
+    [SPECIES_HYDREIGON] = BOSS_HYDREIGON,
+    [SPECIES_GOODRA] = BOSS_GOODRA,
+    [SPECIES_KOMMO_O] = BOSS_KOMMO_O,
+    [SPECIES_DRAGAPULT] = BOSS_DRAGAPULT,
+    [SPECIES_BAXCALIBUR] = BOSS_BAXCALIBUR,
 };
