@@ -1,14 +1,33 @@
 #include "global.h"
+#include "decompress.h"
+#include "even_sprite.h"
+#include "event_data.h"
 #include "hunt_setup.h"
 #include "random.h"
+#include "main.h"
 #include "malloc.h"
 #include "move.h"
+#include "palette.h"
 #include "script.h"
 #include "script_pokemon_util.h"
+#include "sprite.h"
+#include "task.h"
 #include "constants/hunt_setup.h"
 #include "constants/abilities.h"
 
+#include "start_menu.h"
+
 #include "data/hunt_setup_data.h"
+
+const u32 sLeftFrame[] = INCBIN_U32("graphics/tarc_choose_boss/frame_left.4bpp");
+const u32 sRightFrame[] = INCBIN_U32("graphics/tarc_choose_boss/frame_right.4bpp");
+const u16 sLeftFramePal[] = INCBIN_U16("graphics/tarc_choose_boss/frame_left.gbapal");
+const u16 sRightFramePal[] = INCBIN_U16("graphics/tarc_choose_boss/frame_right.gbapal");
+
+static void Task_SelectorTask(u8 taskId);
+static void ReplaceShownSprite(void);
+static void DestroyCurrentShownSprite(void);
+static void DestroySideSprites(void);
 
 void SetupHuntFromScript(struct ScriptContext *ctx)
 {
@@ -58,10 +77,12 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         bosses[currIndex] = tempValue;
     }
 
+    gSaveBlock1Ptr->huntTargets.bosses[0] = 12;
+    gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
     for (u32 i = 0; i < 8; i++)
     {
         gSaveBlock1Ptr->huntTargets.bosses[1 + i] = bosses[i];
-        gSaveBlock1Ptr->huntTargets.bossesDefeated[i] = FALSE;
+        gSaveBlock1Ptr->huntTargets.bossesDefeated[1 + i] = FALSE;
     }
 
     //  Setup player mons
@@ -227,4 +248,135 @@ void SetupPlayerMons(enum PlayerMonList monList, rng_value_t *localRngState)
 void SetAffinityFromScript(struct ScriptContext *ctx)
 {
     gSaveBlock1Ptr->playerAffinity = ScriptReadByte(ctx);
+}
+
+struct BossSelect
+{
+    u8 currIndex;
+    u8 spriteId;
+    u8 frameId1;
+    u8 frameId2;
+    const struct BossGroup *group;
+};
+
+EWRAM_DATA struct BossSelect sBossSelect;
+
+void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
+{
+    u32 area = ScriptReadByte(ctx) - 1;
+    sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
+    sBossSelect.currIndex = 0;
+
+    LockPlayerFieldControls();
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = gSpeciesInfo[sBossSelect.group->members[0]].frontPic;
+    cs.spriteCompressed = TRUE;
+    cs.tileTag = 0xCEC1;
+    cs.palette = gSpeciesInfo[sBossSelect.group->members[0]].palette;
+    cs.palTag = 0xCEC1;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+    cs.posX = 120;
+    cs.posY = 80;
+    cs.subpriority = 0;
+    sBossSelect.spriteId = Even_CreateSprite(&cs);
+
+    //  Load frames
+    cs.sprite = sLeftFrame;
+    cs.spriteCompressed = FALSE;
+    cs.tileTag = 0xCEC2;
+    cs.palette = sLeftFramePal;
+    cs.palTag = 0xCEC2;
+    cs.posX = 88;
+    cs.subpriority = 1;
+    sBossSelect.frameId1 = Even_CreateSprite(&cs);
+
+    cs.sprite = sRightFrame;
+    cs.tileTag = 0xCEC3;
+    cs.palette = sRightFramePal;
+    cs.palTag = 0xCEC3;
+    cs.posX = 152;
+    sBossSelect.frameId2 = Even_CreateSprite(&cs);
+
+    u8 taskId = CreateTask(Task_SelectorTask, 0);
+    gTasks[taskId].data[0] = 1;
+}
+
+static void Task_SelectorTask(u8 taskId)
+{
+    if (gTasks[taskId].data[0])
+    {
+        gTasks[taskId].data[0] = 0;
+        return;
+    }
+
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (sBossSelect.currIndex == 0)
+            sBossSelect.currIndex = sBossSelect.group->numMembers - 1;
+        else
+            sBossSelect.currIndex--;
+        ReplaceShownSprite();
+    }
+    else if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (sBossSelect.currIndex == sBossSelect.group->numMembers - 1)
+            sBossSelect.currIndex = 0;
+        else
+            sBossSelect.currIndex++;
+        ReplaceShownSprite();
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        gSaveBlock1Ptr->huntTargets.currentBoss = sBossSelect.group->members[sBossSelect.currIndex];
+        DestroyCurrentShownSprite();
+        DestroySideSprites();
+        DestroyTask(taskId);
+        gSpecialVar_Result = TRUE;
+        ScriptContext_Enable();
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        DestroyCurrentShownSprite();
+        DestroySideSprites();
+        DestroyTask(taskId);
+        gSpecialVar_Result = FALSE;
+        ScriptContext_Enable();
+    }
+}
+
+static void DestroyCurrentShownSprite(void)
+{
+    DestroySprite(&gSprites[sBossSelect.spriteId]);
+    FreeSpriteTilesByTag(0xCEC1);
+    FreeSpritePaletteByTag(0xCEC1);
+}
+
+static void DestroySideSprites(void)
+{
+    DestroySprite(&gSprites[sBossSelect.frameId1]);
+    FreeSpriteTilesByTag(0xCEC2);
+    FreeSpritePaletteByTag(0xCEC2);
+
+    DestroySprite(&gSprites[sBossSelect.frameId2]);
+    FreeSpriteTilesByTag(0xCEC3);
+    FreeSpritePaletteByTag(0xCEC3);
+}
+
+static void ReplaceShownSprite(void)
+{
+    DestroyCurrentShownSprite();
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].frontPic;
+    cs.spriteCompressed = TRUE;
+    cs.tileTag = 0xCEC1;
+    cs.palette = gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].palette;
+    cs.palTag = 0xCEC1;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+    cs.posX = 120;
+    cs.posY = 80;
+    sBossSelect.spriteId = Even_CreateSprite(&cs);
 }
