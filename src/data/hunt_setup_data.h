@@ -164,7 +164,7 @@ const struct BossGroup sPseudos =
     }
 };
 
-const struct BossGroup *sBossGroups[] =
+const struct BossGroup *const sBossGroups[] =
 {
     &sBirds,
     &sBeasts,

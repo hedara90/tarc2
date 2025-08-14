@@ -2651,3 +2651,9 @@
 	callnative SetAffinityFromScript
 	.byte \affinity
 	.endm
+
+	@ Choose boss to fight in subarea
+	.macro choosecurrentboss area:req
+	callnative ChooseCurrentBossFromScript
+	.byte \area
+	.endm

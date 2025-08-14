@@ -1052,6 +1052,8 @@ struct HuntTargets
     u8 finalBossDefeated;
     bool8 bossesDefeated[9];
     bool8 miniBossesDefeated[27];
+    u8 currentArea;
+    u16 currentBoss;
 };
 
 struct SaveBlock1
