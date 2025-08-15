@@ -67,7 +67,11 @@ enum EndTurnResolutionOrder
     ENDTURN_ABILITIES,
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
+#if TESTING
     ENDTURN_BACKLINE_RESTORE,
+#else
+    ENDTURN_BACKLINE_RESTORE,
+#endif
     ENDTURN_COUNT,
 };
 
@@ -1567,9 +1571,9 @@ static void BuildBacklineStringBuffer(void)
 
 static bool32 HandleEndTurnBacklineRestore(u32 battler)
 {
-    if (TESTING)
-        return FALSE;
     gBattleStruct->turnEffectsBattlerId++;
+    if (TESTING)
+        return TRUE;
     if (battler != 0 || !BacklineIsHurt())
         return FALSE;
 
@@ -1635,7 +1639,11 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_ABILITIES] = HandleEndTurnAbilities,
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
+#if TESTING
     [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
+#else
+    [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
+#endif
 };
 
 u32 DoEndTurnEffects(void)

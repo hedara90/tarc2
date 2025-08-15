@@ -6,6 +6,8 @@
 
 void SetNextBossMove(void)
 {
+    if (TESTING)
+        return;
     if (gBattleStruct->aiTurnCounter >= sAiLists[gBattleStruct->currentBoss].phaseMoves[gBattleStruct->currentPhase]->numMoves)
         gBattleStruct->aiTurnCounter = 0;
 
@@ -24,6 +26,8 @@ void ResetTurnCounter(void)
 void SetBossInBattle(void)
 {
     gBattleStruct->currentBoss = sSpeciesToBossTable[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)];
+    if (TESTING)
+        return;
     u32 value = 0;
     SetMonData(&gEnemyParty[0], MON_DATA_MOVE2, &value);
     SetMonData(&gEnemyParty[0], MON_DATA_MOVE3, &value);
