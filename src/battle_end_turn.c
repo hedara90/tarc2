@@ -1567,9 +1567,9 @@ static void BuildBacklineStringBuffer(void)
 
 static bool32 HandleEndTurnBacklineRestore(u32 battler)
 {
-    if (TESTING)
-        return FALSE;
     gBattleStruct->turnEffectsBattlerId++;
+    if (TESTING)
+        return TRUE;
     if (battler != 0 || !BacklineIsHurt())
         return FALSE;
 
