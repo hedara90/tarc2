@@ -1,4 +1,73 @@
-raw `
-Area5_MapScripts::
-	.byte 0
-`
+mapscripts Area5_MapScripts {
+
+}
+
+script Area5_BossBattle {
+    callnative(SetBossForBattle)
+    setwildbattle(VAR_RESULT, 1, ITEM_NONE)
+    playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+    waitmoncry
+    dowildbattle
+    if (var(VAR_RESULT) != FALSE) {
+        bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
+        callnative(SetAbilityReward)
+        warpcontinuescript(MAP_MYTH_HUB, 20, 18, Area5_AfterBossWarp)
+    }
+    release
+}
+
+script Area5_AfterBossWarp {
+    fadescreen(FADE_FROM_BLACK)
+    msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+    release
+}
+
+script Area5_Miniboss1 {
+    lockall
+    setminiboss(5, 0)
+    setflag(FLAG_AREA5_MINIBOSS1)
+    playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    waitmoncry
+    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    dowildbattle
+    removeobject(LOCALID_MINIBOSS1)
+    fadescreen(FADE_FROM_BLACK)
+    if (var(VAR_RESULT) != FALSE) {
+        bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
+        callnative(SetMoveReward)
+        msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+    }
+    release
+}
+
+script Area5_Miniboss2 {
+    setminiboss(5, 1)
+    setflag(FLAG_AREA5_MINIBOSS2)
+    playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    dowildbattle
+    removeobject(LOCALID_MINIBOSS2)
+    fadescreen(FADE_FROM_BLACK)
+    if (var(VAR_RESULT) != FALSE) {
+        bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
+        callnative(SetMoveReward)
+        msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+    }
+    release
+}
+
+script Area5_Miniboss3 {
+    setminiboss(5, 2)
+    setflag(FLAG_AREA5_MINIBOSS3)
+    playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    dowildbattle
+    removeobject(LOCALID_MINIBOSS3)
+    fadescreen(FADE_FROM_BLACK)
+    if (var(VAR_RESULT) != FALSE) {
+        bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
+        callnative(SetMoveReward)
+        msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+    }
+    release
+}

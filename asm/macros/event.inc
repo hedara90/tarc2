@@ -2657,3 +2657,19 @@
 	callnative ChooseCurrentBossFromScript
 	.byte \area
 	.endm
+
+	@ Set miniboss to fight in subarea
+	.macro setminiboss area:req miniboss:req
+	callnative SetMiniboss
+	.byte \area
+	.byte \miniboss
+	.endm
+
+	@ Warp and continue script
+	.macro warpcontinuescript map:req, X:req, Y:req, script:req, startBlack=TRUE
+	callnative WarpContinueScript
+	.2byte \map
+	.2byte \X
+	.2byte \Y
+	.4byte \script
+	.endm

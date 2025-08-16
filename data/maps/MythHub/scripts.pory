@@ -1,34 +1,19 @@
-raw `
-MythHub_MapScripts::
-	.byte 0
+mapscripts MythHub_MapScripts {
+}
 
-MythHub_Boss::
-	msgbox MythHub_TextFinalBoss, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES,
-	goto_if_eq VAR_RESULT, NO,
-	end
-
-MythHub_BossYes::
-	closemessage
-	warpsilent MAP_BOSS
-	end
-
-MythHub_BossNo::
-	closemessage
-	applymovement LOCALID_PLAYER, MythHub_ExitBoss
-	waitmovement 0
-	releaseall
-	end
-
-MythHub_ExitBoss::
-	walk_down
-	step_end
-
-
-MythHub_TextFinalBoss::
-	.string "Beyond lies the final foe.\p"
-	.string "Do you want to go through?$"
-`
+script MythHub_Boss {
+    lockall
+    msgbox("Beyond lies the final foe.\pDo you want to go through?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        closemessage
+        warpsilent(MAP_BOSS, 10, 10)
+    } else {
+        closemessage
+        applymovement(LOCALID_PLAYER, moves(walk_down))
+        waitmovement
+    }
+    releaseall
+}
 
 script MythHub_Area1 {
     choosecurrentboss(1)

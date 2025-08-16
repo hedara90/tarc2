@@ -151,6 +151,15 @@ void ResetMenuAndMonGlobals(void)
     ResetPokeblockScrollPositions();
 }
 
+void SetHealLocationToEntrance(void)
+{
+    gSaveBlock1Ptr->lastHealLocation.mapGroup = 0;
+    gSaveBlock1Ptr->lastHealLocation.mapNum = 11;
+    gSaveBlock1Ptr->lastHealLocation.x = 20;
+    gSaveBlock1Ptr->lastHealLocation.y = 20;
+    gSaveBlock1Ptr->lastHealLocation.warpId = -1;
+}
+
 void NewGameInitData(void)
 {
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
@@ -213,6 +222,7 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+    SetHealLocationToEntrance();
 }
 
 static void ResetMiniGamesRecords(void)

@@ -2,6 +2,7 @@
 #include "decompress.h"
 #include "even_sprite.h"
 #include "event_data.h"
+#include "event_object_movement.h"
 #include "hunt_setup.h"
 #include "random.h"
 #include "main.h"
@@ -11,9 +12,11 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "sprite.h"
+#include "string_util.h"
 #include "task.h"
 #include "constants/hunt_setup.h"
 #include "constants/abilities.h"
+#include "constants/vars.h"
 
 #include "start_menu.h"
 
@@ -28,6 +31,7 @@ static void Task_SelectorTask(u8 taskId);
 static void ReplaceShownSprite(void);
 static void DestroyCurrentShownSprite(void);
 static void DestroySideSprites(void);
+void SetHuntFlags(void);
 
 void SetupHuntFromScript(struct ScriptContext *ctx)
 {
@@ -37,6 +41,7 @@ void SetupHuntFromScript(struct ScriptContext *ctx)
 
 void SetupHuntTargets(enum FinalBossList finalBoss)
 {
+    SetHuntFlags();
     u32 randomSeed = Random32();
     rng_value_t localRngState = LocalRandomSeed(randomSeed);
     if (finalBoss != FINAL_BOSS_RANDOM)
@@ -265,6 +270,7 @@ void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
     u32 area = ScriptReadByte(ctx) - 1;
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
+    gSaveBlock1Ptr->huntTargets.currentArea = area;
     sBossSelect.currIndex = 0;
 
     LockPlayerFieldControls();
@@ -383,5 +389,42 @@ static void ReplaceShownSprite(void)
 
 void SetBossForBattle(void)
 {
-    gSpecialVar_Result = SPECIES_DRAGONITE;
+    gSpecialVar_Result = gSaveBlock1Ptr->huntTargets.currentBoss;
+    VarSet(VAR_CURRENT_ENEMY, gSpecialVar_Result);
+}
+
+void SetMiniboss(struct ScriptContext *ctx)
+{
+    u32 area = ScriptReadByte(ctx);
+    u32 index = ScriptReadByte(ctx);
+    gSpecialVar_Result = gSaveBlock1Ptr->huntTargets.miniBosses[3 * (area - 1) + index];
+    VarSet(VAR_CURRENT_ENEMY, gSpecialVar_Result);
+}
+
+void SetMoveReward(void)
+{
+    u32 species = VarGet(VAR_CURRENT_ENEMY);
+    StringCopy(gStringVar2, gMovesInfo[gSpeciesInfo[species].moveReward].name);
+    u32 index = 0;
+    while (gSaveBlock1Ptr->moveStorage[index] != MOVE_NONE)
+        index++;
+    gSaveBlock1Ptr->moveStorage[index] = gSpeciesInfo[species].moveReward;
+}
+
+void SetAbilityReward(void)
+{
+    u32 species = VarGet(VAR_CURRENT_ENEMY);
+    StringCopy(gStringVar2, gAbilitiesInfo[gSpeciesInfo[species].abilityReward].name);
+    u32 index = 0;
+    while (gSaveBlock1Ptr->abilityStorage[index] != ABILITY_NONE)
+        index++;
+    gSaveBlock1Ptr->abilityStorage[index] = gSpeciesInfo[species].abilityReward;
+}
+
+void SetHuntFlags(void)
+{
+    for (u32 i = 0; i < 27; i++)
+    {
+        FlagClear(FLAG_AREA1_MINIBOSS1 + i);
+    }
 }

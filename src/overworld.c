@@ -220,6 +220,8 @@ EWRAM_DATA static u8 sHoursOverride = 0; // used to override apparent time of da
 EWRAM_DATA struct LinkPlayerObjectEvent gLinkPlayerObjectEvents[4] = {0};
 EWRAM_DATA bool8 gExitStairsMovementDisabled = FALSE;
 
+static EWRAM_DATA const u8 *gAfterWarpScript = {0};
+
 static const struct WarpData sDummyWarpData =
 {
     .mapGroup = MAP_GROUP(MAP_UNDEFINED),
@@ -3709,4 +3711,33 @@ bool8 ScrFunc_settimeofday(struct ScriptContext *ctx)
 {
     SetTimeOfDay(ScriptReadByte(ctx));
     return FALSE;
+}
+
+
+static void FieldCallback_SetupWarpScript(void)
+{
+    if (gAfterWarpScript == NULL)
+    {
+        gFieldCallback = NULL;
+        return;
+    }
+
+    Overworld_PlaySpecialMapMusic();
+    LockPlayerFieldControls();
+    CpuFastFill(0, gPlttBufferFaded, PLTT_SIZE);
+    ScriptContext_SetupScript(gAfterWarpScript);
+}
+
+bool8 WarpContinueScript(struct ScriptContext *ctx)
+{
+    u8 mapNum = ScriptReadByte(ctx);
+    u8 mapGroup = ScriptReadByte(ctx);
+    u16 x = VarGet(ScriptReadHalfword(ctx));
+    u16 y = VarGet(ScriptReadHalfword(ctx));
+    gAfterWarpScript = (const u8 *) ScriptReadWord(ctx);
+    gFieldCallback = FieldCallback_SetupWarpScript;
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, x, y);
+    WarpIntoMap();
+    SetMainCallback2(CB2_LoadMap);
+    return TRUE;
 }

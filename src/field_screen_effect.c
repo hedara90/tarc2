@@ -156,7 +156,7 @@ void FieldCB_ContinueScriptHandleMusic(void)
 {
     LockPlayerFieldControls();
     Overworld_PlaySpecialMapMusic();
-    FadeInFromBlack();
+    //FadeInFromBlack();
     CreateTask(Task_WaitForFadeAndEnableScriptCtx, 10);
 }
 
