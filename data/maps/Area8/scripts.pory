@@ -4,7 +4,7 @@ mapscripts Area8_MapScripts {
 
 script Area8_BossBattle {
     callnative(SetBossForBattle)
-    setwildbattle(VAR_RESULT, 1, ITEM_NONE)
+    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
     waitmoncry
     dowildbattle
@@ -28,7 +28,7 @@ script Area8_Miniboss1 {
     setflag(FLAG_AREA8_MINIBOSS1)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
     waitmoncry
-    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
     removeobject(LOCALID_MINIBOSS1)
     fadescreen(FADE_FROM_BLACK)
@@ -44,7 +44,7 @@ script Area8_Miniboss2 {
     setminiboss(8, 1)
     setflag(FLAG_AREA8_MINIBOSS2)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
-    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
     removeobject(LOCALID_MINIBOSS2)
     fadescreen(FADE_FROM_BLACK)
@@ -60,7 +60,7 @@ script Area8_Miniboss3 {
     setminiboss(8, 2)
     setflag(FLAG_AREA8_MINIBOSS3)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
-    setwildbattle(VAR_RESULT, 100, ITEM_NONE)
+    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
     removeobject(LOCALID_MINIBOSS3)
     fadescreen(FADE_FROM_BLACK)

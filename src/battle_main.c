@@ -643,6 +643,8 @@ static void CB2_InitBattleInternal(void)
         gEnemyPartyCount = CalculatePartyCount(gEnemyParty);
     }
 
+    gSaveBlock1Ptr->huntTargets.currentEnemy = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES);
+
     InitializeSideSprites();
 
     gBattleCommunication[MULTIUSE_STATE] = 0;

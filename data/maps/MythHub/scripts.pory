@@ -6,6 +6,7 @@ script MythHub_Boss {
     msgbox("Beyond lies the final foe.\pDo you want to go through?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         closemessage
+        callnative(SetFinalBoss)
         warpsilent(MAP_BOSS, 10, 10)
     } else {
         closemessage
