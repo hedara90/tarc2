@@ -2097,6 +2097,7 @@ static u32 ConvertSpecies(u32 species)
         u32 area = gSaveBlock1Ptr->huntTargets.currentArea;
         switch (species)
         {
+        case SPECIES_FINAL_BOSS:
         case SPECIES_BOSS:
             species = gSaveBlock1Ptr->huntTargets.currentBoss;
             break;
@@ -2108,9 +2109,6 @@ static u32 ConvertSpecies(u32 species)
             break;
         case SPECIES_MINIBOSS_3:
             species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area + 2];
-            break;
-        case SPECIES_FINAL_BOSS:
-            species = gSaveBlock1Ptr->huntTargets.finalBoss;
             break;
         }
     }

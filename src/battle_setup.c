@@ -56,6 +56,8 @@
 #include "constants/weather.h"
 #include "wild_encounter.h"
 
+#include "hunt_setup.h"
+
 enum {
     TRANSITION_TYPE_NORMAL,
     TRANSITION_TYPE_CAVE,
@@ -596,11 +598,9 @@ static void CB2_EndWildBattle(void)
     if (IsPlayerDefeated(gBattleOutcome) == TRUE && !InBattlePyramid() && !InBattlePike())
     {
         SetMainCallback2(CB2_WhiteOut);
-        gSpecialVar_Result = FALSE;
     }
     else
     {
-        gSpecialVar_Result = TRUE;
         SetMainCallback2(CB2_ReturnToField);
         DowngradeBadPoison();
         gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
@@ -614,6 +614,7 @@ static void CB2_EndScriptedWildBattle(void)
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
+        SetLossData();
         if (InBattlePyramid())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
@@ -621,6 +622,7 @@ static void CB2_EndScriptedWildBattle(void)
     }
     else
     {
+        SetPostBattleData();
         DowngradeBadPoison();
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
@@ -628,8 +630,8 @@ static void CB2_EndScriptedWildBattle(void)
 
 u8 BattleSetup_GetEnvironmentId(void)
 {
-    u16 tileBehavior;
-    s16 x, y;
+    //u16 tileBehavior;
+    //s16 x, y;
 
     // if (I_FISHING_ENVIRONMENT >= GEN_4 && gIsFishingEncounter)
     //     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);

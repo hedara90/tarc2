@@ -1046,14 +1046,15 @@ struct ExternalEventFlags
 
 struct HuntTargets
 {
-    u16 finalBoss;
-    u16 bosses[9];
-    u16 miniBosses[27];
-    u8 finalBossDefeated;
+    u16 finalBoss;      //  Saved as enum FinalBossList
+    u16 bosses[9];      //  Saved as enum BossGroupList
+    u16 miniBosses[27]; //  Saved as species
+    bool8 finalBossDefeated;
     bool8 bossesDefeated[9];
     bool8 miniBossesDefeated[27];
     u8 currentArea;
     u16 currentBoss;
+    u16 currentEnemy;
 };
 
 struct SaveBlock1

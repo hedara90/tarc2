@@ -1,4 +1,11 @@
-raw `
-Boss_MapScripts::
-	.byte 0
-`
+mapscripts Boss_MapScripts {
+}
+
+script Boss_BossBattle {
+    callnative(SetFinalBoss)
+    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
+    playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+    waitmoncry
+    dowildbattle
+    release
+}

@@ -44,7 +44,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
     SetHuntFlags();
     u32 randomSeed = Random32();
     rng_value_t localRngState = LocalRandomSeed(randomSeed);
-    if (finalBoss != FINAL_BOSS_RANDOM)
+    if (finalBoss == FINAL_BOSS_RANDOM)
     {
         gSaveBlock1Ptr->huntTargets.finalBoss = sFinalBossToSpecies[LocalRandom32(&localRngState) % BOSS_COUNT];
     }
@@ -401,6 +401,13 @@ void SetMiniboss(struct ScriptContext *ctx)
     VarSet(VAR_CURRENT_ENEMY, gSpecialVar_Result);
 }
 
+void SetFinalBoss(void)
+{
+    gSpecialVar_Result = sFinalBossToSpecies[gSaveBlock1Ptr->huntTargets.finalBoss];
+    VarSet(VAR_CURRENT_ENEMY, gSpecialVar_Result);
+    gSaveBlock1Ptr->huntTargets.currentBoss = gSpecialVar_Result;
+}
+
 void SetMoveReward(void)
 {
     u32 species = VarGet(VAR_CURRENT_ENEMY);
@@ -427,4 +434,41 @@ void SetHuntFlags(void)
     {
         FlagClear(FLAG_AREA1_MINIBOSS1 + i);
     }
+}
+
+void SetPostBattleData(void)
+{
+    u32 species = gSaveBlock1Ptr->huntTargets.currentEnemy;
+    switch (gSpeciesInfo[species].maxPhases)
+    {
+    case 2: //  Miniboss
+        for (u32 i = 0; i < 27; i++)
+        {
+            if (gSaveBlock1Ptr->huntTargets.miniBosses[i] == species)
+            {
+                gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i] = TRUE;
+                break;
+            }
+        }
+        break;
+    case 4: //  Boss
+        gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = TRUE;
+        break;
+    case 5: //  Final Boss
+        gSaveBlock1Ptr->huntTargets.finalBossDefeated = TRUE;
+        SetWinData();
+        break;
+    }
+}
+
+void SetLossData(void)
+{
+    FlagClear(FLAG_WON_LAST_RUN);
+    FlagSet(FLAG_LOST_LAST_RUN);
+}
+
+void SetWinData(void)
+{
+    FlagSet(FLAG_WON_LAST_RUN);
+    FlagClear(FLAG_LOST_LAST_RUN);
 }
