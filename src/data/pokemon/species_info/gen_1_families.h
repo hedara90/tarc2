@@ -20238,7 +20238,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         )
         .levelUpLearnset = sDragoniteLevelUpLearnset,
         .teachableLearnset = sDragoniteTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 1,
+        .abilityReward = ABILITY_MULTISCALE,
     },
 #endif //P_FAMILY_DRATINI
 

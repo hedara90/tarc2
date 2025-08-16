@@ -1637,8 +1637,13 @@
 #define SPECIES_URSHIFU_RAPID_STRIKE_STYLE_GMAX         SPECIES_URSHIFU_RAPID_STRIKE_GMAX
 #define SPECIES_MIMIKYU_BUSTED_TOTEM                    1523
 #define SPECIES_MIMIKYU_TOTEM_BUSTED                    SPECIES_MIMIKYU_BUSTED_TOTEM
+#define SPECIES_BOSS                                    1524
+#define SPECIES_MINIBOSS_1                              1525
+#define SPECIES_MINIBOSS_2                              1526
+#define SPECIES_MINIBOSS_3                              1527
+#define SPECIES_FINAL_BOSS                              1528
 
-#define SPECIES_EGG                                     (SPECIES_MIMIKYU_BUSTED_TOTEM + 1)
+#define SPECIES_EGG                                     (SPECIES_FINAL_BOSS + 1)
 
 #define NUM_SPECIES SPECIES_EGG
 
