@@ -1579,6 +1579,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         )
         .levelUpLearnset = sSimisearLevelUpLearnset,
         .teachableLearnset = sSimisearTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_FIRE_SPIN,
     },
 #endif //P_FAMILY_PANSEAR
 

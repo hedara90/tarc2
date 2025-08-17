@@ -1279,6 +1279,8 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         )
         .levelUpLearnset = sKricketuneLevelUpLearnset,
         .teachableLearnset = sKricketuneTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_X_SCISSOR,
     },
 #endif //P_FAMILY_KRICKETOT
 
