@@ -11906,18 +11906,24 @@ void ReduceCD(enum TarcPlayerIndex battler, u32 movePos)
         if (gBattleMons[0].moveCD[movePos] > 0)
         {
             gBattleMons[0].moveCD[movePos]--;
+            if (gBattleMons[0].moveCD[movePos] > 8)
+                gBattleMons[0].moveCD[movePos] = 8;
         }
         break;
     case TARC_LEFT_BATTLER:
         if (gLeftMon.moveCD[movePos] > 0)
         {
             gLeftMon.moveCD[movePos]--;
+            if (gLeftMon.moveCD[movePos] > 8)
+                gLeftMon.moveCD[movePos] = 8;
         }
         break;
     case TARC_RIGHT_BATTLER:
         if (gRightMon.moveCD[movePos] > 0)
         {
             gRightMon.moveCD[movePos]--;
+            if (gRightMon.moveCD[movePos] > 8)
+                gRightMon.moveCD[movePos] = 8;
         }
         break;
     }
