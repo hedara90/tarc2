@@ -3734,6 +3734,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sClawitzerLevelUpLearnset,
         .teachableLearnset = sClawitzerTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_FLASH_CANNON,
     },
 #endif //P_FAMILY_CLAUNCHER
 

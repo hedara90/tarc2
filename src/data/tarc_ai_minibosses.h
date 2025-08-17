@@ -3194,3 +3194,95 @@ const struct BossAi sHydrappleAi =
         &sHydrapple1,
     },
 };
+
+const struct BossMoveList sMagcargo1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossAi sMagcargoAi =
+{
+    .phaseMoves =
+    {
+        &sMagcargo1,
+        &sMagcargo1,
+        &sMagcargo1,
+        &sMagcargo1,
+    }
+};
+
+const struct BossMoveList sClawitzer1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossAi sClawitzerAi =
+{
+    .phaseMoves =
+    {
+        &sClawitzer1,
+        &sClawitzer1,
+        &sClawitzer1,
+        &sClawitzer1,
+    }
+};
+
+const struct BossMoveList sSimisear1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossAi sSimisearAi =
+{
+    .phaseMoves =
+    {
+        &sSimisear1,
+        &sSimisear1,
+        &sSimisear1,
+        &sSimisear1,
+    }
+};
+
+const struct BossMoveList sKricketune1 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_TACKLE,
+        MOVE_ICE_BEAM,
+        MOVE_HAZE,
+        MOVE_ROOST
+    },
+};
+
+const struct BossAi sKricketuneAi =
+{
+    .phaseMoves =
+    {
+        &sKricketune1,
+        &sKricketune1,
+        &sKricketune1,
+        &sKricketune1,
+    }
+};

@@ -6193,6 +6193,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         )
         .levelUpLearnset = sMagcargoLevelUpLearnset,
         .teachableLearnset = sMagcargoTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_OVERHEAT,
     },
 #endif //P_FAMILY_SLUGMA
 
