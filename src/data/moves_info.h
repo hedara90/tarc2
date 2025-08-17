@@ -3561,6 +3561,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Amnesia,
         .validApprenticeMove = TRUE,
+        .cd = 2,
     },
 
     [MOVE_KINESIS] =

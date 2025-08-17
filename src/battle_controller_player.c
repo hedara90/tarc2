@@ -920,6 +920,12 @@ void HandleInputChooseMove(u32 battler)
 
     if (JOY_NEW(A_BUTTON) && !gBattleStruct->descriptionSubmenu)
     {
+        if (GetMoveCD(TARC_ACTIVE_BATTLER, gMoveSelectionCursor[battler]) > 0)
+        {
+            PlaySE(SE_PC_OFF);
+            return;
+        }
+
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
 
@@ -2111,9 +2117,40 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
 
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 {
+    u32 currentMoveCD = GetMoveCD(TARC_ACTIVE_BATTLER, cursorPosition);
     u16 src[2];
     src[0] = baseTileNum + 0x40;
     src[1] = baseTileNum + 0x41;
+    switch (currentMoveCD)
+    {
+    case 0:
+        src[1] = 0x41;
+        break;
+    case 1:
+        src[0] = 120;
+        break;
+    case 2:
+        src[0] = 121;
+        break;
+    case 3:
+        src[0] = 122;
+        break;
+    case 4:
+        src[0] = 123;
+        break;
+    case 5:
+        src[0] = 124;
+        break;
+    case 6:
+        src[0] = 125;
+        break;
+    case 7:
+        src[0] = 126;
+        break;
+    case 8:
+        src[0] = 127;
+        break;
+    }
 
     CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 6, 55 + (cursorPosition & 2), 1, 2, 0x11);
     CopyBgTilemapBufferToVram(0);
@@ -2121,9 +2158,39 @@ void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 
 void MoveSelectionDestroyCursorAt(u8 cursorPosition)
 {
+    u32 currentMoveCD = GetMoveCD(TARC_ACTIVE_BATTLER, cursorPosition);
     u16 src[2];
-    src[0] = 0x102E;
-    src[1] = 0x102E;
+    src[0] = 46;
+    switch (currentMoveCD)
+    {
+    case 0:
+        src[0] = 46;
+        break;
+    case 1:
+        src[0] = 112;
+        break;
+    case 2:
+        src[0] = 113;
+        break;
+    case 3:
+        src[0] = 114;
+        break;
+    case 4:
+        src[0] = 115;
+        break;
+    case 5:
+        src[0] = 116;
+        break;
+    case 6:
+        src[0] = 117;
+        break;
+    case 7:
+        src[0] = 118;
+        break;
+    case 8:
+        src[0] = 119;
+        break;
+    }
 
     CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 6, 55 + (cursorPosition & 2), 1, 2, 0x0);
     CopyBgTilemapBufferToVram(0);

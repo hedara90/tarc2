@@ -11879,3 +11879,52 @@ void UpdateBacklineTurns(void)
     gRightMon.turnsInBack++;
     gBattleMons[0].turnsInBack = 0;
 }
+
+u32 GetMoveCD(enum TarcPlayerIndex battler, u32 movePos)
+{
+    u32 cd = 0;
+    switch (battler)
+    {
+    case TARC_ACTIVE_BATTLER:
+        cd = gBattleMons[0].moveCD[movePos];
+        break;
+    case TARC_LEFT_BATTLER:
+        cd = gLeftMon.moveCD[movePos];
+        break;
+    case TARC_RIGHT_BATTLER:
+        cd = gRightMon.moveCD[movePos];
+        break;
+    }
+    return cd;
+}
+
+void ReduceCD(enum TarcPlayerIndex battler, u32 movePos)
+{
+    switch (battler)
+    {
+    case TARC_ACTIVE_BATTLER:
+        if (gBattleMons[0].moveCD[movePos] > 0)
+        {
+            gBattleMons[0].moveCD[movePos]--;
+            if (gBattleMons[0].moveCD[movePos] > 8)
+                gBattleMons[0].moveCD[movePos] = 8;
+        }
+        break;
+    case TARC_LEFT_BATTLER:
+        if (gLeftMon.moveCD[movePos] > 0)
+        {
+            gLeftMon.moveCD[movePos]--;
+            if (gLeftMon.moveCD[movePos] > 8)
+                gLeftMon.moveCD[movePos] = 8;
+        }
+        break;
+    case TARC_RIGHT_BATTLER:
+        if (gRightMon.moveCD[movePos] > 0)
+        {
+            gRightMon.moveCD[movePos]--;
+            if (gRightMon.moveCD[movePos] > 8)
+                gRightMon.moveCD[movePos] = 8;
+        }
+        break;
+    }
+}

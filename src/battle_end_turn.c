@@ -68,6 +68,7 @@ enum EndTurnResolutionOrder
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
     ENDTURN_BACKLINE_RESTORE,
+    ENDTURN_MOVE_CD,
     ENDTURN_COUNT,
 };
 
@@ -1585,6 +1586,94 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
     return TRUE;
 }
 
+static bool32 HandleEndTurnMoveCD(u32 battler)
+{
+    gBattleStruct->turnEffectsBattlerId++;
+    if (TESTING)
+        return TRUE;
+
+    if (battler != 0)
+        return FALSE;
+
+    for (u32 i = 0; i < 4; i++)
+    {
+        ReduceCD(TARC_ACTIVE_BATTLER, i);
+        ReduceCD(TARC_LEFT_BATTLER, i);
+        ReduceCD(TARC_RIGHT_BATTLER, i);
+    }
+
+    bool32 hasMoveToUse = FALSE;
+    u8 *lowestCDMove = &gBattleMons[0].moveCD[0];
+    u32 lowestCD = 10;
+
+    if (gLeftMon.hp > 0)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            if (gLeftMon.moves[i] != MOVE_NONE && gLeftMon.moveCD[i] == 0)
+            {
+                hasMoveToUse = TRUE;
+                break;
+            }
+            else
+            {
+                if (gLeftMon.moveCD[i] < lowestCD)
+                {
+                    lowestCDMove = &gLeftMon.moveCD[i];
+                    lowestCD = gLeftMon.moveCD[i];
+                }
+            }
+        }
+    }
+
+    if (gRightMon.hp > 0)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            if (gRightMon.moves[i] != MOVE_NONE && gRightMon.moveCD[i] == 0)
+            {
+                hasMoveToUse = TRUE;
+                break;
+            }
+            else
+            {
+                if (gRightMon.moveCD[i] < lowestCD)
+                {
+                    lowestCDMove = &gRightMon.moveCD[i];
+                    lowestCD = gRightMon.moveCD[i];
+                }
+            }
+        }
+    }
+
+    if (gBattleMons[0].hp > 0)
+    {
+        for (u32 i = 0; i < 4; i++)
+        {
+            if (gBattleMons[0].moveCD[i] == 0)
+            {
+                hasMoveToUse = TRUE;
+                break;
+            }
+            else
+            {
+                if (gBattleMons[0].moveCD[i] < lowestCD)
+                {
+                    lowestCDMove = &gBattleMons[0].moveCD[i];
+                    lowestCD = gBattleMons[0].moveCD[i];
+                }
+            }
+        }
+    }
+
+    if (!hasMoveToUse)
+    {
+        *lowestCDMove = 0;
+    }
+
+    return TRUE;
+}
+
 static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
 {
     [ENDTURN_ORDER] = HandleEndTurnOrder,
@@ -1636,6 +1725,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
     [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
+    [ENDTURN_MOVE_CD] = HandleEndTurnMoveCD,
 };
 
 u32 DoEndTurnEffects(void)

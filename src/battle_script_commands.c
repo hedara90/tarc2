@@ -1837,6 +1837,7 @@ static void Cmd_ppreduce(void)
     CMD_ARGS();
 
     s32 i, ppToDeduct = 1;
+
     u32 moveTarget = GetBattlerMoveTargetType(gBattlerAttacker, gCurrentMove);
 
     if (gBattleControllerExecFlags)
@@ -1877,10 +1878,21 @@ static void Cmd_ppreduce(void)
 
         if (MOVE_IS_PERMANENT(gBattlerAttacker, gCurrMovePos))
         {
-            BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_PPMOVE1_BATTLE + gCurrMovePos, 0,
-                                         sizeof(gBattleMons[gBattlerAttacker].pp[gCurrMovePos]),
-                                         &gBattleMons[gBattlerAttacker].pp[gCurrMovePos]);
-            MarkBattlerForControllerExec(gBattlerAttacker);
+            if (TESTING)
+            {
+                BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_PPMOVE1_BATTLE + gCurrMovePos, 0,
+                                             sizeof(gBattleMons[gBattlerAttacker].pp[gCurrMovePos]),
+                                             &gBattleMons[gBattlerAttacker].pp[gCurrMovePos]);
+                MarkBattlerForControllerExec(gBattlerAttacker);
+            }
+            else
+            {
+                //  Is battler player
+                if (gBattlerAttacker == 0)
+                {
+                    gBattleMons[0].moveCD[gCurrMovePos] = gMovesInfo[gBattleMons[0].moves[gCurrMovePos]].cd + ppToDeduct;
+                }
+            }
         }
     }
 

@@ -167,6 +167,7 @@ struct MoveInfo
     u8 spaBonus;
     u8 spdBonus;
     u8 speBonus;
+    u8 cd;
 };
 
 extern const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL];
