@@ -23,6 +23,13 @@
 #define MOVE_LIMITATION_PLACEHOLDER             (1 << 15)
 #define MOVE_LIMITATIONS_ALL                    0xFFFF
 
+enum TarcPlayerIndex
+{
+    TARC_ACTIVE_BATTLER,
+    TARC_LEFT_BATTLER,
+    TARC_RIGHT_BATTLER
+};
+
 enum NonVolatileStatus
 {
     STATUS_CHECK_TRIGGER,
@@ -397,6 +404,8 @@ bool32 RightMonHurt(void);
 bool32 BacklineIsHurt(void);
 void HealBackLineMon(struct BattlePokemon *mon);
 void UpdateBacklineTurns(void);
+u32 GetMoveCD(enum TarcPlayerIndex battler, u32 movePos);
+void ReduceCD(enum TarcPlayerIndex battler, u32 movePos);
 
 #define TARC_STATUS_CURE_TURN  5
 #define TARC_STAT_RESTORE_TURN 3

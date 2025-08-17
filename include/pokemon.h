@@ -347,6 +347,7 @@ struct BattlePokemon
     /*0x59*/ u8 metLevel;
     /*0x5A*/ bool8 isShiny;
     u8 turnsInBack;
+    u8 moveCD[4];
 };
 
 struct EvolutionParam
