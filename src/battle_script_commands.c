@@ -1836,11 +1836,7 @@ static void Cmd_ppreduce(void)
 {
     CMD_ARGS();
 
-    s32 i;
-    s32 ppToDeduct = 0;
-
-    if (TESTING)
-        ppToDeduct++;
+    s32 i, ppToDeduct = 1;
 
     u32 moveTarget = GetBattlerMoveTargetType(gBattlerAttacker, gCurrentMove);
 
