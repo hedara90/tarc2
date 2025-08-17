@@ -1907,7 +1907,6 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
         return;
     }
 
-    /*
     pltAdder = PLTT_ID(gSprites[healthboxSpriteId].oam.paletteNum);
     pltAdder += battler + 12;
 
@@ -1923,7 +1922,6 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
         }
     }
     //TryAddPokeballIconToHealthbox(healthboxSpriteId, FALSE);
-    */
 }
 
 static u8 GetStatusIconForBattlerId(u8 statusElementId, u8 battler)
