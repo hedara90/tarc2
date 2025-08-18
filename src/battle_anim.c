@@ -256,6 +256,7 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_THUNDERSTRIKE_ACTIVE]   = gBattleAnimGeneral_ThunderstrikeActive,
     [B_ANIM_THUNDERSTRIKE_LEFT]     = gBattleAnimGeneral_ThunderstrikeLeft,
     [B_ANIM_THUNDERSTRIKE_RIGHT]    = gBattleAnimGeneral_ThunderstrikeRight,
+    [B_ANIM_OVERRIDE_EXHAUSTION]    = gBattleAnimGeneral_OverrideExhaustion,
 };
 
 static const u8* const sBattleAnims_Special[NUM_B_ANIMS_SPECIAL] =

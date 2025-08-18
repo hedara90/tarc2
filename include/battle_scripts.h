@@ -881,5 +881,6 @@ extern const u8 BattleScript_FlamesEmbrace[];
 extern const u8 BattleScript_ThunderstrikeActive[];
 extern const u8 BattleScript_ThunderstrikeLeft[];
 extern const u8 BattleScript_ThunderstrikeRight[];
+extern const u8 BattleScript_CooldownOverride[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

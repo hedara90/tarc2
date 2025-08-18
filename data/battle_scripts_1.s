@@ -10118,3 +10118,9 @@ BattleScript_ThunderstrikeRight::
 	printstring STRINGID_THUNDERSTRIKE
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_CooldownOverride::
+	playanimation BS_ATTACKER, B_ANIM_OVERRIDE_EXHAUSTION
+	printstring STRINGID_CD_OVERRIDE
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_DoTurnDmg

@@ -1018,5 +1018,6 @@ extern const u8 gBattleAnimSpecial_CriticalCaptureBallThrow[];
 extern const u8 gBattleAnimGeneral_ThunderstrikeActive[];
 extern const u8 gBattleAnimGeneral_ThunderstrikeLeft[];
 extern const u8 gBattleAnimGeneral_ThunderstrikeRight[];
+extern const u8 gBattleAnimGeneral_OverrideExhaustion[];
 
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H
