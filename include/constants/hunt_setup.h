@@ -1,8 +1,6 @@
 #ifndef GUARD_HUNT_SETUP_CONSTANTS_H
 #define GUARD_HUNT_SETUP_CONSTANTS_H
 
-#define BOSS_LEVEL 100
-
 //  Add bosses before BOSS_COUNT
 enum FinalBossList
 {
