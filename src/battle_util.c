@@ -11849,7 +11849,7 @@ bool32 BacklineIsHurt(void)
     return FALSE;
 }
 
-void HealBackLineMon(struct BattlePokemon *mon)
+void HealBackLineMon(struct BattlePokemon *mon, u32 index)
 {
     if (mon->hp < mon->maxHP && mon->hp != 0)
     {
@@ -11858,6 +11858,7 @@ void HealBackLineMon(struct BattlePokemon *mon)
             mon->hp = mon->maxHP;
         else
             mon->hp += healFrac;
+        SetMonData(&gPlayerParty[index], MON_DATA_HP, &mon->hp);
     }
 
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
@@ -11926,5 +11927,50 @@ void ReduceCD(enum TarcPlayerIndex battler, u32 movePos)
                 gRightMon.moveCD[movePos] = 8;
         }
         break;
+    }
+}
+
+void DamageBackline(enum TarcPlayerIndex side, enum DamageMethod method, u32 value)
+{
+    //  This shouldn't ever happen
+    if (side != TARC_LEFT_BATTLER && side != TARC_RIGHT_BATTLER)
+        return;
+
+    struct BattlePokemon *mon;
+    if (side == TARC_LEFT_BATTLER)
+    {
+        mon = &gLeftMon;
+        if (method == DAMAGE_METHOD_ABSOLUTE)
+        {
+            if (value > mon->hp)
+                value = mon->hp;
+            mon->hp -= value;
+        }
+        else if (method == DAMAGE_METHOD_FRACTIONAL)
+        {
+            u32 damage = mon->maxHP / value;
+            if (damage > mon->hp)
+                damage = mon->hp;
+            mon->hp -= damage;
+        }
+        SetMonData(&gPlayerParty[1], MON_DATA_HP, &mon->hp);
+    }
+    else
+    {
+        mon = &gRightMon;
+        if (method == DAMAGE_METHOD_ABSOLUTE)
+        {
+            if (value > mon->hp)
+                value = mon->hp;
+            mon->hp -= value;
+        }
+        else if (method == DAMAGE_METHOD_FRACTIONAL)
+        {
+            u32 damage = mon->maxHP / value;
+            if (damage > mon->hp)
+                damage = mon->hp;
+            mon->hp -= damage;
+        }
+        SetMonData(&gPlayerParty[2], MON_DATA_HP, &mon->hp);
     }
 }

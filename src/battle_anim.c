@@ -253,6 +253,9 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_TERA_ACTIVATE]          = gBattleAnimGeneral_TeraActivate,
     [B_ANIM_SIMPLE_HEAL]            = gBattleAnimGeneral_SimpleHeal,
     [B_ANIM_POWER_CONSTRUCT]        = gBattleAnimGeneral_PowerConstruct,
+    [B_ANIM_THUNDERSTRIKE_ACTIVE]   = gBattleAnimGeneral_ThunderstrikeActive,
+    [B_ANIM_THUNDERSTRIKE_LEFT]     = gBattleAnimGeneral_ThunderstrikeLeft,
+    [B_ANIM_THUNDERSTRIKE_RIGHT]    = gBattleAnimGeneral_ThunderstrikeRight,
 };
 
 static const u8* const sBattleAnims_Special[NUM_B_ANIMS_SPECIAL] =

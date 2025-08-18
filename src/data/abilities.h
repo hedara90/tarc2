@@ -2456,4 +2456,22 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Fire hits Ground and Rock super effective."),
         .aiRating = 8,
     },
+    [ABILITY_HAILSTONE_FALL] =
+    {
+        .name = _("Hailstone Fall"),
+        .description = COMPOUND_STRING("Hail damages player side."),
+        .aiRating = 9,
+    },
+    [ABILITY_THUNDERSTRIKE] =
+    {
+        .name = _("Thunderstrike"),
+        .description = COMPOUND_STRING("Thunder randomly strikes player."),
+        .aiRating = 9,
+    },
+    [ABILITY_FLAMES_EMBRACE] =
+    {
+        .name = _("Flame's Embrace"),
+        .description = COMPOUND_STRING("Flames harm the player"),
+        .aiRating = 9,
+    },
 };
