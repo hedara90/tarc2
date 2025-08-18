@@ -4381,7 +4381,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .teachableLearnset = sGarchompTeachableLearnset,
         .formSpeciesIdTable = sGarchompFormSpeciesIdTable,
         .formChangeTable = sGarchompFormChangeTable,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -6198,7 +6198,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sUxieLevelUpLearnset,
         .teachableLearnset = sUxieTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_UXIE
 
@@ -6284,7 +6284,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sMespritLevelUpLearnset,
         .teachableLearnset = sMespritTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_MESPRIT
 
@@ -6364,7 +6364,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sAzelfLevelUpLearnset,
         .teachableLearnset = sAzelfTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_AZELF
 

@@ -6738,7 +6738,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sDragapultLevelUpLearnset,
         .teachableLearnset = sDragapultTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_DREEPY
 
@@ -7662,7 +7662,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegielekiLevelUpLearnset,
         .teachableLearnset = sRegielekiTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_REGIELEKI
 
@@ -7731,7 +7731,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegidragoLevelUpLearnset,
         .teachableLearnset = sRegidragoTeachableLearnset,
-        .maxPhases = 4,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_REGIDRAGO
 
