@@ -590,8 +590,9 @@
 #define B_ANIM_THUNDERSTRIKE_ACTIVE     54
 #define B_ANIM_THUNDERSTRIKE_LEFT       55
 #define B_ANIM_THUNDERSTRIKE_RIGHT      56
+#define B_ANIM_OVERRIDE_EXHAUSTION      57
 
-#define NUM_B_ANIMS_GENERAL             57
+#define NUM_B_ANIMS_GENERAL             58
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

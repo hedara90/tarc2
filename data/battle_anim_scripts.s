@@ -35170,3 +35170,7 @@ gBattleAnimGeneral_ThunderstrikeRight::
 	delay 7
 	waitforvisualfinish
 	end
+gBattleAnimGeneral_OverrideExhaustion::
+	call BideSetUp
+	waitforvisualfinish
+	end

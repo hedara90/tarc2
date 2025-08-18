@@ -673,7 +673,7 @@ struct BattleStruct
     u8 multipleSwitchInState:2;
     u8 multipleSwitchInCursor:3;
     u8 hasLoadedBoxPalette:1;
-    u8 padding1:1;
+    u8 triedCDMove:1;
     u8 multipleSwitchInSortedBattlers[MAX_BATTLERS_COUNT];
     void (*savedCallback)(void);
     u16 usedHeldItems[PARTY_SIZE][NUM_BATTLE_SIDES]; // For each party member and side. For harvest, recycle
@@ -794,6 +794,7 @@ struct BattleStruct
     u16 skipIncrement:1;
     u8 aiTurnCounter;
     enum Bosses currentBoss;
+    u8 usedCDMove;
 };
 
 struct AiBattleData

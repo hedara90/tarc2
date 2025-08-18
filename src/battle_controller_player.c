@@ -922,8 +922,17 @@ void HandleInputChooseMove(u32 battler)
     {
         if (GetMoveCD(TARC_ACTIVE_BATTLER, gMoveSelectionCursor[battler]) > 0)
         {
-            PlaySE(SE_PC_OFF);
-            return;
+            if (!gBattleStruct->triedCDMove)
+            {
+                gBattleStruct->triedCDMove = TRUE;
+                PlaySE(SE_PC_OFF);
+                return;
+            }
+            else
+            {
+                gBattleStruct->triedCDMove = FALSE;
+                gBattleStruct->usedCDMove = GetMoveCD(TARC_ACTIVE_BATTLER, gMoveSelectionCursor[battler]);
+            }
         }
 
         TryToHideMoveInfoWindow();
@@ -1025,6 +1034,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if ((JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)  && !gBattleStruct->descriptionSubmenu)
     {
+        gBattleStruct->triedCDMove = FALSE;
         PlaySE(SE_SELECT);
         gBattleStruct->gimmick.playerSelect = FALSE;
         if (gBattleStruct->zmove.viewing)
@@ -1042,6 +1052,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(DPAD_LEFT) && !gBattleStruct->zmove.viewing)
     {
+        gBattleStruct->triedCDMove = FALSE;
         if (gMoveSelectionCursor[battler] & 1)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
@@ -1060,6 +1071,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(DPAD_RIGHT) && !gBattleStruct->zmove.viewing)
     {
+        gBattleStruct->triedCDMove = FALSE;
         if (!(gMoveSelectionCursor[battler] & 1)
          && (gMoveSelectionCursor[battler] ^ 1) < gNumberOfMovesToChoose)
         {
@@ -1079,6 +1091,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(DPAD_UP) && !gBattleStruct->zmove.viewing)
     {
+        gBattleStruct->triedCDMove = FALSE;
         if (gMoveSelectionCursor[battler] & 2)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
@@ -1097,6 +1110,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(DPAD_DOWN) && !gBattleStruct->zmove.viewing)
     {
+        gBattleStruct->triedCDMove = FALSE;
         if (!(gMoveSelectionCursor[battler] & 2)
          && (gMoveSelectionCursor[battler] ^ 2) < gNumberOfMovesToChoose)
         {
@@ -1132,6 +1146,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(L_BUTTON))
     {
+        gBattleStruct->triedCDMove = FALSE;
         //  Switch Active mon to left mon
         //if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
         if (gLeftMon.hp > 0)
@@ -1149,6 +1164,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(R_BUTTON))
     {
+        gBattleStruct->triedCDMove = FALSE;
         //  Switch Active mon to right mon
         if (gRightMon.hp > 0)
         {
@@ -1191,6 +1207,7 @@ void HandleInputChooseMove(u32 battler)
     }
     else if (JOY_NEW(START_BUTTON))
     {
+        gBattleStruct->triedCDMove = FALSE;
         if (gBattleStruct->gimmick.usableGimmick[battler] != GIMMICK_NONE && !HasTrainerUsedGimmick(battler, gBattleStruct->gimmick.usableGimmick[battler]))
         {
             gBattleStruct->gimmick.playerSelect ^= 1;
@@ -2161,6 +2178,7 @@ void MoveSelectionDestroyCursorAt(u8 cursorPosition)
     u32 currentMoveCD = GetMoveCD(TARC_ACTIVE_BATTLER, cursorPosition);
     u16 src[2];
     src[0] = 46;
+    src[1] = 46;
     switch (currentMoveCD)
     {
     case 0:

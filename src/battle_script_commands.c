@@ -7671,6 +7671,18 @@ static void Cmd_moveend(void)
             }
             gBattleScripting.moveendState++;
             break;
+        case MOVEEND_COOLDOWN_OVERRIDE:
+            if (gBattlerAttacker == 0 && gBattleStruct->usedCDMove)
+            {
+                gBattleMons[0].numOverrides++;
+                u32 overrideCount = gBattleStruct->usedCDMove > gBattleMons[0].numOverrides ? gBattleStruct->usedCDMove : gBattleMons[0].numOverrides;
+                gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP * overrideCount / TARC_OVERRIDE_EXHAUSTION_FRACTION;
+                gBattlescriptCurrInstr = BattleScript_CooldownOverride;
+                gBattleStruct->usedCDMove = 0;
+                effect = TRUE;
+            }
+            gBattleScripting.moveendState++;
+            break;
         case MOVEEND_COUNT:
             break;
         }

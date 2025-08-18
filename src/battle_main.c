@@ -3530,6 +3530,7 @@ static void DoBattleIntro(void)
                     gBattleMons[battler].statStages[i] = DEFAULT_STAT_STAGE;
                 for (u32 move = 0; move < 4; move++)
                     gBattleMons[battler].moveCD[move] = 0;
+                gBattleMons[battler].numOverrides = 0;
                 #if TESTING
                 if (gTestRunnerEnabled)
                 {
