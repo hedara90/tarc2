@@ -4,6 +4,7 @@
 #include "battle_controllers.h"
 #include "battle_ai_util.h"
 #include "battle_gimmick.h"
+#include "battle_interface.h"
 #include "battle_scripts.h"
 #include "constants/battle.h"
 #include "constants/battle_string_ids.h"
@@ -1462,6 +1463,35 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
     return effect;
 }
 
+static u32 FindValidThunderstrikeTarget(void)
+{
+    u32 target;
+    bool32 foundValid = FALSE;
+    while (!foundValid)
+    {
+        target = Random32() % 3;
+        if (target == 0)
+        {
+            StringCopy(gBattleTextBuff1, gSpeciesInfo[gBattleMons[0].species].speciesName);
+            foundValid = TRUE;
+        }
+        else
+        {
+            if (target == 1 && gLeftMon.hp > 0)
+            {
+                StringCopy(gBattleTextBuff1, gSpeciesInfo[gLeftMon.species].speciesName);
+                foundValid = TRUE;
+            }
+            else if (target == 2 && gRightMon.hp > 0)
+            {
+                StringCopy(gBattleTextBuff1, gSpeciesInfo[gRightMon.species].speciesName);
+                foundValid = TRUE;
+            }
+        }
+    }
+    return target;
+}
+
 static bool32 HandleEndTurnAbilities(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1479,6 +1509,59 @@ static bool32 HandleEndTurnAbilities(u32 battler)
      || SearchTraits(battlerTraits, ABILITY_ZEN_MODE))
         if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
             effect = TRUE;
+
+    if (!TESTING && battler == 1)
+    {
+        gBattlerAttacker = 0;
+        if (SearchTraits(battlerTraits, ABILITY_HAILSTONE_FALL))
+        {
+            //  Damage all player mons
+            gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
+            DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
+            DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
+            CreateAbilityPopUp(1, ABILITY_HAILSTONE_FALL, FALSE);
+            BattleScriptExecute(BattleScript_HailstoneFall);
+            effect = TRUE;
+        }
+        else if (SearchTraits(battlerTraits, ABILITY_THUNDERSTRIKE))
+        {
+            //  Damage random player mon
+            u32 target = FindValidThunderstrikeTarget();
+            CreateAbilityPopUp(1, ABILITY_THUNDERSTRIKE, FALSE);
+            if (target == 0)
+            {
+                gBattlerAttacker = 0;
+                gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_THUNDERSTRIKE_FRACTION;
+                BattleScriptExecute(BattleScript_ThunderstrikeActive);
+            }
+            else
+            {
+                if (target == 1)
+                {
+                    DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_THUNDERSTRIKE_FRACTION);
+                    BattleScriptExecute(BattleScript_ThunderstrikeLeft);
+                }
+                else
+                {
+                    DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_THUNDERSTRIKE_FRACTION);
+                    BattleScriptExecute(BattleScript_ThunderstrikeRight);
+                }
+
+            }
+            effect = TRUE;
+        }
+        else if (SearchTraits(battlerTraits, ABILITY_FLAMES_EMBRACE))
+        {
+            //  Damage active mon
+            gBattlerAttacker = 0;
+            gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_FLAMES_EMBRACE_FRACTION;
+            gBattleScripting.animArg1 = MOVE_FIRE_SPIN;
+            CreateAbilityPopUp(1, ABILITY_FLAMES_EMBRACE, FALSE);
+            BattleScriptExecute(BattleScript_FlamesEmbrace);
+            effect = TRUE;
+        }
+    }
+
 
     return effect;
 }
@@ -1577,10 +1660,10 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
     BuildBacklineStringBuffer();
 
     if (LeftMonHurt())
-        HealBackLineMon(&gLeftMon);
+        HealBackLineMon(&gLeftMon, 1);
 
     if (RightMonHurt())
-        HealBackLineMon(&gRightMon);
+        HealBackLineMon(&gRightMon, 2);
 
     BattleScriptExecute(BattleScript_BacklineRestore);
     return TRUE;

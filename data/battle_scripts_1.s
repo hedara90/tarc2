@@ -10082,3 +10082,39 @@ BattleScript_CloudburstActivates::
 	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
 	call BattleScript_ActivateWeatherAbilities
 	return
+
+BattleScript_HailstoneFall::
+	playanimation BS_ATTACKER, B_ANIM_HAIL_CONTINUES
+	printstring STRINGID_HAILSTONE_FALL
+	waitmessage B_WAIT_TIME_LONG
+	effectivenesssound
+	hitanimation BS_ATTACKER
+	goto BattleScript_DoTurnDmg
+
+BattleScript_FlamesEmbrace::
+	playanimation BS_ATTACKER, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
+	printstring STRINGID_FLAMES_EMBRACE
+	waitmessage B_WAIT_TIME_LONG
+	effectivenesssound
+	hitanimation BS_ATTACKER
+	goto BattleScript_DoTurnDmg
+
+BattleScript_ThunderstrikeActive::
+	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_ACTIVE
+	printstring STRINGID_THUNDERSTRIKE
+	effectivenesssound
+	hitanimation BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_DoTurnDmg
+
+BattleScript_ThunderstrikeLeft::
+	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_LEFT
+	printstring STRINGID_THUNDERSTRIKE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_ThunderstrikeRight::
+	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_RIGHT
+	printstring STRINGID_THUNDERSTRIKE
+	waitmessage B_WAIT_TIME_LONG
+	end2

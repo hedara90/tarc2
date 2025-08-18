@@ -876,5 +876,10 @@ extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
 extern const u8 BattleScript_BossRestore[];
 extern const u8 BattleScript_BacklineRestore[];
+extern const u8 BattleScript_HailstoneFall[];
+extern const u8 BattleScript_FlamesEmbrace[];
+extern const u8 BattleScript_ThunderstrikeActive[];
+extern const u8 BattleScript_ThunderstrikeLeft[];
+extern const u8 BattleScript_ThunderstrikeRight[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
