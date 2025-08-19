@@ -391,6 +391,7 @@ static inline bool32 IgnoreMoveForSheerForceBoost(u32 move)
         case MOVE_UPPER_HAND:    //  Bugged?
         case MOVE_GLITZY_GLOW:   //  Light Screen Move Effect seems to be bugged
         case MOVE_PAYBACK:
+        case MOVE_REWARD_SHELL_TRAP:
             return TRUE;
     }
     return FALSE;
@@ -605,6 +606,46 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
         case MOVE_ZING_ZAP:
         case MOVE_ELECTRO_SHOT:
         case MOVE_PSYCHIC_NOISE:
+
+        case MOVE_REWARD_ANCIENT_POWER:
+        case MOVE_REWARD_BLIZZARD:
+        case MOVE_REWARD_BUG_BUZZ:
+        case MOVE_REWARD_BURNING_JEALOUSY:
+        case MOVE_REWARD_CHARGE_BEAM:
+        case MOVE_REWARD_CRUNCH:
+        case MOVE_REWARD_DARK_PULSE:
+        case MOVE_REWARD_EARTH_POWER:
+        case MOVE_REWARD_ESPER_WING:
+        case MOVE_REWARD_FLAMETHROWER:
+        case MOVE_REWARD_FLARE_BLITZ:
+        case MOVE_REWARD_FLASH_CANNON:
+        case MOVE_REWARD_FOCUS_BLAST:
+        case MOVE_REWARD_GUNK_SHOT:
+        case MOVE_REWARD_ICE_BEAM:
+        case MOVE_REWARD_IRON_HEAD:
+        case MOVE_REWARD_MYSTICAL_FIRE:
+        case MOVE_REWARD_PLAY_ROUGH:
+        case MOVE_REWARD_PSYCHIC:
+        case MOVE_REWARD_SHADOW_BALL:
+        case MOVE_REWARD_SLUDGE_BOMB:
+        case MOVE_REWARD_STRUGGLE_BUG:
+        case MOVE_REWARD_THUNDERBOLT:
+        case MOVE_REWARD_TRAILBLAZE:
+        case MOVE_REWARD_ZEN_HEADBUTT:
+        case MOVE_REWARD_CROSS_POISON:
+        case MOVE_REWARD_ELECTROWEB:
+        case MOVE_REWARD_ENERGY_BALL:
+        case MOVE_REWARD_FIRE_LASH:
+        case MOVE_REWARD_FREEZE_DRY:
+        case MOVE_REWARD_GLACIATE:
+        case MOVE_REWARD_ICE_BURN:
+        case MOVE_REWARD_MOONBLAST:
+        case MOVE_REWARD_PSYSHIELD_BASH:
+        case MOVE_REWARD_SHADOW_BONE:
+        case MOVE_REWARD_SYRUP_BOMB:
+        case MOVE_REWARD_VOLT_TACKLE:
+        case MOVE_REWARD_ZING_ZAP:
+        case MOVE_REWARD_PSYCHIC_NOISE:
             return TRUE;
     }
     return FALSE;
@@ -637,7 +678,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_SCRATCH, target: playerLeft); MOVE(playerRight, MOVE_SCRATCH, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -717,7 +758,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_SCRATCH, target: playerLeft); MOVE(playerRight, MOVE_SCRATCH, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -797,7 +838,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_SCRATCH, target: playerLeft); MOVE(playerRight, MOVE_SCRATCH, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -879,7 +920,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_SCRATCH, target: playerLeft); MOVE(playerRight, MOVE_SCRATCH, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -1399,7 +1440,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sheer Force only boosts the damage of moves it's sup
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_TACKLE, target: playerLeft); MOVE(playerRight, MOVE_TACKLE, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -1479,7 +1520,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sheer Force only boosts the damage of moves it's sup
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_TACKLE, target: playerLeft); MOVE(playerRight, MOVE_TACKLE, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
@@ -1561,7 +1602,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sheer Force only boosts the damage of moves it's sup
                    MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_MIRROR_COAT || move == MOVE_METAL_BURST)
             TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
-        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
+        else if (move == MOVE_SUCKER_PUNCH || move == MOVE_REWARD_SUCKER_PUNCH || move == MOVE_THUNDERCLAP)
             TURN { MOVE(opponentRight, MOVE_TACKLE, target: playerLeft); MOVE(playerRight, MOVE_TACKLE, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_DREAM_EATER)
         {
