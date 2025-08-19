@@ -3816,6 +3816,7 @@ static void TryDoEventsBeforeFirstTurn(void)
     case FIRST_TURN_EVENTS_START:
         //  TARC set boss
         SetBossInBattle();
+        gBattleStruct->startTurnSpecies = gBattleMons[0].species;
 
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
@@ -4089,6 +4090,10 @@ void BattleTurnPassed(void)
     SetShellSideArmCategory();
     SetAiLogicDataForTurn(gAiLogicData); // get assumed abilities, hold effects, etc of all battlers
     gBattleMainFunc = HandleTurnActionSelectionState;
+
+    gBattleStruct->startTurnSpecies = gBattleMons[0].species;
+    gBattleStruct->shouldTriggerRotate = FALSE;
+    gBattleStruct->triggeredRotate = FALSE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
         BattleScriptExecute(BattleScript_PalacePrintFlavorText);
@@ -5274,6 +5279,13 @@ static bool32 TryDoMoveEffectsBeforeMoves(void)
     {
         u32 i;
         u8 battlers[MAX_BATTLERS_COUNT];
+
+        if (!TESTING && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
+        {
+            gBattleStruct->triggeredRotate = TRUE;
+            gBattleStruct->shouldTriggerRotate = FALSE;
+            return TRUE;
+        }
 
         PopulateArrayWithBattlers(battlers);
         SortBattlersBySpeed(battlers, FALSE);
