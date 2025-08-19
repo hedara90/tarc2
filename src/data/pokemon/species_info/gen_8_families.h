@@ -1110,7 +1110,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .formSpeciesIdTable = sCorviknightFormSpeciesIdTable,
         .formChangeTable = sCorviknightFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_IRON_DEFENSE,
+        .moveReward = MOVE_REWARD_IRON_DEFENSE,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2342,7 +2342,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .formSpeciesIdTable = sCoalossalFormSpeciesIdTable,
         .formChangeTable = sCoalossalFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_TAR_SHOT,
+        .moveReward = MOVE_REWARD_TAR_SHOT,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2847,7 +2847,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sHydrappleLevelUpLearnset,
         .teachableLearnset = sHydrappleTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_SYRUP_BOMB,
+        .moveReward = MOVE_REWARD_SYRUP_BOMB,
     },
 #endif //P_GEN_9_CROSS_EVOS
 #endif //P_FAMILY_APPLIN
@@ -3352,7 +3352,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sBarraskewdaLevelUpLearnset,
         .teachableLearnset = sBarraskewdaTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_FLIP_TURN,
+        .moveReward = MOVE_REWARD_FLIP_TURN,
     },
 #endif //P_FAMILY_ARROKUDA
 
