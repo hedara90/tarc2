@@ -1232,7 +1232,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .teachableLearnset = sLinooneTeachableLearnset,
         .formSpeciesIdTable = sLinooneFormSpeciesIdTable,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_EXTREMESPEED,
+        .moveReward = MOVE_REWARD_EXTREME_SPEED,
     },
 
 #if P_GALARIAN_FORMS
