@@ -215,7 +215,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sTorterraLevelUpLearnset,
         .teachableLearnset = sTorterraTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_WOOD_HAMMER,
+        .moveReward = MOVE_REWARD_WOOD_HAMMER,
     },
 #endif //P_FAMILY_TURTWIG
 
@@ -439,7 +439,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sInfernapeLevelUpLearnset,
         .teachableLearnset = sInfernapeTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_CLOSE_COMBAT,
+        .moveReward = MOVE_REWARD_CLOSE_COMBAT,
     },
 #endif //P_FAMILY_CHIMCHAR
 
@@ -927,7 +927,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sStaraptorLevelUpLearnset,
         .teachableLearnset = sStaraptorTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_BRAVE_BIRD,
+        .moveReward = MOVE_REWARD_BRAVE_BIRD,
     },
 #endif //P_FAMILY_STARLY
 
@@ -1280,7 +1280,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sKricketuneLevelUpLearnset,
         .teachableLearnset = sKricketuneTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_X_SCISSOR,
+        .moveReward = MOVE_REWARD_X_SCISSOR,
     },
 #endif //P_FAMILY_KRICKETOT
 
@@ -1673,7 +1673,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sRampardosLevelUpLearnset,
         .teachableLearnset = sRampardosTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_HEAD_SMASH,
+        .moveReward = MOVE_REWARD_HEAD_SMASH,
     },
 #endif //P_FAMILY_CRANIDOS
 
@@ -2702,7 +2702,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sFloatzelLevelUpLearnset,
         .teachableLearnset = sFloatzelTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_WAVE_CRASH,
+        .moveReward = MOVE_REWARD_WAVE_CRASH,
     },
 #endif //P_FAMILY_BUIZEL
 
@@ -2854,7 +2854,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .formSpeciesIdTable = sCherrimFormSpeciesIdTable,
         .formChangeTable = sCherrimFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_SOLAR_BEAM,
+        .moveReward = MOVE_REWARD_SOLAR_BEAM,
     },
 
     [SPECIES_CHERRIM_SUNSHINE] =
@@ -2920,7 +2920,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .formSpeciesIdTable = sCherrimFormSpeciesIdTable,
         .formChangeTable = sCherrimFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_SOLAR_BEAM,
+        .moveReward = MOVE_REWARD_SOLAR_BEAM,
     },
 #endif //P_FAMILY_CHERUBI
 
@@ -3821,7 +3821,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sSkuntankLevelUpLearnset,
         .teachableLearnset = sSkuntankTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_GUNK_SHOT,
+        .moveReward = MOVE_REWARD_GUNK_SHOT,
     },
 #endif //P_FAMILY_STUNKY
 
@@ -4594,7 +4594,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .formSpeciesIdTable = sLucarioFormSpeciesIdTable,
         .formChangeTable = sLucarioFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_AURA_SPHERE,
+        .moveReward = MOVE_REWARD_AURA_SPHERE,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -4991,7 +4991,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sDrapionLevelUpLearnset,
         .teachableLearnset = sDrapionTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_CROSS_POISON,
+        .moveReward = MOVE_REWARD_CROSS_POISON,
     },
 #endif //P_FAMILY_SKORUPI
 
@@ -5162,7 +5162,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sToxicroakLevelUpLearnset,
         .teachableLearnset = sToxicroakTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_FOCUS_BLAST,
+        .moveReward = MOVE_REWARD_FOCUS_BLAST,
     },
 #endif //P_FAMILY_CROAGUNK
 
