@@ -2680,3 +2680,8 @@
 	.2byte \localId
 	.endm
 
+	@ Buffer and object to remove at start of battle
+	.macro checkbossstatus area:req
+	callnative CheckBossStatus
+	.byte \area
+	.endm
