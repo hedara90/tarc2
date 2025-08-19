@@ -935,6 +935,9 @@ void HandleInputChooseMove(u32 battler)
             }
         }
 
+        if (gBattleStruct->startTurnSpecies != gBattleMons[0].species)
+            gBattleStruct->shouldTriggerRotate = TRUE;
+
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
 

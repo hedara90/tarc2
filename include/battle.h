@@ -692,7 +692,9 @@ struct BattleStruct
     u8 startingStatusDone:1;
     u8 terrainDone:1;
     u8 overworldWeatherDone:1;
-    u8 unused:3;
+    u8 triggeredRotate:1;
+    u8 shouldTriggerRotate:1;
+    u8 unused:1;
     u8 isAtkCancelerForCalledMove:1; // Certain cases in atk canceler should only be checked once, when the original move is called, however others need to be checked the twice.
     u8 friskedAbility:1; // If identifies two mons, show the ability pop-up only once.
     u8 fickleBeamBoosted:1;
@@ -795,6 +797,7 @@ struct BattleStruct
     u8 aiTurnCounter;
     enum Bosses currentBoss;
     u8 usedCDMove;
+    u16 startTurnSpecies;
 };
 
 struct AiBattleData
