@@ -266,32 +266,24 @@ struct BossSelect
 
 EWRAM_DATA struct BossSelect sBossSelect;
 
-void Task_ShortWait(u8 taskId)
+void CheckBossStatus(struct ScriptContext *ctx)
 {
-    if (gTasks[taskId].data[0] == 0)
+    u32 area = ScriptReadByte(ctx) - 1;
+
+    if (gSaveBlock1Ptr->huntTargets.bossesDefeated[area])
     {
-        gTasks[taskId].data[0]++;
+        gSpecialVar_Result = TRUE;
+        StringCopy(gStringVar1, gSpeciesInfo[gSaveBlock1Ptr->huntTargets.bossesDefeated[area]].speciesName);
     }
     else
     {
         gSpecialVar_Result = FALSE;
-        DestroyTask(taskId);
-        ScriptContext_Enable();
     }
 }
 
 void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
     u32 area = ScriptReadByte(ctx) - 1;
-
-    if (gSaveBlock1Ptr->huntTargets.bossesDefeated[area])
-    {
-        //  This is apparently needed
-        StringCopy(gStringVar1, gSpeciesInfo[gSaveBlock1Ptr->huntTargets.bossesDefeated[area]].speciesName);
-        u32 tempId = CreateTask(Task_ShortWait, 0);
-        gTasks[tempId].data[0] = 0;
-        return;
-    }
 
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
     gSaveBlock1Ptr->huntTargets.currentArea = area;
