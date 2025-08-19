@@ -3,14 +3,26 @@ mapscripts Area5_MapScripts {
 }
 
 script Area5_BossBattle {
+    lock
+    faceplayer
     callnative(SetBossForBattle)
     setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+    bufferremoveobject(LOCALID_BOSS)
     waitmoncry
     dowildbattle
     if (var(VAR_RESULT) != FALSE) {
         bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
         callnative(SetAbilityReward)
+        msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+        waitmessage
+        setvar(VAR_0x8004, 0)  # vertical pan
+        setvar(VAR_0x8005, 2)  # horizontal pan
+        setvar(VAR_0x8006, 8)  # num shakes
+        setvar(VAR_0x8007, 3)  # shake delay
+        special(ShakeCamera)
+        waitstate
+        delay(40)
         warpcontinuescript(MAP_MYTH_HUB, 20, 18, Area5_AfterBossWarp)
     }
     release
@@ -18,20 +30,20 @@ script Area5_BossBattle {
 
 script Area5_AfterBossWarp {
     fadescreen(FADE_FROM_BLACK)
-    msgBox("You gained the power of {STR_VAR_3}!\nObtained {STR_VAR_2}!")
+    msgBox("The domain of {STR_VAR_3} collapsed.")
     release
 }
 
 script Area5_Miniboss1 {
-    lockall
+    lock
+    faceplayer
     setminiboss(5, 0)
     setflag(FLAG_AREA5_MINIBOSS1)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    bufferremoveobject(LOCALID_MINIBOSS1)
     waitmoncry
     setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
-    removeobject(LOCALID_MINIBOSS1)
-    fadescreen(FADE_FROM_BLACK)
     if (var(VAR_RESULT) != FALSE) {
         bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
         callnative(SetMoveReward)
@@ -41,13 +53,15 @@ script Area5_Miniboss1 {
 }
 
 script Area5_Miniboss2 {
+    lock
+    faceplayer
     setminiboss(5, 1)
     setflag(FLAG_AREA5_MINIBOSS2)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    bufferremoveobject(LOCALID_MINIBOSS2)
+    waitmoncry
     setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
-    removeobject(LOCALID_MINIBOSS2)
-    fadescreen(FADE_FROM_BLACK)
     if (var(VAR_RESULT) != FALSE) {
         bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
         callnative(SetMoveReward)
@@ -57,13 +71,15 @@ script Area5_Miniboss2 {
 }
 
 script Area5_Miniboss3 {
+    lock
+    faceplayer
     setminiboss(5, 2)
     setflag(FLAG_AREA5_MINIBOSS3)
     playmoncry(VAR_RESULT, CRY_MODE_ENCOUNTER)
+    bufferremoveobject(LOCALID_MINIBOSS3)
+    waitmoncry
     setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
     dowildbattle
-    removeobject(LOCALID_MINIBOSS3)
-    fadescreen(FADE_FROM_BLACK)
     if (var(VAR_RESULT) != FALSE) {
         bufferspeciesname(STR_VAR_3, VAR_CURRENT_ENEMY)
         callnative(SetMoveReward)

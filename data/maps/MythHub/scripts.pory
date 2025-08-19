@@ -21,8 +21,11 @@ script MythHub_Area1 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA1, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area2 {
@@ -30,8 +33,11 @@ script MythHub_Area2 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA2, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area3 {
@@ -39,8 +45,11 @@ script MythHub_Area3 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA3, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area4 {
@@ -48,8 +57,11 @@ script MythHub_Area4 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA4, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area5 {
@@ -57,8 +69,11 @@ script MythHub_Area5 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA5, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area6 {
@@ -66,8 +81,11 @@ script MythHub_Area6 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA6, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area7 {
@@ -75,8 +93,11 @@ script MythHub_Area7 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA7, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area8 {
@@ -84,8 +105,11 @@ script MythHub_Area8 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA8, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 
 script MythHub_Area9 {
@@ -93,7 +117,10 @@ script MythHub_Area9 {
     waitstate
     if (var(VAR_RESULT) == TRUE) {
         warpsilent(MAP_AREA9, 10 , 10)
+    } else {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
     }
-    end
+    release
 }
 

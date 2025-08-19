@@ -154,9 +154,14 @@ static void Task_WaitForFadeAndEnableScriptCtx(u8 taskID)
 
 void FieldCB_ContinueScriptHandleMusic(void)
 {
+    if (gSaveBlock1Ptr->bors.shouldRemove)
+    {
+        RemoveObjectEventByLocalIdAndMap(gSaveBlock1Ptr->bors.localId, gSaveBlock1Ptr->bors.mapNum, gSaveBlock1Ptr->bors.mapGroup);
+        gSaveBlock1Ptr->bors.shouldRemove = FALSE;
+    }
     LockPlayerFieldControls();
     Overworld_PlaySpecialMapMusic();
-    //FadeInFromBlack();
+    FadeInFromBlack();
     CreateTask(Task_WaitForFadeAndEnableScriptCtx, 10);
 }
 
