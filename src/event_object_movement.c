@@ -11534,3 +11534,11 @@ bool8 MovementAction_SurfStillRight_Step1(struct ObjectEvent *objectEvent, struc
     }
     return FALSE;
 }
+
+void BufferRemoveObject(struct ScriptContext *ctx)
+{
+    gSaveBlock1Ptr->bors.localId = ScriptReadHalfword(ctx);
+    gSaveBlock1Ptr->bors.mapNum = gSaveBlock1Ptr->location.mapNum;
+    gSaveBlock1Ptr->bors.mapGroup = gSaveBlock1Ptr->location.mapGroup;
+    gSaveBlock1Ptr->bors.shouldRemove = TRUE;
+}

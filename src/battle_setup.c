@@ -614,6 +614,7 @@ static void CB2_EndScriptedWildBattle(void)
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
+        gSaveBlock1Ptr->bors.shouldRemove = FALSE;
         SetLossData();
         if (InBattlePyramid())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

@@ -1050,11 +1050,19 @@ struct HuntTargets
     u16 bosses[9];      //  Saved as enum BossGroupList
     u16 miniBosses[27]; //  Saved as species
     bool8 finalBossDefeated;
-    bool8 bossesDefeated[9];
+    u16 bossesDefeated[9];
     bool8 miniBossesDefeated[27];
     u8 currentArea;
     u16 currentBoss;
     u16 currentEnemy;
+};
+
+struct BufferedObjectRemoveStruct
+{
+    u8 localId;
+    u8 mapNum;
+    u8 mapGroup;
+    bool8 shouldRemove;
 };
 
 struct SaveBlock1
@@ -1175,6 +1183,7 @@ struct SaveBlock1
     u32 playerAffinity;
     u16 abilityStorage[9];
     u16 moveStorage[36];
+    struct BufferedObjectRemoveStruct bors;
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

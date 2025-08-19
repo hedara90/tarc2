@@ -2673,3 +2673,10 @@
 	.2byte \Y
 	.4byte \script
 	.endm
+
+	@ Buffer and object to remove at start of battle
+	.macro bufferremoveobject localId:req
+	callnative BufferRemoveObject
+	.2byte \localId
+	.endm
+

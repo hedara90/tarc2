@@ -266,9 +266,33 @@ struct BossSelect
 
 EWRAM_DATA struct BossSelect sBossSelect;
 
+void Task_ShortWait(u8 taskId)
+{
+    if (gTasks[taskId].data[0] == 0)
+    {
+        gTasks[taskId].data[0]++;
+    }
+    else
+    {
+        gSpecialVar_Result = FALSE;
+        DestroyTask(taskId);
+        ScriptContext_Enable();
+    }
+}
+
 void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
     u32 area = ScriptReadByte(ctx) - 1;
+
+    if (gSaveBlock1Ptr->huntTargets.bossesDefeated[area])
+    {
+        //  This is apparently needed
+        StringCopy(gStringVar1, gSpeciesInfo[gSaveBlock1Ptr->huntTargets.bossesDefeated[area]].speciesName);
+        u32 tempId = CreateTask(Task_ShortWait, 0);
+        gTasks[tempId].data[0] = 0;
+        return;
+    }
+
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
     gSaveBlock1Ptr->huntTargets.currentArea = area;
     sBossSelect.currIndex = 0;
@@ -451,10 +475,11 @@ void SetPostBattleData(void)
             }
         }
         break;
-    case 4: //  Boss
-        gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = TRUE;
+    case 3: //  Boss
+        gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = species;
+        MgbaPrintf(MGBA_LOG_WARN, "Value: %u", gSaveBlock1Ptr->huntTargets.bossesDefeated[0]);
         break;
-    case 5: //  Final Boss
+    case 4: //  Final Boss
         gSaveBlock1Ptr->huntTargets.finalBossDefeated = TRUE;
         SetWinData();
         break;
