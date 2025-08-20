@@ -709,10 +709,10 @@ const struct BossMoveList sMeganium1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_CURSE,
+        MOVE_SEED_BOMB,
+        MOVE_BODY_PRESS,
+        MOVE_SYNTHESIS
     },
 };
 
@@ -732,10 +732,10 @@ const struct BossMoveList sFeraligatr1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_WATERFALL,
+        MOVE_DRAGON_DANCE,
+        MOVE_ICE_FANG,
+        MOVE_CRUNCH
     },
 };
 
@@ -755,10 +755,10 @@ const struct BossMoveList sCrobat1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_LEECH_LIFE,
+        MOVE_CROSS_POISON,
+        MOVE_DUAL_WINGBEAT,
+        MOVE_TOXIC
     },
 };
 
@@ -778,10 +778,22 @@ const struct BossMoveList sLanturn1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_THUNDER_WAVE,
+        MOVE_PARABOLIC_CHARGE,
+        MOVE_STOCKPILE,
+        MOVE_SURF
+    },
+};
+
+const struct BossMoveList sLanturn2 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_PARABOLIC_CHARGE,
+        MOVE_TAIL_GLOW,
+        MOVE_SURF,
+        MOVE_ICE_BEAM
     },
 };
 
@@ -790,9 +802,9 @@ const struct BossAi sLanturnAi =
     .phaseMoves =
     {
         &sLanturn1,
-        &sLanturn1,
-        &sLanturn1,
-        &sLanturn1,
+        &sLanturn2,
+        &sLanturn2,
+        &sLanturn2,
     },
 };
 
@@ -801,10 +813,10 @@ const struct BossMoveList sXatu1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SUBSTITUTE,
+        MOVE_FUTURE_SIGHT,
+        MOVE_ROOST,
+        MOVE_FOCUS_BLAST
     },
 };
 
@@ -824,10 +836,11 @@ const struct BossMoveList sAmpharos1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_CHARGE_BEAM,
+        MOVE_COTTON_GUARD,
+        MOVE_PARABOLIC_CHARGE,
+        MOVE_LIGHT_SCREEN,
+        MOVE_DAZZLING_GLEAM
     },
 };
 
@@ -847,10 +860,10 @@ const struct BossMoveList sAzumarill1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_BELLY_DRUM,
+        MOVE_PLAY_ROUGH,
+        MOVE_AQUA_JET,
+        MOVE_SUPERPOWER
     },
 };
 
@@ -870,10 +883,10 @@ const struct BossMoveList sEspeon1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_PSYCHIC_NOISE,
+        MOVE_NASTY_PLOT,
+        MOVE_MOONBLAST,
+        MOVE_PSYSHOCK
     },
 };
 
@@ -890,13 +903,14 @@ const struct BossAi sEspeonAi =
 
 const struct BossMoveList sScizor1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SWORDS_DANCE,
+        MOVE_BULLET_PUNCH,
+        MOVE_DUAL_WINGBEAT,
+        MOVE_ROOST,
+        MOVE_ROCK_SMASH
     },
 };
 
@@ -916,10 +930,10 @@ const struct BossMoveList sHeracross1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_MEGAHORN,
+        MOVE_CLOSE_COMBAT,
+        MOVE_STONE_EDGE,
+        MOVE_NIGHT_SLASH
     },
 };
 
@@ -939,10 +953,10 @@ const struct BossMoveList sHoundoom1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_DARK_PULSE,
+        MOVE_FLAMETHROWER,
+        MOVE_NASTY_PLOT,
+        MOVE_OVERHEAT
     },
 };
 
@@ -962,10 +976,10 @@ const struct BossMoveList sDonphan1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SMACK_DOWN,
+        MOVE_EARTHQUAKE,
+        MOVE_BULK_UP,
+        MOVE_HEADLONG_RUSH
     },
 };
 
@@ -985,10 +999,10 @@ const struct BossMoveList sSceptile1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_GROWTH,
+        MOVE_LEAF_BLADE,
+        MOVE_ACROBATICS,
+        MOVE_DRAGON_PULSE
     },
 };
 
@@ -1005,13 +1019,24 @@ const struct BossAi sSceptileAi =
 
 const struct BossMoveList sLinoone1 =
 {
-    .numMoves = 4,
+    .numMoves = 6,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_BELLY_DRUM,
+        MOVE_EXTREMESPEED,
+        MOVE_EXTREMESPEED,
+        MOVE_EXTREMESPEED,
+        MOVE_EXTREMESPEED,
+        MOVE_EXTREMESPEED,
+    },
+};
+
+const struct BossMoveList sLinoone2 =
+{
+    .numMoves = 1,
+    .moves =
+    {
+        MOVE_EXTREMESPEED,
     },
 };
 
@@ -1020,9 +1045,9 @@ const struct BossAi sLinooneAi =
     .phaseMoves =
     {
         &sLinoone1,
-        &sLinoone1,
-        &sLinoone1,
-        &sLinoone1,
+        &sLinoone2,
+        &sLinoone2,
+        &sLinoone2,
     },
 };
 
@@ -1031,10 +1056,10 @@ const struct BossMoveList sGardevoir1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_MOONBLAST,
+        MOVE_PSYCHIC,
+        MOVE_CALM_MIND,
+        MOVE_MYSTICAL_FIRE
     },
 };
 
@@ -1051,13 +1076,14 @@ const struct BossAi sGardevoirAi =
 
 const struct BossMoveList sNinjask1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SUBSTITUTE,
+        MOVE_SWORDS_DANCE,
+        MOVE_X_SCISSOR,
+        MOVE_POWER_TRIP,
+        MOVE_NIGHT_SLASH
     },
 };
 
@@ -1077,10 +1103,10 @@ const struct BossMoveList sExploud1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_BOOMBURST,
+        MOVE_SHADOW_BALL,
+        MOVE_FOCUS_BLAST,
+        MOVE_TAUNT
     },
 };
 
@@ -1097,13 +1123,14 @@ const struct BossAi sExploudAi =
 
 const struct BossMoveList sHariyama1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_ARM_THRUST,
+        MOVE_DRAIN_PUNCH,
+        MOVE_THUNDERPUNCH,
+        MOVE_ICE_PUNCH,
+        MOVE_DRAIN_PUNCH,
     },
 };
 
@@ -1123,10 +1150,10 @@ const struct BossMoveList sMawile1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SUBSTITUTE,
+        MOVE_FOCUS_PUNCH,
+        MOVE_IRON_HEAD,
+        MOVE_SWORDS_DANCE
     },
 };
 
@@ -1146,10 +1173,10 @@ const struct BossMoveList sAggron1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_HEAD_SMASH,
+        MOVE_IRON_HEAD,
+        MOVE_BODY_PRESS,
+        MOVE_EARTHQUAKE
     },
 };
 
@@ -1169,10 +1196,10 @@ const struct BossMoveList sVolbeat1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_TAIL_GLOW,
+        MOVE_BUG_BUZZ,
+        MOVE_OVERDRIVE,
+        MOVE_ENCORE
     },
 };
 
@@ -1192,10 +1219,10 @@ const struct BossMoveList sSharpedo1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_CRUNCH,
+        MOVE_WATERFALL,
+        MOVE_ICE_FANG,
+        MOVE_SWORDS_DANCE
     },
 };
 
@@ -1215,10 +1242,10 @@ const struct BossMoveList sFlygon1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SAND_TOMB,
+        MOVE_DRAGON_DANCE,
+        MOVE_EARTHQUAKE,
+        MOVE_ROCK_SLIDE
     },
 };
 
@@ -1235,13 +1262,14 @@ const struct BossAi sFlygonAi =
 
 const struct BossMoveList sAltaria1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_DRAGON_DANCE,
+        MOVE_DRAGON_CLAW,
+        MOVE_EARTHQUAKE,
+        MOVE_ROOST,
+        MOVE_ACROBATICS
     },
 };
 
@@ -1258,13 +1286,14 @@ const struct BossAi sAltariaAi =
 
 const struct BossMoveList sCradily1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_LEECH_SEED,
+        MOVE_GIGA_DRAIN,
+        MOVE_ANCIENT_POWER,
+        MOVE_STOCKPILE, 
+        MOVE_EARTH_POWER,
     },
 };
 
@@ -1281,13 +1310,14 @@ const struct BossAi sCradilyAi =
 
 const struct BossMoveList sMilotic1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SCALD,
+        MOVE_LIFE_DEW,
+        MOVE_CALM_MIND,
+        MOVE_DRAINING_KISS,
+        MOVE_HYPER_VOICE
     },
 };
 
@@ -1304,13 +1334,14 @@ const struct BossAi sMiloticAi =
 
 const struct BossMoveList sCastform1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_WEATHER_BALL,
+        MOVE_HURRICANE,
+        MOVE_FIRE_BLAST,
+        MOVE_BLIZZARD,
+        MOVE_THUNDER,
     },
 };
 
@@ -1327,13 +1358,15 @@ const struct BossAi sCastformAi =
 
 const struct BossMoveList sBanette1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_PHANTOM_FORCE,
+        MOVE_TAUNT,
+        MOVE_SWORDS_DANCE,
+        MOVE_DISABLE,
+        MOVE_POISON_JAB,
+
     },
 };
 
@@ -1350,13 +1383,14 @@ const struct BossAi sBanetteAi =
 
 const struct BossMoveList sAbsol1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SUBSTITUTE,
+        MOVE_SWORDS_DANCE,
+        MOVE_NIGHT_SLASH,
+        MOVE_PSYCHO_CUT,
+        MOVE_IRON_TAIL
     },
 };
 
@@ -1376,10 +1410,10 @@ const struct BossMoveList sLuvdisc1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_SCALE_SHOT,
+        MOVE_LIQUIDATION,
+        MOVE_BULLET_SEED,
+        MOVE_ZEN_HEADBUTT
     },
 };
 
