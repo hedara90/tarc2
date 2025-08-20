@@ -2908,6 +2908,10 @@ extern const u16 gBattleAnimSpritePal_TeraStarstormBeam[];
 extern const u32 gBattleAnimSpriteGfx_SaltParticle[];
 extern const u16 gBattleAnimSpritePal_SaltParticle[];
 
+extern const u32 gBattleAnimSpriteGfx_FrostwispOrb[];
+extern const u32 gBattleAnimSpriteGfx_FrostwispFlakes[];
+extern const u16 gBattleAnimSpritePal_Frostwisp[];
+
 extern const u32 gBattleAnimBgImage_Dark[];
 extern const u32 gBattleAnimBgImage_Ghost[];
 extern const u32 gBattleAnimBgImage_Psychic[];
