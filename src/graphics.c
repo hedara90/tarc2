@@ -1300,6 +1300,10 @@ const u16 gBattleAnimSpritePal_TeraStarstormBeam[] = INCBIN_U16("graphics/battle
 const u32 gBattleAnimSpriteGfx_SaltParticle[] = INCBIN_U32("graphics/battle_anims/sprites/salt_particle.4bpp.lz");
 const u16 gBattleAnimSpritePal_SaltParticle[] = INCBIN_U16("graphics/battle_anims/sprites/salt_particle.gbapal");
 
+const u32 gBattleAnimSpriteGfx_FrostwispOrb[] = INCBIN_U32("graphics/battle_anims/sprites/frostwisp_orb.4bpp.lz");
+const u32 gBattleAnimSpriteGfx_FrostwispFlakes[] = INCBIN_U32("graphics/battle_anims/sprites/frostwisp_flakes.4bpp.lz");
+const u16 gBattleAnimSpritePal_Frostwisp[] = INCBIN_U16("graphics/battle_anims/sprites/frostwisp_orb.gbapal");
+
 const u16 gBattleAnimUnusedPal_Unknown2[] = INCBIN_U16("graphics/battle_anims/unused/unknown_2.gbapal");
 
 #include "data/graphics/trainers.h"

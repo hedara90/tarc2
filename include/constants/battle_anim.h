@@ -419,6 +419,8 @@
 #define ANIM_TAG_PINKVIO_ORB                (ANIM_SPRITES_START + 405)
 #define ANIM_TAG_STARSTORM                  (ANIM_SPRITES_START + 406)
 #define ANIM_TAG_SALT_PARTICLE              (ANIM_SPRITES_START + 407)
+#define ANIM_TAG_FROSTWISP_ORB              (ANIM_SPRITES_START + 408)
+#define ANIM_TAG_FROSTWISP_FLAKES           (ANIM_SPRITES_START + 409)
 
 // battlers
 #define ANIM_ATTACKER         0

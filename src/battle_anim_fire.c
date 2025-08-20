@@ -1473,3 +1473,26 @@ void AnimTask_ShakeTargetInPattern(u8 taskId)
         DestroyAnimVisualTask(taskId);
     }
 }
+
+//  This Ice move is put in here for simplicity's sake
+const struct SpriteTemplate gFrostwispOrbSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_FROSTWISP_ORB,
+    .paletteTag = ANIM_TAG_FROSTWISP_ORB,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gAnims_WillOWispOrb,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimWillOWispOrb,
+};
+
+const struct SpriteTemplate gFrostwispFireSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_FROSTWISP_FLAKES,
+    .paletteTag = ANIM_TAG_FROSTWISP_FLAKES,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = sAnims_WillOWispFire,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimWillOWispFire,
+};
