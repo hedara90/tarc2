@@ -2474,4 +2474,22 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Flames harm the player"),
         .aiRating = 9,
     },
+    [ABILITY_RISING_THUNDER] =
+    {
+        .name = _("Rising Thunder"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
+    [ABILITY_RISING_FLAMES] =
+    {
+        .name = _("Rising Flames"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
+    [ABILITY_RISING_TIDE] =
+    {
+        .name = _("Rising Ride"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
 };

@@ -2825,6 +2825,10 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
     {
         if (gLeftMon.hp == 0)
             return;
+
+        gBattleStruct->storedBattleMon = gLeftMon;
+        gLeftMon = gBattleMons[0];
+
         SwitchActiveMonLeft();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
         gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;
@@ -2833,6 +2837,10 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
     {
         if (gRightMon.hp == 0)
             return;
+
+        gBattleStruct->storedBattleMon = gRightMon;
+        gRightMon = gBattleMons[0];
+
         SwitchActiveMonRight();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
         gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;

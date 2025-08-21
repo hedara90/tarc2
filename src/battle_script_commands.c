@@ -7833,6 +7833,9 @@ static void Cmd_switchindataupdate(void)
 
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler]);
 
+    if (battler == 0)
+        gBattleMons[0] = gBattleStruct->storedBattleMon;
+
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 

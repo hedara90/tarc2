@@ -8,6 +8,7 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/items.h"
+#include "constants/species.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/battle_anim_script.inc"
 	.include "constants/constants.inc"
@@ -35205,4 +35206,9 @@ gBattleAnimMove_Frostwisp::
 	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 210
 	waitforvisualfinish
 	clearmonbg ANIM_DEF_PARTNER
+	end
+
+gBattleAnimGeneral_RessMon::
+	createvisualtask SoundTask_PlayCryHighPitchSpecies, 2, SPECIES_HO_OH, 255
+	waitforvisualfinish
 	end

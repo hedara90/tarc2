@@ -908,6 +908,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_THUNDERSTRIKE]                        = COMPOUND_STRING("Thunder strikes {B_BUFF1}!"),
     [STRINGID_FLAMES_EMBRACE]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was burned by the flames!"),
     [STRINGID_CD_OVERRIDE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} suffered from exhaustion!"),
+    [STRINGID_RESS_MON]                             = COMPOUND_STRING("{B_BUFF1} was ressurrected!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
