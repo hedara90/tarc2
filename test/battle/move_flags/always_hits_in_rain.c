@@ -14,3 +14,16 @@ SINGLE_BATTLE_TEST("Thunder bypasses accuracy checks in Rain")
         NONE_OF { MESSAGE("Wobbuffet's attack missed!"); }
     }
 }
+
+SINGLE_BATTLE_TEST("Thunder bypasses accuracy with Essence of Rain")
+{
+    PASSES_RANDOMLY(100, 100, RNG_ACCURACY);
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ESSENCE_OF_RAIN); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_THUNDER); }
+    } SCENE {
+        NOT MESSAGE("Wobbuffet's attack missed!");
+    }
+}

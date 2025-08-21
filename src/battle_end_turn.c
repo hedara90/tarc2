@@ -208,19 +208,23 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
     u16 battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battler);
 
-    if (currBattleWeather == 0xFF)
-    {
-        // If there is no weather on the field, no need to check other battlers so go to next state
-        gBattleStruct->turnEffectsBattlerId = 0;
-        gBattleStruct->endTurnEventsCounter++;
-        return effect;
-    }
+    //if (currBattleWeather == 0xFF)
+    //{
+    //    // If there is no weather on the field, no need to check other battlers so go to next state
+    //    gBattleStruct->turnEffectsBattlerId = 0;
+    //    gBattleStruct->endTurnEventsCounter++;
+    //    return effect;
+    //}
 
     gBattleStruct->turnEffectsBattlerId++;
 
     if (!IsBattlerAlive(battler) || !HasWeatherEffect())
         return effect;
 
+    if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN))
+        currBattleWeather = BATTLE_WEATHER_RAIN;
+    else if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN))
+        currBattleWeather = BATTLE_WEATHER_SUN;
 
     switch (currBattleWeather)
     {

@@ -9361,10 +9361,10 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
     }
 
     // sandstorm sp.def boost for rock types
-    if (B_SANDSTORM_SPDEF_BOOST >= GEN_4 && IS_BATTLER_OF_TYPE(battlerDef, TYPE_ROCK) && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SANDSTORM) && !usesDefStat)
+    if (gBattleWeather & B_WEATHER_SANDSTORM && B_SANDSTORM_SPDEF_BOOST >= GEN_4 && IS_BATTLER_OF_TYPE(battlerDef, TYPE_ROCK) && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SANDSTORM) && !usesDefStat)
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
     // snow def boost for ice types
-    if (IS_BATTLER_OF_TYPE(battlerDef, TYPE_ICE) && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SNOW) && usesDefStat)
+    if (gBattleWeather & B_WEATHER_SNOW && IS_BATTLER_OF_TYPE(battlerDef, TYPE_ICE) && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SNOW) && usesDefStat)
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
 
     // The offensive stats of a Player's Pokémon are boosted by x1.1 (+10%) if they have the corresponding flags set (eg. Badges)
@@ -11211,6 +11211,17 @@ bool32 PickupHasValidTarget(u32 battler)
 
 bool32 IsBattlerWeatherAffected(u32 battler, u32 weatherFlags)
 {
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
+    if (weatherFlags == B_WEATHER_RAIN && SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN))
+        return TRUE;
+    if (weatherFlags == B_WEATHER_SUN && SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN))
+        return TRUE;
+    if (weatherFlags == B_WEATHER_SNOW && SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SNOW))
+        return TRUE;
+    if (weatherFlags == B_WEATHER_SANDSTORM && SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SAND))
+        return TRUE;
+
     if (gBattleWeather & weatherFlags && HasWeatherEffect())
     {
         // given weather is active -> check if its sun, rain against utility umbrella (since only 1 weather can be active at once)
