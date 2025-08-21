@@ -392,6 +392,7 @@ static inline bool32 IgnoreMoveForSheerForceBoost(u32 move)
         case MOVE_GLITZY_GLOW:   //  Light Screen Move Effect seems to be bugged
         case MOVE_PAYBACK:
         case MOVE_REWARD_SHELL_TRAP:
+        case MOVE_PYROCLASM:
             return TRUE;
     }
     return FALSE;
