@@ -2492,4 +2492,28 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
         .aiRating = 9,
     },
+    [ABILITY_ESSENCE_OF_RAIN] =
+    {
+        .name = _("Essence of Rain"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Rain is active"),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SUN] =
+    {
+        .name = _("Essence of Sun"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Sun is active"),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SNOW] =
+    {
+        .name = _("Essence of Snow"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Snow is active"),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SAND] =
+    {
+        .name = _("Essence of Sand"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Sand is active"),
+        .aiRating = 9,
+    },
 };

@@ -1513,6 +1513,9 @@ static bool32 AccuracyCalcHelper(u32 move, u32 battler)
     enum BattleMoveEffects moveEffect = GetMoveEffect(move);
     u32 nonVolatileStatus = GetMoveNonVolatileStatus(move);
 
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(gBattlerAttacker);
+
     if ((gStatuses3[battler] & STATUS3_ALWAYS_HITS && gDisableStructs[battler].battlerWithSureHit == gBattlerAttacker)
      || (B_TOXIC_NEVER_MISS >= GEN_6
         && nonVolatileStatus == MOVE_EFFECT_TOXIC
@@ -1573,9 +1576,9 @@ static bool32 AccuracyCalcHelper(u32 move, u32 battler)
 
     if (!effect && HasWeatherEffect())
     {
-        if (MoveAlwaysHitsInRain(move) && IsBattlerWeatherAffected(battler, B_WEATHER_RAIN))
+        if (MoveAlwaysHitsInRain(move) && (IsBattlerWeatherAffected(battler, B_WEATHER_RAIN) || SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN)))
             effect = TRUE;
-        else if ((gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)) && MoveAlwaysHitsInHailSnow(move))
+        else if (((gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)) || SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SNOW)) && MoveAlwaysHitsInHailSnow(move))
             effect = TRUE;
 
         if (effect)
@@ -11271,9 +11274,12 @@ static void Cmd_various(void)
     }
     case VARIOUS_SET_AURORA_VEIL:
     {
+        u16 battlerTraits[MAX_MON_TRAITS];
+        STORE_BATTLER_TRAITS(battler);
+
         VARIOUS_ARGS();
         if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_AURORA_VEIL
-            || !(HasWeatherEffect() && gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)))
+            || (!(HasWeatherEffect() && gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)) && !SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SNOW)))
         {
             gBattleStruct->moveResultFlags[gBattlerTarget] |= MOVE_RESULT_MISSED;
             gBattleCommunication[MULTISTRING_CHOOSER] = 0;

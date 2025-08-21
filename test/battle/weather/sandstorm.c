@@ -36,6 +36,24 @@ SINGLE_BATTLE_TEST("Sandstorm multiplies the special defense of Rock-types by 1.
     }
 }
 
+SINGLE_BATTLE_TEST("Essence of Sand doesn't multiply the special defense of Rock-types by 1.5x", s16 damage)
+{
+    u16 ability;
+    PARAMETRIZE { ability = ABILITY_ESSENCE_OF_SAND; }
+    PARAMETRIZE { ability = ABILITY_TELEPATHY; }
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_SWIFT) == DAMAGE_CATEGORY_SPECIAL);
+        PLAYER(SPECIES_WOBBUFFET) ;
+        OPPONENT(SPECIES_NOSEPASS) { Ability(ability); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SWIFT); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+    }
+}
+
 SINGLE_BATTLE_TEST("Sandstorm damage does not hurt Ground, Rock, and Steel-type Pokémon")
 {
     u32 mon;

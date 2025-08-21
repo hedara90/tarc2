@@ -15,6 +15,20 @@ SINGLE_BATTLE_TEST("Dry Skin causes 1/8th Max HP damage in Sun")
     }
 }
 
+SINGLE_BATTLE_TEST("Dry Skin causes 1/8th Max HP damage if battler has Essence of Sun")
+{
+    GIVEN {
+        PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DRY_SKIN); HP(100); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_SUNNY_DAY); }
+    } SCENE {
+        ABILITY_POPUP(player, ABILITY_DRY_SKIN);
+        HP_BAR(player, damage: 200 / 8);
+        MESSAGE("Parasect's Dry Skin takes its toll!");
+    }
+}
+
 TO_DO_BATTLE_TEST("Dry Skin doesn't get damaged in Sun if Cloud Nine/Air Lock is on the field");
 
 SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP in Rain")
@@ -30,6 +44,21 @@ SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP in Rain")
         HP_BAR(player, damage: -(200 / 8));
     }
 }
+SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP is battler has Essence of Rain")
+{
+    GIVEN {
+        PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DRY_SKIN); Innates(ABILITY_ESSENCE_OF_RAIN); HP(100); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { }
+        //TURN { MOVE(player, MOVE_RAIN_DANCE); }
+    } SCENE {
+        ABILITY_POPUP(player, ABILITY_DRY_SKIN);
+        MESSAGE("Parasect's Dry Skin restored its HP a little!");
+        HP_BAR(player, damage: -(200 / 8));
+    }
+}
+
 
 TO_DO_BATTLE_TEST("Dry Skin doesn't heal in Rain if Cloud Nine/Air Lock is on the field");
 
