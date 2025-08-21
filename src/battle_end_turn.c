@@ -1492,6 +1492,22 @@ static u32 FindValidThunderstrikeTarget(void)
     return target;
 }
 
+static bool32 RessMon(struct BattlePokemon *battleMon, struct Pokemon *mon, u32 type)
+{
+    gBattleStruct->hasRessed = TRUE;
+    u32 value = battleMon->maxHP / 2;
+    SetMonData(mon, MON_DATA_HP, &value);
+    value = 0;
+    SetMonData(mon, MON_DATA_STATUS, &value);
+    PokemonToBattleMon(mon, battleMon);
+    battleMon->types[0] = type;
+    battleMon->types[1] = type;
+    StringCopy(gBattleTextBuff1, gSpeciesInfo[battleMon->species].speciesName);
+    BattleScriptExecute(BattleScript_RessMon);
+
+    return TRUE;
+}
+
 static bool32 HandleEndTurnAbilities(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1562,6 +1578,21 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         }
     }
 
+    if (!TESTING && battler == 0)
+    {
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_FIRE);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_WATER);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_FIRE);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_WATER);
+    }
 
     return effect;
 }

@@ -1020,6 +1020,7 @@ extern const u8 gBattleAnimGeneral_ThunderstrikeActive[];
 extern const u8 gBattleAnimGeneral_ThunderstrikeLeft[];
 extern const u8 gBattleAnimGeneral_ThunderstrikeRight[];
 extern const u8 gBattleAnimGeneral_OverrideExhaustion[];
+extern const u8 gBattleAnimGeneral_RessMon[];
 
 extern const u8 gBattleAnimMove_Frostwisp[];
 

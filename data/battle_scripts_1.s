@@ -10124,3 +10124,9 @@ BattleScript_CooldownOverride::
 	printstring STRINGID_CD_OVERRIDE
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_DoTurnDmg
+
+BattleScript_RessMon::
+	playanimation BS_PLAYER1, B_ANIM_RESS_MON
+	printstring STRINGID_RESS_MON
+	waitmessage B_WAIT_TIME_LONG
+	end2
