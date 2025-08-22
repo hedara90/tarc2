@@ -10135,3 +10135,11 @@ BattleScript_UpdraftTrigger::
 	printstring STRINGID_UPDRAFT_TRIGGER
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_TriggerTailwind::
+	printstring STRINGID_SPARKING_ZEPHYR
+	playmoveanimation BS_ATTACKER, MOVE_TAILWIND
+	waitanimation
+	settailwind BattleScript_ButItFailed
+	call BattleScript_TryTailwindAbilitiesLoop
+	end2

@@ -5252,6 +5252,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_UpdraftTrigger;
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_SPARKING_ZEPHYR)
+         && gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
+         && !(gSideStatuses[GetBattlerSide(gBattlerAttacker)] & SIDE_STATUS_TAILWIND))
+        {
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPARKING_ZEPHYR, FALSE);
+            gBattlescriptCurrInstr = BattleScript_TriggerTailwind;
+            effect++;
+        }
 break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

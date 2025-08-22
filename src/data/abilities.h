@@ -2522,4 +2522,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a wind move grants\nlevitate for 2 turns."),
         .aiRating = 9,
     },
+    [ABILITY_SPARKING_ZEPHYR] =
+    {
+        .name = _("Sparking Zephyr"),
+        .description = COMPOUND_STRING("Using an electric move sets\nTailwind."),
+        .aiRating = 9,
+    },
 };

@@ -884,5 +884,6 @@ extern const u8 BattleScript_ThunderstrikeRight[];
 extern const u8 BattleScript_CooldownOverride[];
 extern const u8 BattleScript_RessMon[];
 extern const u8 BattleScript_UpdraftTrigger[];
+extern const u8 BattleScript_TriggerTailwind[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
