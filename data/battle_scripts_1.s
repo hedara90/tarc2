@@ -10143,3 +10143,8 @@ BattleScript_TriggerTailwind::
 	settailwind BattleScript_ButItFailed
 	call BattleScript_TryTailwindAbilitiesLoop
 	end2
+
+BattleScript_UncontainedBlaze::
+	printstring STRINGID_UNCONTAINED_BLAZE
+	waitmessage B_WAIT_TIME_LONG
+	end2

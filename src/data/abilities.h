@@ -2528,4 +2528,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using an electric move sets\nTailwind."),
         .aiRating = 9,
     },
+    [ABILITY_UNCONTAINED_BLAZE] =
+    {
+        .name = _("Uncontained Blaze"),
+        .description = COMPOUND_STRING("Fire moves also hurt inactive\nbattlers."),
+        .aiRating = 9,
+    },
 };

@@ -3448,6 +3448,38 @@ static inline u32 SetStartingSideStatus(u32 flag, u32 side, u32 message, u32 ani
     return 0;
 }
 
+static void BuildUncontainedBlazeStringBuffers(void)
+{
+    u32 count = 0;
+
+    if (gLeftMon.hp > 0)
+        count++;
+    if (gRightMon.hp > 0)
+        count++;
+
+    gBattleTextBuff1[0] = EOS;
+    gBattleTextBuff2[0] = EOS;
+    gBattleTextBuff3[0] = EOS;
+    if (count == 1)
+    {
+        if (gLeftMon.hp > 0)
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        else
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+    }
+    else
+    {
+        gBattleTextBuff2[0] = CHAR_SPACE;
+        gBattleTextBuff2[1] = CHAR_a;
+        gBattleTextBuff2[2] = CHAR_n;
+        gBattleTextBuff2[3] = CHAR_d;
+        gBattleTextBuff2[4] = CHAR_SPACE;
+        gBattleTextBuff2[5] = EOS;
+        StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        StringCopy(gBattleTextBuff3, gRightMon.nickname);
+    }
+}
+
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
 {
     u32 effect = 0;
@@ -5259,6 +5291,24 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptPushCursor();
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPARKING_ZEPHYR, FALSE);
             gBattlescriptCurrInstr = BattleScript_TriggerTailwind;
+            effect++;
+        }
+        if (!TESTING
+         && gBattlerAttacker == 1
+         && SearchTraits(battlerTraits, ABILITY_UNCONTAINED_BLAZE)
+         && gMovesInfo[gCurrentMove].type == TYPE_FIRE
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && (gLeftMon.hp > 0 || gRightMon.hp > 0))
+        {
+            BuildUncontainedBlazeStringBuffers();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_UNCONTAINED_BLAZE, FALSE);
+            u32 backlineDamage = gBattleStruct->moveDamage[gBattlerTarget] / TARC_UNCONTAINED_BLAZE_DAMAGE_FRACTION;
+            if (gLeftMon.hp > 0)
+                DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, backlineDamage);
+            if (gRightMon.hp > 0)
+                DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, backlineDamage);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_UncontainedBlaze;
             effect++;
         }
 break;

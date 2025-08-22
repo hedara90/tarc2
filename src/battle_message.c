@@ -912,6 +912,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_UPDRAFT]                              = COMPOUND_STRING("updraft"),
     [STRINGID_UPDRAFT_TRIGGER]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s move caused an updraft!"),
     [STRINGID_SPARKING_ZEPHYR]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} triggered a Tailwind with their electric discharge!"),
+    [STRINGID_UNCONTAINED_BLAZE]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s attack hurt {B_BUFF1}{B_BUFF2}{B_BUFF3} too!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
