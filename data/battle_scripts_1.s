@@ -10085,7 +10085,7 @@ BattleScript_CloudburstActivates::
 
 BattleScript_HailstoneFall::
 	playanimation BS_ATTACKER, B_ANIM_HAIL_CONTINUES
-	printstring STRINGID_HAILSTONE_FALL
+	printstring STRINGID_SLEET_STORM
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
 	hitanimation BS_ATTACKER
@@ -10093,7 +10093,7 @@ BattleScript_HailstoneFall::
 
 BattleScript_FlamesEmbrace::
 	playanimation BS_ATTACKER, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
-	printstring STRINGID_FLAMES_EMBRACE
+	printstring STRINGID_INFERNO
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
 	hitanimation BS_ATTACKER
@@ -10131,8 +10131,8 @@ BattleScript_RessMon::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
-BattleScript_UpdraftTrigger::
-	printstring STRINGID_UPDRAFT_TRIGGER
+BattleScript_CloudwalkerTrigger::
+	printstring STRINGID_CLOUDWALKER_TRIGGER
 	waitmessage B_WAIT_TIME_LONG
 	end2
 

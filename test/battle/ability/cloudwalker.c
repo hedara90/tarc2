@@ -4,7 +4,7 @@
 SINGLE_BATTLE_TEST("Updraft makes the user ungrounded for a time after using a Wind move")
 {
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_UPDRAFT); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_CLOUDWALKER); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_GUST); }
