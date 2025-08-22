@@ -7,7 +7,7 @@ ASSUMPTIONS
     ASSUME(IsWindMove(MOVE_TAILWIND));
 }
 
-SINGLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if it sets up Tailwind")
+SINGLE_BATTLE_TEST("Maelstrom raises Sp. Atk by one stage if it sets up Tailwind")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -18,13 +18,13 @@ SINGLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if it sets up T
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponent);
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-DOUBLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if Tailwind is setup by its partner")
+DOUBLE_BATTLE_TEST("Maelstrom raises Sp. Atk by one stage if Tailwind is setup by its partner")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -37,13 +37,13 @@ DOUBLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if Tailwind is 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponentLeft);
         ABILITY_POPUP(opponentRight, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentRight);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponentRight->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-SINGLE_BATTLE_TEST("Maelstrom doesn't raise Special Attack if opponent sets up Tailwind")
+SINGLE_BATTLE_TEST("Maelstrom doesn't raise Sp. Atk if opponent sets up Tailwind")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -55,14 +55,14 @@ SINGLE_BATTLE_TEST("Maelstrom doesn't raise Special Attack if opponent sets up T
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Thundurus's Special Attack rose!");
+            MESSAGE("The opposing Thundurus's Sp. Atk rose!");
         }
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE);
     }
 }
 
-SINGLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if switched into Tailwind on its side of the field")
+SINGLE_BATTLE_TEST("Maelstrom raises Sp. Atk by one stage if switched into Tailwind on its side of the field")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -75,7 +75,7 @@ SINGLE_BATTLE_TEST("Maelstrom raises Special Attack by one stage if switched int
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponent);
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Maelstrom raised its Special Attack!");
+        MESSAGE("The opposing Thundurus's Maelstrom raised its Sp. Atk!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
@@ -99,13 +99,13 @@ SINGLE_BATTLE_TEST("Maelstrom activates when it's no longer effected by Neutrali
         MESSAGE("The effects of the neutralizing gas wore off!");
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Maelstrom raised its Special Attack!");
+        MESSAGE("The opposing Thundurus's Maelstrom raised its Sp. Atk!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Special Attack by one stage")
+SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Sp. Atk by one stage")
 {
     GIVEN {
         ASSUME(IsWindMove(MOVE_GUST));
@@ -120,13 +120,13 @@ SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Special Attack by on
         }
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if it sets up Tailwind")
+SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Sp. Atk by one stage if it sets up Tailwind")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -137,13 +137,13 @@ SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if it s
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponent);
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if Tailwind is setup by its partner")
+DOUBLE_BATTLE_TEST("INNATE: Maelstrom raises Sp. Atk by one stage if Tailwind is setup by its partner")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -156,13 +156,13 @@ DOUBLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if Tail
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponentLeft);
         ABILITY_POPUP(opponentRight, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentRight);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponentRight->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Maelstrom doesn't raise Special Attack if opponent sets up Tailwind")
+SINGLE_BATTLE_TEST("INNATE: Maelstrom doesn't raise Sp. Atk if opponent sets up Tailwind")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -174,14 +174,14 @@ SINGLE_BATTLE_TEST("INNATE: Maelstrom doesn't raise Special Attack if opponent s
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Thundurus's Special Attack rose!");
+            MESSAGE("The opposing Thundurus's Sp. Atk rose!");
         }
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if switched into Tailwind on its side of the field")
+SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Sp. Atk by one stage if switched into Tailwind on its side of the field")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -194,7 +194,7 @@ SINGLE_BATTLE_TEST("INNATE: Maelstrom raises Special Attack by one stage if swit
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TAILWIND, opponent);
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Maelstrom raised its Special Attack!");
+        MESSAGE("The opposing Thundurus's Maelstrom raised its Sp. Atk!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
@@ -218,13 +218,13 @@ SINGLE_BATTLE_TEST("INNATE: Maelstrom activates when it's no longer effected by 
         MESSAGE("The effects of the neutralizing gas wore off!");
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Maelstrom raised its Special Attack!");
+        MESSAGE("The opposing Thundurus's Maelstrom raised its Sp. Atk!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }
 }
 
-SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Special Attack by one stage")
+SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Sp. Atk by one stage")
 {
     GIVEN {
         ASSUME(IsWindMove(MOVE_GUST));
@@ -239,7 +239,7 @@ SINGLE_BATTLE_TEST("Maelstrom absorbs Wind moves and raises Special Attack by on
         }
         ABILITY_POPUP(opponent, ABILITY_MAELSTROM);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        MESSAGE("The opposing Thundurus's Special Attack rose!");
+        MESSAGE("The opposing Thundurus's Sp. Atk rose!");
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
     }

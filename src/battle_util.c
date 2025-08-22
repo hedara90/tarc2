@@ -4354,6 +4354,19 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 PushTraitStack(battler, ABILITY_HYDRATION);
                 goto ABILITY_HEAL_MON_STATUS;
             }
+            if (SearchTraits(battlerTraits, ABILITY_SAND_REPAIR)
+             && IsBattlerWeatherAffected(battler, B_WEATHER_SANDSTORM)
+             && !IsBattlerAtMaxHp(battler)
+             && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
+            {
+                PushTraitStack(battler, ABILITY_SAND_REPAIR);
+                BattleScriptPushCursorAndCallback(BattleScript_SandRepairActivates);
+                gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 16;
+                if (gBattleStruct->moveDamage[battler] == 0)
+                    gBattleStruct->moveDamage[battler] = 1;
+                gBattleStruct->moveDamage[battler] *= -1;
+                effect++;
+            }
             if ((SearchTraits(battlerTraits, ABILITY_SHED_SKIN)
              && gBattleMons[battler].status1 & STATUS1_ANY)
              && (B_ABILITY_TRIGGER_CHANCE == GEN_4 ? RandomPercentage(RNG_SHED_SKIN, 30) : RandomChance(RNG_SHED_SKIN, 1, 3)))
