@@ -2456,9 +2456,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Fire hits Ground and Rock super effective."),
         .aiRating = 8,
     },
-    [ABILITY_HAILSTONE_FALL] =
+    [ABILITY_SLEET_STORM] =
     {
-        .name = _("Hailstone Fall"),
+        .name = _("Sleet Storm"),
         .description = COMPOUND_STRING("Hail damages player side."),
         .aiRating = 9,
     },
@@ -2468,9 +2468,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Thunder randomly strikes player."),
         .aiRating = 9,
     },
-    [ABILITY_FLAMES_EMBRACE] =
+    [ABILITY_INFERNO] =
     {
-        .name = _("Flame's Embrace"),
+        .name = _("Inferno"),
         .description = COMPOUND_STRING("Flames harm the player"),
         .aiRating = 9,
     },
@@ -2516,9 +2516,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Treats the user's actions\nas if Sand is active."),
         .aiRating = 9,
     },
-    [ABILITY_UPDRAFT] =
+    [ABILITY_CLOUDWALKER] =
     {
-        .name = _("Updraft"),
+        .name = _("Cloudwalker"),
         .description = COMPOUND_STRING("Using a wind move grants\nlevitate for 2 turns."),
         .aiRating = 9,
     },

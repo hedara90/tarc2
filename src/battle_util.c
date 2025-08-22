@@ -5273,15 +5273,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_AbilityStatusEffect;
             effect++;
         }
-        if (SearchTraits(battlerTraits, ABILITY_UPDRAFT)
+        if (SearchTraits(battlerTraits, ABILITY_CLOUDWALKER)
          && gMovesInfo[gCurrentMove].windMove
-         && !(gStatuses4[gBattlerAttacker] & STATUS4_UPDRAFT))
+         && !(gStatuses4[gBattlerAttacker] & STATUS4_CLOUDWALKER))
         {
-            gStatuses4[gBattlerAttacker] |= STATUS4_UPDRAFT;
-            gDisableStructs[gBattlerAttacker].updraftTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
-            CreateAbilityPopUp(gBattlerAttacker, ABILITY_UPDRAFT, FALSE);
+            gStatuses4[gBattlerAttacker] |= STATUS4_CLOUDWALKER;
+            gDisableStructs[gBattlerAttacker].cloudwalkerTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_CLOUDWALKER, FALSE);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_UpdraftTrigger;
+            gBattlescriptCurrInstr = BattleScript_CloudwalkerTrigger;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_SPARKING_ZEPHYR)
@@ -8307,7 +8307,7 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
         return FALSE;
     if (gStatuses3[battler] & STATUS3_MAGNET_RISE)
         return FALSE;
-    if (gStatuses4[battler] & STATUS4_UPDRAFT)
+    if (gStatuses4[battler] & STATUS4_CLOUDWALKER)
         return FALSE;
     if (holdEffect == HOLD_EFFECT_AIR_BALLOON)
         return FALSE;

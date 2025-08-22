@@ -108,7 +108,7 @@ struct DisableStruct
     u16 healBlockTimer;
     u16 laserFocusTimer;
     u16 throatChopTimer;
-    u16 updraftTimer;
+    u16 cloudwalkerTimer;
     u8 wrapTurns;
     u16 syrupBombTimer;
     u16 tormentTimer; // used for G-Max Meltdown

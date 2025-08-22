@@ -47,7 +47,7 @@ enum EndTurnResolutionOrder
     ENDTURN_TORMENT,
     ENDTURN_ENCORE,
     ENDTURN_DISABLE,
-    ENDTURN_UPDRAFT,
+    ENDTURN_CLOUDWALKER,
     ENDTURN_MAGNET_RISE,
     ENDTURN_TELEKINESIS,
     ENDTURN_HEAL_BLOCK,
@@ -956,17 +956,17 @@ static bool32 HandleEndTurnDisable(u32 battler)
     return effect;
 }
 
-static bool32 HandleEndTurnUpdraft(u32 battler)
+static bool32 HandleEndTurnCloudwalker(u32 battler)
 {
     bool32 effect = FALSE;
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    if (gStatuses4[battler] & STATUS4_UPDRAFT && gDisableStructs[battler].updraftTimer == gBattleTurnCounter)
+    if (gStatuses4[battler] & STATUS4_CLOUDWALKER && gDisableStructs[battler].cloudwalkerTimer == gBattleTurnCounter)
     {
-        gStatuses4[battler] &= ~STATUS4_UPDRAFT;
+        gStatuses4[battler] &= ~STATUS4_CLOUDWALKER;
         BattleScriptExecute(BattleScript_BufferEndTurn);
-        PREPARE_STRING_BUFFER(gBattleTextBuff1, STRINGID_UPDRAFT);
+        PREPARE_STRING_BUFFER(gBattleTextBuff1, STRINGID_CLOUDWALKER);
         effect = TRUE;
     }
 
@@ -1551,13 +1551,13 @@ static bool32 HandleEndTurnAbilities(u32 battler)
     if (!TESTING && battler == 1)
     {
         gBattlerAttacker = 0;
-        if (SearchTraits(battlerTraits, ABILITY_HAILSTONE_FALL))
+        if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
         {
             //  Damage all player mons
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
             DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
             DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
-            CreateAbilityPopUp(1, ABILITY_HAILSTONE_FALL, FALSE);
+            CreateAbilityPopUp(1, ABILITY_SLEET_STORM, FALSE);
             BattleScriptExecute(BattleScript_HailstoneFall);
             effect = TRUE;
         }
@@ -1588,13 +1588,13 @@ static bool32 HandleEndTurnAbilities(u32 battler)
             }
             effect = TRUE;
         }
-        else if (SearchTraits(battlerTraits, ABILITY_FLAMES_EMBRACE))
+        else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
         {
             //  Damage active mon
             gBattlerAttacker = 0;
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_FLAMES_EMBRACE_FRACTION;
             gBattleScripting.animArg1 = MOVE_FIRE_SPIN;
-            CreateAbilityPopUp(1, ABILITY_FLAMES_EMBRACE, FALSE);
+            CreateAbilityPopUp(1, ABILITY_INFERNO, FALSE);
             BattleScriptExecute(BattleScript_FlamesEmbrace);
             effect = TRUE;
         }
@@ -1770,7 +1770,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_TORMENT] = HandleEndTurnTorment,
     [ENDTURN_ENCORE] = HandleEndTurnEncore,
     [ENDTURN_DISABLE] = HandleEndTurnDisable,
-    [ENDTURN_UPDRAFT] = HandleEndTurnUpdraft,
+    [ENDTURN_CLOUDWALKER] = HandleEndTurnCloudwalker,
     [ENDTURN_MAGNET_RISE] = HandleEndTurnMagnetRise,
     [ENDTURN_TELEKINESIS] = HandleEndTurnTelekinesis,
     [ENDTURN_HEAL_BLOCK] = HandleEndTurnHealBlock,
