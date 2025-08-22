@@ -18350,7 +18350,7 @@ void BS_TryWindRiderPower(void)
     u32 battler = GetBattlerForBattleScript(cmd->battler);
     u16 ability = GetBattlerAbility(battler);
     if (IsBattlerAlly(battler, gBattlerAttacker)
-        && (BattlerHasTrait(battler, ABILITY_WIND_RIDER) || BattlerHasTrait(battler, ABILITY_WIND_POWER)))
+        && (BattlerHasTrait(battler, ABILITY_WIND_RIDER) || BattlerHasTrait(battler, ABILITY_WIND_POWER) || BattlerHasTrait(battler, ABILITY_MAELSTROM)))
     {
         gLastUsedAbility = ability;
         RecordAbilityBattle(battler, gLastUsedAbility);

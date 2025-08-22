@@ -2692,6 +2692,7 @@ BattleScript_TryTailwindAbilitiesLoop_Iter:
 	trywindriderpower BS_TARGET, BattleScript_TryTailwindAbilitiesLoop_Increment
 	jumpifability BS_TARGET, ABILITY_WIND_RIDER, BattleScript_TryTailwindAbilitiesLoop_WindRider
 	jumpifability BS_TARGET, ABILITY_WIND_POWER, BattleScript_TryTailwindAbilitiesLoop_WindPower
+	jumpifability BS_TARGET, ABILITY_MAELSTROM, BattleScript_TryTailwindAbilitiesLoop_Maelstrom
 BattleScript_TryTailwindAbilitiesLoop_Increment:
 	addbyte gBattlerTarget, 0x1
 	jumpifbytenotequal gBattlerTarget, gBattlersCount, BattleScript_TryTailwindAbilitiesLoop_Iter
@@ -2708,6 +2709,11 @@ BattleScript_TryTailwindAbilitiesLoop_WindPower:
 	setcharge BS_TARGET
 	printstring STRINGID_BEINGHITCHARGEDPKMNWITHPOWER
 	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_TryTailwindAbilitiesLoop_Increment
+
+BattleScript_TryTailwindAbilitiesLoop_Maelstrom:
+	call BattleScript_AbilityPopUp
+	modifybattlerstatstage BS_TARGET, STAT_SPATK, INCREASE, 1, BattleScript_TryTailwindAbilitiesLoop_Increment, ANIM_ON
 	goto BattleScript_TryTailwindAbilitiesLoop_Increment
 
 BattleScript_EffectMiracleEye::
@@ -9509,6 +9515,16 @@ BattleScript_WindRiderActivatesMoveEnd::
 	setmoveresultflags MOVE_RESULT_NO_EFFECT
 	modifybattlerstatstage BS_TARGET, STAT_ATK, INCREASE, 1, BattleScript_WindRiderActivatesMoveEnd_End, ANIM_ON
 BattleScript_WindRiderActivatesMoveEnd_End:
+	goto BattleScript_MoveEnd
+
+BattleScript_MaelstromActivatesMoveEnd::
+	attackstring
+	ppreduce
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUpTarget
+	setmoveresultflags MOVE_RESULT_NO_EFFECT
+	modifybattlerstatstage BS_TARGET, STAT_SPATK, INCREASE, 1, BattleScript_MaelstromActivatesMoveEnd_End, ANIM_ON
+BattleScript_MaelstromActivatesMoveEnd_End:
 	goto BattleScript_MoveEnd
 
 BattleScript_GoodAsGoldActivates::
