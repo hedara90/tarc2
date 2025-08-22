@@ -3448,6 +3448,38 @@ static inline u32 SetStartingSideStatus(u32 flag, u32 side, u32 message, u32 ani
     return 0;
 }
 
+static void BuildUncontainedBlazeStringBuffers(void)
+{
+    u32 count = 0;
+
+    if (gLeftMon.hp > 0)
+        count++;
+    if (gRightMon.hp > 0)
+        count++;
+
+    gBattleTextBuff1[0] = EOS;
+    gBattleTextBuff2[0] = EOS;
+    gBattleTextBuff3[0] = EOS;
+    if (count == 1)
+    {
+        if (gLeftMon.hp > 0)
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        else
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+    }
+    else
+    {
+        gBattleTextBuff2[0] = CHAR_SPACE;
+        gBattleTextBuff2[1] = CHAR_a;
+        gBattleTextBuff2[2] = CHAR_n;
+        gBattleTextBuff2[3] = CHAR_d;
+        gBattleTextBuff2[4] = CHAR_SPACE;
+        gBattleTextBuff2[5] = EOS;
+        StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        StringCopy(gBattleTextBuff3, gRightMon.nickname);
+    }
+}
+
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
 {
     u32 effect = 0;
@@ -5241,7 +5273,65 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_AbilityStatusEffect;
             effect++;
         }
-break;
+        if (SearchTraits(battlerTraits, ABILITY_UPDRAFT)
+         && gMovesInfo[gCurrentMove].windMove
+         && !(gStatuses4[gBattlerAttacker] & STATUS4_UPDRAFT))
+        {
+            gStatuses4[gBattlerAttacker] |= STATUS4_UPDRAFT;
+            gDisableStructs[gBattlerAttacker].updraftTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_UPDRAFT, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_UpdraftTrigger;
+            effect++;
+        }
+        if (SearchTraits(battlerTraits, ABILITY_SPARKING_ZEPHYR)
+         && gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
+         && !(gSideStatuses[GetBattlerSide(gBattlerAttacker)] & SIDE_STATUS_TAILWIND))
+        {
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPARKING_ZEPHYR, FALSE);
+            gBattlescriptCurrInstr = BattleScript_TriggerTailwind;
+            effect++;
+        }
+        if (!TESTING
+         && gBattlerAttacker == 1
+         && SearchTraits(battlerTraits, ABILITY_UNCONTAINED_BLAZE)
+         && gMovesInfo[gCurrentMove].type == TYPE_FIRE
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && (gLeftMon.hp > 0 || gRightMon.hp > 0))
+        {
+            BuildUncontainedBlazeStringBuffers();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_UNCONTAINED_BLAZE, FALSE);
+            u32 backlineDamage = gBattleStruct->moveDamage[gBattlerTarget] / TARC_UNCONTAINED_BLAZE_DAMAGE_FRACTION;
+            if (gLeftMon.hp > 0)
+                DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, backlineDamage);
+            if (gRightMon.hp > 0)
+                DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, backlineDamage);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_UncontainedBlaze;
+            effect++;
+        }
+        if (gMovesInfo[gCurrentMove].windMove
+         && SearchTraits(battlerTraits, ABILITY_WINDS_OF_CHANGE))
+        {
+            u32 statArr[6];
+            u32 numStats = 0;
+            for (u32 i = 1; i < 6; i++)
+            {
+                if (gBattleMons[gBattlerAttacker].statStages[i] != 12)
+                {
+                    statArr[numStats] = i;
+                    numStats++;
+                }
+            }
+            u32 statToBoost = statArr[Random32() % numStats];
+            SET_STATCHANGER(statToBoost, 1, FALSE);
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_WINDS_OF_CHANGE, FALSE);
+            gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+            effect++;
+        }
+        break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
          && IsBattlerAlive(battler)
@@ -8216,6 +8306,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
     if (gStatuses3[battler] & STATUS3_TELEKINESIS)
         return FALSE;
     if (gStatuses3[battler] & STATUS3_MAGNET_RISE)
+        return FALSE;
+    if (gStatuses4[battler] & STATUS4_UPDRAFT)
         return FALSE;
     if (holdEffect == HOLD_EFFECT_AIR_BALLOON)
         return FALSE;
