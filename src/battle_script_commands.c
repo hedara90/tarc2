@@ -6751,6 +6751,7 @@ static void Cmd_moveend(void)
                 {
                     gStatuses3[gBattlerTarget] |= STATUS3_SMACKED_DOWN;
                     gStatuses3[gBattlerTarget] &= ~(STATUS3_MAGNET_RISE | STATUS3_TELEKINESIS | STATUS3_ON_AIR);
+                    gStatuses4[gBattlerTarget] &= ~(STATUS4_UPDRAFT);
                     effect = TRUE;
                     BattleScriptPush(gBattlescriptCurrInstr);
                     gBattlescriptCurrInstr = BattleScript_MoveEffectSmackDown;

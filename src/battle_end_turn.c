@@ -47,6 +47,7 @@ enum EndTurnResolutionOrder
     ENDTURN_TORMENT,
     ENDTURN_ENCORE,
     ENDTURN_DISABLE,
+    ENDTURN_UPDRAFT,
     ENDTURN_MAGNET_RISE,
     ENDTURN_TELEKINESIS,
     ENDTURN_HEAL_BLOCK,
@@ -955,6 +956,23 @@ static bool32 HandleEndTurnDisable(u32 battler)
     return effect;
 }
 
+static bool32 HandleEndTurnUpdraft(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    if (gStatuses4[battler] & STATUS4_UPDRAFT && gDisableStructs[battler].updraftTimer == gBattleTurnCounter)
+    {
+        gStatuses4[battler] &= ~STATUS4_UPDRAFT;
+        BattleScriptExecute(BattleScript_BufferEndTurn);
+        PREPARE_STRING_BUFFER(gBattleTextBuff1, STRINGID_UPDRAFT);
+        effect = TRUE;
+    }
+
+    return effect;
+}
+
 static bool32 HandleEndTurnMagnetRise(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1752,6 +1770,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_TORMENT] = HandleEndTurnTorment,
     [ENDTURN_ENCORE] = HandleEndTurnEncore,
     [ENDTURN_DISABLE] = HandleEndTurnDisable,
+    [ENDTURN_UPDRAFT] = HandleEndTurnUpdraft,
     [ENDTURN_MAGNET_RISE] = HandleEndTurnMagnetRise,
     [ENDTURN_TELEKINESIS] = HandleEndTurnTelekinesis,
     [ENDTURN_HEAL_BLOCK] = HandleEndTurnHealBlock,

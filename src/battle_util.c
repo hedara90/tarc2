@@ -5241,6 +5241,17 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_AbilityStatusEffect;
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_UPDRAFT)
+         && gMovesInfo[gCurrentMove].windMove
+         && !(gStatuses4[gBattlerAttacker] & STATUS4_UPDRAFT))
+        {
+            gStatuses4[gBattlerAttacker] |= STATUS4_UPDRAFT;
+            gDisableStructs[gBattlerAttacker].updraftTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_UPDRAFT, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_UpdraftTrigger;
+            effect++;
+        }
 break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
@@ -8216,6 +8227,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
     if (gStatuses3[battler] & STATUS3_TELEKINESIS)
         return FALSE;
     if (gStatuses3[battler] & STATUS3_MAGNET_RISE)
+        return FALSE;
+    if (gStatuses4[battler] & STATUS4_UPDRAFT)
         return FALSE;
     if (holdEffect == HOLD_EFFECT_AIR_BALLOON)
         return FALSE;

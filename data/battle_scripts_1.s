@@ -10130,3 +10130,8 @@ BattleScript_RessMon::
 	printstring STRINGID_RESS_MON
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_UpdraftTrigger::
+	printstring STRINGID_UPDRAFT_TRIGGER
+	waitmessage B_WAIT_TIME_LONG
+	end2
