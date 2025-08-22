@@ -10148,3 +10148,11 @@ BattleScript_UncontainedBlaze::
 	printstring STRINGID_UNCONTAINED_BLAZE
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_WindsOfChange::
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_NOT_PROTECT_AFFECTED, BattleScript_MoodyLower
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+	end2

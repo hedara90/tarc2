@@ -886,5 +886,6 @@ extern const u8 BattleScript_RessMon[];
 extern const u8 BattleScript_UpdraftTrigger[];
 extern const u8 BattleScript_TriggerTailwind[];
 extern const u8 BattleScript_UncontainedBlaze[];
+extern const u8 BattleScript_WindsOfChange[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

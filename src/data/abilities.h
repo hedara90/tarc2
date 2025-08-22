@@ -2534,4 +2534,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Fire moves also hurt inactive\nbattlers."),
         .aiRating = 9,
     },
+    [ABILITY_WINDS_OF_CHANGE] =
+    {
+        .name = _("Winds of Change"),
+        .description = COMPOUND_STRING("Using a wind move also raises\na random stat."),
+        .aiRating = 9,
+    },
 };
