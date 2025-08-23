@@ -4005,8 +4005,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             if(TryChangeBattleTerrain(battler, STATUS_FIELD_PSYCHIC_TERRAIN, &gFieldTimers.terrainTimer))
                 effect += CommonSwitchInAbilities(battler, 0, ABILITY_PSYCHIC_SURGE, traitCheck, BattleScript_PsychicSurgeActivates);
         }
-        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_INTIMIDATE)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_INTIMIDATE)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1] && !IsAbilityOnCD(ABILITY_INTIMIDATE, battler))
         {
+            SetAbilityCD(ABILITY_INTIMIDATE, battler);
             gBattlerAttacker = battler;
             SET_STATCHANGER(STAT_ATK, 1, TRUE);
             effect += CommonSwitchInAbilities(battler, 0, ABILITY_INTIMIDATE, traitCheck, BattleScript_IntimidateActivates);
@@ -12075,5 +12076,32 @@ void DamageBackline(enum TarcPlayerIndex side, enum DamageMethod method, u32 val
             mon->hp -= damage;
         }
         SetMonData(&gPlayerParty[2], MON_DATA_HP, &mon->hp);
+    }
+}
+
+bool32 IsAbilityOnCD(u32 ability, u32 battler)
+{
+    if (TESTING || battler == 1)
+        return FALSE;
+
+    switch (ability)
+    {
+    case ABILITY_INTIMIDATE:
+        if (gBattleStruct->intimidateCD > 0)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+void SetAbilityCD(u32 ability, u32 battler)
+{
+    if (TESTING || battler == 1)
+        return;
+
+    switch (ability)
+    {
+    case ABILITY_INTIMIDATE:
+        gBattleStruct->intimidateCD = TARC_INTIMIDATE_CD;
+        break;
     }
 }

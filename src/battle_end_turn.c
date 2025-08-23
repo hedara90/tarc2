@@ -70,7 +70,7 @@ enum EndTurnResolutionOrder
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
     ENDTURN_BACKLINE_RESTORE,
-    ENDTURN_MOVE_CD,
+    ENDTURN_PLAYER_CD,
     ENDTURN_COUNT,
 };
 
@@ -1722,7 +1722,7 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
     return TRUE;
 }
 
-static bool32 HandleEndTurnMoveCD(u32 battler)
+static bool32 HandleEndTurnPlayerCD(u32 battler)
 {
     gBattleStruct->turnEffectsBattlerId++;
     if (TESTING)
@@ -1737,6 +1737,9 @@ static bool32 HandleEndTurnMoveCD(u32 battler)
         ReduceCD(TARC_LEFT_BATTLER, i);
         ReduceCD(TARC_RIGHT_BATTLER, i);
     }
+
+    if (gBattleStruct->intimidateCD > 0)
+        gBattleStruct->intimidateCD--;
 
     return TRUE;
 }
@@ -1793,7 +1796,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
     [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
-    [ENDTURN_MOVE_CD] = HandleEndTurnMoveCD,
+    [ENDTURN_PLAYER_CD] = HandleEndTurnPlayerCD,
 };
 
 u32 DoEndTurnEffects(void)

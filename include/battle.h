@@ -800,6 +800,7 @@ struct BattleStruct
     u8 usedCDMove;
     u16 startTurnSpecies;
     struct BattlePokemon storedBattleMon;
+    u32 intimidateCD:4;
 };
 
 struct AiBattleData
