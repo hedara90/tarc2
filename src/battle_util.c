@@ -9637,6 +9637,9 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
     u32 move = damageCalcData->move;
     u32 moveType = damageCalcData->moveType;
 
+    if (moveType == TYPE_ICE && weather == B_WEATHER_SNOW && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_WHITEOUT))
+        return UQ_4_12(1.5);
+
     if (weather == B_WEATHER_NONE)
         return UQ_4_12(1.0);
     if (GetMoveEffect(move) == EFFECT_HYDRO_STEAM && (weather & B_WEATHER_SUN) && holdEffectAtk != HOLD_EFFECT_UTILITY_UMBRELLA)

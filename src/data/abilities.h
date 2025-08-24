@@ -2570,4 +2570,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Boosts Special Defense\nwhen hit."),
         .aiRating = 7,
     },
+    [ABILITY_WHITEOUT] =
+    {
+        .name = _("Whiteout"),
+        .description = COMPOUND_STRING("Ice moves deal 50% more\ndamage in Snow."),
+        .aiRating = 7,
+    },
 };
