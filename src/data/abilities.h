@@ -2564,5 +2564,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Inflicts frostbite on contact."),
         .aiRating = 4,
     },
+    [ABILITY_RESILIENCE] =
+    {
+        .name = _("Resilience"),
+        .description = COMPOUND_STRING("Boosts Special Defense\nwhen hit."),
+        .aiRating = 7,
+    },
 };
-

@@ -4619,6 +4619,20 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_RESILIENCE)
+         && !(gBattleStruct->moveResultFlags[battler] & MOVE_RESULT_NO_EFFECT)
+         && gBattlerAttacker != gBattlerTarget
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && IsBattlerAlive(battler)
+         && CompareStat(battler, STAT_SPDEF, MAX_STAT_STAGE, CMP_LESS_THAN))
+        {
+            gEffectBattler = battler;
+            SET_STATCHANGER(STAT_SPDEF, 1, FALSE);
+            PushTraitStack(battler, ABILITY_RESILIENCE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            effect++;
+        }
         if (SearchTraits(battlerTraits, ABILITY_BERSERK)
          && !(gBattleStruct->moveResultFlags[battler] & MOVE_RESULT_NO_EFFECT)
          && IsBattlerTurnDamaged(gBattlerTarget)
