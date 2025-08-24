@@ -2540,4 +2540,17 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a wind move also raises\na random stat."),
         .aiRating = 9,
     },
+    [ABILITY_MAELSTROM] =
+    {
+        .name = _("Maelstrom"),
+        .description = COMPOUND_STRING("Ups Special Attack\nif hit by wind."),
+        .aiRating = 9,
+    },
+    [ABILITY_SAND_REPAIR] =
+    {
+        .name = _("Sand Repair"),
+        .description = COMPOUND_STRING("Recovers HP during\nsandstorms."),
+        .aiRating = 9,
+    },
 };
+

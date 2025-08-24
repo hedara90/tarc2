@@ -3320,6 +3320,15 @@ bool32 CanAbilityAbsorbMove(u32 battlerAtk, u32 battlerDef, u32 abilityDef, u32 
             statId = STAT_ATK;
         }
     }
+    if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_MAELSTROM) : SearchTraits(battlerTraits, ABILITY_MAELSTROM) || abilityDef == ABILITY_MAELSTROM)
+     && IsWindMove(move) && !(GetBattlerMoveTargetType(battlerAtk, move) & MOVE_TARGET_USER))
+    {
+        {
+            PushTraitStack(battlerDef, ABILITY_MAELSTROM);
+            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+            statId = STAT_SPATK;
+        }
+    }
     if ((gAiLogicData->aiCalcInProgress ? AISearchTraits(AIBattlerTraits, ABILITY_FLASH_FIRE) : SearchTraits(battlerTraits, ABILITY_FLASH_FIRE) || abilityDef == ABILITY_FLASH_FIRE)
      && moveType == TYPE_FIRE && (B_FLASH_FIRE_FROZEN >= GEN_5 || !(gBattleMons[battlerDef].status1 & STATUS1_FREEZE)))
     {
@@ -4077,6 +4086,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             SET_STATCHANGER(STAT_ATK, 1, FALSE);
             effect += CommonSwitchInAbilities(battler, 0, ABILITY_WIND_RIDER, traitCheck, BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
         }
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_MAELSTROM)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1]
+         && CompareStat(battler, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN)
+         && gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
+        {
+            gBattleScripting.savedBattler = gBattlerAttacker;
+            gBattlerAttacker = battler;
+            SET_STATCHANGER(STAT_SPATK, 1, FALSE);
+            effect += CommonSwitchInAbilities(battler, 0, ABILITY_MAELSTROM, traitCheck, BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
+        }
         if (SearchTraits(battlerTraits, ABILITY_DESOLATE_LAND) && TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN_PRIMAL, TRUE))
         {
             PushTraitStack(battler, ABILITY_DESOLATE_LAND);
@@ -4336,6 +4354,19 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             {
                 PushTraitStack(battler, ABILITY_HYDRATION);
                 goto ABILITY_HEAL_MON_STATUS;
+            }
+            if (SearchTraits(battlerTraits, ABILITY_SAND_REPAIR)
+             && IsBattlerWeatherAffected(battler, B_WEATHER_SANDSTORM)
+             && !IsBattlerAtMaxHp(battler)
+             && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
+            {
+                PushTraitStack(battler, ABILITY_SAND_REPAIR);
+                BattleScriptPushCursorAndCallback(BattleScript_SandRepairActivates);
+                gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 16;
+                if (gBattleStruct->moveDamage[battler] == 0)
+                    gBattleStruct->moveDamage[battler] = 1;
+                gBattleStruct->moveDamage[battler] *= -1;
+                effect++;
             }
             if ((SearchTraits(battlerTraits, ABILITY_SHED_SKIN)
              && gBattleMons[battler].status1 & STATUS1_ANY)

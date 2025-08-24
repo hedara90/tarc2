@@ -250,7 +250,12 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         }
         break;
     case BATTLE_WEATHER_SANDSTORM:
-        if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL)
+        if (SearchTraits(battlerTraits, ABILITY_SAND_REPAIR))
+        {
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
+                effect = TRUE;
+        }
+        else if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL) 
          && !BattlerHasTrait(battler, ABILITY_SAND_FORCE)
          && !BattlerHasTrait(battler, ABILITY_SAND_RUSH)
          && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
