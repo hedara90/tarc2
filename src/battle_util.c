@@ -4021,6 +4021,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             SET_STATCHANGER(STAT_ATK, 1, TRUE);
             effect += CommonSwitchInAbilities(battler, 0, ABILITY_INTIMIDATE, traitCheck, BattleScript_IntimidateActivates);
         }
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_DISHEARTEN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1] && !IsAbilityOnCD(ABILITY_DISHEARTEN, battler))
+        {
+            SetAbilityCD(ABILITY_DISHEARTEN, battler);
+            gBattlerAttacker = battler;
+            SET_STATCHANGER(STAT_ATK, 1, TRUE);
+            effect += CommonSwitchInAbilities(battler, 0, ABILITY_DISHEARTEN, traitCheck, BattleScript_DisheartenActivates);
+        }
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_SUPERSWEET_SYRUP)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1]
          && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].supersweetSyrup)
         {

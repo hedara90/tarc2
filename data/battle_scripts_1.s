@@ -10176,3 +10176,91 @@ BattleScript_WindsOfChange::
 	printfromtable gStatUpStringIds
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_TryDisheartenHoldEffects:
+	itemstatchangeeffects BS_TARGET
+	jumpifnoholdeffect BS_TARGET, HOLD_EFFECT_ADRENALINE_ORB, BattleScript_TryDisheartenHoldEffectsRet
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPEED, 12, BattleScript_TryDisheartenHoldEffectsRet
+	setstatchanger STAT_SPEED, 1, FALSE
+	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | MOVE_EFFECT_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_TryDisheartenHoldEffectsRet
+	playanimation BS_TARGET, B_ANIM_HELD_ITEM_EFFECT
+	setgraphicalstatchangevalues
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	copybyte sBATTLER, gBattlerTarget
+	setlastuseditem BS_TARGET
+	printstring STRINGID_USINGITEMSTATOFPKMNROSE
+	waitmessage B_WAIT_TIME_LONG
+	removeitem BS_TARGET
+BattleScript_TryDisheartenHoldEffectsRet:
+	return
+
+BattleScript_DisheartenActivates::
+	savetarget
+.if B_ABILITY_POP_UP == TRUE
+	showabilitypopup BS_ATTACKER
+	pause B_WAIT_TIME_LONG
+	destroyabilitypopup
+.endif
+	setbyte gBattlerTarget, 0
+BattleScript_DisheartenLoop:
+	setbyte gDisplayAbility ABILITY_DISHEARTEN
+	jumpifbyteequal gBattlerTarget, gBattlerAttacker, BattleScript_DisheartenLoopIncrement
+	jumpiftargetally BattleScript_DisheartenLoopIncrement
+	jumpifabsent BS_TARGET, BattleScript_DisheartenLoopIncrement
+	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_DisheartenLoopIncrement
+	jumpifintimidateabilityprevented
+BattleScript_DisheartenEffect:
+	copybyte sBATTLER, gBattlerAttacker
+	setstatchanger STAT_ATK, 1, TRUE
+	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | STAT_CHANGE_ALLOW_PTR, BattleScript_DisheartenLoopIncrement
+	setgraphicalstatchangevalues
+	jumpifability BS_TARGET, ABILITY_CONTRARY, BattleScript_DisheartenContrary
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_DisheartenWontDecrease
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_PKMNCUTSATTACKWITH
+BattleScript_DisheartenEffect_WaitString:
+	waitmessage B_WAIT_TIME_LONG
+	saveattacker
+	savetarget
+	copybyte sBATTLER, gBattlerTarget
+	call BattleScript_TryDisheartenHoldEffects
+	restoreattacker
+	restoretarget
+BattleScript_DisheartenLoopIncrement:
+	addbyte gBattlerTarget, 1
+	jumpifbytenotequal gBattlerTarget, gBattlersCount, BattleScript_DisheartenLoop
+	copybyte sBATTLER, gBattlerAttacker
+	destroyabilitypopup
+	restoretarget
+	pause B_WAIT_TIME_MED
+	tryintimidateejectpack
+	end3
+
+BattleScript_DisheartenPrevented::
+	copybyte sBATTLER, gBattlerTarget
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_PKMNPREVENTSSTATLOSSWITH
+	goto BattleScript_DisheartenEffect_WaitString
+
+BattleScript_DisheartenWontDecrease:
+	printstring STRINGID_STATSWONTDECREASE
+	goto BattleScript_DisheartenEffect_WaitString
+
+BattleScript_DisheartenContrary:
+	pushtraitstack BS_TARGET ABILITY_CONTRARY
+	call BattleScript_AbilityPopUpTarget
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_DisheartenContrary_WontIncrease
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_PKMNCUTSATTACKWITH
+	goto BattleScript_DisheartenLoopIncrement
+BattleScript_DisheartenContrary_WontIncrease:
+	printstring STRINGID_TARGETSTATWONTGOHIGHER
+	goto BattleScript_DisheartenLoopIncrement
+
+BattleScript_DisheartenInReverse::
+	copybyte sBATTLER, gBattlerTarget
+	call BattleScript_AbilityPopUpTarget
+	pause B_WAIT_TIME_SHORT
+	modifybattlerstatstage BS_TARGET, STAT_ATK, INCREASE, 1, BattleScript_DisheartenLoopIncrement, ANIM_ON
+	call BattleScript_TryDisheartenHoldEffects
+	goto BattleScript_DisheartenLoopIncrement

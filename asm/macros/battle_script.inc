@@ -2595,3 +2595,11 @@
 	.macro updatebgbar
 	callnative BS_UpdateBgBar
 	.endm
+
+	.macro jumpifdisheartenabilityprevented
+	callnative BS_JumpIfDisheartenAbilityPrevented
+	.endm
+
+	.macro tryintdisheartenejectpack
+	callnative BS_TryDisheartenEjectPack
+	.endm
