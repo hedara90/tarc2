@@ -1180,7 +1180,7 @@ void PrepareStringBattle(enum StringID stringId, u32 battler)
 
 
     // Check Defiant and Competitive stat raise whenever a stat is lowered.
-    else if ((stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_PKMNCUTSATTACKWITH)
+    else if ((stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_PKMNCUTSATTACKWITH || stringId == STRINGID_PKMNCUTSSPECIALATTACKWITH)
               && ((SearchTraits(battlerTraits, ABILITY_DEFIANT) && CompareStat(gBattlerTarget, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN))
                  || (SearchTraits(battlerTraits, ABILITY_COMPETITIVE) && CompareStat(gBattlerTarget, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN)))
               && !hasContrary
@@ -4020,6 +4020,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlerAttacker = battler;
             SET_STATCHANGER(STAT_ATK, 1, TRUE);
             effect += CommonSwitchInAbilities(battler, 0, ABILITY_INTIMIDATE, traitCheck, BattleScript_IntimidateActivates);
+        }
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_DISHEARTEN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1] && !IsAbilityOnCD(ABILITY_DISHEARTEN, battler))
+        {
+            SetAbilityCD(ABILITY_DISHEARTEN, battler);
+            gBattlerAttacker = battler;
+            SET_STATCHANGER(STAT_ATK, 1, TRUE);
+            effect += CommonSwitchInAbilities(battler, 0, ABILITY_DISHEARTEN, traitCheck, BattleScript_DisheartenActivates);
         }
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_SUPERSWEET_SYRUP)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1]
          && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].supersweetSyrup)

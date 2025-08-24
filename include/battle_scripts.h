@@ -889,5 +889,8 @@ extern const u8 BattleScript_CloudwalkerTrigger[];
 extern const u8 BattleScript_TriggerTailwind[];
 extern const u8 BattleScript_UncontainedBlaze[];
 extern const u8 BattleScript_WindsOfChange[];
+extern const u8 BattleScript_DisheartenActivates[];
+extern const u8 BattleScript_DisheartenPrevented[];
+extern const u8 BattleScript_DisheartenInReverse[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

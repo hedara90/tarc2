@@ -2552,5 +2552,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Recovers HP during\nsandstorms."),
         .aiRating = 9,
     },
+    [ABILITY_DISHEARTEN] =
+    {
+        .name = _("Dishearten"),
+        .description = COMPOUND_STRING("Lowers the foe's Sp.Attack."),
+        .aiRating = 7,
+    },
 };
 

@@ -19097,3 +19097,104 @@ void BS_UpdateBgBar(void)
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+void BS_JumpIfDisheartenAbilityPrevented(void)
+{
+    NATIVE_ARGS();
+
+    //u32 hasAbility = FALSE;
+    u32 ability = ABILITY_NONE;
+
+    if (BattlerHasTrait(gBattlerTarget, ABILITY_INNER_FOCUS))
+        ability = ABILITY_INNER_FOCUS;
+    if (BattlerHasTrait(gBattlerTarget, ABILITY_SCRAPPY))
+        ability = ABILITY_SCRAPPY;
+    if (BattlerHasTrait(gBattlerTarget, ABILITY_OWN_TEMPO))
+        ability = ABILITY_OWN_TEMPO;
+    if (BattlerHasTrait(gBattlerTarget, ABILITY_OBLIVIOUS))
+        ability = ABILITY_OBLIVIOUS;
+
+    if (ability != ABILITY_NONE && B_UPDATED_INTIMIDATE >= GEN_8)
+    {
+        //hasAbility = TRUE;
+        gLastUsedAbility = ability;
+        gBattlerAbility = gBattlerTarget;
+        PushTraitStack(gBattlerTarget, gLastUsedAbility);
+        gBattlescriptCurrInstr = BattleScript_DisheartenPrevented;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+    
+    if (BattlerHasTrait(gBattlerTarget, ABILITY_GUARD_DOG))
+    {
+        //hasAbility = TRUE;
+        ability = ABILITY_GUARD_DOG;
+        gLastUsedAbility = ability;
+        gBattlerAbility = gBattlerTarget;
+        PushTraitStack(gBattlerTarget, gLastUsedAbility);
+        gBattlescriptCurrInstr = BattleScript_DisheartenInReverse;
+    }
+
+    if (ability)
+    {
+        // gLastUsedAbility = ability;
+        // gBattlerAbility = gBattlerTarget;
+        // PushTraitStack(gBattlerTarget, gLastUsedAbility);
+        RecordAbilityBattle(gBattlerTarget, gLastUsedAbility);
+    }
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_TryDisheartenEjectPack(void)
+{
+    NATIVE_ARGS();
+
+    u32 affectedBattler = 0xFF;
+    u32 battler = BATTLE_OPPOSITE(gBattlerAttacker);
+    u32 partnerBattler = BATTLE_PARTNER(battler);
+
+    bool32 ejectPackBattler = CanEjectPackTrigger(gBattlerAttacker, battler, MOVE_NONE);
+    bool32 ejectPackPartnerBattler = CanEjectPackTrigger(gBattlerAttacker, partnerBattler, MOVE_NONE);
+
+    if (ejectPackBattler && ejectPackPartnerBattler)
+    {
+        u32 battlerSpeed = GetBattlerTotalSpeedStat(battler);
+        u32 partnerbattlerSpeed = GetBattlerTotalSpeedStat(partnerBattler);
+
+        if (battlerSpeed >= partnerbattlerSpeed)
+            affectedBattler = battler;
+        else
+            affectedBattler = partnerBattler;
+    }
+    else if (ejectPackBattler)
+    {
+        affectedBattler = battler;
+    }
+    else if (ejectPackPartnerBattler)
+    {
+        affectedBattler = partnerBattler;
+    }
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (affectedBattler != 0xFF)
+    {
+        gProtectStructs[battler].statFell = FALSE;
+        gProtectStructs[partnerBattler].statFell = FALSE;
+        gAiLogicData->ejectPackSwitch = TRUE;
+        gBattleScripting.battler = affectedBattler;
+        gLastUsedItem = gBattleMons[affectedBattler].item;
+        RecordItemEffectBattle(affectedBattler, HOLD_EFFECT_EJECT_PACK);
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_EjectPackActivate_Ret;
+    }
+}
+
+void BS_SetDisplayAbility(void)
+{
+    NATIVE_ARGS(u16 ability);
+    gDisplayAbility = cmd->ability;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
