@@ -2558,5 +2558,28 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Lowers the foe's Sp.Attack."),
         .aiRating = 7,
     },
+    [ABILITY_FRIGID_BODY] =
+    {
+        .name = _("Frigid Body"),
+        .description = COMPOUND_STRING("Inflicts frostbite on contact."),
+        .aiRating = 4,
+    },
+    [ABILITY_RESILIENCE] =
+    {
+        .name = _("Resilience"),
+        .description = COMPOUND_STRING("Boosts Special Defense\nwhen hit."),
+        .aiRating = 7,
+    },
+    [ABILITY_WHITEOUT] =
+    {
+        .name = _("Whiteout"),
+        .description = COMPOUND_STRING("Ice moves deal 50% more\ndamage in Snow."),
+        .aiRating = 7,
+    },
+    [ABILITY_MENTAL_RESET] =
+    {
+        .name = _("Mental Reset"),
+        .description = COMPOUND_STRING("Rotating out resets regative\nstat changes."),
+        .aiRating = 7,
+    },
 };
-
