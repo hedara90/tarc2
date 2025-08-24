@@ -5273,12 +5273,65 @@ static bool32 TryDoGimmicksBeforeMoves(void)
     return FALSE;
 }
 
+static bool32 MentalResetShouldTrigger(void)
+{
+    if (gBattleStruct->startTurnSpecies == gLeftMon.species)
+    {
+        bool32 hasReducedStats = FALSE;
+        if (gLeftMon.ability == ABILITY_MENTAL_RESET || SpeciesHasInnate(gLeftMon.species, ABILITY_MENTAL_RESET, 0, TRUE))
+        {
+            for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            {
+                if (gLeftMon.statStages[i] < 6)
+                {
+                    hasReducedStats = TRUE;
+                    gLeftMon.statStages[i] = 6;
+                }
+            }
+        }
+
+        if (hasReducedStats)
+        {
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+            return TRUE;
+        }
+    }
+    else
+    {
+        bool32 hasReducedStats = FALSE;
+        if (gRightMon.ability == ABILITY_MENTAL_RESET || SpeciesHasInnate(gRightMon.species, ABILITY_MENTAL_RESET, 0, TRUE))
+        {
+            for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            {
+                if (gRightMon.statStages[i] < 6)
+                {
+                    hasReducedStats = TRUE;
+                    gRightMon.statStages[i] = 6;
+                }
+            }
+        }
+
+        if (hasReducedStats)
+        {
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 static bool32 TryDoMoveEffectsBeforeMoves(void)
 {
     if (!(gHitMarker & HITMARKER_RUN))
     {
         u32 i;
         u8 battlers[MAX_BATTLERS_COUNT];
+
+        if (!TESTING && !gBattleStruct->triggeredRotate && MentalResetShouldTrigger())
+        {
+            BattleScriptExecute(BattleScript_MentalReset);
+            return TRUE;
+        }
 
         if (!TESTING && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
         {

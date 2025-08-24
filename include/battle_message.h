@@ -125,7 +125,7 @@
 {                                                                           \
     textVar[0] = B_BUFF_PLACEHOLDER_BEGIN;                                  \
     textVar[1] = B_BUFF_ABILITY;                                            \
-    textVar[2] = abilityId;                                                 \
+    textVar[2] = abilityId & 0x00FF;                                        \
     textVar[3] = (abilityId & 0xFF00) >> 8;                                 \
     textVar[4] = B_BUFF_EOS;                                                \
 }

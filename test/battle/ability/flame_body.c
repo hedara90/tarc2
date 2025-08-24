@@ -94,3 +94,19 @@ SINGLE_BATTLE_TEST("INNATE: Flame Body triggers 30% of the time")
         STATUS_ICON(player, burn: TRUE);
     }
 }
+
+SINGLE_BATTLE_TEST("Flame Body triggers on user attacks")
+{
+    PASSES_RANDOMLY(3, 10, RNG_FLAME_BODY);
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_MAGMAR) { Ability(ABILITY_FLAME_BODY); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_FLAME_BODY);
+        ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_BRN, player);
+        MESSAGE("The opposing Magmar's Flame Body burned Wobbuffet!");
+        STATUS_ICON(player, burn: TRUE);
+    }
+}

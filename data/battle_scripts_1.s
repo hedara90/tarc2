@@ -10264,3 +10264,8 @@ BattleScript_DisheartenInReverse::
 	modifybattlerstatstage BS_TARGET, STAT_ATK, INCREASE, 1, BattleScript_DisheartenLoopIncrement, ANIM_ON
 	call BattleScript_TryDisheartenHoldEffects
 	goto BattleScript_DisheartenLoopIncrement
+
+BattleScript_MentalReset::
+	printstring STRINGID_MENTAL_RESET
+	waitmessage B_WAIT_TIME_LONG
+	end3
