@@ -1180,7 +1180,7 @@ void PrepareStringBattle(enum StringID stringId, u32 battler)
 
 
     // Check Defiant and Competitive stat raise whenever a stat is lowered.
-    else if ((stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_PKMNCUTSATTACKWITH)
+    else if ((stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_PKMNCUTSATTACKWITH || stringId == STRINGID_PKMNCUTSSPECIALATTACKWITH)
               && ((SearchTraits(battlerTraits, ABILITY_DEFIANT) && CompareStat(gBattlerTarget, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN))
                  || (SearchTraits(battlerTraits, ABILITY_COMPETITIVE) && CompareStat(gBattlerTarget, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN)))
               && !hasContrary
