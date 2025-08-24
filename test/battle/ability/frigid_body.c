@@ -94,3 +94,21 @@ SINGLE_BATTLE_TEST("INNATE: Frigid Body triggers 30% of the time")
         STATUS_ICON(player, frostbite: TRUE);
     }
 }
+
+SINGLE_BATTLE_TEST("Frigid Body triggers on user attacks")
+{
+    PASSES_RANDOMLY(3, 10, RNG_FRIGID_BODY);
+    GIVEN {
+        ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_4);
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_MAGMAR) { Ability(ABILITY_FRIGID_BODY); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_FRIGID_BODY);
+        ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_FRZ, player);
+        MESSAGE("The opposing Magmar's Frigid Body froze Wobbuffet!");
+        STATUS_ICON(player, frostbite: TRUE);
+    }
+}
