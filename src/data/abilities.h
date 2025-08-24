@@ -2576,4 +2576,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Ice moves deal 50% more\ndamage in Snow."),
         .aiRating = 7,
     },
+    [ABILITY_MENTAL_RESET] =
+    {
+        .name = _("Mental Reset"),
+        .description = COMPOUND_STRING("Rotating out resets regative\nstat changes."),
+        .aiRating = 7,
+    },
 };
