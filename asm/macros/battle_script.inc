@@ -2603,3 +2603,8 @@
 	.macro tryintdisheartenejectpack
 	callnative BS_TryDisheartenEjectPack
 	.endm
+
+	.macro setdisplayability, ability:req
+	callnative BS_SetDisplayAbility
+	.2byte \ability
+	.endm

@@ -19191,3 +19191,10 @@ void BS_TryDisheartenEjectPack(void)
         gBattlescriptCurrInstr = BattleScript_EjectPackActivate_Ret;
     }
 }
+
+void BS_SetDisplayAbility(void)
+{
+    NATIVE_ARGS(u16 ability);
+    gDisplayAbility = cmd->ability;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}

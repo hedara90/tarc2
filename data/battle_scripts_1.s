@@ -10203,7 +10203,7 @@ BattleScript_DisheartenActivates::
 .endif
 	setbyte gBattlerTarget, 0
 BattleScript_DisheartenLoop:
-	setbyte gDisplayAbility ABILITY_DISHEARTEN
+	setdisplayability ABILITY_DISHEARTEN
 	jumpifbyteequal gBattlerTarget, gBattlerAttacker, BattleScript_DisheartenLoopIncrement
 	jumpiftargetally BattleScript_DisheartenLoopIncrement
 	jumpifabsent BS_TARGET, BattleScript_DisheartenLoopIncrement
