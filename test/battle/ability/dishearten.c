@@ -1,11 +1,6 @@
 #include "global.h"
 #include "test/battle.h"
 
-ASSUMPTIONS
-{
-    ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
-}
-
 SINGLE_BATTLE_TEST("Dishearten (opponent) lowers player's attack after switch out", s16 damage)
 {
     u32 ability;
@@ -17,13 +12,13 @@ SINGLE_BATTLE_TEST("Dishearten (opponent) lowers player's attack after switch ou
         OPPONENT(SPECIES_ARBOK) { Ability(ability); }
     } WHEN {
         TURN { SWITCH(opponent, 1); }
-        TURN { MOVE(player, MOVE_SCRATCH); }
+        TURN { MOVE(player, MOVE_SWIFT); }
     } SCENE {
         if (ability == ABILITY_DISHEARTEN)
         {
             ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-            MESSAGE("The opposing Arbok's Intimidate cuts Wobbuffet's Attack!");
+            MESSAGE("The opposing Arbok's Dishearten cuts Wobbuffet's Special Attack!");
         }
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
@@ -41,15 +36,15 @@ SINGLE_BATTLE_TEST("Dishearten (opponent) lowers player's attack after KO", s16 
         OPPONENT(SPECIES_WOBBUFFET) { HP(1); Speed(1); }
         OPPONENT(SPECIES_ARBOK) { Ability(ability); Speed(1); }
     } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_SCRATCH); }
+        TURN { MOVE(player, MOVE_SWIFT); SEND_OUT(opponent, 1); }
+        TURN { MOVE(player, MOVE_SWIFT); }
     } SCENE {
         HP_BAR(opponent);
         if (ability == ABILITY_DISHEARTEN)
         {
             ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-            MESSAGE("The opposing Arbok's Intimidate cuts Wobbuffet's Attack!");
+            MESSAGE("The opposing Arbok's Dishearten cuts Wobbuffet's Special Attack!");
         }
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
@@ -89,18 +84,18 @@ DOUBLE_BATTLE_TEST("Dishearten doesn't activate on an empty field in a double ba
         }
         SEND_IN_MESSAGE("Abra");
         MESSAGE("2 sent out Wynaut!");
-        // Intimidate activates after all battlers have been brought out
+        // Dishearten activates after all battlers have been brought out
         ABILITY_POPUP(playerLeft, ABILITY_DISHEARTEN);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentLeft);
-        MESSAGE("Ekans's Intimidate cuts the opposing Arbok's Attack!");
+        MESSAGE("Ekans's Dishearten cuts the opposing Arbok's Special Attack!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentRight);
-        MESSAGE("Ekans's Intimidate cuts the opposing Wynaut's Attack!");
+        MESSAGE("Ekans's Dishearten cuts the opposing Wynaut's Special Attack!");
 
         ABILITY_POPUP(opponentLeft, ABILITY_DISHEARTEN);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
-        MESSAGE("The opposing Arbok's Intimidate cuts Ekans's Attack!");
+        MESSAGE("The opposing Arbok's Dishearten cuts Ekans's Special Attack!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
-        MESSAGE("The opposing Arbok's Intimidate cuts Abra's Attack!");
+        MESSAGE("The opposing Arbok's Dishearten cuts Abra's Special Attack!");
     }
 }
 
@@ -123,7 +118,7 @@ SINGLE_BATTLE_TEST("Dishearten and Eject Button don't force the opponent to Atta
         MESSAGE("The opposing Wobbuffet is switched out with the Eject Button!");
         MESSAGE("2 sent out Hitmontop!");
         ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
-        MESSAGE("The opposing Hitmontop's Intimidate cuts Wobbuffet's Attack!");
+        MESSAGE("The opposing Hitmontop's Dishearten cuts Wobbuffet's Special Attack!");
         NONE_OF {
             ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
             MESSAGE("The opposing Hitmontop used Scratch!");
@@ -161,10 +156,10 @@ DOUBLE_BATTLE_TEST("Dishearten activates on an empty slot")
         SEND_IN_MESSAGE("Hitmontop");
         ABILITY_POPUP(playerLeft, ABILITY_DISHEARTEN);
         NONE_OF {
-            MESSAGE("Hitmontop's Intimidate cuts the opposing Ralts's Attack!");
+            MESSAGE("Hitmontop's Dishearten cuts the opposing Ralts's Special Attack!");
         }
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentRight);
-        MESSAGE("Hitmontop's Intimidate cuts the opposing Azurill's Attack!");
+        MESSAGE("Hitmontop's Dishearten cuts the opposing Azurill's Special Attack!");
     }
 }
 
@@ -198,22 +193,22 @@ SINGLE_BATTLE_TEST("Dishearten can not further lower opponents Atk stat if it is
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_ARBOK) { Ability(ABILITY_DISHEARTEN); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_CHARM); }
-        TURN { MOVE(opponent, MOVE_CHARM); }
-        TURN { MOVE(opponent, MOVE_CHARM); }
+        TURN { MOVE(opponent, MOVE_EERIE_IMPULSE); }
+        TURN { MOVE(opponent, MOVE_EERIE_IMPULSE); }
+        TURN { MOVE(opponent, MOVE_EERIE_IMPULSE); }
         TURN { SWITCH(opponent, 1); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_CHARM, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_CHARM, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_CHARM, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EERIE_IMPULSE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EERIE_IMPULSE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EERIE_IMPULSE, opponent);
         ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
         NONE_OF {
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-            MESSAGE("The opposing Arbok's Intimidate cuts Wobbuffet's Attack!");
+            MESSAGE("The opposing Arbok's Dishearten cuts Wobbuffet's Special Attack!");
         }
-        MESSAGE("Wobbuffet's Attack won't go any lower!");
+        MESSAGE("Wobbuffet's Sp. Atk won't go any lower!");
     } THEN {
-        EXPECT_EQ(player->statStages[STAT_ATK], MIN_STAT_STAGE);
+        EXPECT_EQ(player->statStages[STAT_SPATK], MIN_STAT_STAGE);
     }
 }
 
