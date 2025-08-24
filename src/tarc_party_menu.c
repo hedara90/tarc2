@@ -1230,10 +1230,10 @@ static void TryMoveSelection(void)
                 return;
             }
             u32 storageIndex = 0;
-            while (gSaveBlock1Ptr->abilityStorage[storageIndex] != MOVE_NONE)
+            while (gSaveBlock1Ptr->abilityStorage[storageIndex] != ABILITY_NONE)
                 storageIndex++;
             gSaveBlock1Ptr->abilityStorage[storageIndex] = sTarcUiState->mons[activeMon].abilities[pos];
-            sTarcUiState->mons[activeMon].abilities[pos] = MOVE_NONE;
+            sTarcUiState->mons[activeMon].abilities[pos] = ABILITY_NONE;
         }
     }
     else
@@ -1379,6 +1379,7 @@ static void TarcUi_WriteMonData(void)
             if (sTarcUiState->mons[monIndex].abilities[abilityIndex] == ABILITY_NONE)
             {
                 gSaveBlock1Ptr->extraAbilities[monIndex][2 - removeCount] = ABILITY_NONE;
+                removeCount++;
                 continue;
             }
 
