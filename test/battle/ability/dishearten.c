@@ -371,7 +371,7 @@ DOUBLE_BATTLE_TEST("Dishearten will correctly decrease the attack of the second 
     }
 }
 
-SINGLE_BATTLE_TEST("Intimdate does not lose timing after mega evolution and switch out by a hit escape move")
+SINGLE_BATTLE_TEST("Dishearten does not lose timing after mega evolution and switch out by a hit escape move")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_U_TURN) == EFFECT_HIT_ESCAPE);
@@ -381,7 +381,7 @@ SINGLE_BATTLE_TEST("Intimdate does not lose timing after mega evolution and swit
     } WHEN {
         TURN { MOVE(opponent, MOVE_U_TURN, gimmick: GIMMICK_MEGA); SEND_OUT(opponent, 1); }
     } SCENE {
-        ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
+        ABILITY_POPUP(opponent, ABILITY_INTIMIDATE);
         ABILITY_POPUP(opponent, ABILITY_DISHEARTEN);
     }
 }
