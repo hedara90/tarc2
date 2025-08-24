@@ -2558,5 +2558,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Lowers the foe's Sp.Attack."),
         .aiRating = 7,
     },
+    [ABILITY_FRIGID_BODY] =
+    {
+        .name = _("Frigid Body"),
+        .description = COMPOUND_STRING("Inflicts frostbite on contact."),
+        .aiRating = 4,
+    },
 };
 
