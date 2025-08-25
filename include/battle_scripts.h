@@ -895,5 +895,6 @@ extern const u8 BattleScript_DisheartenInReverse[];
 extern const u8 BattleScript_MentalReset[];
 extern const u8 BattleScript_SentinelOut[];
 extern const u8 BattleScript_StaticBuildup[];
+extern const u8 BattleScript_HoarfrostActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

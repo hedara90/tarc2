@@ -10280,3 +10280,11 @@ BattleScript_StaticBuildup::
 	setcharge BS_ABILITY_BATTLER
 	waitanimation
 	end2
+
+BattleScript_HoarfrostActivates::
+	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND2
+	waitanimation
+	restoretarget
+	restoreattacker
+	updatestatusicon BS_TARGET
+	end2

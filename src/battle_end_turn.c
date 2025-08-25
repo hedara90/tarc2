@@ -197,6 +197,7 @@ static bool32 HandleEndTurnVarious(u32 battler)
 static bool32 HandleEndTurnWeather(u32 battler)
 {
     gBattleStruct->endTurnEventsCounter++;
+    gBattleStruct->isEndOfTurnWeather = TRUE;
     return EndOrContinueWeather();
 }
 
@@ -1840,6 +1841,7 @@ u32 DoEndTurnEffects(void)
         // Jump out if possible after endTurnEventsCounter was increased in the above code block
         if (gBattleStruct->endTurnEventsCounter == ENDTURN_COUNT)
         {
+            gBattleStruct->isEndOfTurnWeather = FALSE;
             gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
             return FALSE;
         }

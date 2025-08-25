@@ -3991,6 +3991,7 @@ static void TryDoEventsBeforeFirstTurn(void)
 static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
+    gBattleStruct->isEndOfTurnWeather = FALSE;
 
     //  Increment the AI turn counter
     if (gBattleStruct->skipIncrement)

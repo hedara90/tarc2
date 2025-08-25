@@ -2594,4 +2594,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Gains Charge at end of turn\nin Sandstorm."),
         .aiRating = 7,
     },
+    [ABILITY_HOARFROST] =
+    {
+        .name = _("Hoarfrost"),
+        .description = COMPOUND_STRING("Inflicts frostbite on the foe\nwhen it starts snowing."),
+        .aiRating = 7,
+    },
 };

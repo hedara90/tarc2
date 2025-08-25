@@ -5964,6 +5964,25 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
            BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
            effect++;
        }
+       if (gBattleWeather & B_WEATHER_SNOW
+        && !gDisableStructs[battler].weatherAbilityDone
+        && !gBattleStruct->isEndOfTurnWeather
+        && !(gBattleMons[(battler + 1) & 0x1].status1 & STATUS1_FROSTBITE)
+        && SearchTraits(battlerTraits, ABILITY_HOARFROST)
+        && CanBeFrozen((battler + 1) & 0x1, battler, GetBattlerAbility(battler)))
+       {
+           CreateAbilityPopUp(battler, ABILITY_HOARFROST, FALSE);
+           gDisableStructs[battler].weatherAbilityDone = TRUE;
+           gBattleScripting.battler = battler;
+           gBattlerTarget = (battler + 1) & 0x1;
+           gBattlerAttacker = battler;
+           PushTraitStack(battler, ABILITY_HOARFROST);
+           SetNonVolatileStatusCondition((battler + 1) & 0x1, MOVE_EFFECT_FREEZE_OR_FROSTBITE);
+           PushTraitStack(battler, ABILITY_HOARFROST);
+           BattleScriptPushCursor();
+           gBattlescriptCurrInstr = BattleScript_HoarfrostActivates;
+           effect++;
+       }
        break;
     case ABILITYEFFECT_ON_TERRAIN:  // For ability effects that activate when the field terrain changes.
         gLastUsedAbility = GetBattlerAbility(battler);

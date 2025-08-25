@@ -1025,5 +1025,6 @@ extern const u8 gBattleAnimGeneral_RessMon[];
 extern const u8 gBattleAnimMove_Frostwisp[];
 
 extern const u8 gBattleAnimMove_SomeSparks[];
+extern const u8 gBattleAnimMove_SomeSnow[];
 
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H

@@ -35218,3 +35218,16 @@ gBattleAnimMove_SomeSparks::
 	createvisualtask AnimTask_ShakeMon2, 2, ANIM_ATTACKER, 1, 0, 10, 1
 	call ElectricityEffect
 	end
+
+gBattleAnimMove_SomeSnow::
+	loadspritegfx ANIM_TAG_FROSTWISP_FLAKES
+	playsewithpan SE_M_HAIL, SOUND_PAN_TARGET
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 13, 1
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 0
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 42
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 84
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 126
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 168
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 210
+	waitforvisualfinish
+	end

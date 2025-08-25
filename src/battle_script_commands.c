@@ -1971,7 +1971,8 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     }
     else if (gStatuses3[battlerAtk] & STATUS3_LASER_FOCUS
           || MoveAlwaysCrits(move)
-          || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS) && gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY))
+          || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS) && gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY)
+          || (gBattleMons[gBattlerTarget].status1 & STATUS1_FROSTBITE && BattlerHasTrait(gBattlerAttacker, ABILITY_HOARFROST)))
     {
         critChance = CRITICAL_HIT_ALWAYS;
     }
@@ -6638,10 +6639,10 @@ static void Cmd_moveend(void)
         case MOVEEND_ABILITIES: // Such as abilities activating on contact(Poison Spore, Rough Skin, etc.).
             {
                 if (AbilityBattleEffects(ABILITYEFFECT_MOVE_END, gBattlerTarget, 0, 0, 0))
-                effect = TRUE;
-            else if (TryClearIllusion(gBattlerTarget, ABILITYEFFECT_MOVE_END))
                     effect = TRUE;
-            } 
+                else if (TryClearIllusion(gBattlerTarget, ABILITYEFFECT_MOVE_END))
+                    effect = TRUE;
+            }
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_ABILITIES_ATTACKER: // Poison Touch, possibly other in the future
