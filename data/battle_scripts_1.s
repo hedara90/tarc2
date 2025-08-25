@@ -10269,3 +10269,7 @@ BattleScript_MentalReset::
 	printstring STRINGID_MENTAL_RESET
 	waitmessage B_WAIT_TIME_LONG
 	end3
+
+BattleScript_SentinelOut::
+	callnative HandleSentinelOut
+	end2

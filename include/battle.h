@@ -801,6 +801,12 @@ struct BattleStruct
     u16 startTurnSpecies;
     struct BattlePokemon storedBattleMon;
     u32 intimidateCD:4;
+    u32 sentinelCD:4;
+    u32 hasCheckedSentinel:1;
+    u32 sentinelSide:1;
+    u32 shouldAnimateSentinel:1;
+    u32 shouldRemoveSentinel:1;
+    u32 sentinelState:29;
 };
 
 struct AiBattleData
