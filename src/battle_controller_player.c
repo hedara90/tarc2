@@ -867,46 +867,6 @@ static void TestThing(u32 battler)
     sMonSwitchState++;
 }
 
-static void SwitchActiveMonLeft(void)
-{
-    u32 *activeMon = (u32 *)(&gBattleMons[0]);
-    u32 *backMon = (u32 *)(&gLeftMon);
-    for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
-    {
-        u32 tempData = activeMon[i];
-        activeMon[i] = backMon[i];
-        backMon[i] = tempData;
-    }
-    activeMon = (u32 *)(&gPlayerParty[0]);
-    backMon = (u32 *)(&gPlayerParty[1]);
-    for (u32 i = 0; i < sizeof(struct Pokemon) / 4; i++)
-    {
-        u32 tempData = activeMon[i];
-        activeMon[i] = backMon[i];
-        backMon[i] = tempData;
-    }
-}
-
-static void SwitchActiveMonRight(void)
-{
-    u32 *activeMon = (u32 *)(&gBattleMons[0]);
-    u32 *backMon = (u32 *)(&gRightMon);
-    for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
-    {
-        u32 tempData = activeMon[i];
-        activeMon[i] = backMon[i];
-        backMon[i] = tempData;
-    }
-    activeMon = (u32 *)(&gPlayerParty[0]);
-    backMon = (u32 *)(&gPlayerParty[2]);
-    for (u32 i = 0; i < sizeof(struct Pokemon) / 4; i++)
-    {
-        u32 tempData = activeMon[i];
-        activeMon[i] = backMon[i];
-        backMon[i] = tempData;
-    }
-}
-
 void HandleInputChooseMove(u32 battler)
 {
     u16 moveTarget;

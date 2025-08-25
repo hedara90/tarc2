@@ -7687,6 +7687,17 @@ static void Cmd_moveend(void)
             }
             gBattleScripting.moveendState++;
             break;
+        case MOVEEND_SENTINEL:
+            if (gBattleStruct->shouldRemoveSentinel && gBattleStruct->sentinelState == 0)
+            {
+                gBattlescriptCurrInstr = BattleScript_SentinelOut;
+                effect = TRUE;
+            }
+            else
+            {
+                gBattleScripting.moveendState++;
+            }
+            break;
         case MOVEEND_COUNT:
             break;
         }
@@ -7700,6 +7711,34 @@ static void Cmd_moveend(void)
 
     if (gBattleScripting.moveendState == MOVEEND_COUNT && effect == FALSE)
         gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void HandleSentinelOut(void)
+{
+    NATIVE_ARGS();
+    if (gBattleStruct->shouldRemoveSentinel && gBattleStruct->sentinelState == 0)
+    {
+        gBattleStruct->shouldAnimateSentinel = TRUE;
+        gBattleStruct->sentinelState = 0;
+        if (gBattleStruct->sentinelSide == 1)
+            SwitchActiveMonRight();
+        else
+            SwitchActiveMonLeft();
+        AnimateSentinel();
+    }
+    else if (gBattleStruct->shouldAnimateSentinel)
+    {
+        AnimateSentinel();
+    }
+    else
+    {
+        gBattleStruct->hasCheckedSentinel = FALSE;
+        gBattleStruct->sentinelSide = 0;
+        gBattleStruct->shouldRemoveSentinel = FALSE;
+        gBattleStruct->sentinelState = 0;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        gBattleScripting.moveendState++;
+    }
 }
 
 static void Cmd_sethealblock(void)

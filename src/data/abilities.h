@@ -2582,4 +2582,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Rotating out resets regative\nstat changes."),
         .aiRating = 7,
     },
+    [ABILITY_SENTINEL] =
+    {
+        .name = _("Sentinel"),
+        .description = COMPOUND_STRING("Can intercept incoming hits."),
+        .aiRating = 7,
+    },
 };

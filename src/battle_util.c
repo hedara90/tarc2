@@ -9,7 +9,9 @@
 #include "battle_setup.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
+#include "decompress.h"
 #include "generational_changes.h"
+#include "palette.h"
 #include "party_menu.h"
 #include "pokemon.h"
 #include "international_string_util.h"
@@ -380,12 +382,143 @@ bool32 HandleMoveTargetRedirection(void)
     return FALSE;
 }
 
+bool32 SideMonHasSentinel(struct BattlePokemon *mon)
+{
+    u32 innate = SpeciesHasInnate(mon->species, ABILITY_SENTINEL, 0 , TRUE);
+    return innate || mon->ability == ABILITY_SENTINEL;
+}
+
+bool32 ShouldTriggerSentinel(u32 move)
+{
+    if (gBattleStruct->sentinelCD == 0)
+    {
+        bool32 leftHasSentinel = SideMonHasSentinel(&gLeftMon);
+        bool32 rightHasSentinel = SideMonHasSentinel(&gRightMon);
+        if (leftHasSentinel || rightHasSentinel)
+        {
+            uq4_12_t targetModifier = CalcTypeEffectivenessMultiplier(move, gMovesInfo[move].type, 1, 0, gBattleMons[0].ability, FALSE);
+            if (rightHasSentinel)
+            {
+                uq4_12_t rightModifier = CalcPartyMonTypeEffectivenessMultiplier(move, gRightMon.species, gRightMon.ability, &gPlayerParty[2]);
+                if (rightModifier < targetModifier)
+                {
+                    gBattleStruct->sentinelSide = 1;
+                    gSideMons.rightSwitch = TRUE;
+                    gSideMons.leftSwitch = FALSE;
+                }
+                else
+                {
+                    return FALSE;
+                }
+            }
+            else
+            {
+                uq4_12_t leftModifier = CalcPartyMonTypeEffectivenessMultiplier(move, gLeftMon.species, gLeftMon.ability, &gPlayerParty[1]);
+                if (leftModifier < targetModifier)
+                {
+                    gSideMons.rightSwitch = FALSE;
+                    gSideMons.leftSwitch = TRUE;
+                }
+                else
+                {
+                    return FALSE;
+                }
+            }
+
+            gBattleStruct->sentinelCD = TARC_SENTINEL_CD;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void AnimateSentinel(void)
+{
+    if (gBattleStruct->sentinelState < 20)
+    {
+        gSprites[gBattlerSpriteIds[0]].x2 -= 5;
+        gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 += 6;
+    }
+    else if (gBattleStruct->sentinelState < 21)
+    {
+        //  Switch mon sprirte
+        u16 *palette = (u16 *)(OBJ_PLTT);
+        const u16 *targetPalette;
+
+        if (GetMonData(&gPlayerParty[0], MON_DATA_IS_SHINY))
+            targetPalette = gSpeciesInfo[gBattleMons[0].species].shinyPalette;
+        else
+            targetPalette = gSpeciesInfo[gBattleMons[0].species].palette;
+
+        u32 *spriteTiles = (u32 *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[0]].oam.tileNum * TILE_SIZE_4BPP);
+        LZDecompressVram(gSpeciesInfo[gBattleMons[0].species].backPic, spriteTiles);
+
+        u32 *ptrTiles = (u32 *)gMonSpritesGfxPtr->spritesGfx[0];
+        for (u32 i = 0; i < 64 * 8; i++)
+        {
+            ptrTiles[i] = spriteTiles[i];
+        }
+
+        for (u32 i = 0; i < 16; i++)
+        {
+            palette[i] = targetPalette[i];
+            gPlttBufferUnfaded[OBJ_PLTT_ID(0) + i] = targetPalette[i];
+            gPlttBufferFaded[OBJ_PLTT_ID(0) + i] = targetPalette[i];
+        }
+
+        gSprites[gBattlerSpriteIds[0]].y = 80 + gSpeciesInfo[gBattleMons[0].species].backPicYOffset;
+
+    }
+    else if (gBattleStruct->sentinelState < 22)
+    {
+        //  Update healthbox
+        UpdateHealthboxAttribute(gHealthboxSpriteIds[0], GetBattlerMon(0), HEALTHBOX_ALL);
+    }
+    else if (gBattleStruct->sentinelState < 43)
+    {
+        gSprites[gBattlerSpriteIds[0]].x2 += 5;
+        gSprites[gBattleSpritesDataPtr->battleBars[0].healthboxSpriteId].x2 -= 6;
+    }
+    else
+    {
+        gBattleStruct->shouldAnimateSentinel = FALSE;
+        gBattleStruct->shouldRemoveSentinel = TRUE;
+        return;
+    }
+    gBattleStruct->sentinelState++;
+}
+
 // Functions
 void HandleAction_UseMove(void)
 {
     u32 i, moveTarget;
 
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
+    if (gBattlerAttacker == 1 && !gBattleStruct->hasCheckedSentinel)
+    {
+        gBattleStruct->hasCheckedSentinel = TRUE;
+        u32 move = gBattleMons[1].moves[gBattleStruct->chosenMovePositions[gBattlerAttacker]];
+        if (ShouldTriggerSentinel(move))
+        {
+            gBattleStruct->shouldAnimateSentinel = TRUE;
+            gBattleStruct->sentinelState = 0;
+            if (gBattleStruct->sentinelSide == 1)
+                SwitchActiveMonRight();
+            else
+                SwitchActiveMonLeft();
+            CreateAbilityPopUp(0, ABILITY_SENTINEL, FALSE);
+            gProtectStructs[0].endured = TRUE;
+        }
+        return;
+    }
+
+    if (gBattleStruct->shouldAnimateSentinel)
+    {
+        AnimateSentinel();
+        return;
+    }
+    gBattleStruct->sentinelState = 0;
+
     if (gBattleStruct->battlerState[gBattlerAttacker].absent
      || gBattleStruct->battlerState[gBattlerAttacker].commandingDondozo
      || !IsBattlerAlive(gBattlerAttacker))
@@ -12233,5 +12366,45 @@ void SetAbilityCD(u32 ability, u32 battler)
     case ABILITY_INTIMIDATE:
         gBattleStruct->intimidateCD = TARC_INTIMIDATE_CD;
         break;
+    }
+}
+
+void SwitchActiveMonLeft(void)
+{
+    u32 *activeMon = (u32 *)(&gBattleMons[0]);
+    u32 *backMon = (u32 *)(&gLeftMon);
+    for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+    {
+        u32 tempData = activeMon[i];
+        activeMon[i] = backMon[i];
+        backMon[i] = tempData;
+    }
+    activeMon = (u32 *)(&gPlayerParty[0]);
+    backMon = (u32 *)(&gPlayerParty[1]);
+    for (u32 i = 0; i < sizeof(struct Pokemon) / 4; i++)
+    {
+        u32 tempData = activeMon[i];
+        activeMon[i] = backMon[i];
+        backMon[i] = tempData;
+    }
+}
+
+void SwitchActiveMonRight(void)
+{
+    u32 *activeMon = (u32 *)(&gBattleMons[0]);
+    u32 *backMon = (u32 *)(&gRightMon);
+    for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+    {
+        u32 tempData = activeMon[i];
+        activeMon[i] = backMon[i];
+        backMon[i] = tempData;
+    }
+    activeMon = (u32 *)(&gPlayerParty[0]);
+    backMon = (u32 *)(&gPlayerParty[2]);
+    for (u32 i = 0; i < sizeof(struct Pokemon) / 4; i++)
+    {
+        u32 tempData = activeMon[i];
+        activeMon[i] = backMon[i];
+        backMon[i] = tempData;
     }
 }

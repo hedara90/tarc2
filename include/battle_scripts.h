@@ -893,5 +893,6 @@ extern const u8 BattleScript_DisheartenActivates[];
 extern const u8 BattleScript_DisheartenPrevented[];
 extern const u8 BattleScript_DisheartenInReverse[];
 extern const u8 BattleScript_MentalReset[];
+extern const u8 BattleScript_SentinelOut[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
