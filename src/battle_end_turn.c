@@ -1745,6 +1745,10 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
 
     if (gBattleStruct->intimidateCD > 0)
         gBattleStruct->intimidateCD--;
+    if (gBattleStruct->disheartenCD > 0)
+        gBattleStruct->disheartenCD--;
+    if (gBattleStruct->sentinelCD > 0)
+        gBattleStruct->sentinelCD--;
 
     return TRUE;
 }

@@ -12352,6 +12352,12 @@ bool32 IsAbilityOnCD(u32 ability, u32 battler)
     case ABILITY_INTIMIDATE:
         if (gBattleStruct->intimidateCD > 0)
             return TRUE;
+    case ABILITY_DISHEARTEN:
+        if (gBattleStruct->disheartenCD > 0)
+            return TRUE;
+    case ABILITY_SENTINEL:
+        if (gBattleStruct->sentinelCD > 0)
+            return TRUE;
     }
     return FALSE;
 }

@@ -801,6 +801,7 @@ struct BattleStruct
     u16 startTurnSpecies;
     struct BattlePokemon storedBattleMon;
     u32 intimidateCD:4;
+    u32 disheartenCD:4;
     u32 sentinelCD:4;
     u32 hasCheckedSentinel:1;
     u32 sentinelSide:1;
