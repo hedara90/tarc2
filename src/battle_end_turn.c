@@ -1608,6 +1608,7 @@ static bool32 HandleEndTurnAbilities(u32 battler)
     if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) &&SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
     {
         CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
+        SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
         gBattlerAttacker = 0;
         gBattlerTarget = 0;
         BattleScriptExecute(BattleScript_StaticBuildup);
@@ -1759,6 +1760,8 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
         gBattleStruct->disheartenCD--;
     if (gBattleStruct->sentinelCD > 0)
         gBattleStruct->sentinelCD--;
+    if (gBattleStruct->staticBuildupCD > 0)
+        gBattleStruct->staticBuildupCD--;
 
     return TRUE;
 }

@@ -425,7 +425,7 @@ bool32 ShouldTriggerSentinel(u32 move)
                 }
             }
 
-            gBattleStruct->sentinelCD = TARC_SENTINEL_CD;
+            SetAbilityCD(ABILITY_SENTINEL, 0);
             return TRUE;
         }
     }
@@ -12395,6 +12395,12 @@ void SetAbilityCD(u32 ability, u32 battler)
     {
     case ABILITY_INTIMIDATE:
         gBattleStruct->intimidateCD = TARC_INTIMIDATE_CD;
+        break;
+    case ABILITY_DISHEARTEN:
+        gBattleStruct->disheartenCD = TARC_DISHEARTEN_CD;
+        break;
+    case ABILITY_SENTINEL:
+        gBattleStruct->sentinelCD = TARC_SENTINEL_CD;
         break;
     case ABILITY_STATIC_BUILDUP:
         gBattleStruct->staticBuildupCD = TARC_STATIC_BUILDUP_CD;
