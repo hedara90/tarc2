@@ -3622,6 +3622,27 @@ static void BuildUncontainedBlazeStringBuffers(void)
     }
 }
 
+const u8 sAlliesString[] = _("allies'");
+
+static bool32 CheckHydrationTrigger(u32 battler)
+{
+    if (!TESTING && battler == 0)
+    {
+        bool32 hasStatus = (gBattleMons[battler].status1 & STATUS1_ANY) || (gLeftMon.status1 & STATUS1_ANY) || (gRightMon.status1 & STATUS1_ANY);
+        gLeftMon.status1 = 0;
+        gRightMon.status1 = 0;
+        u32 value = 0;
+        SetMonData(&gPlayerParty[1], MON_DATA_STATUS, &value);
+        SetMonData(&gPlayerParty[2], MON_DATA_STATUS, &value);
+        StringCopy(gBattleTextBuff1, sAlliesString);
+        return hasStatus;
+    }
+    else
+    {
+        return gBattleMons[battler].status1 & STATUS1_ANY;
+    }
+}
+
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
 {
     u32 effect = 0;
@@ -4490,7 +4511,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
             if (SearchTraits(battlerTraits, ABILITY_HYDRATION)
              && IsBattlerWeatherAffected(battler, B_WEATHER_RAIN)
-             && gBattleMons[battler].status1 & STATUS1_ANY)
+             && CheckHydrationTrigger(battler))
             {
                 PushTraitStack(battler, ABILITY_HYDRATION);
                 goto ABILITY_HEAL_MON_STATUS;
