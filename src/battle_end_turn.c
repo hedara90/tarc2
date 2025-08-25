@@ -1605,8 +1605,18 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         }
     }
 
+    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) &&SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
+    {
+        CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
+        gBattlerAttacker = 0;
+        gBattlerTarget = 0;
+        BattleScriptExecute(BattleScript_StaticBuildup);
+        effect = TRUE;
+    }
+
     if (!TESTING && battler == 0)
     {
+
         if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
         if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)

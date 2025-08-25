@@ -15,5 +15,6 @@
 
 #define TARC_INTIMIDATE_CD 4;
 #define TARC_SENTINEL_CD 4;
+#define TARC_STATIC_BUILDUP_CD 2
 
 #endif

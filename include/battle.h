@@ -803,6 +803,7 @@ struct BattleStruct
     u32 intimidateCD:4;
     u32 disheartenCD:4;
     u32 sentinelCD:4;
+    u32 staticBuildupCD:4;
     u32 hasCheckedSentinel:1;
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;

@@ -2588,4 +2588,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Can intercept incoming hits."),
         .aiRating = 7,
     },
+    [ABILITY_STATIC_BUILDUP] =
+    {
+        .name = _("Static Buildup"),
+        .description = COMPOUND_STRING("Gains Charge at end of turn\nin Sandstorm."),
+        .aiRating = 7,
+    },
 };

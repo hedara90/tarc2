@@ -35212,3 +35212,9 @@ gBattleAnimGeneral_RessMon::
 	createvisualtask SoundTask_PlayCryHighPitchSpecies, 2, SPECIES_HO_OH, 255
 	waitforvisualfinish
 	end
+
+gBattleAnimMove_SomeSparks::
+	loadspritegfx ANIM_TAG_SPARK_2
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_ATTACKER, 1, 0, 10, 1
+	call ElectricityEffect
+	end

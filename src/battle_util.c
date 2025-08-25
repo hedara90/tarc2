@@ -12379,6 +12379,9 @@ bool32 IsAbilityOnCD(u32 ability, u32 battler)
     case ABILITY_SENTINEL:
         if (gBattleStruct->sentinelCD > 0)
             return TRUE;
+    case ABILITY_STATIC_BUILDUP:
+        if (gBattleStruct->sentinelCD > 0)
+            return TRUE;
     }
     return FALSE;
 }
@@ -12392,6 +12395,9 @@ void SetAbilityCD(u32 ability, u32 battler)
     {
     case ABILITY_INTIMIDATE:
         gBattleStruct->intimidateCD = TARC_INTIMIDATE_CD;
+        break;
+    case ABILITY_STATIC_BUILDUP:
+        gBattleStruct->staticBuildupCD = TARC_STATIC_BUILDUP_CD;
         break;
     }
 }

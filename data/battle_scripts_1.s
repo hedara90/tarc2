@@ -10273,3 +10273,10 @@ BattleScript_MentalReset::
 BattleScript_SentinelOut::
 	callnative HandleSentinelOut
 	end2
+
+BattleScript_StaticBuildup::
+	printstring STRINGID_STATIC_BUILDUP
+	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
+	setcharge BS_ABILITY_BATTLER
+	waitanimation
+	end2
