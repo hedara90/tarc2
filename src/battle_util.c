@@ -507,6 +507,7 @@ void HandleAction_UseMove(void)
             else
                 SwitchActiveMonLeft();
             CreateAbilityPopUp(0, ABILITY_SENTINEL, FALSE);
+            gProtectStructs[0].endured = TRUE;
         }
         return;
     }
