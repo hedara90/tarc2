@@ -2600,4 +2600,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Inflicts frostbite on the foe\nwhen it starts snowing."),
         .aiRating = 7,
     },
+    [ABILITY_PHOTOSYNTHESIS] =
+    {
+        .name = _("Photosynthesis"),
+        .description = COMPOUND_STRING("Grass moves deal 50% more\ndamage in sun."),
+        .aiRating = 7,
+    },
 };

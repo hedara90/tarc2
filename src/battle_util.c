@@ -9812,6 +9812,8 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
 
     if (moveType == TYPE_ICE && weather == B_WEATHER_SNOW && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_WHITEOUT))
         return UQ_4_12(1.5);
+    if (moveType == TYPE_GRASS && (weather & B_WEATHER_SUN) && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_PHOTOSYNTHESIS))
+        return UQ_4_12(1.5);
 
     if (weather == B_WEATHER_NONE)
         return UQ_4_12(1.0);
