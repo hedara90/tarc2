@@ -2648,4 +2648,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Attacks twice after using\na dance move."),
         .aiRating = 5,
     },
+    [ABILITY_DREAD] =
+    {
+        .name = _("Dread"),
+        .description = COMPOUND_STRING("Psychic moves has a\nchance to paralyse."),
+        .aiRating = 5,
+    },
 };
