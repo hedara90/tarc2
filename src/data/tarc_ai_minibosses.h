@@ -1479,9 +1479,9 @@ const struct BossMoveList sStaraptor1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
+        MOVE_BRAVE_BIRD,
+        MOVE_CLOSE_COMBAT,
+        MOVE_DOUBLE_EDGE,
         MOVE_ROOST
     },
 };
@@ -1499,13 +1499,14 @@ const struct BossAi sStaraptorAi =
 
 const struct BossMoveList sRoserade1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_NASTY_PLOT,
+        MOVE_SLUDGE_BOMB,
+        MOVE_TOXIC,
+        MOVE_SHADOW_BALL
+        MOVE_LEAF_STORM,
     },
 };
 
