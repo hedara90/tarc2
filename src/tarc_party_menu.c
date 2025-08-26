@@ -153,7 +153,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define LIST_HEIGHT 10
 #define SELECT_WIDTH      8
 #define SELECT_HEIGHT     2
-#define INFO_WIDTH  19
+#define INFO_WIDTH  20
 #define INFO_HEIGHT 8
 #define SUB_WIDTH   19
 #define SUB_HEIGHT  2
@@ -261,7 +261,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_INFO] =
     {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 10,
         .tilemapTop = 4,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,

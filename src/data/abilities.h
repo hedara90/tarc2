@@ -2453,7 +2453,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_HEAT_EROSION] =
     {
         .name = _("Heat Erosion"),
-        .description = COMPOUND_STRING("Fire hits Ground and Rock super effective."),
+        .description = COMPOUND_STRING("Fire hits Ground and Rock\nsuper effective."),
         .aiRating = 8,
     },
     [ABILITY_SLEET_STORM] =
@@ -2465,7 +2465,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_THUNDERSTRIKE] =
     {
         .name = _("Thunderstrike"),
-        .description = COMPOUND_STRING("Thunder randomly strikes player."),
+        .description = COMPOUND_STRING("Thunder randomly strikes\nplayer."),
         .aiRating = 9,
     },
     [ABILITY_INFERNO] =
@@ -2561,7 +2561,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_FRIGID_BODY] =
     {
         .name = _("Frigid Body"),
-        .description = COMPOUND_STRING("Inflicts frostbite on contact."),
+        .description = COMPOUND_STRING("Inflicts frostbite on\ncontact."),
         .aiRating = 4,
     },
     [ABILITY_RESILIENCE] =
