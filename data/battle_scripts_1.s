@@ -10288,3 +10288,10 @@ BattleScript_HoarfrostActivates::
 	restoreattacker
 	updatestatusicon BS_TARGET
 	end2
+
+BattleScript_Sunrise::
+	setfieldweather BATTLE_WEATHER_SUN
+	playmoveanimation BS_ATTACKER, MOVE_SUNNY_DAY
+	waitanimation
+	call BattleScript_MoveWeatherChangeRet
+	goto BattleScript_MoveEnd

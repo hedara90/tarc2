@@ -2606,4 +2606,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Grass moves deal 50% more\ndamage in sun."),
         .aiRating = 7,
     },
+    [ABILITY_SUNRISE] =
+    {
+        .name = _("Sunrise"),
+        .description = COMPOUND_STRING("Using a fire-type move sets\nsun. User floats."),
+        .aiRating = 7,
+    },
 };

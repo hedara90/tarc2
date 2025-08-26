@@ -5613,6 +5613,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_WindsOfChange;
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
+         && SearchTraits(battlerTraits, ABILITY_SUNRISE)
+         && !(gBattleWeather & B_WEATHER_SUN))
+        {
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_SUNRISE, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_Sunrise;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
@@ -8613,6 +8622,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
     if (holdEffect == HOLD_EFFECT_AIR_BALLOON)
         return FALSE;
     if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_LEVITATE) : BattlerHasTrait(battler, ABILITY_LEVITATE))
+        return FALSE;
+    if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_SUNRISE) : BattlerHasTrait(battler, ABILITY_SUNRISE))
         return FALSE;
     if (IS_BATTLER_OF_TYPE(battler, TYPE_FLYING) && (!(checkInverse == INVERSE_BATTLE) || !FlagGet(B_FLAG_INVERSE_BATTLE)))
         return FALSE;
