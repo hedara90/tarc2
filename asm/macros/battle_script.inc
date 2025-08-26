@@ -2608,3 +2608,9 @@
 	callnative BS_SetDisplayAbility
 	.2byte \ability
 	.endm
+
+	.macro jumpiflunarcold battler:req, jumpInstr:req
+	callnative BS_JumpIfLunarCold
+	.byte \battler
+	.4byte \jumpInstr
+	.endm

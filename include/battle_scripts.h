@@ -894,5 +894,11 @@ extern const u8 BattleScript_DisheartenPrevented[];
 extern const u8 BattleScript_DisheartenInReverse[];
 extern const u8 BattleScript_MentalReset[];
 extern const u8 BattleScript_SentinelOut[];
+extern const u8 BattleScript_StaticBuildup[];
+extern const u8 BattleScript_HoarfrostActivates[];
+extern const u8 BattleScript_Sunrise[];
+extern const u8 BattleScript_LunarCold[];
+extern const u8 BattleScript_IcyVeinsActivates[];
+extern const u8 BattleScript_FloralGrowthActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -803,11 +803,14 @@ struct BattleStruct
     u32 intimidateCD:4;
     u32 disheartenCD:4;
     u32 sentinelCD:4;
+    u32 staticBuildupCD:4;
     u32 hasCheckedSentinel:1;
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:29;
+    u32 sentinelState:26;
+    u32 isEndOfTurnWeather:1;
+    u32 shouldTriggerSharedBurdens:1;
 };
 
 struct AiBattleData

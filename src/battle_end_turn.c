@@ -197,6 +197,7 @@ static bool32 HandleEndTurnVarious(u32 battler)
 static bool32 HandleEndTurnWeather(u32 battler)
 {
     gBattleStruct->endTurnEventsCounter++;
+    gBattleStruct->isEndOfTurnWeather = TRUE;
     return EndOrContinueWeather();
 }
 
@@ -243,7 +244,9 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER))
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN)
+         || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
+         || SearchTraits(battlerTraits, ABILITY_FLORAL_GROWTH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
@@ -274,7 +277,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY))
+        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY) || SearchTraits(battlerTraits, ABILITY_ICY_VEINS))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
@@ -1605,8 +1608,19 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         }
     }
 
+    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) &&SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
+    {
+        CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
+        SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
+        gBattlerAttacker = 0;
+        gBattlerTarget = 0;
+        BattleScriptExecute(BattleScript_StaticBuildup);
+        effect = TRUE;
+    }
+
     if (!TESTING && battler == 0)
     {
+
         if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
         if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
@@ -1749,6 +1763,8 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
         gBattleStruct->disheartenCD--;
     if (gBattleStruct->sentinelCD > 0)
         gBattleStruct->sentinelCD--;
+    if (gBattleStruct->staticBuildupCD > 0)
+        gBattleStruct->staticBuildupCD--;
 
     return TRUE;
 }
@@ -1827,6 +1843,7 @@ u32 DoEndTurnEffects(void)
         // Jump out if possible after endTurnEventsCounter was increased in the above code block
         if (gBattleStruct->endTurnEventsCounter == ENDTURN_COUNT)
         {
+            gBattleStruct->isEndOfTurnWeather = FALSE;
             gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
             return FALSE;
         }

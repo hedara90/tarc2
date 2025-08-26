@@ -1971,7 +1971,10 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     }
     else if (gStatuses3[battlerAtk] & STATUS3_LASER_FOCUS
           || MoveAlwaysCrits(move)
-          || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS) && gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY))
+          || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS)
+              && ((gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY)
+               || (gBattleMons[battlerDef].status1 & STATUS1_PARALYSIS)))
+          || (gBattleMons[gBattlerTarget].status1 & STATUS1_FROSTBITE && BattlerHasTrait(gBattlerAttacker, ABILITY_HOARFROST)))
     {
         critChance = CRITICAL_HIT_ALWAYS;
     }
@@ -6477,6 +6480,15 @@ static void Cmd_moveend(void)
         case MOVEEND_SUM_DAMAGE: // Sum and store damage dealt for multi strike recoil
             gBattleScripting.savedDmg += gBattleStruct->moveDamage[gBattlerTarget];
             gBattleScripting.moveendState++;
+            if (!TESTING && gBattleStruct->shouldTriggerSharedBurdens)
+            {
+                if (gLeftMon.hp > 0)
+                    DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, gBattleStruct->moveDamage[gBattlerTarget]);
+                if (gRightMon.hp > 0)
+                    DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, gBattleStruct->moveDamage[gBattlerTarget]);
+
+                gBattleStruct->shouldTriggerSharedBurdens = FALSE;
+            }
             break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
@@ -6638,10 +6650,10 @@ static void Cmd_moveend(void)
         case MOVEEND_ABILITIES: // Such as abilities activating on contact(Poison Spore, Rough Skin, etc.).
             {
                 if (AbilityBattleEffects(ABILITYEFFECT_MOVE_END, gBattlerTarget, 0, 0, 0))
-                effect = TRUE;
-            else if (TryClearIllusion(gBattlerTarget, ABILITYEFFECT_MOVE_END))
                     effect = TRUE;
-            } 
+                else if (TryClearIllusion(gBattlerTarget, ABILITYEFFECT_MOVE_END))
+                    effect = TRUE;
+            }
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_ABILITIES_ATTACKER: // Poison Touch, possibly other in the future
@@ -19236,4 +19248,25 @@ void BS_SetDisplayAbility(void)
     NATIVE_ARGS(u16 ability);
     gDisplayAbility = cmd->ability;
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_JumpIfLunarCold(void)
+{
+    NATIVE_ARGS(u8 battler, const u8 *jumpInstr);
+    u32 battler = GetBattlerForBattleScript(cmd->battler);
+
+    if (gBattleWeather & B_WEATHER_ANY)
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+
+    bool32 hasLunarCold = gBattleMons[battler].ability == ABILITY_LUNAR_COLD;
+    if (!hasLunarCold)
+        hasLunarCold = SpeciesHasInnate(gBattleMons[battler].species, ABILITY_LUNAR_COLD, 0, TRUE);
+
+    if (hasLunarCold)
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
 }

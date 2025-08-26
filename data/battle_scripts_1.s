@@ -3550,6 +3550,12 @@ BattleScript_PowerHerbActivation:
 	removeitem BS_ATTACKER
 	return
 
+BattleScript_LunarPowerActivation:
+	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
+	printstring STRINGID_POWERHERB
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_EffectTwoTurnsAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
@@ -3557,6 +3563,7 @@ BattleScript_EffectTwoTurnsAttack::
 	call BattleScript_FirstChargingTurn
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
+	jumpiflunarcold BS_ATTACKER, BattleScript_TwoTurnMovesSecondLunarColdActivates
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
@@ -3627,6 +3634,11 @@ BattleScript_FromTwoTurnMovesSecondTurnRet:
 	attackstring
 .endif
 	goto BattleScript_HitFromCritCalc
+
+BattleScript_TwoTurnMovesSecondLunarColdActivates:
+	call BattleScript_LunarPowerActivation
+	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
+	goto BattleScript_FromTwoTurnMovesSecondTurnRet
 
 BattleScript_TwoTurnMovesSecondTurn::
 	attackcanceler
@@ -7552,6 +7564,10 @@ BattleScript_SandRepairActivates::
 	call BattleScript_AbilityHpHeal
 	end3
 
+BattleScript_FloralGrowthActivates::
+	call BattleScript_AbilityHpHeal
+	end3
+
 BattleScript_CheekPouchActivates::
 	copybyte sSAVED_BATTLER, gBattlerAttacker
 	copybyte gBattlerAttacker, gBattlerAbility
@@ -10273,3 +10289,42 @@ BattleScript_MentalReset::
 BattleScript_SentinelOut::
 	callnative HandleSentinelOut
 	end2
+
+BattleScript_StaticBuildup::
+	printstring STRINGID_STATIC_BUILDUP
+	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
+	setcharge BS_ABILITY_BATTLER
+	waitanimation
+	end2
+
+BattleScript_HoarfrostActivates::
+	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND2
+	waitanimation
+	restoretarget
+	restoreattacker
+	updatestatusicon BS_TARGET
+	end2
+
+BattleScript_Sunrise::
+	setfieldweather BATTLE_WEATHER_SUN
+	playmoveanimation BS_ATTACKER, MOVE_SUNNY_DAY
+	waitanimation
+	call BattleScript_MoveWeatherChangeRet
+	goto BattleScript_MoveEnd
+
+BattleScript_LunarCold::
+	setfieldweather BATTLE_WEATHER_SNOW
+	playmoveanimation BS_ATTACKER, MOVE_SNOWSCAPE
+	waitanimation
+	call BattleScript_MoveWeatherChangeRet
+	goto BattleScript_MoveEnd
+
+BattleScript_IcyVeinsActivates::
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	call BattleScript_AbilityPopUp
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	printstring STRINGID_ICYVEINSHPDROP
+	waitmessage B_WAIT_TIME_LONG
+	tryfaintmon BS_ATTACKER
+	end3
