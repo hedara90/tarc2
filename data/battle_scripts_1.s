@@ -10314,3 +10314,13 @@ BattleScript_LunarCold::
 	waitanimation
 	call BattleScript_MoveWeatherChangeRet
 	goto BattleScript_MoveEnd
+
+BattleScript_IcyVeinsActivates::
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	call BattleScript_AbilityPopUp
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	printstring STRINGID_ICYVEINSHPDROP
+	waitmessage B_WAIT_TIME_LONG
+	tryfaintmon BS_ATTACKER
+	end3

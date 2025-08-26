@@ -4628,6 +4628,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                         gBattleStruct->moveDamage[battler] = 1;
                     effect++;
             }
+            if (SearchTraits(battlerTraits, ABILITY_ICY_VEINS)
+             && IsBattlerWeatherAffected(battler, B_WEATHER_SNOW))
+            {
+                PushTraitStack(battler, ABILITY_SOLAR_POWER);
+                BattleScriptPushCursorAndCallback(BattleScript_IcyVeinsActivates);
+                gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 8;
+                if (gBattleStruct->moveDamage[battler] == 0)
+                    gBattleStruct->moveDamage[battler] = 1;
+                effect++;
+            }
             if (SearchTraits(battlerTraits, ABILITY_HEALER))
             {
                 gBattleScripting.battler = BATTLE_PARTNER(battler);
@@ -9474,6 +9484,9 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(0.5));
     if (SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
      && IsBattleMoveSpecial(move) && IsBattlerWeatherAffected(battlerAtk, B_WEATHER_SUN))
+        modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+    if (SearchTraits(battlerTraits, ABILITY_ICY_VEINS)
+     && IsBattleMoveSpecial(move) && IsBattlerWeatherAffected(battlerAtk, B_WEATHER_SNOW))
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_DEFEATIST)
      && gBattleMons[battlerAtk].hp <= (gBattleMons[battlerAtk].maxHP / 2))

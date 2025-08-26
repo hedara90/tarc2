@@ -918,6 +918,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_MENTAL_RESET]                         = COMPOUND_STRING("{B_BUFF1}'s fallen stats were restored!"),
     [STRINGID_STATIC_BUILDUP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was charged by the swirling sand!"),
     [STRINGID_LUNAR_COLD]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} became fully charged due to the lunar light!"),
+    [STRINGID_ICYVEINSHPDROP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} takes its toll!"), //don't think this message is displayed anymore
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

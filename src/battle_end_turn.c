@@ -275,7 +275,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY))
+        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY) || SearchTraits(battlerTraits, ABILITY_ICY_VEINS))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
