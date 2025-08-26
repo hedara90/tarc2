@@ -2654,4 +2654,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Psychic moves has a\nchance to paralyse."),
         .aiRating = 5,
     },
+    [ABILITY_WILLPOWER] =
+    {
+        .name = _("Willpower"),
+        .description = COMPOUND_STRING("Physical attacks raise\nSpAtk, special attacks\nraise Attack."),
+        .aiRating = 5,
+    },
 };
