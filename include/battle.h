@@ -808,9 +808,10 @@ struct BattleStruct
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:26;
+    u32 sentinelState:20;
     u32 isEndOfTurnWeather:1;
     u32 shouldTriggerSharedBurdens:1;
+    u32 empathCounter:6;
 };
 
 struct AiBattleData

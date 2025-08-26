@@ -900,5 +900,6 @@ extern const u8 BattleScript_Sunrise[];
 extern const u8 BattleScript_LunarCold[];
 extern const u8 BattleScript_IcyVeinsActivates[];
 extern const u8 BattleScript_FloralGrowthActivates[];
+extern const u8 BattleScript_Empath[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

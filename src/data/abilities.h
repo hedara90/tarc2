@@ -2660,4 +2660,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Physical attacks raise\nSpAtk, special attacks\nraise Attack."),
         .aiRating = 5,
     },
+    [ABILITY_EMPATH] =
+    {
+        .name = _("Empath"),
+        .description = COMPOUND_STRING("Heals at end of turn for\nech stat boost on turn."),
+        .aiRating = 5,
+    },
 };

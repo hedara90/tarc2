@@ -12702,6 +12702,7 @@ static u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr
     }
     else // stat increase
     {
+        gBattleStruct->empathCounter++;
         statValue = GET_STAT_BUFF_VALUE(statValue);
         if (gBattleMons[battler].statStages[statId] == 11)
             statValue = 1;

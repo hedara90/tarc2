@@ -1608,13 +1608,21 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         }
     }
 
-    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) &&SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
+    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) && SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
     {
         CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
         SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
-        gBattlerAttacker = 0;
-        gBattlerTarget = 0;
+        gBattlerAttacker = battler;
+        gBattlerTarget = battler;
         BattleScriptExecute(BattleScript_StaticBuildup);
+        effect = TRUE;
+    }
+
+    if (gBattleStruct->empathCounter > 0 && SearchTraits(battlerTraits, ABILITY_EMPATH))
+    {
+        CreateAbilityPopUp(battler, ABILITY_EMPATH, FALSE);
+        gBattleStruct->moveDamage[battler] = -gBattleStruct->empathCounter * GetNonDynamaxMaxHP(battler) / TARC_EMPATH_HP_FRACTION;
+        BattleScriptExecute(BattleScript_Empath);
         effect = TRUE;
     }
 
