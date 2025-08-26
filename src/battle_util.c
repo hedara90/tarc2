@@ -9594,6 +9594,12 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
             RecordAbilityBattle(battlerDef, ABILITY_THICK_FAT);
     }
 
+    // side mon's abilities
+    if (!TESTING && ((SideMonHasAbility(&gLeftMon, ABILITY_PHALANX) && gLeftMon.hp > 0)
+                  || (SideMonHasAbility(&gRightMon, ABILITY_PHALANX) && gRightMon.hp > 0)))
+    {
+        modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(TARC_PHALANX_REDUCTION));
+    }
 
     // ally's abilities
     if (IsBattlerAlive(BATTLE_PARTNER(battlerAtk)))
@@ -12516,4 +12522,15 @@ void SwitchActiveMonRight(void)
         activeMon[i] = backMon[i];
         backMon[i] = tempData;
     }
+}
+
+bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability)
+{
+    if (mon->ability == ability)
+        return TRUE;
+
+    if (SpeciesHasInnate(mon->species, ability, 0, TRUE))
+        return TRUE;
+
+    return FALSE;
 }

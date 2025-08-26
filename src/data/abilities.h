@@ -2624,6 +2624,12 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Powers up in snow"),
         .aiRating = 7,
     },
+    [ABILITY_PHALANX] =
+    {
+        .name = _("Phalanx"),
+        .description = COMPOUND_STRING("Calls rain if hit."),
+        .aiRating = 5,
+    },
     [ABILITY_FLORAL_GROWTH] =
     {
         .name = _("Floral Growth"),
