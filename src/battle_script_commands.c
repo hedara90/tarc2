@@ -1274,11 +1274,14 @@ static void Cmd_attackcanceler(void)
         return;
 
     if (gSpecialStatuses[gBattlerAttacker].parentalBondState == PARENTAL_BOND_OFF
-     && BattlerHasTrait(gBattlerAttacker, ABILITY_PARENTAL_BOND)
+     && (BattlerHasTrait(gBattlerAttacker, ABILITY_PARENTAL_BOND) || (BattlerHasTrait(gBattlerAttacker, ABILITY_TANGO) && gBattleMons[gBattlerAttacker].danced))
      && IsMoveAffectedByParentalBond(gCurrentMove, gBattlerAttacker)
      && !(gAbsentBattlerFlags & (1u << gBattlerTarget))
      && GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE)
     {
+        if (gBattleMons[gBattlerAttacker].danced)
+            gBattleMons[gBattlerAttacker].danced = FALSE;
+
         gSpecialStatuses[gBattlerAttacker].parentalBondState = PARENTAL_BOND_1ST_HIT;
         gMultiHitCounter = 2;
         PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)

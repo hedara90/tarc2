@@ -348,6 +348,7 @@ struct BattlePokemon
     /*0x5A*/ bool8 isShiny;
     u8 turnsInBack;
     u8 numOverrides;
+    bool8 danced;
     u8 moveCD[4];
 };
 

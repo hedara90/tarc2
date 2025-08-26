@@ -6373,6 +6373,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_RainDance,
         .validApprenticeMove = TRUE,
+        .danceMove = TRUE,
     },
 
     [MOVE_SUNNY_DAY] =

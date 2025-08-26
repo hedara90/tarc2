@@ -5445,6 +5445,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
     case ABILITYEFFECT_MOVE_END_ATTACKER: // Same as above, but for attacker
         STORE_BATTLER_TRAITS(gBattlerAttacker);
 
+        if (SearchTraits(battlerTraits, ABILITY_TANGO) && gMovesInfo[gCurrentMove].danceMove)
+            gBattleMons[gBattlerAttacker].danced = TRUE;
+
         if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH)
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && IsBattlerAlive(gBattlerTarget)
