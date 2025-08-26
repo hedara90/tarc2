@@ -7564,6 +7564,10 @@ BattleScript_SandRepairActivates::
 	call BattleScript_AbilityHpHeal
 	end3
 
+BattleScript_FloralGrowthActivates::
+	call BattleScript_AbilityHpHeal
+	end3
+
 BattleScript_CheekPouchActivates::
 	copybyte sSAVED_BATTLER, gBattlerAttacker
 	copybyte gBattlerAttacker, gBattlerAbility

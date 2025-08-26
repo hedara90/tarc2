@@ -244,7 +244,9 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER))
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN)
+         || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
+         || SearchTraits(battlerTraits, ABILITY_FLORAL_GROWTH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
