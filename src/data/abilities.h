@@ -2666,4 +2666,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Heals at end of turn for\nech stat boost on turn."),
         .aiRating = 5,
     },
+    [ABILITY_MENTAL_BLOCK] =
+    {
+        .name = _("Mental Block"),
+        .description = COMPOUND_STRING("Raises Sp.Def after\nusing a status move."),
+        .aiRating = 5,
+    },
 };

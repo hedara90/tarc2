@@ -5685,6 +5685,19 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_WindsOfChange;
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && SearchTraits(battlerTraits, ABILITY_MENTAL_BLOCK))
+        {
+            if (gBattleMons[gBattlerAttacker].statStages[STAT_SPDEF] < 12)
+            {
+                u32 statToBoost = STAT_SPDEF;
+                SET_STATCHANGER(statToBoost, 1, FALSE);
+                BattleScriptPushCursor();
+                CreateAbilityPopUp(gBattlerAttacker, ABILITY_MENTAL_BLOCK, FALSE);
+                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                effect++;
+            }
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
