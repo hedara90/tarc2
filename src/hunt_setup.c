@@ -160,6 +160,11 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
 
     for (u32 i = 0; i < 9; i++)
         gSaveBlock1Ptr->abilityStorage[i] = ABILITY_NONE;
+
+    for (u32 i = 0; i < 3; i++)
+        for (u32 j = 0; j < 3; j++)
+            gSaveBlock1Ptr->extraAbilities[i][j] = ABILITY_NONE;
+
 }
 
 static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
@@ -229,6 +234,10 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
         moves[i] = pool->mons[index2].moves[i];
     }
     ScriptGiveMonParameterized(0, 2, pool->mons[index2].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+
+    gSaveBlock1Ptr->playerSpecies[0] = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+    gSaveBlock1Ptr->playerSpecies[1] = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+    gSaveBlock1Ptr->playerSpecies[2] = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
 }
 
 void SetupPlayerMons(enum PlayerMonList monList, rng_value_t *localRngState)
@@ -266,32 +275,24 @@ struct BossSelect
 
 EWRAM_DATA struct BossSelect sBossSelect;
 
-void Task_ShortWait(u8 taskId)
+void CheckBossStatus(struct ScriptContext *ctx)
 {
-    if (gTasks[taskId].data[0] == 0)
+    u32 area = ScriptReadByte(ctx) - 1;
+
+    if (gSaveBlock1Ptr->huntTargets.bossesDefeated[area])
     {
-        gTasks[taskId].data[0]++;
+        gSpecialVar_Result = TRUE;
+        StringCopy(gStringVar1, gSpeciesInfo[gSaveBlock1Ptr->huntTargets.bossesDefeated[area]].speciesName);
     }
     else
     {
         gSpecialVar_Result = FALSE;
-        DestroyTask(taskId);
-        ScriptContext_Enable();
     }
 }
 
 void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
     u32 area = ScriptReadByte(ctx) - 1;
-
-    if (gSaveBlock1Ptr->huntTargets.bossesDefeated[area])
-    {
-        //  This is apparently needed
-        StringCopy(gStringVar1, gSpeciesInfo[gSaveBlock1Ptr->huntTargets.bossesDefeated[area]].speciesName);
-        u32 tempId = CreateTask(Task_ShortWait, 0);
-        gTasks[tempId].data[0] = 0;
-        return;
-    }
 
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
     gSaveBlock1Ptr->huntTargets.currentArea = area;

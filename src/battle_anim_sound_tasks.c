@@ -131,6 +131,19 @@ static void SoundTask_LoopSEAdjustPanning_Step(u8 taskId)
     }
 }
 
+void SoundTask_PlayCryHighPitchSpecies(u8 taskId)
+{
+    u16 species = 0;
+    s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
+
+    species = gBattleAnimArgs[0];
+
+    if (species != SPECIES_NONE)
+        PlayCry_ByMode(species, pan, CRY_MODE_HIGH_PITCH);
+
+    DestroyAnimVisualTask(taskId);
+}
+
 void SoundTask_PlayCryHighPitch(u8 taskId)
 {
     u16 species = 0;

@@ -414,5 +414,12 @@ void UpdateBacklineTurns(void);
 u32 GetMoveCD(enum TarcPlayerIndex battler, u32 movePos);
 void ReduceCD(enum TarcPlayerIndex battler, u32 movePos);
 void DamageBackline(enum TarcPlayerIndex side, enum DamageMethod method, u32 value);
+bool32 IsAbilityOnCD(u32 ability, u32 battler);
+void SetAbilityCD(u32 ability, u32 battler);
+bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability);
+
+void SwitchActiveMonLeft(void);
+void SwitchActiveMonRight(void);
+void AnimateSentinel(void);
 
 #endif // GUARD_BATTLE_UTIL_H

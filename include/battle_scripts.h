@@ -537,6 +537,8 @@ extern const u8 BattleScript_PrintAbilityMadeIneffective[];
 
 //New abilities
 extern const u8 BattleScript_CloudburstActivates[];
+extern const u8 BattleScript_MaelstromActivatesMoveEnd[];
+extern const u8 BattleScript_SandRepairActivates[];
 
 // zmoves
 extern const u8 BattleScript_ZMoveActivateDamaging[];
@@ -882,5 +884,21 @@ extern const u8 BattleScript_ThunderstrikeActive[];
 extern const u8 BattleScript_ThunderstrikeLeft[];
 extern const u8 BattleScript_ThunderstrikeRight[];
 extern const u8 BattleScript_CooldownOverride[];
+extern const u8 BattleScript_RessMon[];
+extern const u8 BattleScript_CloudwalkerTrigger[];
+extern const u8 BattleScript_TriggerTailwind[];
+extern const u8 BattleScript_UncontainedBlaze[];
+extern const u8 BattleScript_WindsOfChange[];
+extern const u8 BattleScript_DisheartenActivates[];
+extern const u8 BattleScript_DisheartenPrevented[];
+extern const u8 BattleScript_DisheartenInReverse[];
+extern const u8 BattleScript_MentalReset[];
+extern const u8 BattleScript_SentinelOut[];
+extern const u8 BattleScript_StaticBuildup[];
+extern const u8 BattleScript_HoarfrostActivates[];
+extern const u8 BattleScript_Sunrise[];
+extern const u8 BattleScript_LunarCold[];
+extern const u8 BattleScript_IcyVeinsActivates[];
+extern const u8 BattleScript_FloralGrowthActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

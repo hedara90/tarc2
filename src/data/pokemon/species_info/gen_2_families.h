@@ -7880,6 +7880,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .levelUpLearnset = sRaikouLevelUpLearnset,
         .teachableLearnset = sRaikouTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_RISING_THUNDER,
     },
 #endif //P_FAMILY_RAIKOU
 
@@ -7962,6 +7963,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .levelUpLearnset = sEnteiLevelUpLearnset,
         .teachableLearnset = sEnteiTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_RISING_FLAMES,
     },
 #endif //P_FAMILY_ENTEI
 
@@ -8044,6 +8046,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .levelUpLearnset = sSuicuneLevelUpLearnset,
         .teachableLearnset = sSuicuneTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_RISING_TIDE,
     },
 #endif //P_FAMILY_SUICUNE
 

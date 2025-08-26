@@ -1467,7 +1467,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_MERCILESS] =
     {
         .name = _("Merciless"),
-        .description = COMPOUND_STRING("Criticals poisoned foes."),
+        .description = COMPOUND_STRING("Criticals poisoned or\nparalysed foes."),
         .aiRating = 4,
     },
 
@@ -2453,25 +2453,193 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_HEAT_EROSION] =
     {
         .name = _("Heat Erosion"),
-        .description = COMPOUND_STRING("Fire hits Ground and Rock super effective."),
+        .description = COMPOUND_STRING("Fire hits Ground and Rock\nsuper effective."),
         .aiRating = 8,
     },
-    [ABILITY_HAILSTONE_FALL] =
+    [ABILITY_SLEET_STORM] =
     {
-        .name = _("Hailstone Fall"),
+        .name = _("Sleet Storm"),
         .description = COMPOUND_STRING("Hail damages player side."),
         .aiRating = 9,
     },
     [ABILITY_THUNDERSTRIKE] =
     {
         .name = _("Thunderstrike"),
-        .description = COMPOUND_STRING("Thunder randomly strikes player."),
+        .description = COMPOUND_STRING("Thunder randomly strikes\nplayer."),
         .aiRating = 9,
     },
-    [ABILITY_FLAMES_EMBRACE] =
+    [ABILITY_INFERNO] =
     {
-        .name = _("Flame's Embrace"),
+        .name = _("Inferno"),
         .description = COMPOUND_STRING("Flames harm the player"),
         .aiRating = 9,
+    },
+    [ABILITY_RISING_THUNDER] =
+    {
+        .name = _("Rising Thunder"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
+    [ABILITY_RISING_FLAMES] =
+    {
+        .name = _("Rising Flames"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
+    [ABILITY_RISING_TIDE] =
+    {
+        .name = _("Rising Ride"),
+        .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Fire type."),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_RAIN] =
+    {
+        .name = _("Essence of Rain"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Rain is active."),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SUN] =
+    {
+        .name = _("Essence of Sun"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Sun is active."),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SNOW] =
+    {
+        .name = _("Essence of Snow"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Snow is active."),
+        .aiRating = 9,
+    },
+    [ABILITY_ESSENCE_OF_SAND] =
+    {
+        .name = _("Essence of Sand"),
+        .description = COMPOUND_STRING("Treats the user's actions\nas if Sand is active."),
+        .aiRating = 9,
+    },
+    [ABILITY_CLOUDWALKER] =
+    {
+        .name = _("Cloudwalker"),
+        .description = COMPOUND_STRING("Using a wind move grants\nlevitate for 2 turns."),
+        .aiRating = 9,
+    },
+    [ABILITY_SPARKING_ZEPHYR] =
+    {
+        .name = _("Sparking Zephyr"),
+        .description = COMPOUND_STRING("Using an electric move sets\nTailwind."),
+        .aiRating = 9,
+    },
+    [ABILITY_UNCONTAINED_BLAZE] =
+    {
+        .name = _("Uncontained Blaze"),
+        .description = COMPOUND_STRING("Fire moves also hurt inactive\nbattlers."),
+        .aiRating = 9,
+    },
+    [ABILITY_WINDS_OF_CHANGE] =
+    {
+        .name = _("Winds of Change"),
+        .description = COMPOUND_STRING("Using a wind move also raises\na random stat."),
+        .aiRating = 9,
+    },
+    [ABILITY_MAELSTROM] =
+    {
+        .name = _("Maelstrom"),
+        .description = COMPOUND_STRING("Ups Special Attack\nif hit by wind."),
+        .aiRating = 9,
+    },
+    [ABILITY_SAND_REPAIR] =
+    {
+        .name = _("Sand Repair"),
+        .description = COMPOUND_STRING("Recovers HP during\nsandstorms."),
+        .aiRating = 9,
+    },
+    [ABILITY_DISHEARTEN] =
+    {
+        .name = _("Dishearten"),
+        .description = COMPOUND_STRING("Lowers the foe's Sp.Attack."),
+        .aiRating = 7,
+    },
+    [ABILITY_FRIGID_BODY] =
+    {
+        .name = _("Frigid Body"),
+        .description = COMPOUND_STRING("Inflicts frostbite on\ncontact."),
+        .aiRating = 4,
+    },
+    [ABILITY_RESILIENCE] =
+    {
+        .name = _("Resilience"),
+        .description = COMPOUND_STRING("Boosts Special Defense\nwhen hit."),
+        .aiRating = 7,
+    },
+    [ABILITY_WHITEOUT] =
+    {
+        .name = _("Whiteout"),
+        .description = COMPOUND_STRING("Ice moves deal 50% more\ndamage in Snow."),
+        .aiRating = 7,
+    },
+    [ABILITY_MENTAL_RESET] =
+    {
+        .name = _("Mental Reset"),
+        .description = COMPOUND_STRING("Rotating out resets regative\nstat changes."),
+        .aiRating = 7,
+    },
+    [ABILITY_SENTINEL] =
+    {
+        .name = _("Sentinel"),
+        .description = COMPOUND_STRING("Can intercept incoming hits."),
+        .aiRating = 7,
+    },
+    [ABILITY_STATIC_BUILDUP] =
+    {
+        .name = _("Static Buildup"),
+        .description = COMPOUND_STRING("Gains Charge at end of turn\nin Sandstorm."),
+        .aiRating = 7,
+    },
+    [ABILITY_HOARFROST] =
+    {
+        .name = _("Hoarfrost"),
+        .description = COMPOUND_STRING("Inflicts frostbite on the foe\nwhen it starts snowing."),
+        .aiRating = 7,
+    },
+    [ABILITY_PHOTOSYNTHESIS] =
+    {
+        .name = _("Photosynthesis"),
+        .description = COMPOUND_STRING("Grass moves deal 50% more\ndamage in sun."),
+        .aiRating = 7,
+    },
+    [ABILITY_SUNRISE] =
+    {
+        .name = _("Sunrise"),
+        .description = COMPOUND_STRING("Using a fire-type move sets\nsun. User floats."),
+        .aiRating = 7,
+    },
+    [ABILITY_LUNAR_COLD] =
+    {
+        .name = _("Lunar Cold"),
+        .description = COMPOUND_STRING("Skips charge turns in clear\nskies. Sets snow after\ntwo-turn moves. User floats."),
+        .aiRating = 7,
+    },
+    [ABILITY_ICY_VEINS] =
+    {
+        .name = _("Icy Veins"),
+        .description = COMPOUND_STRING("Powers up in snow"),
+        .aiRating = 7,
+    },
+    [ABILITY_PHALANX] =
+    {
+        .name = _("Phalanx"),
+        .description = COMPOUND_STRING("Calls rain if hit."),
+        .aiRating = 5,
+    },
+    [ABILITY_FLORAL_GROWTH] =
+    {
+        .name = _("Floral Growth"),
+        .description = COMPOUND_STRING("Recovers HP in Sun."),
+        .aiRating = 5,
+    },
+    [ABILITY_SHARED_BURDENS] =
+    {
+        .name = _("Shared Burdens"),
+        .description = COMPOUND_STRING("Damage taken is split\nbetween entire party."),
+        .aiRating = 5,
     },
 };

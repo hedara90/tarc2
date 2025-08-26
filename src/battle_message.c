@@ -211,6 +211,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNENERGYDRAINED]                    = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} had its energy drained!"),
     [STRINGID_PKMNWASBURNED]                        = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} was burned!"),
     [STRINGID_PKMNBURNEDBY]                         = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_BUFF1} burned {B_EFF_NAME_WITH_PREFIX2}!"), //not in gen 5+, ability popup
+    [STRINGID_PKMNFROSTBITBY]                       = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_BUFF1} froze {B_EFF_NAME_WITH_PREFIX2}!"),
     [STRINGID_PKMNHURTBYBURN]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was hurt by its burn!"),
     [STRINGID_PKMNWASFROZEN]                        = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} was frozen solid!"),
     [STRINGID_PKMNFROZENBY]                         = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_BUFF1} froze {B_EFF_NAME_WITH_PREFIX2} solid!"), //not in gen 5+, ability popup
@@ -369,6 +370,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNRAISEDFIREPOWERWITH]              = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX}'s {B_DEF_ABILITY} raised the power of Fire-type moves!"), //not in gen 5+, ability popup
     [STRINGID_PKMNANCHORSITSELFWITH]                = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} anchors itself with {B_DEF_ABILITY}!"), //not in gen 5+, ability popup
     [STRINGID_PKMNCUTSATTACKWITH]                   = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} cuts {B_DEF_NAME_WITH_PREFIX2}'s Attack!"), //not in gen 5+, ability popup
+    [STRINGID_PKMNCUTSSPECIALATTACKWITH]             = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} cuts {B_DEF_NAME_WITH_PREFIX2}'s Special Attack!"), //not in gen 5+, ability popup
     [STRINGID_PKMNPREVENTSSTATLOSSWITH]             = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} prevents stat loss!"), //not in gen 5+, ability popup
     [STRINGID_PKMNHURTSWITH]                        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was hurt by {B_DEF_NAME_WITH_PREFIX2}'s {B_BUFF1}!"),
     [STRINGID_PKMNTRACED]                           = COMPOUND_STRING("It traced {B_BUFF1}'s {B_BUFF2}!"),
@@ -904,10 +906,19 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_BOSSWILLRESTORE]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} endured!"),
     [STRINGID_BOSSRESTORED]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} recovered!"),
     [STRINGID_RESTORE_BACKLINE]                     = COMPOUND_STRING("{B_BUFF1}{B_BUFF2}{B_BUFF3} recovered a little!"),
-    [STRINGID_HAILSTONE_FALL]                       = COMPOUND_STRING("Hailstones fall all over the area!"),
+    [STRINGID_SLEET_STORM]                          = COMPOUND_STRING("Sleet fall all over the area!"),
     [STRINGID_THUNDERSTRIKE]                        = COMPOUND_STRING("Thunder strikes {B_BUFF1}!"),
-    [STRINGID_FLAMES_EMBRACE]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was burned by the flames!"),
+    [STRINGID_INFERNO]                              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was burned by the inferno!"),
     [STRINGID_CD_OVERRIDE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} suffered from exhaustion!"),
+    [STRINGID_RESS_MON]                             = COMPOUND_STRING("{B_BUFF1} was ressurrected!"),
+    [STRINGID_CLOUDWALKER]                          = COMPOUND_STRING("Cloudwalker"),
+    [STRINGID_CLOUDWALKER_TRIGGER]                  = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s move caused an updraft!"),
+    [STRINGID_SPARKING_ZEPHYR]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} triggered a Tailwind with their electric discharge!"),
+    [STRINGID_UNCONTAINED_BLAZE]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s attack hurt {B_BUFF1}{B_BUFF2}{B_BUFF3} too!"),
+    [STRINGID_MENTAL_RESET]                         = COMPOUND_STRING("{B_BUFF1}'s fallen stats were restored!"),
+    [STRINGID_STATIC_BUILDUP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was charged by the swirling sand!"),
+    [STRINGID_LUNAR_COLD]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} became fully charged due to the lunar light!"),
+    [STRINGID_ICYVEINSHPDROP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} takes its toll!"), //don't think this message is displayed anymore
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
@@ -1215,7 +1226,8 @@ const u16 gGotBurnedStringIds[] =
 
 const u16 gGotFrostbiteStringIds[] =
 {
-    [B_MSG_STATUSED]            = STRINGID_PKMNGOTFROSTBITE
+    [B_MSG_STATUSED]            = STRINGID_PKMNGOTFROSTBITE,
+    [B_MSG_STATUSED_BY_ABILITY] = STRINGID_PKMNFROSTBITBY,
 };
 
 const u16 gFrostbiteHealedStringIds[] =

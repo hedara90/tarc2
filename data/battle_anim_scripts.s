@@ -8,6 +8,7 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/items.h"
+#include "constants/species.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/battle_anim_script.inc"
 	.include "constants/constants.inc"
@@ -35170,7 +35171,63 @@ gBattleAnimGeneral_ThunderstrikeRight::
 	delay 7
 	waitforvisualfinish
 	end
+
 gBattleAnimGeneral_OverrideExhaustion::
 	call BideSetUp
+	waitforvisualfinish
+	end
+
+gBattleAnimMove_Frostwisp::
+	loadspritegfx ANIM_TAG_FROSTWISP_FLAKES
+	loadspritegfx ANIM_TAG_FROSTWISP_ORB
+	monbg ANIM_DEF_PARTNER
+	splitbgprio_foes ANIM_TARGET
+	playsewithpan SE_M_HAIL, SOUND_PAN_ATTACKER
+	waitplaysewithpan SE_M_HAIL, SOUND_PAN_TARGET, 17
+	createvisualtask SoundTask_AdjustPanningVar, 2, SOUND_PAN_ATTACKER, SOUND_PAN_ATTACKER, 1, 0
+	createsprite gFrostwispOrbSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, 0
+	delay 3
+	createsprite gFrostwispOrbSpriteTemplate, ANIM_ATTACKER, 3, 0, 0, 1
+	delay 3
+	createsprite gFrostwispOrbSpriteTemplate, ANIM_ATTACKER, 4, 0, 0, 2
+	delay 3
+	createsprite gFrostwispOrbSpriteTemplate, ANIM_ATTACKER, 4, 0, 0, 3
+	delay 40
+	createvisualtask SoundTask_AdjustPanningVar, 2, SOUND_PAN_ATTACKER, SOUND_PAN_TARGET, 2, 0
+	waitforvisualfinish
+	splitbgprio_all
+	playsewithpan SE_M_HAIL, SOUND_PAN_TARGET
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 13, 1
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 0
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 42
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 84
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 126
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 168
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 210
+	waitforvisualfinish
+	clearmonbg ANIM_DEF_PARTNER
+	end
+
+gBattleAnimGeneral_RessMon::
+	createvisualtask SoundTask_PlayCryHighPitchSpecies, 2, SPECIES_HO_OH, 255
+	waitforvisualfinish
+	end
+
+gBattleAnimMove_SomeSparks::
+	loadspritegfx ANIM_TAG_SPARK_2
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_ATTACKER, 1, 0, 10, 1
+	call ElectricityEffect
+	end
+
+gBattleAnimMove_SomeSnow::
+	loadspritegfx ANIM_TAG_FROSTWISP_FLAKES
+	playsewithpan SE_M_HAIL, SOUND_PAN_TARGET
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 13, 1
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 0
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 42
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 84
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 126
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 168
+	createsprite gFrostwispFireSpriteTemplate, ANIM_ATTACKER, 2, 210
 	waitforvisualfinish
 	end

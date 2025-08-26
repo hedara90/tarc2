@@ -47,6 +47,7 @@ enum EndTurnResolutionOrder
     ENDTURN_TORMENT,
     ENDTURN_ENCORE,
     ENDTURN_DISABLE,
+    ENDTURN_CLOUDWALKER,
     ENDTURN_MAGNET_RISE,
     ENDTURN_TELEKINESIS,
     ENDTURN_HEAL_BLOCK,
@@ -69,7 +70,7 @@ enum EndTurnResolutionOrder
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
     ENDTURN_BACKLINE_RESTORE,
-    ENDTURN_MOVE_CD,
+    ENDTURN_PLAYER_CD,
     ENDTURN_COUNT,
 };
 
@@ -196,6 +197,7 @@ static bool32 HandleEndTurnVarious(u32 battler)
 static bool32 HandleEndTurnWeather(u32 battler)
 {
     gBattleStruct->endTurnEventsCounter++;
+    gBattleStruct->isEndOfTurnWeather = TRUE;
     return EndOrContinueWeather();
 }
 
@@ -208,19 +210,23 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
     u16 battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battler);
 
-    if (currBattleWeather == 0xFF)
-    {
-        // If there is no weather on the field, no need to check other battlers so go to next state
-        gBattleStruct->turnEffectsBattlerId = 0;
-        gBattleStruct->endTurnEventsCounter++;
-        return effect;
-    }
+    //if (currBattleWeather == 0xFF)
+    //{
+    //    // If there is no weather on the field, no need to check other battlers so go to next state
+    //    gBattleStruct->turnEffectsBattlerId = 0;
+    //    gBattleStruct->endTurnEventsCounter++;
+    //    return effect;
+    //}
 
     gBattleStruct->turnEffectsBattlerId++;
 
     if (!IsBattlerAlive(battler) || !HasWeatherEffect())
         return effect;
 
+    if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN))
+        currBattleWeather = BATTLE_WEATHER_RAIN;
+    else if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN))
+        currBattleWeather = BATTLE_WEATHER_SUN;
 
     switch (currBattleWeather)
     {
@@ -238,14 +244,21 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER))
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN)
+         || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
+         || SearchTraits(battlerTraits, ABILITY_FLORAL_GROWTH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
         }
         break;
     case BATTLE_WEATHER_SANDSTORM:
-        if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL)
+        if (SearchTraits(battlerTraits, ABILITY_SAND_REPAIR))
+        {
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
+                effect = TRUE;
+        }
+        else if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL) 
          && !BattlerHasTrait(battler, ABILITY_SAND_FORCE)
          && !BattlerHasTrait(battler, ABILITY_SAND_RUSH)
          && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
@@ -264,7 +277,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY))
+        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY) || SearchTraits(battlerTraits, ABILITY_ICY_VEINS))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
@@ -951,6 +964,23 @@ static bool32 HandleEndTurnDisable(u32 battler)
     return effect;
 }
 
+static bool32 HandleEndTurnCloudwalker(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    if (gStatuses4[battler] & STATUS4_CLOUDWALKER && gDisableStructs[battler].cloudwalkerTimer == gBattleTurnCounter)
+    {
+        gStatuses4[battler] &= ~STATUS4_CLOUDWALKER;
+        BattleScriptExecute(BattleScript_BufferEndTurn);
+        PREPARE_STRING_BUFFER(gBattleTextBuff1, STRINGID_CLOUDWALKER);
+        effect = TRUE;
+    }
+
+    return effect;
+}
+
 static bool32 HandleEndTurnMagnetRise(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1492,6 +1522,22 @@ static u32 FindValidThunderstrikeTarget(void)
     return target;
 }
 
+static bool32 RessMon(struct BattlePokemon *battleMon, struct Pokemon *mon, u32 type)
+{
+    gBattleStruct->hasRessed = TRUE;
+    u32 value = battleMon->maxHP / 2;
+    SetMonData(mon, MON_DATA_HP, &value);
+    value = 0;
+    SetMonData(mon, MON_DATA_STATUS, &value);
+    PokemonToBattleMon(mon, battleMon);
+    battleMon->types[0] = type;
+    battleMon->types[1] = type;
+    StringCopy(gBattleTextBuff1, gSpeciesInfo[battleMon->species].speciesName);
+    BattleScriptExecute(BattleScript_RessMon);
+
+    return TRUE;
+}
+
 static bool32 HandleEndTurnAbilities(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1513,13 +1559,13 @@ static bool32 HandleEndTurnAbilities(u32 battler)
     if (!TESTING && battler == 1)
     {
         gBattlerAttacker = 0;
-        if (SearchTraits(battlerTraits, ABILITY_HAILSTONE_FALL))
+        if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
         {
             //  Damage all player mons
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
             DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
             DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
-            CreateAbilityPopUp(1, ABILITY_HAILSTONE_FALL, FALSE);
+            CreateAbilityPopUp(1, ABILITY_SLEET_STORM, FALSE);
             BattleScriptExecute(BattleScript_HailstoneFall);
             effect = TRUE;
         }
@@ -1550,18 +1596,44 @@ static bool32 HandleEndTurnAbilities(u32 battler)
             }
             effect = TRUE;
         }
-        else if (SearchTraits(battlerTraits, ABILITY_FLAMES_EMBRACE))
+        else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
         {
             //  Damage active mon
             gBattlerAttacker = 0;
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_FLAMES_EMBRACE_FRACTION;
             gBattleScripting.animArg1 = MOVE_FIRE_SPIN;
-            CreateAbilityPopUp(1, ABILITY_FLAMES_EMBRACE, FALSE);
+            CreateAbilityPopUp(1, ABILITY_INFERNO, FALSE);
             BattleScriptExecute(BattleScript_FlamesEmbrace);
             effect = TRUE;
         }
     }
 
+    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) &&SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
+    {
+        CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
+        SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
+        gBattlerAttacker = 0;
+        gBattlerTarget = 0;
+        BattleScriptExecute(BattleScript_StaticBuildup);
+        effect = TRUE;
+    }
+
+    if (!TESTING && battler == 0)
+    {
+
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_FIRE);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_WATER);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_FIRE);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_WATER);
+    }
 
     return effect;
 }
@@ -1669,7 +1741,7 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
     return TRUE;
 }
 
-static bool32 HandleEndTurnMoveCD(u32 battler)
+static bool32 HandleEndTurnPlayerCD(u32 battler)
 {
     gBattleStruct->turnEffectsBattlerId++;
     if (TESTING)
@@ -1684,6 +1756,15 @@ static bool32 HandleEndTurnMoveCD(u32 battler)
         ReduceCD(TARC_LEFT_BATTLER, i);
         ReduceCD(TARC_RIGHT_BATTLER, i);
     }
+
+    if (gBattleStruct->intimidateCD > 0)
+        gBattleStruct->intimidateCD--;
+    if (gBattleStruct->disheartenCD > 0)
+        gBattleStruct->disheartenCD--;
+    if (gBattleStruct->sentinelCD > 0)
+        gBattleStruct->sentinelCD--;
+    if (gBattleStruct->staticBuildupCD > 0)
+        gBattleStruct->staticBuildupCD--;
 
     return TRUE;
 }
@@ -1717,6 +1798,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_TORMENT] = HandleEndTurnTorment,
     [ENDTURN_ENCORE] = HandleEndTurnEncore,
     [ENDTURN_DISABLE] = HandleEndTurnDisable,
+    [ENDTURN_CLOUDWALKER] = HandleEndTurnCloudwalker,
     [ENDTURN_MAGNET_RISE] = HandleEndTurnMagnetRise,
     [ENDTURN_TELEKINESIS] = HandleEndTurnTelekinesis,
     [ENDTURN_HEAL_BLOCK] = HandleEndTurnHealBlock,
@@ -1739,7 +1821,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
     [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
-    [ENDTURN_MOVE_CD] = HandleEndTurnMoveCD,
+    [ENDTURN_PLAYER_CD] = HandleEndTurnPlayerCD,
 };
 
 u32 DoEndTurnEffects(void)
@@ -1761,6 +1843,7 @@ u32 DoEndTurnEffects(void)
         // Jump out if possible after endTurnEventsCounter was increased in the above code block
         if (gBattleStruct->endTurnEventsCounter == ENDTURN_COUNT)
         {
+            gBattleStruct->isEndOfTurnWeather = FALSE;
             gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
             return FALSE;
         }

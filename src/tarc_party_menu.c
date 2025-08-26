@@ -153,7 +153,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define LIST_HEIGHT 10
 #define SELECT_WIDTH      8
 #define SELECT_HEIGHT     2
-#define INFO_WIDTH  19
+#define INFO_WIDTH  20
 #define INFO_HEIGHT 8
 #define SUB_WIDTH   19
 #define SUB_HEIGHT  2
@@ -261,7 +261,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_INFO] =
     {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 10,
         .tilemapTop = 4,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
@@ -1230,10 +1230,10 @@ static void TryMoveSelection(void)
                 return;
             }
             u32 storageIndex = 0;
-            while (gSaveBlock1Ptr->abilityStorage[storageIndex] != MOVE_NONE)
+            while (gSaveBlock1Ptr->abilityStorage[storageIndex] != ABILITY_NONE)
                 storageIndex++;
             gSaveBlock1Ptr->abilityStorage[storageIndex] = sTarcUiState->mons[activeMon].abilities[pos];
-            sTarcUiState->mons[activeMon].abilities[pos] = MOVE_NONE;
+            sTarcUiState->mons[activeMon].abilities[pos] = ABILITY_NONE;
         }
     }
     else
@@ -1379,6 +1379,7 @@ static void TarcUi_WriteMonData(void)
             if (sTarcUiState->mons[monIndex].abilities[abilityIndex] == ABILITY_NONE)
             {
                 gSaveBlock1Ptr->extraAbilities[monIndex][2 - removeCount] = ABILITY_NONE;
+                removeCount++;
                 continue;
             }
 

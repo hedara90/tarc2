@@ -7197,17 +7197,18 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
 {
     u32 innateNum = 0;
 
-    if (gSpeciesInfo[species].isPlayer)
+    if (!TESTING && gSpeciesInfo[species].isPlayer)
     {
         for (u32 i = 0; i < 3; i++)
         {
-            u32 currSpecies = gSaveBlock1Ptr->playerSpecies[i];
             if (gSaveBlock1Ptr->playerSpecies[i] == species)
             {
                 for (u32 j = 0; j < 3; j++)
                 {
                     if (gSaveBlock1Ptr->extraAbilities[i][j] == ability)
+                    {
                         return j + 2;
+                    }
                 }
                 break;
             }
@@ -7238,18 +7239,32 @@ bool8 MonHasTrait(struct Pokemon *mon, u16 ability, bool8 disableRandomizer)
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     return (GetMonAbility(mon) == ability || SpeciesHasInnate(species, ability, personality, disableRandomizer));
-} 
+}
 
-u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disablerandomizer) {
+u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disablerandomizer)
+{
     //u8 i;
 
     //if (!disablerandomizer) {
     //    return RandomizeInnate(gBaseStats[species].innates[traitNum], species, personality);
     //}
 
-    if (MAX_MON_INNATES > 0)
-            return gSpeciesInfo[species].innates[traitNum - 1];
+    if (!TESTING && gSpeciesInfo[species].isPlayer)
+    {
+        for (u32 i = 0; i < 3; i++)
+        {
+            if (gSaveBlock1Ptr->playerSpecies[i] == species)
+            {
+                return gSaveBlock1Ptr->extraAbilities[i][traitNum - 1];
+            }
+        }
+    }
     else
-        return 0;
+    {
+        if (MAX_MON_INNATES > 0)
+            return gSpeciesInfo[species].innates[traitNum - 1];
+        else
+            return 0;
+    }
+    return 0;
 }
-

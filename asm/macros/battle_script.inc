@@ -2595,3 +2595,22 @@
 	.macro updatebgbar
 	callnative BS_UpdateBgBar
 	.endm
+
+	.macro jumpifdisheartenabilityprevented
+	callnative BS_JumpIfDisheartenAbilityPrevented
+	.endm
+
+	.macro tryintdisheartenejectpack
+	callnative BS_TryDisheartenEjectPack
+	.endm
+
+	.macro setdisplayability, ability:req
+	callnative BS_SetDisplayAbility
+	.2byte \ability
+	.endm
+
+	.macro jumpiflunarcold battler:req, jumpInstr:req
+	callnative BS_JumpIfLunarCold
+	.byte \battler
+	.4byte \jumpInstr
+	.endm
