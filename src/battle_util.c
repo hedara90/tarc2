@@ -5679,11 +5679,14 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             u32 statToBoost = STAT_SPATK;
             if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL)
                 statToBoost = STAT_ATK;
-            SET_STATCHANGER(statToBoost, 1, FALSE);
-            BattleScriptPushCursor();
-            CreateAbilityPopUp(gBattlerAttacker, ABILITY_WILLPOWER, FALSE);
-            gBattlescriptCurrInstr = BattleScript_WindsOfChange;
-            effect++;
+            if (gBattleMons[gBattlerAttacker].statStages[statToBoost] < 12)
+            {
+                SET_STATCHANGER(statToBoost, 1, FALSE);
+                BattleScriptPushCursor();
+                CreateAbilityPopUp(gBattlerAttacker, ABILITY_WILLPOWER, FALSE);
+                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                effect++;
+            }
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
          && SearchTraits(battlerTraits, ABILITY_MENTAL_BLOCK))
