@@ -5622,6 +5622,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_Sunrise;
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].effect == EFFECT_TWO_TURNS_ATTACK
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && SearchTraits(battlerTraits, ABILITY_LUNAR_COLD)
+         && !(gBattleWeather & B_WEATHER_SNOW))
+        {
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_LUNAR_COLD, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_LunarCold;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
@@ -8624,6 +8634,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
     if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_LEVITATE) : BattlerHasTrait(battler, ABILITY_LEVITATE))
         return FALSE;
     if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_SUNRISE) : BattlerHasTrait(battler, ABILITY_SUNRISE))
+        return FALSE;
+    if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_LUNAR_COLD) : BattlerHasTrait(battler, ABILITY_LUNAR_COLD))
         return FALSE;
     if (IS_BATTLER_OF_TYPE(battler, TYPE_FLYING) && (!(checkInverse == INVERSE_BATTLE) || !FlagGet(B_FLAG_INVERSE_BATTLE)))
         return FALSE;

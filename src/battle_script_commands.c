@@ -19238,3 +19238,24 @@ void BS_SetDisplayAbility(void)
     gDisplayAbility = cmd->ability;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+void BS_JumpIfLunarCold(void)
+{
+    NATIVE_ARGS(u8 battler, const u8 *jumpInstr);
+    u32 battler = GetBattlerForBattleScript(cmd->battler);
+
+    if (gBattleWeather & B_WEATHER_ANY)
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+
+    bool32 hasLunarCold = gBattleMons[battler].ability == ABILITY_LUNAR_COLD;
+    if (!hasLunarCold)
+        hasLunarCold = SpeciesHasInnate(gBattleMons[battler].species, ABILITY_LUNAR_COLD, 0, TRUE);
+
+    if (hasLunarCold)
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}

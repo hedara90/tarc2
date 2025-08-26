@@ -917,6 +917,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_UNCONTAINED_BLAZE]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s attack hurt {B_BUFF1}{B_BUFF2}{B_BUFF3} too!"),
     [STRINGID_MENTAL_RESET]                         = COMPOUND_STRING("{B_BUFF1}'s fallen stats were restored!"),
     [STRINGID_STATIC_BUILDUP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was charged by the swirling sand!"),
+    [STRINGID_LUNAR_COLD]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} became fully charged due to the lunar light!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

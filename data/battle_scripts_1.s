@@ -3550,6 +3550,12 @@ BattleScript_PowerHerbActivation:
 	removeitem BS_ATTACKER
 	return
 
+BattleScript_LunarPowerActivation:
+	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
+	printstring STRINGID_POWERHERB
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_EffectTwoTurnsAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
@@ -3557,6 +3563,7 @@ BattleScript_EffectTwoTurnsAttack::
 	call BattleScript_FirstChargingTurn
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
+	jumpiflunarcold BS_ATTACKER, BattleScript_TwoTurnMovesSecondLunarColdActivates
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
@@ -3627,6 +3634,11 @@ BattleScript_FromTwoTurnMovesSecondTurnRet:
 	attackstring
 .endif
 	goto BattleScript_HitFromCritCalc
+
+BattleScript_TwoTurnMovesSecondLunarColdActivates:
+	call BattleScript_LunarPowerActivation
+	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
+	goto BattleScript_FromTwoTurnMovesSecondTurnRet
 
 BattleScript_TwoTurnMovesSecondTurn::
 	attackcanceler
@@ -10292,6 +10304,13 @@ BattleScript_HoarfrostActivates::
 BattleScript_Sunrise::
 	setfieldweather BATTLE_WEATHER_SUN
 	playmoveanimation BS_ATTACKER, MOVE_SUNNY_DAY
+	waitanimation
+	call BattleScript_MoveWeatherChangeRet
+	goto BattleScript_MoveEnd
+
+BattleScript_LunarCold::
+	setfieldweather BATTLE_WEATHER_SNOW
+	playmoveanimation BS_ATTACKER, MOVE_SNOWSCAPE
 	waitanimation
 	call BattleScript_MoveWeatherChangeRet
 	goto BattleScript_MoveEnd

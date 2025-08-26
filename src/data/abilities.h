@@ -2612,4 +2612,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a fire-type move sets\nsun. User floats."),
         .aiRating = 7,
     },
+    [ABILITY_LUNAR_COLD] =
+    {
+        .name = _("Lunar Cold"),
+        .description = COMPOUND_STRING("Skips charge turns in clear\nskies. Sets snow after\ntwo-turn moves. User floats."),
+        .aiRating = 7,
+    },
 };

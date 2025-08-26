@@ -897,5 +897,6 @@ extern const u8 BattleScript_SentinelOut[];
 extern const u8 BattleScript_StaticBuildup[];
 extern const u8 BattleScript_HoarfrostActivates[];
 extern const u8 BattleScript_Sunrise[];
+extern const u8 BattleScript_LunarCold[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
