@@ -2636,4 +2636,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Recovers HP in Sun."),
         .aiRating = 5,
     },
+    [ABILITY_SHARED_BURDENS] =
+    {
+        .name = _("Shared Burdens"),
+        .description = COMPOUND_STRING("Damage taken is split\nbetween entire party."),
+        .aiRating = 5,
+    },
 };

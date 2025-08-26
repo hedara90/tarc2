@@ -9651,6 +9651,18 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
     if (ShouldGetStatBadgeBoost(B_FLAG_BADGE_BOOST_SPATK, battlerAtk) && IsBattleMoveSpecial(move))
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.1));
 
+    // Final damage should be split among the party if target has Shared Burdens
+    if (!TESTING && battlerDef == 0 && BattlerHasTrait(battlerDef, ABILITY_SHARED_BURDENS))
+    {
+        u32 damageSplit = 1;
+        if (gLeftMon.hp > 0)
+            damageSplit++;
+        if (gRightMon.hp > 0)
+            damageSplit++;
+        modifier = uq4_12_divide(modifier, UQ_4_12(damageSplit));
+        gBattleStruct->shouldTriggerSharedBurdens = TRUE;
+    }
+
     return uq4_12_multiply_by_int_half_down(modifier, atkStat);
 }
 

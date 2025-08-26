@@ -6480,6 +6480,15 @@ static void Cmd_moveend(void)
         case MOVEEND_SUM_DAMAGE: // Sum and store damage dealt for multi strike recoil
             gBattleScripting.savedDmg += gBattleStruct->moveDamage[gBattlerTarget];
             gBattleScripting.moveendState++;
+            if (!TESTING && gBattleStruct->shouldTriggerSharedBurdens)
+            {
+                if (gLeftMon.hp > 0)
+                    DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, gBattleStruct->moveDamage[gBattlerTarget]);
+                if (gRightMon.hp > 0)
+                    DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, gBattleStruct->moveDamage[gBattlerTarget]);
+
+                gBattleStruct->shouldTriggerSharedBurdens = FALSE;
+            }
             break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
