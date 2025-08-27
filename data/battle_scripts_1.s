@@ -10373,3 +10373,9 @@ BattleScript_CloudingMindActivates::
 	printstring STRINGID_PKMNSUBJECTEDTOTORMENT
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_SporangiumActivates::
+	playmoveanimation BS_ATTACKER, MOVE_LEECH_SEED
+	printstring STRINGID_PKMNSEEDED
+	waitmessage B_WAIT_TIME_LONG
+	end2

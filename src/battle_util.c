@@ -5796,6 +5796,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
         }
+        if (gMovesInfo[gCurrentMove].type == TYPE_GRASS
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && SearchTraits(battlerTraits, ABILITY_SPORANGIUM)
+         && !IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_GRASS)
+         && !(gStatuses3[gBattlerTarget] & STATUS3_LEECHSEED))
+        {
+            gStatuses3[gBattlerTarget] |= gBattlerAttacker;
+            gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPORANGIUM, FALSE);
+            gBattlescriptCurrInstr = BattleScript_SporangiumActivates;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

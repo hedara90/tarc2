@@ -2768,4 +2768,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Fire moves are boosted\nin rain. Water moves\nare boosted in sun."),
         .aiRating = 5,
     },
+    [ABILITY_SPORANGIUM] =
+    {
+        .name = _("Sporangium"),
+        .description = COMPOUND_STRING("Grass attacks also\ninflict Leech Seed."),
+        .aiRating = 5,
+    },
 };
