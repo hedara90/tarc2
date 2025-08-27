@@ -1993,7 +1993,8 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     else
     {
         bool8 superLuck = (BattlerHasTrait(gBattlerAttacker, ABILITY_SUPER_LUCK) != 0);
-        u32 giantSlayer = (BattlerHasTrait(gBattlerAttacker, ABILITY_GIANT_SLAYER) && NumBattlerStatBoosts(battlerDef) >= 2) ? 1 : 0;
+        u32 giantSlayer = (BattlerHasTrait(gBattlerAttacker, ABILITY_GIANT_SLAYER) && NumBattlerStatBoosts(battlerDef) >= 2) ? TARC_GIANT_SLAYER_STAGE_BOOST : 0;
+        u32 precisionPoint = (gMovesInfo[move].slicingMove && BattlerHasTrait(gBattlerAttacker, ABILITY_PRECISION_POINT)) ? TARC_PRECISION_POINT_STAGE_BOOST : 0;
         critChance  = 2 * ((gBattleMons[battlerAtk].status2 & STATUS2_FOCUS_ENERGY) != 0)
                     + 1 * ((gBattleMons[battlerAtk].status2 & STATUS2_DRAGON_CHEER) != 0)
                     + GetMoveCriticalHitStage(move)
@@ -2001,6 +2002,7 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
                     + 2 * (B_AFFECTION_MECHANICS == TRUE && GetBattlerAffectionHearts(battlerAtk) == AFFECTION_FIVE_HEARTS)
                     + superLuck
                     + giantSlayer
+                    + precisionPoint
                     + gBattleStruct->bonusCritStages[gBattlerAttacker];
         if (critChance >= ARRAY_COUNT(sCriticalHitOdds))
             critChance = ARRAY_COUNT(sCriticalHitOdds) - 1;
