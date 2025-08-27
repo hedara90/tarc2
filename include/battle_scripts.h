@@ -900,5 +900,14 @@ extern const u8 BattleScript_Sunrise[];
 extern const u8 BattleScript_LunarCold[];
 extern const u8 BattleScript_IcyVeinsActivates[];
 extern const u8 BattleScript_FloralGrowthActivates[];
+extern const u8 BattleScript_Empath[];
+extern const u8 BattleScript_TerrasBlessing[];
+extern const u8 BattleScript_MindPalaceActivates[];
+extern const u8 BattleScript_OverchargeActivates[];
+extern const u8 BattleScript_MistbankActivates[];
+extern const u8 BattleScript_CloudingMindActivates[];
+extern const u8 BattleScript_SporangiumActivates[];
+extern const u8 BattleScript_ResorptionTriggers[];
+extern const u8 BattleScript_CripplingVenom[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -1139,6 +1139,15 @@ static bool32 NoTargetPresent(u8 battler, u32 move)
 
 bool32 ProteanTryChangeType(u32 battler, u32 ability, u32 move, u32 moveType)
 {
+      if ((BattlerHasTrait(battler, ABILITY_ONE_WITH_THE_WIND) && gMovesInfo[move].windMove)
+         && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType
+             || (gBattleMons[battler].types[2] != moveType && gBattleMons[battler].types[2] != TYPE_MYSTERY))
+         && move != MOVE_STRUGGLE
+         && GetActiveGimmick(battler) != GIMMICK_TERA)
+    {
+        SET_BATTLER_TYPE(battler, moveType);
+        return TRUE;
+    }
       if ((BattlerHasTrait(battler, ABILITY_PROTEAN) || BattlerHasTrait(battler, ABILITY_LIBERO))
          && !gDisableStructs[gBattlerAttacker].usedProteanLibero
          && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType
@@ -1274,11 +1283,14 @@ static void Cmd_attackcanceler(void)
         return;
 
     if (gSpecialStatuses[gBattlerAttacker].parentalBondState == PARENTAL_BOND_OFF
-     && BattlerHasTrait(gBattlerAttacker, ABILITY_PARENTAL_BOND)
+     && (BattlerHasTrait(gBattlerAttacker, ABILITY_PARENTAL_BOND) || (BattlerHasTrait(gBattlerAttacker, ABILITY_TANGO) && gBattleMons[gBattlerAttacker].danced))
      && IsMoveAffectedByParentalBond(gCurrentMove, gBattlerAttacker)
      && !(gAbsentBattlerFlags & (1u << gBattlerTarget))
      && GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE)
     {
+        if (gBattleMons[gBattlerAttacker].danced)
+            gBattleMons[gBattlerAttacker].danced = FALSE;
+
         gSpecialStatuses[gBattlerAttacker].parentalBondState = PARENTAL_BOND_1ST_HIT;
         gMultiHitCounter = 2;
         PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
@@ -1981,12 +1993,16 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     else
     {
         bool8 superLuck = (BattlerHasTrait(gBattlerAttacker, ABILITY_SUPER_LUCK) != 0);
+        u32 giantSlayer = (BattlerHasTrait(gBattlerAttacker, ABILITY_GIANT_SLAYER) && NumBattlerStatBoosts(battlerDef) >= 2) ? TARC_GIANT_SLAYER_STAGE_BOOST : 0;
+        u32 precisionPoint = (IsSlicingMove(move, gBattlerAttacker) && BattlerHasTrait(gBattlerAttacker, ABILITY_PRECISION_POINT)) ? TARC_PRECISION_POINT_STAGE_BOOST : 0;
         critChance  = 2 * ((gBattleMons[battlerAtk].status2 & STATUS2_FOCUS_ENERGY) != 0)
                     + 1 * ((gBattleMons[battlerAtk].status2 & STATUS2_DRAGON_CHEER) != 0)
                     + GetMoveCriticalHitStage(move)
                     + GetHoldEffectCritChanceIncrease(battlerAtk, holdEffectAtk)
                     + 2 * (B_AFFECTION_MECHANICS == TRUE && GetBattlerAffectionHearts(battlerAtk) == AFFECTION_FIVE_HEARTS)
                     + superLuck
+                    + giantSlayer
+                    + precisionPoint
                     + gBattleStruct->bonusCritStages[gBattlerAttacker];
         if (critChance >= ARRAY_COUNT(sCriticalHitOdds))
             critChance = ARRAY_COUNT(sCriticalHitOdds) - 1;
@@ -7711,6 +7727,7 @@ static void Cmd_moveend(void)
             }
             break;
         case MOVEEND_COUNT:
+            gBattleStruct->cripplingPoisonFlip = FALSE;
             break;
         }
 
@@ -12699,6 +12716,7 @@ static u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr
     }
     else // stat increase
     {
+        gBattleStruct->empathCounter++;
         statValue = GET_STAT_BUFF_VALUE(statValue);
         if (gBattleMons[battler].statStages[statId] == 11)
             statValue = 1;
@@ -13357,6 +13375,11 @@ static void Cmd_updatestatusicon(void)
 {
     CMD_ARGS(u8 battler);
     u32 battler;
+
+    if (gBattleMons[gBattlerTarget].status1 & STATUS1_PSN_ANY)
+    {
+        gBattleStruct->cripplingPoisonFlip = TRUE;
+    }
 
     if (gBattleControllerExecFlags)
         return;

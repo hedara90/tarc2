@@ -330,10 +330,7 @@ static inline bool32 IsWindMove(u32 moveId)
     return gMovesInfo[SanitizeMoveId(moveId)].windMove;
 }
 
-static inline bool32 IsSlicingMove(u32 moveId)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].slicingMove;
-}
+bool32 IsSlicingMove(u32 moveId, u32 battler);
 
 static inline bool32 IsHealingMove(u32 moveId)
 {

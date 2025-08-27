@@ -3744,6 +3744,7 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->moveCD[2] = 0;
     dst->moveCD[3] = 0;
     dst->numOverrides = 0;
+    dst->danced = FALSE;
 
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
