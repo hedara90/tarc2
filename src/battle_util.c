@@ -5701,6 +5701,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
         }
+        if (gMovesInfo[gCurrentMove].windMove
+         && (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS || IsBattlerTurnDamaged(gBattlerTarget))
+         && SearchTraits(battlerTraits, ABILITY_TERRAS_BLESSING))
+        {
+            CreateAbilityPopUp(battler, ABILITY_TERRAS_BLESSING, FALSE);
+            gBattleStruct->moveDamage[battler] = -GetNonDynamaxMaxHP(battler) / TARC_TERRAS_BLESSING_HP_FRACTION;
+            BattleScriptExecute(BattleScript_TerrasBlessing);
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

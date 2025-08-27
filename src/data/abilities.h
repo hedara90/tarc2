@@ -2672,4 +2672,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Raises Sp.Def after\nusing a status move."),
         .aiRating = 5,
     },
+    [ABILITY_TERRAS_BLESSING] =
+    {
+        .name = _("Terra's Blessing"),
+        .description = COMPOUND_STRING("Using a wind move\n heals the user."),
+        .aiRating = 5,
+    },
 };
