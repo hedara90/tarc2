@@ -903,5 +903,6 @@ extern const u8 BattleScript_FloralGrowthActivates[];
 extern const u8 BattleScript_Empath[];
 extern const u8 BattleScript_TerrasBlessing[];
 extern const u8 BattleScript_MindPalaceActivates[];
+extern const u8 BattleScript_OverchargeActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
