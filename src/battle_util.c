@@ -10067,11 +10067,11 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
     u32 move = damageCalcData->move;
     u32 moveType = damageCalcData->moveType;
 
-    if (moveType == TYPE_ICE && weather == B_WEATHER_SNOW && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_WHITEOUT))
+    if (moveType == TYPE_ICE && IsBattlerWeatherAffected(damageCalcData->battlerAtk, B_WEATHER_SNOW) && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_WHITEOUT))
         return UQ_4_12(1.5);
-    if (moveType == TYPE_PSYCHIC && weather == B_WEATHER_SNOW && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_CHILLING_PRESENCE))
+    if (moveType == TYPE_PSYCHIC && IsBattlerWeatherAffected(damageCalcData->battlerAtk, B_WEATHER_SNOW) && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_CHILLING_PRESENCE))
         return UQ_4_12(1.5);
-    if (moveType == TYPE_GRASS && (weather & B_WEATHER_SUN) && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_PHOTOSYNTHESIS))
+    if (moveType == TYPE_GRASS && IsBattlerWeatherAffected(damageCalcData->battlerAtk, B_WEATHER_SUN) && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_PHOTOSYNTHESIS))
         return UQ_4_12(1.5);
 
     if (weather == B_WEATHER_NONE)
@@ -10081,7 +10081,7 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
     if (holdEffectDef == HOLD_EFFECT_UTILITY_UMBRELLA)
         return UQ_4_12(1.0);
 
-    if (weather & B_WEATHER_RAIN)
+    if (IsBattlerWeatherAffected(damageCalcData->battlerAtk, B_WEATHER_RAIN))
     {
         if (moveType != TYPE_FIRE && moveType != TYPE_WATER)
             return UQ_4_12(1.0);
@@ -10089,7 +10089,7 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
             return UQ_4_12(1.5);
         return (moveType == TYPE_FIRE) ? UQ_4_12(0.5) : UQ_4_12(1.5);
     }
-    if (weather & B_WEATHER_SUN)
+    if (IsBattlerWeatherAffected(damageCalcData->battlerAtk, B_WEATHER_SUN))
     {
         if (moveType != TYPE_FIRE && moveType != TYPE_WATER)
             return UQ_4_12(1.0);
