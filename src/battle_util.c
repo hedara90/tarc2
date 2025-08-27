@@ -493,6 +493,9 @@ void HandleAction_UseMove(void)
 {
     u32 i, moveTarget;
 
+    //  Set this bit to 0 if it for some reason isn't already
+    gBattleStruct->cripplingPoisonFlip = FALSE;
+
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     if (gBattlerAttacker == 1 && !gBattleStruct->hasCheckedSentinel)
     {
@@ -5807,6 +5810,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptPushCursor();
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPORANGIUM, FALSE);
             gBattlescriptCurrInstr = BattleScript_SporangiumActivates;
+            effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_RESORPTION)
          && IsBattlerTurnDamaged(gBattlerTarget)
@@ -5814,7 +5818,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         {
             CreateAbilityPopUp(battler, ABILITY_RESORPTION, FALSE);
             gBattleStruct->moveDamage[battler] = -gBattleScripting.savedDmg / TARC_RESORPTION_FRACTION;
+            BattleScriptPushCursor();
             BattleScriptExecute(BattleScript_ResorptionTriggers);
+            effect++;
+        }
+        if (gBattleStruct->cripplingPoisonFlip
+         && SearchTraits(battlerTraits, ABILITY_CRIPPLING_VENOM)
+         && (gBattleMons[gBattlerTarget].statStages[STAT_ATK] > DEFAULT_STAT_STAGE - 6
+          || gBattleMons[gBattlerTarget].statStages[STAT_SPATK] > DEFAULT_STAT_STAGE - 6))
+        {
+            CreateAbilityPopUp(battler, ABILITY_CRIPPLING_VENOM, FALSE);
+            BattleScriptPushCursor();
+            BattleScriptExecute(BattleScript_CripplingVenom);
             effect++;
         }
         break;

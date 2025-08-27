@@ -2780,4 +2780,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Hitting poisoned targets\nabsorbs HP."),
         .aiRating = 5,
     },
+    [ABILITY_CRIPPLING_VENOM] =
+    {
+        .name = _("Crippling Venom"),
+        .description = COMPOUND_STRING("Inflicting poison also\nlowers Atk and Sp.Atk."),
+        .aiRating = 5,
+    },
 };

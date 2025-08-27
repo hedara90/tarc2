@@ -10387,3 +10387,25 @@ BattleScript_ResorptionTriggers::
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	end2
+
+BattleScript_CripplingVenom::
+	jumpifstat BS_TARGET, CMP_GREATER_THAN, STAT_ATK, MIN_STAT_STAGE, BattleScript_CripplingVenomDoAnim
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPATK, MIN_STAT_STAGE, BattleScript_CripplingVenomEnd
+BattleScript_CripplingVenomDoAnim::
+	setbyte sSTAT_ANIM_PLAYED, FALSE
+	playstatchangeanimation BS_TARGET, BIT_ATK | BIT_SPATK, STAT_CHANGE_NEGATIVE | STAT_CHANGE_MULTIPLE_STATS
+	playstatchangeanimation BS_TARGET, BIT_ATK, STAT_CHANGE_NEGATIVE
+	setstatchanger STAT_ATK, 2, TRUE
+	statbuffchange STAT_CHANGE_ALLOW_PTR, BattleScript_CripplingVenomTryLowerSpAtk
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_CripplingVenomTryLowerSpAtk
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_CripplingVenomTryLowerSpAtk::
+	playstatchangeanimation BS_TARGET, BIT_SPATK, STAT_CHANGE_NEGATIVE
+	setstatchanger STAT_SPATK, 2, TRUE
+	statbuffchange STAT_CHANGE_ALLOW_PTR, BattleScript_CripplingVenomEnd
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_CripplingVenomEnd
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_CripplingVenomEnd::
+	end2

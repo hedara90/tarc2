@@ -7727,6 +7727,7 @@ static void Cmd_moveend(void)
             }
             break;
         case MOVEEND_COUNT:
+            gBattleStruct->cripplingPoisonFlip = FALSE;
             break;
         }
 
@@ -13374,6 +13375,11 @@ static void Cmd_updatestatusicon(void)
 {
     CMD_ARGS(u8 battler);
     u32 battler;
+
+    if (gBattleMons[gBattlerTarget].status1 & STATUS1_PSN_ANY)
+    {
+        gBattleStruct->cripplingPoisonFlip = TRUE;
+    }
 
     if (gBattleControllerExecFlags)
         return;
