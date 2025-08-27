@@ -2756,4 +2756,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Electric attacks can also\ninflict burn on targets."),
         .aiRating = 5,
     },
+    [ABILITY_FLAME_CLOAK] =
+    {
+        .name = _("Flame Cloak"),
+        .description = COMPOUND_STRING("Using a fire move also\nboosts defense."),
+        .aiRating = 5,
+    },
 };
