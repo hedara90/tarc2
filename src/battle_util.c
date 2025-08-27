@@ -11379,6 +11379,10 @@ void SetDynamicMoveCategory(u32 battlerAtk, u32 battlerDef, u32 move)
         gBattleStruct->swapDamageCategory = FALSE;
         break;
     }
+    if (gMovesInfo[move].slicingMove && gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL && BattlerHasTrait(battlerAtk, ABILITY_MENTAL_SWORD))
+    {
+        gBattleStruct->swapDamageCategory = TRUE;
+    }
 }
 
 /*static bool32 TryRemoveScreens(u32 battler)
