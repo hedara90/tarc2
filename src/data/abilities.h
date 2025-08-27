@@ -2738,4 +2738,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Ice type attacks become\nslicing moves."),
         .aiRating = 5,
     },
+    [ABILITY_CHILLING_PRESENCE] =
+    {
+        .name = _("Chilling Presence"),
+        .description = COMPOUND_STRING("Boosts Psychic moves in\nsnow."),
+        .aiRating = 5,
+    },
 };
