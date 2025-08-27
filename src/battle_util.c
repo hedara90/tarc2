@@ -5757,6 +5757,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_MistbankActivates;
             effect++;
         }
+        if (IsBattlerTurnDamaged(gBattlerTarget)
+         && SearchTraits(battlerTraits, ABILITY_CLOUDING_MIND)
+         && !(gBattleMons[gBattlerTarget].status2 & STATUS2_TORMENT)
+         && !BattlerHasTrait(gBattlerTarget, ABILITY_AROMA_VEIL))
+        {
+            gBattleMons[gBattlerTarget].status2 |= STATUS2_TORMENT;
+            PushTraitStack(gBattlerTarget, ABILITY_CLOUDING_MIND);
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_CLOUDING_MIND, FALSE);
+            gBattlescriptCurrInstr = BattleScript_CloudingMindActivates;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

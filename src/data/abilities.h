@@ -2744,4 +2744,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Boosts Psychic moves in\nsnow."),
         .aiRating = 5,
     },
+    [ABILITY_CLOUDING_MIND] =
+    {
+        .name = _("Clouding Mind"),
+        .description = COMPOUND_STRING("Inflicts Torment on hit."),
+        .aiRating = 5,
+    },
 };

@@ -905,5 +905,6 @@ extern const u8 BattleScript_TerrasBlessing[];
 extern const u8 BattleScript_MindPalaceActivates[];
 extern const u8 BattleScript_OverchargeActivates[];
 extern const u8 BattleScript_MistbankActivates[];
+extern const u8 BattleScript_CloudingMindActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
