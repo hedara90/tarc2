@@ -2762,4 +2762,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a fire move also\nboosts defense."),
         .aiRating = 5,
     },
+    [ABILITY_GEYSER] =
+    {
+        .name = _("Geyser"),
+        .description = COMPOUND_STRING("Fire moves are boosted\nin rain. Water moves\nare boosted in sun."),
+        .aiRating = 5,
+    },
 };

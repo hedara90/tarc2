@@ -10038,12 +10038,16 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageCalculationData *damageCal
     {
         if (moveType != TYPE_FIRE && moveType != TYPE_WATER)
             return UQ_4_12(1.0);
+        if (moveType == TYPE_FIRE && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_GEYSER))
+            return UQ_4_12(1.5);
         return (moveType == TYPE_FIRE) ? UQ_4_12(0.5) : UQ_4_12(1.5);
     }
     if (weather & B_WEATHER_SUN)
     {
         if (moveType != TYPE_FIRE && moveType != TYPE_WATER)
             return UQ_4_12(1.0);
+        if (moveType == TYPE_WATER && BattlerHasTrait(damageCalcData->battlerAtk, ABILITY_GEYSER))
+            return UQ_4_12(1.5);
         return (moveType == TYPE_WATER) ? UQ_4_12(0.5) : UQ_4_12(1.5);
     }
     return UQ_4_12(1.0);
