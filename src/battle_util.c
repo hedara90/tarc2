@@ -5629,7 +5629,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             u32 numStats = 0;
             for (u32 i = 1; i < 6; i++)
             {
-                if (gBattleMons[gBattlerAttacker].statStages[i] != 12)
+                if (gBattleMons[gBattlerAttacker].statStages[i] != DEFAULT_STAT_STAGE + 6)
                 {
                     statArr[numStats] = i;
                     numStats++;
@@ -5682,7 +5682,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             u32 statToBoost = STAT_SPATK;
             if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL)
                 statToBoost = STAT_ATK;
-            if (gBattleMons[gBattlerAttacker].statStages[statToBoost] < 12)
+            if (gBattleMons[gBattlerAttacker].statStages[statToBoost] < DEFAULT_STAT_STAGE + 6)
             {
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
@@ -5694,7 +5694,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
          && SearchTraits(battlerTraits, ABILITY_MENTAL_BLOCK))
         {
-            if (gBattleMons[gBattlerAttacker].statStages[STAT_SPDEF] < 12)
+            if (gBattleMons[gBattlerAttacker].statStages[STAT_SPDEF] < DEFAULT_STAT_STAGE + 6)
             {
                 u32 statToBoost = STAT_SPDEF;
                 SET_STATCHANGER(statToBoost, 1, FALSE);
@@ -12357,7 +12357,7 @@ bool32 LeftMonHurt(void)
         return TRUE;
 
     for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
-        if (gLeftMon.statStages[i] < 0 && gLeftMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+        if (gLeftMon.statStages[i] < DEFAULT_STAT_STAGE && gLeftMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
             return TRUE;
 
     return FALSE;
@@ -12372,7 +12372,7 @@ bool32 RightMonHurt(void)
         return TRUE;
 
     for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
-        if (gRightMon.statStages[i] < 0 && gRightMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
+        if (gRightMon.statStages[i] < DEFAULT_STAT_STAGE && gRightMon.turnsInBack >= TARC_STAT_RESTORE_TURN)
             return TRUE;
 
     return FALSE;
@@ -12405,7 +12405,7 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     if (mon->turnsInBack >= TARC_STAT_RESTORE_TURN)
     {
         for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
-            if (mon->statStages[i] < 0)
+            if (mon->statStages[i] < DEFAULT_STAT_STAGE)
                 mon->statStages[i]++;
     }
 }
