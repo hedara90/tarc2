@@ -2690,4 +2690,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Increases power of\nfighting moves."),
         .aiRating = 5,
     },
+    [ABILITY_GIANT_SLAYER] =
+    {
+        .name = _("Giant Slayer"),
+        .description = COMPOUND_STRING("Increases crit rate vs\nopponets with 2+ stat boosts.\n"),
+        .aiRating = 5,
+    },
 };

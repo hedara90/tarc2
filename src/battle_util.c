@@ -12606,3 +12606,15 @@ bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability)
 
     return FALSE;
 }
+
+u32 NumBattlerStatBoosts(u32 battler)
+{
+    u32 numBoosts = 0;
+    for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+    {
+        if (gBattleMons[battler].statStages[i] > DEFAULT_STAT_STAGE)
+            numBoosts += gBattleMons[battler].statStages[i] - DEFAULT_STAT_STAGE;
+    }
+
+    return numBoosts;
+}

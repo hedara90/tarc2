@@ -417,6 +417,7 @@ void DamageBackline(enum TarcPlayerIndex side, enum DamageMethod method, u32 val
 bool32 IsAbilityOnCD(u32 ability, u32 battler);
 void SetAbilityCD(u32 ability, u32 battler);
 bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability);
+u32 NumBattlerStatBoosts(u32 battler);
 
 void SwitchActiveMonLeft(void);
 void SwitchActiveMonRight(void);
