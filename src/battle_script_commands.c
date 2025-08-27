@@ -1139,6 +1139,15 @@ static bool32 NoTargetPresent(u8 battler, u32 move)
 
 bool32 ProteanTryChangeType(u32 battler, u32 ability, u32 move, u32 moveType)
 {
+      if ((BattlerHasTrait(battler, ABILITY_ONE_WITH_THE_WIND) && gMovesInfo[move].windMove)
+         && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType
+             || (gBattleMons[battler].types[2] != moveType && gBattleMons[battler].types[2] != TYPE_MYSTERY))
+         && move != MOVE_STRUGGLE
+         && GetActiveGimmick(battler) != GIMMICK_TERA)
+    {
+        SET_BATTLER_TYPE(battler, moveType);
+        return TRUE;
+    }
       if ((BattlerHasTrait(battler, ABILITY_PROTEAN) || BattlerHasTrait(battler, ABILITY_LIBERO))
          && !gDisableStructs[gBattlerAttacker].usedProteanLibero
          && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType

@@ -2595,7 +2595,8 @@ static void CancellerProtean(u32 *effect)
     u32 moveType = GetBattleMoveType(gCurrentMove);
     if (ProteanTryChangeType(gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), gCurrentMove, moveType))
     {
-        if (B_PROTEAN_LIBERO == GEN_9)
+        bool32 isOneWithTheWind = gMovesInfo[gCurrentMove].windMove && BattlerHasTrait(gBattlerAttacker, ABILITY_ONE_WITH_THE_WIND);
+        if (B_PROTEAN_LIBERO == GEN_9 && !isOneWithTheWind)
             gDisableStructs[gBattlerAttacker].usedProteanLibero = TRUE;
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
         gBattlerAbility = gBattlerAttacker;
@@ -2603,6 +2604,8 @@ static void CancellerProtean(u32 *effect)
             PushTraitStack(gBattlerAttacker, ABILITY_PROTEAN);
         if (BattlerHasTrait(gBattlerAttacker, ABILITY_LIBERO))
             PushTraitStack(gBattlerAttacker, ABILITY_LIBERO);
+        if (isOneWithTheWind)
+            PushTraitStack(gBattlerAttacker, ABILITY_ONE_WITH_THE_WIND);
         BattleScriptPushCursor();
         PrepareStringBattle(STRINGID_EMPTYSTRING3, gBattlerAttacker);
         gBattleCommunication[MSG_DISPLAY] = 1;

@@ -2678,4 +2678,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a wind move\n heals the user."),
         .aiRating = 5,
     },
+    [ABILITY_ONE_WITH_THE_WIND] =
+    {
+        .name = _("One with the Wind"),
+        .description = COMPOUND_STRING("Using a wind move changes\nthe type to match."),
+        .aiRating = 5,
+    },
 };
