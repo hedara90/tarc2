@@ -2786,4 +2786,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Inflicting poison also\nlowers Atk and Sp.Atk."),
         .aiRating = 5,
     },
+    [ABILITY_ROYAL_GUARD] =
+    {
+        .name = _("Royal Guard"),
+        .description = COMPOUND_STRING("Boosts defense of allies\nin Snow."),
+        .aiRating = 5,
+    },
 };

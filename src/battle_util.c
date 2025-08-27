@@ -9780,6 +9780,7 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(TARC_PHALANX_REDUCTION));
     }
 
+
     // ally's abilities
     if (IsBattlerAlive(BATTLE_PARTNER(battlerAtk)))
     {
@@ -10005,6 +10006,16 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
     // snow def boost for ice types
     if (gBattleWeather & B_WEATHER_SNOW && IS_BATTLER_OF_TYPE(battlerDef, TYPE_ICE) && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SNOW) && usesDefStat)
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+
+    if (!TESTING
+     && gBattleWeather & B_WEATHER_SNOW
+     && usesDefStat
+     && ((SideMonHasAbility(&gLeftMon, ABILITY_ROYAL_GUARD) && gLeftMon.hp > 0)
+      || (SideMonHasAbility(&gRightMon, ABILITY_ROYAL_GUARD) && gRightMon.hp > 0)))
+    {
+        modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(TARC_ROYAL_GUARD_DEF_BONUS));
+    }
+
 
     // The offensive stats of a Player's Pokémon are boosted by x1.1 (+10%) if they have the corresponding flags set (eg. Badges)
     if (ShouldGetStatBadgeBoost(B_FLAG_BADGE_BOOST_DEFENSE, battlerDef) && IsBattleMovePhysical(move))
