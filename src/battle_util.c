@@ -5713,6 +5713,20 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptExecute(BattleScript_TerrasBlessing);
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].slicingMove
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && SearchTraits(battlerTraits, ABILITY_FLOURISH))
+        {
+            if (gBattleMons[gBattlerAttacker].statStages[STAT_SPEED] < DEFAULT_STAT_STAGE + 6)
+            {
+                u32 statToBoost = STAT_SPEED;
+                SET_STATCHANGER(statToBoost, 1, FALSE);
+                BattleScriptPushCursor();
+                CreateAbilityPopUp(gBattlerAttacker, ABILITY_FLOURISH, FALSE);
+                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                effect++;
+            }
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

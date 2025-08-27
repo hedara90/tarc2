@@ -2702,4 +2702,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Increases crit rate of\nslicing moves."),
         .aiRating = 5,
     },
+    [ABILITY_FLOURISH] =
+    {
+        .name = _("Flourish"),
+        .description = COMPOUND_STRING("Using a slicing move\nboosts speed."),
+        .aiRating = 5,
+    },
 };
