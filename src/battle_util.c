@@ -5713,7 +5713,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptExecute(BattleScript_TerrasBlessing);
             effect++;
         }
-        if (gMovesInfo[gCurrentMove].slicingMove
+        if (IsSlicingMove(gCurrentMove, gBattlerAttacker)
          && IsBattlerTurnDamaged(gBattlerTarget)
          && SearchTraits(battlerTraits, ABILITY_FLOURISH))
         {
@@ -9374,7 +9374,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.3));
     if (SearchTraits(battlerTraits, ABILITY_STEELY_SPIRIT) && moveType == TYPE_STEEL)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
-    if (SearchTraits(battlerTraits, ABILITY_SHARPNESS) && IsSlicingMove(move))
+    if (SearchTraits(battlerTraits, ABILITY_SHARPNESS) && IsSlicingMove(move, battlerAtk))
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_GALEFORCE) && IsWindMove(move))
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
@@ -11409,7 +11409,7 @@ void SetDynamicMoveCategory(u32 battlerAtk, u32 battlerDef, u32 move)
         gBattleStruct->swapDamageCategory = FALSE;
         break;
     }
-    if (gMovesInfo[move].slicingMove && gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL && BattlerHasTrait(battlerAtk, ABILITY_MENTAL_SWORD))
+    if (IsSlicingMove(move, battlerAtk) && gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL && BattlerHasTrait(battlerAtk, ABILITY_MENTAL_SWORD))
     {
         gBattleStruct->swapDamageCategory = TRUE;
     }

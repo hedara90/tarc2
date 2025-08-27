@@ -2732,4 +2732,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a water move sets\n Misty Terrain."),
         .aiRating = 5,
     },
+    [ABILITY_BLADES_OF_FROST] =
+    {
+        .name = _("Blades of Frost"),
+        .description = COMPOUND_STRING("Ice type attacks become\nslicing moves."),
+        .aiRating = 5,
+    },
 };
