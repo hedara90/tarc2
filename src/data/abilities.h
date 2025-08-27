@@ -2750,4 +2750,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Inflicts Torment on hit."),
         .aiRating = 5,
     },
+    [ABILITY_SCORCHING_VOLTAGE] =
+    {
+        .name = _("Scorching Voltage"),
+        .description = COMPOUND_STRING("Electric attacks can also\ninflict burn on targets."),
+        .aiRating = 5,
+    },
 };
