@@ -5727,6 +5727,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
         }
+        if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && SearchTraits(battlerTraits, ABILITY_MIND_PALACE)
+         && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_PSYCHIC_TERRAIN, &gFieldTimers.terrainTimer))
+        {
+            PushTraitStack(gBattlerTarget, ABILITY_MIND_PALACE);
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_MIND_PALACE, FALSE);
+            gBattlescriptCurrInstr = BattleScript_MindPalaceActivates;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

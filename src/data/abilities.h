@@ -2714,4 +2714,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Slicing moves turn into\nspecial moves."),
         .aiRating = 5,
     },
+    [ABILITY_MIND_PALACE] =
+    {
+        .name = _("Mind Palace"),
+        .description = COMPOUND_STRING("Using a status move\nsets Psychic Terrain."),
+        .aiRating = 5,
+    },
 };

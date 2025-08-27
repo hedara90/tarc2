@@ -10344,3 +10344,11 @@ BattleScript_TerrasBlessing::
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	end2
+
+BattleScript_MindPalaceActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_TERRAINBECOMESPSYCHIC
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
+	call BattleScript_ActivateTerrainEffects
+	return
