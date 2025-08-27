@@ -5747,6 +5747,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_OverchargeActivates;
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].type == TYPE_WATER
+         && SearchTraits(battlerTraits, ABILITY_MISTBANK)
+         && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_MISTY_TERRAIN, &gFieldTimers.terrainTimer))
+        {
+            PushTraitStack(gBattlerTarget, ABILITY_MISTBANK);
+            BattleScriptPushCursor();
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_MISTBANK, FALSE);
+            gBattlescriptCurrInstr = BattleScript_MistbankActivates;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

@@ -2726,4 +2726,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using an electric move\n sets Electric Terrain."),
         .aiRating = 5,
     },
+    [ABILITY_MISTBANK] =
+    {
+        .name = _("Mistbank"),
+        .description = COMPOUND_STRING("Using a water move sets\n Misty Terrain."),
+        .aiRating = 5,
+    },
 };
