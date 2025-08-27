@@ -5808,6 +5808,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SPORANGIUM, FALSE);
             gBattlescriptCurrInstr = BattleScript_SporangiumActivates;
         }
+        if (SearchTraits(battlerTraits, ABILITY_RESORPTION)
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && gBattleMons[gBattlerTarget].status1 & STATUS1_PSN_ANY)
+        {
+            CreateAbilityPopUp(battler, ABILITY_RESORPTION, FALSE);
+            gBattleStruct->moveDamage[battler] = -gBattleScripting.savedDmg / TARC_RESORPTION_FRACTION;
+            BattleScriptExecute(BattleScript_ResorptionTriggers);
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

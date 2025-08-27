@@ -10379,3 +10379,11 @@ BattleScript_SporangiumActivates::
 	printstring STRINGID_PKMNSEEDED
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_ResorptionTriggers::
+	printstring STRINGID_RESORPTION
+	waitmessage B_WAIT_TIME_LONG
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	end2

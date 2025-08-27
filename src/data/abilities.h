@@ -2774,4 +2774,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Grass attacks also\ninflict Leech Seed."),
         .aiRating = 5,
     },
+    [ABILITY_RESORPTION] =
+    {
+        .name = _("Resorption"),
+        .description = COMPOUND_STRING("Hitting poisoned targets\nabsorbs HP."),
+        .aiRating = 5,
+    },
 };

@@ -907,5 +907,6 @@ extern const u8 BattleScript_OverchargeActivates[];
 extern const u8 BattleScript_MistbankActivates[];
 extern const u8 BattleScript_CloudingMindActivates[];
 extern const u8 BattleScript_SporangiumActivates[];
+extern const u8 BattleScript_ResorptionTriggers[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
