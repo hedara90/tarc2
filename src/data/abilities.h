@@ -2684,4 +2684,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Using a wind move changes\nthe type to match."),
         .aiRating = 5,
     },
+    [ABILITY_BRUTE_FORCE] =
+    {
+        .name = _("Brute Force"),
+        .description = COMPOUND_STRING("Increases power of\nfighting moves."),
+        .aiRating = 5,
+    },
 };
