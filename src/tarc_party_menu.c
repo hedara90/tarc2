@@ -1397,20 +1397,11 @@ static void TarcUi_WriteMonData(void)
         }
 
         //  handle potential new HP
-        u32 maxhp = sTarcUiState->mons[monIndex].maxHP;
-        for (u32 i = 0; i < 4; i++)
-        {
-            maxhp += gMovesInfo[sTarcUiState->mons[monIndex].moves[i]].hpBonus;
-        }
         u32 hp;
         if (sTarcUiState->mons[monIndex].isFainted)
+        {
             hp = 0;
-        else if (sTarcUiState->mons[monIndex].damage > maxhp)
-            hp = 1;
-        else
-            hp = maxhp - sTarcUiState->mons[monIndex].damage;
-        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
-        u32 damage = maxhp - hp;
-        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP_LOST, &damage);
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
+        }
     }
 }
