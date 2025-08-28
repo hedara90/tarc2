@@ -1183,6 +1183,7 @@ struct SaveBlock1
     u32 playerAffinity;
     u16 abilityStorage[9];
     u16 moveStorage[36];
+    u16 zoroarkOverride;
     struct BufferedObjectRemoveStruct bors;
 };
 

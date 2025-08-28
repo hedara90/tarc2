@@ -154,6 +154,8 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i] = FALSE;
     }
 
+    gSaveBlock1Ptr->zoroarkOverride = shuffleList[27];
+
     //  Clear out saveblock data
     for (u32 i = 0; i < 36; i++)
         gSaveBlock1Ptr->moveStorage[i] = MOVE_NONE;

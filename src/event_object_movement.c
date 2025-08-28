@@ -2112,6 +2112,10 @@ static u32 ConvertSpecies(u32 species)
             break;
         }
     }
+    if (species == SPECIES_ZOROARK)
+    {
+        species = gSaveBlock1Ptr->zoroarkOverride;
+    }
     return species;
 }
 
