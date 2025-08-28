@@ -1805,7 +1805,6 @@ void CalculateMonStats(struct Pokemon *mon)
                 spaBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].spaBonus;
                 spdBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].spdBonus;
                 speBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].speBonus;
-                DebugPrintf("HP bonus: %u", hpBonus);
             }
         }
         else
