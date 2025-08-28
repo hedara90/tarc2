@@ -788,32 +788,37 @@ static void Task_TarcUiMainInput(u8 taskId)
     }
 }
 
+static void TarcUi_UpdateMon(u32 i)
+{
+    struct Pokemon *mon = &gPlayerParty[i];
+    sTarcUiState->mons[i].species = GetMonData(mon, MON_DATA_SPECIES);
+    for (u32 j = 0; j < 4; j++)
+    {
+        sTarcUiState->mons[i].moves[j] = GetMonData(mon, MON_DATA_MOVE1 + j);
+    }
+    sTarcUiState->mons[i].abilities[0] = gSpeciesInfo[sTarcUiState->mons[i].species].abilities[GetMonData(mon, MON_DATA_ABILITY_NUM)];
+    for (u32 j = 0; j < 3; j++)
+    {
+        sTarcUiState->mons[i].abilities[j + 1] = gSaveBlock1Ptr->extraAbilities[i][j];
+    }
+    sTarcUiState->mons[i].hp = GetMonData(mon, MON_DATA_HP);
+    sTarcUiState->mons[i].maxHP = GetMonData(mon, MON_DATA_MAX_HP);
+    sTarcUiState->mons[i].atk = GetMonData(mon, MON_DATA_ATK);
+    sTarcUiState->mons[i].def = GetMonData(mon, MON_DATA_DEF);
+    sTarcUiState->mons[i].spa = GetMonData(mon, MON_DATA_SPATK);
+    sTarcUiState->mons[i].spd = GetMonData(mon, MON_DATA_SPDEF);
+    sTarcUiState->mons[i].spe = GetMonData(mon, MON_DATA_SPEED);
+
+    sTarcUiState->mons[i].damage = sTarcUiState->mons[i].maxHP - sTarcUiState->mons[i].hp;
+    if (sTarcUiState->mons[i].hp == 0)
+        sTarcUiState->mons[i].isFainted = TRUE;
+}
+
 static void TarcUi_LoadMons(void)
 {
     for (u32 i = 0; i < 3; i++)
     {
-        struct Pokemon *mon = &gPlayerParty[i];
-        sTarcUiState->mons[i].species = GetMonData(mon, MON_DATA_SPECIES);
-        for (u32 j = 0; j < 4; j++)
-        {
-            sTarcUiState->mons[i].moves[j] = GetMonData(mon, MON_DATA_MOVE1 + j);
-        }
-        sTarcUiState->mons[i].abilities[0] = gSpeciesInfo[sTarcUiState->mons[i].species].abilities[GetMonData(mon, MON_DATA_ABILITY_NUM)];
-        for (u32 j = 0; j < 3; j++)
-        {
-            sTarcUiState->mons[i].abilities[j + 1] = gSaveBlock1Ptr->extraAbilities[i][j];
-        }
-        sTarcUiState->mons[i].hp = GetMonData(mon, MON_DATA_HP);
-        sTarcUiState->mons[i].maxHP = GetMonData(mon, MON_DATA_MAX_HP);
-        sTarcUiState->mons[i].atk = GetMonData(mon, MON_DATA_ATK);
-        sTarcUiState->mons[i].def = GetMonData(mon, MON_DATA_DEF);
-        sTarcUiState->mons[i].spa = GetMonData(mon, MON_DATA_SPATK);
-        sTarcUiState->mons[i].spd = GetMonData(mon, MON_DATA_SPDEF);
-        sTarcUiState->mons[i].spe = GetMonData(mon, MON_DATA_SPEED);
-
-        sTarcUiState->mons[i].damage = sTarcUiState->mons[i].maxHP - sTarcUiState->mons[i].hp;
-        if (sTarcUiState->mons[i].hp == 0)
-            sTarcUiState->mons[i].isFainted = TRUE;
+        TarcUi_UpdateMon(i);
     }
 }
 
@@ -1013,16 +1018,6 @@ static void TarcUi_PrintMon(void)
     u32 spa = sTarcUiState->mons[sTarcUiState->activeMon].spa;
     u32 spd = sTarcUiState->mons[sTarcUiState->activeMon].spd;
     u32 spe = sTarcUiState->mons[sTarcUiState->activeMon].spe;
-
-    for (u32 i = 0; i < 4; i++)
-    {
-        maxhp += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].hpBonus;
-        atk += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].atkBonus;
-        def += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].defBonus;
-        spa += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].spaBonus;
-        spd += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].spdBonus;
-        spe += gMovesInfo[sTarcUiState->mons[sTarcUiState->activeMon].moves[i]].speBonus;
-    }
 
     u32 hp;
     if (sTarcUiState->mons[sTarcUiState->activeMon].isFainted)
@@ -1296,6 +1291,20 @@ static void TryMoveSelection(void)
             sTarcUiState->scrollOffset--;
 
     }
+    if (sTarcUiState->mode == MODE_MOVES)
+    {
+        struct Pokemon *mon = &gPlayerParty[activeMon];
+        //  Update underlying mon moves
+        for (u32 i = 0; i < 4; i++)
+        {
+            u32 move = sTarcUiState->mons[activeMon].moves[i];
+            SetMonData(mon, MON_DATA_MOVE1 + i, &move);
+        }
+        //  Update underlying mon stats
+        CalculateMonStats(mon);
+        //  Update tarcmon
+        TarcUi_UpdateMon(activeMon);
+    }
     TarcUi_PrintMon();
     TarcUi_InitScrollList();
 }
@@ -1388,20 +1397,11 @@ static void TarcUi_WriteMonData(void)
         }
 
         //  handle potential new HP
-        u32 maxhp = sTarcUiState->mons[monIndex].maxHP;
-        for (u32 i = 0; i < 4; i++)
-        {
-            maxhp += gMovesInfo[sTarcUiState->mons[monIndex].moves[i]].hpBonus;
-        }
         u32 hp;
         if (sTarcUiState->mons[monIndex].isFainted)
+        {
             hp = 0;
-        else if (sTarcUiState->mons[monIndex].damage > maxhp)
-            hp = 1;
-        else
-            hp = maxhp - sTarcUiState->mons[monIndex].damage;
-        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
-        u32 damage = maxhp - hp;
-        SetMonData(&gPlayerParty[monIndex], MON_DATA_HP_LOST, &damage);
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
+        }
     }
 }
