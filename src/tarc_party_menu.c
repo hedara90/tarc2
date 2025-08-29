@@ -199,9 +199,9 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define SELECT_WIDTH      8
 #define SELECT_HEIGHT     2
 #define INFO_WIDTH  20
-#define INFO_HEIGHT 8
-#define SUB_WIDTH   19
-#define SUB_HEIGHT  2
+#define INFO_HEIGHT 6
+#define SUB_WIDTH   20
+#define SUB_HEIGHT  4
 #define CONTROLLS_WIDTH  22
 #define CONTROLLS_HEIGHT 2
 #define HP_WIDTH  8
@@ -307,7 +307,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 10,
-        .tilemapTop = 4,
+        .tilemapTop = 8,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -317,7 +317,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 10,
-        .tilemapTop = 12,
+        .tilemapTop = 4,
         .width = SUB_WIDTH,
         .height = SUB_HEIGHT,
         .paletteNum = 15,
@@ -1182,7 +1182,7 @@ static void TarcUi_PrintMon(void)
     TarcUi_PrintMonTypes(sTarcUiState->mons[activeMon].types[0], sTarcUiState->mons[activeMon].types[1]);
 }
 
-static const u8 sButtonHints[] = _("{SELECT_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
+static const u8 sButtonHints[] = _("{START_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
 
 static void TarcUi_PrintButtonHints(void)
 {
@@ -1196,12 +1196,230 @@ static void TarcUi_PrintButtonHints(void)
     CopyWindowToVram(WIN_CONTROLLS, COPYWIN_GFX);
 }
 
+const u8 sPhysicalStr[] = _("physical");
+const u8 sSpecialStr[] = _("special");
+const u8 sStatusStr[] = _("status");
+const u8 sTestStr[] = _("A 95 BP Fairy type special move with\n2 turn CD. Gives +10 Spe, +10 SpA");
+
+static void BuildSubStringMove(u8 *str, u32 move)
+{
+    if (move == MOVE_NONE)
+    {
+        str[0] = EOS;
+        return;
+    }
+    u32 currChar = 0;
+    u32 subChar = 0;
+    str[0] = CHAR_A;
+    str[1] = CHAR_SPACE;
+    currChar = 2;
+    u8 tempStr[20];
+    if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
+    {
+        ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].power, STR_CONV_MODE_LEFT_ALIGN, 3);
+        while (tempStr[subChar] != EOS)
+            str[currChar++] = tempStr[subChar++];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_B;
+        str[currChar++] = CHAR_P;
+        str[currChar++] = CHAR_SPACE;
+        if (gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL)
+        {
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_h;
+            str[currChar++] = CHAR_y;
+            str[currChar++] = CHAR_s;
+            str[currChar++] = CHAR_i;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_a;
+            str[currChar++] = CHAR_l;
+            str[currChar++] = CHAR_SPACE;
+        }
+        else
+        {
+            str[currChar++] = CHAR_s;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_e;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_i;
+            str[currChar++] = CHAR_a;
+            str[currChar++] = CHAR_l;
+            str[currChar++] = CHAR_SPACE;
+        }
+    }
+    else
+    {
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_a;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_SPACE;
+    }
+
+    subChar = 0;
+    const u8 *typeStr = gTypesInfo[gMovesInfo[move].type].name;
+    while (typeStr[subChar] != EOS)
+        str[currChar++] = typeStr[subChar++];
+
+    str[currChar++] = CHAR_SPACE;
+    str[currChar++] = CHAR_t;
+    str[currChar++] = CHAR_y;
+    str[currChar++] = CHAR_p;
+    str[currChar++] = CHAR_e;
+    str[currChar++] = CHAR_SPACE;
+    str[currChar++] = CHAR_m;
+    str[currChar++] = CHAR_o;
+    str[currChar++] = CHAR_v;
+    str[currChar++] = CHAR_e;
+    if (gMovesInfo[move].cd > 0)
+    {
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_w;
+        str[currChar++] = CHAR_i;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_h;
+        str[currChar++] = CHAR_NEWLINE;
+        ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].cd, STR_CONV_MODE_LEFT_ALIGN, 1);
+        str[currChar++] = tempStr[0];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_r;
+        str[currChar++] = CHAR_n;
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_C;
+        str[currChar++] = CHAR_D;
+        str[currChar++] = CHAR_PERIOD;
+        str[currChar++] = CHAR_SPACE;
+    }
+    else
+    {
+        str[currChar++] = CHAR_PERIOD;
+        str[currChar++] = CHAR_NEWLINE;
+    }
+
+    if (gMovesInfo[move].hpBonus > 0
+     || gMovesInfo[move].atkBonus > 0
+     || gMovesInfo[move].atkBonus > 0
+     || gMovesInfo[move].atkBonus > 0
+     || gMovesInfo[move].atkBonus > 0
+     || gMovesInfo[move].atkBonus > 0)
+    {
+        u32 numStats = 0;
+        str[currChar++] = CHAR_G;
+        str[currChar++] = CHAR_i;
+        str[currChar++] = CHAR_v;
+        str[currChar++] = CHAR_e;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_SPACE;
+        if (gMovesInfo[move].hpBonus > 0)
+        {
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].hpBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_H;
+            str[currChar++] = CHAR_P;
+        }
+        if (gMovesInfo[move].atkBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].atkBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_A;
+            str[currChar++] = CHAR_t;
+            str[currChar++] = CHAR_k;
+        }
+        if (gMovesInfo[move].defBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].defBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_D;
+            str[currChar++] = CHAR_e;
+            str[currChar++] = CHAR_f;
+        }
+        if (gMovesInfo[move].spaBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].spaBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_A;
+        }
+        if (gMovesInfo[move].spdBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].spdBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_D;
+        }
+        if (gMovesInfo[move].speBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].speBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_e;
+        }
+        str[currChar++] = CHAR_PERIOD;
+    }
+
+    str[currChar] = EOS;
+}
+
+static void BuildSubStringAbility(u8 *str, u32 ability)
+{
+}
+
 static void TarcUi_PrintSelection(void)
 {
     u32 currSelection;
+    u32 subFont = FONT_NORMAL;
     const u8 *origStr = gMovesInfo[MOVE_NONE].description;
+    u8 *subString = Alloc(256);
     u32 listPos = sTarcUiState->scrollOffset + sTarcUiState->selectedRow;
     FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SUB, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     switch (sTarcUiState->mode)
     {
     case MODE_MOVES:
@@ -1210,6 +1428,8 @@ static void TarcUi_PrintSelection(void)
         else
             currSelection = gSaveBlock1Ptr->moveStorage[listPos];
         origStr = gMovesInfo[currSelection].description;
+        BuildSubStringMove(subString, currSelection);
+        subFont = FONT_NARROWER;
         break;
     case MODE_ABILITIES:
         if (sTarcUiState->rightSelected)
@@ -1217,6 +1437,8 @@ static void TarcUi_PrintSelection(void)
         else
             currSelection = gSaveBlock1Ptr->abilityStorage[listPos];
         origStr = gAbilitiesInfo[currSelection].description;
+        BuildSubStringAbility(subString, currSelection);
+        subString[0] = EOS;
         break;
     }
     u32 currChar = 0;
@@ -1225,11 +1447,22 @@ static void TarcUi_PrintSelection(void)
 
     AddTextPrinterParameterized4(WIN_INFO,
                                  FONT_NORMAL,
-                                 0, 5, 0 ,0,
+                                 0, 0, 0, 0,
                                  sTarcUiWindowFontColors[FONT_FADED],
                                  TEXT_SKIP_DRAW,
                                  origStr);
     CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
+
+    AddTextPrinterParameterized4(WIN_SUB,
+                                 subFont,
+                                 0, 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_FADED],
+                                 TEXT_SKIP_DRAW,
+                                 subString);
+    CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
+    CopyWindowToVram(WIN_SUB, COPYWIN_GFX);
+
+    Free(subString);
 }
 
 static void TarcUi_UpdateSelector(void)
