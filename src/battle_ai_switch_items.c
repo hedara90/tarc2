@@ -176,7 +176,7 @@ static bool32 ShouldSwitchIfHasBadOdds(u32 battler)
     //Variable initialization
     u8 opposingPosition, atkType1, atkType2, defType1, defType2;
     s32 i, damageDealt = 0, maxDamageDealt = 0, damageTaken = 0, maxDamageTaken = 0;
-    u32 aiMove, playerMove, aiBestMove = MOVE_NONE, opposingBattler, weather = AI_GetWeather(); //gAiLogicData->abilities[battler]
+    u32 aiMove, playerMove, aiBestMove = MOVE_NONE, opposingBattler; // gAiLogicData->abilities[battler];
     bool32 getsOneShot = FALSE, hasStatusMove = FALSE, hasSuperEffectiveMove = FALSE;
     u16 typeEffectiveness = UQ_4_12(1.0); //baseline typing damage
     enum BattleMoveEffects aiMoveEffect;
@@ -692,10 +692,10 @@ static bool32 ShouldSwitchIfBadlyStatused(u32 battler)
             AI_STORE_BATTLER_TRAITS(opposingBattler);
 
             if (gBattleMons[battler].statStages[STAT_EVASION] > (DEFAULT_STAT_STAGE + 3)
-                && !AI_BATTLER_HAS_TRAIT(opposingBattler, ABILITY_UNAWARE)
-                && !AI_BATTLER_HAS_TRAIT(opposingBattler, ABILITY_KEEN_EYE)
-                && !AI_BATTLER_HAS_TRAIT(opposingBattler, ABILITY_MINDS_EYE)
-                && (B_ILLUMINATE_EFFECT >= GEN_9 && !AI_BATTLER_HAS_TRAIT(opposingBattler, ABILITY_ILLUMINATE))
+                && !AISearchTraits(AIBattlerTraits, ABILITY_UNAWARE)
+                && !AISearchTraits(AIBattlerTraits, ABILITY_KEEN_EYE)
+                && !AISearchTraits(AIBattlerTraits, ABILITY_MINDS_EYE)
+                && (B_ILLUMINATE_EFFECT >= GEN_9 && !AISearchTraits(AIBattlerTraits, ABILITY_ILLUMINATE))
                 && !(gBattleMons[battler].status2 & STATUS2_FORESIGHT)
                 && !(gStatuses3[battler] & STATUS3_MIRACLE_EYED))
                 switchMon = FALSE;

@@ -74,15 +74,17 @@ SINGLE_BATTLE_TEST("Vessel of Ruin's message displays correctly after all battle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin reduces Sp. Atk if opposing mon's ability doesn't match")
+SINGLE_BATTLE_TEST("Vessel of Ruin reduces Sp. Atk if opposing mon's ability doesn't match (Trait)")
 {
     s16 damage[2];
 
     GIVEN {
-        PLAYER(SPECIES_TING_LU) { Ability(ABILITY_VESSEL_OF_RUIN); Innates(ABILITY_VESSEL_OF_RUIN); }
+        PLAYER(SPECIES_TING_LU) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_VESSEL_OF_RUIN); }
         OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET){ Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_VESSEL_OF_RUIN); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_WATER_GUN); MOVE(player, MOVE_ENTRAINMENT); }
+        TURN { SWITCH(opponent, 1); }
         TURN { MOVE(opponent, MOVE_WATER_GUN); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_VESSEL_OF_RUIN);
@@ -97,17 +99,17 @@ SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin reduces Sp. Atk if opposing mon's abi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin's message displays correctly after all battlers fainted - Player")
+SINGLE_BATTLE_TEST("Vessel of Ruin's message displays correctly after all battlers fainted - Player (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
         PLAYER(SPECIES_WOBBUFFET) { HP(1);}
-        PLAYER(SPECIES_TING_LU);
+        PLAYER(SPECIES_TING_LU) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_VESSEL_OF_RUIN); }
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_EXPLOSION); SEND_OUT(player, 1); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_RUINATION); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_RUINATION); }
     } SCENE {
         HP_BAR(opponent, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, opponent);
@@ -119,17 +121,17 @@ SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin's message displays correctly after al
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin's message displays correctly after all battlers fainted - Opponent")
+SINGLE_BATTLE_TEST("Vessel of Ruin's message displays correctly after all battlers fainted - Opponent (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET) { HP(1);}
-        OPPONENT(SPECIES_TING_LU);
+        OPPONENT(SPECIES_TING_LU) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_VESSEL_OF_RUIN); }
     } WHEN {
         TURN { MOVE(player, MOVE_EXPLOSION); SEND_OUT(player, 1); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_RUINATION); MOVE(opponent, MOVE_SCRATCH); }
+        TURN { MOVE(player, MOVE_RUINATION); MOVE(opponent, MOVE_TACKLE); }
     } SCENE {
         HP_BAR(player, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, player);
@@ -140,3 +142,4 @@ SINGLE_BATTLE_TEST("INNATE: Vessel of Ruin's message displays correctly after al
         MESSAGE("The opposing Ting-Lu's Vessel of Ruin weakened the Sp. Atk of all surrounding Pokémon!");
     }
 }
+

@@ -39,7 +39,7 @@ DOUBLE_BATTLE_TEST("Curious Medicine resets ally's stat stages upon entering bat
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Curious Medicine resets ally's stat stages upon entering battle")
+DOUBLE_BATTLE_TEST("Curious Medicine resets ally's stat stages upon entering battle (Trait)")
 {
     u32 ability;
 

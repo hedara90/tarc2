@@ -58,7 +58,7 @@ SINGLE_BATTLE_TEST("Embody Aspect activates when it's no longer effected by Neut
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Embody Aspect raises a stat depending on the users form by one stage")
+SINGLE_BATTLE_TEST("Embody Aspect raises a stat depending on the users form by one stage (Trait)")
 {
     u16 species, ability;
 
@@ -95,10 +95,10 @@ SINGLE_BATTLE_TEST("INNATE: Embody Aspect raises a stat depending on the users f
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Embody Aspect activates when it's no longer effected by Neutralizing Gas")
+SINGLE_BATTLE_TEST("Embody Aspect activates when it's no longer effected by Neutralizing Gas (Trait)")
 {
     GIVEN {
-        PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
+        PLAYER(SPECIES_WEEZING) { Ability(ABILITY_NEUTRALIZING_GAS); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_OGERPON_TEAL_TERA) { Ability(ABILITY_EMBODY_ASPECT_TEAL_MASK); }
     } WHEN {

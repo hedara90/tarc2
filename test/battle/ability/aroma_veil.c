@@ -197,7 +197,7 @@ DOUBLE_BATTLE_TEST("Aroma Veil prevents Psychic Noise's effect")
 // Marked in Bulbapedia as need of research
 //TO_DO_BATTLE_TEST("Aroma Veil prevents G-Max Meltdown's effect");
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Taunt")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Taunt (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -218,7 +218,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Taunt")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Torment")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Torment (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -241,7 +241,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Torment
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Encore")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Encore (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -264,7 +264,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Encore"
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Disable")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Disable (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -287,13 +287,13 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Disable
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Cursed Body")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Cursed Body (Trait)")
 {
     GIVEN {
         ASSUME(MoveMakesContact(MOVE_PECK));
         PLAYER(SPECIES_AROMATISSE) { Ability(ABILITY_HEALER); Innates(ABILITY_AROMA_VEIL); }
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_JELLICENT) { Ability(ABILITY_WATER_ABSORB); Innates(ABILITY_CURSED_BODY); }
+        OPPONENT(SPECIES_JELLICENT) { Ability(ABILITY_CURSED_BODY); }
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_PECK, target: opponentLeft); MOVE(playerRight, MOVE_PECK, target: opponentLeft); }
@@ -308,7 +308,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Cursed 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Heal Block")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Heal Block (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -329,7 +329,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Heal Bl
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Infatuation")
+DOUBLE_BATTLE_TEST("Aroma Veil protects the Pokémon's side from Infatuation (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -349,7 +349,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil protects the Pokémon's side from Infatua
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil does not protect the Pokémon's side from Imprison")
+DOUBLE_BATTLE_TEST("Aroma Veil does not protect the Pokémon's side from Imprison (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_IMPRISON) == EFFECT_IMPRISON);
@@ -370,7 +370,7 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil does not protect the Pokémon's side from
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Aroma Veil prevents Psychic Noise's effect")
+DOUBLE_BATTLE_TEST("Aroma Veil prevents Psychic Noise's effect (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = playerLeft; }
@@ -391,4 +391,4 @@ DOUBLE_BATTLE_TEST("INNATE: Aroma Veil prevents Psychic Noise's effect")
 }
 
 // Marked in Bulbapedia as need of research
-//TO_DO_BATTLE_TEST("INNATE: Aroma Veil prevents G-Max Meltdown's effect");
+//TO_DO_BATTLE_TEST("Aroma Veil prevents G-Max Meltdown's effect (Trait)");

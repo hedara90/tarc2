@@ -65,10 +65,10 @@ SINGLE_BATTLE_TEST("Primordial Sea does not block a move if pokemon is asleep an
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Primordial Sea blocks damaging Fire-type moves")
+SINGLE_BATTLE_TEST("Primordial Sea blocks damaging Fire-type moves (Trait)")
 {
     GIVEN {
-        PLAYER(SPECIES_KYOGRE) {Item(ITEM_BLUE_ORB);}
+        PLAYER(SPECIES_KYOGRE) { Ability(ABILITY_TORRENT); Innates(ABILITY_PRIMORDIAL_SEA); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_EMBER); }
@@ -87,13 +87,13 @@ SINGLE_BATTLE_TEST("INNATE: Primordial Sea blocks damaging Fire-type moves")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Primordial Sea blocks damaging Fire-type moves and prints the message only once with moves hitting multiple targets")
+DOUBLE_BATTLE_TEST("Primordial Sea blocks damaging Fire-type moves and prints the message only once with moves hitting multiple targets (Trait)")
 {
     GIVEN {
         ASSUME(!IsBattleMoveStatus(MOVE_ERUPTION));
         ASSUME(GetMoveType(MOVE_ERUPTION) == TYPE_FIRE);
         ASSUME(GetMoveTarget(MOVE_ERUPTION) == MOVE_TARGET_BOTH);
-        PLAYER(SPECIES_KYOGRE) {Item(ITEM_BLUE_ORB); {Speed(5);}}
+        PLAYER(SPECIES_KYOGRE) { Ability(ABILITY_TORRENT); Innates(ABILITY_PRIMORDIAL_SEA); {Speed(5);}}
         PLAYER(SPECIES_WOBBUFFET) {Speed(5);}
         OPPONENT(SPECIES_WOBBUFFET) {Speed(10);}
         OPPONENT(SPECIES_WOBBUFFET) {Speed(8);}
@@ -110,10 +110,10 @@ DOUBLE_BATTLE_TEST("INNATE: Primordial Sea blocks damaging Fire-type moves and p
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Primordial Sea does not block a move if pokemon is asleep and uses a Fire-type move") // Sleep/confusion/paralysis all happen before the check for primal weather
+SINGLE_BATTLE_TEST("Primordial Sea does not block a move if pokemon is asleep and uses a Fire-type move (Trait)") // Sleep/confusion/paralysis all happen before the check for primal weather
 {
     GIVEN {
-        PLAYER(SPECIES_KYOGRE) {Item(ITEM_BLUE_ORB);}
+        PLAYER(SPECIES_KYOGRE) { Ability(ABILITY_TORRENT); Innates(ABILITY_PRIMORDIAL_SEA);}
         OPPONENT(SPECIES_WOBBUFFET) {Status1(STATUS1_SLEEP);}
     } WHEN {
         TURN { MOVE(opponent, MOVE_EMBER); }

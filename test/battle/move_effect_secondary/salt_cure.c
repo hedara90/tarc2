@@ -133,7 +133,7 @@ SINGLE_BATTLE_TEST("If Salt Cure faints the target, messages will be applied in 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Salt Cure residual damage does not inflict any damage against Magic Guard")
+SINGLE_BATTLE_TEST("Salt Cure residual damage does not inflict any damage against Magic Guard (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

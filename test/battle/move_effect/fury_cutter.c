@@ -61,7 +61,7 @@ SINGLE_BATTLE_TEST("Fury Cutter counter is the same for both hits of Parental Bo
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Fury Cutter counter is the same for both hits of Parental Bond")
+SINGLE_BATTLE_TEST("Fury Cutter counter is the same for both hits of Parental Bond (Trait)")
 {
     s16 damage[4];
 

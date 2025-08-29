@@ -72,7 +72,7 @@ SINGLE_BATTLE_TEST("Curse applies to the opponent if user is afflicted by Trick-
 
 TO_DO_BATTLE_TEST("Baton Pass passes Cursed status");
 
-SINGLE_BATTLE_TEST("INNATE: Curse applies to the user if used with Protean")
+SINGLE_BATTLE_TEST("Curse applies to the user if used with Protean (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_KECLEON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_PROTEAN); }

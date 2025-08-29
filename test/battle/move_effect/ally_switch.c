@@ -314,7 +314,32 @@ DOUBLE_BATTLE_TEST("Ally Switch swaps Illusion data")
 // Triple Battles required to test
 //TO_DO_BATTLE_TEST("Ally Switch fails if the user is in the middle of the field in a Triple Battle");
 
-DOUBLE_BATTLE_TEST("INNATE: Ally switch swaps sky drop targets if being used by partner")
+DOUBLE_BATTLE_TEST("Ally Switch does not redirect moves done by pokemon with Stalwart and Propeller Tail (Trait)")
+{
+    u16 ability;
+    PARAMETRIZE { ability = ABILITY_STALWART; }
+    PARAMETRIZE { ability = ABILITY_PROPELLER_TAIL; }
+    PARAMETRIZE { ability = ABILITY_TELEPATHY; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET); // Wobb is playerLeft, but it'll be Wynaut after Ally Switch
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_KADABRA) { Ability(ABILITY_INNER_FOCUS); Innates(ability); }
+        OPPONENT(SPECIES_ABRA);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ALLY_SWITCH); MOVE(opponentLeft, MOVE_SCRATCH, target:playerRight); } // Kadabra targets playerRight Wynaut.
+    } SCENE {
+        MESSAGE("Wobbuffet used Ally Switch!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ALLY_SWITCH, playerLeft);
+        MESSAGE("Wobbuffet and Wynaut switched places!");
+
+        MESSAGE("The opposing Kadabra used Scratch!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponentLeft);
+        HP_BAR((ability == ABILITY_STALWART || ability == ABILITY_PROPELLER_TAIL) ? playerLeft : playerRight);
+    }
+}
+
+DOUBLE_BATTLE_TEST("Ally switch swaps sky drop targets if being used by partner (Trait)")
 {
     u8 visibility;
     GIVEN {
@@ -351,7 +376,7 @@ DOUBLE_BATTLE_TEST("INNATE: Ally switch swaps sky drop targets if being used by 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Ally switch swaps opposing sky drop targets if partner is being held in the air")
+DOUBLE_BATTLE_TEST("Ally switch swaps opposing sky drop targets if partner is being held in the air (Trait)")
 {
     u8 visibility;
     GIVEN {
@@ -387,3 +412,22 @@ DOUBLE_BATTLE_TEST("INNATE: Ally switch swaps opposing sky drop targets if partn
         EXPECT_EQ(visibility, 0);
     }
 }
+
+DOUBLE_BATTLE_TEST("Ally Switch swaps Illusion data (Trait)")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_ALLY_SWITCH) == EFFECT_ALLY_SWITCH);
+        PLAYER(SPECIES_HOOPA);
+        PLAYER(SPECIES_ZOROARK) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ILLUSION); }
+        PLAYER(SPECIES_MAMOSWINE); // the third member here is required for zoroark
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ALLY_SWITCH); }
+    } THEN {
+        EXPECT(&gPlayerParty[2] == gBattleStruct->illusion[0].mon);
+    }
+}
+
+// Triple Battles required to test
+//TO_DO_BATTLE_TEST("Ally Switch fails if the user is in the middle of the field in a Triple Battle (Trait)");

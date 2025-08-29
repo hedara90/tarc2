@@ -20,7 +20,7 @@ SINGLE_BATTLE_TEST("Liquid voice turns a sound move into a Water-type move")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Liquid voice turns a sound move into a Water-type move")
+SINGLE_BATTLE_TEST("Liquid voice turns a sound move into a Water-type move (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TYPHLOSION);

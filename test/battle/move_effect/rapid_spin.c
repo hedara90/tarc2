@@ -64,7 +64,7 @@ SINGLE_BATTLE_TEST("Rapid Spin: Mortal Spin blows away Wrap, hazards and poisons
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Rapid Spin activates after Toxic Debris")
+SINGLE_BATTLE_TEST("Rapid Spin activates after Toxic Debris (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_RAPID_SPIN) == EFFECT_RAPID_SPIN);

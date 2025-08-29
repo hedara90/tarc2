@@ -56,7 +56,7 @@ SINGLE_BATTLE_TEST("Mold Breaker ignores Inner Focus")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Inner Focus prevents intimidate")
+SINGLE_BATTLE_TEST("Inner Focus prevents intimidate (Trait)")
 {
     s16 turnOneHit;
     s16 turnTwoHit;
@@ -67,8 +67,8 @@ SINGLE_BATTLE_TEST("INNATE: Inner Focus prevents intimidate")
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_UNNERVE); Innates(ABILITY_INTIMIDATE); };
         OPPONENT(SPECIES_ZUBAT) { Ability(ABILITY_INFILTRATOR); Innates(ABILITY_INNER_FOCUS); };
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
-        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SCRATCH); }
 
     } SCENE {
         HP_BAR(player, captureDamage: &turnOneHit);
@@ -82,23 +82,23 @@ SINGLE_BATTLE_TEST("INNATE: Inner Focus prevents intimidate")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Inner Focus prevents flinching")
+SINGLE_BATTLE_TEST("Inner Focus prevents flinching (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_ZUBAT) { Ability(ABILITY_INFILTRATOR); Innates(ABILITY_INNER_FOCUS); };
     } WHEN {
         TURN { MOVE(player, MOVE_FAKE_OUT);
-               MOVE(opponent, MOVE_TACKLE);
+               MOVE(opponent, MOVE_SCRATCH);
         }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FAKE_OUT, player);
         NONE_OF { MESSAGE("The opposing Zubat flinched and couldn't move!"); }
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Mold Breaker ignores Inner Focus")
+SINGLE_BATTLE_TEST("Mold Breaker ignores Inner Focus (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PINSIR) { Ability(ABILITY_HYPER_CUTTER); Innates(ABILITY_MOLD_BREAKER); };

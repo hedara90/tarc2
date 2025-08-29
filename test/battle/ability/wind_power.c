@@ -222,12 +222,12 @@ DOUBLE_BATTLE_TEST("Wind Power activates correctly when Tailwind is used")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Wind Power sets up Charge for player when hit by a wind move")
+SINGLE_BATTLE_TEST("Wind Power sets up Charge for player when hit by a wind move (Trait)")
 {
     s16 dmgBefore, dmgAfter;
     u16 move;
 
-    PARAMETRIZE {move = MOVE_TACKLE; }
+    PARAMETRIZE {move = MOVE_SCRATCH; }
     PARAMETRIZE {move = MOVE_AIR_CUTTER; }
 
     GIVEN {
@@ -267,12 +267,12 @@ SINGLE_BATTLE_TEST("INNATE: Wind Power sets up Charge for player when hit by a w
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Wind Power sets up Charge for opponent when hit by a wind move")
+SINGLE_BATTLE_TEST("Wind Power sets up Charge for opponent when hit by a wind move (Trait)")
 {
     s16 dmgBefore, dmgAfter;
     u16 move;
 
-    PARAMETRIZE {move = MOVE_TACKLE; }
+    PARAMETRIZE {move = MOVE_SCRATCH; }
     PARAMETRIZE {move = MOVE_AIR_CUTTER; }
 
     GIVEN {
@@ -312,7 +312,7 @@ SINGLE_BATTLE_TEST("INNATE: Wind Power sets up Charge for opponent when hit by a
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Wind Power activates correctly for every battler with the ability when hit by a 2/3 target move")
+DOUBLE_BATTLE_TEST("Wind Power activates correctly for every battler with the ability when hit by a 2/3 target move (Trait)")
 {
     u16 abilityLeft, abilityRight;
 
@@ -353,7 +353,7 @@ DOUBLE_BATTLE_TEST("INNATE: Wind Power activates correctly for every battler wit
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Wind Power activates correctly for every battler with the ability when hit by a 3 target move")
+DOUBLE_BATTLE_TEST("Wind Power activates correctly for every battler with the ability when hit by a 3 target move (Trait)")
 {
     u16 abilityLeft, abilityRight;
 
@@ -392,7 +392,7 @@ DOUBLE_BATTLE_TEST("INNATE: Wind Power activates correctly for every battler wit
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Wind Power activates correctly when Tailwind is used")
+DOUBLE_BATTLE_TEST("Wind Power activates correctly when Tailwind is used (Trait)")
 {
     bool8 opponentSide;
 

@@ -57,7 +57,7 @@ DOUBLE_BATTLE_TEST("Teeter Dance can confuse foes and allies")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Teeter Dance confusion is blocked by Own Tempo")
+SINGLE_BATTLE_TEST("Teeter Dance confusion is blocked by Own Tempo (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

@@ -66,10 +66,27 @@ SINGLE_BATTLE_TEST("Desolate Land does not block a move if pokemon is asleep and
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Desolate Land blocks damaging Water-type moves")
+SINGLE_BATTLE_TEST("Desolate Land will not create a softlock when move in semi invulnerable position is blocked")
 {
     GIVEN {
-        PLAYER(SPECIES_GROUDON) {Item(ITEM_RED_ORB);}
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_GROUDON) { Item(ITEM_RED_ORB); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_DIVE); }
+        TURN { SWITCH(opponent, 1); SKIP_TURN(player); }
+        TURN { MOVE(player, MOVE_CELEBRATE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_DIVE, player);
+        ABILITY_POPUP(opponent, ABILITY_DESOLATE_LAND);
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_DIVE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
+    }
+}
+SINGLE_BATTLE_TEST("Desolate Land blocks damaging Water-type moves (Trait)")
+{
+    GIVEN {
+        PLAYER(SPECIES_GROUDON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DESOLATE_LAND); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_WATER_GUN); }
@@ -88,13 +105,13 @@ SINGLE_BATTLE_TEST("INNATE: Desolate Land blocks damaging Water-type moves")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Desolate Land blocks damaging Water-type moves and prints the message only once with moves hitting multiple targets")
+DOUBLE_BATTLE_TEST("Desolate Land blocks damaging Water-type moves and prints the message only once with moves hitting multiple targets (Trait)")
 {
     GIVEN {
         ASSUME(!IsBattleMoveStatus(MOVE_SURF));
         ASSUME(GetMoveType(MOVE_SURF) == TYPE_WATER);
         ASSUME(GetMoveTarget(MOVE_SURF) == MOVE_TARGET_FOES_AND_ALLY);
-        PLAYER(SPECIES_GROUDON) {Item(ITEM_RED_ORB); {Speed(5);}}
+        PLAYER(SPECIES_GROUDON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DESOLATE_LAND); {Speed(5);}}
         PLAYER(SPECIES_WOBBUFFET) {Speed(5);}
         OPPONENT(SPECIES_WOBBUFFET) {Speed(10);}
         OPPONENT(SPECIES_WOBBUFFET) {Speed(8);}
@@ -112,10 +129,10 @@ DOUBLE_BATTLE_TEST("INNATE: Desolate Land blocks damaging Water-type moves and p
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Desolate Land does not block a move if pokemon is asleep and uses a Water-type move") // Sleep/confusion/paralysis all happen before the check for primal weather
+SINGLE_BATTLE_TEST("Desolate Land does not block a move if pokemon is asleep and uses a Water-type move (Trait)") // Sleep/confusion/paralysis all happen before the check for primal weather
 {
     GIVEN {
-        PLAYER(SPECIES_GROUDON) {Item(ITEM_RED_ORB);}
+        PLAYER(SPECIES_GROUDON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DESOLATE_LAND); }
         OPPONENT(SPECIES_WOBBUFFET) {Status1(STATUS1_SLEEP);}
     } WHEN {
         TURN { MOVE(opponent, MOVE_WATER_GUN); }
@@ -125,12 +142,12 @@ SINGLE_BATTLE_TEST("INNATE: Desolate Land does not block a move if pokemon is as
     }
 }
 
-SINGLE_BATTLE_TEST("Desolate Land will not create a softlock when move in semi invulnerable position is blocked")
+SINGLE_BATTLE_TEST("Desolate Land will not create a softlock when move in semi invulnerable position is blocked (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_GROUDON) { Item(ITEM_RED_ORB); }
+        OPPONENT(SPECIES_GROUDON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DESOLATE_LAND); }
     } WHEN {
         TURN { MOVE(player, MOVE_DIVE); }
         TURN { SWITCH(opponent, 1); SKIP_TURN(player); }

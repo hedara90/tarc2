@@ -90,15 +90,15 @@ DOUBLE_BATTLE_TEST("Kee Berry doesn't trigger if partner was hit")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Kee Berry raises the holder's Defense by two stages with Ripen when hit by a physical move")
+SINGLE_BATTLE_TEST("Kee Berry raises the holder's Defense by two stages with Ripen when hit by a physical move (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_APPLIN) { Item(ITEM_KEE_BERRY); Ability(ABILITY_BULLETPROOF); Innates(ABILITY_RIPEN); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         MESSAGE("Using Kee Berry, the Defense of the opposing Applin sharply rose!");

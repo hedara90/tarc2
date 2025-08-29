@@ -190,7 +190,7 @@ SINGLE_BATTLE_TEST("Disguise does not break from a teammate's Wish")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu will lose 1/8 of its max HP upon changing to its busted form")
+SINGLE_BATTLE_TEST("Disguised Mimikyu will lose 1/8 of its max HP upon changing to its busted form (Trait)")
 {
     s16 disguiseDamage;
 
@@ -209,7 +209,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu will lose 1/8 of its max HP upon c
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes no damage from a confusion hit and changes to its busted form")
+SINGLE_BATTLE_TEST("Disguised Mimikyu takes no damage from a confusion hit and changes to its busted form (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
@@ -231,7 +231,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes no damage from a confusion h
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu's Air Balloon will pop upon changing to its busted form")
+SINGLE_BATTLE_TEST("Disguised Mimikyu's Air Balloon will pop upon changing to its busted form (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_AIR_BALLOON].holdEffect == HOLD_EFFECT_AIR_BALLOON);
@@ -250,7 +250,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu's Air Balloon will pop upon changi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from secondary damage without breaking the disguise")
+SINGLE_BATTLE_TEST("Disguised Mimikyu takes damage from secondary damage without breaking the disguise (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_STEALTH_ROCK) == EFFECT_STEALTH_ROCK);
@@ -269,7 +269,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from secondary damage
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from Rocky Helmet without breaking the disguise")
+SINGLE_BATTLE_TEST("Disguised Mimikyu takes damage from Rocky Helmet without breaking the disguise (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_ROCKY_HELMET].holdEffect == HOLD_EFFECT_ROCKY_HELMET);
@@ -288,7 +288,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from Rocky Helmet wit
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from Rough Skin without breaking the disguise")
+SINGLE_BATTLE_TEST("Disguised Mimikyu takes damage from Rough Skin without breaking the disguise (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MIMIKYU_DISGUISED) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DISGUISE); }
@@ -306,7 +306,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu takes damage from Rough Skin witho
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu is ignored by Mold Breaker")
+SINGLE_BATTLE_TEST("Disguised Mimikyu is ignored by Mold Breaker (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MIMIKYU_DISGUISED) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DISGUISE); }
@@ -319,7 +319,7 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu is ignored by Mold Breaker")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu's types revert back to Ghost/Fairy when Disguise is broken")
+SINGLE_BATTLE_TEST("Disguised Mimikyu's types revert back to Ghost/Fairy when Disguise is broken (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_SHADOW_CLAW) == TYPE_GHOST);
@@ -327,19 +327,38 @@ SINGLE_BATTLE_TEST("INNATE: Disguised Mimikyu's types revert back to Ghost/Fairy
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_SOAK); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
         TURN { MOVE(opponent, MOVE_SHADOW_CLAW); }
     } SCENE {
         MESSAGE("The opposing Wobbuffet used Soak!");
         MESSAGE("Mimikyu transformed into the Water type!");
-        MESSAGE("The opposing Wobbuffet used Tackle!");
+        MESSAGE("The opposing Wobbuffet used Scratch!");
         ABILITY_POPUP(player, ABILITY_DISGUISE);
         MESSAGE("The opposing Wobbuffet used Shadow Claw!");
         MESSAGE("It's super effective!");
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Disguise does not break from a teammate's Wish")
+SINGLE_BATTLE_TEST("Disguised Mimikyu blocks a move after getting Gastro Acid Batton Passed (Trait)")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_BATON_PASS) == EFFECT_BATON_PASS);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_MIMIKYU_DISGUISED) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DISGUISE); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_GASTRO_ACID); MOVE(player, MOVE_BATON_PASS); SEND_OUT(player, 1); }
+        TURN { MOVE(opponent, MOVE_SHADOW_CLAW); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_GASTRO_ACID, opponent);
+        MESSAGE("Wobbuffet's Ability was suppressed!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_BATON_PASS, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SHADOW_CLAW, opponent);
+        ABILITY_POPUP(player, ABILITY_DISGUISE);
+    }
+}
+
+SINGLE_BATTLE_TEST("Disguise does not break from a teammate's Wish (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_WISH) == EFFECT_WISH);

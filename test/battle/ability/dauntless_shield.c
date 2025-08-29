@@ -64,8 +64,7 @@ SINGLE_BATTLE_TEST("Dauntless Shield activates when it's no longer effected by N
     }
 }
 
-
-SINGLE_BATTLE_TEST("INNATE: Dauntless Shield raises Defense by one stage")
+SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -81,7 +80,7 @@ SINGLE_BATTLE_TEST("INNATE: Dauntless Shield raises Defense by one stage")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dauntless Shield raises Defense by one stage only once per battle")
+SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage only once per battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -101,5 +100,24 @@ SINGLE_BATTLE_TEST("INNATE: Dauntless Shield raises Defense by one stage only on
         }
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
+    }
+}
+
+SINGLE_BATTLE_TEST("Dauntless Shield activates when it's no longer effected by Neutralizing Gas (Trait)")
+{
+    GIVEN {
+        PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_NEUTRALIZING_GAS); }
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_ZAMAZENTA) { Ability(ABILITY_DAUNTLESS_SHIELD); }
+    } WHEN {
+        TURN { SWITCH(player, 1); }
+    } SCENE {
+        ABILITY_POPUP(player, ABILITY_NEUTRALIZING_GAS);
+        MESSAGE("Neutralizing gas filled the area!");
+        SWITCH_OUT_MESSAGE("Weezing");
+        MESSAGE("The effects of the neutralizing gas wore off!");
+        ABILITY_POPUP(opponent, ABILITY_DAUNTLESS_SHIELD);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        MESSAGE("The opposing Zamazenta's Dauntless Shield raised its Defense!");
     }
 }

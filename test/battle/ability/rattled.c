@@ -92,13 +92,13 @@ SINGLE_BATTLE_TEST("Rattled triggers correctly when hit by U-Turn") // Specific 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Rattled boosts speed by 1 when hit by Bug, Dark or Ghost type move")
+SINGLE_BATTLE_TEST("Rattled boosts speed by 1 when hit by Bug, Dark or Ghost type move (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_FURY_CUTTER; }
     PARAMETRIZE { move = MOVE_FEINT_ATTACK; }
     PARAMETRIZE { move = MOVE_SHADOW_PUNCH; }
-    PARAMETRIZE { move = MOVE_TACKLE; }
+    PARAMETRIZE { move = MOVE_SCRATCH; }
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) {Speed(42) ;}
         OPPONENT(SPECIES_SUDOWOODO) {Speed(40); Ability(ABILITY_STURDY); Innates(ABILITY_RATTLED);}
@@ -108,14 +108,14 @@ SINGLE_BATTLE_TEST("INNATE: Rattled boosts speed by 1 when hit by Bug, Dark or G
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, move, player);
         HP_BAR(opponent);
-        if (move != MOVE_TACKLE) {
+        if (move != MOVE_SCRATCH) {
             ABILITY_POPUP(opponent, ABILITY_RATTLED);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
             MESSAGE("The opposing Sudowoodo's Speed rose!");
         }
         MESSAGE("The opposing Sudowoodo used Celebrate!");
         // Sudowoodo is now faster
-        if (move != MOVE_TACKLE){
+        if (move != MOVE_SCRATCH){
             MESSAGE("The opposing Sudowoodo used Celebrate!");
             ANIMATION(ANIM_TYPE_MOVE, move, player);
             HP_BAR(opponent);
@@ -131,7 +131,7 @@ SINGLE_BATTLE_TEST("INNATE: Rattled boosts speed by 1 when hit by Bug, Dark or G
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Rattled boosts speed by 1 when affected by Intimidate")
+SINGLE_BATTLE_TEST("Rattled boosts speed by 1 when affected by Intimidate (Trait)")
 {
     GIVEN {
         ASSUME(B_UPDATED_INTIMIDATE >= GEN_8);
@@ -149,7 +149,7 @@ SINGLE_BATTLE_TEST("INNATE: Rattled boosts speed by 1 when affected by Intimidat
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Rattled triggers correctly when hit by U-Turn") // Specific test here, because of #3124
+SINGLE_BATTLE_TEST("Rattled triggers correctly when hit by U-Turn (Trait)") // Specific test here, because of #3124
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_U_TURN) == EFFECT_HIT_ESCAPE);

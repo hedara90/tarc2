@@ -54,7 +54,7 @@ DOUBLE_BATTLE_TEST("Stalwart stops Lightning Rod and Storm Drain from redirectin
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Stalwart ignores redirection from Follow-Me")
+DOUBLE_BATTLE_TEST("Stalwart ignores redirection from Follow-Me (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ARCHALUDON) { Ability(ABILITY_STURDY); Innates(ABILITY_STALWART); }
@@ -71,7 +71,7 @@ DOUBLE_BATTLE_TEST("INNATE: Stalwart ignores redirection from Follow-Me")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Stalwart stops Lightning Rod and Storm Drain from redirecting moves")
+DOUBLE_BATTLE_TEST("Stalwart stops Lightning Rod and Storm Drain from redirecting moves (Trait)")
 {
     u32 ability, innate, species;
     PARAMETRIZE { ability = ABILITY_SWIFT_SWIM; innate = ABILITY_STORM_DRAIN; species = SPECIES_LUMINEON; }

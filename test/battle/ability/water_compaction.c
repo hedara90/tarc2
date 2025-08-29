@@ -60,7 +60,7 @@ SINGLE_BATTLE_TEST("Water Compaction does not affect damage taken from Water typ
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Water Compaction raises Defense 2 stages when hit by a water type move")
+SINGLE_BATTLE_TEST("Water Compaction raises Defense 2 stages when hit by a water type move (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_WATER_GUN) == TYPE_WATER);
@@ -76,7 +76,7 @@ SINGLE_BATTLE_TEST("INNATE: Water Compaction raises Defense 2 stages when hit by
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Water Compaction raises Defense 2 stages on each hit of a multi-hit Water type move")
+SINGLE_BATTLE_TEST("Water Compaction raises Defense 2 stages on each hit of a multi-hit Water type move (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_SURGING_STRIKES) == TYPE_WATER);
@@ -100,7 +100,7 @@ SINGLE_BATTLE_TEST("INNATE: Water Compaction raises Defense 2 stages on each hit
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Water Compaction does not affect damage taken from Water type moves", s16 damage)
+SINGLE_BATTLE_TEST("Water Compaction does not affect damage taken from Water type moves (Trait)", s16 damage)
 {
     u16 ability;
     PARAMETRIZE { ability = ABILITY_SAND_VEIL; }

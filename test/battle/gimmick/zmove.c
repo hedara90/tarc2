@@ -679,15 +679,16 @@ SINGLE_BATTLE_TEST("(Z-MOVE) Z-Revelation Dance always transforms into Breakneck
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
     }
 }
-SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Z-Moves are not affected by -ate abilities")
+
+SINGLE_BATTLE_TEST("(Z-MOVE) Z-Moves are not affected by -ate abilities (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveType(MOVE_TACKLE) == TYPE_NORMAL);
+        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
         ASSUME(gSpeciesInfo[SPECIES_SWELLOW].types[1] == TYPE_FLYING);
         PLAYER(SPECIES_AURORUS) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_REFRIGERATE); Item(ITEM_NORMALIUM_Z); }
         OPPONENT(SPECIES_SWELLOW);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_Z_MOVE); }
+        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
@@ -695,16 +696,16 @@ SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Z-Moves are not affected by -ate abilities"
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: (Z-MOVE) Dancer does not use a Z-Move if the battler has used a Z-Move the same turn")
+DOUBLE_BATTLE_TEST("(Z-MOVE) Dancer does not use a Z-Move if the battler has used a Z-Move the same turn (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveType(MOVE_TACKLE) == TYPE_NORMAL);
+        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_DANCER); Item(ITEM_NORMALIUM_Z); }
         PLAYER(SPECIES_WYNAUT);
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft, gimmick: GIMMICK_Z_MOVE);
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft, gimmick: GIMMICK_Z_MOVE);
                MOVE(playerRight, MOVE_FIERY_DANCE, target: opponentRight); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerLeft);
@@ -715,7 +716,7 @@ DOUBLE_BATTLE_TEST("INNATE: (Z-MOVE) Dancer does not use a Z-Move if the battler
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Splintered Stormshards removes terrain")
+SINGLE_BATTLE_TEST("(Z-MOVE) Splintered Stormshards removes terrain (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_SPLINTERED_STORMSHARDS) == EFFECT_HIT_SET_REMOVE_TERRAIN);
@@ -733,7 +734,7 @@ SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Splintered Stormshards removes terrain")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (Z-MOVE) Searing Sunraze Smash ignores the target's abilities")
+SINGLE_BATTLE_TEST("(Z-MOVE) Searing Sunraze Smash ignores the target's abilities (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SOLGALEO) { Item(ITEM_SOLGANIUM_Z); }

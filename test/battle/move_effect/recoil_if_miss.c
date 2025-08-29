@@ -155,7 +155,7 @@ SINGLE_BATTLE_TEST("Recoil if miss: Disguise doesn't prevent crash damage from J
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Recoil if miss: Supercell Slam causes recoil if it is absorbed")
+SINGLE_BATTLE_TEST("Recoil if miss: Supercell Slam causes recoil if it is absorbed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -170,14 +170,14 @@ SINGLE_BATTLE_TEST("INNATE: Recoil if miss: Supercell Slam causes recoil if it i
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Recoil if miss: Disguise doesn't prevent crash damage from Jump Kick into ghost types")
+SINGLE_BATTLE_TEST("Recoil if miss: Disguise doesn't prevent crash damage from Jump Kick into ghost types (Trait)")
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_EARLY_BIRD; }
     PARAMETRIZE { ability = ABILITY_SCRAPPY; }
 
     GIVEN {
-        PLAYER(SPECIES_KANGASKHAN) { Ability(ability); };
+        PLAYER(SPECIES_KANGASKHAN) { Ability(ABILITY_LIGHT_METAL); Innates(ability); };
         OPPONENT(SPECIES_MIMIKYU_DISGUISED) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DISGUISE); }
     } WHEN {
         TURN { MOVE(player, MOVE_JUMP_KICK); }
@@ -192,4 +192,3 @@ SINGLE_BATTLE_TEST("INNATE: Recoil if miss: Disguise doesn't prevent crash damag
         }
     }
 }
-

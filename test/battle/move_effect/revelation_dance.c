@@ -148,7 +148,7 @@ SINGLE_BATTLE_TEST("Revelation Dance becomes Normal type if used by a Typeless P
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Revelation Dance becomes Normal type if used by a Typeless Pokemon due to Roost")
+SINGLE_BATTLE_TEST("Revelation Dance becomes Normal type if used by a Typeless Pokemon due to Roost (Trait)")
 {
     u16 speciesOpponent;
 
@@ -161,7 +161,7 @@ SINGLE_BATTLE_TEST("INNATE: Revelation Dance becomes Normal type if used by a Ty
         PLAYER(SPECIES_ORICORIO_BAILE) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DANCER); }
         OPPONENT(speciesOpponent);
     } WHEN {
-        TURN { MOVE(player, MOVE_BURN_UP); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_BURN_UP); MOVE(opponent, MOVE_SCRATCH); }
         TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, MOVE_REVELATION_DANCE); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BURN_UP, player);

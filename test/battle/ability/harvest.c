@@ -263,32 +263,32 @@ SINGLE_BATTLE_TEST("Harvest can only restore the newest berry consumed that was 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest has a 50% chance to restore a Berry at the end of the turn")
+SINGLE_BATTLE_TEST("Harvest has a 50% chance to restore a Berry at the end of the turn (Trait)")
 {
     PASSES_RANDOMLY(1, 2, RNG_HARVEST);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ABILITY_POPUP(opponent, ABILITY_HARVEST);
     } THEN {
         EXPECT_EQ(opponent->item, ITEM_SITRUS_BERRY);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest always restores a Berry in Sunlight")
+SINGLE_BATTLE_TEST("Harvest always restores a Berry in Sunlight (Trait)")
 {
     PASSES_RANDOMLY(1, 1, RNG_HARVEST);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_SUNNY_DAY); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_SUNNY_DAY); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SUNNY_DAY, opponent);
         ABILITY_POPUP(opponent, ABILITY_HARVEST);
     } THEN {
@@ -296,16 +296,16 @@ SINGLE_BATTLE_TEST("INNATE: Harvest always restores a Berry in Sunlight")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't always restore a Berry if Cloud Nine/Air Lock is on the field")
+SINGLE_BATTLE_TEST("Harvest doesn't always restore a Berry if Cloud Nine/Air Lock is on the field (Trait)")
 {
     PASSES_RANDOMLY(1, 2, RNG_HARVEST);
     GIVEN {
         PLAYER(SPECIES_GOLDUCK) { Ability(ABILITY_DAMP); Innates(ABILITY_CLOUD_NINE); }
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_SUNNY_DAY); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_SUNNY_DAY); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SUNNY_DAY, opponent);
         NOT ABILITY_POPUP(opponent, ABILITY_HARVEST);
     } THEN {
@@ -313,7 +313,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't always restore a Berry if Cloud Nine
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry even after being switched out and back in")
+SINGLE_BATTLE_TEST("Harvest restores a Berry even after being switched out and back in (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_PARTING_SHOT) == EFFECT_PARTING_SHOT);
@@ -321,10 +321,10 @@ SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry even after being switched o
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 1); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 1); }
         TURN { MOVE(player, MOVE_SUNNY_DAY); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 0); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SUNNY_DAY, player);
         ABILITY_POPUP(opponent, ABILITY_HARVEST);
     } THEN {
@@ -332,7 +332,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry even after being switched o
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry consumed by Fling")
+SINGLE_BATTLE_TEST("Harvest restores a Berry consumed by Fling (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FLING) == EFFECT_FLING);
@@ -349,7 +349,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry consumed by Fling")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry consumed by Natural Gift")
+SINGLE_BATTLE_TEST("Harvest restores a Berry consumed by Natural Gift (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_NATURAL_GIFT) == EFFECT_NATURAL_GIFT);
@@ -366,9 +366,9 @@ SINGLE_BATTLE_TEST("INNATE: Harvest restores a Berry consumed by Natural Gift")
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Harvest only works once per turn"); // Check for berries that are consumed immediately, like Pecha Berry
+TO_DO_BATTLE_TEST("Harvest only works once per turn (Trait)"); // Check for berries that are consumed immediately, like Pecha Berry
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when destroyed by Incinerate")
+SINGLE_BATTLE_TEST("Harvest doesn't restore a Berry when destroyed by Incinerate (Trait)")
 {
     PASSES_RANDOMLY(1, 1, RNG_HARVEST);
     GIVEN {
@@ -386,11 +386,11 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when destroyed by In
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when knocked off by Knock Off")
+SINGLE_BATTLE_TEST("Harvest doesn't restore a Berry when knocked off by Knock Off (Trait)")
 {
     PASSES_RANDOMLY(1, 1, RNG_HARVEST);
     GIVEN {
-        ASSUME(MoveHasAdditionalEffect(MOVE_KNOCK_OFF, EFFECT_KNOCK_OFF));
+        ASSUME(GetMoveEffect(MOVE_KNOCK_OFF) == EFFECT_KNOCK_OFF);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
@@ -404,7 +404,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when knocked off by 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when eaten by Bug Bite/Pluck")
+SINGLE_BATTLE_TEST("Harvest doesn't restore a Berry when eaten by Bug Bite/Pluck (Trait)")
 {
     PASSES_RANDOMLY(1, 1, RNG_HARVEST);
     GIVEN {
@@ -422,15 +422,15 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when eaten by Bug Bi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry that's collected via Pickup")
+SINGLE_BATTLE_TEST("Harvest doesn't restore a Berry that's collected via Pickup (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZIGZAGOON) { Speed(50); Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_EXEGGUTOR) { Speed(10); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_SUNNY_DAY); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_SUNNY_DAY); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SUNNY_DAY, opponent);
         ABILITY_POPUP(player, ABILITY_PICKUP);
         MESSAGE("Zigzagoon found one Sitrus Berry!");
@@ -441,7 +441,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry that's collected via
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Harvest order is affected by speed")
+DOUBLE_BATTLE_TEST("Harvest order is affected by speed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_EXEGGUTOR) { Speed(2); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
@@ -461,7 +461,7 @@ DOUBLE_BATTLE_TEST("INNATE: Harvest order is affected by speed")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when transfered to another Pokémon")
+SINGLE_BATTLE_TEST("Harvest doesn't restore a Berry when transfered to another Pokémon (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TRICK) == EFFECT_TRICK);
@@ -478,17 +478,17 @@ SINGLE_BATTLE_TEST("INNATE: Harvest doesn't restore a Berry when transfered to a
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest can restore a Berry that was transferred from another Pokémon")
+SINGLE_BATTLE_TEST("Harvest can restore a Berry that was transferred from another Pokémon (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TRICK) == EFFECT_TRICK);
         PLAYER(SPECIES_TORKOAL) { Ability(ABILITY_WHITE_SMOKE); Innates(ABILITY_DROUGHT); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); HP(100); MaxHP(500); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TRICK); MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_TRICK); MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TRICK, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ABILITY_POPUP(opponent, ABILITY_HARVEST);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
@@ -497,7 +497,7 @@ SINGLE_BATTLE_TEST("INNATE: Harvest can restore a Berry that was transferred fro
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Harvest can only restore the newest berry consumed that was transferred from another Pokémon instead of its original Berry")
+SINGLE_BATTLE_TEST("Harvest can only restore the newest berry consumed that was transferred from another Pokémon instead of its original Berry (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TRICK) == EFFECT_TRICK);
@@ -505,11 +505,11 @@ SINGLE_BATTLE_TEST("INNATE: Harvest can only restore the newest berry consumed t
         PLAYER(SPECIES_TORKOAL) { Ability(ABILITY_WHITE_SMOKE); Innates(ABILITY_DROUGHT); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_EXEGGUTOR) { Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_HARVEST); HP(100); MaxHP(500); Item(ITEM_APICOT_BERRY); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TRICK); MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_TRICK); MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TRICK, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ABILITY_POPUP(opponent, ABILITY_HARVEST);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);

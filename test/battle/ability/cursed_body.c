@@ -16,7 +16,7 @@ SINGLE_BATTLE_TEST("Cursed Body triggers 30% of the time")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cursed Body triggers 30% of the time")
+SINGLE_BATTLE_TEST("Cursed Body triggers 30% of the time (Trait)")
 {
     PASSES_RANDOMLY(3, 10, RNG_CURSED_BODY);
     GIVEN {

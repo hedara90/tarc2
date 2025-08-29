@@ -146,7 +146,7 @@ DOUBLE_BATTLE_TEST("Explosion boosted by Galvanize is correctly blocked by Volt 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Explosion is blocked by Ability Damp")
+SINGLE_BATTLE_TEST("Explosion is blocked by Ability Damp (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -163,7 +163,7 @@ SINGLE_BATTLE_TEST("INNATE: Explosion is blocked by Ability Damp")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Explosion boosted by Galvanize is correctly blocked by Volt Absorb")
+DOUBLE_BATTLE_TEST("Explosion boosted by Galvanize is correctly blocked by Volt Absorb (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GEODUDE_ALOLA) { Ability(ABILITY_STURDY); Innates(ABILITY_GALVANIZE); }

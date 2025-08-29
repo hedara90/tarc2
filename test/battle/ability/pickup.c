@@ -311,15 +311,15 @@ DOUBLE_BATTLE_TEST("Pickup doesn't trigger more than once per turn")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup grants an item used by another Pokémon")
+SINGLE_BATTLE_TEST("Pickup grants an item used by another Pokémon (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ABILITY_POPUP(player, ABILITY_PICKUP);
         MESSAGE("Zigzagoon found one Sitrus Berry!");
     } THEN {
@@ -327,16 +327,16 @@ SINGLE_BATTLE_TEST("INNATE: Pickup grants an item used by another Pokémon")
     }
 }
 
-WILD_BATTLE_TEST("INNATE: Pickup grants an item used by itself in wild battles (Gen 9)")
+WILD_BATTLE_TEST("Pickup grants an item used by itself in wild battles (Gen 9) (Trait)")
 {
     GIVEN {
         ASSUME(B_PICKUP_WILD >= GEN_9);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         ABILITY_POPUP(player, ABILITY_PICKUP);
         MESSAGE("Zigzagoon found one Sitrus Berry!");
     } THEN {
@@ -344,15 +344,15 @@ WILD_BATTLE_TEST("INNATE: Pickup grants an item used by itself in wild battles (
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant the user their item outside wild battles")
+SINGLE_BATTLE_TEST("Pickup doesn't grant the user their item outside wild battles (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); MaxHP(500); HP(251); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_PICKUP);
             MESSAGE("Zigzagoon found one Sitrus Berry!");
@@ -362,16 +362,16 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant the user their item outside wil
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant another Pokémon's popped Air Balloon")
+SINGLE_BATTLE_TEST("Pickup doesn't grant another Pokémon's popped Air Balloon (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_AIR_BALLOON].holdEffect == HOLD_EFFECT_AIR_BALLOON);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_AIR_BALLOON); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         NONE_OF {
             ABILITY_POPUP(player, ABILITY_PICKUP);
             MESSAGE("Zigzagoon found one Air Balloon!");
@@ -381,17 +381,17 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant another Pokémon's popped Air B
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item not used that turn")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an item not used that turn (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN { SWITCH(player, 1); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         NONE_OF {
             ABILITY_POPUP(player, ABILITY_PICKUP);
@@ -402,16 +402,16 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item not used that turn")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item after its holder faints")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an item after its holder faints (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_MEMENTO); SEND_OUT(opponent, 1); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_MEMENTO); SEND_OUT(opponent, 1); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         NONE_OF {
             ABILITY_POPUP(player, ABILITY_PICKUP);
             MESSAGE("Zigzagoon found one Sitrus Berry!");
@@ -421,7 +421,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item after its holder faints
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an used item if holder is replaced")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an used item if holder is replaced (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_PARTING_SHOT) == EFFECT_PARTING_SHOT);
@@ -430,10 +430,10 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an used item if holder is repla
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(300); HP(151); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(300); HP(151); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 1); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 1); }
         TURN { MOVE(player, MOVE_U_TURN); SEND_OUT(player, 1); MOVE(opponent, MOVE_PARTING_SHOT); SEND_OUT(opponent, 0); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_PARTING_SHOT, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_U_TURN, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_PARTING_SHOT, opponent);
@@ -446,7 +446,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an used item if holder is repla
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if it destroyed the item with Incinerate")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an item if it destroyed the item with Incinerate (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_INCINERATE, MOVE_EFFECT_INCINERATE));
@@ -465,10 +465,10 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if it destroyed the ite
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if it knocked off that item")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an item if it knocked off that item (Trait)")
 {
     GIVEN {
-        ASSUME(MoveHasAdditionalEffect(MOVE_KNOCK_OFF, EFFECT_KNOCK_OFF));
+        ASSUME(GetMoveEffect(MOVE_KNOCK_OFF) == EFFECT_KNOCK_OFF);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_SITRUS_BERRY); }
     } WHEN {
@@ -484,7 +484,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if it knocked off that 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if the user eats it with Bug Bite/Pluck")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an item if the user eats it with Bug Bite/Pluck (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_BUG_BITE, MOVE_EFFECT_BUG_BITE));
@@ -503,16 +503,16 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an item if the user eats it wit
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an used item if its user already restored it")
+SINGLE_BATTLE_TEST("Pickup doesn't grant an used item if its user already restored it (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_RECYCLE) == EFFECT_RECYCLE);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_RECYCLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_RECYCLE); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_RECYCLE, opponent);
         NONE_OF {
             ABILITY_POPUP(player, ABILITY_PICKUP);
@@ -523,7 +523,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup doesn't grant an used item if its user alread
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup restores an item that has been Flinged")
+SINGLE_BATTLE_TEST("Pickup restores an item that has been Flinged (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FLING) == EFFECT_FLING);
@@ -540,7 +540,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup restores an item that has been Flinged")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pickup restores an item that was used by Natural Gift")
+SINGLE_BATTLE_TEST("Pickup restores an item that was used by Natural Gift (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_NATURAL_GIFT) == EFFECT_NATURAL_GIFT);
@@ -557,7 +557,7 @@ SINGLE_BATTLE_TEST("INNATE: Pickup restores an item that was used by Natural Gif
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pickup triggers based on Speed order")
+DOUBLE_BATTLE_TEST("Pickup triggers based on Speed order (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZIGZAGOON) { Speed(1); Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
@@ -565,9 +565,9 @@ DOUBLE_BATTLE_TEST("INNATE: Pickup triggers based on Speed order")
         OPPONENT(SPECIES_WOBBUFFET) { Speed(3); MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
         OPPONENT(SPECIES_ZIGZAGOON) { Speed(50); Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         ABILITY_POPUP(opponentRight, ABILITY_PICKUP);
         NOT ABILITY_POPUP(playerLeft, ABILITY_PICKUP);
     } THEN {
@@ -576,7 +576,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pickup triggers based on Speed order")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pickup grants a random item used by another Pokémon")
+DOUBLE_BATTLE_TEST("Pickup grants a random item used by another Pokémon (Trait)")
 {
     PASSES_RANDOMLY(1, 3, RNG_PICKUP);
     GIVEN {
@@ -595,7 +595,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pickup grants a random item used by another Pokémon
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pickup doesn't trigger more than once per turn")
+DOUBLE_BATTLE_TEST("Pickup doesn't trigger more than once per turn (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZIGZAGOON) { HP(1); Ability(ABILITY_QUICK_FEET); Innates(ABILITY_PICKUP); }
