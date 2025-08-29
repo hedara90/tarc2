@@ -210,6 +210,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sChesnaughtLevelUpLearnset,
         .teachableLearnset = sChesnaughtTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_BODY_PRESS,
     },
 #endif //P_FAMILY_CHESPIN
 
@@ -424,6 +426,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sDelphoxLevelUpLearnset,
         .teachableLearnset = sDelphoxTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_MYSTICAL_FIRE,
     },
 #endif //P_FAMILY_FENNEKIN
 
@@ -1099,6 +1103,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sTalonflameLevelUpLearnset,
         .teachableLearnset = sTalonflameTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_FLETCHLING
 
@@ -1961,7 +1966,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )                                                                       \
         .levelUpLearnset = sFlorgesLevelUpLearnset,                             \
         .teachableLearnset = sFlorgesTeachableLearnset,                         \
-        .formSpeciesIdTable = sFlorgesFormSpeciesIdTable
+        .formSpeciesIdTable = sFlorgesFormSpeciesIdTable,                       \
+        .isPlayer = TRUE
 
     [SPECIES_FLORGES_RED] =
     {
@@ -2143,6 +2149,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sGogoatLevelUpLearnset,
         .teachableLearnset = sGogoatTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TRAILBLAZE,
     },
 #endif //P_FAMILY_SKIDDO
 
@@ -2354,6 +2362,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .eggMoveLearnset = sFurfrouEggMoveLearnset,                                                     \
         .formSpeciesIdTable = sFurfrouFormSpeciesIdTable,                                               \
         .formChangeTable = sFurfrouFormChangeTable,                                                     \
+        .maxPhases = 2,                                                                                 \
+        .moveReward = MOVE_REWARD_CHARM,                                                                       \
     }
 
     [SPECIES_FURFROU_NATURAL]   = FURFROU_MISC_INFO(Natural,   FALSE, 48, 3, 56, 0, 0),
@@ -2787,6 +2797,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sAegislashTeachableLearnset,
         .formSpeciesIdTable = sAegislashFormSpeciesIdTable,
         .formChangeTable = sAegislashFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SWORDS_DANCE,
     },
 
     [SPECIES_AEGISLASH_BLADE] =
@@ -2856,6 +2868,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sAegislashTeachableLearnset,
         .formSpeciesIdTable = sAegislashFormSpeciesIdTable,
         .formChangeTable = sAegislashFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SWORDS_DANCE,
     },
 #endif //P_FAMILY_HONEDGE
 
@@ -3284,6 +3298,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sMalamarLevelUpLearnset,
         .teachableLearnset = sMalamarTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TOPSY_TURVY,
     },
 #endif //P_FAMILY_INKAY
 
@@ -3569,6 +3585,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sDragalgeLevelUpLearnset,
         .teachableLearnset = sDragalgeTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SLUDGE_BOMB,
     },
 #endif //P_FAMILY_SKRELP
 
@@ -3716,6 +3734,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sClawitzerLevelUpLearnset,
         .teachableLearnset = sClawitzerTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_FLASH_CANNON,
     },
 #endif //P_FAMILY_CLAUNCHER
 
@@ -3855,6 +3875,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sHelioliskLevelUpLearnset,
         .teachableLearnset = sHelioliskTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_HELIOPTILE
 
@@ -4137,6 +4158,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sAurorusLevelUpLearnset,
         .teachableLearnset = sAurorusTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_GLACIATE,
     },
 #endif //P_FAMILY_AMAURA
 
@@ -4573,6 +4596,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGoodraLevelUpLearnset,
         .teachableLearnset = sGoodraTeachableLearnset,
         .formSpeciesIdTable = sGoodraFormSpeciesIdTable,
+        .maxPhases = 3,
     },
 
 #if P_HISUIAN_FORMS
@@ -4708,6 +4732,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGoodraHisuiLevelUpLearnset,
         .teachableLearnset = sGoodraHisuiTeachableLearnset,
         .formSpeciesIdTable = sGoodraFormSpeciesIdTable,
+        .maxPhases = 3,
     },
 #endif //P_HISUIAN_FORMS
 #endif //P_FAMILY_GOOMY
@@ -5263,6 +5288,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGourgeistLevelUpLearnset,
         .teachableLearnset = sGourgeistTeachableLearnset,
         .formSpeciesIdTable = sGourgeistFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TRICK_OR_TREAT,
     },
 
     [SPECIES_GOURGEIST_SMALL] =
@@ -5327,6 +5354,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGourgeistLevelUpLearnset,
         .teachableLearnset = sGourgeistTeachableLearnset,
         .formSpeciesIdTable = sGourgeistFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TRICK_OR_TREAT,
     },
 
     [SPECIES_GOURGEIST_LARGE] =
@@ -5391,6 +5420,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGourgeistLevelUpLearnset,
         .teachableLearnset = sGourgeistTeachableLearnset,
         .formSpeciesIdTable = sGourgeistFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TRICK_OR_TREAT,
     },
 
     [SPECIES_GOURGEIST_SUPER] =
@@ -5457,6 +5488,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sGourgeistLevelUpLearnset,
         .teachableLearnset = sGourgeistTeachableLearnset,
         .formSpeciesIdTable = sGourgeistFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TRICK_OR_TREAT,
     },
 #endif //P_FAMILY_PUMPKABOO
 
@@ -5823,6 +5856,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sNoivernLevelUpLearnset,
         .teachableLearnset = sNoivernTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_DRACO_METEOR,
     },
 #endif //P_FAMILY_NOIBAT
 

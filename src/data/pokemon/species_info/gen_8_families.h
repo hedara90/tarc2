@@ -1109,6 +1109,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sCorviknightTeachableLearnset,
         .formSpeciesIdTable = sCorviknightFormSpeciesIdTable,
         .formChangeTable = sCorviknightFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_IRON_DEFENSE,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2339,6 +2341,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sCoalossalTeachableLearnset,
         .formSpeciesIdTable = sCoalossalFormSpeciesIdTable,
         .formChangeTable = sCoalossalFormChangeTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TAR_SHOT,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -2842,6 +2846,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sHydrappleLevelUpLearnset,
         .teachableLearnset = sHydrappleTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SYRUP_BOMB,
     },
 #endif //P_GEN_9_CROSS_EVOS
 #endif //P_FAMILY_APPLIN
@@ -2974,6 +2980,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sSandacondaTeachableLearnset,
         .formSpeciesIdTable = sSandacondaFormSpeciesIdTable,
         .formChangeTable = sSandacondaFormChangeTable,
+        .isPlayer = TRUE,
     },
 
 #if P_GIGANTAMAX_FORMS
@@ -3344,6 +3351,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sBarraskewdaLevelUpLearnset,
         .teachableLearnset = sBarraskewdaTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_FLIP_TURN,
     },
 #endif //P_FAMILY_ARROKUDA
 
@@ -6140,6 +6149,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sDracozoltLevelUpLearnset,
         .teachableLearnset = sDracozoltTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_DRACOZOLT
 
@@ -6530,6 +6540,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sArchaludonLevelUpLearnset,
         .teachableLearnset = sArchaludonTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_GEN_9_CROSS_EVOS
 #endif //P_FAMILY_DURALUDON
@@ -6727,6 +6738,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sDragapultLevelUpLearnset,
         .teachableLearnset = sDragapultTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_DREEPY
 
@@ -7603,7 +7615,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_TRANSISTOR, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_TRANSISTOR, ABILITY_SHAPE_OF_CURRENT, ABILITY_NONE },
         .bodyColor = BODY_COLOR_YELLOW,
         .speciesName = _("Regieleki"),
         .cryId = CRY_REGIELEKI,
@@ -7650,6 +7662,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegielekiLevelUpLearnset,
         .teachableLearnset = sRegielekiTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_REGIELEKI
 
@@ -7671,7 +7684,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_DRAGONS_MAW, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_DRAGONS_MAW, ABILITY_SHAPE_OF_ENERGY, ABILITY_NONE },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Regidrago"),
         .cryId = CRY_REGIDRAGO,
@@ -7718,6 +7731,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegidragoLevelUpLearnset,
         .teachableLearnset = sRegidragoTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_REGIDRAGO
 

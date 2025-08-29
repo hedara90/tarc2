@@ -25,6 +25,19 @@ SINGLE_BATTLE_TEST("Aurora Veil can only be used in Hail and Snow")
     }
 }
 
+SINGLE_BATTLE_TEST("Aurora Veil can be used with Essence of Snow")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_ESSENCE_OF_SNOW); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_AURORA_VEIL); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_AURORA_VEIL, player);
+        NOT MESSAGE("But it failed!");
+    }
+}
+
 TO_DO_BATTLE_TEST("Aurora Veil reduces damage done to the user by half in singles")
 TO_DO_BATTLE_TEST("Aurora Veil reduces damage done to the user by roughly a third in doubles")
 TO_DO_BATTLE_TEST("Aurora Veil's damage reduction is ignored by Critical Hits")

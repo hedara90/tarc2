@@ -213,8 +213,11 @@ void AddTextPrinterWithCustomSpeedForMessage(bool8 allowSkippingDelayWithButtonP
 
 void LoadMessageBoxAndBorderGfx(void)
 {
-    LoadMessageBoxGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
-    LoadUserWindowBorderGfx(0, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
+    if (!gMain.inBattle)
+    {
+        LoadMessageBoxGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+        LoadUserWindowBorderGfx(0, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
+    }
 }
 
 void LoadSignPostWindowFrameGfx(void)
@@ -546,8 +549,11 @@ void SetStandardWindowBorderStyle(u8 windowId, bool8 copyToVram)
 
 void LoadMessageBoxAndFrameGfx(u8 windowId, bool8 copyToVram)
 {
-    LoadMessageBoxGfx(windowId, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
-    DrawDialogFrameWithCustomTileAndPalette(windowId, copyToVram, DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
+    if (!gMain.inBattle)
+    {
+        LoadMessageBoxGfx(windowId, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+        DrawDialogFrameWithCustomTileAndPalette(windowId, copyToVram, DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
+    }
 }
 
 void Menu_LoadStdPal(void)

@@ -198,7 +198,7 @@ SINGLE_BATTLE_TEST("Relic Song transforms Meloetta after Magician was activated"
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Relic Song is prevented by Soundproof")
+SINGLE_BATTLE_TEST("Relic Song is prevented by Soundproof (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -215,7 +215,7 @@ SINGLE_BATTLE_TEST("INNATE: Relic Song is prevented by Soundproof")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Relic Song will become a Water-type move when used by a Pokémon with the Ability Liquid Voice")
+SINGLE_BATTLE_TEST("Relic Song will become a Water-type move when used by a Pokémon with the Ability Liquid Voice (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_VULPIX);
@@ -229,7 +229,7 @@ SINGLE_BATTLE_TEST("INNATE: Relic Song will become a Water-type move when used b
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Relic Song transformation is the last thing that happens after it hits")
+SINGLE_BATTLE_TEST("Relic Song transformation is the last thing that happens after it hits (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MELOETTA_ARIA);
@@ -248,15 +248,15 @@ SINGLE_BATTLE_TEST("INNATE: Relic Song transformation is the last thing that hap
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Relic Song loses the form-changing effect with Sheer Force")
+SINGLE_BATTLE_TEST("Relic Song loses the form-changing effect with Sheer Force (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MELOETTA_ARIA) { Innates(ABILITY_SHEER_FORCE); }
         OPPONENT(SPECIES_NIDOKING) { Ability(ABILITY_POISON_POINT); Innates(ABILITY_SHEER_FORCE); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SKILL_SWAP); MOVE(player, MOVE_RELIC_SONG); }
+        TURN { MOVE(player, MOVE_RELIC_SONG); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
+        //ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
         HP_BAR(opponent);
         NOT MESSAGE("Meloetta transformed!");
@@ -265,15 +265,15 @@ SINGLE_BATTLE_TEST("INNATE: Relic Song loses the form-changing effect with Sheer
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Relic Song transforms Meloetta after Magician was activated")
+SINGLE_BATTLE_TEST("Relic Song transforms Meloetta after Magician was activated (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MELOETTA_ARIA) { Innates(ABILITY_MAGICIAN); }
         OPPONENT(SPECIES_DELPHOX) { Ability(ABILITY_BLAZE); Innates(ABILITY_MAGICIAN); Item(ITEM_POTION); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SKILL_SWAP); MOVE(player, MOVE_RELIC_SONG); }
+        TURN { MOVE(player, MOVE_RELIC_SONG); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
+        //ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_RELIC_SONG, player);
         HP_BAR(opponent);
         ABILITY_POPUP(player, ABILITY_MAGICIAN);

@@ -281,6 +281,12 @@ extern const u16 gBattleEnvironmentPalette_StadiumGlacia[];
 extern const u16 gBattleEnvironmentPalette_StadiumDrake[];
 extern const u16 gBattleEnvironmentPalette_StadiumWallace[];
 
+extern const u32 gBattleEnvironmentTiles_Painted[];
+extern const u16 gBattleEnvironmentPalette_Painted[];
+extern const u32 gBattleEnvironmentTilemap_Painted[];
+extern const u32 gBattleEnvironmentAnimTiles_Painted[];
+extern const u32 gBattleEnvironmentAnimTilemap_Painted[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];
@@ -2001,6 +2007,10 @@ extern const u8 gBattleInterface_BallDisplayGfx[];
 extern const u16 gBattleInterface_BallStatusBarPal[];
 extern const u16 gBattleInterface_BallDisplayPal[];
 extern const u8 gHealthboxElementsGfxTable[][32];
+extern const u8 gBossHealthBar[][32];
+
+extern const u32 gSideHPBars[];
+extern const u16 gBossHPBarPalette[];
 
 extern const u16 gNamingScreenMenu_Pal[6][16];
 extern const u32 gNamingScreenMenu_Gfx[];
@@ -2898,6 +2908,10 @@ extern const u16 gBattleAnimSpritePal_TeraStarstormBeam[];
 extern const u32 gBattleAnimSpriteGfx_SaltParticle[];
 extern const u16 gBattleAnimSpritePal_SaltParticle[];
 
+extern const u32 gBattleAnimSpriteGfx_FrostwispOrb[];
+extern const u32 gBattleAnimSpriteGfx_FrostwispFlakes[];
+extern const u16 gBattleAnimSpritePal_Frostwisp[];
+
 extern const u32 gBattleAnimBgImage_Dark[];
 extern const u32 gBattleAnimBgImage_Ghost[];
 extern const u32 gBattleAnimBgImage_Psychic[];
@@ -3395,5 +3409,13 @@ extern const u16 gBattleIcons_Pal2[];
 
 //New Summary Pages
 extern const u32 gSummaryPage_Traits_Tilemap[];
+
+// TARC stuff
+extern const u16 gStartMenu_Pal[];
+extern const u16 gStartMenu_Pal2[];
+extern const u32 gStartMenu_Info[];
+extern const u32 gStartMenu_Options[];
+extern const u32 gStartMenu_Pokemon[];
+extern const u32 gStartMenu_Save[];
 
 #endif //GUARD_GRAPHICS_H

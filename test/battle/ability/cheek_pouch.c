@@ -20,7 +20,7 @@ SINGLE_BATTLE_TEST("Cheek Pouch activation doesn't mutate damage when restoring 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cheek Pouch activation doesn't mutate damage when restoring HP mid battle")
+SINGLE_BATTLE_TEST("Cheek Pouch activation doesn't mutate damage when restoring HP mid battle (Trait)")
 {
     s16 damage;
     s16 healing;
@@ -38,3 +38,4 @@ SINGLE_BATTLE_TEST("INNATE: Cheek Pouch activation doesn't mutate damage when re
         EXPECT_GT(damage, 0);
     }
 }
+

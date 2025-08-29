@@ -184,38 +184,38 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     },
     [B_WIN_MOVE_NAME_1] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 7,
         .tilemapTop = 55,
-        .width = 16,    //for z move names
+        .width = 8,    //for z move names
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 0,
         .baseBlock = 0x0300,
     },
     [B_WIN_MOVE_NAME_2] = {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 16,
         .tilemapTop = 55,
         .width = 8,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 0,
         .baseBlock = 0x0318,
     },
     [B_WIN_MOVE_NAME_3] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 7,
         .tilemapTop = 57,
-        .width = 16,    //for z effect descriptions
+        .width = 8,    //for z effect descriptions
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 0,
         .baseBlock = 0x0328,
     },
     [B_WIN_MOVE_NAME_4] = {
         .bg = 0,
-        .tilemapLeft = 11,
+        .tilemapLeft = 16,
         .tilemapTop = 57,
         .width = 8,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 0,
         .baseBlock = 0x0340,
     },
     [B_WIN_PP] = {
@@ -700,6 +700,15 @@ const struct BattleBackground sBattleEnvironmentTable[] =
         .entryTileset = gBattleEnvironmentAnimTiles_Building,
         .entryTilemap = gBattleEnvironmentAnimTilemap_Building,
         .palette = gBattleEnvironmentPalette_Plain,
+    },
+    
+    [BATTLE_ENVIRONMENT_PAINTED] =
+    {
+        .tileset = gBattleEnvironmentTiles_Painted,
+        .tilemap = gBattleEnvironmentTilemap_Painted,
+        .entryTileset = gBattleEnvironmentAnimTiles_Painted,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Painted,
+        .palette = gBattleEnvironmentPalette_Painted,
     },
 };
 

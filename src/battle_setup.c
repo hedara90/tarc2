@@ -34,6 +34,7 @@
 #include "gym_leader_rematch.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
+#include "event_data.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
 #include "field_control_avatar.h"
@@ -44,6 +45,7 @@
 #include "item.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_setup.h"
+#include "constants/characters.h"
 #include "constants/event_objects.h"
 #include "constants/game_stat.h"
 #include "constants/items.h"
@@ -53,6 +55,8 @@
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
 #include "wild_encounter.h"
+
+#include "hunt_setup.h"
 
 enum {
     TRANSITION_TYPE_NORMAL,
@@ -610,6 +614,8 @@ static void CB2_EndScriptedWildBattle(void)
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
+        gSaveBlock1Ptr->bors.shouldRemove = FALSE;
+        SetLossData();
         if (InBattlePyramid())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
@@ -617,6 +623,7 @@ static void CB2_EndScriptedWildBattle(void)
     }
     else
     {
+        SetPostBattleData();
         DowngradeBadPoison();
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
@@ -624,66 +631,66 @@ static void CB2_EndScriptedWildBattle(void)
 
 u8 BattleSetup_GetEnvironmentId(void)
 {
-    u16 tileBehavior;
-    s16 x, y;
+    //u16 tileBehavior;
+    //s16 x, y;
 
-    if (I_FISHING_ENVIRONMENT >= GEN_4 && gIsFishingEncounter)
-        GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
-    else
-        PlayerGetDestCoords(&x, &y);
+    // if (I_FISHING_ENVIRONMENT >= GEN_4 && gIsFishingEncounter)
+    //     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
+    // else
+    //     PlayerGetDestCoords(&x, &y);
 
-    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    // tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
-    if (MetatileBehavior_IsTallGrass(tileBehavior))
-        return BATTLE_ENVIRONMENT_GRASS;
-    if (MetatileBehavior_IsLongGrass(tileBehavior))
-        return BATTLE_ENVIRONMENT_LONG_GRASS;
-    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
-        return BATTLE_ENVIRONMENT_SAND;
+    // if (MetatileBehavior_IsTallGrass(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_GRASS;
+    // if (MetatileBehavior_IsLongGrass(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_LONG_GRASS;
+    // if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_SAND;
 
-    switch (gMapHeader.mapType)
-    {
-    case MAP_TYPE_TOWN:
-    case MAP_TYPE_CITY:
-    case MAP_TYPE_ROUTE:
-        break;
-    case MAP_TYPE_UNDERGROUND:
-        if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
-            return BATTLE_ENVIRONMENT_BUILDING;
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-            return BATTLE_ENVIRONMENT_POND;
-        return BATTLE_ENVIRONMENT_CAVE;
-    case MAP_TYPE_INDOOR:
-    case MAP_TYPE_SECRET_BASE:
-        return BATTLE_ENVIRONMENT_BUILDING;
-    case MAP_TYPE_UNDERWATER:
-        return BATTLE_ENVIRONMENT_UNDERWATER;
-    case MAP_TYPE_OCEAN_ROUTE:
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-            return BATTLE_ENVIRONMENT_WATER;
-        return BATTLE_ENVIRONMENT_PLAIN;
-    }
-    if (MetatileBehavior_IsDeepOrOceanWater(tileBehavior))
-        return BATTLE_ENVIRONMENT_WATER;
-    if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-        return BATTLE_ENVIRONMENT_POND;
-    if (MetatileBehavior_IsMountain(tileBehavior))
-        return BATTLE_ENVIRONMENT_MOUNTAIN;
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-    {
-        // Is BRIDGE_TYPE_POND_*?
-        if (MetatileBehavior_GetBridgeType(tileBehavior) != BRIDGE_TYPE_OCEAN)
-            return BATTLE_ENVIRONMENT_POND;
+    // switch (gMapHeader.mapType)
+    // {
+    // case MAP_TYPE_TOWN:
+    // case MAP_TYPE_CITY:
+    // case MAP_TYPE_ROUTE:
+    //     break;
+    // case MAP_TYPE_UNDERGROUND:
+    //     if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
+    //         return BATTLE_ENVIRONMENT_BUILDING;
+    //     if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+    //         return BATTLE_ENVIRONMENT_POND;
+    //     return BATTLE_ENVIRONMENT_CAVE;
+    // case MAP_TYPE_INDOOR:
+    // case MAP_TYPE_SECRET_BASE:
+    //     return BATTLE_ENVIRONMENT_BUILDING;
+    // case MAP_TYPE_UNDERWATER:
+    //     return BATTLE_ENVIRONMENT_UNDERWATER;
+    // case MAP_TYPE_OCEAN_ROUTE:
+    //     if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+    //         return BATTLE_ENVIRONMENT_WATER;
+    //     return BATTLE_ENVIRONMENT_PLAIN;
+    // }
+    // if (MetatileBehavior_IsDeepOrOceanWater(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_WATER;
+    // if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_POND;
+    // if (MetatileBehavior_IsMountain(tileBehavior))
+    //     return BATTLE_ENVIRONMENT_MOUNTAIN;
+    // if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    // {
+    //     // Is BRIDGE_TYPE_POND_*?
+    //     if (MetatileBehavior_GetBridgeType(tileBehavior) != BRIDGE_TYPE_OCEAN)
+    //         return BATTLE_ENVIRONMENT_POND;
 
-        if (MetatileBehavior_IsBridgeOverWater(tileBehavior) == TRUE)
-            return BATTLE_ENVIRONMENT_WATER;
-    }
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE113))
-        return BATTLE_ENVIRONMENT_SAND;
-    if (GetSavedWeather() == WEATHER_SANDSTORM)
-        return BATTLE_ENVIRONMENT_SAND;
+    //     if (MetatileBehavior_IsBridgeOverWater(tileBehavior) == TRUE)
+    //         return BATTLE_ENVIRONMENT_WATER;
+    // }
+    // if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE113))
+    //     return BATTLE_ENVIRONMENT_SAND;
+    // if (GetSavedWeather() == WEATHER_SANDSTORM)
+    //     return BATTLE_ENVIRONMENT_SAND;
 
-    return BATTLE_ENVIRONMENT_PLAIN;
+    return BATTLE_ENVIRONMENT_PAINTED;
 }
 
 static u8 GetBattleTransitionTypeByMap(void)

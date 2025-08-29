@@ -4903,3 +4903,8 @@ static void DebugAction_Util_CheckEWRAMCounters(u8 taskId)
 {
     Debug_DestroyMenu_Full_Script(taskId, Debug_EventScript_EWRAMCounters);
 }
+
+void AddStuff(void)
+{
+    gSaveBlock1Ptr->abilityStorage[0] = ABILITY_RISING_THUNDER;
+}

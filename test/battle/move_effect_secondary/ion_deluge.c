@@ -117,24 +117,24 @@ SINGLE_BATTLE_TEST("Plasma Fists turns normal type dynamax-moves into electric t
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Plasma Fists type-changing effect does not override Pixilate")
+SINGLE_BATTLE_TEST("Plasma Fists type-changing effect does not override Pixilate (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_KRABBY) { Speed(300); };
         OPPONENT(SPECIES_SYLVEON) { Speed(1); Ability(ABILITY_CUTE_CHARM); Innates(ABILITY_PIXILATE); }
     } WHEN {
-        TURN { MOVE(player, MOVE_PLASMA_FISTS); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_PLASMA_FISTS); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         MESSAGE("Krabby used Plasma Fists!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_PLASMA_FISTS, player);
         MESSAGE("A deluge of ions showers the battlefield!");
-        MESSAGE("The opposing Sylveon used Tackle!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        MESSAGE("The opposing Sylveon used Scratch!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         NOT MESSAGE("It's super effective!");
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Plasma Fists type-changing effect is applied after Normalize")
+SINGLE_BATTLE_TEST("Plasma Fists type-changing effect is applied after Normalize (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_KRABBY);

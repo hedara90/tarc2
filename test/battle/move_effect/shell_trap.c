@@ -199,11 +199,11 @@ DOUBLE_BATTLE_TEST("Shell Trap targets correctly if one of the opponents has fai
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shell Trap does not activate if attacker's Sheer Force applied")
+SINGLE_BATTLE_TEST("Shell Trap does not activate if attacker's Sheer Force applied (Trait)")
 {
     u32 move;
     bool32 activate;
-    PARAMETRIZE { move = MOVE_TACKLE; activate = TRUE; }
+    PARAMETRIZE { move = MOVE_SCRATCH; activate = TRUE; }
     PARAMETRIZE { move = MOVE_STOMP; activate = FALSE; }
 
     GIVEN {

@@ -311,7 +311,7 @@ SINGLE_BATTLE_TEST("Neutralizing Gas exiting the field does not activate Imposte
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas activates on switch-in")
+SINGLE_BATTLE_TEST("Neutralizing Gas activates on switch-in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
@@ -324,7 +324,7 @@ SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas activates on switch-in")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents opponent's switch-in ability from activating")
+SINGLE_BATTLE_TEST("Neutralizing Gas prevents opponent's switch-in ability from activating (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
@@ -340,7 +340,7 @@ SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents opponent's switch-in abili
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents ally's switch-in ability from activating")
+DOUBLE_BATTLE_TEST("Neutralizing Gas prevents ally's switch-in ability from activating (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
@@ -358,10 +358,10 @@ DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents ally's switch-in ability f
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores all battlers' ability effects")
+DOUBLE_BATTLE_TEST("Neutralizing Gas ignores all battlers' ability effects (Trait)")
 {
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_SURF].target == MOVE_TARGET_FOES_AND_ALLY);
+        ASSUME(GetMoveTarget(MOVE_SURF) == MOVE_TARGET_FOES_AND_ALLY);
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_TELEPATHY); }
         OPPONENT(SPECIES_LANTURN) { Ability(ABILITY_WATER_ABSORB); }
@@ -391,46 +391,46 @@ DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores all battlers' ability effec
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores multipliers from attacker's ability", s16 damage)
+SINGLE_BATTLE_TEST("Neutralizing Gas ignores multipliers from attacker's ability (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_NEUTRALIZING_GAS; }
     PARAMETRIZE { ability = ABILITY_LEVITATE; }
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_TACKLE].category == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ability); }
         OPPONENT(SPECIES_AZUMARILL) { Ability(ABILITY_HUGE_POWER); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(2.0), results[1].damage);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores multipliers from target's ability", s16 damage)
+SINGLE_BATTLE_TEST("Neutralizing Gas ignores multipliers from target's ability (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_NEUTRALIZING_GAS; }
     PARAMETRIZE { ability = ABILITY_LEVITATE; }
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_TACKLE].makesContact == TRUE);
-        ASSUME(gMovesInfo[MOVE_TACKLE].type == TYPE_NORMAL);
+        ASSUME(MoveMakesContact(MOVE_SCRATCH) == TRUE);
+        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ability); }
         OPPONENT(SPECIES_BEWEAR) { Ability(ABILITY_FLUFFY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores multipliers from target's ally's ability", s16 damage)
+DOUBLE_BATTLE_TEST("Neutralizing Gas ignores multipliers from target's ally's ability (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_NEUTRALIZING_GAS; }
@@ -441,37 +441,37 @@ DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores multipliers from target's a
         OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_TELEPATHY); }
         OPPONENT(SPECIES_CLEFAIRY) { Ability(ABILITY_FRIEND_GUARD); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         HP_BAR(opponentLeft, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.75), results[1].damage);
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas ignores multipliers from ally's ability", s16 damage)
+DOUBLE_BATTLE_TEST("Neutralizing Gas ignores multipliers from ally's ability (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_NEUTRALIZING_GAS; }
     PARAMETRIZE { ability = ABILITY_LEVITATE; }
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_TACKLE].category == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ability); }
         PLAYER(SPECIES_WO_CHIEN) { Ability(ABILITY_TABLETS_OF_RUIN); }
         OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_TELEPATHY); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         HP_BAR(opponentLeft, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.75), results[1].damage);
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas leaving the field allows abilities to activate in turn order")
+DOUBLE_BATTLE_TEST("Neutralizing Gas leaving the field allows abilities to activate in turn order (Trait)")
 {
     u32 speedPlayerRight, speedOppLeft, speedOppRight;
     PARAMETRIZE { speedPlayerRight = 5; speedOppLeft = 3; speedOppRight = 2; }
@@ -530,7 +530,7 @@ DOUBLE_BATTLE_TEST("INNATE: Neutralizing Gas leaving the field allows abilities 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Insomnia from blocking Rest")
+SINGLE_BATTLE_TEST("Neutralizing Gas prevents Insomnia from blocking Rest (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_REST) == EFFECT_REST);
@@ -547,7 +547,7 @@ SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Insomnia from blocking Res
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Trace from copying")
+SINGLE_BATTLE_TEST("Neutralizing Gas prevents Trace from copying it (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_RALTS) { Ability(ABILITY_TRACE); }
@@ -558,15 +558,16 @@ SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Trace from copying")
         ABILITY_POPUP(opponent, ABILITY_NEUTRALIZING_GAS);
         NONE_OF {
             ABILITY_POPUP(player, ABILITY_TRACE);
-            ABILITY_POPUP(player, ABILITY_MINUS);
+            ABILITY_POPUP(player, ABILITY_NEUTRALIZING_GAS);
         }
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Contrary inverting stat boosts")
+SINGLE_BATTLE_TEST("Neutralizing Gas prevents Contrary inverting stat boosts (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_REST) == EFFECT_REST);
+        ASSUME(GetMoveEffect(MOVE_SWORDS_DANCE) == EFFECT_ATTACK_UP_2);
+        ASSUME(GetMoveEffect(MOVE_LEER) == EFFECT_DEFENSE_DOWN);
         PLAYER(SPECIES_INKAY) { Ability(ABILITY_CONTRARY); }
         OPPONENT(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
     } WHEN {
@@ -579,5 +580,43 @@ SINGLE_BATTLE_TEST("INNATE: Neutralizing Gas prevents Contrary inverting stat bo
     } THEN {
         EXPECT_GT(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE);
         EXPECT_LT(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
+    }
+}
+
+SINGLE_BATTLE_TEST("Neutralizing Gas exiting the field does not activate abilities that were not suppressed by it again (Trait)")
+{
+    u32 species, ability;
+    // These are the only abilities that could immediately activate again
+    PARAMETRIZE { species = SPECIES_KOMALA; ability = ABILITY_COMATOSE; }
+    PARAMETRIZE { species = SPECIES_CALYREX_SHADOW; ability = ABILITY_AS_ONE_SHADOW_RIDER; }
+    PARAMETRIZE { species = SPECIES_CALYREX_ICE; ability = ABILITY_AS_ONE_ICE_RIDER; }
+
+    GIVEN {
+        ASSUME(gAbilitiesInfo[ability].cantBeSuppressed);
+        PLAYER(species) { Ability(ability); }
+        OPPONENT(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { SWITCH(opponent, 1); }
+    } SCENE {
+        ABILITY_POPUP(player, ability);
+        MESSAGE("The effects of the neutralizing gas wore off!");
+        NOT ABILITY_POPUP(player, ability);
+    }
+}
+
+SINGLE_BATTLE_TEST("Neutralizing Gas exiting the field does not activate Imposter even if it did not activate before (Trait)")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_DITTO) { Ability(ABILITY_IMPOSTER); }
+        OPPONENT(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { SWITCH(player, 1); SWITCH(opponent, 1); }
+    } SCENE {
+        NOT ABILITY_POPUP(player, ABILITY_IMPOSTER);
+        MESSAGE("The effects of the neutralizing gas wore off!");
+        NOT ABILITY_POPUP(player, ABILITY_IMPOSTER);
     }
 }

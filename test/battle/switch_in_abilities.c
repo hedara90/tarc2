@@ -127,7 +127,7 @@ DOUBLE_BATTLE_TEST("Switch-in abilities trigger in Speed Order after post-KO swi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order at the battle's start - Single Battle")
+SINGLE_BATTLE_TEST("Switch-in abilities trigger in Speed Order at the battle's start - Single Battle (Trait)")
 {
     u32 spdPlayer, spdOpponent;
 
@@ -150,7 +150,7 @@ SINGLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order at the ba
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order at the battle's start - Double Battle")
+DOUBLE_BATTLE_TEST("Switch-in abilities trigger in Speed Order at the battle's start - Double Battle (Trait)")
 {
     u32 spdPlayer1, spdPlayer2, spdOpponent1, spdOpponent2;
 
@@ -185,7 +185,7 @@ DOUBLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order at the ba
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order after post-KO switch - Single Battle")
+SINGLE_BATTLE_TEST("Switch-in abilities trigger in Speed Order after post-KO switch - Single Battle (Trait)")
 {
     u32 spdPlayer, spdOpponent;
 
@@ -212,7 +212,7 @@ SINGLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order after pos
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Switch-in abilities trigger in Speed Order after post-KO switch - Double Battle")
+DOUBLE_BATTLE_TEST("Switch-in abilities trigger in Speed Order after post-KO switch - Double Battle (Trait)")
 {
     u32 spdPlayer1, spdPlayer2, spdOpponent1, spdOpponent2;
 

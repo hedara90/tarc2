@@ -43,35 +43,35 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
-#define FLAG_UNUSED_0x027    0x27 // Unused Flag
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
-#define FLAG_UNUSED_0x02D    0x2D // Unused Flag
-#define FLAG_UNUSED_0x02E    0x2E // Unused Flag
-#define FLAG_UNUSED_0x02F    0x2F // Unused Flag
-#define FLAG_UNUSED_0x030    0x30 // Unused Flag
-#define FLAG_UNUSED_0x031    0x31 // Unused Flag
-#define FLAG_UNUSED_0x032    0x32 // Unused Flag
-#define FLAG_UNUSED_0x033    0x33 // Unused Flag
-#define FLAG_UNUSED_0x034    0x34 // Unused Flag
-#define FLAG_UNUSED_0x035    0x35 // Unused Flag
-#define FLAG_UNUSED_0x036    0x36 // Unused Flag
-#define FLAG_UNUSED_0x037    0x37 // Unused Flag
-#define FLAG_UNUSED_0x038    0x38 // Unused Flag
-#define FLAG_UNUSED_0x039    0x39 // Unused Flag
-#define FLAG_UNUSED_0x03A    0x3A // Unused Flag
-#define FLAG_UNUSED_0x03B    0x3B // Unused Flag
-#define FLAG_UNUSED_0x03C    0x3C // Unused Flag
+#define FLAG_AREA1_MINIBOSS1    0x20
+#define FLAG_AREA1_MINIBOSS2    0x21
+#define FLAG_AREA1_MINIBOSS3    0x22
+#define FLAG_AREA2_MINIBOSS1    0x23
+#define FLAG_AREA2_MINIBOSS2    0x24
+#define FLAG_AREA2_MINIBOSS3    0x25
+#define FLAG_AREA3_MINIBOSS1    0x26
+#define FLAG_AREA3_MINIBOSS2    0x27
+#define FLAG_AREA3_MINIBOSS3    0x28
+#define FLAG_AREA4_MINIBOSS1    0x29
+#define FLAG_AREA4_MINIBOSS2    0x2A
+#define FLAG_AREA4_MINIBOSS3    0x2B
+#define FLAG_AREA5_MINIBOSS1    0x2C
+#define FLAG_AREA5_MINIBOSS2    0x2D
+#define FLAG_AREA5_MINIBOSS3    0x2E
+#define FLAG_AREA6_MINIBOSS1    0x2F
+#define FLAG_AREA6_MINIBOSS2    0x30
+#define FLAG_AREA6_MINIBOSS3    0x31
+#define FLAG_AREA7_MINIBOSS1    0x32
+#define FLAG_AREA7_MINIBOSS2    0x33
+#define FLAG_AREA7_MINIBOSS3    0x34
+#define FLAG_AREA8_MINIBOSS1    0x35
+#define FLAG_AREA8_MINIBOSS2    0x36
+#define FLAG_AREA8_MINIBOSS3    0x37
+#define FLAG_AREA9_MINIBOSS1    0x38
+#define FLAG_AREA9_MINIBOSS2    0x39
+#define FLAG_AREA9_MINIBOSS3    0x3A
+#define FLAG_WON_LAST_RUN       0x3B
+#define FLAG_LOST_LAST_RUN      0x3C
 #define FLAG_UNUSED_0x03D    0x3D // Unused Flag
 #define FLAG_UNUSED_0x03E    0x3E // Unused Flag
 #define FLAG_UNUSED_0x03F    0x3F // Unused Flag

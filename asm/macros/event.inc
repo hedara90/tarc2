@@ -1549,14 +1549,14 @@
 	.2byte \count
 	.endm
 
-	@ Prepares to start a wild battle against a 'species' at 'level' holding 'item'.
+	@ Prepares to start a wild battle against a species stored in 'variable' at 'level' holding 'item'.
 	@ If 'species2' is something other than SPECIES_NONE, then the battle is a double battle
 	@ that is also against 'species2' at 'level2' holding 'item2'.
 	@ Running this command will not affect normal wild battles. You start the prepared battle with dowildbattle.
 	@ If the player only has one Pokemon, a scripted double battle will be buggy.
-	.macro setwildbattle species:req, level:req, item=ITEM_NONE, species2=SPECIES_NONE, level2=0, item2=ITEM_NONE
+	.macro setwildbattle variable:req, level:req, item=ITEM_NONE, species2=SPECIES_NONE, level2=0, item2=ITEM_NONE
 	.byte SCR_OP_SETWILDBATTLE
-	.2byte \species
+	.2byte \variable
 	.byte \level
 	.2byte \item
 	.2byte \species2
@@ -2638,4 +2638,50 @@
 	.macro changefollowerbattler battlePartner:req
 	callnative ScriptChangeFollowerNPCBattlePartner
 	.2byte \battlePartner
+	.endm
+
+	@ Sets up a hunt with given input
+	.macro setuphunt target:req
+	callnative SetupHuntFromScript
+	.byte \target
+	.endm
+
+	@ Set affinity
+	.macro setaffinity affinity:req
+	callnative SetAffinityFromScript
+	.byte \affinity
+	.endm
+
+	@ Choose boss to fight in subarea
+	.macro choosecurrentboss area:req
+	callnative ChooseCurrentBossFromScript
+	.byte \area
+	.endm
+
+	@ Set miniboss to fight in subarea
+	.macro setminiboss area:req miniboss:req
+	callnative SetMiniboss
+	.byte \area
+	.byte \miniboss
+	.endm
+
+	@ Warp and continue script
+	.macro warpcontinuescript map:req, X:req, Y:req, script:req, startBlack=TRUE
+	callnative WarpContinueScript
+	.2byte \map
+	.2byte \X
+	.2byte \Y
+	.4byte \script
+	.endm
+
+	@ Buffer and object to remove at start of battle
+	.macro bufferremoveobject localId:req
+	callnative BufferRemoveObject
+	.2byte \localId
+	.endm
+
+	@ Buffer and object to remove at start of battle
+	.macro checkbossstatus area:req
+	callnative CheckBossStatus
+	.byte \area
 	.endm

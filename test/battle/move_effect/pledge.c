@@ -1095,7 +1095,7 @@ DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Rainbow flinch chance does not stack with Serene Grace")
+DOUBLE_BATTLE_TEST("Rainbow flinch chance does not stack with Serene Grace (Trait)")
 {
     PASSES_RANDOMLY(60, 100, RNG_SECONDARY_EFFECT);
     GIVEN {
@@ -1116,7 +1116,7 @@ DOUBLE_BATTLE_TEST("INNATE: Rainbow flinch chance does not stack with Serene Gra
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge moves can not be redirected by absorbing abilities")
+DOUBLE_BATTLE_TEST("Pledge moves can not be redirected by absorbing abilities (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -1131,7 +1131,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge moves can not be redirected by absorbing abil
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Electrify")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Electrify (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ELECTRIFY) == EFFECT_ELECTRIFY);
@@ -1156,7 +1156,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Storm Drain")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Storm Drain (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GASTRODON) { Ability(ABILITY_STICKY_HOLD); Innates(ABILITY_STORM_DRAIN); }
@@ -1179,7 +1179,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Sap Sipper")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Sap Sipper (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GOODRA) { Ability(ABILITY_HYDRATION); Innates(ABILITY_SAP_SIPPER); }
@@ -1202,7 +1202,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Dry Skin")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Dry Skin (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DAMP); Innates(ABILITY_DRY_SKIN); }
@@ -1225,7 +1225,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Flash Fire")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Flash Fire (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_HEATRAN) { Ability(ABILITY_FLAME_BODY); Innates(ABILITY_FLASH_FIRE); }
@@ -1248,7 +1248,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Motor Drive")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Motor Drive (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ELECTRIFY) == EFFECT_ELECTRIFY);
@@ -1273,7 +1273,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Volt Absorb")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Volt Absorb (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ELECTRIFY) == EFFECT_ELECTRIFY);
@@ -1298,7 +1298,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Water Absorb")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Water Absorb (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_VAPOREON) { Ability(ABILITY_HYDRATION); Innates(ABILITY_WATER_ABSORB); }
@@ -1321,7 +1321,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pled
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pledge move combo doesn't trigger on opponent's Pledge move - Well Baked Body")
+DOUBLE_BATTLE_TEST("Pledge move combo doesn't trigger on opponent's Pledge move - Well Baked Body (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DACHSBUN) { Ability(ABILITY_AROMA_VEIL); Innates(ABILITY_WELL_BAKED_BODY); }

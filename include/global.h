@@ -1044,6 +1044,27 @@ struct ExternalEventFlags
 
 } __attribute__((packed));/*size = 0x15*/
 
+struct HuntTargets
+{
+    u16 finalBoss;      //  Saved as enum FinalBossList
+    u16 bosses[9];      //  Saved as enum BossGroupList
+    u16 miniBosses[27]; //  Saved as species
+    bool8 finalBossDefeated;
+    u16 bossesDefeated[9];
+    bool8 miniBossesDefeated[27];
+    u8 currentArea;
+    u16 currentBoss;
+    u16 currentEnemy;
+};
+
+struct BufferedObjectRemoveStruct
+{
+    u8 localId;
+    u8 mapNum;
+    u8 mapGroup;
+    bool8 shouldRemove;
+};
+
 struct SaveBlock1
 {
     /*0x00*/ struct Coords16 pos;
@@ -1156,6 +1177,14 @@ struct SaveBlock1
 #endif //FREE_TRAINER_HILL
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
     // sizeof: 0x3???
+    struct HuntTargets huntTargets;
+    u16 extraAbilities[3][3];
+    u16 playerSpecies[3];
+    u32 playerAffinity;
+    u16 abilityStorage[9];
+    u16 moveStorage[36];
+    u16 zoroarkOverride;
+    struct BufferedObjectRemoveStruct bors;
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

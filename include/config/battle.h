@@ -35,7 +35,7 @@
 #define B_KNOCK_OFF_DMG             GEN_LATEST // In Gen6+, Knock Off deals 50% more damage when knocking off an item.
 #define B_SPORT_DMG_REDUCTION       GEN_LATEST // In Gen5+, Water/Mud Sport reduce Fire/Electric Damage by 67% instead of 50%.
 #define B_EXPLOSION_DEFENSE         GEN_LATEST // In Gen5+, Self-Destruct and Explosion don't halve the targets' defense.
-#define B_PARENTAL_BOND_DMG         GEN_LATEST // In Gen7+, Parental Bond's second hit does 25% of the initial hits damage. Before, it did 50%.
+#define B_PARENTAL_BOND_DMG         GEN_6 // In Gen7+, Parental Bond's second hit does 25% of the initial hits damage. Before, it did 50%.
 #define B_MULTIPLE_TARGETS_DMG      GEN_LATEST // In Gen4+, damage dealt by moves that hit multiple targets at once is reduced to 75%. Before, it was 50%.
 
 // Type settings
@@ -237,7 +237,7 @@
 #define B_SHOW_PARTNER_TARGET             FALSE // Shows the battler partner will target.
 
 // Move description menu
-#define B_SHOW_MOVE_DESCRIPTION     TRUE       // Shows move information in battler
+#define B_SHOW_MOVE_DESCRIPTION     FALSE       // Shows move information in battler
 
 // Weather settings
 // Search for 'rain', 'sunny day', and 'hail' for move-specific or species-specific weather interactions.
@@ -265,7 +265,7 @@
 // Interface settings
 #define B_ABILITY_POP_UP            TRUE  // In Gen5+, the Pokémon abilities are displayed in a pop-up, when they activate in battle.
 #define B_FAST_INTRO_PKMN_TEXT      TRUE  // If set to TRUE, battle intro texts print at the same time as animation of a Pokémon, as opposing to waiting for the animation to end.
-#define B_FAST_INTRO_NO_SLIDE       FALSE // If set to TRUE, the slide animation that happens at the beginning of the battle is skipped.
+#define B_FAST_INTRO_NO_SLIDE       TRUE // If set to TRUE, the slide animation that happens at the beginning of the battle is skipped.
 #define B_FAST_HP_DRAIN             TRUE  // If set to TRUE, HP bars will move faster.
 #define B_FAST_EXP_GROW             TRUE  // If set to TRUE, EXP bars will move faster.
 #define B_SHOW_TARGETS              TRUE  // If set to TRUE, all available targets, for moves hitting 2 or 3 Pokémon, will be shown before selecting a move.
@@ -301,7 +301,7 @@
 #define B_TRAINER_CLASS_POKE_BALLS      GEN_LATEST // In Gen7+, trainers will use certain types of Poké Balls depending on their trainer class.
 #define B_TRAINER_MON_RANDOM_ABILITY    FALSE      // If this is set to TRUE a random legal ability will be generated for a trainer mon
 #define B_OBEDIENCE_MECHANICS           GEN_LATEST // In PLA+ (here Gen8+), obedience restrictions also apply to non-outsider Pokémon, albeit based on their level met rather than actual level
-#define B_USE_FROSTBITE                 FALSE      // In PLA, Frostbite replaces Freeze. Enabling this flag does the same here. Moves can still be cherry-picked to either Freeze or Frostbite. Freeze-Dry, Secret Power & Tri Attack depend on this config.
+#define B_USE_FROSTBITE                 TRUE      // In PLA, Frostbite replaces Freeze. Enabling this flag does the same here. Moves can still be cherry-picked to either Freeze or Frostbite. Freeze-Dry, Secret Power & Tri Attack depend on this config.
 #define B_TOXIC_REVERSAL                GEN_LATEST // In Gen5+, bad poison will change to regular poison at the end of battles.
 #define B_TRY_CATCH_TRAINER_BALL        GEN_LATEST // In Gen4+, trying to catch a Trainer's Pokémon does not consume the Poké Ball.
 #define B_SLEEP_CLAUSE                  FALSE      // Enables Sleep Clause all the time in every case, overriding B_FLAG_SLEEP_CLAUSE. Use that for modularity.

@@ -4,6 +4,7 @@
 #include "battle_controllers.h"
 #include "battle_ai_util.h"
 #include "battle_gimmick.h"
+#include "battle_interface.h"
 #include "battle_scripts.h"
 #include "constants/battle.h"
 #include "constants/battle_string_ids.h"
@@ -11,6 +12,9 @@
 #include "constants/abilities.h"
 #include "constants/items.h"
 #include "constants/moves.h"
+
+#include "constants/characters.h"
+#include "string_util.h"
 
 // General End Turn Effects based on research from smogon from vanilla games:
 // https://www.smogon.com/forums/threads/sword-shield-battle-mechanics-research.3655528/page-64#post-9244179
@@ -43,6 +47,7 @@ enum EndTurnResolutionOrder
     ENDTURN_TORMENT,
     ENDTURN_ENCORE,
     ENDTURN_DISABLE,
+    ENDTURN_CLOUDWALKER,
     ENDTURN_MAGNET_RISE,
     ENDTURN_TELEKINESIS,
     ENDTURN_HEAL_BLOCK,
@@ -64,6 +69,8 @@ enum EndTurnResolutionOrder
     ENDTURN_ABILITIES,
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
+    ENDTURN_BACKLINE_RESTORE,
+    ENDTURN_PLAYER_CD,
     ENDTURN_COUNT,
 };
 
@@ -190,6 +197,7 @@ static bool32 HandleEndTurnVarious(u32 battler)
 static bool32 HandleEndTurnWeather(u32 battler)
 {
     gBattleStruct->endTurnEventsCounter++;
+    gBattleStruct->isEndOfTurnWeather = TRUE;
     return EndOrContinueWeather();
 }
 
@@ -202,19 +210,23 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
     u16 battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battler);
 
-    if (currBattleWeather == 0xFF)
-    {
-        // If there is no weather on the field, no need to check other battlers so go to next state
-        gBattleStruct->turnEffectsBattlerId = 0;
-        gBattleStruct->endTurnEventsCounter++;
-        return effect;
-    }
+    //if (currBattleWeather == 0xFF)
+    //{
+    //    // If there is no weather on the field, no need to check other battlers so go to next state
+    //    gBattleStruct->turnEffectsBattlerId = 0;
+    //    gBattleStruct->endTurnEventsCounter++;
+    //    return effect;
+    //}
 
     gBattleStruct->turnEffectsBattlerId++;
 
     if (!IsBattlerAlive(battler) || !HasWeatherEffect())
         return effect;
 
+    if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN))
+        currBattleWeather = BATTLE_WEATHER_RAIN;
+    else if (SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN))
+        currBattleWeather = BATTLE_WEATHER_SUN;
 
     switch (currBattleWeather)
     {
@@ -232,14 +244,21 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN) || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER))
+        if (SearchTraits(battlerTraits, ABILITY_DRY_SKIN)
+         || SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
+         || SearchTraits(battlerTraits, ABILITY_FLORAL_GROWTH))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
         }
         break;
     case BATTLE_WEATHER_SANDSTORM:
-        if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL)
+        if (SearchTraits(battlerTraits, ABILITY_SAND_REPAIR))
+        {
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
+                effect = TRUE;
+        }
+        else if (!BattlerHasTrait(battler, ABILITY_SAND_VEIL) 
          && !BattlerHasTrait(battler, ABILITY_SAND_FORCE)
          && !BattlerHasTrait(battler, ABILITY_SAND_RUSH)
          && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
@@ -258,7 +277,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY))
+        if (SearchTraits(battlerTraits, ABILITY_ICE_BODY) || SearchTraits(battlerTraits, ABILITY_ICY_VEINS))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
@@ -945,6 +964,23 @@ static bool32 HandleEndTurnDisable(u32 battler)
     return effect;
 }
 
+static bool32 HandleEndTurnCloudwalker(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    if (gStatuses4[battler] & STATUS4_CLOUDWALKER && gDisableStructs[battler].cloudwalkerTimer == gBattleTurnCounter)
+    {
+        gStatuses4[battler] &= ~STATUS4_CLOUDWALKER;
+        BattleScriptExecute(BattleScript_BufferEndTurn);
+        PREPARE_STRING_BUFFER(gBattleTextBuff1, STRINGID_CLOUDWALKER);
+        effect = TRUE;
+    }
+
+    return effect;
+}
+
 static bool32 HandleEndTurnMagnetRise(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1457,6 +1493,51 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
     return effect;
 }
 
+static u32 FindValidThunderstrikeTarget(void)
+{
+    u32 target;
+    bool32 foundValid = FALSE;
+    while (!foundValid)
+    {
+        target = Random32() % 3;
+        if (target == 0)
+        {
+            StringCopy(gBattleTextBuff1, gSpeciesInfo[gBattleMons[0].species].speciesName);
+            foundValid = TRUE;
+        }
+        else
+        {
+            if (target == 1 && gLeftMon.hp > 0)
+            {
+                StringCopy(gBattleTextBuff1, gSpeciesInfo[gLeftMon.species].speciesName);
+                foundValid = TRUE;
+            }
+            else if (target == 2 && gRightMon.hp > 0)
+            {
+                StringCopy(gBattleTextBuff1, gSpeciesInfo[gRightMon.species].speciesName);
+                foundValid = TRUE;
+            }
+        }
+    }
+    return target;
+}
+
+static bool32 RessMon(struct BattlePokemon *battleMon, struct Pokemon *mon, u32 type)
+{
+    gBattleStruct->hasRessed = TRUE;
+    u32 value = battleMon->maxHP / 2;
+    SetMonData(mon, MON_DATA_HP, &value);
+    value = 0;
+    SetMonData(mon, MON_DATA_STATUS, &value);
+    PokemonToBattleMon(mon, battleMon);
+    battleMon->types[0] = type;
+    battleMon->types[1] = type;
+    StringCopy(gBattleTextBuff1, gSpeciesInfo[battleMon->species].speciesName);
+    BattleScriptExecute(BattleScript_RessMon);
+
+    return TRUE;
+}
+
 static bool32 HandleEndTurnAbilities(u32 battler)
 {
     bool32 effect = FALSE;
@@ -1474,6 +1555,93 @@ static bool32 HandleEndTurnAbilities(u32 battler)
      || SearchTraits(battlerTraits, ABILITY_ZEN_MODE))
         if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
             effect = TRUE;
+
+    if (!TESTING && battler == 1)
+    {
+        gBattlerAttacker = 0;
+        if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
+        {
+            //  Damage all player mons
+            gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
+            DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
+            DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
+            CreateAbilityPopUp(1, ABILITY_SLEET_STORM, FALSE);
+            BattleScriptExecute(BattleScript_HailstoneFall);
+            effect = TRUE;
+        }
+        else if (SearchTraits(battlerTraits, ABILITY_THUNDERSTRIKE))
+        {
+            //  Damage random player mon
+            u32 target = FindValidThunderstrikeTarget();
+            CreateAbilityPopUp(1, ABILITY_THUNDERSTRIKE, FALSE);
+            if (target == 0)
+            {
+                gBattlerAttacker = 0;
+                gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_THUNDERSTRIKE_FRACTION;
+                BattleScriptExecute(BattleScript_ThunderstrikeActive);
+            }
+            else
+            {
+                if (target == 1)
+                {
+                    DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_THUNDERSTRIKE_FRACTION);
+                    BattleScriptExecute(BattleScript_ThunderstrikeLeft);
+                }
+                else
+                {
+                    DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_THUNDERSTRIKE_FRACTION);
+                    BattleScriptExecute(BattleScript_ThunderstrikeRight);
+                }
+
+            }
+            effect = TRUE;
+        }
+        else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
+        {
+            //  Damage active mon
+            gBattlerAttacker = 0;
+            gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_FLAMES_EMBRACE_FRACTION;
+            gBattleScripting.animArg1 = MOVE_FIRE_SPIN;
+            CreateAbilityPopUp(1, ABILITY_INFERNO, FALSE);
+            BattleScriptExecute(BattleScript_FlamesEmbrace);
+            effect = TRUE;
+        }
+    }
+
+    if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) && SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
+    {
+        CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
+        SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
+        gBattlerAttacker = battler;
+        gBattlerTarget = battler;
+        BattleScriptExecute(BattleScript_StaticBuildup);
+        effect = TRUE;
+    }
+
+    if (gBattleStruct->empathCounter > 0 && SearchTraits(battlerTraits, ABILITY_EMPATH))
+    {
+        CreateAbilityPopUp(battler, ABILITY_EMPATH, FALSE);
+        gBattleStruct->moveDamage[battler] = -gBattleStruct->empathCounter * GetNonDynamaxMaxHP(battler) / TARC_EMPATH_HP_FRACTION;
+        BattleScriptExecute(BattleScript_Empath);
+        effect = TRUE;
+    }
+
+    if (!TESTING && battler == 0)
+    {
+
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_FIRE);
+        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_WATER);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_ELECTRIC);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_FIRE);
+        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+            effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_WATER);
+    }
 
     return effect;
 }
@@ -1529,6 +1697,86 @@ static bool32 HandleEndTurnDynamax(u32 battler)
     return effect;
 }
 
+static void BuildBacklineStringBuffer(void)
+{
+    u32 count = 0;
+
+    if (LeftMonHurt())
+        count++;
+    if (RightMonHurt())
+        count++;
+
+    gBattleTextBuff1[0] = EOS;
+    gBattleTextBuff2[0] = EOS;
+    gBattleTextBuff3[0] = EOS;
+    if (count == 1)
+    {
+        if (LeftMonHurt())
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        else
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+    }
+    else
+    {
+        gBattleTextBuff2[0] = CHAR_SPACE;
+        gBattleTextBuff2[1] = CHAR_a;
+        gBattleTextBuff2[2] = CHAR_n;
+        gBattleTextBuff2[3] = CHAR_d;
+        gBattleTextBuff2[4] = CHAR_SPACE;
+        gBattleTextBuff2[5] = EOS;
+        StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        StringCopy(gBattleTextBuff3, gRightMon.nickname);
+    }
+}
+
+static bool32 HandleEndTurnBacklineRestore(u32 battler)
+{
+    gBattleStruct->turnEffectsBattlerId++;
+    if (TESTING)
+        return TRUE;
+    if (battler != 0 || !BacklineIsHurt())
+        return FALSE;
+
+    BuildBacklineStringBuffer();
+
+    if (LeftMonHurt())
+        HealBackLineMon(&gLeftMon, 1);
+
+    if (RightMonHurt())
+        HealBackLineMon(&gRightMon, 2);
+
+    BattleScriptExecute(BattleScript_BacklineRestore);
+    return TRUE;
+}
+
+static bool32 HandleEndTurnPlayerCD(u32 battler)
+{
+    gBattleStruct->turnEffectsBattlerId++;
+    if (TESTING)
+        return TRUE;
+
+    if (battler != 0)
+        return FALSE;
+
+    for (u32 i = 0; i < 4; i++)
+    {
+        ReduceCD(TARC_ACTIVE_BATTLER, i);
+        ReduceCD(TARC_LEFT_BATTLER, i);
+        ReduceCD(TARC_RIGHT_BATTLER, i);
+    }
+
+    if (gBattleStruct->intimidateCD > 0)
+        gBattleStruct->intimidateCD--;
+    if (gBattleStruct->disheartenCD > 0)
+        gBattleStruct->disheartenCD--;
+    if (gBattleStruct->sentinelCD > 0)
+        gBattleStruct->sentinelCD--;
+    if (gBattleStruct->staticBuildupCD > 0)
+        gBattleStruct->staticBuildupCD--;
+
+    return TRUE;
+}
+
 static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
 {
     [ENDTURN_ORDER] = HandleEndTurnOrder,
@@ -1558,6 +1806,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_TORMENT] = HandleEndTurnTorment,
     [ENDTURN_ENCORE] = HandleEndTurnEncore,
     [ENDTURN_DISABLE] = HandleEndTurnDisable,
+    [ENDTURN_CLOUDWALKER] = HandleEndTurnCloudwalker,
     [ENDTURN_MAGNET_RISE] = HandleEndTurnMagnetRise,
     [ENDTURN_TELEKINESIS] = HandleEndTurnTelekinesis,
     [ENDTURN_HEAL_BLOCK] = HandleEndTurnHealBlock,
@@ -1579,6 +1828,8 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_ABILITIES] = HandleEndTurnAbilities,
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,
     [ENDTURN_DYNAMAX] = HandleEndTurnDynamax,
+    [ENDTURN_BACKLINE_RESTORE] = HandleEndTurnBacklineRestore,
+    [ENDTURN_PLAYER_CD] = HandleEndTurnPlayerCD,
 };
 
 u32 DoEndTurnEffects(void)
@@ -1600,6 +1851,7 @@ u32 DoEndTurnEffects(void)
         // Jump out if possible after endTurnEventsCounter was increased in the above code block
         if (gBattleStruct->endTurnEventsCounter == ENDTURN_COUNT)
         {
+            gBattleStruct->isEndOfTurnWeather = FALSE;
             gHitMarker &= ~(HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
             return FALSE;
         }

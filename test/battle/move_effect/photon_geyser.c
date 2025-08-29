@@ -52,7 +52,7 @@ SINGLE_BATTLE_TEST("Photon Geyser ignores ignorable Abilities like Battle Armor"
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Photon Geyser ignores ignorable Abilities like Battle Armor")
+SINGLE_BATTLE_TEST("Photon Geyser ignores ignorable Abilities like Battle Armor (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

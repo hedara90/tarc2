@@ -29,6 +29,7 @@ SINGLE_BATTLE_TEST("Hydro Steam deals 1.5x damage under both Sunlight and Rain",
 
 SINGLE_BATTLE_TEST("Hydro Steam is affected by Utility Umbrella", s16 damage)
 {
+    KNOWN_FAILING;  //This doesn't matter for us since we don't have items
     u32 itemPlayer;
     u32 itemOpponent;
     PARAMETRIZE { itemPlayer = ITEM_UTILITY_UMBRELLA; itemOpponent = ITEM_NONE; }

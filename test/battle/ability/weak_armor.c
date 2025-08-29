@@ -197,11 +197,11 @@ SINGLE_BATTLE_TEST("Weak Armor doesn't interrupt multi hit moves if Speed can't 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Weak Armor lowers Defense by 1 and boosts Speed by 2 when hit by a physical attack")
+SINGLE_BATTLE_TEST("Weak Armor lowers Defense by 1 and boosts Speed by 2 when hit by a physical attack (Trait)")
 {
     u16 move;
 
-    PARAMETRIZE { move = MOVE_TACKLE; }
+    PARAMETRIZE { move = MOVE_SCRATCH; }
     PARAMETRIZE { move = MOVE_GUST; }
 
     GIVEN {
@@ -212,7 +212,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor lowers Defense by 1 and boosts Speed by 2
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, move, opponent);
         HP_BAR(player);
-        if (move == MOVE_TACKLE) {
+        if (move == MOVE_SCRATCH) {
             ABILITY_POPUP(player, ABILITY_WEAK_ARMOR);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
             MESSAGE("Slugma's Weak Armor lowered its Defense!");
@@ -226,7 +226,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor lowers Defense by 1 and boosts Speed by 2
             }
         }
     } THEN {
-        if (move == MOVE_TACKLE) {
+        if (move == MOVE_SCRATCH) {
             EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 1);
             EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 2);
         }
@@ -234,7 +234,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor lowers Defense by 1 and boosts Speed by 2
 }
 
 // Oddly specific, but it was a bug at one point.
-SINGLE_BATTLE_TEST("INNATE: Weak Armor does not trigger when brought in by Dragon Tail and taking Stealth Rock damage")
+SINGLE_BATTLE_TEST("Weak Armor does not trigger when brought in by Dragon Tail and taking Stealth Rock damage (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_STEALTH_ROCK) == EFFECT_STEALTH_ROCK);
@@ -264,7 +264,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor does not trigger when brought in by Drago
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers boosts Speed if Defense can't go any lower")
+SINGLE_BATTLE_TEST("Weak Armor still lowers boosts Speed if Defense can't go any lower (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SLUGMA) { Ability(ABILITY_FLAME_BODY); Innates(ABILITY_WEAK_ARMOR); }
@@ -273,9 +273,9 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers boosts Speed if Defense can'
         TURN { MOVE(opponent, MOVE_SCREECH); }
         TURN { MOVE(opponent, MOVE_SCREECH); }
         TURN { MOVE(opponent, MOVE_SCREECH); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_WEAK_ARMOR);
         NONE_OF {
@@ -291,7 +291,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers boosts Speed if Defense can'
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers Defense if Speed can't go any higher")
+SINGLE_BATTLE_TEST("Weak Armor still lowers Defense if Speed can't go any higher (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SLUGMA) { Ability(ABILITY_FLAME_BODY); Innates(ABILITY_WEAK_ARMOR); }
@@ -300,9 +300,9 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers Defense if Speed can't go an
         TURN { MOVE(player, MOVE_AGILITY); }
         TURN { MOVE(player, MOVE_AGILITY); }
         TURN { MOVE(player, MOVE_AGILITY); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_WEAK_ARMOR);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
@@ -318,7 +318,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor still lowers Defense if Speed can't go an
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Weak Armor doesn't interrupt multi hit moves if Defense can't go any lower")
+SINGLE_BATTLE_TEST("Weak Armor doesn't interrupt multi hit moves if Defense can't go any lower (Trait)")
 {
     u32 j;
     GIVEN {
@@ -356,7 +356,7 @@ SINGLE_BATTLE_TEST("INNATE: Weak Armor doesn't interrupt multi hit moves if Defe
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Weak Armor doesn't interrupt multi hit moves if Speed can't go any higher")
+SINGLE_BATTLE_TEST("Weak Armor doesn't interrupt multi hit moves if Speed can't go any higher (Trait)")
 {
     u32 j;
     GIVEN {

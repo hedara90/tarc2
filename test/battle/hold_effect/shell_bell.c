@@ -292,15 +292,15 @@ SINGLE_BATTLE_TEST("Shell Bell recovers only 1 damage if the move only did 1 dam
 TO_DO_BATTLE_TEST("If a Pokémon steals a Shell Bell with Thief or Covet, it will recover HP for the use of that move that stole the Shell Bell")
 TO_DO_BATTLE_TEST("If a Pokémon steals a Shell Bell with Magician, it will recover HP for the use of that move that stole the Shell Bell")
 
-SINGLE_BATTLE_TEST("INNATE: Shell Bell activates after Rough Skin")
+SINGLE_BATTLE_TEST("Shell Bell activates after Rough Skin (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_SHELL_BELL); }
         OPPONENT(SPECIES_GIBLE) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_ROUGH_SKIN); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent);
         HP_BAR(player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);

@@ -112,7 +112,7 @@ DOUBLE_BATTLE_TEST("Hospitality is blocked by Heal Block")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Hospitality user restores 25% of ally's health")
+DOUBLE_BATTLE_TEST("Hospitality user restores 25% of ally's health (Trait)")
 {
     s16 health;
 
@@ -141,7 +141,7 @@ DOUBLE_BATTLE_TEST("INNATE: Hospitality user restores 25% of ally's health")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Hospitality user restores 25% of ally's health on switch-in")
+DOUBLE_BATTLE_TEST("Hospitality user restores 25% of ally's health on switch-in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET)
@@ -160,7 +160,7 @@ DOUBLE_BATTLE_TEST("INNATE: Hospitality user restores 25% of ally's health on sw
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Hospitality ignores Substitute")
+DOUBLE_BATTLE_TEST("Hospitality ignores Substitute (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -180,7 +180,7 @@ DOUBLE_BATTLE_TEST("INNATE: Hospitality ignores Substitute")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Hospitality does not trigger if there is no ally on the field")
+DOUBLE_BATTLE_TEST("Hospitality does not trigger if there is no ally on the field (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { HP(1);  }
@@ -201,7 +201,7 @@ DOUBLE_BATTLE_TEST("INNATE: Hospitality does not trigger if there is no ally on 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Hospitality is blocked by Heal Block")
+DOUBLE_BATTLE_TEST("Hospitality is blocked by Heal Block (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_HEAL_BLOCK) == EFFECT_HEAL_BLOCK);

@@ -111,16 +111,16 @@ SINGLE_BATTLE_TEST("Toxic Chain makes Lum/Pecha Berry trigger before being knock
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Toxic Chain inflicts bad poison when attacking")
+SINGLE_BATTLE_TEST("Toxic Chain inflicts bad poison when attacking (Trait)")
 {
     PASSES_RANDOMLY(3, 10, RNG_TOXIC_CHAIN);
     GIVEN {
-        ASSUME(GetMoveCategory(MOVE_TACKLE) != DAMAGE_CATEGORY_STATUS);
-        ASSUME(GetMovePower(MOVE_TACKLE) > 0);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) != DAMAGE_CATEGORY_STATUS);
+        ASSUME(GetMovePower(MOVE_SCRATCH) > 0);
         PLAYER(SPECIES_OKIDOGI) { Ability(ABILITY_GUARD_DOG); Innates(ABILITY_TOXIC_CHAIN); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_TOXIC_CHAIN);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_PSN, opponent);
@@ -131,7 +131,7 @@ SINGLE_BATTLE_TEST("INNATE: Toxic Chain inflicts bad poison when attacking")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Toxic Chain inflicts bad poison on any hit of a multi-hit move")
+SINGLE_BATTLE_TEST("Toxic Chain inflicts bad poison on any hit of a multi-hit move (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_DOUBLE_SLAP) != DAMAGE_CATEGORY_STATUS);
@@ -158,7 +158,7 @@ SINGLE_BATTLE_TEST("INNATE: Toxic Chain inflicts bad poison on any hit of a mult
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Toxic Chain can inflict bad poison on both foes")
+DOUBLE_BATTLE_TEST("Toxic Chain can inflict bad poison on both foes (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_RAZOR_LEAF) != DAMAGE_CATEGORY_STATUS);
@@ -187,7 +187,7 @@ DOUBLE_BATTLE_TEST("INNATE: Toxic Chain can inflict bad poison on both foes")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Toxic Chain makes Lum/Pecha Berry trigger before being knocked off")
+SINGLE_BATTLE_TEST("Toxic Chain makes Lum/Pecha Berry trigger before being knocked off (Trait)")
 {
     u16 item = 0;
 

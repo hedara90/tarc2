@@ -6,14 +6,29 @@
   "region_map_section": "MAPSEC_ABANDONED_SHIP",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
-  "map_type": "MAP_TYPE_NONE",
+  "map_type": "MAP_TYPE_TOWN",
   "allow_cycling": false,
   "allow_escaping": false,
   "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
-  "object_events": [],
+  "object_events": [
+    {
+      "local_id": "LOCALID_FINAL_BOSS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(FINAL_BOSS)",
+      "x": 9,
+      "y": 6,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Boss_BossBattle",
+      "flag": "0"
+    }
+  ],
   "warp_events": [],
   "coord_events": [],
   "bg_events": []

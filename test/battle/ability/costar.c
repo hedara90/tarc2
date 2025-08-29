@@ -29,7 +29,7 @@ DOUBLE_BATTLE_TEST("Costar copies an ally's stat stages upon entering battle")
 TO_DO_BATTLE_TEST("Costar's message displays correctly after all battlers fainted - Player");
 TO_DO_BATTLE_TEST("Costar's message displays correctly after all battlers fainted - Opponent");
 
-DOUBLE_BATTLE_TEST("INNATE: Costar copies an ally's stat stages upon entering battle")
+DOUBLE_BATTLE_TEST("Costar copies an ally's stat stages upon entering battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -54,5 +54,5 @@ DOUBLE_BATTLE_TEST("INNATE: Costar copies an ally's stat stages upon entering ba
 }
 
 // Copy from Ruin ability tests
-TO_DO_BATTLE_TEST("INNATE: Costar's message displays correctly after all battlers fainted - Player");
-TO_DO_BATTLE_TEST("INNATE: Costar's message displays correctly after all battlers fainted - Opponent");
+TO_DO_BATTLE_TEST("Costar's message displays correctly after all battlers fainted - Player (Trait)");
+TO_DO_BATTLE_TEST("Costar's message displays correctly after all battlers fainted - Opponent (Trait)");

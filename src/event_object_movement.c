@@ -225,6 +225,8 @@ static const struct SpriteFrameImage sPicTable_PechaBerryTree[];
 
 static void StartSlowRunningAnim(struct ObjectEvent *objectEvent, struct Sprite *sprite, u8 direction);
 
+static u32 ConvertSpecies(u32 species);
+
 const u8 gReflectionEffectPaletteMap[16] = {
         [PALSLOT_PLAYER]                 = PALSLOT_PLAYER_REFLECTION,
         [PALSLOT_PLAYER_REFLECTION]      = PALSLOT_PLAYER_REFLECTION,
@@ -1984,6 +1986,7 @@ struct ObjectEvent *GetFollowerObject(void)
 // Return graphicsInfo for a pokemon species & form
 const struct ObjectEventGraphicsInfo *SpeciesToGraphicsInfo(u32 species, bool32 shiny, bool32 female)
 {
+    species = ConvertSpecies(species);
     const struct ObjectEventGraphicsInfo *graphicsInfo = NULL;
 #if OW_POKEMON_OBJECT_EVENTS
     switch (species)
@@ -2019,6 +2022,7 @@ const struct ObjectEventGraphicsInfo *SpeciesToGraphicsInfo(u32 species, bool32 
 // Find, or load, the palette for the specified pokemon info
 static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
 {
+    species = ConvertSpecies(species);
     u32 paletteNum;
     // Use standalone palette, unless entry is OOB or NULL (fallback to front-sprite-based)
 #if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
@@ -2086,9 +2090,40 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
     return paletteNum;
 }
 
+static u32 ConvertSpecies(u32 species)
+{
+    if (gMapHeader.mapType != MAP_TYPE_CITY)
+    {
+        u32 area = gSaveBlock1Ptr->huntTargets.currentArea;
+        switch (species)
+        {
+        case SPECIES_FINAL_BOSS:
+        case SPECIES_BOSS:
+            species = gSaveBlock1Ptr->huntTargets.currentBoss;
+            break;
+        case SPECIES_MINIBOSS_1:
+            species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area];
+            break;
+        case SPECIES_MINIBOSS_2:
+            species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area + 1];
+            break;
+        case SPECIES_MINIBOSS_3:
+            species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area + 2];
+            break;
+        }
+    }
+    if (species == SPECIES_ZOROARK)
+    {
+        species = gSaveBlock1Ptr->zoroarkOverride;
+    }
+    return species;
+}
+
+
 // Set graphics & sprite for a follower object event by species & shininess.
 static void FollowerSetGraphics(struct ObjectEvent *objEvent, u32 species, bool32 shiny, bool32 female)
 {
+    species = ConvertSpecies(species);
     const struct ObjectEventGraphicsInfo *graphicsInfo = SpeciesToGraphicsInfo(species, shiny, female);
     ObjectEventSetGraphics(objEvent, graphicsInfo);
     objEvent->graphicsId = GetGraphicsIdForMon(species, shiny, female);
@@ -11502,4 +11537,12 @@ bool8 MovementAction_SurfStillRight_Step1(struct ObjectEvent *objectEvent, struc
         return TRUE;
     }
     return FALSE;
+}
+
+void BufferRemoveObject(struct ScriptContext *ctx)
+{
+    gSaveBlock1Ptr->bors.localId = ScriptReadHalfword(ctx);
+    gSaveBlock1Ptr->bors.mapNum = gSaveBlock1Ptr->location.mapNum;
+    gSaveBlock1Ptr->bors.mapGroup = gSaveBlock1Ptr->location.mapGroup;
+    gSaveBlock1Ptr->bors.shouldRemove = TRUE;
 }

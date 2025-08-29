@@ -3,6 +3,7 @@
 
 #include "move.h"
 #include "constants/battle_string_ids.h"
+#include "constants/tarc_balance_constants.h"
 
 #define MOVE_LIMITATION_ZEROMOVE                (1 << 0)
 #define MOVE_LIMITATION_PP                      (1 << 1)
@@ -22,6 +23,19 @@
 
 #define MOVE_LIMITATION_PLACEHOLDER             (1 << 15)
 #define MOVE_LIMITATIONS_ALL                    0xFFFF
+
+enum TarcPlayerIndex
+{
+    TARC_ACTIVE_BATTLER,
+    TARC_LEFT_BATTLER,
+    TARC_RIGHT_BATTLER
+};
+
+enum DamageMethod
+{
+    DAMAGE_METHOD_ABSOLUTE,
+    DAMAGE_METHOD_FRACTIONAL,
+};
 
 enum NonVolatileStatus
 {
@@ -392,5 +406,21 @@ bool32 IsFutureSightAttackerInParty(u32 battlerAtk, u32 battlerDef, u32 move);
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler);
 void UpdateStallMons(void);
 bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId);
+bool32 LeftMonHurt(void);
+bool32 RightMonHurt(void);
+bool32 BacklineIsHurt(void);
+void HealBackLineMon(struct BattlePokemon *mon, u32 index);
+void UpdateBacklineTurns(void);
+u32 GetMoveCD(enum TarcPlayerIndex battler, u32 movePos);
+void ReduceCD(enum TarcPlayerIndex battler, u32 movePos);
+void DamageBackline(enum TarcPlayerIndex side, enum DamageMethod method, u32 value);
+bool32 IsAbilityOnCD(u32 ability, u32 battler);
+void SetAbilityCD(u32 ability, u32 battler);
+bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability);
+u32 NumBattlerStatBoosts(u32 battler);
+
+void SwitchActiveMonLeft(void);
+void SwitchActiveMonRight(void);
+void AnimateSentinel(void);
 
 #endif // GUARD_BATTLE_UTIL_H

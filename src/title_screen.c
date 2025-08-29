@@ -441,7 +441,7 @@ static void CreateCopyrightBanner(s16 x, s16 y)
     u8 i;
     u8 spriteId;
 
-    x -= 64;
+    x -= 69;
     for (i = 0; i < NUM_COPYRIGHT_FRAMES; i++, x += 32)
     {
         spriteId = CreateSprite(&sStartCopyrightBannerSpriteTemplate, x, y, 0);
@@ -577,7 +577,7 @@ void CB2_InitTitleScreen(void)
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
-        *((u16 *)PLTT) = RGB_WHITE;
+        //*((u16 *)PLTT) = RGB_WHITE;
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         SetGpuReg(REG_OFFSET_BG2CNT, 0);
         SetGpuReg(REG_OFFSET_BG1CNT, 0);
@@ -629,7 +629,7 @@ void CB2_InitTitleScreen(void)
         break;
     }
     case 3:
-        BeginNormalPaletteFade(PALETTES_ALL, 1, 16, 0, RGB_WHITEALPHA);
+        //BeginNormalPaletteFade(PALETTES_ALL, 1, 16, 0, RGB_WHITEALPHA);
         SetVBlankCallback(VBlankCB);
         gMain.state = 4;
         break;
@@ -637,7 +637,7 @@ void CB2_InitTitleScreen(void)
         PanFadeAndZoomScreen(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, 0x100, 0);
         SetGpuReg(REG_OFFSET_BG2X_L, -29 * 256);
         SetGpuReg(REG_OFFSET_BG2X_H, -1);
-        SetGpuReg(REG_OFFSET_BG2Y_L, -32 * 256);
+        //SetGpuReg(REG_OFFSET_BG2Y_L, -32 * 256);
         SetGpuReg(REG_OFFSET_BG2Y_H, -1);
         SetGpuReg(REG_OFFSET_WIN0H, 0);
         SetGpuReg(REG_OFFSET_WIN0V, 0);
@@ -684,6 +684,7 @@ static void MainCB2(void)
 static void Task_TitleScreenPhase1(u8 taskId)
 {
     // Skip to next phase when A, B, Start, or Select is pressed
+    /*
     if (JOY_NEW(A_B_START_SELECT) || gTasks[taskId].tSkipToNext)
     {
         gTasks[taskId].tSkipToNext = TRUE;
@@ -702,6 +703,9 @@ static void Task_TitleScreenPhase1(u8 taskId)
     }
     else
     {
+        */
+        gTasks[taskId].tSkipToNext = TRUE;
+        gTasks[taskId].tCounter = 0;
         u8 spriteId;
 
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_1 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG2_ON | DISPCNT_OBJ_ON);
@@ -722,7 +726,7 @@ static void Task_TitleScreenPhase1(u8 taskId)
 
         gTasks[taskId].tCounter = 144;
         gTasks[taskId].func = Task_TitleScreenPhase2;
-    }
+    //}
 }
 
 #undef sParentTaskId
@@ -769,8 +773,8 @@ static void Task_TitleScreenPhase2(u8 taskId)
 
     // Slide Pokémon logo up
     yPos = gTasks[taskId].tBg2Y * 256;
-    SetGpuReg(REG_OFFSET_BG2Y_L, yPos);
-    SetGpuReg(REG_OFFSET_BG2Y_H, yPos / 0x10000);
+    //SetGpuReg(REG_OFFSET_BG2Y_L, yPos);
+    //SetGpuReg(REG_OFFSET_BG2Y_H, yPos / 0x10000);
 
     gTasks[taskId].data[5] = 15; // Unused
     gTasks[taskId].data[6] = 6;  // Unused

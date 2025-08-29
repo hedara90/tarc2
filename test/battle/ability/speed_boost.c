@@ -19,7 +19,7 @@ SINGLE_BATTLE_TEST("Speed Boost gradually boosts Speed")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Speed Boost gradually boosts Speed")
+SINGLE_BATTLE_TEST("Speed Boost gradually boosts Speed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TORCHIC) { Ability(ABILITY_BLAZE); Innates(ABILITY_SPEED_BOOST); Speed(99); }

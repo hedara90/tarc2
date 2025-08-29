@@ -151,9 +151,9 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would normally choose predicti
 }
 
 // Passes if given natural innates
-TO_DO_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective")
+TO_DO_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective (Trait)")
 // {
-//AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective")
+//AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and GetMostSuitableMonToSwitchInto from player's perspective (Trait)")
 // {
 //     // Switching in trapper is an advanced feature of ShouldSwitch that requires GetMostSuitableMonToSwitchInto to also return a specific mon; this passing means the AI can use both in prediction
 //     PASSES_RANDOMLY(5, 10, RNG_AI_PREDICT_SWITCH);
@@ -171,8 +171,8 @@ TO_DO_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: Considers ShouldSwitch and Ge
 // }
 
 // Passes if set as a natural Innate
-TO_DO_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case")
-// AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case")
+TO_DO_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case (Trait)")
+// AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-from-player's-perspective case (Trait)")
 // {
 //     GIVEN {
 //         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES);

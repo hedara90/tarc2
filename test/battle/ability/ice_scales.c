@@ -29,7 +29,7 @@ SINGLE_BATTLE_TEST("Ice Scales halves the damage from special moves", s16 damage
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Ice Scales halves the damage from special moves", s16 damage)
+SINGLE_BATTLE_TEST("Ice Scales halves the damage from special moves (Trait)", s16 damage)
 {
     u32 move;
     u16 ability;
@@ -37,13 +37,13 @@ SINGLE_BATTLE_TEST("INNATE: Ice Scales halves the damage from special moves", s1
     PARAMETRIZE { ability = ABILITY_ICE_SCALES; move = MOVE_PSYCHIC; }
     PARAMETRIZE { ability = ABILITY_SHIELD_DUST; move = MOVE_PSYSHOCK; }
     PARAMETRIZE { ability = ABILITY_ICE_SCALES; move = MOVE_PSYSHOCK; }
-    PARAMETRIZE { ability = ABILITY_SHIELD_DUST; move = MOVE_TACKLE; }
-    PARAMETRIZE { ability = ABILITY_ICE_SCALES; move = MOVE_TACKLE; }
+    PARAMETRIZE { ability = ABILITY_SHIELD_DUST; move = MOVE_SCRATCH; }
+    PARAMETRIZE { ability = ABILITY_ICE_SCALES; move = MOVE_SCRATCH; }
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_PSYCHIC) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetMoveCategory(MOVE_PSYSHOCK) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetMoveEffect(MOVE_PSYSHOCK) == EFFECT_PSYSHOCK);
-        ASSUME(GetMoveCategory(MOVE_TACKLE) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_FROSMOTH) { Ability(ABILITY_SHIELD_DUST); Innates(ability); }
     } WHEN {

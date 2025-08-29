@@ -4530,6 +4530,16 @@
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Area7/border.bin",
       "blockdata_filepath": "data/layouts/Area7/map.bin"
+    },
+    {
+      "id": "LAYOUT_ENTRANCE",
+      "name": "Entrance_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_OceanicMuseum",
+      "border_filepath": "data/layouts/Entrance/border.bin",
+      "blockdata_filepath": "data/layouts/Entrance/map.bin"
     }
   ]
 }

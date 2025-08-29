@@ -207,7 +207,44 @@ AI_DOUBLE_BATTLE_TEST("Spicy Extract user will not choose the move if it does no
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Spicy Extract Defense loss is prevented by Big Pecks")
+SINGLE_BATTLE_TEST("Spicy Extract is prevented by target's ability if it's Attack stat is maxed out (Trait)")
+{
+    u16 ability;
+
+    PARAMETRIZE { ability = ABILITY_CLEAR_BODY; }
+    PARAMETRIZE { ability = ABILITY_LIGHT_METAL; }
+
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_SWORDS_DANCE) == EFFECT_ATTACK_UP_2);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_BELDUM) { Ability(ABILITY_LIGHT_METAL); Innates(ability); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SWORDS_DANCE); }
+        TURN { MOVE(opponent, MOVE_SWORDS_DANCE); }
+        TURN { MOVE(opponent, MOVE_SWORDS_DANCE); MOVE(player, MOVE_SPICY_EXTRACT); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        MESSAGE("Wobbuffet used Spicy Extract!");
+        if (ability == ABILITY_CLEAR_BODY) {
+            ABILITY_POPUP(opponent, ABILITY_CLEAR_BODY);
+            MESSAGE("The opposing Beldum's Clear Body prevents stat loss!");
+            NONE_OF {
+                ANIMATION(ANIM_TYPE_MOVE, MOVE_SPICY_EXTRACT, player);
+                ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+            }
+        } else {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_SPICY_EXTRACT, player);
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("Spicy Extract Defense loss is prevented by Big Pecks")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -228,7 +265,7 @@ SINGLE_BATTLE_TEST("INNATE: Spicy Extract Defense loss is prevented by Big Pecks
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Spicy Extract stat changes will be inverted by Contrary")
+SINGLE_BATTLE_TEST("Spicy Extract stat changes will be inverted by Contrary (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -250,7 +287,7 @@ SINGLE_BATTLE_TEST("INNATE: Spicy Extract stat changes will be inverted by Contr
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Spicy Extract against Clear Amulet and Contrary raises Defense only")
+SINGLE_BATTLE_TEST("Spicy Extract against Clear Amulet and Contrary raises Defense only (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -270,5 +307,26 @@ SINGLE_BATTLE_TEST("INNATE: Spicy Extract against Clear Amulet and Contrary rais
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE);
         EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE + 2);
+    }
+}
+
+AI_DOUBLE_BATTLE_TEST("Spicy Extract user will not choose the move if it does not benefit partner (Trait)")
+{
+    u32 species;
+    u32 ability;
+
+    PARAMETRIZE { species = SPECIES_GHOLDENGO; ability = ABILITY_GOOD_AS_GOLD; }
+    PARAMETRIZE { species = SPECIES_SNIVY; ability = ABILITY_CONTRARY; }
+
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(10); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(10); }
+        OPPONENT(species) { Speed(20); Ability(ABILITY_LIGHT_METAL); Innates(ability); Moves(MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(40); Moves(MOVE_SCRATCH, MOVE_SPICY_EXTRACT); }
+    } WHEN {
+        TURN {
+            EXPECT_MOVE(opponentRight, MOVE_SCRATCH);
+        }
     }
 }

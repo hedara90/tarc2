@@ -49,7 +49,7 @@ SINGLE_BATTLE_TEST("Regenerator heals 1/3 of max HP upon switching out but doesn
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Regenerator heals 1/3 of max HP upon switching out")
+SINGLE_BATTLE_TEST("Regenerator heals 1/3 of max HP upon switching out (Trait)")
 {
     u32 currHP;
     PARAMETRIZE { currHP = 1; }
@@ -72,7 +72,7 @@ SINGLE_BATTLE_TEST("INNATE: Regenerator heals 1/3 of max HP upon switching out")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Regenerator heals 1/3 of max HP upon switching out but doesn't surpass max HP")
+SINGLE_BATTLE_TEST("Regenerator heals 1/3 of max HP upon switching out but doesn't surpass max HP (Trait)")
 {
     u32 currHP;
     PARAMETRIZE { currHP = 5; }

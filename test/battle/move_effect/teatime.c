@@ -270,7 +270,7 @@ SINGLE_BATTLE_TEST("Teatime triggers Motor Drive if it has been affected by Elec
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Teatime causes the user to consume its Berry, even in the pressence of Unnerve")
+SINGLE_BATTLE_TEST("Teatime causes the user to consume its Berry, even in the pressence of Unnerve (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_LIECHI_BERRY); }
@@ -284,7 +284,7 @@ SINGLE_BATTLE_TEST("INNATE: Teatime causes the user to consume its Berry, even i
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Teatime triggers Volt Absorb if it has been affected by Electrify or Plasma Fists, even when not holding a Berry")
+SINGLE_BATTLE_TEST("Teatime triggers Volt Absorb if it has been affected by Electrify or Plasma Fists, even when not holding a Berry (Trait)")
 {
     u32 move;
     u32 item = ITEM_LIECHI_BERRY;
@@ -320,7 +320,7 @@ SINGLE_BATTLE_TEST("INNATE: Teatime triggers Volt Absorb if it has been affected
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Teatime triggers Lightning Rod if it has been affected by Electrify or Plasma Fists, even when not holding a Berry")
+SINGLE_BATTLE_TEST("Teatime triggers Lightning Rod if it has been affected by Electrify or Plasma Fists, even when not holding a Berry (Trait)")
 {
     u32 move;
     u32 item = ITEM_LIECHI_BERRY;
@@ -359,7 +359,7 @@ SINGLE_BATTLE_TEST("INNATE: Teatime triggers Lightning Rod if it has been affect
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Teatime triggers Motor Drive if it has been affected by Electrify or Plasma Fists, even when not holding a Berry")
+SINGLE_BATTLE_TEST("Teatime triggers Motor Drive if it has been affected by Electrify or Plasma Fists, even when not holding a Berry (Trait)")
 {
     u32 move;
     u32 item= ITEM_LIECHI_BERRY;

@@ -467,6 +467,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sIncineroarLevelUpLearnset,
         .teachableLearnset = sIncineroarTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_PARTING_SHOT,
     },
 #endif //P_FAMILY_LITTEN
 
@@ -1465,6 +1467,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sCrabominableLevelUpLearnset,
         .teachableLearnset = sCrabominableTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_ICE_HAMMER,
     },
 #endif //P_FAMILY_CRABRAWLER
 
@@ -2819,6 +2823,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sAraquanidLevelUpLearnset,
         .teachableLearnset = sAraquanidTeachableLearnset,
         .formSpeciesIdTable = sAraquanidFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SOAK,
     },
 
     [SPECIES_ARAQUANID_TOTEM] =
@@ -3016,6 +3022,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sLurantisLevelUpLearnset,
         .teachableLearnset = sLurantisTeachableLearnset,
         .formSpeciesIdTable = sLurantisFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SOLAR_BLADE,
     },
 
     [SPECIES_LURANTIS_TOTEM] =
@@ -3347,6 +3355,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sSalazzleLevelUpLearnset,
         .teachableLearnset = sSalazzleTeachableLearnset,
         .formSpeciesIdTable = sSalanditFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_TOXIC,
     },
 
     [SPECIES_SALAZZLE_TOTEM] =
@@ -3816,6 +3826,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sComfeyLevelUpLearnset,
         .teachableLearnset = sComfeyTeachableLearnset,
         .eggMoveLearnset = sComfeyEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_DRAINING_KISS,
     },
 #endif //P_FAMILY_COMFEY
 
@@ -4180,7 +4192,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_AMORPHOUS),
-        .abilities = { ABILITY_WATER_COMPACTION, ABILITY_NONE, ABILITY_SAND_VEIL },
+        .abilities = { ABILITY_WATER_COMPACTION, ABILITY_SAND_REPAIR, ABILITY_SAND_VEIL },
         .bodyColor = BODY_COLOR_BROWN,
         .speciesName = _("Palossand"),
         .cryId = CRY_PALOSSAND,
@@ -4224,6 +4236,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         )
         .levelUpLearnset = sPalossandLevelUpLearnset,
         .teachableLearnset = sPalossandTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SANDYGAST
 
@@ -4477,7 +4490,9 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         FOOTPRINT(Minior)                                                   \
         .levelUpLearnset = sMiniorLevelUpLearnset,                          \
         .teachableLearnset = sMiniorTeachableLearnset,                      \
-        .formSpeciesIdTable = sMiniorFormSpeciesIdTable
+        .formSpeciesIdTable = sMiniorFormSpeciesIdTable,                    \
+        .maxPhases = 2,                                                     \
+        .moveReward = MOVE_REWARD_METEOR_BEAM
 
 #define MINIOR_METEOR_SPECIES_INFO(Form)                    \
     {                                                       \
@@ -4698,6 +4713,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTurtonatorLevelUpLearnset,
         .teachableLearnset = sTurtonatorTeachableLearnset,
         .eggMoveLearnset = sTurtonatorEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SHELL_TRAP,
     },
 #endif //P_FAMILY_TURTONATOR
 
@@ -4762,6 +4779,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .teachableLearnset = sTogedemaruTeachableLearnset,
         .eggMoveLearnset = sTogedemaruEggMoveLearnset,
         .formSpeciesIdTable = sTogedemaruFormSpeciesIdTable,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_ZING_ZAP,
     },
 
     [SPECIES_TOGEDEMARU_TOTEM] =
@@ -5471,6 +5490,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sKommoOLevelUpLearnset,
         .teachableLearnset = sKommoOTeachableLearnset,
         .formSpeciesIdTable = sKommoOFormSpeciesIdTable,
+        .maxPhases = 3,
     },
 
     [SPECIES_KOMMO_O_TOTEM] =
@@ -5540,6 +5560,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sKommoOLevelUpLearnset,
         .teachableLearnset = sKommoOTeachableLearnset,
         .formSpeciesIdTable = sKommoOFormSpeciesIdTable,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_JANGMO_O
 
@@ -5616,6 +5637,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTapuKokoLevelUpLearnset,
         .teachableLearnset = sTapuKokoTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_TAPU_KOKO
 
@@ -5688,6 +5710,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTapuLeleLevelUpLearnset,
         .teachableLearnset = sTapuLeleTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_TAPU_LELE
 
@@ -5762,6 +5785,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTapuBuluLevelUpLearnset,
         .teachableLearnset = sTapuBuluTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_TAPU_BULU
 
@@ -5835,6 +5859,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTapuFiniLevelUpLearnset,
         .teachableLearnset = sTapuFiniTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_TAPU_FINI
 

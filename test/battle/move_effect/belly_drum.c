@@ -134,25 +134,25 @@ TO_DO_BATTLE_TEST("Belly Drum maximizes the user's Attack stat, even when below 
 TO_DO_BATTLE_TEST("Belly Drum fails if the user's Attack is already at +6, even with Contrary");
 TO_DO_BATTLE_TEST("Belly Drum deducts HP if the user has contrary and is at -6");
 
-SINGLE_BATTLE_TEST("INNATE: Belly Drum minimizes the user's Attack stat with Contrary", s16 damage)
+SINGLE_BATTLE_TEST("Belly Drum minimizes the user's Attack stat with Contrary (Trait)", s16 damage)
 {
     bool32 raiseAttack;
     PARAMETRIZE { raiseAttack = FALSE; }
     PARAMETRIZE { raiseAttack = TRUE; }
     GIVEN {
-        ASSUME(GetMoveCategory(MOVE_TACKLE) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_CONTRARY); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         if (raiseAttack) TURN { MOVE(player, MOVE_BELLY_DRUM); }
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         if (raiseAttack) {
             ANIMATION(ANIM_TYPE_MOVE, MOVE_BELLY_DRUM, player);
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
             MESSAGE("Wobbuffet cut its own HP and maximized its Attack!");  // Message unaffected by Contrary
         }
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_MUL_EQ(results[1].damage, Q_4_12(4), results[0].damage);

@@ -388,6 +388,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sSkeledirgeLevelUpLearnset,
         .teachableLearnset = sSkeledirgeTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_WILL_O_WISP,
     },
 #endif //P_FAMILY_FUECOCO
 
@@ -907,6 +909,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sSpidopsLevelUpLearnset,
         .teachableLearnset = sSpidopsTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_SILK_TRAP,
     },
 #endif //P_FAMILY_TAROUNTULA
 
@@ -2206,6 +2210,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGarganaclLevelUpLearnset,
         .teachableLearnset = sGarganaclTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_ROCK_POLISH,
     },
 #endif //P_FAMILY_NACLI
 
@@ -2531,6 +2537,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sBelliboltLevelUpLearnset,
         .teachableLearnset = sBelliboltTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_PARABOLIC_CHARGE,
     },
 #endif //P_FAMILY_TADBULB
 
@@ -2661,6 +2669,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sKilowattrelLevelUpLearnset,
         .teachableLearnset = sKilowattrelTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_WATTREL
 
@@ -3641,6 +3650,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sEspathraLevelUpLearnset,
         .teachableLearnset = sEspathraTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_STORED_POWER,
     },
 #endif //P_FAMILY_FLITTLE
 
@@ -4029,6 +4040,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sBombirdierLevelUpLearnset,
         .teachableLearnset = sBombirdierTeachableLearnset,
         .eggMoveLearnset = sBombirdierEggMoveLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_DUAL_WINGBEAT,
     },
 #endif //P_FAMILY_BOMBIRDIER
 
@@ -4749,6 +4762,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sHoundstoneLevelUpLearnset,
         .teachableLearnset = sHoundstoneTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_LAST_RESPECTS,
     },
 #endif //P_FAMILY_GREAVARD
 
@@ -5408,6 +5423,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sScreamTailLevelUpLearnset,
         .teachableLearnset = sScreamTailTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_HYPER_VOICE,
     },
 #endif //P_FAMILY_SCREAM_TAIL
 
@@ -5678,6 +5695,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sSandyShocksLevelUpLearnset,
         .teachableLearnset = sSandyShocksTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SANDY_SHOCKS
 
@@ -6276,6 +6294,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sBaxcaliburLevelUpLearnset,
         .teachableLearnset = sBaxcaliburTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_FRIGIBAX
 
@@ -6462,6 +6481,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGholdengoLevelUpLearnset,
         .teachableLearnset = sGholdengoTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_MAKE_IT_RAIN,
     },
 #endif //P_FAMILY_GIMMIGHOUL
 
@@ -6529,6 +6550,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sWoChienLevelUpLearnset,
         .teachableLearnset = sWoChienTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_WO_CHIEN
 
@@ -6596,6 +6618,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sChienPaoLevelUpLearnset,
         .teachableLearnset = sChienPaoTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_CHIEN_PAO
 
@@ -6663,6 +6686,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sTingLuLevelUpLearnset,
         .teachableLearnset = sTingLuTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_TING_LU
 
@@ -6684,7 +6708,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = 0,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_BEADS_OF_RUIN, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_BEADS_OF_RUIN, ABILITY_HEAT_EROSION, ABILITY_NONE },
         .bodyColor = BODY_COLOR_RED,
         .speciesName = _("Chi-Yu"),
         .cryId = CRY_CHI_YU,
@@ -6731,6 +6755,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sChiYuLevelUpLearnset,
         .teachableLearnset = sChiYuTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_CHI_YU
 
@@ -7068,6 +7093,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sWalkingWakeLevelUpLearnset,
         .teachableLearnset = sWalkingWakeTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_WALKING_WAKE
 
@@ -7134,6 +7160,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronLeavesLevelUpLearnset,
         .teachableLearnset = sIronLeavesTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_IRON_LEAVES
 
@@ -7463,6 +7490,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sOkidogiLevelUpLearnset,
         .teachableLearnset = sOkidogiTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_OKIDOGI
 
@@ -7530,6 +7558,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sMunkidoriLevelUpLearnset,
         .teachableLearnset = sMunkidoriTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_MUNKIDORI
 
@@ -7597,6 +7626,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sFezandipitiLevelUpLearnset,
         .teachableLearnset = sFezandipitiTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_FEZANDIPITI
 
@@ -7743,6 +7773,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sGougingFireLevelUpLearnset,
         .teachableLearnset = sGougingFireTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_GOUGING_FIRE
 
@@ -7810,6 +7841,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sRagingBoltLevelUpLearnset,
         .teachableLearnset = sRagingBoltTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_RAGING_BOLT
 
@@ -7876,6 +7908,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronBoulderLevelUpLearnset,
         .teachableLearnset = sIronBoulderTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_IRON_BOULDER
 
@@ -7943,6 +7976,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronCrownLevelUpLearnset,
         .teachableLearnset = sIronCrownTeachableLearnset,
+        .maxPhases = 3,
     },
 #endif //P_FAMILY_IRON_CROWN
 
@@ -8151,6 +8185,331 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
 
 #if P_FAMILY_PECHARUNT
     [SPECIES_PECHARUNT] =
+    {
+        .baseHP        = 88,
+        .baseAttack    = 88,
+        .baseDefense   = 160,
+        .baseSpeed     = 88,
+        .baseSpAttack  = 88,
+        .baseSpDefense = 88,
+        .types = MON_TYPES(TYPE_POISON, TYPE_GHOST),
+        .catchRate = 3,
+        .expYield = 300,
+        .evYield_Defense = 3,
+        .genderRatio = MON_GENDERLESS,
+        .eggCycles = 20,
+        .friendship = 0,
+        .growthRate = GROWTH_SLOW,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
+        .abilities = { ABILITY_POISON_PUPPETEER, ABILITY_NONE, ABILITY_NONE },
+        .bodyColor = BODY_COLOR_PURPLE,
+        .speciesName = _("Pecharunt"),
+        .cryId = CRY_PECHARUNT,
+        .natDexNum = NATIONAL_DEX_PECHARUNT,
+        .categoryName = _("Subjugation"),
+        .height = 3,
+        .weight = 3,
+        .description = COMPOUND_STRING(
+            "It feeds others toxic mochi that\n"
+            "draw out desires and capabilities.\n"
+            "Those who eat the mochi fall under\n"
+            "Pecharunt's control, chained to its will."),
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+        .frontPic = gMonFrontPic_Pecharunt,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 13,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_Pecharunt,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 5,
+        .backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_Pecharunt,
+        .shinyPalette = gMonShinyPalette_Pecharunt,
+        .iconSprite = gMonIcon_Pecharunt,
+        .iconPalIndex = 0,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(2, 1, SHADOW_SIZE_L)
+        FOOTPRINT(Pecharunt)
+        OVERWORLD(
+            sPicTable_Pecharunt,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Pecharunt,
+            gShinyOverworldPalette_Pecharunt
+        )
+        .isMythical = TRUE,
+        .isFrontierBanned = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .levelUpLearnset = sPecharuntLevelUpLearnset,
+        .teachableLearnset = sPecharuntTeachableLearnset,
+    },
+    [SPECIES_BOSS] =
+    {
+        .baseHP        = 88,
+        .baseAttack    = 88,
+        .baseDefense   = 160,
+        .baseSpeed     = 88,
+        .baseSpAttack  = 88,
+        .baseSpDefense = 88,
+        .types = MON_TYPES(TYPE_POISON, TYPE_GHOST),
+        .catchRate = 3,
+        .expYield = 300,
+        .evYield_Defense = 3,
+        .genderRatio = MON_GENDERLESS,
+        .eggCycles = 20,
+        .friendship = 0,
+        .growthRate = GROWTH_SLOW,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
+        .abilities = { ABILITY_POISON_PUPPETEER, ABILITY_NONE, ABILITY_NONE },
+        .bodyColor = BODY_COLOR_PURPLE,
+        .speciesName = _("Pecharunt"),
+        .cryId = CRY_PECHARUNT,
+        .natDexNum = NATIONAL_DEX_PECHARUNT,
+        .categoryName = _("Subjugation"),
+        .height = 3,
+        .weight = 3,
+        .description = COMPOUND_STRING(
+            "It feeds others toxic mochi that\n"
+            "draw out desires and capabilities.\n"
+            "Those who eat the mochi fall under\n"
+            "Pecharunt's control, chained to its will."),
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+        .frontPic = gMonFrontPic_Pecharunt,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 13,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_Pecharunt,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 5,
+        .backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_Pecharunt,
+        .shinyPalette = gMonShinyPalette_Pecharunt,
+        .iconSprite = gMonIcon_Pecharunt,
+        .iconPalIndex = 0,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(2, 1, SHADOW_SIZE_L)
+        FOOTPRINT(Pecharunt)
+        OVERWORLD(
+            sPicTable_Pecharunt,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Pecharunt,
+            gShinyOverworldPalette_Pecharunt
+        )
+        .isMythical = TRUE,
+        .isFrontierBanned = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .levelUpLearnset = sPecharuntLevelUpLearnset,
+        .teachableLearnset = sPecharuntTeachableLearnset,
+    },
+    [SPECIES_MINIBOSS_1] =
+    {
+        .baseHP        = 88,
+        .baseAttack    = 88,
+        .baseDefense   = 160,
+        .baseSpeed     = 88,
+        .baseSpAttack  = 88,
+        .baseSpDefense = 88,
+        .types = MON_TYPES(TYPE_POISON, TYPE_GHOST),
+        .catchRate = 3,
+        .expYield = 300,
+        .evYield_Defense = 3,
+        .genderRatio = MON_GENDERLESS,
+        .eggCycles = 20,
+        .friendship = 0,
+        .growthRate = GROWTH_SLOW,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
+        .abilities = { ABILITY_POISON_PUPPETEER, ABILITY_NONE, ABILITY_NONE },
+        .bodyColor = BODY_COLOR_PURPLE,
+        .speciesName = _("Pecharunt"),
+        .cryId = CRY_PECHARUNT,
+        .natDexNum = NATIONAL_DEX_PECHARUNT,
+        .categoryName = _("Subjugation"),
+        .height = 3,
+        .weight = 3,
+        .description = COMPOUND_STRING(
+            "It feeds others toxic mochi that\n"
+            "draw out desires and capabilities.\n"
+            "Those who eat the mochi fall under\n"
+            "Pecharunt's control, chained to its will."),
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+        .frontPic = gMonFrontPic_Pecharunt,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 13,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_Pecharunt,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 5,
+        .backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_Pecharunt,
+        .shinyPalette = gMonShinyPalette_Pecharunt,
+        .iconSprite = gMonIcon_Pecharunt,
+        .iconPalIndex = 0,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(2, 1, SHADOW_SIZE_L)
+        FOOTPRINT(Pecharunt)
+        OVERWORLD(
+            sPicTable_Pecharunt,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Pecharunt,
+            gShinyOverworldPalette_Pecharunt
+        )
+        .isMythical = TRUE,
+        .isFrontierBanned = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .levelUpLearnset = sPecharuntLevelUpLearnset,
+        .teachableLearnset = sPecharuntTeachableLearnset,
+    },
+    [SPECIES_MINIBOSS_2] =
+    {
+        .baseHP        = 88,
+        .baseAttack    = 88,
+        .baseDefense   = 160,
+        .baseSpeed     = 88,
+        .baseSpAttack  = 88,
+        .baseSpDefense = 88,
+        .types = MON_TYPES(TYPE_POISON, TYPE_GHOST),
+        .catchRate = 3,
+        .expYield = 300,
+        .evYield_Defense = 3,
+        .genderRatio = MON_GENDERLESS,
+        .eggCycles = 20,
+        .friendship = 0,
+        .growthRate = GROWTH_SLOW,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
+        .abilities = { ABILITY_POISON_PUPPETEER, ABILITY_NONE, ABILITY_NONE },
+        .bodyColor = BODY_COLOR_PURPLE,
+        .speciesName = _("Pecharunt"),
+        .cryId = CRY_PECHARUNT,
+        .natDexNum = NATIONAL_DEX_PECHARUNT,
+        .categoryName = _("Subjugation"),
+        .height = 3,
+        .weight = 3,
+        .description = COMPOUND_STRING(
+            "It feeds others toxic mochi that\n"
+            "draw out desires and capabilities.\n"
+            "Those who eat the mochi fall under\n"
+            "Pecharunt's control, chained to its will."),
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+        .frontPic = gMonFrontPic_Pecharunt,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 13,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_Pecharunt,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 5,
+        .backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_Pecharunt,
+        .shinyPalette = gMonShinyPalette_Pecharunt,
+        .iconSprite = gMonIcon_Pecharunt,
+        .iconPalIndex = 0,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(2, 1, SHADOW_SIZE_L)
+        FOOTPRINT(Pecharunt)
+        OVERWORLD(
+            sPicTable_Pecharunt,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Pecharunt,
+            gShinyOverworldPalette_Pecharunt
+        )
+        .isMythical = TRUE,
+        .isFrontierBanned = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .levelUpLearnset = sPecharuntLevelUpLearnset,
+        .teachableLearnset = sPecharuntTeachableLearnset,
+    },
+    [SPECIES_MINIBOSS_3] =
+    {
+        .baseHP        = 88,
+        .baseAttack    = 88,
+        .baseDefense   = 160,
+        .baseSpeed     = 88,
+        .baseSpAttack  = 88,
+        .baseSpDefense = 88,
+        .types = MON_TYPES(TYPE_POISON, TYPE_GHOST),
+        .catchRate = 3,
+        .expYield = 300,
+        .evYield_Defense = 3,
+        .genderRatio = MON_GENDERLESS,
+        .eggCycles = 20,
+        .friendship = 0,
+        .growthRate = GROWTH_SLOW,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
+        .abilities = { ABILITY_POISON_PUPPETEER, ABILITY_NONE, ABILITY_NONE },
+        .bodyColor = BODY_COLOR_PURPLE,
+        .speciesName = _("Pecharunt"),
+        .cryId = CRY_PECHARUNT,
+        .natDexNum = NATIONAL_DEX_PECHARUNT,
+        .categoryName = _("Subjugation"),
+        .height = 3,
+        .weight = 3,
+        .description = COMPOUND_STRING(
+            "It feeds others toxic mochi that\n"
+            "draw out desires and capabilities.\n"
+            "Those who eat the mochi fall under\n"
+            "Pecharunt's control, chained to its will."),
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+        .frontPic = gMonFrontPic_Pecharunt,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 13,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_Pecharunt,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 5,
+        .backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_Pecharunt,
+        .shinyPalette = gMonShinyPalette_Pecharunt,
+        .iconSprite = gMonIcon_Pecharunt,
+        .iconPalIndex = 0,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(2, 1, SHADOW_SIZE_L)
+        FOOTPRINT(Pecharunt)
+        OVERWORLD(
+            sPicTable_Pecharunt,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Pecharunt,
+            gShinyOverworldPalette_Pecharunt
+        )
+        .isMythical = TRUE,
+        .isFrontierBanned = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .levelUpLearnset = sPecharuntLevelUpLearnset,
+        .teachableLearnset = sPecharuntTeachableLearnset,
+    },
+    [SPECIES_FINAL_BOSS] =
     {
         .baseHP        = 88,
         .baseAttack    = 88,

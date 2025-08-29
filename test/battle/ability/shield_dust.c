@@ -189,7 +189,7 @@ SINGLE_BATTLE_TEST("Shield Dust does not prevent ability stat changes")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shield Dust blocks secondary effects")
+SINGLE_BATTLE_TEST("Shield Dust blocks secondary effects (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_NUZZLE; }
@@ -228,7 +228,7 @@ SINGLE_BATTLE_TEST("INNATE: Shield Dust blocks secondary effects")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shield Dust does not block primary effects")
+SINGLE_BATTLE_TEST("Shield Dust does not block primary effects (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_INFESTATION; }
@@ -237,11 +237,11 @@ SINGLE_BATTLE_TEST("INNATE: Shield Dust does not block primary effects")
     PARAMETRIZE { move = MOVE_PAY_DAY; }
 
     GIVEN {
+        ASSUME(GetMoveEffect(MOVE_THOUSAND_ARROWS) == EFFECT_SMACK_DOWN);
+        ASSUME(GetMoveEffect(MOVE_SMACK_DOWN) == EFFECT_SMACK_DOWN);
         ASSUME(MoveHasAdditionalEffectWithChance(MOVE_INFESTATION, MOVE_EFFECT_WRAP, 0) == TRUE);
-        ASSUME(MoveHasAdditionalEffectWithChance(MOVE_THOUSAND_ARROWS, EFFECT_SMACK_DOWN, 0) == TRUE);
         ASSUME(MoveHasAdditionalEffectWithChance(MOVE_JAW_LOCK, MOVE_EFFECT_TRAP_BOTH, 0) == TRUE);
         ASSUME(MoveHasAdditionalEffectWithChance(MOVE_PAY_DAY, MOVE_EFFECT_PAYDAY, 0) == TRUE);
-        ASSUME(MoveHasAdditionalEffectWithChance(MOVE_SMACK_DOWN, EFFECT_SMACK_DOWN, 0) == TRUE);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_VIVILLON) { Ability(ABILITY_COMPOUND_EYES); Innates(ABILITY_SHIELD_DUST); }
     } WHEN {
@@ -272,7 +272,7 @@ SINGLE_BATTLE_TEST("INNATE: Shield Dust does not block primary effects")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shield Dust does not block self-targeting effects, primary or secondary")
+SINGLE_BATTLE_TEST("Shield Dust does not block self-targeting effects, primary or secondary (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_POWER_UP_PUNCH; }
@@ -309,11 +309,11 @@ SINGLE_BATTLE_TEST("INNATE: Shield Dust does not block self-targeting effects, p
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Shield Dust does or does not block Sparkling Aria depending on number of targets hit")
+DOUBLE_BATTLE_TEST("Shield Dust does or does not block Sparkling Aria depending on number of targets hit (Trait)")
 {
     u32 moveToUse;
     PARAMETRIZE { moveToUse = MOVE_FINAL_GAMBIT; }
-    PARAMETRIZE { moveToUse = MOVE_TACKLE; }
+    PARAMETRIZE { moveToUse = MOVE_SCRATCH; }
     GIVEN {
         PLAYER(SPECIES_WYNAUT);
         PLAYER(SPECIES_WOBBUFFET);
@@ -323,7 +323,7 @@ DOUBLE_BATTLE_TEST("INNATE: Shield Dust does or does not block Sparkling Aria de
         TURN { MOVE(playerRight, moveToUse, target: opponentRight); MOVE(playerLeft, MOVE_SPARKLING_ARIA); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SPARKLING_ARIA, playerLeft);
-        if (moveToUse == MOVE_TACKLE) {
+        if (moveToUse == MOVE_SCRATCH) {
             MESSAGE("The opposing Vivillon's burn was cured!");
             STATUS_ICON(opponentLeft, none: TRUE);
         } else {
@@ -335,7 +335,7 @@ DOUBLE_BATTLE_TEST("INNATE: Shield Dust does or does not block Sparkling Aria de
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Shield Dust blocks Sparkling Aria if all other targets avoid getting hit by")
+DOUBLE_BATTLE_TEST("Shield Dust blocks Sparkling Aria if all other targets avoid getting hit by (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PRIMARINA);
@@ -349,7 +349,7 @@ DOUBLE_BATTLE_TEST("INNATE: Shield Dust blocks Sparkling Aria if all other targe
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shield Dust blocks Sparkling Aria in singles")
+SINGLE_BATTLE_TEST("Shield Dust blocks Sparkling Aria in singles (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -365,13 +365,13 @@ SINGLE_BATTLE_TEST("INNATE: Shield Dust blocks Sparkling Aria in singles")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shield Dust does not prevent ability stat changes")
+SINGLE_BATTLE_TEST("Shield Dust does not prevent ability stat changes (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_VIVILLON) { Ability(ABILITY_COMPOUND_EYES); Innates(ABILITY_SHIELD_DUST); }
         OPPONENT(SPECIES_ELDEGOSS) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         MESSAGE("Vivillon's Speed fell!");
     }

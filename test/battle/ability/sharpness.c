@@ -11,8 +11,8 @@ SINGLE_BATTLE_TEST("Sharpness increases the power of slicing moves", s16 damage)
     PARAMETRIZE { move = MOVE_SCRATCH; ability = ABILITY_STEADFAST; }
 
     GIVEN {
-        ASSUME(IsSlicingMove(MOVE_AERIAL_ACE));
-        ASSUME(!IsSlicingMove(MOVE_SCRATCH));
+        ASSUME(gMovesInfo[MOVE_AERIAL_ACE].slicingMove);
+        ASSUME(!gMovesInfo[MOVE_SCRATCH].slicingMove);
         PLAYER(SPECIES_GALLADE) { Ability(ability); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
@@ -25,7 +25,7 @@ SINGLE_BATTLE_TEST("Sharpness increases the power of slicing moves", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sharpness increases the power of slicing moves", s16 damage)
+SINGLE_BATTLE_TEST("Sharpness increases the power of slicing moves (Trait)", s16 damage)
 {
     u32 move;
     u16 ability;
@@ -35,8 +35,8 @@ SINGLE_BATTLE_TEST("INNATE: Sharpness increases the power of slicing moves", s16
     PARAMETRIZE { move = MOVE_SCRATCH; ability = ABILITY_STEADFAST; }
 
     GIVEN {
-        ASSUME(IsSlicingMove(MOVE_AERIAL_ACE));
-        ASSUME(!IsSlicingMove(MOVE_SCRATCH));
+        ASSUME(gMovesInfo[MOVE_AERIAL_ACE].slicingMove);
+        ASSUME(!gMovesInfo[MOVE_SCRATCH].slicingMove);
         PLAYER(SPECIES_GALLADE) { Ability(ABILITY_STEADFAST); Innates(ability); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {

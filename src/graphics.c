@@ -721,6 +721,12 @@ const u8 gHealthboxElementsGfxTable[][32] = INCBIN_U8("graphics/battle_interface
                                                   "graphics/battle_interface/status4.4bpp",
                                                   "graphics/battle_interface/healthbox_doubles_frameend.4bpp",
                                                   "graphics/battle_interface/healthbox_doubles_frameend_bar.4bpp");
+
+const u8 gBossHealthBar[][32] = INCBIN_U8("graphics/battle_interface/hpbarBoss.4bpp");
+
+const u32 gSideHPBars[] = INCBIN_U32("graphics/battle_interface/hpbarMini.4bpp");
+const u16 gBossHPBarPalette[] = INCBIN_U16("graphics/battle_interface/boss_hp_bar_palette.gbapal");
+
 const u32 gBattleInterfaceGfx_UnusedWindow3[] = INCBIN_U32("graphics/battle_interface/unused_window3.4bpp.lz");
 const u32 gBattleInterfaceGfx_UnusedWindow4[] = INCBIN_U32("graphics/battle_interface/unused_window4.4bpp.lz");
 
@@ -1293,6 +1299,10 @@ const u16 gBattleAnimSpritePal_TeraStarstormBeam[] = INCBIN_U16("graphics/battle
 
 const u32 gBattleAnimSpriteGfx_SaltParticle[] = INCBIN_U32("graphics/battle_anims/sprites/salt_particle.4bpp.lz");
 const u16 gBattleAnimSpritePal_SaltParticle[] = INCBIN_U16("graphics/battle_anims/sprites/salt_particle.gbapal");
+
+const u32 gBattleAnimSpriteGfx_FrostwispOrb[] = INCBIN_U32("graphics/battle_anims/sprites/frostwisp_orb.4bpp.lz");
+const u32 gBattleAnimSpriteGfx_FrostwispFlakes[] = INCBIN_U32("graphics/battle_anims/sprites/frostwisp_flakes.4bpp.lz");
+const u16 gBattleAnimSpritePal_Frostwisp[] = INCBIN_U16("graphics/battle_anims/sprites/frostwisp_orb.gbapal");
 
 const u16 gBattleAnimUnusedPal_Unknown2[] = INCBIN_U16("graphics/battle_anims/unused/unknown_2.gbapal");
 

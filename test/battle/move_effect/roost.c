@@ -443,7 +443,7 @@ SINGLE_BATTLE_TEST("Roost does not suppress the ungrounded effect of Telekinesis
 // Probably better as a Transform test.
 TO_DO_BATTLE_TEST("Roost's suppression does not prevent others who are Transforming into the user from copying its Flying-type");
 
-SINGLE_BATTLE_TEST("INNATE: Roost suppresses the user's Flying-typing this turn, then restores it at the end of the turn")
+SINGLE_BATTLE_TEST("Roost suppresses the user's Flying-typing this turn, then restores it at the end of the turn (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_SKARMORY].types[0] == TYPE_STEEL);
@@ -470,7 +470,7 @@ SINGLE_BATTLE_TEST("INNATE: Roost suppresses the user's Flying-typing this turn,
 }
 
 // Tested in ORAS
-DOUBLE_BATTLE_TEST("INNATE: Roost suppresses the user's not-yet-aquired Flying-type this turn")
+DOUBLE_BATTLE_TEST("Roost suppresses the user's not-yet-aquired Flying-type this turn (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_KECLEON].types[0] != TYPE_FLYING);
@@ -497,7 +497,7 @@ DOUBLE_BATTLE_TEST("INNATE: Roost suppresses the user's not-yet-aquired Flying-t
 }
 
 // Tested in ORAS
-SINGLE_BATTLE_TEST("INNATE: Roost prevents a Flying-type user from being protected by Delta Stream")
+SINGLE_BATTLE_TEST("Roost prevents a Flying-type user from being protected by Delta Stream (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_RAYQUAZA].types[1] == TYPE_FLYING);
@@ -515,7 +515,7 @@ SINGLE_BATTLE_TEST("INNATE: Roost prevents a Flying-type user from being protect
 }
 
 // https://www.smogon.com/forums/threads/sword-shield-battle-mechanics-research.3655528/page-64#post-9244179
-SINGLE_BATTLE_TEST("INNATE: Roost's effect is lifted after Grassy Terrain's healing")
+SINGLE_BATTLE_TEST("Roost's effect is lifted after Grassy Terrain's healing (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_SWELLOW].types[0] == TYPE_NORMAL);
@@ -533,7 +533,7 @@ SINGLE_BATTLE_TEST("INNATE: Roost's effect is lifted after Grassy Terrain's heal
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Roost does not suppress the ungrounded effect of Levitate")
+SINGLE_BATTLE_TEST("Roost does not suppress the ungrounded effect of Levitate (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_FLYGON) { HP(1); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LEVITATE); }

@@ -129,7 +129,7 @@ SINGLE_BATTLE_TEST("Innards Out triggers if Future Sight user is back on the fie
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Innards Out deal dmg on fainting equal to the amount of dmg inflicted on the Innards Out mon")
+SINGLE_BATTLE_TEST("Innards Out deal dmg on fainting equal to the amount of dmg inflicted on the Innards Out mon (Trait)")
 {
     u16 hp = 0;
     PARAMETRIZE { hp = 5; }
@@ -138,7 +138,7 @@ SINGLE_BATTLE_TEST("INNATE: Innards Out deal dmg on fainting equal to the amount
     PARAMETRIZE { hp = 100; } // This takes out Wobbuffet.
 
     GIVEN {
-        PLAYER(SPECIES_PYUKUMUKU) { HP(hp); Ability(ABILITY_UNAWARE); Innates(ABILITY_INNARDS_OUT); }
+        PLAYER(SPECIES_PYUKUMUKU) { HP(hp); Ability(ABILITY_INNARDS_OUT); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET) { HP(70); SpAttack(1000); }
         OPPONENT(SPECIES_WOBBUFFET);
@@ -154,8 +154,31 @@ SINGLE_BATTLE_TEST("INNATE: Innards Out deal dmg on fainting equal to the amount
     }
 }
 
+//Negation is Ability only
+// SINGLE_BATTLE_TEST("Innards Out does not trigger after Gastro Acid has been used (Trait)")
+// {
+//     GIVEN {
+//         PLAYER(SPECIES_PYUKUMUKU) { HP(1); Ability(ABILITY_INNARDS_OUT); }
+//         PLAYER(SPECIES_WOBBUFFET);
+//         OPPONENT(SPECIES_WOBBUFFET);
+//         ASSUME(!IsBattleMoveStatus(MOVE_PSYCHIC));
+//         ASSUME(GetMoveEffect(MOVE_GASTRO_ACID) == EFFECT_GASTRO_ACID);
+//     } WHEN {
+//         TURN { MOVE(opponent, MOVE_GASTRO_ACID); }
+//         TURN { MOVE(opponent, MOVE_PSYCHIC); SEND_OUT(player, 1); }
+//     } SCENE {
+//         MESSAGE("The opposing Wobbuffet used Gastro Acid!");
+//         MESSAGE("The opposing Wobbuffet used Psychic!");
+//         HP_BAR(player);
+//         NONE_OF {
+//             ABILITY_POPUP(player, ABILITY_INNARDS_OUT);
+//             HP_BAR(opponent);
+//         }
+//     }
+// }
+
 // According to Showdown Innards Out triggers, but does nothing.
-SINGLE_BATTLE_TEST("INNATE: Innards Out does not damage Magic Guard Pokemon")
+SINGLE_BATTLE_TEST("Innards Out does not damage Magic Guard Pokemon (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PYUKUMUKU) { HP(1); Ability(ABILITY_UNAWARE); Innates(ABILITY_INNARDS_OUT); }
@@ -172,7 +195,7 @@ SINGLE_BATTLE_TEST("INNATE: Innards Out does not damage Magic Guard Pokemon")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Innards Out uses correct damage amount for Future Sight")
+SINGLE_BATTLE_TEST("Innards Out uses correct damage amount for Future Sight (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FUTURE_SIGHT) == EFFECT_FUTURE_SIGHT);
@@ -192,7 +215,7 @@ SINGLE_BATTLE_TEST("INNATE: Innards Out uses correct damage amount for Future Si
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Innards Out doesn't trigger if Future Sight user is not on field")
+SINGLE_BATTLE_TEST("Innards Out doesn't trigger if Future Sight user is not on field (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FUTURE_SIGHT) == EFFECT_FUTURE_SIGHT);
@@ -215,7 +238,7 @@ SINGLE_BATTLE_TEST("INNATE: Innards Out doesn't trigger if Future Sight user is 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Innards Out triggers if Future Sight user is back on the field")
+SINGLE_BATTLE_TEST("Innards Out triggers if Future Sight user is back on the field (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FUTURE_SIGHT) == EFFECT_FUTURE_SIGHT);

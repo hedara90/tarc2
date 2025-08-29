@@ -125,19 +125,19 @@ SINGLE_BATTLE_TEST("Stamina is not activated by users own Substitute")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Stamina raises Defense by 1 when hit by a move")
+SINGLE_BATTLE_TEST("Stamina raises Defense by 1 when hit by a move (Trait)")
 {
     s16 turnOneHit, turnTwoHit;
     u16 move;
 
-    PARAMETRIZE {move = MOVE_TACKLE; }
+    PARAMETRIZE {move = MOVE_SCRATCH; }
     PARAMETRIZE {move = MOVE_GUST; }
 
     GIVEN {
-        ASSUME(!IsBattleMoveStatus(MOVE_TACKLE));
+        ASSUME(!IsBattleMoveStatus(MOVE_SCRATCH));
         ASSUME(!IsBattleMoveStatus(MOVE_GUST));
         ASSUME(GetMoveCategory(MOVE_GUST) == DAMAGE_CATEGORY_SPECIAL);
-        ASSUME(GetMoveCategory(MOVE_TACKLE) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_STAMINA); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
@@ -148,7 +148,7 @@ SINGLE_BATTLE_TEST("INNATE: Stamina raises Defense by 1 when hit by a move")
         STAMINA_HIT(opponent, player, move, "Wobbuffet's Defense rose!", turnTwoHit);
     }
     THEN {
-        if (move == MOVE_TACKLE) {
+        if (move == MOVE_SCRATCH) {
             EXPECT_MUL_EQ(turnTwoHit, Q_4_12(1.5), turnOneHit);
         }
         else {
@@ -157,7 +157,7 @@ SINGLE_BATTLE_TEST("INNATE: Stamina raises Defense by 1 when hit by a move")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Stamina activates correctly for every battler with the ability when hit by a multi target move")
+DOUBLE_BATTLE_TEST("Stamina activates correctly for every battler with the ability when hit by a multi target move (Trait)")
 {
     u16 abilityLeft, abilityRight;
 
@@ -199,7 +199,7 @@ DOUBLE_BATTLE_TEST("INNATE: Stamina activates correctly for every battler with t
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Stamina activates for every hit of a multi hit move")
+SINGLE_BATTLE_TEST("Stamina activates for every hit of a multi hit move (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -216,7 +216,7 @@ SINGLE_BATTLE_TEST("INNATE: Stamina activates for every hit of a multi hit move"
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Stamina is not activated by users own Substitute")
+SINGLE_BATTLE_TEST("Stamina is not activated by users own Substitute (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MUDBRAY) { Ability(ABILITY_OWN_TEMPO); Innates(ABILITY_STAMINA); }

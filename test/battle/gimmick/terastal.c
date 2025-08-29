@@ -887,7 +887,7 @@ SINGLE_BATTLE_TEST("(TERA) All type indicators function correctly - Opponent")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after Technician", s16 damage)
+SINGLE_BATTLE_TEST("(TERA) Terastallization's 60 BP floor occurs after Technician (Trait)", s16 damage)
 {
     bool32 tera;
     PARAMETRIZE { tera = GIMMICK_NONE; }
@@ -908,7 +908,7 @@ SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after T
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after Technician", s16 damage)
+SINGLE_BATTLE_TEST("(TERA) Terastallization's 60 BP floor occurs after Technician (Trait)", s16 damage)
 {
     bool32 tera;
     PARAMETRIZE { tera = GIMMICK_NONE; }
@@ -928,7 +928,7 @@ SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallization's 60 BP floor occurs after T
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Protean cannot change the type of a Terastallized Pokemon")
+SINGLE_BATTLE_TEST("(TERA) Protean cannot change the type of a Terastallized Pokemon (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GRENINJA) { Ability(ABILITY_TORRENT); Innates(ABILITY_PROTEAN); TeraType(TYPE_GRASS); }
@@ -943,7 +943,7 @@ SINGLE_BATTLE_TEST("INNATE: (TERA) Protean cannot change the type of a Terastall
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Stellar type's one-time boost factors in dynamically-typed moves")
+SINGLE_BATTLE_TEST("(TERA) Stellar type's one-time boost factors in dynamically-typed moves (Trait)")
 {
     s16 damage[4];
     GIVEN {

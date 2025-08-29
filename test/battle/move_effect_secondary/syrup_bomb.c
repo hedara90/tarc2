@@ -218,7 +218,7 @@ SINGLE_BATTLE_TEST("Sticky Syrup is removed when the user faints")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Syrup Bomb is prevented by Bulletproof")
+SINGLE_BATTLE_TEST("Syrup Bomb is prevented by Bulletproof (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -231,6 +231,58 @@ SINGLE_BATTLE_TEST("INNATE: Syrup Bomb is prevented by Bulletproof")
         NONE_OF {
             ANIMATION(ANIM_TYPE_MOVE, MOVE_SYRUP_BOMB, player);
             HP_BAR(opponent);
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("Sticky Syrup speed reduction is prevented by Clear Body, White Smoke or Full Metal Body (Trait)")
+{
+    u32 species;
+    u32 ability;
+
+    PARAMETRIZE { species = SPECIES_BELDUM; ability = ABILITY_CLEAR_BODY; }
+    PARAMETRIZE { species = SPECIES_TORKOAL; ability = ABILITY_WHITE_SMOKE; }
+    PARAMETRIZE { species = SPECIES_SOLGALEO; ability = ABILITY_FULL_METAL_BODY; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(species) { Ability(ABILITY_LIGHT_METAL); Innates(ability); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SYRUP_BOMB); }
+        TURN {}
+        TURN {}
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SYRUP_BOMB, player);
+        HP_BAR(opponent);
+        if (species == SPECIES_BELDUM)
+        {
+            MESSAGE("The opposing Beldum got covered in sticky candy syrup!");
+            ABILITY_POPUP(opponent, ABILITY_CLEAR_BODY);
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_SYRUP_BOMB_SPEED_DROP, opponent);
+            MESSAGE("The opposing Beldum's Clear Body prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Beldum's Speed fell!");
+            }
+        }
+        else if (species == SPECIES_TORKOAL)
+        {
+            MESSAGE("The opposing Torkoal got covered in sticky candy syrup!");
+            ABILITY_POPUP(opponent, ABILITY_WHITE_SMOKE);
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_SYRUP_BOMB_SPEED_DROP, opponent);
+            MESSAGE("The opposing Torkoal's White Smoke prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Torkoal's Speed fell!");
+            }
+        }
+        else if (species == SPECIES_SOLGALEO)
+        {
+            MESSAGE("The opposing Solgaleo got covered in sticky candy syrup!");
+            ABILITY_POPUP(opponent, ABILITY_FULL_METAL_BODY);
+            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_SYRUP_BOMB_SPEED_DROP, opponent);
+            MESSAGE("The opposing Solgaleo's Full Metal Body prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Solgaleo's Speed fell!");
+            }
         }
     }
 }

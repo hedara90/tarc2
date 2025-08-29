@@ -535,6 +535,11 @@ extern const u8 BattleScript_AlreadyParalyzed[];
 extern const u8 BattleScript_AlreadyBurned[];
 extern const u8 BattleScript_PrintAbilityMadeIneffective[];
 
+//New abilities
+extern const u8 BattleScript_CloudburstActivates[];
+extern const u8 BattleScript_MaelstromActivatesMoveEnd[];
+extern const u8 BattleScript_SandRepairActivates[];
+
 // zmoves
 extern const u8 BattleScript_ZMoveActivateDamaging[];
 extern const u8 BattleScript_ZMoveActivateStatus[];
@@ -871,5 +876,38 @@ extern const u8 BattleScript_FickleBeamDoubled[];
 extern const u8 BattleScript_QuestionForfeitBattle[];
 extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
+extern const u8 BattleScript_BossRestore[];
+extern const u8 BattleScript_BacklineRestore[];
+extern const u8 BattleScript_HailstoneFall[];
+extern const u8 BattleScript_FlamesEmbrace[];
+extern const u8 BattleScript_ThunderstrikeActive[];
+extern const u8 BattleScript_ThunderstrikeLeft[];
+extern const u8 BattleScript_ThunderstrikeRight[];
+extern const u8 BattleScript_CooldownOverride[];
+extern const u8 BattleScript_RessMon[];
+extern const u8 BattleScript_CloudwalkerTrigger[];
+extern const u8 BattleScript_TriggerTailwind[];
+extern const u8 BattleScript_UncontainedBlaze[];
+extern const u8 BattleScript_WindsOfChange[];
+extern const u8 BattleScript_DisheartenActivates[];
+extern const u8 BattleScript_DisheartenPrevented[];
+extern const u8 BattleScript_DisheartenInReverse[];
+extern const u8 BattleScript_MentalReset[];
+extern const u8 BattleScript_SentinelOut[];
+extern const u8 BattleScript_StaticBuildup[];
+extern const u8 BattleScript_HoarfrostActivates[];
+extern const u8 BattleScript_Sunrise[];
+extern const u8 BattleScript_LunarCold[];
+extern const u8 BattleScript_IcyVeinsActivates[];
+extern const u8 BattleScript_FloralGrowthActivates[];
+extern const u8 BattleScript_Empath[];
+extern const u8 BattleScript_TerrasBlessing[];
+extern const u8 BattleScript_MindPalaceActivates[];
+extern const u8 BattleScript_OverchargeActivates[];
+extern const u8 BattleScript_MistbankActivates[];
+extern const u8 BattleScript_CloudingMindActivates[];
+extern const u8 BattleScript_SporangiumActivates[];
+extern const u8 BattleScript_ResorptionTriggers[];
+extern const u8 BattleScript_CripplingVenom[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

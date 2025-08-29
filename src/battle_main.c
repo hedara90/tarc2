@@ -250,6 +250,9 @@ EWRAM_DATA u8 gPartyCriticalHits[PARTY_SIZE] = {0};
 EWRAM_DATA static u8 sTriedEvolving = 0;
 EWRAM_DATA u8 gCategoryIconSpriteId = 0;
 
+EWRAM_DATA struct BattlePokemon gLeftMon;
+EWRAM_DATA struct BattlePokemon gRightMon;
+
 COMMON_DATA void (*gPreBattleCallback1)(void) = NULL;
 COMMON_DATA void (*gBattleMainFunc)(void) = NULL;
 COMMON_DATA struct BattleResults gBattleResults = {0};
@@ -257,6 +260,8 @@ COMMON_DATA u8 gLeveledUpInBattle = 0;
 COMMON_DATA u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT] = {0};
 COMMON_DATA u8 gMultiUsePlayerCursor = 0;
 COMMON_DATA u8 gNumberOfMovesToChoose = 0;
+
+EWRAM_DATA struct SideMons gSideMons;
 
 static const struct ScanlineEffectParams sIntroScanlineParams16Bit =
 {
@@ -465,9 +470,54 @@ void CB2_InitBattle(void)
     }
 }
 
+void InitializeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        gSideMons.sideSprites[i].species = species;
+        gSideMons.sideSprites[i].sprite = Alloc(32 * 16);
+        gSideMons.sideSprites[i].palette = Alloc(32);
+
+        u32 *iconPtr;
+        if (gSpeciesInfo[species].iconSpriteFemale != NULL && IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY)))
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSpriteFemale;
+        }
+        else
+        {
+            iconPtr = (u32 *)gSpeciesInfo[species].iconSprite;
+        }
+
+        //  Copy Sprite to buffer
+        for (u32 j = 0; j < 128; j++)
+        {
+            gSideMons.sideSprites[i].sprite[j] = iconPtr[j];
+        }
+
+        //  Copy palette to buffer
+        for (u32 j = 0; j < 16; j++)
+        {
+            gSideMons.sideSprites[i].palette[j] = gMonIconPalettes[gSpeciesInfo[species].iconPalIndex][j];
+        }
+    }
+}
+
+void FreeSideSprites(void)
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        Free(gSideMons.sideSprites[i].sprite);
+        Free(gSideMons.sideSprites[i].palette);
+        gSideMons.sideSprites[i].sprite = NULL;
+        gSideMons.sideSprites[i].palette = NULL;
+    }
+}
+
 static void CB2_InitBattleInternal(void)
 {
     s32 i;
+    gMain.inBattle = TRUE;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -592,6 +642,10 @@ static void CB2_InitBattleInternal(void)
         gPlayerPartyCount = CalculatePartyCount(gPlayerParty);
         gEnemyPartyCount = CalculatePartyCount(gEnemyParty);
     }
+
+    gSaveBlock1Ptr->huntTargets.currentEnemy = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES);
+
+    InitializeSideSprites();
 
     gBattleCommunication[MULTIUSE_STATE] = 0;
 }
@@ -2022,6 +2076,8 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         }
     }
 
+    gBattleStruct->maxPhases = gSpeciesInfo[GetMonData(&gEnemyParty[0], MON_DATA_SPECIES)].maxPhases;
+    gBattleStruct->currentPhase = 1;
     return trainer->partySize;
 }
 
@@ -3472,6 +3528,9 @@ static void DoBattleIntro(void)
                 gBattleMons[battler].status2 = 0;
                 for (i = 0; i < NUM_BATTLE_STATS; i++)
                     gBattleMons[battler].statStages[i] = DEFAULT_STAT_STAGE;
+                for (u32 move = 0; move < 4; move++)
+                    gBattleMons[battler].moveCD[move] = 0;
+                gBattleMons[battler].numOverrides = 0;
                 #if TESTING
                 if (gTestRunnerEnabled)
                 {
@@ -3738,6 +3797,8 @@ static void DoBattleIntro(void)
                 gBattleStruct->startingStatusTimer = VarGet(B_VAR_STARTING_STATUS_TIMER);
             }
             gBattleMainFunc = TryDoEventsBeforeFirstTurn;
+            PokemonToBattleMon(&gPlayerParty[1], &gLeftMon);
+            PokemonToBattleMon(&gPlayerParty[2], &gRightMon);
         }
         break;
     }
@@ -3753,6 +3814,10 @@ static void TryDoEventsBeforeFirstTurn(void)
     switch ((enum FirstTurnEventsStates)gBattleStruct->eventsBeforeFirstTurnState)
     {
     case FIRST_TURN_EVENTS_START:
+        //  TARC set boss
+        SetBossInBattle();
+        gBattleStruct->startTurnSpecies = gBattleMons[0].species;
+
         // Set invalid mons as absent(for example when starting a double battle with only one pokemon).
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
@@ -3926,6 +3991,17 @@ static void TryDoEventsBeforeFirstTurn(void)
 static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
+    gBattleStruct->isEndOfTurnWeather = FALSE;
+
+    //  Increment the AI turn counter
+    if (gBattleStruct->skipIncrement)
+    {
+        gBattleStruct->skipIncrement = FALSE;
+    }
+    else
+    {
+        gBattleStruct->aiTurnCounter++;
+    }
 
     if (gBattleControllerExecFlags == 0)
     {
@@ -4015,6 +4091,10 @@ void BattleTurnPassed(void)
     SetShellSideArmCategory();
     SetAiLogicDataForTurn(gAiLogicData); // get assumed abilities, hold effects, etc of all battlers
     gBattleMainFunc = HandleTurnActionSelectionState;
+
+    gBattleStruct->startTurnSpecies = gBattleMons[0].species;
+    gBattleStruct->shouldTriggerRotate = FALSE;
+    gBattleStruct->triggeredRotate = FALSE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
         BattleScriptExecute(BattleScript_PalacePrintFlavorText);
@@ -4173,6 +4253,11 @@ static void HandleTurnActionSelectionState(void)
         switch (gBattleCommunication[battler])
         {
         case STATE_TURN_START_RECORD: // Recorded battle related action on start of every turn.
+            //  New AI move handling here
+            if (!TESTING)
+            {
+                SetNextBossMove();
+            }
             RecordedBattle_CopyBattlerMoves(battler);
             gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
             ComputeBattlerDecisions(battler); // Do AI score computations here so we can use them in AI_TrySwitchOrUseItem
@@ -5189,12 +5274,72 @@ static bool32 TryDoGimmicksBeforeMoves(void)
     return FALSE;
 }
 
+static bool32 MentalResetShouldTrigger(void)
+{
+    if (gBattleStruct->startTurnSpecies == gLeftMon.species)
+    {
+        bool32 hasReducedStats = FALSE;
+        if (gLeftMon.ability == ABILITY_MENTAL_RESET || SpeciesHasInnate(gLeftMon.species, ABILITY_MENTAL_RESET, 0, TRUE))
+        {
+            for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            {
+                if (gLeftMon.statStages[i] < DEFAULT_STAT_STAGE)
+                {
+                    hasReducedStats = TRUE;
+                    gLeftMon.statStages[i] = DEFAULT_STAT_STAGE;
+                }
+            }
+        }
+
+        if (hasReducedStats)
+        {
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+            return TRUE;
+        }
+    }
+    else
+    {
+        bool32 hasReducedStats = FALSE;
+        if (gRightMon.ability == ABILITY_MENTAL_RESET || SpeciesHasInnate(gRightMon.species, ABILITY_MENTAL_RESET, 0, TRUE))
+        {
+            for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
+            {
+                if (gRightMon.statStages[i] < DEFAULT_STAT_STAGE)
+                {
+                    hasReducedStats = TRUE;
+                    gRightMon.statStages[i] = DEFAULT_STAT_STAGE;
+                }
+            }
+        }
+
+        if (hasReducedStats)
+        {
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 static bool32 TryDoMoveEffectsBeforeMoves(void)
 {
     if (!(gHitMarker & HITMARKER_RUN))
     {
         u32 i;
         u8 battlers[MAX_BATTLERS_COUNT];
+
+        if (!TESTING && !gBattleStruct->triggeredRotate && MentalResetShouldTrigger())
+        {
+            BattleScriptExecute(BattleScript_MentalReset);
+            return TRUE;
+        }
+
+        if (!TESTING && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
+        {
+            gBattleStruct->triggeredRotate = TRUE;
+            gBattleStruct->shouldTriggerRotate = FALSE;
+            return TRUE;
+        }
 
         PopulateArrayWithBattlers(battlers);
         SortBattlersBySpeed(battlers, FALSE);
@@ -5280,6 +5425,9 @@ static void TryChangingTurnOrderEffects(u32 battler1, u32 battler2, u32 *quickCl
 static void CheckChangingTurnOrderEffects(void)
 {
     u32 i, battler;
+
+    if (!TESTING)
+        UpdateBacklineTurns();
 
     if (!(gHitMarker & HITMARKER_RUN))
     {
@@ -6139,4 +6287,30 @@ bool32 DidPlayerForfeitNormalTrainerBattle(void)
         return FALSE;
 
     return (gBattleOutcome == B_OUTCOME_FORFEITED);
+}
+
+void SetActiveBossBarColour(void)
+{
+    u32 palIndex = gBattleStruct->maxPhases - gBattleStruct->currentPhase + 1;
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[13] = gBossHPBarPalette[palIndex];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 13] = gBossHPBarPalette[palIndex];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 13] = gBossHPBarPalette[palIndex];
+}
+
+void SetInactiveBossBarColour(void)
+{
+    u32 palIndex = gBattleStruct->maxPhases - gBattleStruct->currentPhase;
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[14] = gBossHPBarPalette[palIndex];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 14] = gBossHPBarPalette[palIndex];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 14] = gBossHPBarPalette[palIndex];
+}
+
+void SetBossBarOtherColour(void)
+{
+    u16 *pal = (u16 *)(OBJ_PLTT + 32 * 3);
+    pal[2] = gBattleInterface_BallStatusBarPal[2];
+    gPlttBufferFaded[OBJ_PLTT_ID(3) + 2] = gBattleInterface_BallStatusBarPal[2];
+    gPlttBufferUnfaded[OBJ_PLTT_ID(3) + 2] = gBattleInterface_BallStatusBarPal[2];
 }

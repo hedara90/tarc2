@@ -239,7 +239,7 @@ SINGLE_BATTLE_TEST("Corrosion's effect is lost if the move used by the Pokémon 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion can poison or badly poison a Pokemon regardless of its typing")
+SINGLE_BATTLE_TEST("Corrosion can poison or badly poison a Pokemon regardless of its typing (Trait)")
 {
     u16 species;
 
@@ -260,7 +260,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion can poison or badly poison a Pokemon regar
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion can poison or badly poison a Steel type with a status poison effect")
+SINGLE_BATTLE_TEST("Corrosion can poison or badly poison a Steel type with a status poison effect (Trait)")
 {
     u16 move;
 
@@ -286,7 +286,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion can poison or badly poison a Steel type wi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion does not effect poison type damaging moves if the target is immune to it")
+SINGLE_BATTLE_TEST("Corrosion does not effect poison type damaging moves if the target is immune to it (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_SLUDGE_BOMB, MOVE_EFFECT_POISON) == TRUE);
@@ -304,7 +304,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion does not effect poison type damaging moves
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion can poison Poison- and Steel-type targets if it uses Fling while holding a Toxic Orb or a Poison Barb")
+SINGLE_BATTLE_TEST("Corrosion can poison Poison- and Steel-type targets if it uses Fling while holding a Toxic Orb or a Poison Barb (Trait)")
 {
     u16 heldItem;
 
@@ -331,7 +331,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion can poison Poison- and Steel-type targets 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: If a Poison- or Steel-type Pokémon with Corrosion holds a Toxic Orb, it will badly poison itself")
+SINGLE_BATTLE_TEST("If a Poison- or Steel-type Pokémon with Corrosion holds a Toxic Orb, it will badly poison itself (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_TOXIC_ORB].holdEffect == HOLD_EFFECT_TOXIC_ORB);
@@ -345,7 +345,7 @@ SINGLE_BATTLE_TEST("INNATE: If a Poison- or Steel-type Pokémon with Corrosion h
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: If a Poison- or Steel-type Pokémon with Corrosion poisons a target with Synchronize, Synchronize will not poison Poison- or Steel-type Pokémon")
+SINGLE_BATTLE_TEST("If a Poison- or Steel-type Pokémon with Corrosion poisons a target with Synchronize, Synchronize will not poison Poison- or Steel-type Pokémon (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_TOXIC; }
@@ -374,7 +374,7 @@ SINGLE_BATTLE_TEST("INNATE: If a Poison- or Steel-type Pokémon with Corrosion p
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion cannot bypass moves that prevent poisoning such as Safeguard")
+SINGLE_BATTLE_TEST("Corrosion cannot bypass moves that prevent poisoning such as Safeguard (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_TOXIC; }
@@ -398,7 +398,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion cannot bypass moves that prevent poisoning
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion cannot bypass abilities that prevent poisoning such as Immunity")
+SINGLE_BATTLE_TEST("Corrosion cannot bypass abilities that prevent poisoning such as Immunity (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_TOXIC; }
@@ -422,7 +422,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion cannot bypass abilities that prevent poiso
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion allows the Pokémon with the ability to poison a Steel or Poison-type opponent by using Magic Coat")
+SINGLE_BATTLE_TEST("Corrosion allows the Pokémon with the ability to poison a Steel or Poison-type opponent by using Magic Coat (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_TOXIC; }
@@ -448,7 +448,7 @@ SINGLE_BATTLE_TEST("INNATE: Corrosion allows the Pokémon with the ability to po
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Corrosion's effect is lost if the move used by the Pokémon with the ability is reflected by Magic Coat")
+SINGLE_BATTLE_TEST("Corrosion's effect is lost if the move used by the Pokémon with the ability is reflected by Magic Coat (Trait)")
 {
     u16 move;
     PARAMETRIZE { move = MOVE_TOXIC; }

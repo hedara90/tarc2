@@ -154,11 +154,11 @@ SINGLE_BATTLE_TEST("Color Change changes the type to Normal when a Pokemon is hi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the type of a Pokemon being hit by a move if the type of the move and the Pokemon are different")
+SINGLE_BATTLE_TEST("Color Change changes the type of a Pokemon being hit by a move if the type of the move and the Pokemon are different (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_KECLEON].types[0] != TYPE_PSYCHIC && gSpeciesInfo[SPECIES_KECLEON].types[1] != TYPE_PSYCHIC);
-        ASSUME(gMovesInfo[MOVE_PSYWAVE].type == TYPE_PSYCHIC);
+        ASSUME(GetMoveType(MOVE_PSYWAVE) == TYPE_PSYCHIC);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_KECLEON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COLOR_CHANGE); }
     } WHEN {
@@ -170,17 +170,17 @@ SINGLE_BATTLE_TEST("INNATE: Color Change changes the type of a Pokemon being hit
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type when hit by a move that's the same type as itself")
+SINGLE_BATTLE_TEST("Color Change does not change the type when hit by a move that's the same type as itself (Trait)")
 {
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_KECLEON].types[0] == TYPE_NORMAL || gSpeciesInfo[SPECIES_KECLEON].types[1] == TYPE_NORMAL);
-        ASSUME(gMovesInfo[MOVE_TACKLE].type == TYPE_NORMAL);
+        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_KECLEON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COLOR_CHANGE); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         NONE_OF {
             ABILITY_POPUP(opponent, ABILITY_COLOR_CHANGE);
             MESSAGE("The opposing Kecleon's Color Change made it the Normal type!");
@@ -188,7 +188,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type when hit by a 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type of a dual-type Pokemon when hit by a move that shares its primary type")
+SINGLE_BATTLE_TEST("Color Change does not change the type of a dual-type Pokemon when hit by a move that shares its primary type (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_KECLEON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COLOR_CHANGE); }
@@ -205,7 +205,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type of a dual-type
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type of a dual-type Pokemon when hit by a move that shares its secondary type")
+SINGLE_BATTLE_TEST("Color Change does not change the type of a dual-type Pokemon when hit by a move that shares its secondary type (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_KECLEON) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COLOR_CHANGE); }
@@ -222,7 +222,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change does not change the type of a dual-type
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the user to Electric type if hit by a move while the opponent is under the effect of Electrify")
+SINGLE_BATTLE_TEST("Color Change changes the user to Electric type if hit by a move while the opponent is under the effect of Electrify (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -236,7 +236,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change changes the user to Electric type if hi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the type when a Pokemon is hit by Future Sight")
+SINGLE_BATTLE_TEST("Color Change changes the type when a Pokemon is hit by Future Sight (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -253,7 +253,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change changes the type when a Pokemon is hit 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the type when a Pokemon is hit by Doom Desire")
+SINGLE_BATTLE_TEST("Color Change changes the type when a Pokemon is hit by Doom Desire (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -270,7 +270,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change changes the type when a Pokemon is hit 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the type to Electric when a Pokemon is hit by a forseen attack under the effect of Electrify")
+SINGLE_BATTLE_TEST("Color Change changes the type to Electric when a Pokemon is hit by a forseen attack under the effect of Electrify (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -287,7 +287,7 @@ SINGLE_BATTLE_TEST("INNATE: Color Change changes the type to Electric when a Pok
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Color Change changes the type to Normal when a Pokemon is hit by a forseen attack under the effect of Normalize")
+SINGLE_BATTLE_TEST("Color Change changes the type to Normal when a Pokemon is hit by a forseen attack under the effect of Normalize (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_NORMALIZE); }

@@ -61,6 +61,8 @@
 #include "constants/union_room.h"
 #include "constants/vars.h"
 #include "constants/weather.h"
+#include "constants/hunt_setup.h"
+#include "constants/tarc_balance_constants.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/event.inc"
 	.include "constants/constants.inc"
@@ -1181,3 +1183,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Area7/scripts.inc"
 
 	.include "data/maps/Area9/scripts.inc"
+
+	.include "data/maps/Entrance/scripts.inc"

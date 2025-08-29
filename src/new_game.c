@@ -131,7 +131,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    SetWarpDestination(MAP_GROUP(MAP_ENTRANCE), MAP_NUM(MAP_ENTRANCE), WARP_ID_NONE, 19, 22);
     WarpIntoMap();
 }
 
@@ -149,6 +149,15 @@ void ResetMenuAndMonGlobals(void)
     ZeroEnemyPartyMons();
     ResetBagScrollPositions();
     ResetPokeblockScrollPositions();
+}
+
+void SetHealLocationToEntrance(void)
+{
+    gSaveBlock1Ptr->lastHealLocation.mapGroup = 0;
+    gSaveBlock1Ptr->lastHealLocation.mapNum = 11;
+    gSaveBlock1Ptr->lastHealLocation.x = 20;
+    gSaveBlock1Ptr->lastHealLocation.y = 20;
+    gSaveBlock1Ptr->lastHealLocation.warpId = -1;
 }
 
 void NewGameInitData(void)
@@ -213,6 +222,7 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+    SetHealLocationToEntrance();
 }
 
 static void ResetMiniGamesRecords(void)

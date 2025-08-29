@@ -147,11 +147,11 @@ DOUBLE_BATTLE_TEST("Sleep Talk calls move and that move may be redirected by Sto
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Talk calls move and that move may be redirected by Lightning Rod")
+DOUBLE_BATTLE_TEST("Sleep Talk calls move and that move may be redirected by Lightning Rod (Trait)")
 {
     PASSES_RANDOMLY(1, 2, RNG_RANDOM_TARGET);
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_SPARK].type == TYPE_ELECTRIC);
+        ASSUME(GetMoveType(MOVE_SPARK) == TYPE_ELECTRIC);
         PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_SLEEP); Moves(MOVE_SLEEP_TALK, MOVE_SPARK, MOVE_FLY, MOVE_DIG); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -166,11 +166,11 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Talk calls move and that move may be redirecte
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Talk calls move and that move may be redirected by Storm Drain")
+DOUBLE_BATTLE_TEST("Sleep Talk calls move and that move may be redirected by Storm Drain (Trait)")
 {
     PASSES_RANDOMLY(1, 2, RNG_RANDOM_TARGET);
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_WATER_GUN].type == TYPE_WATER);
+        ASSUME(GetMoveType(MOVE_WATER_GUN) == TYPE_WATER);
         PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_SLEEP); Moves(MOVE_SLEEP_TALK, MOVE_WATER_GUN, MOVE_FLY, MOVE_DIG); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);

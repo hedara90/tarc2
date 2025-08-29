@@ -235,7 +235,7 @@ DOUBLE_BATTLE_TEST("Booster Energy triggers correctly for all battlers if multip
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Booster Energy will activate Quark Drive after Electric Terrain ends")
+SINGLE_BATTLE_TEST("Booster Energy will activate Quark Drive after Electric Terrain ends (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_IRON_MOTH) { Attack(100); Defense(100); Speed(100); SpAttack(110); SpDefense(100); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_QUARK_DRIVE); Item(ITEM_BOOSTER_ENERGY); }
@@ -264,7 +264,7 @@ SINGLE_BATTLE_TEST("INNATE: Booster Energy will activate Quark Drive after Elect
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Booster Energy will activate Protosynthesis after harsh sunlight ends")
+SINGLE_BATTLE_TEST("Booster Energy will activate Protosynthesis after harsh sunlight ends (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_RAGING_BOLT) { Attack(100); Defense(100); Speed(100); SpAttack(110); SpDefense(100); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_PROTOSYNTHESIS); Item(ITEM_BOOSTER_ENERGY); }
@@ -293,7 +293,7 @@ SINGLE_BATTLE_TEST("INNATE: Booster Energy will activate Protosynthesis after ha
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Booster Energy activates Protosynthesis and increases highest stat")
+SINGLE_BATTLE_TEST("Booster Energy activates Protosynthesis and increases highest stat (Trait)")
 {
     u32 attack, defense, speed, spAttack, spDefense;
 
@@ -327,7 +327,7 @@ SINGLE_BATTLE_TEST("INNATE: Booster Energy activates Protosynthesis and increase
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Booster Energy activates Quark Drive and increases highest stat")
+SINGLE_BATTLE_TEST("Booster Energy activates Quark Drive and increases highest stat (Trait)")
 {
     u32 attack, defense, speed, spAttack, spDefense;
 
@@ -356,5 +356,57 @@ SINGLE_BATTLE_TEST("INNATE: Booster Energy activates Quark Drive and increases h
             MESSAGE("Iron Moth's Sp. Def was heightened!");
     } THEN {
         EXPECT(player->item == ITEM_NONE);
+    }
+}
+
+SINGLE_BATTLE_TEST("Booster Energy increases special attack by 30% if it is the highest stat (Trait)", s16 damage)
+{
+    u32 species;
+    u32 ability;
+    u32 item;
+
+    PARAMETRIZE { species = SPECIES_RAGING_BOLT; ability = ABILITY_PROTOSYNTHESIS; item = ITEM_NONE; }
+    PARAMETRIZE { species = SPECIES_RAGING_BOLT; ability = ABILITY_PROTOSYNTHESIS; item = ITEM_BOOSTER_ENERGY; }
+
+    PARAMETRIZE { species = SPECIES_IRON_MOTH; ability = ABILITY_QUARK_DRIVE; item = ITEM_NONE; }
+    PARAMETRIZE { species = SPECIES_IRON_MOTH; ability = ABILITY_QUARK_DRIVE; item = ITEM_BOOSTER_ENERGY; }
+
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_ROUND) == DAMAGE_CATEGORY_SPECIAL);
+        PLAYER(species) { Attack(100); Defense(100); Speed(100); SpAttack(110); SpDefense(100); Ability(ABILITY_LIGHT_METAL); Innates(ability); Item(item); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(100); };
+    } WHEN {
+        TURN { MOVE(player, MOVE_ROUND); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROUND, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(1.3), results[1].damage);
+    }
+}
+
+SINGLE_BATTLE_TEST("Booster Energy increases special defense by 30% if it is the highest stat (Trait)", s16 damage)
+{
+    u32 species;
+    u32 ability;
+    u32 item;
+
+    PARAMETRIZE { species = SPECIES_RAGING_BOLT; ability = ABILITY_PROTOSYNTHESIS; item = ITEM_NONE; }
+    PARAMETRIZE { species = SPECIES_RAGING_BOLT; ability = ABILITY_PROTOSYNTHESIS; item = ITEM_BOOSTER_ENERGY; }
+
+    PARAMETRIZE { species = SPECIES_IRON_MOTH; ability = ABILITY_QUARK_DRIVE; item = ITEM_NONE; }
+    PARAMETRIZE { species = SPECIES_IRON_MOTH; ability = ABILITY_QUARK_DRIVE; item = ITEM_BOOSTER_ENERGY; }
+
+    GIVEN {
+        ASSUME(GetMoveCategory(MOVE_ROUND) == DAMAGE_CATEGORY_SPECIAL);
+        PLAYER(species) { Attack(100); Defense(100); Speed(100); SpAttack(100); SpDefense(110); Ability(ABILITY_LIGHT_METAL); Innates(ability); Item(item); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(100); };
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_ROUND); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROUND, opponent);
+        HP_BAR(player, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.7), results[1].damage);
     }
 }

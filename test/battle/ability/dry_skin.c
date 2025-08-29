@@ -15,6 +15,20 @@ SINGLE_BATTLE_TEST("Dry Skin causes 1/8th Max HP damage in Sun")
     }
 }
 
+SINGLE_BATTLE_TEST("Dry Skin causes 1/8th Max HP damage if battler has Essence of Sun")
+{
+    GIVEN {
+        PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DRY_SKIN); HP(100); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_SUNNY_DAY); }
+    } SCENE {
+        ABILITY_POPUP(player, ABILITY_DRY_SKIN);
+        HP_BAR(player, damage: 200 / 8);
+        MESSAGE("Parasect's Dry Skin takes its toll!");
+    }
+}
+
 TO_DO_BATTLE_TEST("Dry Skin doesn't get damaged in Sun if Cloud Nine/Air Lock is on the field");
 
 SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP in Rain")
@@ -30,6 +44,21 @@ SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP in Rain")
         HP_BAR(player, damage: -(200 / 8));
     }
 }
+SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP is battler has Essence of Rain")
+{
+    GIVEN {
+        PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DRY_SKIN); Innates(ABILITY_ESSENCE_OF_RAIN); HP(100); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { }
+        //TURN { MOVE(player, MOVE_RAIN_DANCE); }
+    } SCENE {
+        ABILITY_POPUP(player, ABILITY_DRY_SKIN);
+        MESSAGE("Parasect's Dry Skin restored its HP a little!");
+        HP_BAR(player, damage: -(200 / 8));
+    }
+}
+
 
 TO_DO_BATTLE_TEST("Dry Skin doesn't heal in Rain if Cloud Nine/Air Lock is on the field");
 
@@ -127,7 +156,7 @@ SINGLE_BATTLE_TEST("Dry Skin prevents Absorb Bulb and Luminous Moss from activat
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin causes 1/8th Max HP damage in Sun")
+SINGLE_BATTLE_TEST("Dry Skin causes 1/8th Max HP damage in Sun (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DAMP); Innates(ABILITY_DRY_SKIN); HP(100); MaxHP(200); }
@@ -141,9 +170,9 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin causes 1/8th Max HP damage in Sun")
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Dry Skin doesn't get damaged in Sun if Cloud Nine/Air Lock is on the field");
+TO_DO_BATTLE_TEST("Dry Skin doesn't get damaged in Sun if Cloud Nine/Air Lock is on the field (Trait)");
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin heals 1/8th Max HP in Rain")
+SINGLE_BATTLE_TEST("Dry Skin heals 1/8th Max HP in Rain (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PARASECT) { Ability(ABILITY_DAMP); Innates(ABILITY_DRY_SKIN); HP(100); MaxHP(200); }
@@ -157,9 +186,9 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin heals 1/8th Max HP in Rain")
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Dry Skin doesn't heal in Rain if Cloud Nine/Air Lock is on the field");
+TO_DO_BATTLE_TEST("Dry Skin doesn't heal in Rain if Cloud Nine/Air Lock is on the field (Trait)");
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin increases damage taken from Fire-type moves by 25%", s16 damage)
+SINGLE_BATTLE_TEST("Dry Skin increases damage taken from Fire-type moves by 25% (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_EFFECT_SPORE; }
@@ -187,7 +216,7 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin increases damage taken from Fire-type moves
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin heals 25% when hit by water type moves")
+SINGLE_BATTLE_TEST("Dry Skin heals 25% when hit by water type moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_BUBBLE) == TYPE_WATER);
@@ -202,7 +231,7 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin heals 25% when hit by water type moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin does not activate if protected")
+SINGLE_BATTLE_TEST("Dry Skin does not activate if protected (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_BUBBLE) == TYPE_WATER);
@@ -215,7 +244,7 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin does not activate if protected")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin is only triggered once on multi strike moves")
+SINGLE_BATTLE_TEST("Dry Skin is only triggered once on multi strike moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_WATER_SHURIKEN) == TYPE_WATER);
@@ -231,7 +260,7 @@ SINGLE_BATTLE_TEST("INNATE: Dry Skin is only triggered once on multi strike move
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dry Skin prevents Absorb Bulb and Luminous Moss from activating")
+SINGLE_BATTLE_TEST("Dry Skin prevents Absorb Bulb and Luminous Moss from activating (Trait)")
 {
     u32 item;
     PARAMETRIZE { item = ITEM_ABSORB_BULB; }

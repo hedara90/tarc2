@@ -90,7 +90,7 @@ DOUBLE_BATTLE_TEST("Maranga Berry doesn't trigger if partner was hit")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Maranga Berry raises the holder's Sp. Def by two stages with Ripen when hit by a special move")
+SINGLE_BATTLE_TEST("Maranga Berry raises the holder's Sp. Def by two stages with Ripen when hit by a special move (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_SWIFT) == DAMAGE_CATEGORY_SPECIAL);

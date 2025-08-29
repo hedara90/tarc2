@@ -695,8 +695,7 @@ DOUBLE_BATTLE_TEST("Pursuit user switches out due to Red Card and partner's swit
 
 TO_DO_BATTLE_TEST("Baton Pass doesn't cause Pursuit to increase its power or priority");
 
-
-SINGLE_BATTLE_TEST("INNATE: Pursuit ignores accuracy checks when attacking a switching target")
+SINGLE_BATTLE_TEST("Pursuit ignores accuracy checks when attacking a switching target (Trait)")
 {
     PASSES_RANDOMLY(100, 100, RNG_ACCURACY);
     GIVEN {
@@ -717,7 +716,7 @@ SINGLE_BATTLE_TEST("INNATE: Pursuit ignores accuracy checks when attacking a swi
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pursuit affected by Electrify fails against target with Volt Absorb")
+DOUBLE_BATTLE_TEST("Pursuit affected by Electrify fails against target with Volt Absorb (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ELECTRIFY) == EFFECT_ELECTRIFY);
@@ -737,7 +736,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pursuit affected by Electrify fails against target w
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair")
+SINGLE_BATTLE_TEST("Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DUGTRIO_ALOLA) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_TANGLING_HAIR); }
@@ -756,7 +755,7 @@ SINGLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hi
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair - Doubles")
+DOUBLE_BATTLE_TEST("Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair - Doubles (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DUGTRIO_ALOLA) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_TANGLING_HAIR); }
@@ -780,7 +779,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair - Mirror Armor")
+SINGLE_BATTLE_TEST("Pursuited mon correctly switches out after it got hit and activated ability Tangling Hair - Mirror Armor (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DUGTRIO_ALOLA) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_TANGLING_HAIR); }
@@ -798,7 +797,7 @@ SINGLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hi
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hit and activated ability Cotton Down")
+DOUBLE_BATTLE_TEST("Pursuited mon correctly switches out after it got hit and activated ability Cotton Down (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ELDEGOSS) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_COTTON_DOWN); }
@@ -830,7 +829,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pursuited mon correctly switches out after it got hi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pursuit doesn't cause mon with Emergency Exit to switch twice")
+SINGLE_BATTLE_TEST("Pursuit doesn't cause mon with Emergency Exit to switch twice (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GOLISOPOD) { HP(101); MaxHP(200); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_EMERGENCY_EXIT); }

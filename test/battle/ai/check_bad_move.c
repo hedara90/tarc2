@@ -47,7 +47,7 @@ AI_DOUBLE_BATTLE_TEST("AI will not try to lower opposing stats if target is prot
     }
 }
 
-AI_DOUBLE_BATTLE_TEST("AI will not try to lower opposing stats if target is protected by Flower Veil (INNATE)")
+AI_DOUBLE_BATTLE_TEST("AI will not try to lower opposing stats if target is protected by Flower Veil (Trait)")
 {
     u16 move;
 

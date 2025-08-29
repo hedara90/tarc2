@@ -32,20 +32,20 @@ SINGLE_BATTLE_TEST("Dragon's Maw increases Dragon-type move damage", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon's Maw increases Dragon-type move damage", s16 damage)
+SINGLE_BATTLE_TEST("Dragon's Maw increases Dragon-type move damage (Trait)", s16 damage)
 {
     u32 move;
     u16 ability;
 
-    PARAMETRIZE { move = MOVE_TACKLE; ability = ABILITY_KLUTZ; }
-    PARAMETRIZE { move = MOVE_TACKLE; ability = ABILITY_DRAGONS_MAW; }
+    PARAMETRIZE { move = MOVE_SCRATCH; ability = ABILITY_KLUTZ; }
+    PARAMETRIZE { move = MOVE_SCRATCH; ability = ABILITY_DRAGONS_MAW; }
     PARAMETRIZE { move = MOVE_DRAGON_CLAW; ability = ABILITY_KLUTZ; }
     PARAMETRIZE { move = MOVE_DRAGON_CLAW; ability = ABILITY_DRAGONS_MAW; }
     PARAMETRIZE { move = MOVE_DRAGON_BREATH; ability = ABILITY_KLUTZ; }
     PARAMETRIZE { move = MOVE_DRAGON_BREATH; ability = ABILITY_DRAGONS_MAW; }
 
     GIVEN {
-        ASSUME(GetMoveType(MOVE_TACKLE) != TYPE_DRAGON);
+        ASSUME(GetMoveType(MOVE_SCRATCH) != TYPE_DRAGON);
         ASSUME(GetMoveType(MOVE_DRAGON_CLAW) == TYPE_DRAGON);
         ASSUME(GetMoveType(MOVE_DRAGON_BREATH) == TYPE_DRAGON);
         ASSUME(GetMoveCategory(MOVE_DRAGON_CLAW) == DAMAGE_CATEGORY_PHYSICAL);
@@ -57,7 +57,7 @@ SINGLE_BATTLE_TEST("INNATE: Dragon's Maw increases Dragon-type move damage", s16
     } SCENE {
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_EQ(results[0].damage, results[1].damage); // Tackle should be unaffected
+        EXPECT_EQ(results[0].damage, results[1].damage); // Scratch should be unaffected
         EXPECT_MUL_EQ(results[2].damage, Q_4_12(1.5), results[3].damage); // Dragon Claw should be affected
         EXPECT_MUL_EQ(results[4].damage, Q_4_12(1.5), results[5].damage); // Dragon Breath should be affected
     }

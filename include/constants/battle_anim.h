@@ -419,6 +419,8 @@
 #define ANIM_TAG_PINKVIO_ORB                (ANIM_SPRITES_START + 405)
 #define ANIM_TAG_STARSTORM                  (ANIM_SPRITES_START + 406)
 #define ANIM_TAG_SALT_PARTICLE              (ANIM_SPRITES_START + 407)
+#define ANIM_TAG_FROSTWISP_ORB              (ANIM_SPRITES_START + 408)
+#define ANIM_TAG_FROSTWISP_FLAKES           (ANIM_SPRITES_START + 409)
 
 // battlers
 #define ANIM_ATTACKER         0
@@ -587,8 +589,13 @@
 #define B_ANIM_TERA_ACTIVATE            51
 #define B_ANIM_SIMPLE_HEAL              52
 #define B_ANIM_POWER_CONSTRUCT          53
+#define B_ANIM_THUNDERSTRIKE_ACTIVE     54
+#define B_ANIM_THUNDERSTRIKE_LEFT       55
+#define B_ANIM_THUNDERSTRIKE_RIGHT      56
+#define B_ANIM_OVERRIDE_EXHAUSTION      57
+#define B_ANIM_RESS_MON                 58
 
-#define NUM_B_ANIMS_GENERAL             54
+#define NUM_B_ANIMS_GENERAL             59
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

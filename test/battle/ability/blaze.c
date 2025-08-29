@@ -19,7 +19,7 @@ SINGLE_BATTLE_TEST("Blaze boosts Fire-type moves in a pinch", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Blaze boosts Fire-type moves in a pinch", s16 damage)
+SINGLE_BATTLE_TEST("Blaze boosts Fire-type moves in a pinch (Trait)", s16 damage)
 {
     u16 hp;
     PARAMETRIZE { hp = 99; }

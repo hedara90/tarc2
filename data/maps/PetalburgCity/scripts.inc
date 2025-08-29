@@ -224,6 +224,8 @@ PetalburgCity_EventScript_GymSign::
 
 PetalburgCity_EventScript_CitySign::
 	msgbox PetalburgCity_Text_CitySign, MSGBOX_SIGN
+	setuphunt FINAL_BOSS_LUGIA
+	warpsilent MAP_MYTH_HUB, 20, 18
 	end
 
 PetalburgCity_EventScript_Gentleman::

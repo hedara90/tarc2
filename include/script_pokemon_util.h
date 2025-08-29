@@ -1,6 +1,8 @@
 #ifndef GUARD_SCRIPT_POKEMON_UTIL_H
 #define GUARD_SCRIPT_POKEMON_UTIL_H
 
+#include "pokeball.h"
+
 u32 ScriptGiveMon(u16 species, u8 level, u16 item);
 u8 ScriptGiveEgg(u16 species);
 void CreateScriptedWildMon(u16 species, u8 level, u16 item);
@@ -12,5 +14,7 @@ void Script_GetChosenMonOffensiveEVs(void);
 void Script_GetChosenMonDefensiveEVs(void);
 void Script_GetChosenMonOffensiveIVs(void);
 void Script_GetChosenMonDefensiveIVs(void);
+
+u32 ScriptGiveMonParameterized(u8 side, u8 slot, u16 species, u8 level, u16 item, enum PokeBall ball, u8 nature, u8 abilityNum, u8 gender, u8 *evs, u8 *ivs, u16 *moves, bool8 isShiny, bool8 gmaxFactor, u8 teraType, u8 dmaxLevel);
 
 #endif // GUARD_SCRIPT_POKEMON_UTIL_H

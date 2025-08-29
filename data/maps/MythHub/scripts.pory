@@ -1,0 +1,162 @@
+mapscripts MythHub_MapScripts {
+}
+
+script MythHub_Boss {
+    lockall
+    msgbox("Beyond lies the final foe.\pDo you want to go through?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        closemessage
+        callnative(SetFinalBoss)
+        warpsilent(MAP_BOSS, 10, 10)
+    } else {
+        closemessage
+        applymovement(LOCALID_PLAYER, moves(walk_down))
+        waitmovement
+    }
+    releaseall
+}
+
+script MythHub_Area1 {
+    checkbossstatus(1)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(1)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA1, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area2 {
+    checkbossstatus(2)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(2)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA2, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area3 {
+    checkbossstatus(3)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(3)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA3, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area4 {
+    checkbossstatus(4)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(4)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA4, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area5 {
+    checkbossstatus(5)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(5)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA5, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area6 {
+    checkbossstatus(6)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(6)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA6, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area7 {
+    checkbossstatus(7)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(7)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA7, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area8 {
+    checkbossstatus(8)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(8)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA8, 10 , 10)
+    }
+    release
+}
+
+script MythHub_Area9 {
+    checkbossstatus(9)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(9)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_AREA9, 10 , 10)
+    }
+    release
+}
+

@@ -120,13 +120,13 @@ SINGLE_BATTLE_TEST("Air Balloon pops before it can be stolen with Thief or Covet
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Air Balloon pops before it can be stolen with Magician")
+SINGLE_BATTLE_TEST("Air Balloon pops before it can be stolen with Magician (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_AIR_BALLOON); };
         OPPONENT(SPECIES_DELPHOX) { Ability(ABILITY_BLAZE); Innates(ABILITY_MAGICIAN); };
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         MESSAGE("Wobbuffet floats in the air with its Air Balloon!");
         MESSAGE("Wobbuffet's Air Balloon popped!");
