@@ -6178,29 +6178,12 @@ u8 BattlerHasInnate(u8 battlerId, u16 ability)
      && CanBreakThroughAbility(gBattlerAttacker, battlerId, ability, FALSE))
         return 0;
 
-    #if TESTING
-    if (gTestRunnerEnabled)
-    {
-        u8 i;
-        u32 side = GetBattlerSide(battlerId);
-        u32 partyIndex = gBattlerPartyIndexes[battlerId];
-        s32 testInnateNum = -1;
-
-        for (i = 0; i < MAX_MON_INNATES; i++)
-        {
-            if (TestRunner_Battle_GetForcedInnates(side, partyIndex, i) == ability)
-                {
-                    testInnateNum = i + 2;
-                    break;
-                }
-        }
-
-        if(testInnateNum == -1)
-            return 0;
-        else
-            return testInnateNum;
-    }
-    #endif
+    if (gBattleMons[battlerId].innates[0] == ability)
+        return 2;
+    if (gBattleMons[battlerId].innates[1] == ability)
+        return 3;
+    if (gBattleMons[battlerId].innates[2] == ability)
+        return 4;
 
     return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].personality, isEnemyMon); 
 }

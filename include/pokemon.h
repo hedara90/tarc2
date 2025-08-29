@@ -346,6 +346,7 @@ struct BattlePokemon
     /*0x55*/ u32 otId;
     /*0x59*/ u8 metLevel;
     /*0x5A*/ bool8 isShiny;
+    u16 innates[MAX_MON_INNATES_INTERNAL];
     u8 turnsInBack;
     u8 numOverrides;
     bool8 danced;
