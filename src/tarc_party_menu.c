@@ -43,6 +43,8 @@ struct Tarc_Mon
     u16 moves[4];
     u16 abilities[4];
     bool8 isFainted;
+    u32 *sprite;
+    u16 palette[16];
 };
 
 struct Tarc_PartyMenuState
@@ -567,6 +569,10 @@ static void TarcUi_FreeResources(void)
 {
     if (sTarcUiState != NULL)
     {
+        for (u32 i = 0; i < 3; i++)
+        {
+            Free(sTarcUiState->mons[i].sprite);
+        }
         Free(sTarcUiState);
     }
     if (sBg1TilemapBuffer != NULL)
@@ -820,6 +826,35 @@ static void TarcUi_LoadMons(void)
     {
         TarcUi_UpdateMon(i);
     }
+    for (u32 i = 0; i < 3; i++)
+    {
+        //  Load mon sprites to memory
+        sTarcUiState->mons[i].sprite = Alloc(64*64);
+        u32 species = sTarcUiState->mons[i].species;
+        bool32 isFemale = IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
+        bool32 isShiny = GetMonData(&gPlayerParty[i], MON_DATA_IS_SHINY);
+        if (isFemale && gSpeciesInfo[species].frontPicFemale != NULL)
+            LZDecompressWram(gSpeciesInfo[species].frontPicFemale, sTarcUiState->mons[i].sprite);
+        else
+            LZDecompressWram(gSpeciesInfo[species].frontPic, sTarcUiState->mons[i].sprite);
+        for (u32 j = 0; j < 16; j++)
+        {
+            if (isFemale && gSpeciesInfo[species].paletteFemale != NULL)
+            {
+                if (isShiny)
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].shinyPaletteFemale[j];
+                else
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].paletteFemale[j];
+            }
+            else
+            {
+                if (isShiny)
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].shinyPalette[j];
+                else
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].palette[j];
+            }
+        }
+    }
 }
 
 static void TarcUi_InitScrollList(void)
@@ -989,14 +1024,10 @@ static void TarcUi_PrintMon(void)
 
     //  Show new mon sprite
     struct Even_CreateSpriteStruct cs = {0};
-    u32 species = GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_SPECIES);
-    cs.sprite = gSpeciesInfo[species].frontPic;
+    cs.sprite = sTarcUiState->mons[activeMon].sprite;
     cs.tileTag = 0xCEC1;
-    cs.spriteCompressed = TRUE;
-    if (GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_IS_SHINY))
-        cs.palette = gSpeciesInfo[species].shinyPalette;
-    else
-        cs.palette = gSpeciesInfo[species].palette;
+    cs.spriteCompressed = FALSE;
+    cs.palette = sTarcUiState->mons[activeMon].palette;
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
