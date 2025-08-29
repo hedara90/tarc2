@@ -22,9 +22,9 @@ SINGLE_BATTLE_TEST("Super Luck increases the critical hit ratio by 1 stage")
     }
 }
 
-TO_DO_BATTLE_TEST("Super Luck increases the chances of wild Pokémon holding items (Gen8+)");
+TO_DO_BATTLE_TEST("Super Luck increases the chances of wild Pokémon holding items (Gen8+) (Trait)");
 
-SINGLE_BATTLE_TEST("INNATE: Super Luck increases the critical hit ratio by 1 stage")
+SINGLE_BATTLE_TEST("Super Luck increases the critical hit ratio by 1 stage (Trait)")
 {
     u32 j, genConfig = 0, passes = 0, trials = 0;
 
@@ -38,11 +38,11 @@ SINGLE_BATTLE_TEST("INNATE: Super Luck increases the critical hit ratio by 1 sta
         PLAYER(SPECIES_TOGEPI) { Ability(ABILITY_SERENE_GRACE); Innates(ABILITY_SUPER_LUCK); };
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         MESSAGE("A critical hit!");
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Super Luck increases the chances of wild Pokémon holding items (Gen8+)");
+TO_DO_BATTLE_TEST("Super Luck increases the chances of wild Pokémon holding items (Gen8+) (Trait)");

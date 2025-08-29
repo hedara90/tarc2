@@ -32,7 +32,7 @@ SINGLE_BATTLE_TEST("Room Serive decreases the holder's seep by one stage")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Room Serive decreases the holder's seep by one stage")
+SINGLE_BATTLE_TEST("Room Serive decreases the holder's seep by one stage (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_U_TURN) == EFFECT_HIT_ESCAPE);

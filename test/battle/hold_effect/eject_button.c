@@ -233,7 +233,7 @@ DOUBLE_BATTLE_TEST("Eject Button activation will not trigger an attack from the 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Eject Button is not activated by a Sheer Force boosted move")
+SINGLE_BATTLE_TEST("Eject Button is not activated by a Sheer Force boosted move (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_NIDOKING) { Ability(ABILITY_POISON_POINT); Innates(ABILITY_SHEER_FORCE); }
@@ -242,7 +242,7 @@ SINGLE_BATTLE_TEST("INNATE: Eject Button is not activated by a Sheer Force boost
     } WHEN {
         TURN {
             MOVE(player, MOVE_FLAMETHROWER);
-            MOVE(opponent, MOVE_TACKLE);
+            MOVE(opponent, MOVE_SCRATCH);
         }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLAMETHROWER, player);
@@ -250,11 +250,11 @@ SINGLE_BATTLE_TEST("INNATE: Eject Button is not activated by a Sheer Force boost
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
             MESSAGE("The opposing Wobbuffet is switched out with the Eject Button!");
         }
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Eject Button is not blocked by trapping abilities or moves")
+SINGLE_BATTLE_TEST("Eject Button is not blocked by trapping abilities or moves (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DUGTRIO) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_ARENA_TRAP); }
@@ -262,18 +262,18 @@ SINGLE_BATTLE_TEST("INNATE: Eject Button is not blocked by trapping abilities or
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN {
-            MOVE(player, MOVE_TACKLE);
+            MOVE(player, MOVE_SCRATCH);
             SEND_OUT(opponent, 1);
         }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         MESSAGE("The opposing Wobbuffet is switched out with the Eject Button!");
         MESSAGE("2 sent out Wobbuffet!");
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Eject Button is not triggered after given to player by Picketpocket")
+SINGLE_BATTLE_TEST("Eject Button is not triggered after given to player by Picketpocket (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_REGIELEKI) { Item(ITEM_EJECT_BUTTON); }
@@ -282,18 +282,18 @@ SINGLE_BATTLE_TEST("INNATE: Eject Button is not triggered after given to player 
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN {
-            MOVE(player, MOVE_TACKLE);
-            MOVE(opponent, MOVE_TACKLE);
+            MOVE(player, MOVE_SCRATCH);
+            MOVE(opponent, MOVE_SCRATCH);
         }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ABILITY_POPUP(opponent, ABILITY_PICKPOCKET);
         MESSAGE("The opposing Sneasel stole Regieleki's Eject Button!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Eject Button is activated before Emergency Exit")
+SINGLE_BATTLE_TEST("Eject Button is activated before Emergency Exit (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_LATIAS);
@@ -311,7 +311,7 @@ SINGLE_BATTLE_TEST("INNATE: Eject Button is activated before Emergency Exit")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Eject Button activation will not trigger an attack from the incoming mon")
+DOUBLE_BATTLE_TEST("Eject Button activation will not trigger an attack from the incoming mon (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TATSUGIRI) { Speed(10); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COMMANDER); }

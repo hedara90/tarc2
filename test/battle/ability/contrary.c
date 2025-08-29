@@ -242,7 +242,8 @@ SINGLE_BATTLE_TEST("Sticky Web raises Speed by 1 for Contrary mon on switch-in")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a single battle", s16 damage)
+
+SINGLE_BATTLE_TEST("Contrary raises Attack when Intimidated in a single battle (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CONTRARY; }
@@ -251,7 +252,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a single 
         PLAYER(SPECIES_MIGHTYENA) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_INTIMIDATE); }
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(ability); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_INTIMIDATE);
         if (ability == ABILITY_CONTRARY) {
@@ -266,7 +267,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a single 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a double battle", s16 damageLeft, s16 damageRight)
+DOUBLE_BATTLE_TEST("Contrary raises Attack when Intimidated in a double battle (Trait)", s16 damageLeft, s16 damageRight)
 {
     u32 abilityLeft, abilityRight;
 
@@ -281,7 +282,7 @@ DOUBLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a double 
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(abilityLeft); }
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(abilityRight); }
     } WHEN {
-        TURN { MOVE(opponentLeft, MOVE_TACKLE, target: playerLeft); MOVE(opponentRight, MOVE_TACKLE, target: playerRight); }
+        TURN { MOVE(opponentLeft, MOVE_SCRATCH, target: playerLeft); MOVE(opponentRight, MOVE_SCRATCH, target: playerRight); }
     } SCENE {
         ABILITY_POPUP(playerLeft, ABILITY_INTIMIDATE);
         if (abilityLeft == ABILITY_CONTRARY) {
@@ -312,7 +313,7 @@ DOUBLE_BATTLE_TEST("INNATE: Contrary raises Attack when Intimidated in a double 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary raises stats after using a move which would normally lower them: Overheat", s16 damageBefore, s16 damageAfter)
+SINGLE_BATTLE_TEST("Contrary raises stats after using a move which would normally lower them: Overheat (Trait)", s16 damageBefore, s16 damageAfter)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CONTRARY; }
@@ -356,7 +357,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises stats after using a move which would
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which would normally raise it: Swords Dance", s16 damageBefore, s16 damageAfter)
+SINGLE_BATTLE_TEST("Contrary lowers a stat after using a move which would normally raise it: Swords Dance (Trait)", s16 damageBefore, s16 damageAfter)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CONTRARY; }
@@ -366,11 +367,11 @@ SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which woul
         PLAYER(SPECIES_WOBBUFFET) { Defense(102); }
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(ability); Attack(100); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
         TURN { MOVE(opponent, MOVE_SWORDS_DANCE); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        MESSAGE("The opposing Spinda used Tackle!");
+        MESSAGE("The opposing Spinda used Scratch!");
         HP_BAR(player, captureDamage: &results[i].damageBefore);
 
         //MESSAGE("The opposing Spinda used Swords Dance!");
@@ -384,7 +385,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which woul
             MESSAGE("The opposing Spinda's Attack sharply rose!");
         }
 
-        // MESSAGE("The opposing Spinda used Tackle!");
+        // MESSAGE("The opposing Spinda used Scratch!");
         HP_BAR(player, captureDamage: &results[i].damageAfter);
     }
     FINALLY {
@@ -393,7 +394,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which woul
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary raises a stat after using a move which would normally lower it: Growl", s16 damage)
+SINGLE_BATTLE_TEST("Contrary raises a stat after using a move which would normally lower it: Growl (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CONTRARY; }
@@ -403,7 +404,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises a stat after using a move which woul
         PLAYER(SPECIES_WOBBUFFET) { Speed(3); }
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(ability); Speed(2); }
     } WHEN {
-        TURN { MOVE(player, MOVE_GROWL); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_GROWL); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         MESSAGE("Wobbuffet used Growl!");
         if (ability == ABILITY_CONTRARY) {
@@ -416,7 +417,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises a stat after using a move which woul
             MESSAGE("The opposing Spinda's Attack fell!");
         }
 
-        MESSAGE("The opposing Spinda used Tackle!");
+        MESSAGE("The opposing Spinda used Scratch!");
         HP_BAR(player, captureDamage: &results[i].damage);
     }
     FINALLY {
@@ -424,7 +425,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary raises a stat after using a move which woul
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which would normally raise it: Belly Drum", s16 damageBefore, s16 damageAfter)
+SINGLE_BATTLE_TEST("Contrary lowers a stat after using a move which would normally raise it: Belly Drum (Trait)", s16 damageBefore, s16 damageAfter)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CONTRARY; }
@@ -434,11 +435,11 @@ SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which woul
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_SPINDA) { Ability(ABILITY_TANGLED_FEET); Innates(ability); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
         TURN { MOVE(opponent, MOVE_BELLY_DRUM); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        MESSAGE("The opposing Spinda used Tackle!");
+        MESSAGE("The opposing Spinda used Scratch!");
         HP_BAR(player, captureDamage: &results[i].damageBefore);
 
         if (ability == ABILITY_CONTRARY) {
@@ -458,7 +459,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary lowers a stat after using a move which woul
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sticky Web raises Speed by 1 for Contrary mon on switch-in")
+SINGLE_BATTLE_TEST("Sticky Web raises Speed by 1 for Contrary mon on switch-in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -478,7 +479,7 @@ SINGLE_BATTLE_TEST("INNATE: Sticky Web raises Speed by 1 for Contrary mon on swi
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary causes Competitive or Defiant to sharply lower stats", s16 damage)
+SINGLE_BATTLE_TEST("Contrary causes Competitive or Defiant to sharply lower stats (Trait)", s16 damage)
 {
     u32 attack;
     u32 ability;
@@ -523,7 +524,7 @@ SINGLE_BATTLE_TEST("INNATE: Contrary causes Competitive or Defiant to sharply lo
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Contrary causes Competitive and Defiant to sharply lower both stats", s16 damage)
+SINGLE_BATTLE_TEST("Contrary causes Competitive and Defiant to sharply lower both stats (Trait)", s16 damage)
 {
     u32 attack;
     u32 ability1, ability2;

@@ -32,7 +32,7 @@ SINGLE_BATTLE_TEST("Compound Eyes does not affect OHKO moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Compound Eyes raises accuracy")
+SINGLE_BATTLE_TEST("Compound Eyes raises accuracy (Trait)")
 {
     PASSES_RANDOMLY(91, 100, RNG_ACCURACY);
     GIVEN {
@@ -47,7 +47,7 @@ SINGLE_BATTLE_TEST("INNATE: Compound Eyes raises accuracy")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Compound Eyes does not affect OHKO moves")
+SINGLE_BATTLE_TEST("Compound Eyes does not affect OHKO moves (Trait)")
 {
     PASSES_RANDOMLY(30, 100, RNG_ACCURACY);
     GIVEN {
@@ -62,3 +62,4 @@ SINGLE_BATTLE_TEST("INNATE: Compound Eyes does not affect OHKO moves")
         HP_BAR(opponent, hp: 0);
     }
 }
+

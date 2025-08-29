@@ -14,7 +14,7 @@ SINGLE_BATTLE_TEST("Grassy Surge creates Grassy Terrain when entering the battle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Grassy Surge creates Grassy Terrain when entering the battle")
+SINGLE_BATTLE_TEST("Grassy Surge creates Grassy Terrain when entering the battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TAPU_BULU) { Ability(ABILITY_TELEPATHY); Innates(ABILITY_GRASSY_SURGE); }
@@ -26,3 +26,4 @@ SINGLE_BATTLE_TEST("INNATE: Grassy Surge creates Grassy Terrain when entering th
         MESSAGE("Grass grew to cover the battlefield!");
     }
 }
+

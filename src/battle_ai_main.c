@@ -1906,7 +1906,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
         case EFFECT_FILLET_AWAY:
             if (HasBattlerSideAbility(battlerDef, ABILITY_UNAWARE, aiData))
                 ADJUST_SCORE(-10);
-            if (aiData->abilities[battlerAtk] == ABILITY_CONTRARY)
+            if (aiData->abilities[battlerAtk] == ABILITY_CONTRARY || BattlerHasInnate(battlerAtk, ABILITY_CONTRARY))
                 ADJUST_SCORE(-10);
             else if (aiData->hpPercents[battlerAtk] <= 60)
                 ADJUST_SCORE(-10);
@@ -3102,7 +3102,7 @@ static s32 AI_DoubleBattle(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 {
                     ADJUST_SCORE(GOOD_EFFECT);
                 }
-                if ((aiData->abilities[battlerAtk] == ABILITY_RECEIVER) && !partnerHasBadAbility)
+                if ((aiData->abilities[battlerAtk] == ABILITY_RECEIVER || aiData->abilities[battlerAtk] == ABILITY_RECEIVER) && !partnerHasBadAbility)
                 {
                     ADJUST_SCORE(GOOD_EFFECT);
                 }
@@ -3226,7 +3226,7 @@ static s32 AI_DoubleBattle(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                     {
                         ADJUST_SCORE(DECENT_EFFECT);
                     }
-                    else if (atkPartnerAbility == ABILITY_EARTH_EATER && !(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_HP_AWARE))
+                    else if ((atkPartnerAbility == ABILITY_EARTH_EATER || BattlerHasInnate(battlerAtkPartner, ABILITY_EARTH_EATER)) && !(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_HP_AWARE))
                     {
                         RETURN_SCORE_MINUS(10);
                     }
@@ -5934,7 +5934,7 @@ static s32 AI_PredictSwitch(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
         ADJUST_SCORE(DECENT_EFFECT);
         if (gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_CHECK_BAD_MOVE)
         {
-            if (aiData->abilities[battlerDef] == ABILITY_WONDER_GUARD && effectiveness < UQ_4_12(2.0))
+            if ((aiData->abilities[battlerDef] == ABILITY_WONDER_GUARD || BattlerHasInnate(battlerDef, ABILITY_WONDER_GUARD)) && effectiveness < UQ_4_12(2.0))
                 ADJUST_SCORE(10);
             if (HasDamagingMove(battlerDef) && !((gBattleMons[battlerAtk].status2 & STATUS2_SUBSTITUTE)
              || IsBattlerIncapacitated(battlerDef, aiData->abilities[battlerDef])
@@ -6081,7 +6081,7 @@ static s32 AI_Roaming(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
 
     if (AI_CanBattlerEscape(battlerAtk))
         roamerCanFlee = TRUE;
-    else if (gAiLogicData->abilities[battlerAtk] == ABILITY_RUN_AWAY)
+    else if (gAiLogicData->abilities[battlerAtk] == ABILITY_RUN_AWAY || BattlerHasInnate(battlerAtk, ABILITY_RUN_AWAY))
         roamerCanFlee = TRUE;
     else if (gAiLogicData->holdEffects[battlerAtk] == HOLD_EFFECT_CAN_ALWAYS_RUN)
         roamerCanFlee = TRUE;
@@ -6209,9 +6209,6 @@ u8 BattlerHasInnate(u8 battlerId, u16 ability)
 u8 BattlerHasTrait(u8 battlerId, u16 ability) 
 {
     u8 traitNum = 0;
-
-    // if (ability == ABILITY_PASTEL_VEIL)
-    // DebugPrintf("BATTLERIDTARGET %d, Bypassmoldbreaker %d, CanBreakThroughAbility %d", battlerId == gBattlerTarget, !gBattleStruct->bypassMoldBreakerChecks, CanBreakThroughAbility(gBattlerAttacker, battlerId, ability, FALSE));
 
     if (GetBattlerAbility(battlerId) == ability)
         traitNum = 1;

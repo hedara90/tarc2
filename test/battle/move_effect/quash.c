@@ -132,7 +132,7 @@ DOUBLE_BATTLE_TEST("Quash-affected mon that acted early via After You is not aff
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Quash-affected target will move last in the priority bracket")
+DOUBLE_BATTLE_TEST("Quash-affected target will move last in the priority bracket (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_VOLBEAT) { Speed(10); Ability(ABILITY_ILLUMINATE); Innates(ABILITY_PRANKSTER); }
@@ -149,7 +149,7 @@ DOUBLE_BATTLE_TEST("INNATE: Quash-affected target will move last in the priority
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Quash is not affected by dynamic speed")
+DOUBLE_BATTLE_TEST("Quash is not affected by dynamic speed (Trait)")
 {
     GIVEN {
         ASSUME(B_RECALC_TURN_AFTER_ACTIONS >= GEN_8);
@@ -170,7 +170,7 @@ DOUBLE_BATTLE_TEST("INNATE: Quash is not affected by dynamic speed")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Quash-affected targets move from fastest to slowest (Gen 8+) or from first affected battler to last (Gen 7-)")
+DOUBLE_BATTLE_TEST("Quash-affected targets move from fastest to slowest (Gen 8+) or from first affected battler to last (Gen 7-) (Trait)")
 {
     u32 speedLeft, speedRight;
 
@@ -203,7 +203,7 @@ DOUBLE_BATTLE_TEST("INNATE: Quash-affected targets move from fastest to slowest 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Quash-affected mon that acted early via After You is not affected by dynamic speed")
+DOUBLE_BATTLE_TEST("Quash-affected mon that acted early via After You is not affected by dynamic speed (Trait)")
 {
     GIVEN {
         ASSUME(B_RECALC_TURN_AFTER_ACTIONS >= GEN_8);

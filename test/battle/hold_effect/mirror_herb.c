@@ -89,7 +89,7 @@ SINGLE_BATTLE_TEST("Mirror Herb copies the boost gained by an ability")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Mirror Herb does not trigger for Ally's Soul Heart's stat raise")
+DOUBLE_BATTLE_TEST("Mirror Herb does not trigger for Ally's Soul Heart's stat raise (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_MIRROR_HERB); }
@@ -97,9 +97,9 @@ DOUBLE_BATTLE_TEST("INNATE: Mirror Herb does not trigger for Ally's Soul Heart's
         OPPONENT(SPECIES_WOBBUFFET) { HP(1); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(playerRight, MOVE_TACKLE, target:opponentLeft); }
+        TURN { MOVE(playerRight, MOVE_SCRATCH, target:opponentLeft); }
     } SCENE {
-        MESSAGE("Wynaut used Tackle!");
+        MESSAGE("Wynaut used Scratch!");
         MESSAGE("The opposing Wobbuffet fainted!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
         NONE_OF {
@@ -114,7 +114,7 @@ DOUBLE_BATTLE_TEST("INNATE: Mirror Herb does not trigger for Ally's Soul Heart's
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Mirror Herb copies the boost gained by an ability")
+SINGLE_BATTLE_TEST("Mirror Herb copies the boost gained by an ability (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ZACIAN) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_INTREPID_SWORD); }

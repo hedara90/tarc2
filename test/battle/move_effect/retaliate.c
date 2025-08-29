@@ -139,7 +139,7 @@ SINGLE_BATTLE_TEST("Retaliate works with self-inflicted fainting")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Retaliate works with passive damage")
+DOUBLE_BATTLE_TEST("Retaliate works with passive damage (Trait)")
 {
     s16 damage[2];
     u32 move;
@@ -191,7 +191,7 @@ DOUBLE_BATTLE_TEST("INNATE: Retaliate works with passive damage")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Retaliate works with Perish Song")
+SINGLE_BATTLE_TEST("Retaliate works with Perish Song (Trait)")
 {
     s16 damage[2];
     GIVEN {

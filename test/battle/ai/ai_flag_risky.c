@@ -91,7 +91,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_RISKY | AI_FLAG_PREFER_HIGHEST_DAMAGE_MOVE: AI pr
     }
 }
 
-AI_SINGLE_BATTLE_TEST("INNATE: AI_FLAG_RISKY: Mid-battle switches prioritize offensive options")
+AI_SINGLE_BATTLE_TEST("AI_FLAG_RISKY: Mid-battle switches prioritize offensive options (Trait)")
 {
     u32 aiRiskyFlag = 0;
 

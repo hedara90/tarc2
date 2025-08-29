@@ -126,7 +126,7 @@ SINGLE_BATTLE_TEST("Own Tempo prevents confusion from items")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents Intimidate but no other stat down changes")
+SINGLE_BATTLE_TEST("Own Tempo prevents Intimidate but no other stat down changes (Trait)")
 {
     GIVEN {
         ASSUME(B_UPDATED_INTIMIDATE >= GEN_8);
@@ -147,7 +147,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents Intimidate but no other stat down
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the opponent")
+SINGLE_BATTLE_TEST("Own Tempo prevents confusion from moves by the opponent (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
@@ -161,7 +161,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the oppon
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the user")
+SINGLE_BATTLE_TEST("Own Tempo prevents confusion from moves by the user (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffectSelf(MOVE_PETAL_DANCE, MOVE_EFFECT_THRASH));
@@ -181,7 +181,7 @@ SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from moves by the user"
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Mold Breaker ignores Own Tempo")
+SINGLE_BATTLE_TEST("Mold Breaker ignores Own Tempo (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
@@ -195,7 +195,7 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker ignores Own Tempo")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Mold Breaker does not prevent Own Tempo from curing confusion right after")
+SINGLE_BATTLE_TEST("Mold Breaker does not prevent Own Tempo from curing confusion right after (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
@@ -214,17 +214,40 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker does not prevent Own Tempo from curing 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Own Tempo prevents confusion from items")
+//Skill Swap is Ability only
+// SINGLE_BATTLE_TEST("Own Tempo cures confusion if it's obtained via Skill Swap (Trait)")
+// {
+//     GIVEN {
+//         ASSUME(GetMoveEffect(MOVE_CONFUSE_RAY) == EFFECT_CONFUSE);
+//         ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
+//         PLAYER(SPECIES_SLOWPOKE) { Ability(ABILITY_OWN_TEMPO); };
+//         OPPONENT(SPECIES_WOBBUFFET);
+//     } WHEN {
+//         TURN { MOVE(player, MOVE_CONFUSE_RAY); }
+//         TURN { MOVE(player, MOVE_SKILL_SWAP);
+//                MOVE(opponent, MOVE_SCRATCH);
+//         }
+//     } SCENE {
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_CONFUSE_RAY, player);
+//         MESSAGE("The opposing Wobbuffet became confused!");
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, player);
+//         ABILITY_POPUP(opponent, ABILITY_OWN_TEMPO);
+//         MESSAGE("The opposing Wobbuffet's Own Tempo cured its confusion problem!");
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
+//     }
+// }
+
+SINGLE_BATTLE_TEST("Own Tempo prevents confusion from items (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_BERSERK_GENE].holdEffect == HOLD_EFFECT_BERSERK_GENE);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_SLOWPOKE) { Ability(ABILITY_GLUTTONY); Innates(ABILITY_OWN_TEMPO); Item(ITEM_BERSERK_GENE); };
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ABILITY_POPUP(opponent, ABILITY_OWN_TEMPO);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }

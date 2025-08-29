@@ -107,7 +107,7 @@ SINGLE_BATTLE_TEST("Schooling switches Level 20+ Wishiwashi's form when HP is he
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Schooling switches Level 20+ Wishiwashi's form when HP is 25-percent or less at the end of the turn")
+SINGLE_BATTLE_TEST("Schooling switches Level 20+ Wishiwashi's form when HP is 25-percent or less at the end of the turn (Trait)")
 {
     u16 level;
     PARAMETRIZE { level = 19; }
@@ -143,7 +143,7 @@ SINGLE_BATTLE_TEST("INNATE: Schooling switches Level 20+ Wishiwashi's form when 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Schooling switches Level 20+ Wishiwashi's form when HP is over 25-percent before the first turn")
+SINGLE_BATTLE_TEST("Schooling switches Level 20+ Wishiwashi's form when HP is over 25-percent before the first turn (Trait)")
 {
     u16 level;
     bool32 overQuarterHP;
@@ -179,7 +179,7 @@ SINGLE_BATTLE_TEST("INNATE: Schooling switches Level 20+ Wishiwashi's form when 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Schooling switches Level 20+ Wishiwashi's form when HP is healed above 25-percent")
+SINGLE_BATTLE_TEST("Schooling switches Level 20+ Wishiwashi's form when HP is healed above 25-percent (Trait)")
 {
     u16 level;
     PARAMETRIZE { level = 19; }

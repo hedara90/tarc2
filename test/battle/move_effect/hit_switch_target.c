@@ -165,7 +165,7 @@ SINGLE_BATTLE_TEST("Dragon Tail switches target out and incoming mon has Levitat
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon Tail switches the target after Rocky Helmet and Iron Barbs")
+SINGLE_BATTLE_TEST("Dragon Tail switches the target after Rocky Helmet and Iron Barbs (Trait)")
 {
     PASSES_RANDOMLY(1, 2, RNG_FORCE_RANDOM_SWITCH);
     GIVEN {
@@ -185,7 +185,7 @@ SINGLE_BATTLE_TEST("INNATE: Dragon Tail switches the target after Rocky Helmet a
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon Tail effect fails against target with Guard Dog")
+SINGLE_BATTLE_TEST("Dragon Tail effect fails against target with Guard Dog (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -199,7 +199,7 @@ SINGLE_BATTLE_TEST("INNATE: Dragon Tail effect fails against target with Guard D
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon Tail effect fails against target with Suction Cups")
+SINGLE_BATTLE_TEST("Dragon Tail effect fails against target with Suction Cups (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -215,7 +215,7 @@ SINGLE_BATTLE_TEST("INNATE: Dragon Tail effect fails against target with Suction
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon Tail switches target out and incoming mon has Immunity negated by Mold Breaker")
+SINGLE_BATTLE_TEST("Dragon Tail switches target out and incoming mon has Immunity negated by Mold Breaker (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC_SPIKES) == EFFECT_TOXIC_SPIKES);
@@ -235,7 +235,7 @@ SINGLE_BATTLE_TEST("INNATE: Dragon Tail switches target out and incoming mon has
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Dragon Tail switches target out and incoming mon has Levitate negated by Mold Breaker")
+SINGLE_BATTLE_TEST("Dragon Tail switches target out and incoming mon has Levitate negated by Mold Breaker (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC_SPIKES) == EFFECT_TOXIC_SPIKES);

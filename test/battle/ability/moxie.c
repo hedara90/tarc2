@@ -144,8 +144,7 @@ DOUBLE_BATTLE_TEST("Moxie/Chilling Neigh does not increase damage done by the sa
         EXPECT_EQ(damage[0], damage[1]);
     }
 }
-
-DOUBLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh raises Attack by one stage after directly causing a Pokemon to faint")
+DOUBLE_BATTLE_TEST("Moxie/Chilling Neigh raises Attack by one stage after directly causing a Pokemon to faint (Trait)")
 {
     u32 species = 0, ability = 0, abilityPopUp = 0;
     PARAMETRIZE { species = SPECIES_SALAMENCE;         ability = ABILITY_MOXIE;            abilityPopUp = ABILITY_MOXIE;          }
@@ -178,7 +177,7 @@ DOUBLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh raises Attack by one stage afte
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh does not trigger if Pokemon faint to indirect damage or damage from other Pokemon")
+DOUBLE_BATTLE_TEST("Moxie/Chilling Neigh does not trigger if Pokemon faint to indirect damage or damage from other Pokemon (Trait)")
 {
     u32 species = 0, ability = 0, abilityPopUp = 0;
     PARAMETRIZE { species = SPECIES_SALAMENCE;         ability = ABILITY_MOXIE;            abilityPopUp = ABILITY_MOXIE;          }
@@ -215,7 +214,7 @@ DOUBLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh does not trigger if Pokemon fai
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh does not trigger when already at maximum Attack stage")
+SINGLE_BATTLE_TEST("Moxie/Chilling Neigh does not trigger when already at maximum Attack stage (Trait)")
 {
     u32 species = 0, ability = 0, abilityPopUp = 0;
     PARAMETRIZE { species = SPECIES_SALAMENCE;         ability = ABILITY_MOXIE;            abilityPopUp = ABILITY_MOXIE;          }
@@ -252,7 +251,7 @@ SINGLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh does not trigger when already a
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Moxie/Chilling Neigh does not increase damage done by the same move that causes another Pokemon to faint")
+DOUBLE_BATTLE_TEST("Moxie/Chilling Neigh does not increase damage done by the same move that causes another Pokemon to faint (Trait)")
 {
     s16 damage[2];
     u32 species = 0, ability = 0, abilityPopUp = 0;

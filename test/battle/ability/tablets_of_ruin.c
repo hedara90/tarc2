@@ -74,40 +74,42 @@ SINGLE_BATTLE_TEST("Tablets of Ruin's message displays correctly after all battl
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tablets of Ruin reduces Attack if opposing mon's ability doesn't match")
+SINGLE_BATTLE_TEST("Tablets of Ruin reduces Attack if opposing mon's ability doesn't match (Trait)")
 {
     s16 damage[2];
 
     GIVEN {
-        PLAYER(SPECIES_WO_CHIEN) { Ability(ABILITY_TABLETS_OF_RUIN); Innates(ABILITY_TABLETS_OF_RUIN); }
+        PLAYER(SPECIES_WO_CHIEN) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TABLETS_OF_RUIN); }
         OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_TABLETS_OF_RUIN); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); MOVE(player, MOVE_ENTRAINMENT); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); MOVE(player, MOVE_ENTRAINMENT); }
+        TURN { SWITCH(opponent, 1); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_TABLETS_OF_RUIN);
         MESSAGE("Wo-Chien's Tablets of Ruin weakened the Attack of all surrounding Pokémon!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player, captureDamage: &damage[0]);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ENTRAINMENT, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         HP_BAR(player, captureDamage: &damage[1]);
     } THEN {
         EXPECT_MUL_EQ(damage[0], Q_4_12(1.33), damage[1]);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tablets of Ruin's message displays correctly after all battlers fainted - Player")
+SINGLE_BATTLE_TEST("Tablets of Ruin's message displays correctly after all battlers fainted - Player (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
         PLAYER(SPECIES_WOBBUFFET) { HP(1);}
-        PLAYER(SPECIES_WO_CHIEN);
+        PLAYER(SPECIES_WO_CHIEN) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TABLETS_OF_RUIN); }
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_EXPLOSION); SEND_OUT(player, 1); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_RUINATION); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_RUINATION); }
     } SCENE {
         HP_BAR(opponent, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, opponent);
@@ -119,17 +121,17 @@ SINGLE_BATTLE_TEST("INNATE: Tablets of Ruin's message displays correctly after a
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tablets of Ruin's message displays correctly after all battlers fainted - Opponent")
+SINGLE_BATTLE_TEST("Tablets of Ruin's message displays correctly after all battlers fainted - Opponent (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET) { HP(1);}
-        OPPONENT(SPECIES_WO_CHIEN);
+        OPPONENT(SPECIES_WO_CHIEN) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TABLETS_OF_RUIN); }
     } WHEN {
         TURN { MOVE(player, MOVE_EXPLOSION); SEND_OUT(player, 1); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_RUINATION); MOVE(opponent, MOVE_SCRATCH); }
+        TURN { MOVE(player, MOVE_RUINATION); MOVE(opponent, MOVE_TACKLE); }
     } SCENE {
         HP_BAR(player, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, player);

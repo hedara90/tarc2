@@ -306,7 +306,7 @@ DOUBLE_BATTLE_TEST("Instructed move will be redirected by Rage Powder after inst
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Instructed move will be redirected and absorbed by Lightning Rod if it turns into an Electric Type move")
+DOUBLE_BATTLE_TEST("Instructed move will be redirected and absorbed by Lightning Rod if it turns into an Electric Type move (Trait)")
 {
     struct BattlePokemon *moveTarget = NULL;
     PARAMETRIZE { moveTarget = opponentLeft; }
@@ -318,16 +318,47 @@ DOUBLE_BATTLE_TEST("INNATE: Instructed move will be redirected and absorbed by L
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN {
-            MOVE(playerLeft, MOVE_TACKLE, target: moveTarget);
+            MOVE(playerLeft, MOVE_SCRATCH, target: moveTarget);
             MOVE(opponentLeft, MOVE_PLASMA_FISTS, target: playerLeft);
             MOVE(playerRight, MOVE_INSTRUCT, target: playerLeft);
             MOVE(opponentRight, MOVE_CELEBRATE);
         }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_PLASMA_FISTS, opponentLeft);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_INSTRUCT, playerRight);
         ABILITY_POPUP(opponentLeft, ABILITY_LIGHTNING_ROD);
-        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
     }
 }
+
+//Traits can't be lost
+// DOUBLE_BATTLE_TEST("Instructed move will be redirected by Follow Me after instructed target loses Stalwart (Trait)")
+// {
+//     struct BattlePokemon *moveTarget = NULL;
+//     PARAMETRIZE { moveTarget = opponentLeft; }
+//     PARAMETRIZE { moveTarget = opponentRight; }
+//     GIVEN {
+//         ASSUME(GetMoveEffect(MOVE_FOLLOW_ME) == EFFECT_FOLLOW_ME);
+//         ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
+//         PLAYER(SPECIES_DURALUDON) { Ability(ABILITY_STALWART); }
+//         PLAYER(SPECIES_DURALUDON) { Ability(ABILITY_STALWART); }
+//         OPPONENT(SPECIES_WOBBUFFET);
+//         OPPONENT(SPECIES_WYNAUT);
+//     } WHEN {
+//         TURN {
+//             MOVE(playerLeft, MOVE_SCRATCH, target: moveTarget);
+//             MOVE(opponentLeft, MOVE_FOLLOW_ME);
+//             MOVE(opponentRight, MOVE_SKILL_SWAP, target: playerLeft);
+//             MOVE(playerRight, MOVE_INSTRUCT, target: playerLeft);
+//         }
+//     } SCENE {
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_FOLLOW_ME, opponentLeft);
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
+//         HP_BAR(moveTarget);
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, opponentRight);
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_INSTRUCT, playerRight);
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
+//         HP_BAR(opponentLeft);
+//     }
+// }

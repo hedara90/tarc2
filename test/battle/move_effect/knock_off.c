@@ -362,7 +362,7 @@ SINGLE_BATTLE_TEST("Knock Off doesn't knock off begin-battle form-change hold it
 }
 
 // Knock Off triggers Unburden regardless of whether the item is fully removed (Gen 5+) or not.
-SINGLE_BATTLE_TEST("INNATE: Knock Off triggers Unburden")
+SINGLE_BATTLE_TEST("Knock Off triggers Unburden (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Speed(60); }

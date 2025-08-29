@@ -143,7 +143,7 @@ SINGLE_BATTLE_TEST("Psychic Terrain lasts for 5 turns")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Terrain protects grounded battlers from priority moves")
+SINGLE_BATTLE_TEST("Psychic Terrain protects grounded battlers from priority moves (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_CLAYDOL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LEVITATE); }
@@ -160,7 +160,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Terrain protects grounded battlers from prio
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target the user")
+SINGLE_BATTLE_TEST("Psychic Terrain doesn't block priority moves that target the user (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); HP(1); }
@@ -175,7 +175,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that ta
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target all battlers")
+SINGLE_BATTLE_TEST("Psychic Terrain doesn't block priority moves that target all battlers (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
@@ -189,7 +189,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that ta
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target all opponents")
+SINGLE_BATTLE_TEST("Psychic Terrain doesn't block priority moves that target all opponents (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
@@ -203,7 +203,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that ta
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that target allies")
+DOUBLE_BATTLE_TEST("Psychic Terrain doesn't block priority moves that target allies (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }
@@ -219,7 +219,7 @@ DOUBLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority moves that ta
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Terrain doesn't block priority field moves")
+SINGLE_BATTLE_TEST("Psychic Terrain doesn't block priority field moves (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SABLEYE) { Ability(ABILITY_KEEN_EYE); Innates(ABILITY_PRANKSTER); }

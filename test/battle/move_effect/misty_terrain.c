@@ -88,7 +88,7 @@ SINGLE_BATTLE_TEST("Misty Terrain lasts for 5 turns")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Misty Terrain protects grounded battlers from non-volatile status conditions")
+SINGLE_BATTLE_TEST("Misty Terrain protects grounded battlers from non-volatile status conditions (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

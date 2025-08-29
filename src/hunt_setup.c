@@ -480,7 +480,6 @@ void SetPostBattleData(void)
         break;
     case 3: //  Boss
         gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = species;
-        MgbaPrintf(MGBA_LOG_WARN, "Value: %u", gSaveBlock1Ptr->huntTargets.bossesDefeated[0]);
         break;
     case 4: //  Final Boss
         gSaveBlock1Ptr->huntTargets.finalBossDefeated = TRUE;

@@ -106,11 +106,11 @@ SINGLE_BATTLE_TEST("Volt Absorb prevents Cell Battery from activating")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Volt Absorb heals 25% when hit by electric type moves")
+SINGLE_BATTLE_TEST("Volt Absorb heals 25% when hit by electric type moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
-        PLAYER(SPECIES_JOLTEON) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_VOLT_ABSORB); HP(1); MaxHP(100); }
+        PLAYER(SPECIES_JOLTEON) { Ability(ABILITY_VOLT_ABSORB); HP(1); MaxHP(100); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_THUNDER_SHOCK); }
@@ -121,7 +121,7 @@ SINGLE_BATTLE_TEST("INNATE: Volt Absorb heals 25% when hit by electric type move
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Volt Absorb does not activate if protected")
+SINGLE_BATTLE_TEST("Volt Absorb does not activate if protected (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
@@ -134,7 +134,7 @@ SINGLE_BATTLE_TEST("INNATE: Volt Absorb does not activate if protected")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Volt Absorb activates on status moves")
+SINGLE_BATTLE_TEST("Volt Absorb activates on status moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_WAVE) == TYPE_ELECTRIC);
@@ -150,7 +150,7 @@ SINGLE_BATTLE_TEST("INNATE: Volt Absorb activates on status moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Volt Absorb is only triggered once on multi strike moves")
+SINGLE_BATTLE_TEST("Volt Absorb is only triggered once on multi strike moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_FURY_SWIPES) == TYPE_NORMAL);
@@ -166,7 +166,7 @@ SINGLE_BATTLE_TEST("INNATE: Volt Absorb is only triggered once on multi strike m
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Volt Absorb does not stop Electric Typed Explosion from damaging other pokemon") // Fixed issue #1961
+DOUBLE_BATTLE_TEST("Volt Absorb does not stop Electric Typed Explosion from damaging other pokemon (Trait)") // Fixed issue #1961
 {
     s16 damage1, damage2;
     GIVEN {
@@ -190,7 +190,7 @@ DOUBLE_BATTLE_TEST("INNATE: Volt Absorb does not stop Electric Typed Explosion f
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Volt Absorb prevents Cell Battery from activating")
+SINGLE_BATTLE_TEST("Volt Absorb prevents Cell Battery from activating (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);

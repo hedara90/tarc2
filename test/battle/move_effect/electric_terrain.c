@@ -71,7 +71,7 @@ SINGLE_BATTLE_TEST("Electric Terrain lasts for 5 turns")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Electric Terrain protects grounded battlers from falling asleep")
+SINGLE_BATTLE_TEST("Electric Terrain protects grounded battlers from falling asleep (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

@@ -133,7 +133,8 @@ AI_SINGLE_BATTLE_TEST("AI won't use Upper Hand unless it has seen a priority mov
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target is not using a priority move")
+
+SINGLE_BATTLE_TEST("Upper Hand fails if the target is not using a priority move (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
@@ -152,7 +153,7 @@ SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target is not using a priori
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Upper Hand succeeds if the target's move is boosted in priority by an Ability")
+SINGLE_BATTLE_TEST("Upper Hand succeeds if the target's move is boosted in priority by an Ability (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
@@ -169,7 +170,7 @@ SINGLE_BATTLE_TEST("INNATE: Upper Hand succeeds if the target's move is boosted 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target moves first")
+SINGLE_BATTLE_TEST("Upper Hand fails if the target moves first (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_DRAINING_KISS) == DAMAGE_CATEGORY_SPECIAL);
@@ -188,7 +189,7 @@ SINGLE_BATTLE_TEST("INNATE: Upper Hand fails if the target moves first")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Upper Hand is boosted by Sheer Force")
+SINGLE_BATTLE_TEST("Upper Hand is boosted by Sheer Force (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_EXTREME_SPEED) == DAMAGE_CATEGORY_PHYSICAL);

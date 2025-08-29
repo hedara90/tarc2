@@ -19,7 +19,7 @@ SINGLE_BATTLE_TEST("Overgrow boosts Grass-type moves in a pinch", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Overgrow boosts Grass-type moves in a pinch", s16 damage)
+SINGLE_BATTLE_TEST("Overgrow boosts Grass-type moves in a pinch (Trait)", s16 damage)
 {
     u16 hp;
     PARAMETRIZE { hp = 99; }

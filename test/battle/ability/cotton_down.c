@@ -97,15 +97,15 @@ DOUBLE_BATTLE_TEST("Cotton Down correctly gets blocked by stat reduction prevent
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one of opposing battler if hit by a damaging move")
+SINGLE_BATTLE_TEST("Cotton Down drops speed by one of opposing battler if hit by a damaging move (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_ELDEGOSS) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         ABILITY_POPUP(opponent, ABILITY_COTTON_DOWN);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
         MESSAGE("Wobbuffet's Speed fell!");
@@ -114,7 +114,7 @@ SINGLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one of opposing battler i
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one for each multi hit")
+SINGLE_BATTLE_TEST("Cotton Down drops speed by one for each multi hit (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -134,7 +134,7 @@ SINGLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one for each multi hit")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one of all other battlers on the field")
+DOUBLE_BATTLE_TEST("Cotton Down drops speed by one of all other battlers on the field (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -142,9 +142,9 @@ DOUBLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one of all other battlers
         OPPONENT(SPECIES_ELDEGOSS) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         ABILITY_POPUP(opponentLeft, ABILITY_COTTON_DOWN);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
         MESSAGE("Wobbuffet's Speed fell!");
@@ -159,7 +159,7 @@ DOUBLE_BATTLE_TEST("INNATE: Cotton Down drops speed by one of all other battlers
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Cotton Down correctly gets blocked by stat reduction preventing abilities")
+DOUBLE_BATTLE_TEST("Cotton Down correctly gets blocked by stat reduction preventing abilities (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_METAGROSS) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_CLEAR_BODY); }
@@ -167,9 +167,9 @@ DOUBLE_BATTLE_TEST("INNATE: Cotton Down correctly gets blocked by stat reduction
         OPPONENT(SPECIES_ELDEGOSS) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
         OPPONENT(SPECIES_CORVIKNIGHT) { Ability(ABILITY_PRESSURE); Innates(ABILITY_MIRROR_ARMOR); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         ABILITY_POPUP(opponentLeft, ABILITY_COTTON_DOWN);
         NONE_OF {
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);

@@ -69,8 +69,7 @@ DOUBLE_BATTLE_TEST("Good as Gold protects from partner's status moves")
     }
 }
 
-
-SINGLE_BATTLE_TEST("INNATE: Good as Gold protects from status moves")
+SINGLE_BATTLE_TEST("Good as Gold protects from status moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_TOXIC) == DAMAGE_CATEGORY_STATUS);
@@ -85,7 +84,7 @@ SINGLE_BATTLE_TEST("INNATE: Good as Gold protects from status moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Good as Gold doesn't protect the user from it's own moves")
+SINGLE_BATTLE_TEST("Good as Gold doesn't protect the user from it's own moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_NASTY_PLOT) == DAMAGE_CATEGORY_STATUS);
@@ -102,7 +101,7 @@ SINGLE_BATTLE_TEST("INNATE: Good as Gold doesn't protect the user from it's own 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Good as Gold doesn't protect from moves that target the field")
+SINGLE_BATTLE_TEST("Good as Gold doesn't protect from moves that target the field (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_STEALTH_ROCK) == DAMAGE_CATEGORY_STATUS);
@@ -120,7 +119,7 @@ SINGLE_BATTLE_TEST("INNATE: Good as Gold doesn't protect from moves that target 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Good as Gold protects from partner's status moves")
+DOUBLE_BATTLE_TEST("Good as Gold protects from partner's status moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_HELPING_HAND) == DAMAGE_CATEGORY_STATUS);
@@ -136,3 +135,4 @@ DOUBLE_BATTLE_TEST("INNATE: Good as Gold protects from partner's status moves")
         MESSAGE("It doesn't affect the opposing Gholdengo…");
     }
 }
+

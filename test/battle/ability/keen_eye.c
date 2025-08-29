@@ -198,7 +198,7 @@ SINGLE_BATTLE_TEST("Keen Eye & Gen9+ Illuminate don't prevent Spectral Thief fro
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye prevent accuracy stage reduction from moves")
+SINGLE_BATTLE_TEST("Keen Eye, Gen9+ Illuminate & Minds Eye prevent accuracy stage reduction from moves (Trait)")
 {
     u16 ability;
     u32 species;
@@ -213,7 +213,7 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye prevent accur
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(species) { Ability(ability); Innates(innate); }
     } WHEN {
-        TURN { MOVE(player, MOVE_SAND_ATTACK); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SAND_ATTACK); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(opponent, innate);
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
@@ -223,11 +223,11 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye prevent accur
             MESSAGE("The opposing Staryu's Illuminate prevents accuracy loss!");
         else
             MESSAGE("The opposing Ursaluna's Mind's Eye prevents accuracy loss!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye ignore target's evasion stat")
+SINGLE_BATTLE_TEST("Keen Eye, Gen9+ Illuminate & Minds Eye ignore target's evasion stat (Trait)")
 {
     u16 ability;
     u32 species;
@@ -243,15 +243,15 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye ignore target
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(species) { Ability(ability); Innates(innate); }
     } WHEN {
-        TURN { MOVE(player, MOVE_DOUBLE_TEAM); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_DOUBLE_TEAM); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_DOUBLE_TEAM, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye are ignored by Mold Breaker abilities")
+SINGLE_BATTLE_TEST("Keen Eye, Gen9+ Illuminate & Minds Eye are ignored by Mold Breaker abilities (Trait)")
 {
     u16 abilityPlayer = ABILITY_NONE, abilityOpponent = ABILITY_NONE, innateOpponent = ABILITY_NONE;
     u16 speciesPlayer = SPECIES_NONE, speciesOpponent = SPECIES_NONE;
@@ -270,21 +270,21 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye are ignored b
         PARAMETRIZE { speciesOpponent = SPECIES_URSALUNA_BLOODMOON; abilityOpponent = ABILITY_HEAVY_METAL; innateOpponent = ABILITY_MINDS_EYE; }
     }
 
-    PASSES_RANDOMLY(GetMoveAccuracy(MOVE_TACKLE) * 3 / 4, 100, RNG_ACCURACY);
+    PASSES_RANDOMLY(GetMoveAccuracy(MOVE_SCRATCH) * 3 / 4, 100, RNG_ACCURACY);
     GIVEN {
         PLAYER(speciesPlayer) { Ability(ABILITY_LIGHT_METAL); Innates(abilityPlayer); }
         OPPONENT(speciesOpponent) { Ability(abilityOpponent); Innates(innateOpponent); }
     } WHEN {
-        TURN { MOVE(player, MOVE_SAND_ATTACK); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SAND_ATTACK); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ABILITY_POPUP(player, abilityPlayer);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SAND_ATTACK, player);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent Topsy-Turvy")
+SINGLE_BATTLE_TEST("Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent Topsy-Turvy (Trait)")
 {
     u16 ability;
     u32 species;
@@ -325,7 +325,7 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent receiving negative Attack stage changes from Baton Pass")
+SINGLE_BATTLE_TEST("Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent receiving negative Attack stage changes from Baton Pass (Trait)")
 {
     u16 ability;
     u32 species;
@@ -359,7 +359,7 @@ SINGLE_BATTLE_TEST("INNATE: Keen Eye, Gen9+ Illuminate & Minds Eye don't prevent
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Keen Eye & Gen9+ Illuminate don't prevent Spectral Thief from resetting positive accuracy stage changes")
+SINGLE_BATTLE_TEST("Keen Eye & Gen9+ Illuminate don't prevent Spectral Thief from resetting positive accuracy stage changes (Trait)")
 {
     u16 ability;
     u32 species;

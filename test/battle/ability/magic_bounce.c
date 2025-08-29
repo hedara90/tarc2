@@ -136,8 +136,7 @@ SINGLE_BATTLE_TEST("Magic Bounce bounced back status moves can not be bounced ba
     }
 }
 
-
-SINGLE_BATTLE_TEST("INNATE: Magic Bounce bounces back status moves")
+SINGLE_BATTLE_TEST("Magic Bounce bounces back status moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);
@@ -155,7 +154,7 @@ SINGLE_BATTLE_TEST("INNATE: Magic Bounce bounces back status moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Magic Bounce bounces back powder moves")
+SINGLE_BATTLE_TEST("Magic Bounce bounces back powder moves (Trait)")
 {
     GIVEN {
         ASSUME(IsPowderMove(MOVE_STUN_SPORE));
@@ -174,7 +173,7 @@ SINGLE_BATTLE_TEST("INNATE: Magic Bounce bounces back powder moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Magic Bounce cannot bounce back powder moves against Grass Types")
+SINGLE_BATTLE_TEST("Magic Bounce cannot bounce back powder moves against Grass Types (Trait)")
 {
     GIVEN {
         ASSUME(IsPowderMove(MOVE_STUN_SPORE));
@@ -193,7 +192,7 @@ SINGLE_BATTLE_TEST("INNATE: Magic Bounce cannot bounce back powder moves against
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Magic Bounce bounces back moves hitting both foes at two foes")
+DOUBLE_BATTLE_TEST("Magic Bounce bounces back moves hitting both foes at two foes (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_LEER) == EFFECT_DEFENSE_DOWN);
@@ -219,7 +218,7 @@ DOUBLE_BATTLE_TEST("INNATE: Magic Bounce bounces back moves hitting both foes at
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Magic Bounce bounces back moves hitting foes field")
+DOUBLE_BATTLE_TEST("Magic Bounce bounces back moves hitting foes field (Trait)")
 {
     u32 battlerOne, battlerTwo, abilityBattlerOne, abilityBattlerTwo;
 
@@ -252,7 +251,7 @@ DOUBLE_BATTLE_TEST("INNATE: Magic Bounce bounces back moves hitting foes field")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Magic Bounce bounced back status moves can not be bounced back by Magic Bounce")
+SINGLE_BATTLE_TEST("Magic Bounce bounced back status moves can not be bounced back by Magic Bounce (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);

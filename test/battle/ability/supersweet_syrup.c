@@ -72,7 +72,7 @@ SINGLE_BATTLE_TEST("Supersweet Syrup can not further lower opponents evasion if 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Supersweet Syrup lowers evasion once per battle by one stage")
+SINGLE_BATTLE_TEST("Supersweet Syrup lowers evasion once per battle by one stage (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -97,7 +97,7 @@ SINGLE_BATTLE_TEST("INNATE: Supersweet Syrup lowers evasion once per battle by o
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Supersweet Syrup lowers evasion of both opposing mon's in battle")
+DOUBLE_BATTLE_TEST("Supersweet Syrup lowers evasion of both opposing mon's in battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -117,7 +117,7 @@ DOUBLE_BATTLE_TEST("INNATE: Supersweet Syrup lowers evasion of both opposing mon
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Supersweet Syrup can not further lower opponents evasion if it is at minimum stages")
+SINGLE_BATTLE_TEST("Supersweet Syrup can not further lower opponents evasion if it is at minimum stages (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ODDISH);

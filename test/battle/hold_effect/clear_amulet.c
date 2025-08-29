@@ -120,7 +120,7 @@ SINGLE_BATTLE_TEST("Clear Amulet protects from Protect's secondary effects")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Clear Amulet prevents Intimidate")
+SINGLE_BATTLE_TEST("Clear Amulet prevents Intimidate (Trait)")
 {
     s16 turnOneHit;
     s16 turnTwoHit;
@@ -130,8 +130,8 @@ SINGLE_BATTLE_TEST("INNATE: Clear Amulet prevents Intimidate")
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_UNNERVE); Innates(ABILITY_INTIMIDATE); };
         OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_CLEAR_AMULET); };
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
-        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         HP_BAR(player, captureDamage: &turnOneHit);
         ABILITY_POPUP(player, ABILITY_INTIMIDATE);

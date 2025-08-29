@@ -419,8 +419,7 @@ SINGLE_BATTLE_TEST("Forecast transforms Castform when Cloud Nine ability user le
         MESSAGE("Castform transformed!");
     }
 }
-
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from an opponent's move")
+SINGLE_BATTLE_TEST("Forecast transforms Castform in weather from an opponent's move")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_SUNNY_DAY; }
@@ -428,7 +427,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from an oppo
     PARAMETRIZE { move = MOVE_HAIL; }
     PARAMETRIZE { move = MOVE_SNOWSCAPE; }
     GIVEN {
-        PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FORECAST); }
+        PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_FORECAST); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, move); }
@@ -453,7 +452,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from an oppo
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from its own move")
+SINGLE_BATTLE_TEST("Forecast transforms Castform in weather from its own move (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_SUNNY_DAY; }
@@ -486,7 +485,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from its own
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from a partner's move")
+DOUBLE_BATTLE_TEST("Forecast transforms Castform in weather from a partner's move (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_SUNNY_DAY; }
@@ -521,7 +520,7 @@ DOUBLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from a partn
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Forecast transforms all Castforms present in weather")
+DOUBLE_BATTLE_TEST("Forecast transforms all Castforms present in weather (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_SUNNY_DAY; }
@@ -574,7 +573,7 @@ DOUBLE_BATTLE_TEST("INNATE: Forecast transforms all Castforms present in weather
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from an ability")
+SINGLE_BATTLE_TEST("Forecast transforms Castform in weather from an ability (Trait)")
 {
     u32 species, ability;
     PARAMETRIZE { species = SPECIES_KYOGRE; ability = ABILITY_DRIZZLE; }
@@ -606,7 +605,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in weather from an abil
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in primal weather")
+SINGLE_BATTLE_TEST("Forecast transforms Castform in primal weather (Trait)")
 {
     u32 species, item, ability;
     PARAMETRIZE { species = SPECIES_KYOGRE; ability = ABILITY_PRIMORDIAL_SEA; item = ITEM_BLUE_ORB; }
@@ -635,7 +634,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform in primal weather")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal when weather expires")
+SINGLE_BATTLE_TEST("Forecast transforms Castform back to normal when weather expires (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FORECAST); }
@@ -661,7 +660,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal when wea
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal when Sandstorm is active")
+SINGLE_BATTLE_TEST("Forecast transforms Castform back to normal when Sandstorm is active (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FORECAST); }
@@ -683,7 +682,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal when San
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal under Cloud Nine/Air Lock")
+SINGLE_BATTLE_TEST("Forecast transforms Castform back to normal under Cloud Nine/Air Lock (Trait)")
 {
     u32 species = 0, ability = 0;
     PARAMETRIZE { species = SPECIES_PSYDUCK;  ability = ABILITY_CLOUD_NINE; }
@@ -710,7 +709,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back to normal under Cl
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform on switch-in")
+SINGLE_BATTLE_TEST("Forecast transforms Castform on switch-in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -731,7 +730,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform on switch-in")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform when weather changes")
+SINGLE_BATTLE_TEST("Forecast transforms Castform when weather changes (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FORECAST); }
@@ -753,7 +752,30 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform when weather changes")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back when it switches out")
+//Not needed since supression is Ability only
+// SINGLE_BATTLE_TEST("Forecast transforms Castform back to normal when its ability is suppressed (Trait)")
+// {
+//     GIVEN {
+//         ASSUME(B_WEATHER_FORMS >= GEN_5);
+//         PLAYER(SPECIES_CASTFORM_NORMAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_FORECAST); }
+//         OPPONENT(SPECIES_WOBBUFFET);
+//     } WHEN {
+//         TURN { MOVE(opponent, MOVE_SUNNY_DAY); }
+//         TURN { MOVE(opponent, MOVE_GASTRO_ACID); }
+//     } SCENE {
+//         // transforms in sun
+//         ABILITY_POPUP(player, ABILITY_FORECAST);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_FORM_CHANGE, player);
+//         MESSAGE("Castform transformed!");
+//         // back to normal
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_FORM_CHANGE, player);
+//         MESSAGE("Castform transformed!");
+//     } THEN {
+//         EXPECT_EQ(player->species, SPECIES_CASTFORM_NORMAL);
+//     }
+// }
+
+SINGLE_BATTLE_TEST("Forecast transforms Castform back when it switches out (Trait)")
 {
     GIVEN {
         ASSUME(B_WEATHER_FORMS >= GEN_5);
@@ -774,7 +796,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back when it switches o
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back when it uses a move that forces it to switch out")
+SINGLE_BATTLE_TEST("Forecast transforms Castform back when it uses a move that forces it to switch out (Trait)")
 {
     GIVEN {
         ASSUME(B_WEATHER_FORMS >= GEN_5);
@@ -795,7 +817,7 @@ SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform back when it uses a mov
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Forecast transforms Castform when Cloud Nine ability user leaves the field")
+SINGLE_BATTLE_TEST("Forecast transforms Castform when Cloud Nine ability user leaves the field (Trait)")
 {
     u32 species = 0, ability = 0;
     PARAMETRIZE { species = SPECIES_PSYDUCK;  ability = ABILITY_CLOUD_NINE; }

@@ -171,7 +171,7 @@ DOUBLE_BATTLE_TEST("Order Up is always boosted by Sheer Force", s16 damage)
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form")
+DOUBLE_BATTLE_TEST("Order Up increases a stat based on Tatsugiri's form (Trait)")
 {
     u32 species = 0;
     PARAMETRIZE { species = SPECIES_TATSUGIRI_CURLY; }
@@ -179,10 +179,10 @@ DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form"
     PARAMETRIZE { species = SPECIES_TATSUGIRI_STRETCHY; }
 
     GIVEN {
-        PLAYER(species) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_COMMANDER); }
+        PLAYER(species) { Ability(ABILITY_COMMANDER); }
         PLAYER(SPECIES_DONDOZO);
         OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_VOLBEAT) { Ability(ABILITY_ILLUMINATE); Innates(ABILITY_PRANKSTER); };
+        OPPONENT(SPECIES_VOLBEAT) { Ability(ABILITY_PRANKSTER); };
     } WHEN {
         TURN { MOVE(opponentRight, MOVE_HAZE); MOVE(playerRight, MOVE_ORDER_UP, target: opponentLeft); }
     } SCENE {
@@ -219,7 +219,7 @@ DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form"
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form even if Tatsugiri fainted inside Dondozo")
+DOUBLE_BATTLE_TEST("Order Up increases a stat based on Tatsugiri's form even if Tatsugiri fainted inside Dondozo (Trait)")
 {
     u32 species = 0;
     PARAMETRIZE { species = SPECIES_TATSUGIRI_CURLY; }
@@ -271,7 +271,7 @@ DOUBLE_BATTLE_TEST("INNATE: Order Up increases a stat based on Tatsugiri's form 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Order Up is boosted by Sheer Force without removing the stat boosting effect")
+DOUBLE_BATTLE_TEST("Order Up is boosted by Sheer Force without removing the stat boosting effect (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DONDOZO) { Speed(10); Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_SHEER_FORCE); }
@@ -279,13 +279,13 @@ DOUBLE_BATTLE_TEST("INNATE: Order Up is boosted by Sheer Force without removing 
         OPPONENT(SPECIES_WOBBUFFET) { Speed(8); }
         OPPONENT(SPECIES_TAUROS) { Speed(21); Ability(ABILITY_ANGER_POINT); Innates(ABILITY_SHEER_FORCE); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_ORDER_UP, target: opponentLeft); }
+        TURN { MOVE(opponentRight, MOVE_ENTRAINMENT, target: playerLeft); MOVE(playerLeft, MOVE_ORDER_UP, target: opponentLeft); }
     } SCENE {
         MESSAGE("Dondozo used Order Up!");
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
     }
 }
-DOUBLE_BATTLE_TEST("INNATE: Order Up is always boosted by Sheer Force", s16 damage)
+DOUBLE_BATTLE_TEST("Order Up is always boosted by Sheer Force (Trait)", s16 damage)
 {
     u32 innate;
     u32 ability;

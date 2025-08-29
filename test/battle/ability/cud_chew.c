@@ -48,18 +48,18 @@ SINGLE_BATTLE_TEST("Cud Chew will activate Oran Berry effect again on the next t
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cud Chew will activate Kee Berry effect again on the next turn")
+SINGLE_BATTLE_TEST("Cud Chew will activate Kee Berry effect again on the next turn (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_KEE_BERRY].holdEffect == HOLD_EFFECT_KEE_BERRY);
-        ASSUME(GetMoveCategory(MOVE_TACKLE) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_TAUROS_PALDEA_COMBAT) { Ability(ABILITY_ANGER_POINT); Innates(ABILITY_CUD_CHEW); Item(ITEM_KEE_BERRY); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN { MOVE(player, MOVE_CELEBRATE);}
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
@@ -70,7 +70,7 @@ SINGLE_BATTLE_TEST("INNATE: Cud Chew will activate Kee Berry effect again on the
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Cud Chew will activate Oran Berry effect again on the next turn")
+SINGLE_BATTLE_TEST("Cud Chew will activate Oran Berry effect again on the next turn (Trait)")
 {
     GIVEN {
         ASSUME(gItemsInfo[ITEM_ORAN_BERRY].holdEffect == HOLD_EFFECT_RESTORE_HP);

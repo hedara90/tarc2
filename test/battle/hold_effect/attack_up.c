@@ -69,7 +69,7 @@ SINGLE_BATTLE_TEST("Liechi Berry raises Attack by one stage when HP drops to 1/4
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Liechi Berry raises Attack by one stage when HP drops to 1/2 or below if holder has Gluttony")
+SINGLE_BATTLE_TEST("Liechi Berry raises Attack by one stage when HP drops to 1/2 or below if holder has Gluttony (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_BELLSPROUT) { MaxHP(80); HP(80); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_GLUTTONY); Item(ITEM_LIECHI_BERRY); }
@@ -85,7 +85,7 @@ SINGLE_BATTLE_TEST("INNATE: Liechi Berry raises Attack by one stage when HP drop
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Liechi Berry raises Attack by one stage when HP drops to 1/4 or below if holder has Ripen")
+SINGLE_BATTLE_TEST("Liechi Berry raises Attack by one stage when HP drops to 1/4 or below if holder has Ripen (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_APPLIN) { MaxHP(160); HP(80); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_RIPEN); Item(ITEM_LIECHI_BERRY); }

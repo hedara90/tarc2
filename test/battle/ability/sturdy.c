@@ -46,7 +46,7 @@ SINGLE_BATTLE_TEST("Sturdy does not prevent non-OHKOs")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sturdy prevents OHKO moves")
+SINGLE_BATTLE_TEST("Sturdy prevents OHKO moves (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FISSURE) == EFFECT_OHKO);
@@ -63,7 +63,7 @@ SINGLE_BATTLE_TEST("INNATE: Sturdy prevents OHKO moves")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sturdy prevents OHKOs")
+SINGLE_BATTLE_TEST("Sturdy prevents OHKOs (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GEODUDE) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_STURDY); MaxHP(100); HP(100); }
@@ -78,7 +78,7 @@ SINGLE_BATTLE_TEST("INNATE: Sturdy prevents OHKOs")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sturdy does not prevent non-OHKOs")
+SINGLE_BATTLE_TEST("Sturdy does not prevent non-OHKOs (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GEODUDE) { Ability(ABILITY_SAND_VEIL); Innates(ABILITY_STURDY); MaxHP(100); HP(99); }

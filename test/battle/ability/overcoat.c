@@ -20,7 +20,7 @@ TO_DO_BATTLE_TEST("Overcoat blocks damage from hail");
 TO_DO_BATTLE_TEST("Overcoat blocks damage from sandstorm");
 TO_DO_BATTLE_TEST("Overcoat blocks Effect Spore's effect");
 
-SINGLE_BATTLE_TEST("INNATE: Overcoat blocks powder and spore moves")
+SINGLE_BATTLE_TEST("Overcoat blocks powder and spore moves (Trait)")
 {
     GIVEN {
         ASSUME(IsPowderMove(MOVE_STUN_SPORE));
@@ -35,6 +35,6 @@ SINGLE_BATTLE_TEST("INNATE: Overcoat blocks powder and spore moves")
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Overcoat blocks damage from hail");
-TO_DO_BATTLE_TEST("INNATE: Overcoat blocks damage from sandstorm");
-TO_DO_BATTLE_TEST("INNATE: Overcoat blocks Effect Spore's effect");
+TO_DO_BATTLE_TEST("Overcoat blocks damage from hail (Trait)");
+TO_DO_BATTLE_TEST("Overcoat blocks damage from sandstorm (Trait)");
+TO_DO_BATTLE_TEST("Overcoat blocks Effect Spore's effect (Trait)");

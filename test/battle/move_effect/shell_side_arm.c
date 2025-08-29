@@ -86,7 +86,7 @@ DOUBLE_BATTLE_TEST("Shell Side Arm chooses its category for each battler on the 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Shell Side Arm does not change category mid-turn")
+DOUBLE_BATTLE_TEST("Shell Side Arm does not change category mid-turn (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_SCREECH) == EFFECT_DEFENSE_DOWN_2);

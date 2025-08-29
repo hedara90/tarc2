@@ -285,7 +285,7 @@ SINGLE_BATTLE_TEST("Multi Hit moves will not disrupt Destiny Bond flag")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Multi hit Moves hit the maximum amount with Skill Link")
+SINGLE_BATTLE_TEST("Multi hit Moves hit the maximum amount with Skill Link (Trait)")
 {
     PASSES_RANDOMLY(100, 100, RNG_HITS);
 
@@ -304,7 +304,7 @@ SINGLE_BATTLE_TEST("INNATE: Multi hit Moves hit the maximum amount with Skill Li
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Scale Shot decreases defense and increases speed after killing opposing with less then 4 hits")
+SINGLE_BATTLE_TEST("Scale Shot decreases defense and increases speed after killing opposing with less then 4 hits")
 {
     u32 item;
     PARAMETRIZE { item = ITEM_NONE; }

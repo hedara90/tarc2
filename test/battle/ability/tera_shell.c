@@ -113,7 +113,7 @@ SINGLE_BATTLE_TEST("Tera Shell respects immunity")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tera Shell makes all moves against Terapagos not very effective when at full HP")
+SINGLE_BATTLE_TEST("Tera Shell makes all moves against Terapagos not very effective when at full HP (Trait)")
 {
     u16 hp;
     PARAMETRIZE { hp = 100; }
@@ -122,13 +122,13 @@ SINGLE_BATTLE_TEST("INNATE: Tera Shell makes all moves against Terapagos not ver
         PLAYER(SPECIES_TERAPAGOS_TERASTAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TERA_SHELL); HP(hp); MaxHP(100);}
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         if (hp == 100) {
-            MESSAGE("The opposing Wobbuffet used Tackle!");
+            MESSAGE("The opposing Wobbuffet used Scratch!");
             ABILITY_POPUP(player, ABILITY_TERA_SHELL);
             MESSAGE("Terapagos made its shell gleam! It's distorting type matchups!");
-            ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
             HP_BAR(player);
             MESSAGE("It's not very effective…");
         }
@@ -142,7 +142,7 @@ SINGLE_BATTLE_TEST("INNATE: Tera Shell makes all moves against Terapagos not ver
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tera Shell makes all hits of multi-hit moves against Terapagos not very effective")
+SINGLE_BATTLE_TEST("Tera Shell makes all hits of multi-hit moves against Terapagos not very effective (Trait)")
 {
     s16 firstHit;
     s16 secondHit;
@@ -165,7 +165,7 @@ SINGLE_BATTLE_TEST("INNATE: Tera Shell makes all hits of multi-hit moves against
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Tera Shell only makes the first hit of a double battle turn not very effective")
+DOUBLE_BATTLE_TEST("Tera Shell only makes the first hit of a double battle turn not very effective (Trait)")
 {
     s16 firstHit;
     s16 secondHit;
@@ -175,14 +175,14 @@ DOUBLE_BATTLE_TEST("INNATE: Tera Shell only makes the first hit of a double batt
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponentLeft, MOVE_TACKLE, target: playerLeft); MOVE(opponentRight, MOVE_TACKLE, target: playerLeft); }
+        TURN { MOVE(opponentLeft, MOVE_SCRATCH, target: playerLeft); MOVE(opponentRight, MOVE_SCRATCH, target: playerLeft); }
     } SCENE {
         ABILITY_POPUP(playerLeft, ABILITY_TERA_SHELL);
         MESSAGE("Terapagos made its shell gleam! It's distorting type matchups!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponentLeft);
         HP_BAR(playerLeft, captureDamage: &firstHit);
         MESSAGE("It's not very effective…");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponentRight);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponentRight);
         HP_BAR(playerLeft, captureDamage: &secondHit);
         NOT MESSAGE("It's not very effective…");
     } THEN {
@@ -190,7 +190,7 @@ DOUBLE_BATTLE_TEST("INNATE: Tera Shell only makes the first hit of a double batt
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Tera Shell only makes the first hit against Terapagos from a multi-target move not very effective")
+DOUBLE_BATTLE_TEST("Tera Shell only makes the first hit against Terapagos from a multi-target move not very effective (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TERAPAGOS_TERASTAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TERA_SHELL); }
@@ -210,7 +210,7 @@ DOUBLE_BATTLE_TEST("INNATE: Tera Shell only makes the first hit against Terapago
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Tera Shell respects immunity")
+SINGLE_BATTLE_TEST("Tera Shell respects immunity (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_TERAPAGOS_TERASTAL) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_TERA_SHELL); }

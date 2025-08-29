@@ -65,7 +65,7 @@ SINGLE_BATTLE_TEST("Scrappy doesn't bypass a Ghost-type's Wonder Guard")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Scrappy prevents intimidate")
+SINGLE_BATTLE_TEST("Scrappy prevents intimidate (Trait)")
 {
     s16 turnOneHit;
     s16 turnTwoHit;
@@ -76,8 +76,8 @@ SINGLE_BATTLE_TEST("INNATE: Scrappy prevents intimidate")
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_UNNERVE); Innates(ABILITY_INTIMIDATE); };
         OPPONENT(SPECIES_KANGASKHAN) { Ability(ABILITY_EARLY_BIRD); Innates(ABILITY_SCRAPPY); };
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
-        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+        TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SCRATCH); }
 
     } SCENE {
         HP_BAR(player, captureDamage: &turnOneHit);
@@ -91,10 +91,10 @@ SINGLE_BATTLE_TEST("INNATE: Scrappy prevents intimidate")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Scrappy allows to hit Ghost-type Pokémon with Normal- and Fighting-type moves")
+SINGLE_BATTLE_TEST("Scrappy allows to hit Ghost-type Pokémon with Normal- and Fighting-type moves (Trait)")
 {
     u32 move;
-    PARAMETRIZE { move = MOVE_TACKLE; }
+    PARAMETRIZE { move = MOVE_SCRATCH; }
     PARAMETRIZE { move = MOVE_KARATE_CHOP; }
 
     GIVEN {
@@ -108,10 +108,10 @@ SINGLE_BATTLE_TEST("INNATE: Scrappy allows to hit Ghost-type Pokémon with Norma
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Scrappy doesn't bypass a Ghost-type's Wonder Guard")
+SINGLE_BATTLE_TEST("Scrappy doesn't bypass a Ghost-type's Wonder Guard (Trait)")
 {
     u32 move;
-    PARAMETRIZE { move = MOVE_TACKLE; }
+    PARAMETRIZE { move = MOVE_SCRATCH; }
     PARAMETRIZE { move = MOVE_KARATE_CHOP; }
 
     GIVEN {

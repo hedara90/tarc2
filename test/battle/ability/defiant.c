@@ -336,7 +336,7 @@ SINGLE_BATTLE_TEST("Defiant doesn't activate if the pokemon lowers it's own stat
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises player's Attack after Intimidate")
+DOUBLE_BATTLE_TEST("Defiant sharply raises player's Attack after Intimidate (Trait)")
 {
     u32 abilityLeft, abilityRight;
 
@@ -351,7 +351,7 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises player's Attack after Intimid
         OPPONENT(SPECIES_GYARADOS) { Ability(ABILITY_MOXIE); Innates(ABILITY_INTIMIDATE); }
         OPPONENT(SPECIES_ARBOK) { Ability(ABILITY_SHED_SKIN); Innates(ABILITY_INTIMIDATE); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target:opponentLeft); MOVE(playerRight, MOVE_TACKLE, target:opponentRight); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target:opponentLeft); MOVE(playerRight, MOVE_SCRATCH, target:opponentRight); }
     } SCENE {
         //1st mon Intimidate
         ABILITY_POPUP(opponentLeft, ABILITY_INTIMIDATE);
@@ -394,7 +394,7 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises player's Attack after Intimid
 }
 
 // Same as above, but for opponent.
-DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises opponent's Attack after Intimidate")
+DOUBLE_BATTLE_TEST("Defiant sharply raises opponent's Attack after Intimidate (Trait)")
 {
     u32 abilityLeft, abilityRight;
 
@@ -409,7 +409,7 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises opponent's Attack after Intim
         PLAYER(SPECIES_GYARADOS) { Ability(ABILITY_MOXIE); Innates(ABILITY_INTIMIDATE); }
         PLAYER(SPECIES_ARBOK) { Ability(ABILITY_SHED_SKIN); Innates(ABILITY_INTIMIDATE); }
     } WHEN {
-        TURN { MOVE(opponentLeft, MOVE_TACKLE, target:playerLeft); MOVE(opponentRight, MOVE_TACKLE, target:playerRight); }
+        TURN { MOVE(opponentLeft, MOVE_SCRATCH, target:playerLeft); MOVE(opponentRight, MOVE_SCRATCH, target:playerRight); }
     } SCENE {
         //1st mon Intimidate
         ABILITY_POPUP(playerLeft, ABILITY_INTIMIDATE);
@@ -451,7 +451,7 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant sharply raises opponent's Attack after Intim
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant activates after Sticky Web lowers Speed")
+SINGLE_BATTLE_TEST("Defiant activates after Sticky Web lowers Speed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -474,7 +474,7 @@ SINGLE_BATTLE_TEST("INNATE: Defiant activates after Sticky Web lowers Speed")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant doesn't activate after Sticky Web lowers Speed if Court Changed")
+SINGLE_BATTLE_TEST("Defiant doesn't activate after Sticky Web lowers Speed if Court Changed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -500,7 +500,7 @@ SINGLE_BATTLE_TEST("INNATE: Defiant doesn't activate after Sticky Web lowers Spe
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant correctly activates after Sticky Web lowers Speed if Court Changed")
+SINGLE_BATTLE_TEST("Defiant correctly activates after Sticky Web lowers Speed if Court Changed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -534,7 +534,7 @@ SINGLE_BATTLE_TEST("INNATE: Defiant correctly activates after Sticky Web lowers 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Defiant is activated by Cotton Down for non-ally pokemon")
+DOUBLE_BATTLE_TEST("Defiant is activated by Cotton Down for non-ally pokemon (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_MANKEY) { Ability(ABILITY_VITAL_SPIRIT); Innates(ABILITY_DEFIANT); }
@@ -542,9 +542,9 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant is activated by Cotton Down for non-ally pok
         OPPONENT(SPECIES_ELDEGOSS) { Ability(ABILITY_REGENERATOR); Innates(ABILITY_COTTON_DOWN); }
         OPPONENT(SPECIES_MANKEY) { Ability(ABILITY_VITAL_SPIRIT); Innates(ABILITY_DEFIANT); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, playerLeft);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
         ABILITY_POPUP(opponentLeft, ABILITY_COTTON_DOWN);
 
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
@@ -570,7 +570,7 @@ DOUBLE_BATTLE_TEST("INNATE: Defiant is activated by Cotton Down for non-ally pok
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant activates before White Herb")
+SINGLE_BATTLE_TEST("Defiant activates before White Herb (Trait)")
 {
     u32 move;
 
@@ -609,7 +609,7 @@ SINGLE_BATTLE_TEST("INNATE: Defiant activates before White Herb")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant activates for each stat that is lowered")
+SINGLE_BATTLE_TEST("Defiant activates for each stat that is lowered (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TICKLE) == EFFECT_TICKLE);
@@ -636,7 +636,7 @@ SINGLE_BATTLE_TEST("INNATE: Defiant activates for each stat that is lowered")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Defiant doesn't activate if the pokemon lowers it's own stats")
+SINGLE_BATTLE_TEST("Defiant doesn't activate if the pokemon lowers it's own stats (Trait)")
 {
     u32 move;
 
