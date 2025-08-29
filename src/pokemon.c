@@ -3759,6 +3759,11 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
 
+    for (i = 0; i < MAX_MON_INNATES; i++)
+    {
+        dst->innates[i] = GetSpeciesInnate(dst->species, i + 1, 0, TRUE);
+    }
+
     dst->status2 = 0;
 }
 

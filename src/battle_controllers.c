@@ -1643,6 +1643,20 @@ static u32 GetBattlerMonData(u32 battler, struct Pokemon *party, u32 monId, u8 *
         GetMonData(&party[monId], MON_DATA_NICKNAME, nickname);
         StringCopy_Nickname(battleMon.nickname, nickname);
         GetMonData(&party[monId], MON_DATA_OT_NAME, battleMon.otName);
+
+        u32 side = GetBattlerSide(battler);
+        for (u32 i = 0; i < MAX_MON_INNATES; i++)
+        {
+            if (TESTING)
+            {
+                battleMon.innates[i] = TestRunner_Battle_GetForcedInnates(side, monId, i);
+            }
+            else
+            {
+                battleMon.innates[i] = GetSpeciesInnate(battleMon.species, i + 1, 0 , TRUE);
+            }
+        }
+
         src = (u8 *)&battleMon;
         for (size = 0; size < sizeof(battleMon); size++)
             dst[size] = src[size];
