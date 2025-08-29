@@ -4534,10 +4534,10 @@
     {
       "id": "LAYOUT_ENTRANCE",
       "name": "Entrance_Layout",
-      "width": 40,
-      "height": 40,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_OceanicMuseum",
+      "width": 50,
+      "height": 50,
+      "primary_tileset": "gTileset_hub",
+      "secondary_tileset": "gTileset_hubsecondary",
       "border_filepath": "data/layouts/Entrance/border.bin",
       "blockdata_filepath": "data/layouts/Entrance/map.bin"
     }
