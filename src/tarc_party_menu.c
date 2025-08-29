@@ -45,6 +45,7 @@ struct Tarc_Mon
     bool8 isFainted;
     u32 *sprite;
     u16 palette[16];
+    u32 types[2];
 };
 
 struct Tarc_PartyMenuState
@@ -63,6 +64,9 @@ struct Tarc_PartyMenuState
     u8 scrollOffset;
     u8 selectedRow;
     u8 prevListPos;
+    u8 type1SpriteId;
+    u8 type2SpriteId;
+    bool8 hasTypeIcons;
     struct ListMenuItem listBuffer[36];
     struct ListMenuTemplate list;
     u8 listNames[36][20];
@@ -132,6 +136,45 @@ static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 
 static const u8 sTextMoves[] = _("Moves");
 static const u8 sTextAbilities[] = _("Abilities");
+
+static const u32 sTarcTypeBlankGfx[] = INCBIN_U32("graphics/tarc_party/blank.4bpp");
+static const u16 sTarcTypeBlankPal[] = INCBIN_U16("graphics/tarc_party/blank.gbapal");
+static const u32 sTarcTypeNormalGfx[] = INCBIN_U32("graphics/tarc_party/normal.4bpp");
+static const u16 sTarcTypeNormalPal[] = INCBIN_U16("graphics/tarc_party/normal.gbapal");
+static const u32 sTarcTypeFightingGfx[] = INCBIN_U32("graphics/tarc_party/fight.4bpp");
+static const u16 sTarcTypeFightingPal[] = INCBIN_U16("graphics/tarc_party/fight.gbapal");
+static const u32 sTarcTypeFlyingGfx[] = INCBIN_U32("graphics/tarc_party/flying.4bpp");
+static const u16 sTarcTypeFlyingPal[] = INCBIN_U16("graphics/tarc_party/flying.gbapal");
+static const u32 sTarcTypePoisonGfx[] = INCBIN_U32("graphics/tarc_party/poison.4bpp");
+static const u16 sTarcTypePoisonPal[] = INCBIN_U16("graphics/tarc_party/poison.gbapal");
+static const u32 sTarcTypeGroundGfx[] = INCBIN_U32("graphics/tarc_party/ground.4bpp");
+static const u16 sTarcTypeGroundPal[] = INCBIN_U16("graphics/tarc_party/ground.gbapal");
+static const u32 sTarcTypeRockGfx[] = INCBIN_U32("graphics/tarc_party/rock.4bpp");
+static const u16 sTarcTypeRockPal[] = INCBIN_U16("graphics/tarc_party/rock.gbapal");
+static const u32 sTarcTypeBugGfx[] = INCBIN_U32("graphics/tarc_party/bug.4bpp");
+static const u16 sTarcTypeBugPal[] = INCBIN_U16("graphics/tarc_party/bug.gbapal");
+static const u32 sTarcTypeGhostGfx[] = INCBIN_U32("graphics/tarc_party/ghost.4bpp");
+static const u16 sTarcTypeGhostPal[] = INCBIN_U16("graphics/tarc_party/ghost.gbapal");
+static const u32 sTarcTypeSteelGfx[] = INCBIN_U32("graphics/tarc_party/steel.4bpp");
+static const u16 sTarcTypeSteelPal[] = INCBIN_U16("graphics/tarc_party/steel.gbapal");
+static const u32 sTarcTypeFireGfx[] = INCBIN_U32("graphics/tarc_party/fire.4bpp");
+static const u16 sTarcTypeFirePal[] = INCBIN_U16("graphics/tarc_party/fire.gbapal");
+static const u32 sTarcTypeWaterGfx[] = INCBIN_U32("graphics/tarc_party/water.4bpp");
+static const u16 sTarcTypeWaterPal[] = INCBIN_U16("graphics/tarc_party/water.gbapal");
+static const u32 sTarcTypeGrassGfx[] = INCBIN_U32("graphics/tarc_party/grass.4bpp");
+static const u16 sTarcTypeGrassPal[] = INCBIN_U16("graphics/tarc_party/grass.gbapal");
+static const u32 sTarcTypeElectricGfx[] = INCBIN_U32("graphics/tarc_party/electric.4bpp");
+static const u16 sTarcTypeElectricPal[] = INCBIN_U16("graphics/tarc_party/electric.gbapal");
+static const u32 sTarcTypePsychicGfx[] = INCBIN_U32("graphics/tarc_party/psychic.4bpp");
+static const u16 sTarcTypePsychicPal[] = INCBIN_U16("graphics/tarc_party/psychic.gbapal");
+static const u32 sTarcTypeIceGfx[] = INCBIN_U32("graphics/tarc_party/ice.4bpp");
+static const u16 sTarcTypeIcePal[] = INCBIN_U16("graphics/tarc_party/ice.gbapal");
+static const u32 sTarcTypeDragonGfx[] = INCBIN_U32("graphics/tarc_party/dragon.4bpp");
+static const u16 sTarcTypeDragonPal[] = INCBIN_U16("graphics/tarc_party/dragon.gbapal");
+static const u32 sTarcTypeDarkGfx[] = INCBIN_U32("graphics/tarc_party/dark.4bpp");
+static const u16 sTarcTypeDarkPal[] = INCBIN_U16("graphics/tarc_party/dark.gbapal");
+static const u32 sTarcTypeFairyGfx[] = INCBIN_U32("graphics/tarc_party/fairy.4bpp");
+static const u16 sTarcTypeFairyPal[] = INCBIN_U16("graphics/tarc_party/fairy.gbapal");
 
 static const struct BgTemplate sTarcUiBgTemplates[] =
 {
@@ -396,6 +439,7 @@ static void TryMoveSelection(void);
 static u32 CompactMoveStorage(void);
 static u32 CompactAbilityStorage(void);
 static void TarcUi_WriteMonData(void);
+static void TarcUi_PrintMonTypes(u32 type1, u32 type2);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
@@ -828,9 +872,11 @@ static void TarcUi_LoadMons(void)
     }
     for (u32 i = 0; i < 3; i++)
     {
+        u32 species = sTarcUiState->mons[i].species;
+        sTarcUiState->mons[i].types[0] = gSpeciesInfo[species].types[0];
+        sTarcUiState->mons[i].types[1] = gSpeciesInfo[species].types[1];
         //  Load mon sprites to memory
         sTarcUiState->mons[i].sprite = Alloc(64*64);
-        u32 species = sTarcUiState->mons[i].species;
         bool32 isFemale = IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
         bool32 isShiny = GetMonData(&gPlayerParty[i], MON_DATA_IS_SHINY);
         if (isFemale && gSpeciesInfo[species].frontPicFemale != NULL)
@@ -1132,6 +1178,8 @@ static void TarcUi_PrintMon(void)
             PrintAbility(WIN_SELECT1 + i, sTarcUiState->mons[activeMon].abilities[i]);
         break;
     }
+
+    TarcUi_PrintMonTypes(sTarcUiState->mons[activeMon].types[0], sTarcUiState->mons[activeMon].types[1]);
 }
 
 static const u8 sButtonHints[] = _("{SELECT_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
@@ -1434,5 +1482,137 @@ static void TarcUi_WriteMonData(void)
             hp = 0;
             SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
         }
+    }
+}
+
+static void FillTypePointers(const u32 **sprite, const u16 **palette, u32 type)
+{
+    switch (type)
+    {
+    case TYPE_NORMAL:
+        *sprite = sTarcTypeNormalGfx;
+        *palette = sTarcTypeNormalPal;
+        break;
+    case TYPE_FIGHTING:
+        *sprite = sTarcTypeFightingGfx;
+        *palette = sTarcTypeFightingPal;
+        break;
+    case TYPE_FLYING:
+        *sprite = sTarcTypeFlyingGfx;
+        *palette = sTarcTypeFlyingPal;
+        break;
+    case TYPE_POISON:
+        *sprite = sTarcTypePoisonGfx;
+        *palette = sTarcTypePoisonPal;
+        break;
+    case TYPE_GROUND:
+        *sprite = sTarcTypeGroundGfx;
+        *palette = sTarcTypeGrassPal;
+        break;
+    case TYPE_ROCK:
+        *sprite = sTarcTypeRockGfx;
+        *palette = sTarcTypeRockPal;
+        break;
+    case TYPE_BUG:
+        *sprite = sTarcTypeBugGfx;
+        *palette = sTarcTypeBugPal;
+        break;
+    case TYPE_GHOST:
+        *sprite = sTarcTypeGhostGfx;
+        *palette = sTarcTypeGhostPal;
+        break;
+    case TYPE_STEEL:
+        *sprite = sTarcTypeSteelGfx;
+        *palette = sTarcTypeSteelPal;
+        break;
+    case TYPE_FIRE:
+        *sprite = sTarcTypeFireGfx;
+        *palette = sTarcTypeFirePal;
+        break;
+    case TYPE_WATER:
+        *sprite = sTarcTypeWaterGfx;
+        *palette = sTarcTypeWaterPal;
+        break;
+    case TYPE_GRASS:
+        *sprite = sTarcTypeGrassGfx;
+        *palette = sTarcTypeGrassPal;
+        break;
+    case TYPE_ELECTRIC:
+        *sprite = sTarcTypeElectricGfx;
+        *palette = sTarcTypeElectricPal;
+        break;
+    case TYPE_PSYCHIC:
+        *sprite = sTarcTypePsychicGfx;
+        *palette = sTarcTypePsychicPal;
+        break;
+    case TYPE_ICE:
+        *sprite = sTarcTypeIceGfx;
+        *palette = sTarcTypeIcePal;
+        break;
+    case TYPE_DRAGON:
+        *sprite = sTarcTypeDragonGfx;
+        *palette = sTarcTypeDragonPal;
+        break;
+    case TYPE_DARK:
+        *sprite = sTarcTypeDarkGfx;
+        *palette = sTarcTypeDarkPal;
+        break;
+    case TYPE_FAIRY:
+        *sprite = sTarcTypeFairyGfx;
+        *palette = sTarcTypeFairyPal;
+        break;
+    }
+}
+
+static void TarcUi_PrintMonTypes(u32 type1, u32 type2)
+{
+    if (sTarcUiState->hasTypeIcons)
+    {
+        DestroySprite(&gSprites[sTarcUiState->type1SpriteId]);
+        DestroySprite(&gSprites[sTarcUiState->type2SpriteId]);
+        FreeSpriteTilesByTag(0xCEC3);
+        FreeSpritePaletteByTag(0xCEC3);
+        FreeSpriteTilesByTag(0xCEC4);
+        FreeSpritePaletteByTag(0xCEC4);
+    }
+    sTarcUiState->hasTypeIcons = TRUE;
+    const u32 *sprite1 = sTarcTypeNormalGfx;
+    const u32 *sprite2 = sTarcTypeNormalGfx;
+    const u16 *pal1 = sTarcTypeNormalPal;
+    const u16 *pal2 = sTarcTypeNormalPal;
+
+    FillTypePointers(&sprite1, &pal1, type1);
+    FillTypePointers(&sprite2, &pal2, type2);
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = sprite1;
+    cs.tileTag = 0xCEC3;
+    cs.palette = pal1;
+    cs.palTag = 0xCEC3;
+    cs.spriteSize = SPRITE_SIZE(16x16);
+    cs.spriteShape = SPRITE_SHAPE(16x16);
+    cs.posX = 80;
+    cs.posY = 136;
+
+    sTarcUiState->type1SpriteId = Even_CreateSprite(&cs);
+    if (type1 != type2)
+    {
+        cs.sprite = sprite2;
+        cs.tileTag = 0xCEC4;
+        cs.palette = pal2;
+        cs.palTag = 0xCEC4;
+        cs.posX = 96;
+        cs.posY = 136;
+        sTarcUiState->type2SpriteId = Even_CreateSprite(&cs);
+    }
+    else
+    {
+        cs.sprite = sTarcTypeBlankGfx;
+        cs.tileTag = 0xCEC4;
+        cs.palette = sTarcTypeBlankPal;
+        cs.palTag = 0xCEC4;
+        cs.posX = 96;
+        cs.posY = 136;
+        sTarcUiState->type2SpriteId = Even_CreateSprite(&cs);
     }
 }
