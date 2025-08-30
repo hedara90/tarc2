@@ -1196,11 +1196,6 @@ static void TarcUi_PrintButtonHints(void)
     CopyWindowToVram(WIN_CONTROLLS, COPYWIN_GFX);
 }
 
-const u8 sPhysicalStr[] = _("physical");
-const u8 sSpecialStr[] = _("special");
-const u8 sStatusStr[] = _("status");
-const u8 sTestStr[] = _("A 95 BP Fairy type special move with\n2 turn CD. Gives +10 Spe, +10 SpA");
-
 static void BuildSubStringMove(u8 *str, u32 move)
 {
     if (move == MOVE_NONE)
@@ -1407,8 +1402,77 @@ static void BuildSubStringMove(u8 *str, u32 move)
     str[currChar] = EOS;
 }
 
+const u8 sPassiveStr[]     = _("A passive ability that's always active.\n");
+const u8 sTriggerStr[]     = _("An ability that is triggered in some way.\n");
+const u8 sSwitchInStr[]    = _("An ability with effect on entering the\nfield. ");
+const u8 sSwitchOutStr[]   = _("An ability with effect on exiting the\nfield. ");
+const u8 sOnHitStr[]       = _("An ability that work when being hit.\n");
+const u8 sOnAttackStr[]    = _("An ability that work when hitting.\n");
+const u8 sEndOfTurnStr[]   = _("An ability that happens at end of\nturn. ");
+const u8 sConditionalStr[] = _("An ability that work under certain\nconditions. ");
+const u8 sCooldown[]       = _("It has a cooldown of ");
+
 static void BuildSubStringAbility(u8 *str, u32 ability)
 {
+    if (ability == ABILITY_NONE)
+    {
+        str[0] = EOS;
+        return;
+    }
+    u32 currChar = 0;
+    u32 subChar = 0;
+    u8 tempStr[4];
+    const u8 *srcStr = sPassiveStr;
+    switch (gAbilitiesInfo[ability].category)
+    {
+    case AC_PASSIVE:
+        break;
+    case AC_TRIGGERED:
+        srcStr = sTriggerStr;
+        break;
+    case AC_SWITCH_IN:
+        srcStr = sSwitchInStr;
+        break;
+    case AC_SWITCH_OUT:
+        srcStr = sSwitchOutStr;
+        break;
+    case AC_ON_HIT:
+        srcStr = sOnHitStr;
+        break;
+    case AC_ON_ATTACK:
+        srcStr = sOnAttackStr;
+        break;
+    case AC_EOT:
+        srcStr = sEndOfTurnStr;
+        break;
+    case AC_CONDITIONAL:
+        srcStr = sConditionalStr;
+        break;
+    }
+    while (srcStr[currChar] != EOS)
+    {
+        str[currChar] = srcStr[currChar];
+        currChar++;
+    }
+
+    if (gAbilitiesInfo[ability].cd > 0)
+    {
+        while (sCooldown[subChar] != EOS)
+            str[currChar++] = sCooldown[subChar++];
+
+        str[currChar++] = CHAR_SPACE;
+        ConvertIntToDecimalStringN(tempStr, gAbilitiesInfo[ability].cd, STR_CONV_MODE_LEFT_ALIGN, 1);
+        subChar = 0;
+        str[currChar++] = tempStr[0];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_r;
+        str[currChar++] = CHAR_n;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_PERIOD;
+    }
+    str[currChar] = EOS;
 }
 
 static void TarcUi_PrintSelection(void)
@@ -1438,7 +1502,7 @@ static void TarcUi_PrintSelection(void)
             currSelection = gSaveBlock1Ptr->abilityStorage[listPos];
         origStr = gAbilitiesInfo[currSelection].description;
         BuildSubStringAbility(subString, currSelection);
-        subString[0] = EOS;
+        subFont = FONT_NARROWER;
         break;
     }
     u32 currChar = 0;
