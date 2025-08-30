@@ -88,7 +88,7 @@ DOUBLE_BATTLE_TEST("Salac Berry does not miss timing miss timing")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Salac Berry raises Speed by one stage when HP drops to 1/2 or below if holder has Gluttony")
+SINGLE_BATTLE_TEST("Salac Berry raises Speed by one stage when HP drops to 1/2 or below if holder has Gluttony (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_BELLSPROUT) { MaxHP(80); HP(80); Ability(ABILITY_CHLOROPHYLL); Innates(ABILITY_GLUTTONY); Item(ITEM_SALAC_BERRY); }
@@ -104,7 +104,7 @@ SINGLE_BATTLE_TEST("INNATE: Salac Berry raises Speed by one stage when HP drops 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Salac Berry raises Speed by one stage when HP drops to 1/4 or below if holder has Ripen")
+SINGLE_BATTLE_TEST("Salac Berry raises Speed by one stage when HP drops to 1/4 or below if holder has Ripen (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_APPLIN) { MaxHP(160); HP(80); Ability(ABILITY_BULLETPROOF); Innates(ABILITY_RIPEN); Item(ITEM_SALAC_BERRY); }

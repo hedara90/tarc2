@@ -88,7 +88,7 @@ SINGLE_BATTLE_TEST("Gem is consumed if the move type is changed")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Gem is consumed if the move type is changed")
+SINGLE_BATTLE_TEST("Gem is consumed if the move type is changed (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_DELCATTY) { Ability(ABILITY_WONDER_SKIN); Innates(ABILITY_NORMALIZE); Item(ITEM_NORMAL_GEM); };

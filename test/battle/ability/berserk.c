@@ -74,7 +74,7 @@ SINGLE_BATTLE_TEST("Berserk activates after all hits from a multi-hit move")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Berserk activates only if the target had more than 50% of its hp")
+SINGLE_BATTLE_TEST("Berserk activates only if the target had more than 50% of its HP (Trait)")
 {
     bool32 activates = FALSE;
     u16 maxHp = 500, hp = 0;
@@ -87,13 +87,13 @@ SINGLE_BATTLE_TEST("INNATE: Berserk activates only if the target had more than 5
     PARAMETRIZE { hp = 254; activates = TRUE; }
 
     GIVEN {
-        ASSUME(!IsBattleMoveStatus(MOVE_TACKLE));
+        ASSUME(!IsBattleMoveStatus(MOVE_SCRATCH));
         PLAYER(SPECIES_DRAMPA) { Ability(ABILITY_SAP_SIPPER); Innates(ABILITY_BERSERK); MaxHP(maxHp); HP(hp); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         if (activates) {
             ABILITY_POPUP(player, ABILITY_BERSERK);
         } else {
@@ -106,17 +106,17 @@ SINGLE_BATTLE_TEST("INNATE: Berserk activates only if the target had more than 5
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Berserk raises Sp.Atk by 1")
+SINGLE_BATTLE_TEST("Berserk raises Sp.Atk by 1 (Trait)")
 {
     u16 maxHp = 500;
     GIVEN {
-        ASSUME(!IsBattleMoveStatus(MOVE_TACKLE));
+        ASSUME(!IsBattleMoveStatus(MOVE_SCRATCH));
         PLAYER(SPECIES_DRAMPA) { Ability(ABILITY_SAP_SIPPER); Innates(ABILITY_BERSERK); MaxHP(maxHp); HP(maxHp / 2 + 1); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         ABILITY_POPUP(player, ABILITY_BERSERK);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
         MESSAGE("Drampa's Sp. Atk rose!");
@@ -125,7 +125,7 @@ SINGLE_BATTLE_TEST("INNATE: Berserk raises Sp.Atk by 1")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Berserk activates after all hits from a multi-hit move")
+SINGLE_BATTLE_TEST("Berserk activates after all hits from a multi-hit move (Trait)")
 {
     u32 j;
     u16 maxHp = 500;

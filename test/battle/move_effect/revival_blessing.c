@@ -127,7 +127,7 @@ DOUBLE_BATTLE_TEST("Revival Blessing correctly updates battler absent flags")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Revival Blessing correctly updates battler absent flags")
+DOUBLE_BATTLE_TEST("Revival Blessing correctly updates battler absent flags (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SALAMENCE) { Level(40); }

@@ -20,14 +20,14 @@ SINGLE_BATTLE_TEST("Shed Skin triggers 33% of the time")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Shed Skin triggers 33% of the time")
+SINGLE_BATTLE_TEST("Shed Skin triggers 33% of the time (Trait)")
 {
     if (B_ABILITY_TRIGGER_CHANCE == GEN_4)
         PASSES_RANDOMLY(30, 100, RNG_SHED_SKIN);
     else
         PASSES_RANDOMLY(33, 100, RNG_SHED_SKIN);
     GIVEN {
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_ARBOK) { Status1(STATUS1_POISON); Ability(ABILITY_SHED_SKIN); Innates(ABILITY_SHED_SKIN); }
     } WHEN {

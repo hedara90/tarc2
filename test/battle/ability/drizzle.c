@@ -23,7 +23,7 @@ SINGLE_BATTLE_TEST("Drizzle summons rain", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Drizzle summons rain", s16 damage)
+SINGLE_BATTLE_TEST("Drizzle summons rain (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_DRIZZLE; }

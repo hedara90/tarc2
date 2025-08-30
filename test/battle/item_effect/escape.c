@@ -49,7 +49,7 @@ WILD_BATTLE_TEST("Poke Toy lets the player escape from a wild battle even if an 
     }
 }
 
-WILD_BATTLE_TEST("INNATE: Poke Toy lets the player escape from a wild battle even if an ability forbid them to")
+WILD_BATTLE_TEST("Poke Toy lets the player escape from a wild battle even if an ability forbid them to (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

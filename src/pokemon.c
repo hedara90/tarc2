@@ -1751,11 +1751,11 @@ static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)
     return checksum;
 }
 
-#define CALC_STAT(base, iv, ev, statIndex, field)               \
+#define CALC_STAT(base, iv, ev, statIndex, field, bonus)        \
 {                                                               \
     u8 baseStat = gSpeciesInfo[species].base;                   \
     s32 n = (((2 * baseStat + iv + ev / 4) * level) / 100) + 5; \
-    n = ModifyStatByNature(nature, n, statIndex);               \
+    n = ModifyStatByNature(nature, n, statIndex) + bonus;       \
     if (B_FRIENDSHIP_BOOST == TRUE)                             \
         n = n + ((n * 10 * friendship) / (MAX_FRIENDSHIP * 100));\
     SetMonData(mon, field, &n);                                 \
@@ -1786,6 +1786,33 @@ void CalculateMonStats(struct Pokemon *mon)
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
 
+    u32 hpBonus = 0;
+    u32 atkBonus = 0;
+    u32 defBonus = 0;
+    u32 spaBonus = 0;
+    u32 spdBonus = 0;
+    u32 speBonus = 0;
+
+    if (!TESTING)
+    {
+        if (gSpeciesInfo[species].isPlayer)
+        {
+            for (u32 i = 0; i < 4; i++)
+            {
+                hpBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].hpBonus;
+                atkBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].atkBonus;
+                defBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].defBonus;
+                spaBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].spaBonus;
+                spdBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].spdBonus;
+                speBonus += gMovesInfo[GetMonData(mon, MON_DATA_MOVE1 + i)].speBonus;
+            }
+        }
+        else
+        {
+        }
+    }
+
+
     if (species == SPECIES_SHEDINJA)
     {
         newMaxHP = 1;
@@ -1793,7 +1820,7 @@ void CalculateMonStats(struct Pokemon *mon)
     else
     {
         s32 n = 2 * gSpeciesInfo[species].baseHP + hpIV;
-        newMaxHP = (((n + hpEV / 4) * level) / 100) + level + 10;
+        newMaxHP = (((n + hpEV / 4) * level) / 100) + level + 10 + hpBonus;
     }
 
     gBattleScripting.levelUpHP = newMaxHP - oldMaxHP;
@@ -1802,11 +1829,11 @@ void CalculateMonStats(struct Pokemon *mon)
 
     SetMonData(mon, MON_DATA_MAX_HP, &newMaxHP);
 
-    CALC_STAT(baseAttack, attackIV, attackEV, STAT_ATK, MON_DATA_ATK)
-    CALC_STAT(baseDefense, defenseIV, defenseEV, STAT_DEF, MON_DATA_DEF)
-    CALC_STAT(baseSpeed, speedIV, speedEV, STAT_SPEED, MON_DATA_SPEED)
-    CALC_STAT(baseSpAttack, spAttackIV, spAttackEV, STAT_SPATK, MON_DATA_SPATK)
-    CALC_STAT(baseSpDefense, spDefenseIV, spDefenseEV, STAT_SPDEF, MON_DATA_SPDEF)
+    CALC_STAT(baseAttack, attackIV, attackEV, STAT_ATK, MON_DATA_ATK, atkBonus)
+    CALC_STAT(baseDefense, defenseIV, defenseEV, STAT_DEF, MON_DATA_DEF, defBonus)
+    CALC_STAT(baseSpeed, speedIV, speedEV, STAT_SPEED, MON_DATA_SPEED, speBonus)
+    CALC_STAT(baseSpAttack, spAttackIV, spAttackEV, STAT_SPATK, MON_DATA_SPATK, spaBonus)
+    CALC_STAT(baseSpDefense, spDefenseIV, spDefenseEV, STAT_SPDEF, MON_DATA_SPDEF, spdBonus)
 
     // Since a pokemon's maxHP data could either not have
     // been initialized at this point or this pokemon is
@@ -3722,31 +3749,20 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
 
-    if (gSpeciesInfo[dst->species].isPlayer)
-    {
-        for (u32 i = 0; i < 4; i++)
-        {
-            dst->maxHP += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].hpBonus;
-            dst->attack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].atkBonus;
-            dst->defense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].defBonus;
-            dst->spAttack += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spaBonus;
-            dst->spDefense += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].spdBonus;
-            dst->speed += gMovesInfo[GetMonData(src, MON_DATA_MOVE1 + i)].speBonus;
-        }
-        dst->hp = dst->maxHP - GetMonData(src, MON_DATA_HP_LOST);
-    }
-    else
-    {
-    }
-
     dst->moveCD[0] = 0;
     dst->moveCD[1] = 0;
     dst->moveCD[2] = 0;
     dst->moveCD[3] = 0;
     dst->numOverrides = 0;
+    dst->danced = FALSE;
 
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
+
+    for (i = 0; i < MAX_MON_INNATES; i++)
+    {
+        dst->innates[i] = GetSpeciesInnate(dst->species, i + 1, 0, TRUE);
+    }
 
     dst->status2 = 0;
 }

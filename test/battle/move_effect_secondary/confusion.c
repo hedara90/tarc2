@@ -49,7 +49,7 @@ SINGLE_BATTLE_TEST("Alluring Voice confuse effect is removed if it is Sheer Forc
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Alluring Voice confuse effect is removed if it is Sheer Force boosted")
+SINGLE_BATTLE_TEST("Alluring Voice confuse effect is removed if it is Sheer Force boosted (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_ALLURING_VOICE, MOVE_EFFECT_CONFUSION));

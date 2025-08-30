@@ -76,7 +76,7 @@ SINGLE_BATTLE_TEST("Poison Heal activates before Toxic Orb")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Poison Heal heals from (Toxic) Poison damage")
+SINGLE_BATTLE_TEST("Poison Heal heals from (Toxic) Poison damage (Trait)")
 {
     u8 status;
     PARAMETRIZE { status = STATUS1_POISON; }
@@ -94,7 +94,7 @@ SINGLE_BATTLE_TEST("INNATE: Poison Heal heals from (Toxic) Poison damage")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Poison Heal heals from Toxic Poison damage are constant")
+SINGLE_BATTLE_TEST("Poison Heal heals from Toxic Poison damage are constant (Trait)")
 {
     s16 turnOneHit;
     s16 turnTwoHit;
@@ -118,7 +118,7 @@ SINGLE_BATTLE_TEST("INNATE: Poison Heal heals from Toxic Poison damage are const
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Poison Heal does not heal or cause damage when under Heal Block")
+SINGLE_BATTLE_TEST("Poison Heal does not heal or cause damage when under Heal Block (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SHROOMISH) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_POISON_HEAL); Status1(STATUS1_POISON);  HP(1), MaxHP(400); }
@@ -134,7 +134,7 @@ SINGLE_BATTLE_TEST("INNATE: Poison Heal does not heal or cause damage when under
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Poison Heal activates before Toxic Orb")
+SINGLE_BATTLE_TEST("Poison Heal activates before Toxic Orb (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SHROOMISH) { Ability(ABILITY_QUICK_FEET); Innates(ABILITY_POISON_HEAL); Item(ITEM_TOXIC_ORB);  HP(1), MaxHP(400); }

@@ -346,8 +346,10 @@ struct BattlePokemon
     /*0x55*/ u32 otId;
     /*0x59*/ u8 metLevel;
     /*0x5A*/ bool8 isShiny;
+    u16 innates[MAX_MON_INNATES_INTERNAL];
     u8 turnsInBack;
     u8 numOverrides;
+    bool8 danced;
     u8 moveCD[4];
 };
 
@@ -502,6 +504,18 @@ struct SpeciesInfo /*0xC4*/
     u16 abilityReward;
 };
 
+enum AbilityCategory
+{
+    AC_PASSIVE,
+    AC_TRIGGERED,
+    AC_SWITCH_IN,
+    AC_SWITCH_OUT,
+    AC_ON_HIT,
+    AC_ON_ATTACK,
+    AC_EOT,
+    AC_CONDITIONAL,
+};
+
 struct Ability
 {
     u8 name[ABILITY_NAME_LENGTH + 1];
@@ -514,6 +528,8 @@ struct Ability
     u8 cantBeOverwritten:1; // cannot be overwritten by Entrainment, Worry Seed or Simple Beam (but can be by Mummy) - same as cantBeSuppressed except for Truant
     u8 breakable:1; // can be bypassed by Mold Breaker and clones
     u8 failsOnImposter:1; // doesn't work on an Imposter mon; when can we actually use this?
+    enum AbilityCategory category;
+    u32 cd;
 };
 
 enum {

@@ -198,7 +198,7 @@ SINGLE_BATTLE_TEST("Zero to Hero cannot be copied by Trace")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero transforms Palafin when it switches out")
+SINGLE_BATTLE_TEST("Zero to Hero transforms Palafin when it switches out (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
@@ -217,7 +217,7 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero transforms Palafin when it switches out
     } THEN { EXPECT_EQ(player->species, SPECIES_PALAFIN_HERO); }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero can't be suppressed by Neutralizing Gas")
+SINGLE_BATTLE_TEST("Zero to Hero can't be suppressed by Neutralizing Gas (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_ZERO_TO_HERO); }
@@ -233,7 +233,7 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero can't be suppressed by Neutralizing Gas
     } THEN { EXPECT_EQ(player->species, SPECIES_PALAFIN_HERO); }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero transforms both player and opponent")
+SINGLE_BATTLE_TEST("Zero to Hero transforms both player and opponent (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
@@ -254,7 +254,7 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero transforms both player and opponent")
         }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero will activate if a switch move is used")
+SINGLE_BATTLE_TEST("Zero to Hero will activate if a switch move is used (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_FLIP_TURN) == EFFECT_HIT_ESCAPE);
@@ -271,7 +271,30 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero will activate if a switch move is used"
     } THEN { EXPECT_EQ(player->species, SPECIES_PALAFIN_HERO); }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Transform doesn't apply the heroic transformation message when copying Palafin")
+//Negation is Ability only
+// SINGLE_BATTLE_TEST("Gastro Acid, Worry Seed, and Simple Beam fail if the target has the Ability Zero to Hero")
+// {
+//     u16 move;
+
+//     PARAMETRIZE { move = MOVE_GASTRO_ACID; }
+//     PARAMETRIZE { move = MOVE_WORRY_SEED; }
+//     PARAMETRIZE { move = MOVE_SIMPLE_BEAM; }
+
+//     GIVEN {
+//         ASSUME(GetMoveEffect(MOVE_GASTRO_ACID) == EFFECT_GASTRO_ACID);
+//         ASSUME(GetMoveEffect(MOVE_WORRY_SEED) == EFFECT_WORRY_SEED);
+//         ASSUME(GetMoveEffect(MOVE_SIMPLE_BEAM) == EFFECT_SIMPLE_BEAM);
+//         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_ZERO_TO_HERO); }
+//         OPPONENT(SPECIES_WOBBUFFET);
+//     } WHEN {
+//         TURN { MOVE(opponent, move); }
+//     } SCENE {
+//         NOT ANIMATION(ANIM_TYPE_MOVE, move, player);
+//         MESSAGE("But it failed!");
+//     }
+// }
+
+SINGLE_BATTLE_TEST("Transform doesn't apply the heroic transformation message when copying Palafin (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
@@ -289,7 +312,7 @@ SINGLE_BATTLE_TEST("INNATE: Transform doesn't apply the heroic transformation me
     } THEN { EXPECT_EQ(player->species, SPECIES_PALAFIN_HERO); }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Imposter doesn't apply the heroic transformation message when copying Palafin")
+SINGLE_BATTLE_TEST("Imposter doesn't apply the heroic transformation message when copying Palafin (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
@@ -311,18 +334,18 @@ SINGLE_BATTLE_TEST("INNATE: Imposter doesn't apply the heroic transformation mes
     } THEN { EXPECT_EQ(player->species, SPECIES_PALAFIN_HERO); }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero's message displays correctly after all battlers fainted - Player")
+SINGLE_BATTLE_TEST("Zero to Hero's message displays correctly after all battlers fainted - Player (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
-        PLAYER(SPECIES_PALAFIN_ZERO);
+        PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
         PLAYER(SPECIES_WOBBUFFET) { HP(1);}
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_FLIP_TURN); SEND_OUT(player, 1); }
         TURN { MOVE(opponent, MOVE_EXPLOSION); SEND_OUT(player, 0); SEND_OUT(opponent, 1); }
-        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         HP_BAR(opponent, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, opponent);
@@ -334,18 +357,18 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero's message displays correctly after all 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Zero to Hero's message displays correctly after all battlers fainted - Opponent")
+SINGLE_BATTLE_TEST("Zero to Hero's message displays correctly after all battlers fainted - Opponent (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_PALAFIN_ZERO);
+        OPPONENT(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ZERO_TO_HERO); }
         OPPONENT(SPECIES_WOBBUFFET) { HP(1);}
     } WHEN {
         TURN { MOVE(opponent, MOVE_FLIP_TURN); SEND_OUT(opponent, 1); }
         TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_EXPLOSION); SEND_OUT(player, 1); SEND_OUT(opponent, 0); }
-        TURN { MOVE(opponent, MOVE_TACKLE); MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         HP_BAR(player, hp: 0);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_EXPLOSION, player);
@@ -356,3 +379,20 @@ SINGLE_BATTLE_TEST("INNATE: Zero to Hero's message displays correctly after all 
         MESSAGE("The opposing Palafin underwent a heroic transformation!");
     }
 }
+
+//Trace only affects Abilities
+// Write Trace test and move this one to that file (including every other ability that can't be copied)
+// SINGLE_BATTLE_TEST("Zero to Hero cannot be copied by Trace")
+// {
+//     GIVEN {
+//         PLAYER(SPECIES_PALAFIN_ZERO) { Ability(ABILITY_ZERO_TO_HERO); }
+//         OPPONENT(SPECIES_RALTS) { Ability(ABILITY_TRACE); }
+//     } WHEN {
+//         TURN {}
+//     } SCENE {
+//         NONE_OF {
+//             ABILITY_POPUP(opponent, ABILITY_TRACE);
+//             MESSAGE("The opposing Ralts Traced Palafin's Zero to Hero!");
+//         }
+//     }
+// }

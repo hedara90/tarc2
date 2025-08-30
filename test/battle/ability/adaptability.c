@@ -63,10 +63,7 @@ SINGLE_BATTLE_TEST("(TERA) Terastallizing into the same type with Adaptability g
 
 TO_DO_BATTLE_TEST("Adaptability does not affect Stellar-type moves");
 
-#include "global.h"
-#include "test/battle.h"
-
-SINGLE_BATTLE_TEST("INNATE: Adaptability increases same-type attack bonus from x1.5 to x2", s16 damage)
+SINGLE_BATTLE_TEST("Adaptability increases same-type attack bonus from x1.5 to x2 (Trait)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_HYPER_CUTTER; }
@@ -86,7 +83,7 @@ SINGLE_BATTLE_TEST("INNATE: Adaptability increases same-type attack bonus from x
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallizing into a different type with Adaptability gives 2.0x STAB", s16 damage)
+SINGLE_BATTLE_TEST("(TERA) Terastallizing into a different type with Adaptability gives 2.0x STAB (Trait)", s16 damage)
 {
     bool32 tera;
     PARAMETRIZE { tera = GIMMICK_NONE; }
@@ -106,7 +103,7 @@ SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallizing into a different type with Ada
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallizing into the same type with Adaptability gives 2.25x STAB", s16 damage)
+SINGLE_BATTLE_TEST("(TERA) Terastallizing into the same type with Adaptability gives 2.25x STAB (Trait)", s16 damage)
 {
     bool32 tera;
     PARAMETRIZE { tera = GIMMICK_NONE; }
@@ -126,5 +123,4 @@ SINGLE_BATTLE_TEST("INNATE: (TERA) Terastallizing into the same type with Adapta
     }
 }
 
-TO_DO_BATTLE_TEST("INNATE: Adaptability does not affect Stellar-type moves");
-
+TO_DO_BATTLE_TEST("Adaptability does not affect Stellar-type moves (Trait)");

@@ -95,7 +95,7 @@ SINGLE_BATTLE_TEST("Intrepid Sword and Dauntless Shield both can be Skill Swappe
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Intrepid Sword raises Attack by one stage")
+SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -111,7 +111,7 @@ SINGLE_BATTLE_TEST("INNATE: Intrepid Sword raises Attack by one stage")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Intrepid Sword raises Attack by one stage only once per battle")
+SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage only once per battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -134,7 +134,7 @@ SINGLE_BATTLE_TEST("INNATE: Intrepid Sword raises Attack by one stage only once 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Intrepid Sword activates when it's no longer effected by Neutralizing Gas")
+SINGLE_BATTLE_TEST("Intrepid Sword activates when it's no longer effected by Neutralizing Gas (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WEEZING) { Ability(ABILITY_LEVITATE); Innates(ABILITY_NEUTRALIZING_GAS); }
@@ -152,3 +152,35 @@ SINGLE_BATTLE_TEST("INNATE: Intrepid Sword activates when it's no longer effecte
         MESSAGE("The opposing Zacian's Intrepid Sword raised its Attack!");
     }
 }
+
+//Skill Swap does not affect Traits
+// SINGLE_BATTLE_TEST("Intrepid Sword and Dauntless Shield both can be Skill Swapped and active their effects on the Skill Swap user (Trait)")
+// {
+//     GIVEN {
+//         ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
+//         PLAYER(SPECIES_WOBBUFFET);
+//         OPPONENT(SPECIES_ZACIAN) { Ability(ABILITY_INTREPID_SWORD); }
+//         OPPONENT(SPECIES_ZAMAZENTA) { Ability(ABILITY_DAUNTLESS_SHIELD); }
+//     } WHEN {
+//         TURN { MOVE(player, MOVE_SKILL_SWAP); }
+//         TURN { SWITCH(opponent, 1); MOVE(player, MOVE_SKILL_SWAP); }
+//     } SCENE {
+//         ABILITY_POPUP(opponent, ABILITY_INTREPID_SWORD);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+//         MESSAGE("The opposing Zacian's Intrepid Sword raised its Attack!");
+
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, player);
+//         ABILITY_POPUP(player, ABILITY_INTREPID_SWORD);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+//         MESSAGE("Wobbuffet's Intrepid Sword raised its Attack!");
+
+//         ABILITY_POPUP(opponent, ABILITY_DAUNTLESS_SHIELD);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+//         MESSAGE("The opposing Zamazenta's Dauntless Shield raised its Defense!");
+
+//         ANIMATION(ANIM_TYPE_MOVE, MOVE_SKILL_SWAP, player);
+//         ABILITY_POPUP(player, ABILITY_DAUNTLESS_SHIELD);
+//         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+//         MESSAGE("Wobbuffet's Dauntless Shield raised its Defense!");
+//     }
+// }

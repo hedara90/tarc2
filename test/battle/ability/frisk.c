@@ -81,7 +81,7 @@ DOUBLE_BATTLE_TEST("Frisk triggers for opponent in a Double Battle after switchi
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Frisk does not trigger when pokemon hold no items")
+DOUBLE_BATTLE_TEST("Frisk does not trigger when pokemon hold no items (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_FURRET) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_FRISK); };
@@ -100,7 +100,7 @@ DOUBLE_BATTLE_TEST("INNATE: Frisk does not trigger when pokemon hold no items")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Frisk triggers in a Single Battle")
+SINGLE_BATTLE_TEST("Frisk triggers in a Single Battle (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_FURRET) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_FRISK); Item(ITEM_POTION); };
@@ -115,7 +115,7 @@ SINGLE_BATTLE_TEST("INNATE: Frisk triggers in a Single Battle")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Frisk triggers for player in a Double Battle after switching-in after fainting")
+DOUBLE_BATTLE_TEST("Frisk triggers for player in a Double Battle after switching-in after fainting (Trait)")
 {
     struct BattlePokemon *target = NULL;
     PARAMETRIZE { target = playerLeft; }
@@ -138,7 +138,7 @@ DOUBLE_BATTLE_TEST("INNATE: Frisk triggers for player in a Double Battle after s
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Frisk triggers for opponent in a Double Battle after switching-in after fainting")
+DOUBLE_BATTLE_TEST("Frisk triggers for opponent in a Double Battle after switching-in after fainting (Trait)")
 {
     struct BattlePokemon *target = NULL;
     PARAMETRIZE { target = opponentLeft; }

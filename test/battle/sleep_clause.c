@@ -1868,13 +1868,13 @@ DOUBLE_BATTLE_TEST("Sleep Clause: Opponent Spore'ing player's partner after part
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the time with sleep clause active")
+SINGLE_BATTLE_TEST("Sleep Clause: Effect Spore causes sleep 11% of the time with sleep clause active (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
         ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_5);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         PLAYER(SPECIES_WOBBUFFET);
@@ -1883,7 +1883,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the t
     } WHEN {
         TURN { MOVE(opponent, MOVE_SPORE); }
         TURN { SWITCH(player, 1); }
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN { }
     } SCENE {
         ABILITY_POPUP(opponent, ABILITY_EFFECT_SPORE);
@@ -1893,13 +1893,13 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the t
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the time with sleep clause active (Doubles)")
+DOUBLE_BATTLE_TEST("Sleep Clause: Effect Spore causes sleep 11% of the time with sleep clause active (Doubles) (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
         ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_5);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         PLAYER(SPECIES_WOBBUFFET);
@@ -1907,7 +1907,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the t
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
     } WHEN {
-        TURN { MOVE(opponentLeft, MOVE_SPORE, target:playerRight); MOVE(playerLeft, MOVE_TACKLE, target:opponentLeft);}
+        TURN { MOVE(opponentLeft, MOVE_SPORE, target:playerRight); MOVE(playerLeft, MOVE_SCRATCH, target:opponentLeft);}
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SPORE, opponentLeft);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_SLP, playerRight);
@@ -1921,20 +1921,20 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Effect Spore causes sleep 11% of the t
 }
 
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep from Effect Spore will not activate sleep clause")
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep from Effect Spore will not activate sleep clause (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
         ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_5);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN {}
         TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SPORE); }
     } SCENE {
@@ -1949,13 +1949,13 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep from Effect Spore will not activ
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep from Effect Spore will not activate sleep clause (Doubles)")
+DOUBLE_BATTLE_TEST("Sleep Clause: Sleep from Effect Spore will not activate sleep clause (Doubles) (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
         ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_5);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         PLAYER(SPECIES_WOBBUFFET);
@@ -1963,7 +1963,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep from Effect Spore will not activ
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target:opponentLeft); MOVE(opponentLeft, MOVE_SPORE, target:playerRight); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target:opponentLeft); MOVE(opponentLeft, MOVE_SPORE, target:playerRight); }
     } SCENE {
         ABILITY_POPUP(opponentLeft, ABILITY_EFFECT_SPORE);
         ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_SLP, playerLeft);
@@ -1976,7 +1976,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep from Effect Spore will not activ
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Hydration in the rain")
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Hydration in the rain (Trait)")
 {
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
@@ -2001,7 +2001,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Natural Cure")
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Natural Cure (Trait)")
 {
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
@@ -2028,7 +2028,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Shed Skin")
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Shed Skin (Trait)")
 {
     if (B_ABILITY_TRIGGER_CHANCE == GEN_4)
         PASSES_RANDOMLY(30, 100, RNG_SHED_SKIN);
@@ -2056,7 +2056,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Healer")
+DOUBLE_BATTLE_TEST("Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up by Healer (Trait)")
 {
     PASSES_RANDOMLY(30, 100, RNG_HEALER);
     GIVEN {
@@ -2083,7 +2083,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sleeping mon is sent out and transforms into a mon with Insomnia / Vital spirit")
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep clause is deactivated when a sleeping mon is sent out and transforms into a mon with Insomnia / Vital spirit (Trait)")
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_VITAL_SPIRIT; }
@@ -2095,7 +2095,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         ASSUME(gItemsInfo[ITEM_LAGGING_TAIL].holdEffect == HOLD_EFFECT_LAGGING_TAIL);
         PLAYER(SPECIES_ZIGZAGOON)
-        PLAYER(SPECIES_DELIBIRD) { Ability(ability); }
+        PLAYER(SPECIES_DELIBIRD) { Ability(ABILITY_LIGHT_METAL); Innates(ability); }
         OPPONENT(SPECIES_DITTO) { Ability(ABILITY_LIMBER); Innates(ABILITY_IMPOSTER); }
         OPPONENT(SPECIES_ZIGZAGOON);
     } WHEN {
@@ -2123,7 +2123,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep clause is deactivated when a sle
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep caused by Effect Spore does not prevent sleep clause from ever activating") // checks that sleepClauseEffectExempt works properly
+SINGLE_BATTLE_TEST("Sleep Clause: Sleep caused by Effect Spore does not prevent sleep clause from ever activating (Trait)") // checks that sleepClauseEffectExempt works properly
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
@@ -2132,13 +2132,13 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep caused by Effect Spore does not 
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         ASSUME(GetMoveEffect(MOVE_AROMATHERAPY) == EFFECT_HEAL_BELL);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_ZIGZAGOON);
         PLAYER(SPECIES_ZIGZAGOON);
         PLAYER(SPECIES_ZIGZAGOON);
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SPORE); }
         TURN { SWITCH(player, 2); MOVE(opponent, MOVE_SPORE); }
     } SCENE {
@@ -2160,7 +2160,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Sleep caused by Effect Spore does not 
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't deactivate sleep clause")
+SINGLE_BATTLE_TEST("Sleep Clause: Waking up after Effect Spore doesn't deactivate sleep clause (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
@@ -2168,12 +2168,12 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't d
         ASSUME(B_ABILITY_TRIGGER_CHANCE >= GEN_5);
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_ZIGZAGOON);
         PLAYER(SPECIES_ZIGZAGOON);
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
         TURN {}
         TURN {}
         TURN {}
@@ -2198,7 +2198,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't d
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't deactivate sleep clause (Doubles)")
+DOUBLE_BATTLE_TEST("Sleep Clause: Waking up after Effect Spore doesn't deactivate sleep clause (Doubles) (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
@@ -2207,14 +2207,14 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't d
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         ASSUME(GetMoveEffect(MOVE_AROMATHERAPY) == EFFECT_HEAL_BELL);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_ZIGZAGOON);
         PLAYER(SPECIES_ZIGZAGOON);
         PLAYER(SPECIES_ZIGZAGOON);
         OPPONENT(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
         OPPONENT(SPECIES_ZIGZAGOON);
     } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TACKLE, target: opponentLeft); MOVE(opponentRight, MOVE_SPORE, target:playerRight); }
+        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); MOVE(opponentRight, MOVE_SPORE, target:playerRight); }
         TURN { SWITCH(playerLeft, 2); }
         TURN { MOVE(playerLeft, MOVE_AROMATHERAPY); MOVE(opponentRight, MOVE_SPORE, target:playerRight); MOVE(opponentLeft, MOVE_SPORE, target:playerLeft); }
     } SCENE {
@@ -2241,7 +2241,7 @@ DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Waking up after Effect Spore doesn't d
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Mold Breaker Pokémon sleeping Vital Spirit / Insomnia activates sleep clause")
+SINGLE_BATTLE_TEST("Sleep Clause: Mold Breaker Pokémon sleeping Vital Spirit / Insomnia activates sleep clause (Trait)")
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_VITAL_SPIRIT; }
@@ -2251,7 +2251,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Mold Breaker Pokémon sleeping Vital S
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         PLAYER(SPECIES_PANCHAM) { Ability(ABILITY_SCRAPPY); Innates(ABILITY_MOLD_BREAKER); }
-        OPPONENT(SPECIES_DELIBIRD) { Ability(ability); }
+        OPPONENT(SPECIES_DELIBIRD) { Ability(ABILITY_LIGHT_METAL); Innates(ability); }
         OPPONENT(SPECIES_ZIGZAGOON);
     } WHEN {
         TURN { MOVE(player, MOVE_SPORE); }
@@ -2271,7 +2271,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Mold Breaker Pokémon sleeping Vital S
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Yawn'd Pokémon slept due to Effect Spore before Yawn triggers does not activate sleep clause")
+SINGLE_BATTLE_TEST("Sleep Clause: Yawn'd Pokémon slept due to Effect Spore before Yawn triggers does not activate sleep clause (Trait)")
 {
     PASSES_RANDOMLY(11, 100, RNG_EFFECT_SPORE);
     GIVEN {
@@ -2279,13 +2279,13 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Yawn'd Pokémon slept due to Effect Sp
         ASSUME(GetMoveEffect(MOVE_SPORE) == EFFECT_NON_VOLATILE_STATUS);
         ASSUME(GetMoveNonVolatileStatus(MOVE_SPORE) == MOVE_EFFECT_SLEEP);
         ASSUME(GetMoveEffect(MOVE_YAWN) == EFFECT_YAWN);
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_BRELOOM) { Ability(ABILITY_POISON_HEAL); Innates(ABILITY_EFFECT_SPORE); }
         OPPONENT(SPECIES_ZIGZAGOON);
         OPPONENT(SPECIES_ZIGZAGOON);
     } WHEN {
         TURN { MOVE(player, MOVE_YAWN); }
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
         TURN { SWITCH(opponent, 1); MOVE(player, MOVE_SPORE); }
     } SCENE {
         MESSAGE("The opposing Zigzagoon grew drowsy!");
@@ -2300,7 +2300,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Yawn'd Pokémon slept due to Effect Sp
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Magic Bounce'ing a sleep move activates sleep clause, and fails if sleep clause is active")
+SINGLE_BATTLE_TEST("Sleep Clause: Magic Bounce'ing a sleep move activates sleep clause, and fails if sleep clause is active (Trait)")
 {
     GIVEN {
         FLAG_SET(B_FLAG_SLEEP_CLAUSE);
@@ -2329,7 +2329,7 @@ SINGLE_BATTLE_TEST("INNATE: Sleep Clause: Magic Bounce'ing a sleep move activate
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Sleep Clause: Magic Bounce reflecting Dark Void only sleeps one opposing Pokémon")
+DOUBLE_BATTLE_TEST("Sleep Clause: Magic Bounce reflecting Dark Void only sleeps one opposing Pokémon (Trait)")
 {
     // Source: https://bulbapedia.bulbagarden.net/wiki/Dark_Void_(move)
     GIVEN {

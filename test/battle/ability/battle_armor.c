@@ -48,7 +48,7 @@ SINGLE_BATTLE_TEST("Mold Breaker, Teravolt and Turboblaze ignore Battle Armor an
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Battle Armor and Shell Armor block critical hits")
+SINGLE_BATTLE_TEST("Battle Armor and Shell Armor block critical hits (Trait)")
 {
     u32 species;
     u32 ability;
@@ -61,14 +61,14 @@ SINGLE_BATTLE_TEST("INNATE: Battle Armor and Shell Armor block critical hits")
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(species) { Ability(ability); Innates(innate); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE, criticalHit: TRUE); }
+        TURN { MOVE(player, MOVE_SCRATCH, criticalHit: TRUE); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         NOT MESSAGE("A critical hit!");
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Mold Breaker, Teravolt and Turboblaze ignore Battle Armor and Shell Armor")
+SINGLE_BATTLE_TEST("Mold Breaker, Teravolt and Turboblaze ignore Battle Armor and Shell Armor (Trait)")
 {
     u32 j;
     u32 species1, species2, ability1, ability2, innate1, innate2;
@@ -89,9 +89,9 @@ SINGLE_BATTLE_TEST("INNATE: Mold Breaker, Teravolt and Turboblaze ignore Battle 
         PLAYER(species1) { Ability(ability1); Innates(innate1); }
         OPPONENT(species2) { Ability(ability2); Innates(innate2); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE, criticalHit: TRUE); }
+        TURN { MOVE(player, MOVE_SCRATCH, criticalHit: TRUE); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         MESSAGE("A critical hit!");
     }
 }

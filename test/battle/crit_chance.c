@@ -48,7 +48,7 @@ SINGLE_BATTLE_TEST("Crit Chance: Raising critical hit rate to 3 guarantees a cri
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Crit Chance: Raising critical hit rate to 3 guarantees a critical hit (Gen 6+)")
+SINGLE_BATTLE_TEST("Crit Chance: Raising critical hit rate to 3 guarantees a critical hit (Gen 6+)Crit Chan(Trait)")
 {
     u32 genConfig = 0, passes, trials;
     PARAMETRIZE { genConfig = GEN_1; passes = 255; trials = 256; } // ~99.6%

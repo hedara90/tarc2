@@ -27,7 +27,7 @@ SINGLE_BATTLE_TEST("Flash Fire boosts fire type moves by 50% but no subsequent i
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Flash Fire boosts fire type moves by 50% but no subsequent increase is applied")
+SINGLE_BATTLE_TEST("Flash Fire boosts fire type moves by 50% but no subsequent increase is applied (Trait)")
 {
     s16 damage[3];
 

@@ -333,7 +333,7 @@ DOUBLE_BATTLE_TEST("Primal reversion and other switch-in effects trigger for all
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Primal reversion and other switch-in effects trigger for all battlers if multiple fainted the previous turn")
+DOUBLE_BATTLE_TEST("Primal reversion and other switch-in effects trigger for all battlers if multiple fainted the previous turn (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_EXPLOSION) == EFFECT_EXPLOSION);

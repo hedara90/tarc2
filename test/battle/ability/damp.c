@@ -72,8 +72,7 @@ SINGLE_BATTLE_TEST("Damp prevents damage from Aftermath")
         NONE_OF { HP_BAR(player); }
     }
 }
-
-SINGLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from enemies")
+SINGLE_BATTLE_TEST("Damp prevents explosion-like moves from enemies (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_EXPLOSION; }
@@ -91,7 +90,7 @@ SINGLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from enemies")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from enemies in a double battle")
+DOUBLE_BATTLE_TEST("Damp prevents explosion-like moves from enemies in a double battle (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_EXPLOSION; }
@@ -111,7 +110,7 @@ DOUBLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from enemies in a
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from self")
+SINGLE_BATTLE_TEST("Damp prevents explosion-like moves from self (Trait)")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_EXPLOSION; }
@@ -129,15 +128,15 @@ SINGLE_BATTLE_TEST("INNATE: Damp prevents explosion-like moves from self")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Damp prevents damage from Aftermath")
+SINGLE_BATTLE_TEST("Damp prevents damage from Aftermath (Trait)")
 {
     GIVEN {
-        ASSUME(MoveMakesContact(MOVE_TACKLE));
+        ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_PARAS) { Ability(ABILITY_DRY_SKIN); Innates(ABILITY_DAMP); }
         OPPONENT(SPECIES_VOLTORB) { Ability(ABILITY_SOUNDPROOF); Innates(ABILITY_AFTERMATH); HP(1); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); SEND_OUT(opponent, 1); }
+        TURN { MOVE(player, MOVE_SCRATCH); SEND_OUT(opponent, 1); }
     } SCENE {
         ABILITY_POPUP(opponent, ABILITY_AFTERMATH);
         ABILITY_POPUP(player, ABILITY_DAMP);

@@ -6373,6 +6373,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_RainDance,
         .validApprenticeMove = TRUE,
+        .danceMove = TRUE,
     },
 
     [MOVE_SUNNY_DAY] =
@@ -18081,6 +18082,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .moveEffect = MOVE_EFFECT_SPD_PLUS_1,
             .self = TRUE,
             .chance = 100,
+            .sheerForceBoost = SHEER_FORCE_NO_BOOST,
         }),
         .contestEffect = CONTEST_EFFECT_BETTER_IF_FIRST,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,

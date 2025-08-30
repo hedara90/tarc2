@@ -434,7 +434,7 @@ DOUBLE_BATTLE_TEST("Spread Moves: Unless move hits every target user will not in
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Spread Moves: A spread move attack will be weakened by strong winds on both targets")
+DOUBLE_BATTLE_TEST("Spread Moves: A spread move attack will be weakened by strong winds on both targets (Trait)")
 {
     s16 opponentLeftDmg[2];
     s16 opponentRightDmg[2];
@@ -462,7 +462,7 @@ DOUBLE_BATTLE_TEST("INNATE: Spread Moves: A spread move attack will be weakened 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Spread Moves: A spread move attack will be weakened by strong winds on one of the targets")
+DOUBLE_BATTLE_TEST("Spread Moves: A spread move attack will be weakened by strong winds on one of the targets (Trait)")
 {
     s16 opponentLeftDmg[2];
     s16 opponentRightDmg[2];
@@ -490,7 +490,7 @@ DOUBLE_BATTLE_TEST("INNATE: Spread Moves: A spread move attack will be weakened 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Spread Moves: AOE move vs Disguise, Volt Absorb (right) and Lightning Rod (left)")
+DOUBLE_BATTLE_TEST("Spread Moves: AOE move vs Disguise, Volt Absorb (right) and Lightning Rod (left) (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveTarget(MOVE_DISCHARGE) == MOVE_TARGET_FOES_AND_ALLY);
@@ -509,7 +509,7 @@ DOUBLE_BATTLE_TEST("INNATE: Spread Moves: AOE move vs Disguise, Volt Absorb (rig
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Spread Moves: AOE move vs Disguise, Volt Absorb (left) and Lightning Rod (reft)")
+DOUBLE_BATTLE_TEST("Spread Moves: AOE move vs Disguise, Volt Absorb (left) and Lightning Rod (reft) (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveTarget(MOVE_DISCHARGE) == MOVE_TARGET_FOES_AND_ALLY);

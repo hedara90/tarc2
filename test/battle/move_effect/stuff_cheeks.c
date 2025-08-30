@@ -104,7 +104,7 @@ SINGLE_BATTLE_TEST("Stuff Cheeks fails if the user's berry is removed before the
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Stuff Cheeks can be used even if Unnerve is present")
+SINGLE_BATTLE_TEST("Stuff Cheeks can be used even if Unnerve is present (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_SKWOVET) { Item(ITEM_LIECHI_BERRY); }

@@ -5283,10 +5283,10 @@ static bool32 MentalResetShouldTrigger(void)
         {
             for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
             {
-                if (gLeftMon.statStages[i] < 6)
+                if (gLeftMon.statStages[i] < DEFAULT_STAT_STAGE)
                 {
                     hasReducedStats = TRUE;
-                    gLeftMon.statStages[i] = 6;
+                    gLeftMon.statStages[i] = DEFAULT_STAT_STAGE;
                 }
             }
         }
@@ -5304,10 +5304,10 @@ static bool32 MentalResetShouldTrigger(void)
         {
             for (u32 i = 0; i < NUM_BATTLE_STATS; i++)
             {
-                if (gRightMon.statStages[i] < 6)
+                if (gRightMon.statStages[i] < DEFAULT_STAT_STAGE)
                 {
                     hasReducedStats = TRUE;
-                    gRightMon.statStages[i] = 6;
+                    gRightMon.statStages[i] = DEFAULT_STAT_STAGE;
                 }
             }
         }

@@ -28,7 +28,7 @@ SINGLE_BATTLE_TEST("Swarm boosts Bug-type moves in a pinch", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Swarm boosts Bug-type moves in a pinch", s16 damage)
+SINGLE_BATTLE_TEST("Swarm boosts Bug-type moves in a pinch (Trait)", s16 damage)
 {
     u16 hp;
     PARAMETRIZE { hp = 99; }

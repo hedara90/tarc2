@@ -153,7 +153,57 @@ SINGLE_BATTLE_TEST("Octolock triggers Defiant for both stat reductions")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Octolock Defense reduction is prevented by Big Pecks")
+SINGLE_BATTLE_TEST("Octolock reduction is prevented by Clear Body, White Smoke and Full Metal Body (Trait)")
+{
+    u32 species;
+    u32 ability;
+
+    PARAMETRIZE { species = SPECIES_BELDUM; ability = ABILITY_CLEAR_BODY; }
+    PARAMETRIZE { species = SPECIES_TORKOAL; ability = ABILITY_WHITE_SMOKE; }
+    PARAMETRIZE { species = SPECIES_SOLGALEO; ability = ABILITY_FULL_METAL_BODY; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(species) { Ability(ABILITY_SHADOW_TAG); Innates(ability); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_OCTOLOCK); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_OCTOLOCK, player);
+        NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
+        if (species == SPECIES_BELDUM)
+        {
+            MESSAGE("The opposing Beldum can no longer escape because of Octolock!");
+            ABILITY_POPUP(opponent, ABILITY_CLEAR_BODY);
+            MESSAGE("The opposing Beldum's Clear Body prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Beldum's Defense fell!");
+                MESSAGE("The opposing Beldum's Sp. Def fell!");
+            }
+        }
+        else if (species == SPECIES_TORKOAL)
+        {
+            MESSAGE("The opposing Torkoal can no longer escape because of Octolock!");
+            ABILITY_POPUP(opponent, ABILITY_WHITE_SMOKE);
+            MESSAGE("The opposing Torkoal's White Smoke prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Torkoal's Defense fell!");
+                MESSAGE("The opposing Torkoal's Sp. Def fell!");
+            }
+        }
+        else if (species == SPECIES_SOLGALEO)
+        {
+            MESSAGE("The opposing Solgaleo can no longer escape because of Octolock!");
+            ABILITY_POPUP(opponent, ABILITY_FULL_METAL_BODY);
+            MESSAGE("The opposing Solgaleo's Full Metal Body prevents stat loss!");
+            NONE_OF {
+                MESSAGE("The opposing Solgaleo's Defense fell!");
+                MESSAGE("The opposing Solgaleo's Sp. Def fell!");
+            }
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("Octolock Defense reduction is prevented by Big Pecks (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -171,7 +221,7 @@ SINGLE_BATTLE_TEST("INNATE: Octolock Defense reduction is prevented by Big Pecks
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Octolock triggers Defiant for both stat reductions")
+SINGLE_BATTLE_TEST("Octolock triggers Defiant for both stat reductions (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

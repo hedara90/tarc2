@@ -458,8 +458,31 @@ SINGLE_BATTLE_TEST("Fling deals damage based on items fling power")
     }
 }
 
+SINGLE_BATTLE_TEST("Fling fails for pokemon with Klutz ability (Trait)")
+{
+    u16 ability;
 
-SINGLE_BATTLE_TEST("INNATE: Fling's secondary effects are blocked by Shield Dust")
+    PARAMETRIZE {ability = ABILITY_KLUTZ; }
+    PARAMETRIZE {ability = ABILITY_RUN_AWAY; }
+
+    GIVEN {
+        ASSUME(B_KLUTZ_FLING_INTERACTION >= GEN_5);
+        PLAYER(SPECIES_BUNEARY) { Item(ITEM_RAZOR_CLAW); Ability(ABILITY_RUN_AWAY); Innates(ability); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_FLING); }
+    } SCENE {
+        MESSAGE("Buneary used Fling!");
+        if (ability != ABILITY_KLUTZ) {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_FLING, player);
+            HP_BAR(opponent);
+        } else {
+            MESSAGE("But it failed!");
+        }
+    }
+}
+
+SINGLE_BATTLE_TEST("Fling's secondary effects are blocked by Shield Dust (Trait)")
 {
     u16 item;
 

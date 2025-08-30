@@ -188,7 +188,7 @@ DOUBLE_BATTLE_TEST("Pastel Veil cures partner's poison on switch in")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Poison Sting poison")
+SINGLE_BATTLE_TEST("Pastel Veil prevents Poison Sting poison (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_POISON_STING, MOVE_EFFECT_POISON) == TRUE);
@@ -202,7 +202,7 @@ SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Poison Sting poison")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Poison Sting poison on partner")
+DOUBLE_BATTLE_TEST("Pastel Veil prevents Poison Sting poison on partner (Trait)")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_POISON_STING, MOVE_EFFECT_POISON) == TRUE);
@@ -218,30 +218,26 @@ DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Poison Sting poison on partner"
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pastel Veil immediately cures Mold Breaker poison")
+SINGLE_BATTLE_TEST("Pastel Veil immediately cures Mold Breaker poison (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);
-        ASSUME(GetMoveNonVolatileStatus(MOVE_TOXIC) == MOVE_EFFECT_TOXIC);
         PLAYER(SPECIES_PINSIR) { Ability(ABILITY_HYPER_CUTTER); Innates(ABILITY_MOLD_BREAKER); }
         OPPONENT(SPECIES_PONYTA_GALAR) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_PASTEL_VEIL); }
     } WHEN {
-        TURN { MOVE(player, MOVE_TOXIC); MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_TOXIC); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TOXIC, player);
         STATUS_ICON(opponent, badPoison: TRUE);
         ABILITY_POPUP(opponent, ABILITY_PASTEL_VEIL);
         MESSAGE("The opposing Ponyta's Pastel Veil cured its poison problem!");
         STATUS_ICON(opponent, none: TRUE);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil does not cure Mold Breaker poison on partner")
+DOUBLE_BATTLE_TEST("Pastel Veil does not cure Mold Breaker poison on partner (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);
-        ASSUME(GetMoveNonVolatileStatus(MOVE_TOXIC) == MOVE_EFFECT_TOXIC);
         PLAYER(SPECIES_PINSIR) { Ability(ABILITY_HYPER_CUTTER); Innates(ABILITY_MOLD_BREAKER); }
         PLAYER(SPECIES_WYNAUT);
         OPPONENT(SPECIES_PONYTA_GALAR) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_PASTEL_VEIL); }
@@ -255,11 +251,9 @@ DOUBLE_BATTLE_TEST("INNATE: Pastel Veil does not cure Mold Breaker poison on par
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic bad poison")
+SINGLE_BATTLE_TEST("Pastel Veil prevents Toxic bad poison (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);
-        ASSUME(GetMoveNonVolatileStatus(MOVE_TOXIC) == MOVE_EFFECT_TOXIC);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_PONYTA_GALAR) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_PASTEL_VEIL); }
     } WHEN {
@@ -272,11 +266,9 @@ SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic bad poison")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic bad poison on partner")
+DOUBLE_BATTLE_TEST("Pastel Veil prevents Toxic bad poison on partner - right target (Trait)")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_TOXIC) == EFFECT_NON_VOLATILE_STATUS);
-        ASSUME(GetMoveNonVolatileStatus(MOVE_TOXIC) == MOVE_EFFECT_TOXIC);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WYNAUT);
         OPPONENT(SPECIES_PONYTA_GALAR) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_PASTEL_VEIL); }
@@ -291,7 +283,24 @@ DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic bad poison on partner")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic Spikes poison")
+DOUBLE_BATTLE_TEST("Pastel Veil prevents Toxic bad poison on partner - left target (Trait)")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_PONYTA_GALAR) { Ability(ABILITY_RUN_AWAY); Innates(ABILITY_PASTEL_VEIL); }
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_TOXIC, target: opponentLeft); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Toxic!");
+        ABILITY_POPUP(opponentRight, ABILITY_PASTEL_VEIL);
+        MESSAGE("The opposing Wynaut is protected by a pastel veil!");
+        NOT STATUS_ICON(opponentLeft, badPoison: TRUE);
+    }
+}
+
+SINGLE_BATTLE_TEST("Pastel Veil prevents Toxic Spikes poison (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC_SPIKES) == EFFECT_TOXIC_SPIKES);
@@ -307,7 +316,7 @@ SINGLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic Spikes poison")
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic Spikes poison on partner")
+DOUBLE_BATTLE_TEST("Pastel Veil prevents Toxic Spikes poison on partner (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TOXIC_SPIKES) == EFFECT_TOXIC_SPIKES);
@@ -325,7 +334,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pastel Veil prevents Toxic Spikes poison on partner"
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil cures partner's poison on initial switch in")
+DOUBLE_BATTLE_TEST("Pastel Veil cures partner's poison on initial switch in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -342,7 +351,7 @@ DOUBLE_BATTLE_TEST("INNATE: Pastel Veil cures partner's poison on initial switch
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Pastel Veil cures partner's poison on switch in")
+DOUBLE_BATTLE_TEST("Pastel Veil cures partner's poison on switch in (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

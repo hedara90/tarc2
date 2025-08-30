@@ -67,7 +67,7 @@ SINGLE_BATTLE_TEST("Oblivious prevents Intimidate")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Infatuation")
+SINGLE_BATTLE_TEST("Oblivious prevents Infatuation (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ATTRACT) == EFFECT_ATTRACT);
@@ -82,14 +82,14 @@ SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Infatuation")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Captivate")
+SINGLE_BATTLE_TEST("Oblivious prevents Captivate (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_CAPTIVATE) == EFFECT_CAPTIVATE);
         PLAYER(SPECIES_SLOWPOKE) { Ability(ABILITY_OWN_TEMPO); Innates(ABILITY_OBLIVIOUS); Gender(MON_MALE); }
         OPPONENT(SPECIES_WOBBUFFET) { Gender(MON_FEMALE); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_ATTRACT); }
+        TURN { MOVE(opponent, MOVE_CAPTIVATE); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_OBLIVIOUS);
         NONE_OF { ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player); }
@@ -97,7 +97,7 @@ SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Captivate")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Taunt")
+SINGLE_BATTLE_TEST("Oblivious prevents Taunt (Trait)")
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_TAUNT) == EFFECT_TAUNT);
@@ -116,7 +116,7 @@ SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Taunt")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Oblivious prevents Intimidate")
+SINGLE_BATTLE_TEST("Oblivious prevents Intimidate (Trait)")
 {
     GIVEN {
         ASSUME(B_UPDATED_INTIMIDATE >= GEN_8);

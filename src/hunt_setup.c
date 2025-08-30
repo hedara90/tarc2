@@ -154,6 +154,8 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i] = FALSE;
     }
 
+    gSaveBlock1Ptr->zoroarkOverride = shuffleList[27];
+
     //  Clear out saveblock data
     for (u32 i = 0; i < 36; i++)
         gSaveBlock1Ptr->moveStorage[i] = MOVE_NONE;
@@ -478,7 +480,6 @@ void SetPostBattleData(void)
         break;
     case 3: //  Boss
         gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = species;
-        MgbaPrintf(MGBA_LOG_WARN, "Value: %u", gSaveBlock1Ptr->huntTargets.bossesDefeated[0]);
         break;
     case 4: //  Final Boss
         gSaveBlock1Ptr->huntTargets.finalBossDefeated = TRUE;

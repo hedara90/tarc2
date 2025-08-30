@@ -294,7 +294,7 @@ DOUBLE_BATTLE_TEST("Powder damages a target using Shell Trap even if it wasn't h
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Powder doesn't damage target if it has Magic Guard")
+SINGLE_BATTLE_TEST("Powder doesn't damage target if it has Magic Guard (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_ALAKAZAM) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_MAGIC_GUARD); }
@@ -312,7 +312,7 @@ SINGLE_BATTLE_TEST("INNATE: Powder doesn't damage target if it has Magic Guard")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Powder doesn't damage target under heavy rain")
+SINGLE_BATTLE_TEST("Powder doesn't damage target under heavy rain (Trait)")
 {
     GIVEN {
         ASSUME(B_POWDER_RAIN >= GEN_7);
@@ -331,7 +331,7 @@ SINGLE_BATTLE_TEST("INNATE: Powder doesn't damage target under heavy rain")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Powder fails if the target has Overcoat")
+SINGLE_BATTLE_TEST("Powder fails if the target has Overcoat (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_FORRETRESS) { Ability(ABILITY_STURDY); Innates(ABILITY_OVERCOAT); }
@@ -345,7 +345,7 @@ SINGLE_BATTLE_TEST("INNATE: Powder fails if the target has Overcoat")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Powder prevents Protean from changing its user to Fire type")
+SINGLE_BATTLE_TEST("Powder prevents Protean from changing its user to Fire type (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_GRENINJA) { Ability(ABILITY_TORRENT); Innates(ABILITY_PROTEAN); }

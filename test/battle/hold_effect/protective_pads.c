@@ -111,7 +111,25 @@ SINGLE_BATTLE_TEST("Protective Pads protects from Protect's secondary effects")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Protective Pads doesn't reduce tough claws damage", s16 damage)
+SINGLE_BATTLE_TEST("Protective Pads protected moves still make direct contact (Trait)", s16 damage)
+{
+    u32 ability;
+    PARAMETRIZE { ability = ABILITY_KLUTZ; }
+    PARAMETRIZE { ability = ABILITY_FLUFFY; }
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_PROTECTIVE_PADS); }
+        OPPONENT(SPECIES_STUFFUL) { Ability(ABILITY_SNIPER); Innates(ability); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Scratch!");
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[0].damage, UQ_4_12(0.5), results[1].damage);
+    }
+}
+
+SINGLE_BATTLE_TEST("Protective Pads doesn't reduce tough claws damage (Trait)", s16 damage)
 {
     u32 item;
     PARAMETRIZE { item = ITEM_NONE; }
@@ -120,25 +138,25 @@ SINGLE_BATTLE_TEST("INNATE: Protective Pads doesn't reduce tough claws damage", 
         PLAYER(SPECIES_BINACLE) { Ability(ABILITY_SNIPER); Innates(ABILITY_TOUGH_CLAWS); Item(item); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(player, MOVE_SCRATCH); }
     } SCENE {
-        MESSAGE("Binacle used Tackle!");
+        MESSAGE("Binacle used Scratch!");
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
         EXPECT_EQ(results[0].damage, results[1].damage);
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Protective Pads doesn't invalid unseen fist")
+SINGLE_BATTLE_TEST("Protective Pads doesn't invalid unseen fist (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_URSHIFU_RAPID_STRIKE) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_UNSEEN_FIST); Item(ITEM_PROTECTIVE_PADS); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_PROTECT); MOVE(player, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_PROTECT); MOVE(player, MOVE_SCRATCH); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_PROTECT, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
         HP_BAR(opponent);
     }
 }

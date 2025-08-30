@@ -72,7 +72,7 @@ DOUBLE_BATTLE_TEST("Psychic Noise heal block effect is blocked by partners Aroma
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Noise is blocked by Soundproof")
+SINGLE_BATTLE_TEST("Psychic Noise is blocked by Soundproof (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -86,7 +86,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Noise is blocked by Soundproof")
     }
 }
 
-SINGLE_BATTLE_TEST("INNATE: Psychic Noise heal block effect is blocked by Aroma Veil")
+SINGLE_BATTLE_TEST("Psychic Noise heal block effect is blocked by Aroma Veil (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -101,7 +101,7 @@ SINGLE_BATTLE_TEST("INNATE: Psychic Noise heal block effect is blocked by Aroma 
     }
 }
 
-DOUBLE_BATTLE_TEST("INNATE: Psychic Noise heal block effect is blocked by partners Aroma Veil in doubles")
+DOUBLE_BATTLE_TEST("Psychic Noise heal block effect is blocked by partners Aroma Veil in doubles (Trait)")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
