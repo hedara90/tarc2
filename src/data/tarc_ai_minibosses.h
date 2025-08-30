@@ -2345,13 +2345,15 @@ const struct BossAi sVolcaronaAi =
 
 const struct BossMoveList sChesnaught1 =
 {
-    .numMoves = 4,
+    .numMoves = 6,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_CURSE,
+        MOVE_LEECH_SEED,
+        MOVE_BODY_PRESS,
+        MOVE_TAUNT,
+        MOVE_SPIKY_SHIELD,
+        MOVE_GYRO_BALL
     },
 };
 
