@@ -70,6 +70,7 @@
 #include "load_save.h"
 
 #include "tarc_ai.h"
+#include "tarc_help_system.h"
 
 // table to avoid ugly powing on gba (courtesy of doesnt)
 // this returns (i^2.5)/4
@@ -2765,6 +2766,7 @@ static void Cmd_datahpupdate(void)
                     gBattleMons[battler].hp = 0;
                     if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases)
                     {
+                        HelpSystem_AddTrigger(TRIGGER_PHASE);
                         ResetTurnCounter();
                         gBattleStruct->skipIncrement = TRUE;
                         isBossRestore = TRUE;

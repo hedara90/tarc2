@@ -77,6 +77,8 @@
 #include "constants/weather.h"
 #include "cable_club.h"
 
+#include "tarc_help_system.h"
+
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
 
@@ -516,6 +518,8 @@ void FreeSideSprites(void)
 
 static void CB2_InitBattleInternal(void)
 {
+    HelpSystem_AddTrigger(TRIGGER_ROTATION);
+
     s32 i;
     gMain.inBattle = TRUE;
 
