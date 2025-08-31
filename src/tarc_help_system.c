@@ -37,7 +37,6 @@ static void CalcCoordinates(s32 *x, s32 *y, u32 trigger)
 
 static void DisplayHelp(void)
 {
-    DebugPrintf("Showing help");
     s32 x, y;
     u32 help = gHelpStruct.queue[0];
     CalcCoordinates(&x, &y, help);
@@ -93,6 +92,8 @@ static void RemoveHelp(void)
 
 bool32 HelpSystem_Process(void)
 {
+    if (TESTING)
+        return FALSE;
     if (gHelpStruct.isShowingHelp)
     {
         if (JOY_NEW(A_BUTTON))
@@ -120,11 +121,13 @@ bool32 HelpSystem_Process(void)
 
 void HelpSystem_AddTrigger(u32 trigger)
 {
+    if (TESTING)
+        return;
+
     if (FlagGet(sHelpDatas[trigger].flag))
         return;
 
     FlagSet(sHelpDatas[trigger].flag);
     gHelpStruct.queue[gHelpStruct.numInQueue] = trigger;
-    DebugPrintf("Trigger: %u", trigger);
     gHelpStruct.numInQueue++;
 }
