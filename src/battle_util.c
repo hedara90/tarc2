@@ -5832,6 +5832,56 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptExecute(BattleScript_CripplingVenom);
             effect++;
         }
+        if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && !gBattleStruct->foreseenTrigger[battler]
+         && SearchTraits(battlerTraits, ABILITY_FATED_CHANGE)
+         && !(gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] > gBattleTurnCounter))
+        {
+            gSideStatuses[GetBattlerSide((battler + 1) & 0x1)] |= SIDE_STATUS_FUTUREATTACK;
+            gWishFutureKnock.futureSightMove[(battler + 1) & 0x1] = gCurrentMove;
+            gWishFutureKnock.futureSightBattlerIndex[(battler + 1) & 0x1] = gBattlerAttacker;
+            gWishFutureKnock.futureSightPartyIndex[(battler + 1) & 0x1] = gBattlerPartyIndexes[gBattlerAttacker];
+            gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3;
+
+            CreateAbilityPopUp(battler, ABILITY_FATED_CHANGE, FALSE);
+            BattleScriptPushCursor();
+            BattleScriptExecute(BattleScript_FatedChange);
+            effect++;
+        }
+        if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_PHYSICAL
+         && !gBattleStruct->foreseenTrigger[battler]
+         && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
+         && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
+        {
+            gSideStatuses[GetBattlerSide(gBattlerTarget)] |= SIDE_STATUS_FUTUREATTACK;
+            gWishFutureKnock.futureSightMove[gBattlerTarget] = gCurrentMove;
+            gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
+            gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
+            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+
+            CreateAbilityPopUp(battler, ABILITY_FATED_STRIKE, FALSE);
+            BattleScriptPushCursor();
+            BattleScriptExecute(BattleScript_FatedStrike);
+            effect++;
+        }
+        if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL
+         && !gBattleStruct->foreseenTrigger[battler]
+         && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
+         && gCurrentMove != MOVE_FUTURE_SIGHT
+         && gCurrentMove != MOVE_DOOM_DESIRE
+         && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
+        {
+            gSideStatuses[GetBattlerSide(gBattlerTarget)] |= SIDE_STATUS_FUTUREATTACK;
+            gWishFutureKnock.futureSightMove[gBattlerTarget] = gCurrentMove;
+            gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
+            gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
+            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+
+            CreateAbilityPopUp(battler, ABILITY_FATED_SIGHT, FALSE);
+            BattleScriptPushCursor();
+            BattleScriptExecute(BattleScript_FatedSight);
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)

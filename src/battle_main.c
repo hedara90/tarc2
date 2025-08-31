@@ -4078,6 +4078,8 @@ void BattleTurnPassed(void)
         gBattleMons[i].status2 &= ~STATUS2_FLINCHED;
         gBattleMons[i].status2 &= ~STATUS2_POWDER;
 
+        gBattleStruct->foreseenTrigger[i] = FALSE;
+
         if (gBattleStruct->battlerState[i].stompingTantrumTimer > 0)
             gBattleStruct->battlerState[i].stompingTantrumTimer--;
     }

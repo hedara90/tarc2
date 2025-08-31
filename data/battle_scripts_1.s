@@ -10409,3 +10409,18 @@ BattleScript_CripplingVenomTryLowerSpAtk::
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_CripplingVenomEnd::
 	end2
+
+BattleScript_FatedChange::
+	printstring STRINGID_FATED_CHANGE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FatedStrike::
+	printstring STRINGID_FATED_STRIKE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FatedSight::
+	printstring STRINGID_FATED_SIGHT
+	waitmessage B_WAIT_TIME_LONG
+	end2

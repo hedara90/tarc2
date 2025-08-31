@@ -813,6 +813,7 @@ struct BattleStruct
     u32 shouldTriggerSharedBurdens:1;
     u32 empathCounter:6;
     u32 cripplingPoisonFlip:1;
+    bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
 };
 
 struct AiBattleData
