@@ -16,6 +16,8 @@
 #include "constants/characters.h"
 #include "string_util.h"
 
+#include "tarc_help_system.h"
+
 // General End Turn Effects based on research from smogon from vanilla games:
 // https://www.smogon.com/forums/threads/sword-shield-battle-mechanics-research.3655528/page-64#post-9244179
 enum EndTurnResolutionOrder
@@ -1737,6 +1739,8 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
     if (battler != 0 || !BacklineIsHurt())
         return FALSE;
 
+    HelpSystem_AddTrigger(TRIGGER_HEAL);
+
     BuildBacklineStringBuffer();
 
     if (LeftMonHurt())
@@ -1764,6 +1768,12 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
         ReduceCD(TARC_LEFT_BATTLER, i);
         ReduceCD(TARC_RIGHT_BATTLER, i);
     }
+
+    if (gBattleMons[0].moveCD[0] > 0
+     || gBattleMons[0].moveCD[1] > 0
+     || gBattleMons[0].moveCD[2] > 0
+     || gBattleMons[0].moveCD[3] > 0)
+        HelpSystem_AddTrigger(TRIGGER_COOLDOWN);
 
     if (gBattleStruct->intimidateCD > 0)
         gBattleStruct->intimidateCD--;

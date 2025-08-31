@@ -53,6 +53,8 @@
 #include "malloc.h"
 #include "graphics.h"
 
+#include "tarc_help_system.h"
+
 static void PlayerBufferExecCompleted(u32 battler);
 static void PlayerHandleLoadMonSprite(u32 battler);
 static void PlayerHandleSwitchInAnim(u32 battler);
@@ -869,6 +871,9 @@ static void TestThing(u32 battler)
 
 void HandleInputChooseMove(u32 battler)
 {
+    if (HelpSystem_Process())
+        return;
+
     u16 moveTarget;
     u32 canSelectTarget = 0;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
