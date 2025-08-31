@@ -1754,6 +1754,7 @@ static void TarcUi_WriteMonData(void)
             }
 
             SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + targetIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_PP1 + targetIndex, &gMovesInfo[sTarcUiState->mons[monIndex].moves[moveIndex]].pp);
             targetIndex++;
         }
 
