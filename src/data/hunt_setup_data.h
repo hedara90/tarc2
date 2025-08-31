@@ -226,7 +226,7 @@ const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =
     [MON_LIST_SNOW_MANUAL] =
     {
         .species = SPECIES_FROSLASS,
-        .moves = {MOVE_SNOWSCAPE, MOVE_WILL_O_WISP},
+        .moves = {MOVE_SNOWSCAPE, MOVE_GLACIATE},
     },
     [MON_LIST_SAND_DIRECT] =
     {
