@@ -3170,4 +3170,25 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .category = AC_CONDITIONAL,
         .cd = TARC_SENTINEL_CD,
     },
+    [ABILITY_FATED_CHANGE] =
+    {
+        .name = _("Fated Change"),
+        .description = COMPOUND_STRING("Foresees used status moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_FATED_STRIKE] =
+    {
+        .name = _("Fated Strike"),
+        .description = COMPOUND_STRING("Foresees used physical moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_FATED_SIGHT] =
+    {
+        .name = _("Fated Sight"),
+        .description = COMPOUND_STRING("Foresees used special moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

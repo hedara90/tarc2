@@ -920,6 +920,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_LUNAR_COLD]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} became fully charged due to the lunar light!"),
     [STRINGID_ICYVEINSHPDROP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} takes its toll!"), //don't think this message is displayed anymore
     [STRINGID_RESORPTION]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} healed by absorbing poison from {B_DEF_NAME_WITH_PREFIX2}!"), //don't think this message is displayed anymore
+    [STRINGID_FATED_CHANGE]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future change!"), //don't think this message is displayed anymore
+    [STRINGID_FATED_STRIKE]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"), //don't think this message is displayed anymore
+    [STRINGID_FATED_SIGHT]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"), //don't think this message is displayed anymore
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

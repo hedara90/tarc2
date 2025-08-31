@@ -909,5 +909,8 @@ extern const u8 BattleScript_CloudingMindActivates[];
 extern const u8 BattleScript_SporangiumActivates[];
 extern const u8 BattleScript_ResorptionTriggers[];
 extern const u8 BattleScript_CripplingVenom[];
+extern const u8 BattleScript_FatedChange[];
+extern const u8 BattleScript_FatedStrike[];
+extern const u8 BattleScript_FatedSight[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

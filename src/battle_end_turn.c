@@ -413,7 +413,15 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
         if (!IsFutureSightAttackerInParty(gBattlerAttacker, gBattlerTarget, gCurrentMove))
             SetTypeBeforeUsingMove(gCurrentMove, gBattlerAttacker);
 
-        BattleScriptExecute(BattleScript_MonTookFutureAttack);
+        if (gCurrentMove != MOVE_FUTURE_SIGHT && gCurrentMove != MOVE_DOOM_DESIRE && gCurrentMove != MOVE_REWARD_FUTURE_SIGHT)
+        {
+            gBattleStruct->foreseenTrigger[battler] = TRUE;
+            BattleScriptExecute(gBattleMoveEffects[gMovesInfo[gCurrentMove].effect].battleScript);
+        }
+        else
+        {
+            BattleScriptExecute(BattleScript_MonTookFutureAttack);
+        }
         effect = TRUE;
     }
 
