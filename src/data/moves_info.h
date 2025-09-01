@@ -729,7 +729,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "A double-kicking attack\n"
             "that strikes the foe twice."),
         .effect = EFFECT_HIT,
-        .power = 30,
+        .power = 40,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 30,

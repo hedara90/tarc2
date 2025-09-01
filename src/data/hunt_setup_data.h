@@ -284,7 +284,7 @@ const struct StarterPool sSunPool =
     {
         {
             .species = SPECIES_TAUROS_PALDEA_BLAZE,
-            .moves = {MOVE_RAGING_BULL, MOVE_CLOSE_COMBAT},
+            .moves = {MOVE_RAGING_BULL, MOVE_DOUBLE_KICK},
         },
         {
             .species = SPECIES_HELIOLISK,
