@@ -19328,6 +19328,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .makesContact = TRUE,
         .skyBattleBanned = B_EXTRAPOLATED_MOVE_FLAGS,
         .battleAnimScript = gBattleAnimMove_WaveCrash,
+        .cd = 1,
     },
 
     [MOVE_CHLOROBLAST] =
