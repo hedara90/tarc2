@@ -26399,4 +26399,55 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .assistBanned = TRUE,
         .battleAnimScript = gBattleAnimMove_SomeSnow,
     },
+    [MOVE_REWARD_DARKEST_LARIAT] =
+    {
+        .name = COMPOUND_STRING("Darkest Lariat"),
+        .description = COMPOUND_STRING(
+            "Swings the arms to strike\n"
+            "It ignores stat changes."),
+        .effect = EFFECT_HIT,
+        .power = 85,
+        .type = TYPE_DARK,
+        .accuracy = 100,
+        .pp = 10,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .ignoresTargetDefenseEvasionStages = TRUE,
+        .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_MONS_WITH_GOOD_APPEALS,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_DarkestLariat,
+    },
+
+    [MOVE_REWARD_WISH] =
+    {
+        .name = COMPOUND_STRING("Wish"),
+        .description = COMPOUND_STRING(
+            "A wish that restores HP.\n"
+            "It takes time to work."),
+        .effect = EFFECT_WISH,
+        .power = 0,
+        .type = TYPE_NORMAL,
+        .accuracy = 0,
+        .pp = 10,
+        .target = MOVE_TARGET_USER,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .zMove = { .effect = Z_EFFECT_SPDEF_UP_1 },
+        .healingMove = TRUE,
+        .snatchAffected = B_UPDATED_MOVE_FLAGS >= GEN_5,
+        .ignoresProtect = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
+        .contestCategory = CONTEST_CATEGORY_CUTE,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Wish,
+        .validApprenticeMove = TRUE,
+    },
 };
+
+
