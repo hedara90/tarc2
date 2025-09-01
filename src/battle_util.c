@@ -8887,6 +8887,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
         return FALSE;
     if (gAiLogicData->aiCalcInProgress ? AI_BATTLER_HAS_TRAIT(battler, ABILITY_LUNAR_COLD) : BattlerHasTrait(battler, ABILITY_LUNAR_COLD))
         return FALSE;
+    if (TESTING && IS_BATTLER_OF_TYPE(battler, TYPE_FLYING) && (!(checkInverse == INVERSE_BATTLE) || !FlagGet(B_FLAG_INVERSE_BATTLE)))
+        return FALSE;
     return TRUE;
 }
 
