@@ -729,6 +729,7 @@ const u8 gPPUpGetMask[MAX_MON_MOVES]   = {PP_UP_SHIFTS(3)};
 const u8 gPPUpClearMask[MAX_MON_MOVES] = {PP_UP_SHIFTS_INV(3)};
 const u8 gPPUpAddValues[MAX_MON_MOVES] = {PP_UP_SHIFTS(1)};
 
+#if TESTING
 const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
 {
     {10, 40}, // -6, MIN_STAT_STAGE
@@ -745,6 +746,24 @@ const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
     {35, 10}, // +5
     {40, 10}, // +6, MAX_STAT_STAGE
 };
+#else
+const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
+{
+    {6, 12}, // -6, MIN_STAT_STAGE
+    {6, 11}, // -5
+    {6, 10}, // -4
+    {6, 9}, // -3
+    {6, 8}, // -2
+    {6, 7}, // -1
+    {6, 6}, //  0, DEFAULT_STAT_STAGE
+    {7, 6}, // +1
+    {8, 6}, // +2
+    {9, 6}, // +3
+    {10, 6}, // +4
+    {11, 6}, // +5
+    {12, 6}, // +6, MAX_STAT_STAGE
+};
+#endif
 
 // The classes used by other players in the Union Room.
 // These should correspond with the overworld graphics in sUnionRoomObjGfxIds
