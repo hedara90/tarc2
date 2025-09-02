@@ -8254,6 +8254,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .formSpeciesIdTable = sTyranitarFormSpeciesIdTable,
         .formChangeTable = sTyranitarFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_INTIMIDATE,
     },
 
 #if P_MEGA_EVOLUTIONS

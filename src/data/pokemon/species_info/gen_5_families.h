@@ -12009,6 +12009,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .levelUpLearnset = sHydreigonLevelUpLearnset,
         .teachableLearnset = sHydreigonTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_DISHEARTEN,
     },
 #endif //P_FAMILY_DEINO
 
@@ -12233,6 +12234,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .levelUpLearnset = sCobalionLevelUpLearnset,
         .teachableLearnset = sCobalionTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SENTINEL,
     },
 #endif //P_FAMILY_COBALION
 
@@ -12309,6 +12311,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .levelUpLearnset = sTerrakionLevelUpLearnset,
         .teachableLearnset = sTerrakionTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_GIANT_SLAYER,
     },
 #endif //P_FAMILY_TERRAKION
 
@@ -12380,6 +12383,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .levelUpLearnset = sVirizionLevelUpLearnset,
         .teachableLearnset = sVirizionTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FLOURISH,
     },
 #endif //P_FAMILY_VIRIZION
 
@@ -12473,7 +12477,6 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .teachableLearnset = sTornadusTeachableLearnset,
         .formSpeciesIdTable = sTornadusFormSpeciesIdTable,
         .formChangeTable = sTornadusFormChangeTable,
-        .maxPhases = 3,
     },
 
     [SPECIES_TORNADUS_THERIAN] =
@@ -12548,6 +12551,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sTornadusFormSpeciesIdTable,
         .formChangeTable = sTornadusFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_GALEFORCE,
     },
 #endif //P_FAMILY_TORNADUS
 
@@ -12641,7 +12645,6 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .teachableLearnset = sThundurusTeachableLearnset,
         .formSpeciesIdTable = sThundurusFormSpeciesIdTable,
         .formChangeTable = sThundurusFormChangeTable,
-        .maxPhases = 3,
     },
 
     [SPECIES_THUNDURUS_THERIAN] =
@@ -12728,6 +12731,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sThundurusFormSpeciesIdTable,
         .formChangeTable = sThundurusFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SPARKING_ZEPHYR,
     },
 #endif //P_FAMILY_THUNDURUS
 
@@ -12963,7 +12967,6 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .teachableLearnset = sLandorusTeachableLearnset,
         .formSpeciesIdTable = sLandorusFormSpeciesIdTable,
         .formChangeTable = sLandorusFormChangeTable,
-        .maxPhases = 3,
     },
 
     [SPECIES_LANDORUS_THERIAN] =
@@ -13038,6 +13041,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sLandorusFormSpeciesIdTable,
         .formChangeTable = sLandorusFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SAND_FORCE,
     },
 #endif //P_FAMILY_LANDORUS
 

@@ -5491,6 +5491,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .teachableLearnset = sKommoOTeachableLearnset,
         .formSpeciesIdTable = sKommoOFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_GUTS,
     },
 
     [SPECIES_KOMMO_O_TOTEM] =
@@ -5560,7 +5561,6 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sKommoOLevelUpLearnset,
         .teachableLearnset = sKommoOTeachableLearnset,
         .formSpeciesIdTable = sKommoOFormSpeciesIdTable,
-        .maxPhases = 3,
     },
 #endif //P_FAMILY_JANGMO_O
 
@@ -5638,6 +5638,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTapuKokoLevelUpLearnset,
         .teachableLearnset = sTapuKokoTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_OVERCHARGE,
     },
 #endif //P_FAMILY_TAPU_KOKO
 
@@ -5711,6 +5712,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTapuLeleLevelUpLearnset,
         .teachableLearnset = sTapuLeleTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_MIND_PALACE,
     },
 #endif //P_FAMILY_TAPU_LELE
 
@@ -5786,6 +5788,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTapuBuluLevelUpLearnset,
         .teachableLearnset = sTapuBuluTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SEED_SOWER,
     },
 #endif //P_FAMILY_TAPU_BULU
 
@@ -5860,6 +5863,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .levelUpLearnset = sTapuFiniLevelUpLearnset,
         .teachableLearnset = sTapuFiniTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_MISTBANK,
     },
 #endif //P_FAMILY_TAPU_FINI
 
