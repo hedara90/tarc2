@@ -3191,4 +3191,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_TRIGGERED,
     },
+    [ABILITY_TECTONIC_TITAN] =
+    {
+        .name = _("Tectonic Titan"),
+        .description = COMPOUND_STRING("Powers up Ground moves."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

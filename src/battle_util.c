@@ -9787,6 +9787,9 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
     if (SearchTraits(battlerTraits, ABILITY_ROCKY_PAYLOAD)
      && moveType == TYPE_ROCK)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+    if (SearchTraits(battlerTraits, ABILITY_TECTONIC_TITAN)
+     && moveType == TYPE_GROUND)
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_PROTOSYNTHESIS)
      && !(gBattleMons[battlerAtk].status2 & STATUS2_TRANSFORMED))
     {
