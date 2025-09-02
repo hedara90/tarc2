@@ -1181,10 +1181,12 @@ struct SaveBlock1
     u16 extraAbilities[3][3];
     u16 playerSpecies[3];
     u32 playerAffinity;
-    u16 abilityStorage[9];
+    u16 abilityStorage[10];
     u16 moveStorage[36];
     u16 zoroarkOverride;
     struct BufferedObjectRemoveStruct bors;
+    u16 savedMove;
+    u16 savedAbility;
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
