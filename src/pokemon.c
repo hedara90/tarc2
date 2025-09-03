@@ -7251,7 +7251,17 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
     }
     else
     {
-        for (u32 i = 0; i < MAX_MON_INNATES; i++)
+        u32 maxInnates = 3;
+        if (!TESTING)
+        {
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+                maxInnates =  0;
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+                maxInnates = 1;
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+                maxInnates = 2;
+        }
+        for (u32 i = 0; i < maxInnates; i++)
         {
             if (gSpeciesInfo[species].innates[i] == ability)
             {
@@ -7296,6 +7306,15 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     }
     else
     {
+        if (!TESTING)
+        {
+            if (traitNum > 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+                return 0;
+            if (traitNum > 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+                return 0;
+            if (traitNum > 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+                return 0;
+        }
         if (MAX_MON_INNATES > 0)
             return gSpeciesInfo[species].innates[traitNum - 1];
         else

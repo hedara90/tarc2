@@ -10451,7 +10451,10 @@ static inline s32 DoMoveDamageCalcVars(struct DamageCalculationData *damageCalcD
     if (damageCalcData->randomFactor)
     {
         dmg *= DMG_ROLL_PERCENT_HI - RandomUniform(RNG_DAMAGE_MODIFIER, 0, DMG_ROLL_PERCENT_HI - DMG_ROLL_PERCENT_LO);
-        dmg /= 100;
+        if (TESTING)
+            dmg /= 100;
+        else
+            dmg /= TARC_DAMAGE_DIVISION;
     }
     else // Apply rest of modifiers in the ai function
     {
@@ -12591,9 +12594,14 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     }
 
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
+    {
         mon->status1 = 0;
+        SetMonData(&gPlayerParty[1], MON_DATA_STATUS, &mon->status1);
+    }
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status2 != 0)
+    {
         mon->status2 = 0;
+    }
 
     if (mon->turnsInBack >= TARC_STAT_RESTORE_TURN)
     {

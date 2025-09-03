@@ -5888,6 +5888,25 @@ static void ReturnFromBattleToOverworld(void)
     gMain.inBattle = FALSE;
     gMain.callback1 = gPreBattleCallback1;
 
+    //  Reorder party back to starting order
+    u32 currOrder[3];
+    for (u32 i = 0; i < 3; i++)
+    {
+        gPlayerParty[3 + i] = gPlayerParty[i];
+        currOrder[i] = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+    }
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 3; j++)
+        {
+            if (currOrder[j] == gSaveBlock1Ptr->playerSpecies[i])
+            {
+                gPlayerParty[i] = gPlayerParty[3 + j];
+                break;
+            }
+        }
+    }
+
     if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
     {
         UpdateRoamerHPStatus(&gEnemyParty[0]);

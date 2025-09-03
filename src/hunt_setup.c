@@ -53,6 +53,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         gSaveBlock1Ptr->huntTargets.finalBoss = finalBoss;
     }
     gSaveBlock1Ptr->huntTargets.finalBossDefeated = FALSE;
+    gSaveBlock1Ptr->huntTargets.numBossesDefeated = 0;
 
     gSaveBlock1Ptr->huntTargets.bosses[0] = BOSS_PSEUDOS;
     gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
@@ -453,6 +454,7 @@ void SetAbilityReward(void)
     while (gSaveBlock1Ptr->abilityStorage[index] != ABILITY_NONE)
         index++;
     gSaveBlock1Ptr->abilityStorage[index] = gSpeciesInfo[species].abilityReward;
+    gSaveBlock1Ptr->huntTargets.numBossesDefeated++;
 }
 
 void SetHuntFlags(void)
