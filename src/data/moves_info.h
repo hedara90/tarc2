@@ -21179,6 +21179,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Boomburst,
         .cd = 1,
+        .spaBonus = 3,
     },
     [MOVE_REWARD_DOUBLE_EDGE] =
     {
@@ -21203,6 +21204,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_DoubleEdge,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .hpBonus = 20,
+        .speBonus = 5,
     },
     [MOVE_REWARD_EXTREME_SPEED] =
     {
@@ -21225,6 +21228,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ExtremeSpeed,
         .validApprenticeMove = TRUE,
+        .atkBonus = 15,
+        .defBonus = 10,
     },
     [MOVE_REWARD_TAIL_SLAP] =
     {
@@ -21246,6 +21251,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_TailSlap,
+        .atkBonus = 20,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_SWORDS_DANCE] =
     {
@@ -21271,6 +21278,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_SwordsDance,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .speBonus = 15,
+        .atkBonus = 10,
+        .hpBonus = 5,
     },
     [MOVE_REWARD_SLACK_OFF] =
     {
@@ -21298,6 +21308,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_SlackOff,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .hpBonus = 15,
+        .defBonus = 15,
     },
     [MOVE_REWARD_BATON_PASS] =
     {
@@ -21322,6 +21334,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BatonPass,
         .validApprenticeMove = TRUE,
+        .defBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_YAWN] =
     {
@@ -21347,6 +21361,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Yawn,
         .validApprenticeMove = TRUE,
         .cd = 8,
+        .hpBonus = 10,
+        .atkBonus = 15,
     },
     [MOVE_REWARD_CHIP_AWAY] =
     {
@@ -21367,6 +21383,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ChipAway,
+        .atkBonus = 20,
+        .speBonus = 15,
     },
     [MOVE_REWARD_HYPER_VOICE] =
     {
@@ -21390,6 +21408,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_HyperVoice,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .defBonus = 15,
     },
     [MOVE_REWARD_WEATHER_BALL] =
     {
@@ -21413,6 +21433,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL, COMBO_STARTER_RAIN_DANCE, COMBO_STARTER_SANDSTORM, COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_WeatherBall,
         .validApprenticeMove = TRUE,
+        .spaBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_RECOVER] =
     {
@@ -21446,6 +21468,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Recover,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .hpBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_SHELL_TRAP] =
     {
@@ -21474,6 +21498,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ShellTrap,
         .cd = 2,
+        .defBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_OVERHEAT] =
     {
@@ -21501,6 +21527,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Overheat,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .speBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_FLARE_BLITZ] =
     {
@@ -21529,6 +21557,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_FlareBlitz,
         .cd = 1,
+        .hpBonus = 30,
     },
     [MOVE_REWARD_FIRE_LASH] =
     {
@@ -21555,6 +21584,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_FireLash,
         .cd = 1,
+        .atkBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_FLAMETHROWER] =
     {
@@ -21580,6 +21611,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_Flamethrower,
         .validApprenticeMove = TRUE,
+        .spaBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_MYSTICAL_FIRE] =
     {
@@ -21605,6 +21638,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_MysticalFire,
         .cd = 1,
+        .spaBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_FIRE_SPIN] =
     {
@@ -21630,6 +21665,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_FireSpin,
         .validApprenticeMove = TRUE,
+        .defBonus = 20,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_WILL_O_WISP] =
     {
@@ -21654,6 +21691,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_WillOWisp,
         .validApprenticeMove = TRUE,
+        .defBonus = 20,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_BURNING_JEALOUSY] =
     {
@@ -21679,6 +21718,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BurningJealousy,
+        .hpBonus = 20,
+        .spaBonus = 10,
     },
     [MOVE_REWARD_HYDRO_PUMP] =
     {
@@ -21701,6 +21742,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_HydroPump,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .speBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_BOUNCY_BUBBLE] =
     {
@@ -21726,6 +21769,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .healingMove = B_HEAL_BLOCKING >= GEN_6,
         .battleAnimScript = gBattleAnimMove_BouncyBubble,
         .cd = 1,
+        .spaBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_WAVE_CRASH] =
     {
@@ -21746,6 +21791,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .skyBattleBanned = B_EXTRAPOLATED_MOVE_FLAGS,
         .battleAnimScript = gBattleAnimMove_WaveCrash,
         .cd = 1,
+        .hpBonus = 30,
     },
     [MOVE_REWARD_AQUA_CUTTER] =
     {
@@ -21764,6 +21810,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .slicingMove = TRUE,
         .battleAnimScript = gBattleAnimMove_AquaCutter,
+        .atkBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_FLIP_TURN] =
     {
@@ -21785,6 +21833,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_FlipTurn,
+        .speBonus = 30,
     },
     [MOVE_REWARD_SOAK] =
     {
@@ -21807,6 +21856,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Soak,
+        .defBonus = 20,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_LIFE_DEW] =
     {
@@ -21834,6 +21885,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_LifeDew,
         .cd = 4,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_VOLT_TACKLE] =
     {
@@ -21870,6 +21923,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_VoltTackle,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .hpBonus = 30,
     },
     [MOVE_REWARD_PLASMA_FISTS] =
     {
@@ -21899,6 +21953,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_PlasmaFists,
         .cd = 1,
+        .atkBonus = 5,
+        .speBonus = 25,
     },
     [MOVE_REWARD_THUNDERBOLT] =
     {
@@ -21924,6 +21980,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CHARGE},
         .battleAnimScript = gBattleAnimMove_Thunderbolt,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_ZING_ZAP] =
     {
@@ -21949,6 +22007,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CHARGE},
         .battleAnimScript = gBattleAnimMove_ZingZap,
+        .speBonus = 30,
     },
     [MOVE_REWARD_ELECTROWEB] =
     {
@@ -21973,6 +22032,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Electroweb,
+        .spaBonus = 30,
     },
     [MOVE_REWARD_CHARGE_BEAM] =
     {
@@ -21998,6 +22058,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CHARGE},
         .battleAnimScript = gBattleAnimMove_ChargeBeam,
+        .hpBonus = 30,
     },
     [MOVE_REWARD_THUNDER_WAVE] =
     {
@@ -22022,6 +22083,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CHARGE},
         .battleAnimScript = gBattleAnimMove_ThunderWave,
         .validApprenticeMove = TRUE,
+        .hpBonus = 20,
+        .defBonus = 5,
+        .spdBonus = 5,
     },
     [MOVE_REWARD_PARABOLIC_CHARGE] =
     {
@@ -22045,6 +22109,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ParabolicCharge,
         .cd = 1,
+        .hpBonus = 25,
+        .spaBonus = 5,
     },
     [MOVE_REWARD_HEADLONG_RUSH] =
     {
@@ -22068,6 +22134,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_HeadlongRush,
         .cd = 1,
+        .hpBonus = 10,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_EARTH_POWER] =
     {
@@ -22093,6 +22162,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_EarthPower,
+        .spaBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_EARTHQUAKE] =
     {
@@ -22118,6 +22189,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Earthquake,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .speBonus = 20,
+        .atkBonus = 10,
     },
     [MOVE_REWARD_DIG] =
     {
@@ -22146,6 +22219,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Dig,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .speBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_BONEMERANG] =
     {
@@ -22169,6 +22244,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Bonemerang,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .atkBonus = 7,
+        .defBonus = 7,
+        .speBonus = 16,
     },
     [MOVE_REWARD_SAND_TOMB] =
     {
@@ -22193,6 +22271,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SANDSTORM},
         .battleAnimScript = gBattleAnimMove_SandTomb,
         .validApprenticeMove = TRUE,
+        .defBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_PSYCHIC] =
     {
@@ -22218,6 +22298,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CALM_MIND, COMBO_STARTER_CONFUSION, COMBO_STARTER_KINESIS},
         .battleAnimScript = gBattleAnimMove_Psychic,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_FUTURE_SIGHT] =
     {
@@ -22247,6 +22329,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CALM_MIND, COMBO_STARTER_CONFUSION, COMBO_STARTER_KINESIS, COMBO_STARTER_PSYCHIC},
         .battleAnimScript = gBattleAnimMove_FutureSight,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_ZEN_HEADBUTT] =
     {
@@ -22272,6 +22356,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ZenHeadbutt,
+        .speBonus = 20,
+        .atkBonus = 10,
     },
     [MOVE_REWARD_ESPER_WING] =
     {
@@ -22295,6 +22381,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_EsperWing,
         .cd = 1,
+        .spaBonus = 10,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_REFLECT] =
     {
@@ -22320,6 +22409,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CALM_MIND},
         .battleAnimScript = gBattleAnimMove_Reflect,
         .validApprenticeMove = TRUE,
+        .hpBonus = 20,
+        .defBonus = 5,
+        .spdBonus = 5,
     },
     [MOVE_REWARD_LIGHT_SCREEN] =
     {
@@ -22345,6 +22437,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CALM_MIND},
         .battleAnimScript = gBattleAnimMove_LightScreen,
         .validApprenticeMove = TRUE,
+        .hpBonus = 20,
+        .defBonus = 5,
+        .spdBonus = 5,
     },
     [MOVE_REWARD_HEAL_PULSE] =
     {
@@ -22371,6 +22466,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_HealPulse,
         .cd = 4,
+        .defBonus = 5,
+        .spdBonus = 5,
     },
     [MOVE_REWARD_PSYCHIC_NOISE] =
     {
@@ -22393,6 +22490,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .chance = 100,
         }),
         .battleAnimScript = gBattleAnimMove_PsychicNoise,
+        .spaBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_PSYSHIELD_BASH] =
     {
@@ -22416,6 +22515,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_PsyshieldBash,
         .cd = 1,
+        .hpBonus = 15,
+        .atkBonus = 15,
     },
     [MOVE_REWARD_CALM_MIND] =
     {
@@ -22442,6 +22543,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_CalmMind,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .spaBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_AGILITY] =
     {
@@ -22468,6 +22571,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Agility,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .speBonus = 10,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_GRAVITY] =
     {
@@ -22492,6 +22598,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Gravity,
+        .hpBonus = 20,
+        .defBonus = 20,
     },
     [MOVE_REWARD_STORED_POWER] =
     {
@@ -22513,6 +22621,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_StoredPower,
         .cd = 1,
+        .spaBonus = 10,
     },
     [MOVE_REWARD_MEGAHORN] =
     {
@@ -22536,6 +22645,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Megahorn,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .atkBonus = 20,
     },
     [MOVE_REWARD_BUG_BUZZ] =
     {
@@ -22562,6 +22672,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BugBuzz,
+        .spaBonus = 10,
+        .hpBonus = 20,
     },
     [MOVE_REWARD_LEECH_LIFE] =
     {
@@ -22587,6 +22699,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_LeechLife,
         .cd = 1,
+        .hpBonus = 20,
+        .atkBonus = 10,
     },
     [MOVE_REWARD_STRUGGLE_BUG] =
     {
@@ -22611,6 +22725,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_StruggleBug,
+        .defBonus = 20,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_TAIL_GLOW] =
     {
@@ -22641,6 +22757,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_TailGlow,
         .validApprenticeMove = TRUE,
         .cd = 2,
+        .hpBonus = 11,
     },
     [MOVE_REWARD_SILK_TRAP] =
     {
@@ -22662,6 +22779,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .metronomeBanned = TRUE,
         .battleAnimScript = gBattleAnimMove_SilkTrap,
         .cd = 4,
+        .atkBonus = 10,
+        .spaBonus = 10,
     },
     [MOVE_REWARD_QUIVER_DANCE] =
     {
@@ -22688,6 +22807,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_QuiverDance,
         .cd = 2,
+        .spaBonus = 5,
+        .spdBonus = 5,
+        .speBonus = 5,
     },
     [MOVE_REWARD_U_TURN] =
     {
@@ -22707,6 +22829,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_UTurn,
+        .defBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_X_SCISSOR] =
     {
@@ -22729,6 +22853,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_SWORDS_DANCE},
         .battleAnimScript = gBattleAnimMove_XScissor,
+        .atkBonus = 20,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_METEOR_BEAM] =
     {
@@ -22756,6 +22882,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_MeteorBeam,
+        .spaBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_HEAD_SMASH] =
     {
@@ -22779,6 +22907,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_HeadSmash,
         .cd = 1,
+        .hpBonus = 40,
     },
     [MOVE_REWARD_STONE_EDGE] =
     {
@@ -22801,6 +22930,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_StoneEdge,
         .cd = 1,
+        .atkBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_POWER_GEM] =
     {
@@ -22821,6 +22952,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_PowerGem,
+        .spaBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_ROCK_BLAST] =
     {
@@ -22842,6 +22975,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_RockBlast,
+        .atkBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_TAR_SHOT] =
     {
@@ -22863,6 +22998,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_TarShot,
+        .atkBonus = 20,
+        .spaBonus = 20
     },
     [MOVE_REWARD_ROCK_POLISH] =
     {
@@ -22888,6 +23025,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_RockPolish,
         .cd = 1,
+        .speBonus = 20,
+        .hpBonus = 20,
     },
     [MOVE_REWARD_ANCIENT_POWER] =
     {
@@ -22915,6 +23054,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_AncientPower,
         .validApprenticeMove = TRUE,
+        .spaBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_PHANTOM_FORCE] =
     {
@@ -22944,6 +23085,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_PhantomForce,
         .cd = 3,
+        .speBonus = 15,
+        .atkBonus = 15,
     },
     [MOVE_REWARD_SHADOW_BALL] =
     {
@@ -22970,6 +23113,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ShadowBall,
         .validApprenticeMove = TRUE,
+        .spaBonus = 20,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_SHADOW_BONE] =
     {
@@ -22994,6 +23139,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = COMBO_STARTER_SHADOW_BONE,
         .contestComboMoves = {COMBO_STARTER_BONE_CLUB, COMBO_STARTER_BONEMERANG, COMBO_STARTER_BONE_RUSH},
         .battleAnimScript = gBattleAnimMove_ShadowBone,
+        .atkBonus = 7,
+        .spdBonus = 7,
+        .speBonus = 16,
     },
     [MOVE_REWARD_HEX] =
     {
@@ -23016,6 +23164,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_TOXIC},
         .battleAnimScript = gBattleAnimMove_Hex,
+        .spaBonus = 25,
+        .hpBonus = 5,
     },
     [MOVE_REWARD_LAST_RESPECTS] =
     {
@@ -23033,6 +23183,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .metronomeBanned = TRUE, // Only since it isn't implemented yet
         .battleAnimScript = gBattleAnimMove_LastRespects,
+        .hpBonus = 20,
+        .atkBonus = 20,
     },
     [MOVE_REWARD_TRICK_OR_TREAT] =
     {
@@ -23056,6 +23208,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_TrickOrTreat,
+        .hpBonus = 40,
     },
     [MOVE_REWARD_FLY] =
     {
@@ -23084,6 +23237,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Fly,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .speBonus = 20,
+        .atkBonus = 10,
     },
     [MOVE_REWARD_AIR_CUTTER] =
     {
@@ -23108,6 +23263,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_AirCutter,
         .validApprenticeMove = TRUE,
+        .spaBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_DUAL_WINGBEAT] =
     {
@@ -23130,6 +23287,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DualWingbeat,
+        .atkBonus = 11,
+        .defBonus = 9,
+        .speBonus = 10,
     },
     [MOVE_REWARD_TAILWIND] =
     {
@@ -23159,6 +23319,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Tailwind,
+        .hpBonus = 20,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_ROOST] =
     {
@@ -23185,6 +23348,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_BRAVE_BIRD},
         .battleAnimScript = gBattleAnimMove_Roost,
         .cd = 3,
+        .hpBonus = 15,
+        .speBonus = 15
     },
     [MOVE_REWARD_FEATHER_DANCE] =
     {
@@ -23210,6 +23375,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_FeatherDance,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .hpBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_BRAVE_BIRD] =
     {
@@ -23232,6 +23399,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = COMBO_STARTER_BRAVE_BIRD,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BraveBird,
+        .hpBonus = 20,
+        .atkBonus = 10,
     },
     [MOVE_REWARD_SOLAR_BLADE] =
     {
@@ -23258,6 +23427,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_SolarBlade,
         .cd = 1,
+        .atkBonus = 10,
+        .defBonus = 20,
     },
     [MOVE_REWARD_SOLAR_BEAM] =
     {
@@ -23283,6 +23454,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_SolarBeam,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .spaBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_LEAF_STORM] =
     {
@@ -23308,6 +23481,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_LeafStorm,
         .cd = 1,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_LEAF_BLADE] =
     {
@@ -23332,6 +23507,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_LeafBlade,
         .validApprenticeMove = TRUE,
+        .atkBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_GIGA_DRAIN] =
     {
@@ -23357,6 +23534,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_GigaDrain,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .spaBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_ENERGY_BALL] =
     {
@@ -23382,6 +23561,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_GROWTH},
         .battleAnimScript = gBattleAnimMove_EnergyBall,
+        .spaBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_SYRUP_BOMB] =
     {
@@ -23404,6 +23585,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .chance = 100,
         }),
         .battleAnimScript = gBattleAnimMove_SyrupBomb,
+        .hpBonus = 20,
+        .spaBonus = 10,
     },
     [MOVE_REWARD_TRAILBLAZE] =
     {
@@ -23428,6 +23611,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_Trailblaze,
         .cd = 1,
+        .atkBonus = 17,
+        .speBonus = 13,
     },
     [MOVE_REWARD_SLEEP_POWDER] =
     {
@@ -23454,6 +23639,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_SleepPowder,
         .validApprenticeMove = TRUE,
         .cd = 6,
+        .hpBonus = 10,
+        .spaBonus = 15,
     },
     [MOVE_REWARD_SYNTHESIS] =
     {
@@ -23481,6 +23668,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Synthesis,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .defBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_JUNGLE_HEALING] =
     {
@@ -23507,6 +23696,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_JungleHealing,
         .cd = 4,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_WOOD_HAMMER] =
     {
@@ -23530,6 +23720,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_WoodHammer,
         .cd = 1,
+        .hpBonus = 25,
+        .atkBonus = 5,
     },
     [MOVE_REWARD_ICE_BURN] =
     {
@@ -23558,6 +23750,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_IceBurn,
+        .hpBonus = 20,
+        .spaBonus = 10,
     },
     [MOVE_REWARD_BLIZZARD] =
     {
@@ -23590,6 +23784,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Blizzard,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_ICE_HAMMER] =
     {
@@ -23617,6 +23813,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL},
         .battleAnimScript = gBattleAnimMove_IceHammer,
         .cd = 1,
+        .atkBonus = 15,
+        .defBonus = 15,
     },
     [MOVE_REWARD_ICE_BEAM] =
     {
@@ -23648,6 +23846,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL},
         .battleAnimScript = gBattleAnimMove_IceBeam,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_FREEZE_DRY] =
     {
@@ -23677,6 +23877,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_FreezeDry,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_ICICLE_SPEAR] =
     {
@@ -23697,6 +23899,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_IcicleSpear,
+        .atkBonus = 10,
+        .hpBonus = 20,
     },
     [MOVE_REWARD_HAZE] =
     {
@@ -23722,6 +23926,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL},
         .battleAnimScript = gBattleAnimMove_Haze,
         .validApprenticeMove = TRUE,
+        .defBonus = 20,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_GLACIATE] =
     {
@@ -23746,6 +23952,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Glaciate,
+        .spaBonus = 20,
+        .speBonus = 10,
     },
     [MOVE_REWARD_ICE_SHARD] =
     {
@@ -23766,6 +23974,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_IceShard,
+        .atkBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_CLOSE_COMBAT] =
     {
@@ -23790,6 +24000,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_FOCUS_ENERGY, COMBO_STARTER_MIND_READER},
         .battleAnimScript = gBattleAnimMove_CloseCombat,
         .cd = 1,
+        .atkBonus = 5,
+        .defBonus = 10,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_FOCUS_BLAST] =
     {
@@ -23816,6 +24029,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_FOCUS_ENERGY},
         .battleAnimScript = gBattleAnimMove_FocusBlast,
         .cd = 1,
+        .spaBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_AURA_SPHERE] =
     {
@@ -23838,6 +24053,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_AuraSphere,
+        .spaBonus = 12,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_BODY_PRESS] =
     {
@@ -23861,6 +24078,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BodyPress,
+        .defBonus = 30,
     },
     [MOVE_REWARD_ARM_THRUST] =
     {
@@ -23869,7 +24087,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Straight-arm punches that\n"
             "strike the foe 2 to 5 times."),
         .effect = EFFECT_MULTI_HIT,
-        .power = 15,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 20,
@@ -23882,6 +24100,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_FAKE_OUT, COMBO_STARTER_FOCUS_ENERGY},
         .battleAnimScript = gBattleAnimMove_ArmThrust,
+        .atkBonus = 10,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_REVERSAL] =
     {
@@ -23904,6 +24125,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_ENDURE},
         .battleAnimScript = gBattleAnimMove_Reversal,
         .validApprenticeMove = TRUE,
+        .hpBonus = 30,
     },
     [MOVE_REWARD_FOCUS_PUNCH] =
     {
@@ -23935,6 +24157,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_FocusPunch,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .atkBonus = 5,
+        .spdBonus = 25,
     },
     [MOVE_REWARD_DRAIN_PUNCH] =
     {
@@ -23958,6 +24182,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_FOCUS_ENERGY},
         .battleAnimScript = gBattleAnimMove_DrainPunch,
         .cd = 1,
+        .hpBonus = 15,
+        .atkBonus = 15,
     },
     [MOVE_REWARD_GUNK_SHOT] =
     {
@@ -23983,6 +24209,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_GunkShot,
         .cd = 1,
+        .atkBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_SLUDGE_BOMB] =
     {
@@ -24009,6 +24237,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SLUDGE},
         .battleAnimScript = gBattleAnimMove_SludgeBomb,
         .validApprenticeMove = TRUE,
+        .spaBonus = 15,
+        .defBonus = 15,
     },
     [MOVE_REWARD_CROSS_POISON] =
     {
@@ -24036,6 +24266,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_CrossPoison,
+        .atkBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_VENOSHOCK] =
     {
@@ -24057,6 +24289,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_TOXIC},
         .battleAnimScript = gBattleAnimMove_Venoshock,
+        .hpBonus = 5,
+        .spaBonus = 25,
     },
     [MOVE_REWARD_COIL] =
     {
@@ -24082,6 +24316,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Coil,
         .cd = 2,
+        .hpBonus = 20,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_TOXIC] =
     {
@@ -24106,6 +24343,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Toxic,
         .validApprenticeMove = TRUE,
+        .hpBonus = 20,
+        .speBonus = 20,
     },
     [MOVE_REWARD_DRAGON_CLAW] =
     {
@@ -24128,6 +24367,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_DRAGON_BREATH, COMBO_STARTER_DRAGON_DANCE, COMBO_STARTER_DRAGON_RAGE, COMBO_STARTER_DRAGON_RUSH, COMBO_STARTER_DRAGON_TAIL},
         .battleAnimScript = gBattleAnimMove_DragonClaw,
         .validApprenticeMove = TRUE,
+        .atkBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_DRACO_METEOR] =
     {
@@ -24153,6 +24394,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DracoMeteor,
         .cd = 1,
+        .spaBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_SCALE_SHOT] =
     {
@@ -24174,6 +24417,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_ScaleShot,
+        .atkBonus = 20,
+        .defBonus = 10,
     },
     [MOVE_REWARD_DRAGON_DANCE] =
     {
@@ -24201,6 +24446,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_DragonDance,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .atkBonus = 15,
+        .hpBonus = 10,
+        .speBonus = 15,
     },
     [MOVE_REWARD_FOUL_PLAY] =
     {
@@ -24222,6 +24470,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_FoulPlay,
+        .defBonus = 15,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_DARK_PULSE] =
     {
@@ -24247,6 +24497,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DarkPulse,
+        .spaBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_CRUNCH] =
     {
@@ -24282,6 +24534,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_SCARY_FACE},
         .battleAnimScript = gBattleAnimMove_Crunch,
         .validApprenticeMove = TRUE,
+        .atkBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_SUCKER_PUNCH] =
     {
@@ -24301,6 +24555,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_SuckerPunch,
+        .atkBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_TOPSY_TURVY] =
     {
@@ -24323,6 +24579,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_TopsyTurvy,
+        .defBonus = 25,
+        .spdBonus = 15,
     },
     [MOVE_REWARD_NASTY_PLOT] =
     {
@@ -24348,6 +24606,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_NastyPlot,
         .cd = 1,
+        .spaBonus = 10,
+        .hpBonus = 20,
     },
     [MOVE_REWARD_PARTING_SHOT] =
     {
@@ -24373,6 +24633,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_PartingShot,
         .cd = 1,
+        .defBonus = 10,
+        .spdBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_PUNISHMENT] =
     {
@@ -24394,6 +24657,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Punishment,
+        .atkBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_POWER_TRIP] =
     {
@@ -24416,6 +24681,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_PowerTrip,
         .cd = 1,
+        .atkBonus = 10,
+        .spdBonus = 20,
     },
     [MOVE_REWARD_MAKE_IT_RAIN] =
     {
@@ -24441,6 +24708,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         }),
         .battleAnimScript = gBattleAnimMove_MakeItRain,
         .cd = 1,
+        .spaBonus = 5,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_IRON_HEAD] =
     {
@@ -24466,6 +24735,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_IronHead,
+        .atkBonus = 10,
+        .speBonus = 20,
     },
     [MOVE_REWARD_FLASH_CANNON] =
     {
@@ -24490,6 +24761,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_FlashCannon,
+        .spaBonus = 20,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_BULLET_PUNCH] =
     {
@@ -24512,6 +24785,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_BulletPunch,
+        .atkBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_IRON_DEFENSE] =
     {
@@ -24538,6 +24813,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_IronDefense,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .hpBonus = 20,
+        .defBonus = 20,
     },
     [MOVE_REWARD_METAL_SOUND] =
     {
@@ -24563,6 +24840,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_MetalSound,
         .validApprenticeMove = TRUE,
+        .hpBonus = 20,
+        .atkBonus = 10,
+        .speBonus = 10,
     },
     [MOVE_REWARD_PLAY_ROUGH] =
     {
@@ -24588,6 +24868,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_PlayRough,
+        .atkBonus = 15,
+        .hpBonus = 15,
     },
     [MOVE_REWARD_MOONBLAST] =
     {
@@ -24612,6 +24894,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Moonblast,
+        .spaBonus = 15,
+        .speBonus = 15,
     },
     [MOVE_REWARD_DRAINING_KISS] =
     {
@@ -24634,6 +24918,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DrainingKiss,
         .cd = 1,
+        .spaBonus = 20,
+        .hpBonus = 10,
     },
     [MOVE_REWARD_MOONLIGHT] =
     {
@@ -24661,6 +24947,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Moonlight,
         .validApprenticeMove = TRUE,
         .cd = 3,
+        .hpBonus = 20,
+        .speBonus = 10,
     },
     [MOVE_REWARD_CHARM] =
     {
@@ -24685,6 +24973,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Charm,
         .validApprenticeMove = TRUE,
         .cd = 1,
+        .defBonus = 20,
+        .speBonus = 20,
     },
 
     [MOVE_FROSTWISP] =
