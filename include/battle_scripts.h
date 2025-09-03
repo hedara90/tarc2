@@ -912,5 +912,6 @@ extern const u8 BattleScript_CripplingVenom[];
 extern const u8 BattleScript_FatedChange[];
 extern const u8 BattleScript_FatedStrike[];
 extern const u8 BattleScript_FatedSight[];
+extern const u8 BattleScript_FractalShards[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

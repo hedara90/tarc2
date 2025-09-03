@@ -10424,3 +10424,8 @@ BattleScript_FatedSight::
 	printstring STRINGID_FATED_SIGHT
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_FractalShards::
+	printstring STRINGID_FRACTAL_SHARDS
+	waitmessage B_WAIT_TIME_SHORTEST
+	return

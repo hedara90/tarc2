@@ -3198,4 +3198,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_TRIGGERED,
     },
+    [ABILITY_FRACTAL_SHARDS] =
+    {
+        .name = _("Fractal Shards"),
+        .description = COMPOUND_STRING("Releases shards of gems\nin snow that boosts attacks."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };
