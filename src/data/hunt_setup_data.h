@@ -323,8 +323,8 @@ const struct StarterPool sSnowPool =
             .moves = {MOVE_BLIZZARD, MOVE_FREEZE_DRY},
         },
         {
-            .species = SPECIES_TALONFLAME,
-            .moves = {MOVE_TAILWIND, MOVE_FLAMETHROWER},
+            .species = SPECIES_DIANCIE,
+            .moves = {MOVE_WISH, MOVE_DIAMOND_STORM},
         },
         {
             .species = SPECIES_WALREIN,

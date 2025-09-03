@@ -15139,6 +15139,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DiamondStorm,
+        .cd = 2,
     },
 
     [MOVE_STEAM_ERUPTION] =

@@ -5447,6 +5447,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_ToxicDebrisActivates;
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_FRACTAL_SHARDS)
+         && IsBattlerWeatherAffected(battler, B_WEATHER_SNOW)
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && gSideTimers[GetBattlerSide(gBattlerTarget)].fractalShardCounter < 15)
+        {
+            gSideTimers[GetBattlerSide(gBattlerTarget)].fractalShardCounter++;
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_FRACTAL_SHARDS, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_FractalShards;
+            effect++;
+        }
     break;
     case ABILITYEFFECT_MOVE_END_ATTACKER: // Same as above, but for attacker
         STORE_BATTLER_TRAITS(gBattlerAttacker);
@@ -10368,6 +10380,17 @@ static inline uq4_12_t GetDefenderItemsModifier(struct DamageCalculationData *da
     return UQ_4_12(1.0);
 }
 
+static inline uq4_12_t GetFractalShardsModifier(u32 attacker)
+{
+    if (gSideTimers[GetBattlerSide(attacker)].fractalShardCounter > 0)
+    {
+        if (!gAiLogicData->aiCalcInProgress)
+            gSideTimers[GetBattlerSide(attacker)].fractalShardCounter--;
+        return UQ_4_12(1.2);
+    }
+    return UQ_4_12(1.0);
+}
+
 #define DAMAGE_MULTIPLY_MODIFIER(modifier) do {                     \
     finalModifier = uq4_12_multiply_half_down(modifier, finalModifier); \
 } while (0)
@@ -10398,6 +10421,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageCalculationData *damageCal
     DAMAGE_MULTIPLY_MODIFIER(GetAirborneModifier(move, battlerDef));
     DAMAGE_MULTIPLY_MODIFIER(GetScreensModifier(move, battlerAtk, battlerDef, isCrit, abilityAtk));
     DAMAGE_MULTIPLY_MODIFIER(GetCollisionCourseElectroDriftModifier(move, typeEffectivenessModifier));
+    DAMAGE_MULTIPLY_MODIFIER(GetFractalShardsModifier(battlerAtk));
 
     if (unmodifiedAttackerSpeed >= unmodifiedDefenderSpeed)
     {
