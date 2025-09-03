@@ -19608,6 +19608,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sArticunoTeachableLearnset,
         .formSpeciesIdTable = sArticunoFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_WHITEOUT,
     },
 
 #if P_GALARIAN_FORMS
@@ -19679,6 +19680,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sArticunoGalarTeachableLearnset,
         .formSpeciesIdTable = sArticunoFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_COMPETITIVE,
     },
 #endif //P_GALARIAN_FORMS
 #endif //P_FAMILY_ARTICUNO
@@ -19762,6 +19764,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sZapdosTeachableLearnset,
         .formSpeciesIdTable = sZapdosFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_GALVANIZE,
     },
 
 #if P_GALARIAN_FORMS
@@ -19832,6 +19835,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sZapdosGalarTeachableLearnset,
         .formSpeciesIdTable = sZapdosFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_TOUGH_CLAWS,
     },
 #endif //P_GALARIAN_FORMS
 #endif //P_FAMILY_ZAPDOS
@@ -19943,6 +19947,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sMoltresTeachableLearnset,
         .formSpeciesIdTable = sMoltresFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FLAME_BODY,
     },
 
 #if P_GALARIAN_FORMS
@@ -20013,6 +20018,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sMoltresGalarTeachableLearnset,
         .formSpeciesIdTable = sMoltresFormSpeciesIdTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_BERSERK,
     },
 #endif //P_GALARIAN_FORMS
 #endif //P_FAMILY_MOLTRES

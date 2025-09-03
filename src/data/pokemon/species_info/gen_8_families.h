@@ -6739,6 +6739,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sDragapultLevelUpLearnset,
         .teachableLearnset = sDragapultTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SPEED_BOOST,
     },
 #endif //P_FAMILY_DREEPY
 
@@ -7663,6 +7664,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sRegielekiLevelUpLearnset,
         .teachableLearnset = sRegielekiTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_TRANSISTOR,
     },
 #endif //P_FAMILY_REGIELEKI
 
@@ -7732,6 +7734,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sRegidragoLevelUpLearnset,
         .teachableLearnset = sRegidragoTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SHARED_BURDENS,
     },
 #endif //P_FAMILY_REGIDRAGO
 
@@ -8209,6 +8212,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sEnamorusTeachableLearnset,
         .formSpeciesIdTable = sEnamorusFormSpeciesIdTable,
         .formChangeTable = sEnamorusFormChangeTable,
+        .maxPhases = 3,
+        .abilityReward = ABILITY_FAIRY_AURA,
     },
 #endif //P_FAMILY_ENAMORUS
 

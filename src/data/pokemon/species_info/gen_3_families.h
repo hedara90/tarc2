@@ -11570,6 +11570,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .formSpeciesIdTable = sSalamenceFormSpeciesIdTable,
         .formChangeTable = sSalamenceFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_AERILATE,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -11866,6 +11867,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .formSpeciesIdTable = sMetagrossFormSpeciesIdTable,
         .formChangeTable = sMetagrossFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_ANALYTIC,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -12018,6 +12020,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sRegirockLevelUpLearnset,
         .teachableLearnset = sRegirockTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_STAMINA,
     },
 #endif //P_FAMILY_REGIROCK
 
@@ -12098,6 +12101,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sRegiceLevelUpLearnset,
         .teachableLearnset = sRegiceTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_RESILIENCE,
     },
 #endif //P_FAMILY_REGICE
 
@@ -12179,6 +12183,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sRegisteelLevelUpLearnset,
         .teachableLearnset = sRegisteelTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_CLEAR_BODY,
     },
 #endif //P_FAMILY_REGISTEEL
 

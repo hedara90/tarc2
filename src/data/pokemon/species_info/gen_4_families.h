@@ -4382,6 +4382,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .formSpeciesIdTable = sGarchompFormSpeciesIdTable,
         .formChangeTable = sGarchompFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SHARPNESS,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -6199,6 +6200,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sUxieLevelUpLearnset,
         .teachableLearnset = sUxieTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_MENTAL_RESET,
     },
 #endif //P_FAMILY_UXIE
 
@@ -6285,6 +6287,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sMespritLevelUpLearnset,
         .teachableLearnset = sMespritTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_EMPATH,
     },
 #endif //P_FAMILY_MESPRIT
 
@@ -6365,6 +6368,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sAzelfLevelUpLearnset,
         .teachableLearnset = sAzelfTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_WILLPOWER,
     },
 #endif //P_FAMILY_AZELF
 

@@ -256,7 +256,7 @@ const struct StarterPool sRainPool =
         },
         {
             .species = SPECIES_BASCULEGION,
-            .moves = {MOVE_WAVE_CRASH, MOVE_HEAD_SMASH},
+            .moves = {MOVE_WATERFALL, MOVE_SHADOW_BALL},
         },
         {
             .species = SPECIES_OVERQWIL,
@@ -284,7 +284,7 @@ const struct StarterPool sSunPool =
     {
         {
             .species = SPECIES_TAUROS_PALDEA_BLAZE,
-            .moves = {MOVE_RAGING_BULL, MOVE_CLOSE_COMBAT},
+            .moves = {MOVE_RAGING_BULL, MOVE_DOUBLE_KICK},
         },
         {
             .species = SPECIES_HELIOLISK,

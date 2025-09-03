@@ -6295,6 +6295,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sBaxcaliburLevelUpLearnset,
         .teachableLearnset = sBaxcaliburTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SHEER_FORCE,
     },
 #endif //P_FAMILY_FRIGIBAX
 
@@ -6551,6 +6552,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sWoChienLevelUpLearnset,
         .teachableLearnset = sWoChienTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SPORANGIUM,
     },
 #endif //P_FAMILY_WO_CHIEN
 
@@ -6619,6 +6621,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sChienPaoLevelUpLearnset,
         .teachableLearnset = sChienPaoTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_BLADES_OF_FROST,
     },
 #endif //P_FAMILY_CHIEN_PAO
 
@@ -6687,6 +6690,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sTingLuLevelUpLearnset,
         .teachableLearnset = sTingLuTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_TECTONIC_TITAN,
     },
 #endif //P_FAMILY_TING_LU
 
@@ -6756,6 +6760,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sChiYuLevelUpLearnset,
         .teachableLearnset = sChiYuTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_HEAT_EROSION,
     },
 #endif //P_FAMILY_CHI_YU
 
@@ -7094,6 +7099,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sWalkingWakeLevelUpLearnset,
         .teachableLearnset = sWalkingWakeTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_GEYSER,
     },
 #endif //P_FAMILY_WALKING_WAKE
 
@@ -7161,6 +7167,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sIronLeavesLevelUpLearnset,
         .teachableLearnset = sIronLeavesTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FATED_CHANGE,
     },
 #endif //P_FAMILY_IRON_LEAVES
 
@@ -7491,6 +7498,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sOkidogiLevelUpLearnset,
         .teachableLearnset = sOkidogiTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_RESORPTION,
     },
 #endif //P_FAMILY_OKIDOGI
 
@@ -7559,6 +7567,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sMunkidoriLevelUpLearnset,
         .teachableLearnset = sMunkidoriTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SKILL_LINK,
     },
 #endif //P_FAMILY_MUNKIDORI
 
@@ -7627,6 +7636,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sFezandipitiLevelUpLearnset,
         .teachableLearnset = sFezandipitiTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_CRIPPLING_VENOM,
     },
 #endif //P_FAMILY_FEZANDIPITI
 
@@ -7774,6 +7784,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sGougingFireLevelUpLearnset,
         .teachableLearnset = sGougingFireTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FLAME_CLOAK,
     },
 #endif //P_FAMILY_GOUGING_FIRE
 
@@ -7842,6 +7853,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sRagingBoltLevelUpLearnset,
         .teachableLearnset = sRagingBoltTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_SCORCHING_VOLTAGE,
     },
 #endif //P_FAMILY_RAGING_BOLT
 
@@ -7909,6 +7921,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sIronBoulderLevelUpLearnset,
         .teachableLearnset = sIronBoulderTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FATED_STRIKE,
     },
 #endif //P_FAMILY_IRON_BOULDER
 
@@ -7977,6 +7990,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sIronCrownLevelUpLearnset,
         .teachableLearnset = sIronCrownTeachableLearnset,
         .maxPhases = 3,
+        .abilityReward = ABILITY_FATED_SIGHT,
     },
 #endif //P_FAMILY_IRON_CROWN
 
