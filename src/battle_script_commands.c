@@ -2766,6 +2766,8 @@ static void Cmd_datahpupdate(void)
                     gBattleMons[battler].hp = 0;
                     if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases)
                     {
+                        if (!BattlerHasTrait(1, ABILITY_INNER_FOCUS))
+                            gBattleMons[1].status2 |= STATUS2_FLINCHED;
                         HelpSystem_AddTrigger(TRIGGER_PHASE);
                         ResetTurnCounter();
                         gBattleStruct->skipIncrement = TRUE;
