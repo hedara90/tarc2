@@ -14296,10 +14296,10 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
     [SPECIES_SNEASLER] =
     {
         .baseHP        = 80,
-        .baseAttack    = 130,
+        .baseAttack    = 100,
         .baseDefense   = 60,
         .baseSpeed     = 120,
-        .baseSpAttack  = 40,
+        .baseSpAttack  = 70,
         .baseSpDefense = 80,
         .types = MON_TYPES(TYPE_FIGHTING, TYPE_POISON),
         .catchRate = 20,
