@@ -1986,7 +1986,8 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
           || MoveAlwaysCrits(move)
           || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS)
               && ((gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY)
-               || (gBattleMons[battlerDef].status1 & STATUS1_PARALYSIS)))
+               || (gBattleMons[battlerDef].status1 & STATUS1_PARALYSIS)
+               || (gBattleMons[battlerDef].status1 & STATUS1_FROSTBITE)))
           || (gBattleMons[gBattlerTarget].status1 & STATUS1_FROSTBITE && BattlerHasTrait(gBattlerAttacker, ABILITY_HOARFROST)))
     {
         critChance = CRITICAL_HIT_ALWAYS;
@@ -2766,6 +2767,8 @@ static void Cmd_datahpupdate(void)
                     gBattleMons[battler].hp = 0;
                     if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases)
                     {
+                        if (!BattlerHasTrait(1, ABILITY_INNER_FOCUS))
+                            gBattleMons[1].status2 |= STATUS2_FLINCHED;
                         HelpSystem_AddTrigger(TRIGGER_PHASE);
                         ResetTurnCounter();
                         gBattleStruct->skipIncrement = TRUE;
@@ -3947,7 +3950,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_DIRE_CLAW:
                 if (!gBattleMons[gEffectBattler].status1)
                 {
-                    static const u8 sDireClawEffects[] = { MOVE_EFFECT_POISON, MOVE_EFFECT_PARALYSIS, MOVE_EFFECT_SLEEP };
+                    static const u8 sDireClawEffects[] = { MOVE_EFFECT_POISON, MOVE_EFFECT_PARALYSIS, MOVE_EFFECT_FREEZE_OR_FROSTBITE };
                     gBattleScripting.moveEffect = RandomElement(RNG_DIRE_CLAW, sDireClawEffects);
                     SetMoveEffect(primary, certain);
                 }

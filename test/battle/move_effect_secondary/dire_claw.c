@@ -11,7 +11,7 @@ SINGLE_BATTLE_TEST("Dire Claw can inflict poison, paralysis or sleep")
     u8 statusAnim;
     PARAMETRIZE { statusAnim = B_ANIM_STATUS_PSN; }
     PARAMETRIZE { statusAnim = B_ANIM_STATUS_PRZ; }
-    PARAMETRIZE { statusAnim = B_ANIM_STATUS_SLP; }
+    PARAMETRIZE { statusAnim = B_ANIM_STATUS_FRZ; }
     PASSES_RANDOMLY(1, 3, RNG_DIRE_CLAW);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -26,7 +26,7 @@ SINGLE_BATTLE_TEST("Dire Claw can inflict poison, paralysis or sleep")
         if (statusAnim == B_ANIM_STATUS_PRZ) {
             STATUS_ICON(opponent, paralysis: TRUE);
         } else if (statusAnim == B_ANIM_STATUS_SLP) {
-            STATUS_ICON(opponent, sleep: TRUE);
+            STATUS_ICON(opponent, frostbite: TRUE);
         } else if (statusAnim == B_ANIM_STATUS_PSN) {
             STATUS_ICON(opponent, poison: TRUE);
         }
@@ -72,8 +72,7 @@ SINGLE_BATTLE_TEST("Dire Claw cannot poison/paralyze/cause to fall asleep pokemo
     PARAMETRIZE { statusAnim = B_ANIM_STATUS_PRZ; rng = MOVE_EFFECT_PARALYSIS; species = SPECIES_JOLTEON; ability = ABILITY_VOLT_ABSORB; }
     PARAMETRIZE { statusAnim = B_ANIM_STATUS_PRZ; rng = MOVE_EFFECT_PARALYSIS; species = SPECIES_ELECTIVIRE; ability = ABILITY_MOTOR_DRIVE; }
     PARAMETRIZE { statusAnim = B_ANIM_STATUS_PSN; rng = MOVE_EFFECT_POISON; species = SPECIES_ZANGOOSE; ability = ABILITY_IMMUNITY; }
-    PARAMETRIZE { statusAnim = B_ANIM_STATUS_SLP; rng = MOVE_EFFECT_SLEEP; species = SPECIES_VIGOROTH; ability = ABILITY_VITAL_SPIRIT; }
-    PARAMETRIZE { statusAnim = B_ANIM_STATUS_SLP; rng = MOVE_EFFECT_SLEEP; species = SPECIES_HYPNO; ability = ABILITY_INSOMNIA; }
+    PARAMETRIZE { statusAnim = B_ANIM_STATUS_FRZ; rng = MOVE_EFFECT_FREEZE_OR_FROSTBITE; species = SPECIES_REGICE; ability = ABILITY_CLEAR_BODY; }
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);

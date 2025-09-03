@@ -1053,6 +1053,7 @@ struct HuntTargets
     u16 bossesDefeated[9];
     bool8 miniBossesDefeated[27];
     u8 currentArea;
+    u8 numBossesDefeated;
     u16 currentBoss;
     u16 currentEnemy;
 };

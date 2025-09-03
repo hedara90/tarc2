@@ -336,7 +336,7 @@ const struct StarterPool sSnowPool =
         },
         {
             .species = SPECIES_SNEASLER,
-            .moves = {MOVE_SWORDS_DANCE, MOVE_DIRE_CLAW},
+            .moves = {MOVE_FIRE_PUNCH, MOVE_DIRE_CLAW},
         },
     },
 };
