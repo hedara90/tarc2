@@ -3051,9 +3051,9 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
 
     [SPECIES_SUNFLORA] =
     {
-        .baseHP        = 75,
+        .baseHP        = 105,
         .baseAttack    = 75,
-        .baseDefense   = 55,
+        .baseDefense   = 105,
         .baseSpeed     = 30,
         .baseSpAttack  = 105,
         .baseSpDefense = 85,
@@ -3067,7 +3067,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_GRASS),
     #if P_UPDATED_ABILITIES >= GEN_4
-        .abilities = { ABILITY_CHLOROPHYLL, ABILITY_SOLAR_POWER, ABILITY_EARLY_BIRD },
+        .abilities = { ABILITY_PHOTOSYNTHESIS, ABILITY_PHOTOSYNTHESIS, ABILITY_PHOTOSYNTHESIS },
     #else
         .abilities = { ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_EARLY_BIRD },
     #endif
@@ -5165,7 +5165,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_2),
-        .abilities = { ABILITY_POISON_POINT, ABILITY_SWIFT_SWIM, ABILITY_INTIMIDATE },
+        .abilities = { ABILITY_POISON_POINT, ABILITY_POISON_POINT, ABILITY_POISON_POINT },
         .bodyColor = BODY_COLOR_BLACK,
         .speciesName = _("Overqwil"),
         .cryId = CRY_OVERQWIL,
@@ -5725,7 +5725,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
-        .abilities = { ABILITY_PRESSURE, ABILITY_UNBURDEN, ABILITY_POISON_TOUCH },
+        .abilities = { ABILITY_MERCILESS, ABILITY_MERCILESS, ABILITY_MERCILESS },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Sneasler"),
         .cryId = CRY_SNEASLER,
