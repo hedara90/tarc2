@@ -19418,13 +19418,15 @@ void BS_SetHealingSpiritHealing(void)
 void BS_SkipAiIncrement(void)
 {
     NATIVE_ARGS();
-    gBattleStruct->skipIncrement = TRUE;
+    if (gBattlerAttacker == 1)
+        gBattleStruct->skipIncrement = TRUE;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 void BS_DoAiIncrement(void)
 {
     NATIVE_ARGS();
-    gBattleStruct->skipIncrement = FALSE;
+    if (gBattlerAttacker == 1)
+        gBattleStruct->skipIncrement = FALSE;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
