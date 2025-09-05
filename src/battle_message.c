@@ -930,6 +930,8 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_FATED_STRIKE]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"),
     [STRINGID_FATED_SIGHT]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"),
     [STRINGID_FRACTAL_SHARDS]                       = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} released fractal dust!"),
+    [STRINGID_CIRCLE_OF_LIFE]                       = COMPOUND_STRING("The circle of life restores all!"),
+    [STRINGID_YGGDRASIL]                            = COMPOUND_STRING("Yggdrasil's energy boosted {B_BUFF1}'s {B_BUFF3}!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

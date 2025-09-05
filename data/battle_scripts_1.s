@@ -3556,6 +3556,12 @@ BattleScript_LunarPowerActivation:
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_AbundanceActivation:
+	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
+	printstring STRINGID_POWERHERB
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_EffectTwoTurnsAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
@@ -3564,12 +3570,14 @@ BattleScript_EffectTwoTurnsAttack::
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
 	jumpiflunarcold BS_ATTACKER, BattleScript_TwoTurnMovesSecondLunarColdActivates
+	jumpifabundance BS_ATTACKER, BattleScript_TwoTurnMovesSecondAbundanceActivates
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_GeomancySecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_GeomancySecondTurn
 	call BattleScript_FirstChargingTurn
+	jumpifabundance BS_ATTACKER, BattleScript_GeomancySecondTurn
 	jumpifnoholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_MoveEnd
 	call BattleScript_PowerHerbActivation
 BattleScript_GeomancySecondTurn:
@@ -3637,6 +3645,11 @@ BattleScript_FromTwoTurnMovesSecondTurnRet:
 
 BattleScript_TwoTurnMovesSecondLunarColdActivates:
 	call BattleScript_LunarPowerActivation
+	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
+	goto BattleScript_FromTwoTurnMovesSecondTurnRet
+
+BattleScript_TwoTurnMovesSecondAbundanceActivates:
+	call BattleScript_AbundanceActivation
 	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
 	goto BattleScript_FromTwoTurnMovesSecondTurnRet
 
@@ -10429,3 +10442,18 @@ BattleScript_FractalShards::
 	printstring STRINGID_FRACTAL_SHARDS
 	waitmessage B_WAIT_TIME_SHORTEST
 	return
+
+BattleScript_CircleOfLife::
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	simulhealthbarupdate
+	simuldatahpupdate
+	printstring STRINGID_CIRCLE_OF_LIFE
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_YggdrasilsGift::
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_YGGDRASIL
+	waitmessage B_WAIT_TIME_LONG
+	end3

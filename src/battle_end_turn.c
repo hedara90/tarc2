@@ -1636,6 +1636,171 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         effect = TRUE;
     }
 
+    if (SearchTraits(battlerTraits, ABILITY_CIRCLE_OF_LIFE))
+    {
+        bool32 isAnyBattlerDamaged = FALSE;
+
+        for (u32 i = 0; i < gBattlersCount; i++)
+        {
+            if (gBattleMons[i].hp < gBattleMons[i].maxHP && gBattleMons[i].hp != 0)
+            {
+                isAnyBattlerDamaged = TRUE;
+                break;
+            }
+        }
+
+        if (isAnyBattlerDamaged)
+        {
+            for (u32 i = 0; i < gBattlersCount; i++)
+            {
+                if (gBattleMons[i].hp < gBattleMons[i].maxHP && gBattleMons[i].hp != 0)
+                    gBattleStruct->moveDamage[i] = -(GetNonDynamaxMaxHP(i) / TARC_CIRCLE_OF_LIFE_FRACTION);
+                else
+                    gBattleStruct->moveDamage[i] = 0;
+            }
+
+            CreateAbilityPopUp(battler, ABILITY_CIRCLE_OF_LIFE, FALSE);
+            BattleScriptExecute(BattleScript_CircleOfLife);
+            effect = TRUE;
+        }
+    }
+
+    if (SearchTraits(battlerTraits, ABILITY_YGGDRASILS_GIFT))
+    {
+        bool32 numBoosts = 0;
+        for (u32 i = 0; i < gBattlersCount; i++)
+        {
+            if (gBattleMons[i].hp == gBattleMons[i].maxHP)
+            {
+                numBoosts++;
+            }
+        }
+
+        if (numBoosts > 0)
+        {
+            u8 statArray[5] = {1, 2, 3, 4, 5};
+            for (u32 i = 0; i < 4; i++)
+            {
+                u32 rnd = Random32();
+                u32 currIndex = rnd % (5 - i);
+                u32 tempValue = statArray[5 - 1 - i];
+                statArray[5 - 1 -i] = statArray[currIndex];
+                statArray[currIndex] = tempValue;
+            }
+
+            //  Find stats that can be boosted
+            u32 statsFound = 0;
+            for (u32 i = 0; i < 5; i++)
+            {
+                if (gBattleMons[battler].statStages[statArray[i]] == 12)
+                {
+                    statArray[i] = 255;
+                }
+                else
+                {
+                    statArray[statsFound] = statArray[i];
+                    statsFound++;
+                }
+            }
+
+            if (statsFound < numBoosts)
+                numBoosts = statsFound;
+
+            if (numBoosts > 0)
+            {
+                u32 currChar = 0;
+                u32 tempBattler = gBattlerAttacker;
+                gBattlerAttacker = battler;
+                for (u32 i = 0; i < numBoosts; i++)
+                {
+                    SET_STATCHANGER(statArray[i], 1, FALSE);
+                    ChangeStatBuffs(GET_STAT_BUFF_VALUE_WITH_SIGN(gBattleScripting.statChanger),
+                                    GET_STAT_BUFF_ID(gBattleScripting.statChanger),
+                                    MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_NOT_PROTECT_AFFECTED,
+                                    0);
+                    if (i == numBoosts - 1 && numBoosts != 1)
+                    {
+                        gBattleTextBuff3[currChar++] = CHAR_SPACE;
+                        gBattleTextBuff3[currChar++] = CHAR_a;
+                        gBattleTextBuff3[currChar++] = CHAR_n;
+                        gBattleTextBuff3[currChar++] = CHAR_d;
+                        gBattleTextBuff3[currChar++] = CHAR_SPACE;
+                    }
+                    else if (i != 0)
+                    {
+                        gBattleTextBuff3[currChar++] = CHAR_COMMA;
+                        gBattleTextBuff3[currChar++] = CHAR_SPACE;
+                    }
+
+                    switch (statArray[i])
+                    {
+                    case 1:
+                        gBattleTextBuff3[currChar++] = CHAR_A;
+                        gBattleTextBuff3[currChar++] = CHAR_t;
+                        gBattleTextBuff3[currChar++] = CHAR_t;
+                        gBattleTextBuff3[currChar++] = CHAR_a;
+                        gBattleTextBuff3[currChar++] = CHAR_c;
+                        gBattleTextBuff3[currChar++] = CHAR_k;
+                        break;
+                    case 2:
+                        gBattleTextBuff3[currChar++] = CHAR_D;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_f;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_n;
+                        gBattleTextBuff3[currChar++] = CHAR_s;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        break;
+                    case 3:
+                        gBattleTextBuff3[currChar++] = CHAR_S;
+                        gBattleTextBuff3[currChar++] = CHAR_p;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_d;
+                        break;
+                    case 4:
+                        gBattleTextBuff3[currChar++] = CHAR_S;
+                        gBattleTextBuff3[currChar++] = CHAR_p;
+                        gBattleTextBuff3[currChar++] = CHAR_PERIOD;
+                        gBattleTextBuff3[currChar++] = CHAR_A;
+                        gBattleTextBuff3[currChar++] = CHAR_t;
+                        gBattleTextBuff3[currChar++] = CHAR_t;
+                        gBattleTextBuff3[currChar++] = CHAR_a;
+                        gBattleTextBuff3[currChar++] = CHAR_c;
+                        gBattleTextBuff3[currChar++] = CHAR_k;
+                        break;
+                    case 5:
+                        gBattleTextBuff3[currChar++] = CHAR_S;
+                        gBattleTextBuff3[currChar++] = CHAR_p;
+                        gBattleTextBuff3[currChar++] = CHAR_PERIOD;
+                        gBattleTextBuff3[currChar++] = CHAR_D;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_f;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        gBattleTextBuff3[currChar++] = CHAR_n;
+                        gBattleTextBuff3[currChar++] = CHAR_s;
+                        gBattleTextBuff3[currChar++] = CHAR_e;
+                        break;
+                    }
+                }
+                gBattlerAttacker = tempBattler;
+                gBattleTextBuff3[currChar] = EOS;
+
+                currChar = 0;
+                while (gBattleMons[battler].nickname[currChar] != EOS)
+                {
+                    gBattleTextBuff1[currChar] = gBattleMons[battler].nickname[currChar];
+                    currChar++;
+                }
+                gBattleTextBuff1[currChar] = EOS;
+
+                CreateAbilityPopUp(battler, ABILITY_YGGDRASILS_GIFT, FALSE);
+                BattleScriptExecute(BattleScript_YggdrasilsGift);
+                effect = TRUE;
+            }
+        }
+    }
+
     if (!TESTING && battler == 0)
     {
 
