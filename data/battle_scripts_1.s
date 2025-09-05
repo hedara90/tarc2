@@ -10445,6 +10445,7 @@ BattleScript_FractalShards::
 
 BattleScript_CircleOfLife::
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	pause B_WAIT_TIME_SHORTEST
 	simulhealthbarupdate
 	simuldatahpupdate
 	printstring STRINGID_CIRCLE_OF_LIFE
@@ -10457,3 +10458,31 @@ BattleScript_YggdrasilsGift::
 	printstring STRINGID_YGGDRASIL
 	waitmessage B_WAIT_TIME_LONG
 	end3
+
+BattleScript_Sanctuary::
+	attackcanceler
+	attackstring
+	ppreduce
+	setremoveterrain BattleScript_ButItFailed
+	setsafeguard
+	attackanimation
+	waitanimation
+	printstring STRINGID_SANCTUARY
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_RESTORE_BG
+	call BattleScript_ActivateTerrainEffects
+	goto BattleScript_MoveEnd
+
+BattleScript_HealingSpirit::
+	attackcanceler
+	attackstring
+	ppreduce
+	attackanimation
+	waitanimation
+	sethealingspirithealing
+	pause B_WAIT_TIME_SHORTEST
+	simulhealthbarupdate
+	simuldatahpupdate
+	printstring STRINGID_HEALING_SPIRIT
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd

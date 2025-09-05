@@ -100,6 +100,8 @@ static void SpriteCB_GlacialLance_Step2(struct Sprite* sprite);
 static void SpriteCB_GlacialLance(struct Sprite* sprite);
 static void SpriteCB_TripleArrowKick(struct Sprite* sprite);
 
+static void AnimHealingSpirit_Step1(struct Sprite *sprite);
+
 // const data
 // general
 static const union AffineAnimCmd sSquishTargetAffineAnimCmds[] =
@@ -9369,4 +9371,69 @@ static const union AffineAnimCmd sSpriteAffineAnim_MegaSymbol[] =
 const union AffineAnimCmd* const gSpriteAffineAnimTable_MegaSymbol[] =
 {
     sSpriteAffineAnim_MegaSymbol,
+};
+
+static const union AnimCmd sAnim_CirclingSparkle[] =
+{
+    ANIMCMD_FRAME(0, 3),
+    ANIMCMD_FRAME(16, 3),
+    ANIMCMD_FRAME(32, 3),
+    ANIMCMD_FRAME(48, 3),
+    ANIMCMD_FRAME(64, 3),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sAnims_CirclingSparkle[] =
+{
+    sAnim_CirclingSparkle,
+};
+
+static void AnimHealingSpirit(struct Sprite *sprite)
+{
+    sprite->x = gBattleAnimArgs[0];
+    sprite->y = 120;
+
+    sprite->data[0] = gBattleAnimArgs[2];
+    StorePointerInVars(&sprite->data[4], &sprite->data[5], (void *)(sprite->y << 8));
+
+    sprite->data[6] = gBattleAnimArgs[1];
+
+    sprite->callback = AnimHealingSpirit_Step1;
+}
+
+static void AnimHealingSpirit_Step1(struct Sprite *sprite)
+{
+    void *var0;
+
+    if (sprite->data[0] != 0)
+    {
+        var0 = LoadPointerFromVars(sprite->data[4], sprite->data[5]);
+        var0 -= sprite->data[6]*2;
+        StorePointerInVars(&sprite->data[4], &sprite->data[5], var0);
+
+        var0 = (void *)(((intptr_t)var0) >> 8);
+        sprite->y = (intptr_t)var0;
+        if (sprite->y < -8)
+            DestroyAnimSprite(sprite);
+        else
+            sprite->data[0]--;
+    }
+    else
+    {
+        DestroyAnimSprite(sprite);
+    }
+}
+
+// arg0: x-pos
+// arg1: speed
+// arg2: duration
+const struct SpriteTemplate gHealingSpiritSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SPARKLE_4,
+    .paletteTag = ANIM_TAG_SPARKLE_4,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = sAnims_CirclingSparkle,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimHealingSpirit,
 };

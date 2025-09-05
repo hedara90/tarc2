@@ -2628,3 +2628,7 @@
 	.byte \battler
 	.4byte \jumpInstr
 	.endm
+
+	.macro sethealingspirithealing
+	callnative BS_SetHealingSpiritHealing
+	.endm

@@ -26821,6 +26821,53 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Wish,
         .validApprenticeMove = TRUE,
     },
+    [MOVE_SANCTUARY] =
+    {
+        .name = COMPOUND_STRING("Sanctuary"),
+        .description = COMPOUND_STRING(
+            "In this domain, all\n"
+            "are protected."),
+        .effect = EFFECT_SANCTUARY,
+        .power = 0,
+        .type = TYPE_FAIRY,
+        .accuracy = 0,
+        .pp = 10,
+        .target = MOVE_TARGET_ALL_BATTLERS,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .zMove = { .effect = Z_EFFECT_DEF_UP_1 },
+        .ignoresProtect = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .skyBattleBanned = TRUE,
+        .contestEffect = CONTEST_EFFECT_BETTER_WHEN_AUDIENCE_EXCITED,
+        .contestCategory = CONTEST_CATEGORY_SMART,
+        .contestComboStarterId = COMBO_STARTER_GRASSY_TERRAIN,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Sanctuary,
+    },
+    [MOVE_HEALING_SPIRIT] =
+    {
+        .name = COMPOUND_STRING("Healing Spirit"),
+        .description = COMPOUND_STRING(
+            "All battlers recover\n"
+            "half of max HP."),
+        .effect = EFFECT_HEALING_SPIRIT,
+        .power = 0,
+        .type = TYPE_FAIRY,
+        .accuracy = 0,
+        .pp = 10,
+        .target = MOVE_TARGET_ALL_BATTLERS,
+        .priority = -1,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .zMove = { .effect = Z_EFFECT_RESET_STATS },
+        .magicCoatAffected = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .healingMove = TRUE,
+        .pulseMove = TRUE,
+        .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
+        .contestCategory = CONTEST_CATEGORY_SMART,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_HealingSpirit,
+    },
 };
-
-

@@ -17633,6 +17633,10 @@ void BS_SetRemoveTerrain(void)
 
     switch (GetMoveEffect(gCurrentMove))
     {
+    case EFFECT_SANCTUARY:
+        statusFlag = STATUS_FIELD_GRASSY_TERRAIN;
+        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_TERRAIN_SET_GRASSY;
+        break;
     case EFFECT_MISTY_TERRAIN:
         statusFlag = STATUS_FIELD_MISTY_TERRAIN;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_TERRAIN_SET_MISTY;
@@ -19395,5 +19399,18 @@ void BS_SimulDataHPUpdate(void)
         MarkBattlerForControllerExec(battler);
     }
 
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SetHealingSpiritHealing(void)
+{
+    NATIVE_ARGS();
+    for (u32 battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (gBattleMons[battler].hp > 0 && gBattleMons[battler].hp != gBattleMons[battler].maxHP)
+        {
+            gBattleStruct->moveDamage[battler] = -(GetNonDynamaxMaxHP(battler) / 2);
+        }
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

@@ -915,5 +915,7 @@ extern const u8 BattleScript_FatedSight[];
 extern const u8 BattleScript_FractalShards[];
 extern const u8 BattleScript_CircleOfLife[];
 extern const u8 BattleScript_YggdrasilsGift[];
+extern const u8 BattleScript_Sanctuary[];
+extern const u8 BattleScript_HealingSpirit[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
