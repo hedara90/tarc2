@@ -3571,16 +3571,19 @@ BattleScript_EffectTwoTurnsAttack::
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
 	jumpiflunarcold BS_ATTACKER, BattleScript_TwoTurnMovesSecondLunarColdActivates
 	jumpifabundance BS_ATTACKER, BattleScript_TwoTurnMovesSecondAbundanceActivates
+	skipaiincrement
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_GeomancySecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_GeomancySecondTurn
 	call BattleScript_FirstChargingTurn
+	skipaiincrement
 	jumpifabundance BS_ATTACKER, BattleScript_GeomancySecondTurn
 	jumpifnoholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_MoveEnd
 	call BattleScript_PowerHerbActivation
 BattleScript_GeomancySecondTurn:
+	doaiincrement
 	attackcanceler
 	setbyte sB_ANIM_TURN, 1
 	clearstatusfromeffect BS_ATTACKER, MOVE_EFFECT_CHARGING
@@ -10454,7 +10457,7 @@ BattleScript_CircleOfLife::
 
 BattleScript_YggdrasilsGift::
 	setgraphicalstatchangevalues
-	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	playanimation BS_SCRIPTING, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_YGGDRASIL
 	waitmessage B_WAIT_TIME_LONG
 	end3

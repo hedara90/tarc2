@@ -204,6 +204,7 @@ enum Bosses
     BOSS_MINI_CLAWITZER,
     BOSS_MINI_SIMISEAR,
     BOSS_MINI_KLEAVOR,
+    BOSS_FINAL_XERNEAS,
 };
 
 #endif

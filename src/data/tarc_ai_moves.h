@@ -12,6 +12,7 @@
 #include "tarc_ai_paradox_swords.h"
 #include "tarc_ai_pseudos.h"
 #include "tarc_ai_minibosses.h"
+#include "tarc_ai_final.h"
 
 const struct BossAi sAiLists[] =
 {
@@ -216,6 +217,7 @@ const struct BossAi sAiLists[] =
     [BOSS_MINI_CLAWITZER] = sClawitzerAi,
     [BOSS_MINI_SIMISEAR] = sSimisearAi,
     [BOSS_MINI_KLEAVOR] = sKleavorAi,
+    [BOSS_FINAL_XERNEAS] = sXerneasAi,
 };
 
 const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
@@ -421,4 +423,6 @@ const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
     [SPECIES_CLAWITZER] = BOSS_MINI_CLAWITZER,
     [SPECIES_SIMISEAR] = BOSS_MINI_SIMISEAR,
     [SPECIES_KLEAVOR] = BOSS_MINI_KLEAVOR,
+    [SPECIES_XERNEAS] = BOSS_FINAL_XERNEAS,
+    [SPECIES_XERNEAS_ACTIVE] = BOSS_FINAL_XERNEAS,
 };

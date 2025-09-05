@@ -1794,6 +1794,8 @@ static bool32 HandleEndTurnAbilities(u32 battler)
                 }
                 gBattleTextBuff1[currChar] = EOS;
 
+                gBattleScripting.battler = battler;
+
                 CreateAbilityPopUp(battler, ABILITY_YGGDRASILS_GIFT, FALSE);
                 BattleScriptExecute(BattleScript_YggdrasilsGift);
                 effect = TRUE;

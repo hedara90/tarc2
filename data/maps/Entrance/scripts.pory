@@ -107,11 +107,11 @@ script Entrance_SandManual {
     closemessage
 }
 
-script Entrance_Lugia {
-    msgbox("Hunt Lugia?", MSGBOX_YESNO)
+script Entrance_Xerneas {
+    msgbox("Hunt Xerneas?", MSGBOX_YESNO)
     closemessage
     if (var(VAR_RESULT) == YES) {
-        setuphunt(FINAL_BOSS_LUGIA)
+        setuphunt(FINAL_BOSS_XERNEAS)
         warpsilent(MAP_MYTH_HUB, 20, 18)
     }
 }

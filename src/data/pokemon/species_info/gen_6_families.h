@@ -12668,7 +12668,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .friendship = 0,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_FAIRY_AURA, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_CIRCLE_OF_LIFE, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_YGGDRASILS_GIFT, ABILITY_AURA_OF_VITALITY, ABILITY_ABUNDANCE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Xerneas"),
         .cryId = CRY_XERNEAS,
@@ -12713,6 +12714,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sXerneasTeachableLearnset,
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
+        .maxPhases = 4,
     },
 
     [SPECIES_XERNEAS_ACTIVE] =
@@ -12732,7 +12734,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .friendship = 0,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_FAIRY_AURA, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_CIRCLE_OF_LIFE, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_YGGDRASILS_GIFT, ABILITY_AURA_OF_VITALITY, ABILITY_ABUNDANCE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Xerneas"),
         .cryId = CRY_XERNEAS,
@@ -12777,6 +12780,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sXerneasTeachableLearnset,
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_XERNEAS
 

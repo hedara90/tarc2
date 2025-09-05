@@ -2632,3 +2632,11 @@
 	.macro sethealingspirithealing
 	callnative BS_SetHealingSpiritHealing
 	.endm
+
+	.macro skipaiincrement
+	callnative BS_SkipAiIncrement
+	.endm
+
+	.macro doaiincrement
+	callnative BS_DoAiIncrement
+	.endm

@@ -7253,7 +7253,7 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
     else
     {
         u32 maxInnates = 3;
-        if (!TESTING)
+        if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
             if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
                 maxInnates =  0;
@@ -7307,7 +7307,7 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     }
     else
     {
-        if (!TESTING)
+        if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
             if (traitNum > 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
                 return 0;

@@ -19414,3 +19414,17 @@ void BS_SetHealingSpiritHealing(void)
     }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+void BS_SkipAiIncrement(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->skipIncrement = TRUE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_DoAiIncrement(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->skipIncrement = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
