@@ -3196,7 +3196,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("Tectonic Titan"),
         .description = COMPOUND_STRING("Powers up Ground moves."),
         .aiRating = 5,
-        .category = AC_TRIGGERED,
+        .category = AC_PASSIVE,
     },
     [ABILITY_FRACTAL_SHARDS] =
     {
@@ -3204,5 +3204,33 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Releases shards of gems\nin snow that boosts attacks."),
         .aiRating = 5,
         .category = AC_TRIGGERED,
+    },
+    [ABILITY_CIRCLE_OF_LIFE] =
+    {
+        .name = _("Circle of Light"),
+        .description = COMPOUND_STRING("Heal all battlers at\nend of turn for 1/6."),
+        .aiRating = 5,
+        .category = AC_EOT,
+    },
+    [ABILITY_YGGDRASILS_GIFT] =
+    {
+        .name = _("Yggdrasil's Gift"),
+        .description = COMPOUND_STRING("At end of turn, raise\na random stat for each\nmon at full HP."),
+        .aiRating = 5,
+        .category = AC_EOT,
+    },
+    [ABILITY_AURA_OF_VITALITY] =
+    {
+        .name = _("Aura of Vitality"),
+        .description = COMPOUND_STRING("Increase healing effects\non self by 50%."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_ABUNDANCE] =
+    {
+        .name = _("Abundance"),
+        .description = COMPOUND_STRING("At full HP, moves don't\nhave charge turns and\nstats can't be lowered."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
     },
 };
