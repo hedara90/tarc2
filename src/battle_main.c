@@ -4083,6 +4083,7 @@ void BattleTurnPassed(void)
         if (gBattleStruct->battlerState[i].stompingTantrumTimer > 0)
             gBattleStruct->battlerState[i].stompingTantrumTimer--;
     }
+    gBattleStruct->hasShownMoodSwing = FALSE;
 
     for (i = 0; i < NUM_BATTLE_SIDES; i++)
     {
@@ -6233,6 +6234,13 @@ void SetTypeBeforeUsingMove(u32 move, u32 battler)
                                   move,
                                   battler,
                                   MON_IN_BATTLE);
+    // Handle Purifying Water
+    if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS
+     && gMovesInfo[move].type == TYPE_POISON
+     && BattlerHasTrait(gBattleStruct->moveTarget[battler], ABILITY_PURIFYING_WATER))
+    {
+        moveType = TYPE_WATER;
+    }
 
     if (moveType != TYPE_NONE)
         gBattleStruct->dynamicMoveType = moveType | F_DYNAMIC_TYPE_SET;

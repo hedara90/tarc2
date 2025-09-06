@@ -4745,6 +4745,35 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
 			}
         }
         break;
+    case ABILITYEFFECT_MOOD_SWING:
+    {
+        u32 validToRaise = 0, validToLower = 0;
+        u32 statsNum = GetGenConfig(GEN_CONFIG_MOODY_STATS) >= GEN_8 ? NUM_STATS : NUM_BATTLE_STATS;
+
+        for (i = STAT_ATK; i < statsNum; i++)
+        {
+            if (CompareStat(battler, i, MIN_STAT_STAGE, CMP_GREATER_THAN))
+                validToLower |= 1u << i;
+            if (CompareStat(battler, i, MAX_STAT_STAGE, CMP_LESS_THAN))
+                validToRaise |= 1u << i;
+        }
+        gBattleScripting.statChanger = gBattleScripting.savedStatChanger = 0; // for raising and lowering stat respectively
+        if (validToRaise) // Find stat to raise
+        {
+            i = RandomUniformExcept(RNG_MOODY_INCREASE, STAT_ATK, statsNum - 1, MoodyCantRaiseStat);
+            SET_STATCHANGER(i, 2, FALSE);
+            validToLower &= ~(1u << i); // Can't lower the same stat as raising.
+        }
+        if (validToLower) // Find stat to lower
+        {
+            // MoodyCantLowerStat already checks that both stats are different
+            i = RandomUniformExcept(RNG_MOODY_DECREASE, STAT_ATK, statsNum - 1, MoodyCantLowerStat);
+            SET_STATCHANGER2(gBattleScripting.savedStatChanger, i, 1, TRUE);
+        }
+        PushTraitStack(battler, ABILITY_MOODY);
+        BattleScriptPushCursorAndCallback(BattleScript_MoodSwingActivates);
+        effect++;
+    }
     case ABILITYEFFECT_MOVE_END: // Think contact abilities.
         if (SearchTraits(battlerTraits, ABILITY_JUSTIFIED)
          && !(gBattleStruct->moveResultFlags[battler] & MOVE_RESULT_NO_EFFECT)
@@ -6020,6 +6049,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 StringCopy(gBattleTextBuff1, gStatusConditionString_IceJpn);
                 effect = 1;
             }
+            if (SearchTraits(battlerTraits, ABILITY_PURIFYING_WATER)
+             && gBattleMons[battler].status1 & STATUS1_ANY)
+            {
+                PushTraitStack(battler, ABILITY_PURIFYING_WATER);
+                StringCopy(gBattleTextBuff1, gStatusConditionString_IceJpn);
+                effect = 1;
+            }
             if (SearchTraits(battlerTraits, ABILITY_OBLIVIOUS))
             {
                 if (gBattleMons[battler].status2 & STATUS2_INFATUATION)
@@ -6836,6 +6872,11 @@ bool32 CanSetNonVolatileStatus(u32 battlerAtk, u32 battlerDef, u32 abilityAtk, u
     else if (gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_SAFEGUARD)
     {
         battleScript = BattleScript_SafeguardProtected;
+    }
+    else if (SearchTraits(battlerTraits, ABILITY_PURIFYING_WATER))
+    {
+        abilityAffected = TRUE;
+        battleScript = BattleScript_AbilityProtectsDoesntAffect;
     }
     else if (gBattleMons[battlerDef].status1 & STATUS1_ANY)
     {
@@ -10391,6 +10432,14 @@ static inline uq4_12_t GetFractalShardsModifier(u32 attacker)
     return UQ_4_12(1.0);
 }
 
+static inline uq4_12_t GetHasteModifier(u32 move, u32 attacker)
+{
+    if (GetBattleMovePriority(attacker, gBattleMons[attacker].ability, move) > 0
+     && BattlerHasTrait(attacker, ABILITY_HASTE))
+        return UQ_4_12(TARC_HASTE_MULTIPLIER);
+    return UQ_4_12(1.0);
+}
+
 #define DAMAGE_MULTIPLY_MODIFIER(modifier) do {                     \
     finalModifier = uq4_12_multiply_half_down(modifier, finalModifier); \
 } while (0)
@@ -10422,6 +10471,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageCalculationData *damageCal
     DAMAGE_MULTIPLY_MODIFIER(GetScreensModifier(move, battlerAtk, battlerDef, isCrit, abilityAtk));
     DAMAGE_MULTIPLY_MODIFIER(GetCollisionCourseElectroDriftModifier(move, typeEffectivenessModifier));
     DAMAGE_MULTIPLY_MODIFIER(GetFractalShardsModifier(battlerAtk));
+    DAMAGE_MULTIPLY_MODIFIER(GetHasteModifier(move, battlerAtk));
 
     if (unmodifiedAttackerSpeed >= unmodifiedDefenderSpeed)
     {
