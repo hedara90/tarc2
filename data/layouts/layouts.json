@@ -4535,7 +4535,7 @@
       "id": "LAYOUT_ENTRANCE",
       "name": "Entrance_Layout",
       "width": 50,
-      "height": 50,
+      "height": 52,
       "primary_tileset": "gTileset_hub",
       "secondary_tileset": "gTileset_hubsecondary",
       "border_filepath": "data/layouts/Entrance/border.bin",
