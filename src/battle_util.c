@@ -5411,6 +5411,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlescriptCurrInstr = BattleScript_SeedSowerActivates;
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_ELECTRON_RELESE)
+         && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
+         && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && IsBattlerAlive(gBattlerTarget)
+         && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_ELECTRIC_TERRAIN, &gFieldTimers.terrainTimer))
+        {
+            PushTraitStack(gBattlerTarget, ABILITY_ELECTRON_RELESE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_ElectronCondensateActivates;
+            effect++;
+        }
         if (SearchTraits(battlerTraits, ABILITY_THERMAL_EXCHANGE)
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && IsBattlerTurnDamaged(gBattlerTarget)
@@ -5615,7 +5627,6 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_POISON_PUPPETEER)
-         && gBattleMons[gBattlerAttacker].species == SPECIES_PECHARUNT
          && gBattleStruct->poisonPuppeteerConfusion == TRUE
          && CanBeConfused(gBattlerTarget, 0))
         {

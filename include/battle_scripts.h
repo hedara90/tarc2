@@ -918,5 +918,6 @@ extern const u8 BattleScript_YggdrasilsGift[];
 extern const u8 BattleScript_Sanctuary[];
 extern const u8 BattleScript_HealingSpirit[];
 extern const u8 BattleScript_MoodSwingActivates[];
+extern const u8 BattleScript_ElectronCondensateActivates[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

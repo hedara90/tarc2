@@ -3254,4 +3254,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
+    [ABILITY_ELECTRON_RELESE] =
+    {
+        .name = _("Electron Release"),
+        .description = COMPOUND_STRING("Sets Electric Terrain\non getting hit."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };
