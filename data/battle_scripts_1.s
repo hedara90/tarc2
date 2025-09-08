@@ -10518,3 +10518,46 @@ BattleScript_ElectronCondensateActivates::
 	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
 	call BattleScript_ActivateTerrainEffects
 	return
+
+BattleScript_MoveEffectDisable::
+	jumpifability BS_TARGET_SIDE, ABILITY_AROMA_VEIL, BattleScript_MoveEffectDisableEnd
+	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
+	playmoveanimation BS_ATTACKER, MOVE_DISABLE
+	disablelastusedattack BattleScript_MoveEffectDisableEnd
+	printstring STRINGID_PKMNMOVEWASDISABLED
+BattleScript_MoveEffectDisableEnd:
+	goto BattleScript_MoveEnd
+
+BattleScript_MoveEffectTopsyTurvy::
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_ATK, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_DEF, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPATK, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPDEF, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPEED, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_ACC, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_EVASION, 6, BattleScript_MoveEffectTopsyTurvyEnd
+BattleScript_MoveEffectTopsyTurvyWorks:
+	invertstatstages BS_TARGET
+	playmoveanimation BS_ATTACKER, MOVE_TOPSY_TURVY
+	printstring STRINGID_TOPSYTURVYSWITCHEDSTATS
+	waitmessage B_WAIT_TIME_LONG
+	waitanimation
+BattleScript_MoveEffectTopsyTurvyEnd:
+	goto BattleScript_MoveEnd
+
+BattleScript_MindStealSteal::
+	setbyte sB_ANIM_TURN, 1
+	playmoveanimation BS_ATTACKER, MOVE_SPECTRAL_THIEF
+	waitanimation
+	setbyte sB_ANIM_TURN, 0
+	printstring STRINGID_SPECTRALTHIEFSTEAL
+	waitmessage B_WAIT_TIME_LONG
+	setbyte sB_ANIM_ARG2, 0
+	spectralthiefprintstats
+	flushtextbox
+	goto BattleScript_MoveEffectStatStealEnd
+
+BattleScript_MoveEffectStatSteal::
+	tryspectralthiefsteal BattleScript_MindStealSteal
+BattleScript_MoveEffectStatStealEnd:
+	goto BattleScript_MoveEnd
