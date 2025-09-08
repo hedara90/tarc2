@@ -809,11 +809,12 @@ struct BattleStruct
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:19;
+    u32 sentinelState:18;
     u32 isEndOfTurnWeather:1;
     u32 shouldTriggerSharedBurdens:1;
     u32 empathCounter:6;
     u32 cripplingPoisonFlip:1;
+    u32 hasShownMoodSwing:1;
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
 };
 

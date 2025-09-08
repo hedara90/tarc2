@@ -16418,11 +16418,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-    #if P_UPDATED_ABILITIES >= GEN_7
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_INNER_FOCUS },
-    #else
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_VOLT_ABSORB },
-    #endif
+        .abilities = { ABILITY_ESSENCE_OF_RAIN, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_CLOUDWALKER, ABILITY_LIGHTNING_ROD, ABILITY_PRESSURE },
         .bodyColor = BODY_COLOR_YELLOW,
         .speciesName = _("Raikou"),
         .cryId = CRY_RAIKOU,
@@ -16502,11 +16499,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-    #if P_UPDATED_ABILITIES >= GEN_7
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_INNER_FOCUS },
-    #else
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_FLASH_FIRE },
-    #endif
+        .abilities = { ABILITY_UNCONTAINED_BLAZE, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_HASTE, ABILITY_FLAME_BODY, ABILITY_BLAZE },
         .bodyColor = BODY_COLOR_BROWN,
         .speciesName = _("Entei"),
         .cryId = CRY_ENTEI,
@@ -16585,11 +16579,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-    #if P_UPDATED_ABILITIES >= GEN_7
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_INNER_FOCUS },
-    #else
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_WATER_ABSORB },
-    #endif
+        .abilities = { ABILITY_ESSENCE_OF_SNOW, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_PURIFYING_WATER, ABILITY_TORRENT, ABILITY_PRESSURE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Suicune"),
         .cryId = CRY_SUICUNE,
@@ -16804,7 +16795,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER),
-        .abilities = { ABILITY_SAND_STREAM, ABILITY_NONE, ABILITY_UNNERVE },
+        .abilities = { ABILITY_BATTLE_ARMOR, ABILITY_NONE, ABILITY_BATTLE_ARMOR },
+        .innates = { ABILITY_SOLID_ROCK, ABILITY_PRESSURE, ABILITY_DEFIANT },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Tyranitar"),
         .cryId = CRY_TYRANITAR,
