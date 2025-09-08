@@ -26875,7 +26875,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Mind Lock"),
         .description = COMPOUND_STRING(
             "Vanishes, then hits and\n"
-            "disables the targets last move."),
+            "disables the targets\n"
+            "last move."),
         .effect = EFFECT_SEMI_INVULNERABLE,
         .power = 90,
         .type = TYPE_PSYCHIC,
@@ -26907,7 +26908,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Mind Scramble"),
         .description = COMPOUND_STRING(
             "Vanishes, then hits and\n"
-            "inverts the targets stat boosts."),
+            "inverts the targets stat\n"
+            "boosts."),
         .effect = EFFECT_SEMI_INVULNERABLE,
         .power = 90,
         .type = TYPE_PSYCHIC,
@@ -26939,7 +26941,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Mind Steal"),
         .description = COMPOUND_STRING(
             "Vanishes, then hits and\n"
-            "steals the target's stat boosts."),
+            "steals the target's stat\n"
+            "boosts."),
         .effect = EFFECT_SEMI_INVULNERABLE,
         .power = 90,
         .type = TYPE_PSYCHIC,
