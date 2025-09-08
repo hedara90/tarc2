@@ -6023,13 +6023,13 @@ u32 GetDynamicMoveType(struct Pokemon *mon, u32 move, u32 battler, enum MonState
         {
             if (HasWeatherEffect())
             {
-                if (gBattleWeather & B_WEATHER_RAIN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
+                if (IsBattlerWeatherAffected(battler, B_WEATHER_RAIN))
                     return TYPE_WATER;
-                else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SANDSTORM))
                     return TYPE_ROCK;
-                else if (gBattleWeather & B_WEATHER_SUN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SUN))
                     return TYPE_FIRE;
-                else if (gBattleWeather & (B_WEATHER_SNOW | B_WEATHER_HAIL))
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SNOW | B_WEATHER_HAIL))
                     return TYPE_ICE;
                 else
                     return moveType;

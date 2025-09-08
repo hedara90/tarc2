@@ -9235,7 +9235,7 @@ static inline u32 CalcMoveBasePower(struct DamageCalculationData *damageCalcData
             basePower *= 2;
         break;
     case EFFECT_WEATHER_BALL:
-        if (weather & B_WEATHER_ANY)
+        if (IsBattlerWeatherAffected(gBattlerAttacker, B_WEATHER_ANY))
             basePower *= 2;
         break;
     case EFFECT_PURSUIT:
