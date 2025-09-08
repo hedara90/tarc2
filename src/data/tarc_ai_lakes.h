@@ -90,7 +90,7 @@ const struct BossMoveList sAzelf2 =
         MOVE_MIND_STEAL,
         MOVE_EXTRASENSORY,
         MOVE_MYSTICAL_POWER,
-        MOVE_PSYHSIELD_BASH,
+        MOVE_PSYSHIELD_BASH,
     },
 };
 
