@@ -1620,3 +1620,14 @@ static void SetTarcSpriteToActive(u32 id)
         gSprites[sTarcMenuSpriteIds[i]].oam.paletteNum = slot;
     }
 }
+
+void AutoSaveDoSave(void)
+{
+    u8 saveStatus;
+    SaveMapView();
+    sSavingComplete = FALSE;
+    IncrementGameStat(GAME_STAT_SAVED_GAME);
+    saveStatus = TrySavingData(SAVE_NORMAL);
+    gDifferentSaveFile = FALSE;
+    return;
+}

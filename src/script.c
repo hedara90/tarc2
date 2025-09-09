@@ -637,3 +637,11 @@ void Script_RequestWriteVar_Internal(u32 varId)
         return;
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE);
 }
+
+void AutoSave(void)
+{
+    ScriptContext_Stop();
+    AutoSaveDoSave();
+    FlagSet(FLAG_TEMP_F);
+    ScriptContext_Enable();
+}
