@@ -1030,7 +1030,7 @@ static void HideSaveMessageWindow(void)
 
 static void HideSaveInfoWindow(void)
 {
-    RemoveSaveInfoWindow();
+    //RemoveSaveInfoWindow();
 }
 
 static void SaveStartTimer(void)
@@ -1073,15 +1073,22 @@ static u8 SaveConfirmSaveCallback(void)
 {
     ClearStdWindowAndFrame(GetStartMenuWindowId(), FALSE);
     RemoveStartMenuWindow();
-    ShowSaveInfoWindow();
 
-    if (InBattlePyramid())
+    switch (gSaveFileStatus)
     {
-        ShowSaveMessage(gText_BattlePyramidConfirmRest, SaveYesNoCallback);
-    }
-    else
-    {
-        ShowSaveMessage(gText_ConfirmSave, SaveYesNoCallback);
+    case SAVE_STATUS_EMPTY:
+    case SAVE_STATUS_CORRUPT:
+        if (gDifferentSaveFile == FALSE)
+        {
+            sSaveDialogCallback = SaveFileExistsCallback;
+            return SAVE_IN_PROGRESS;
+        }
+
+        sSaveDialogCallback = SaveSavingMessageCallback;
+        return SAVE_IN_PROGRESS;
+    default:
+        sSaveDialogCallback = SaveOverwriteInputCallback;
+        return SAVE_IN_PROGRESS;
     }
 
     return SAVE_IN_PROGRESS;
@@ -1096,30 +1103,21 @@ static u8 SaveYesNoCallback(void)
 
 static u8 SaveConfirmInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    switch (gSaveFileStatus)
     {
-    case 0: // Yes
-        switch (gSaveFileStatus)
+    case SAVE_STATUS_EMPTY:
+    case SAVE_STATUS_CORRUPT:
+        if (gDifferentSaveFile == FALSE)
         {
-        case SAVE_STATUS_EMPTY:
-        case SAVE_STATUS_CORRUPT:
-            if (gDifferentSaveFile == FALSE)
-            {
-                sSaveDialogCallback = SaveFileExistsCallback;
-                return SAVE_IN_PROGRESS;
-            }
-
-            sSaveDialogCallback = SaveSavingMessageCallback;
-            return SAVE_IN_PROGRESS;
-        default:
             sSaveDialogCallback = SaveFileExistsCallback;
             return SAVE_IN_PROGRESS;
         }
-    case MENU_B_PRESSED:
-    case 1: // No
-        HideSaveInfoWindow();
-        HideSaveMessageWindow();
-        return SAVE_CANCELED;
+
+        sSaveDialogCallback = SaveSavingMessageCallback;
+        return SAVE_IN_PROGRESS;
+    default:
+        sSaveDialogCallback = SaveOverwriteInputCallback;
+        return SAVE_IN_PROGRESS;
     }
 
     return SAVE_IN_PROGRESS;
@@ -1156,18 +1154,7 @@ static u8 SaveConfirmOverwriteCallback(void)
 
 static u8 SaveOverwriteInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
-    case 0: // Yes
-        sSaveDialogCallback = SaveSavingMessageCallback;
-        return SAVE_IN_PROGRESS;
-    case MENU_B_PRESSED:
-    case 1: // No
-        HideSaveInfoWindow();
-        HideSaveMessageWindow();
-        return SAVE_CANCELED;
-    }
-
+    sSaveDialogCallback = SaveSavingMessageCallback;
     return SAVE_IN_PROGRESS;
 }
 
