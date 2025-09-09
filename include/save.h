@@ -16,10 +16,10 @@
 
 #define SECTOR_ID_SAVEBLOCK2          0
 #define SECTOR_ID_SAVEBLOCK1_START    1
-#define SECTOR_ID_SAVEBLOCK1_END      4
-#define SECTOR_ID_PKMN_STORAGE_START  5
-#define SECTOR_ID_PKMN_STORAGE_END   5
-#define NUM_SECTORS_PER_SLOT         6
+#define SECTOR_ID_SAVEBLOCK1_END      3
+#define SECTOR_ID_PKMN_STORAGE_START  4
+#define SECTOR_ID_PKMN_STORAGE_END   4
+#define NUM_SECTORS_PER_SLOT         5
 // Save Slot 1: 0-13;  Save Slot 2: 14-27
 #define SECTOR_ID_HOF_1              28
 #define SECTOR_ID_HOF_2              29

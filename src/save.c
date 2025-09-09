@@ -62,8 +62,7 @@ struct
 
     SAVEBLOCK_CHUNK(struct SaveBlock1, 0), // SECTOR_ID_SAVEBLOCK1_START
     SAVEBLOCK_CHUNK(struct SaveBlock1, 1),
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 2),
-    SAVEBLOCK_CHUNK(struct SaveBlock1, 3), // SECTOR_ID_SAVEBLOCK1_END
+    SAVEBLOCK_CHUNK(struct SaveBlock1, 2), // SECTOR_ID_SAVEBLOCK1_END
 
     SAVEBLOCK_CHUNK(struct PokemonStorage, 0), // SECTOR_ID_PKMN_STORAGE_START
     //SAVEBLOCK_CHUNK(struct PokemonStorage, 1),
