@@ -52,6 +52,7 @@
 
 #include "even_sprite.h"
 #include "constants/map_types.h"
+#include "constants/tarc_color_constants.h"
 
 // Menu actions
 enum
@@ -996,8 +997,13 @@ void SaveGame(void)
 static void ShowSaveMessage(const u8 *message, u8 (*saveCallback)(void))
 {
     StringExpandPlaceholders(gStringVar4, message);
-    LoadMessageBoxAndFrameGfx(0, TRUE);
-    AddTextPrinterForMessage_2(TRUE);
+
+    //LoadMessageBoxGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+    //DrawDialogFrameWithCustomTileAndPalette(0, TRUE, DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
+    DrawDialogueFrame(0, TRUE);
+
+    gTextFlags.canABSpeedUpPrint = TRUE;
+    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), NULL, TARC_FG_COLOR, TARC_BG_COLOR, TARC_SHADOW_COLOR);
     sSavingComplete = TRUE;
     sSaveDialogCallback = saveCallback;
 }

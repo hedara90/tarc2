@@ -136,4 +136,6 @@ u8 GetSecondaryPopUpWindowId(void);
 void RemoveSecondaryPopUpWindow(void);
 void HBlankCB_DoublePopupWindow(void);
 
+void HideTarcMessagebox(void);
+
 #endif // GUARD_MENU_H
