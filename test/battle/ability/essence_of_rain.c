@@ -1,7 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
 
-SINGLE_BATTLE_TEST("blergh", s16 damage)
+SINGLE_BATTLE_TEST("Essence of Rain changes the type of Weather Ball", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_TELEPATHY; }
