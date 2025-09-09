@@ -9,6 +9,7 @@
 #include "constants/flags.h"
 #include "constants/map_scripts.h"
 #include "field_message_box.h"
+#include "start_menu.h"
 
 #define RAM_SCRIPT_MAGIC 51
 
