@@ -25,6 +25,7 @@
 #include "constants/songs.h"
 
 #include "even_sprite.h"
+#include "constants/tarc_color_constants.h"
 
 struct MenuInfoIcon
 {
@@ -63,7 +64,6 @@ static void WindowFunc_ClearStdWindowAndFrameToTransparent(u8, u8, u8, u8, u8, u
 static void task_free_buf_after_copying_tile_data_to_vram(u8 taskId);
 
 static void LoadTarcMessagebox(void);
-static void HideTarcMessagebox(void);
 static void LoadTarcYesNoBox(void);
 static void HideTarcYesNoBox(void);
 
@@ -210,7 +210,7 @@ void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)
 {
     void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), callback, TEXT_COLOR_WHITE, 0, TEXT_COLOR_DARK_GRAY);
+    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), callback, TARC_FG_COLOR, TARC_BG_COLOR, TARC_SHADOW_COLOR);
 }
 
 void AddTextPrinterForMessage_2(bool8 allowSkippingDelayWithButtonPress)
@@ -817,6 +817,7 @@ static void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemap
 void ClearDialogWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
 {
     // The palette slot doesn't matter, since the tiles are transparent.
+    HideTarcMessagebox();
     CallWindowFunction(windowId, WindowFunc_ClearDialogWindowAndFrameNullPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);
@@ -2358,6 +2359,8 @@ void HBlankCB_DoublePopupWindow(void)
 
 static void LoadTarcMessagebox(void)
 {
+    if (sMessageboxSpriteIds[0] != 255)
+        return;
     struct Even_CreateSpriteStruct cs = {0};
     cs.palette = sTarcMessageboxPal;
     cs.palTag = 0xCEC0;
@@ -2375,7 +2378,7 @@ static void LoadTarcMessagebox(void)
     }
 }
 
-static void HideTarcMessagebox(void)
+void HideTarcMessagebox(void)
 {
     FreeSpritePaletteByTag(0xCEC0);
     for (u32 i = 0; i < 4; i++)
