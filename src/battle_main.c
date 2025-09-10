@@ -3997,6 +3997,8 @@ static void HandleEndTurn_ContinueBattle(void)
     s32 i;
     gBattleStruct->isEndOfTurnWeather = FALSE;
 
+    HelpSystem_AddTrigger(TRIGGER_BOSS_MOVE);
+
     //  Increment the AI turn counter
     if (gBattleStruct->skipIncrement)
     {

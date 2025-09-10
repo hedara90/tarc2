@@ -76,7 +76,7 @@
 #define FLAG_HELP_PHASE         0x3E // Unused Flag
 #define FLAG_HELP_COOLDOWN      0x3F // Unused Flag
 #define FLAG_HELP_HEAL          0x40 // Unused Flag
-#define FLAG_UNUSED_0x041    0x41 // Unused Flag
+#define FLAG_HELP_BOSS_MOVE     0x41 // Unused Flag
 #define FLAG_UNUSED_0x042    0x42 // Unused Flag
 #define FLAG_UNUSED_0x043    0x43 // Unused Flag
 #define FLAG_UNUSED_0x044    0x44 // Unused Flag
