@@ -26969,4 +26969,44 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Bounce,
         .validApprenticeMove = TRUE,
     },
+    [MOVE_JAB_MIND] =
+    {
+        .name = COMPOUND_STRING("Jab Mind"),
+        .description = COMPOUND_STRING(
+            "Jabs the foe 2 to 5 times\n"
+            "with psychic power."),
+        .effect = EFFECT_MULTI_HIT,
+        .power = 20,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_JabMind,
+    },
+    [MOVE_POISON_DROPLETS] =
+    {
+        .name = COMPOUND_STRING("Poison Droplets"),
+        .description = COMPOUND_STRING(
+            "Jabs the foe 2 to 5 times\n"
+            "with manifested poison."),
+        .effect = EFFECT_MULTI_HIT,
+        .power = 20,
+        .type = TYPE_POISON,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_PoisonDroplets,
+    },
 };
