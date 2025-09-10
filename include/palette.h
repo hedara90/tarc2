@@ -113,6 +113,7 @@ void TintPalette_GrayScale(u16 *palette, u32 count);
 void TintPalette_GrayScale2(u16 *palette, u32 count);
 void TintPalette_SepiaTone(u16 *palette, u32 count);
 void TintPalette_CustomTone(u16 *palette, u32 count, u16 rTone, u16 gTone, u16 bTone);
+u16 ConvertColorToDesaturatedNaive(u16 input);
 
 static inline void SetBackdropFromColor(u32 color)
 {
