@@ -67,6 +67,7 @@ enum EndTurnResolutionOrder
     ENDTURN_MAGIC_ROOM,
     ENDTURN_TERRAIN,
     ENDTURN_THIRD_EVENT_BLOCK,
+    ENDTURN_MOOD_SWING,
     ENDTURN_EMERGENCY_EXIT_4,
     ENDTURN_ABILITIES,
     ENDTURN_FOURTH_EVENT_BLOCK,
@@ -1472,7 +1473,6 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
          || SearchTraits(battlerTraits, ABILITY_SPEED_BOOST))
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
                 effect = TRUE;
-
         gBattleStruct->eventBlockCounter++;
         break;
     }
@@ -1502,6 +1502,47 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
 
     return effect;
 }
+
+static bool32 HandleEndTurnMoodSwing(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    if (!IsBattlerAlive(battler))
+    {
+        gBattleStruct->turnEffectsBattlerId++;
+        return effect;
+    }
+
+    bool32 anyBattlerHasMoodSwing = FALSE;
+    u32 battlerWithMoodSwing = 0;
+    for (u32 k = 0; k < gBattlersCount; k++)
+    {
+        if (BattlerHasTrait(k, ABILITY_MOOD_SWING))
+        {
+            anyBattlerHasMoodSwing = TRUE;
+            battlerWithMoodSwing = k;
+            break;
+        }
+    }
+
+    if (anyBattlerHasMoodSwing)
+    {
+        if (!gBattleStruct->hasShownMoodSwing)
+        {
+            CreateAbilityPopUp(battlerWithMoodSwing, ABILITY_MOOD_SWING, FALSE);
+            gBattleStruct->hasShownMoodSwing = TRUE;
+        }
+        if (gBattleMons[battler].hp != 0)
+        {
+            AbilityBattleEffects(ABILITYEFFECT_MOOD_SWING, battler, ABILITY_MOOD_SWING, 0, MOVE_NONE);
+            effect = TRUE;
+        }
+    }
+
+    gBattleStruct->turnEffectsBattlerId++;
+    return effect;
+}
+
 
 static u32 FindValidThunderstrikeTarget(void)
 {
@@ -2009,6 +2050,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_MAGIC_ROOM] = HandleEndTurnMagicRoom,
     [ENDTURN_TERRAIN] = HandleEndTurnTerrain,
     [ENDTURN_THIRD_EVENT_BLOCK] = HandleEndTurnThirdEventBlock,
+    [ENDTURN_MOOD_SWING] = HandleEndTurnMoodSwing,
     [ENDTURN_EMERGENCY_EXIT_4] = HandleEndTurnEmergencyExit,
     [ENDTURN_ABILITIES] = HandleEndTurnAbilities,
     [ENDTURN_FOURTH_EVENT_BLOCK] = HandleEndTurnFourthEventBlock,

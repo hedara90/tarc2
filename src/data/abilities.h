@@ -3233,4 +3233,32 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
+    [ABILITY_HASTE] =
+    {
+        .name = _("Haste"),
+        .description = COMPOUND_STRING("Moves with increased\npriority deal more damage."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_PURIFYING_WATER] =
+    {
+        .name = _("Purifying Water"),
+        .description = COMPOUND_STRING("Turns poison type attacks\ninto water. Immune to status\nconditions."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_MOOD_SWING] =
+    {
+        .name = _("Mood Swing"),
+        .description = COMPOUND_STRING("Moves with increased\npriority deal more damage."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_ELECTRON_RELESE] =
+    {
+        .name = _("Electron Release"),
+        .description = COMPOUND_STRING("Sets Electric Terrain\non getting hit."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

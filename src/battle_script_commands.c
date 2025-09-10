@@ -4513,6 +4513,18 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_EffectInfatuateSide;
                 break;
+            case MOVE_EFFECT_DISABLE:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectDisable;
+                break;
+            case MOVE_EFFECT_TOPSY_TURVY:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectTopsyTurvy;
+                break;
+            case MOVE_EFFECT_STAT_STEAL:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectStatSteal;
+                break;
             case MOVE_EFFECT_TORMENT_SIDE:
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_EffectTormentSide;
