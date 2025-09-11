@@ -166,19 +166,19 @@ const struct BossGroup sPseudos =
 
 const struct BossGroup *const sBossGroups[] =
 {
-    &sBirds,
-    &sBeasts,
-    &sGolems,
-    &sLakes,
-    &sSwords,
-    &sGenies,
-    &sTapus,
-    &sTreasures,
-    &sLoyal,
-    &sGalarBirds,
-    &sParadoxBeasts,
-    &sParadoxSwords,
-    &sPseudos,
+    [BOSS_BIRDS] = &sBirds,
+    [BOSS_BEASTS] = &sBeasts,
+    [BOSS_GOLEMS] = &sGolems,
+    [BOSS_LAKES] = &sLakes,
+    [BOSS_SWORDS] = &sSwords,
+    [BOSS_GENIES] = &sGenies,
+    [BOSS_TAPUS] = &sTapus,
+    [BOSS_TREASURES] = &sTreasures,
+    [BOSS_LOYAL] = &sLoyal,
+    [BOSS_GALAR_BIRDS] = &sGalarBirds,
+    [BOSS_PARADOX_BEASTS] = &sParadoxBeasts,
+    [BOSS_PARADOX_SWORDS] = &sParadoxSwords,
+    [BOSS_PSEUDOS] = &sPseudos,
 };
 
 const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =

@@ -443,11 +443,6 @@ static void TarcUi_PrintMonTypes(u32 type1, u32 type2);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
-void OpenFromScript(void)
-{
-    Tarc_InitSummaryScreen(CB2_ReturnToFieldWithOpenMenu);
-}
-
 void Tarc_InitSummaryScreen(MainCallback callback)
 {
     sTarcUiState = AllocZeroed(sizeof(struct Tarc_PartyMenuState));
