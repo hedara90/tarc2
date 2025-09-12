@@ -792,7 +792,7 @@ static void PrintRecordText(u32 bossId)
         u8 subBossString[2];
         u8 miniBossString[3] = {0, 0, 0};
         ConvertIntToDecimalStringN(subBossString, gSaveBlock1Ptr->bestBosses[bossId].numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
-        ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMinibosses, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
 
         u8 tempStr[5];
         tempStr[0] = subBossString[0];
@@ -861,13 +861,13 @@ static void PrintStatNumber(u32 bossId)
             switch (sTarcUiState->mode)
             {
             case MODE_TOTAL:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].attempts;
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts;
                 break;
             case MODE_WINS:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
                 break;
             case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].attempts - gSaveBlock1Ptr->victoryStats[bossId][archetype][i].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts - gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
                 break;
             }
         }
@@ -903,13 +903,13 @@ static void PrintArchetypeStats(u32 bossId)
             switch (sTarcUiState->mode)
             {
             case MODE_TOTAL:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].attempts;
+                number += gSaveBlock1Ptr->victoryStats[bossId][i].attempts;
                 break;
             case MODE_WINS:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][i].wins;
                 break;
             case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].attempts - gSaveBlock1Ptr->victoryStats[bossId][i][j].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][i].attempts - gSaveBlock1Ptr->victoryStats[bossId][i].wins;
                 break;
             }
             ConvertIntToDecimalStringN(numStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);

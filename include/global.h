@@ -1069,9 +1069,9 @@ struct BufferedObjectRemoveStruct
 struct VictoryData
 {
     u8 numSubBosses;
-    u8 numMinibosses;
+    u8 numMiniBosses;
     u8 affinity;
-    u16 teamMembers[2];
+    u16 teamMembers[3];
     u16 moves[3][4];
     u16 abilities[3][4];
 };
@@ -1175,7 +1175,7 @@ struct SaveBlock1
     u16 savedAbility;
     u32 totalRuns;
     struct VictoryData bestBosses[30];
-    struct VictoryStats victoryStats[30][12][3];    // Affinity, {Direct, Indirect, Manual}
+    struct VictoryStats victoryStats[30][36];    // Affinity, {Direct, Indirect, Manual}
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
