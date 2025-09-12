@@ -75,9 +75,9 @@ struct BossIcon
 static EWRAM_DATA struct Tarc_InfoMenuState *sTarcUiState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 
-static const u32 sTarcInfoTiles[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.4bpp.lz");
-static const u32 sTarcInfoTilemap[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.bin.lz");
-static const u16 sTarcInfoPalette[] = INCBIN_U16("graphics/tarc_party/tarc_party_tiles.gbapal");
+static const u32 sTarcInfoTiles[] = INCBIN_U32("graphics/tarc_info/info_bg_tiles.4bpp.lz");
+static const u32 sTarcInfoTilemap[] = INCBIN_U32("graphics/tarc_info/info_bg_tiles.bin.lz");
+static const u16 sTarcInfoPalette[] = INCBIN_U16("graphics/tarc_info/info_bg_tiles.gbapal");
 
 static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 
@@ -825,7 +825,7 @@ static void PrintMythName(u32 bossId)
     FillWindowPixelBuffer(WIN_MYTH_NAME, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     AddTextPrinterParameterized4(WIN_MYTH_NAME,
                                  FONT_NORMAL,
-                                 0, 0, 0, 0,
+                                 4, 0, 0, 0,
                                  sTarcUiWindowFontColors[FONT_BLACK],
                                  TEXT_SKIP_DRAW,
                                  sMythNames[bossId]);
@@ -925,7 +925,7 @@ static void PrintArchetypeStats(u32 bossId)
         tempStr[tempChar - 1] = EOS;
         AddTextPrinterParameterized4(WIN_RAIN_STATS + i,
                                      FONT_NORMAL,
-                                     0, 0, 0, 0,
+                                     5, 0, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
                                      TEXT_SKIP_DRAW,
                                      tempStr);
