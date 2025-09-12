@@ -83,7 +83,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         bosses[currIndex] = tempValue;
     }
 
-    gSaveBlock1Ptr->huntTargets.bosses[0] = 12;
+    gSaveBlock1Ptr->huntTargets.bosses[0] = BOSS_PSEUDOS;
     gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
     for (u32 i = 0; i < 8; i++)
     {

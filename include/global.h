@@ -1066,6 +1066,22 @@ struct BufferedObjectRemoveStruct
     bool8 shouldRemove;
 };
 
+struct VictoryData
+{
+    u8 numSubBosses;
+    u8 numMinibosses;
+    u8 affinity;
+    u16 teamMembers[2];
+    u16 moves[3][4];
+    u16 abilities[3][4];
+};
+
+struct VictoryStats
+{
+    u16 attempts;
+    u16 wins;
+};
+
 struct SaveBlock1
 {
     /*0x00*/ struct Coords16 pos;
@@ -1157,6 +1173,9 @@ struct SaveBlock1
     struct BufferedObjectRemoveStruct bors;
     u16 savedMove;
     u16 savedAbility;
+    u32 totalRuns;
+    struct VictoryData bestBosses[30];
+    struct VictoryStats victoryStats[30][12][3];    // Affinity, {Direct, Indirect, Manual}
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

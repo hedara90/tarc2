@@ -54,6 +54,8 @@
 #include "constants/map_types.h"
 #include "constants/tarc_color_constants.h"
 
+#include "tarc_info_menu.h"
+
 // Menu actions
 enum
 {
@@ -778,13 +780,17 @@ static bool8 StartMenuPlayerNameCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
+        SetMainCallback2(CB2_PartyMenuFromStartMenu); // Display party menu
+        SetMainCallback2(CB2_InfoScreenFromStartMenu);
 
+        /*
         if (IsOverworldLinkActive() || InUnionRoom())
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
         else if (FlagGet(FLAG_SYS_FRONTIER_PASS))
             ShowFrontierPass(CB2_ReturnToFieldWithOpenMenu); // Display frontier pass
         else
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
+        */
 
         return TRUE;
     }

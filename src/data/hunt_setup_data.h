@@ -1,4 +1,4 @@
-const u16 sFinalBossToSpecies[] =
+static const u16 sFinalBossToSpecies[] =
 {
     [FINAL_BOSS_HO_OH] = SPECIES_HO_OH,
     [FINAL_BOSS_LUGIA] = SPECIES_LUGIA,
@@ -8,7 +8,7 @@ const u16 sFinalBossToSpecies[] =
     [FINAL_BOSS_ARCEUS] = SPECIES_ARCEUS,
 };
 
-const struct BossGroup sBirds =
+static const struct BossGroup sBirds =
 {
     .numMembers = 3,
     .members =
@@ -19,7 +19,7 @@ const struct BossGroup sBirds =
     }
 };
 
-const struct BossGroup sBeasts =
+static const struct BossGroup sBeasts =
 {
     .numMembers = 3,
     .members =
@@ -30,7 +30,7 @@ const struct BossGroup sBeasts =
     }
 };
 
-const struct BossGroup sGolems =
+static const struct BossGroup sGolems =
 {
     .numMembers = 5,
     .members =
@@ -43,7 +43,7 @@ const struct BossGroup sGolems =
     }
 };
 
-const struct BossGroup sLakes =
+static const struct BossGroup sLakes =
 {
     .numMembers = 3,
     .members =
@@ -54,7 +54,7 @@ const struct BossGroup sLakes =
     }
 };
 
-const struct BossGroup sSwords =
+static const struct BossGroup sSwords =
 {
     .numMembers = 4,
     .members =
@@ -66,7 +66,7 @@ const struct BossGroup sSwords =
     }
 };
 
-const struct BossGroup sGenies =
+static const struct BossGroup sGenies =
 {
     .numMembers = 4,
     .members =
@@ -78,7 +78,7 @@ const struct BossGroup sGenies =
     }
 };
 
-const struct BossGroup sTapus =
+static const struct BossGroup sTapus =
 {
     .numMembers = 4,
     .members =
@@ -90,7 +90,7 @@ const struct BossGroup sTapus =
     }
 };
 
-const struct BossGroup sTreasures =
+static const struct BossGroup sTreasures =
 {
     .numMembers = 4,
     .members =
@@ -102,7 +102,7 @@ const struct BossGroup sTreasures =
     }
 };
 
-const struct BossGroup sLoyal =
+static const struct BossGroup sLoyal =
 {
     .numMembers = 3,
     .members =
@@ -113,7 +113,7 @@ const struct BossGroup sLoyal =
     }
 };
 
-const struct BossGroup sGalarBirds =
+static const struct BossGroup sGalarBirds =
 {
     .numMembers = 3,
     .members =
@@ -124,7 +124,7 @@ const struct BossGroup sGalarBirds =
     }
 };
 
-const struct BossGroup sParadoxBeasts =
+static const struct BossGroup sParadoxBeasts =
 {
     .numMembers = 3,
     .members =
@@ -135,7 +135,7 @@ const struct BossGroup sParadoxBeasts =
     }
 };
 
-const struct BossGroup sParadoxSwords =
+static const struct BossGroup sParadoxSwords =
 {
     .numMembers = 3,
     .members =
@@ -146,7 +146,7 @@ const struct BossGroup sParadoxSwords =
     }
 };
 
-const struct BossGroup sPseudos =
+static const struct BossGroup sPseudos =
 {
     .numMembers = 10,
     .members =
@@ -164,24 +164,24 @@ const struct BossGroup sPseudos =
     }
 };
 
-const struct BossGroup *const sBossGroups[] =
+static const struct BossGroup *const sBossGroups[] =
 {
-    &sBirds,
-    &sBeasts,
-    &sGolems,
-    &sLakes,
-    &sSwords,
-    &sGenies,
-    &sTapus,
-    &sTreasures,
-    &sLoyal,
-    &sGalarBirds,
-    &sParadoxBeasts,
-    &sParadoxSwords,
-    &sPseudos,
+    [BOSS_BIRDS] = &sBirds,
+    [BOSS_BEASTS] = &sBeasts,
+    [BOSS_GOLEMS] = &sGolems,
+    [BOSS_LAKES] = &sLakes,
+    [BOSS_SWORDS] = &sSwords,
+    [BOSS_GENIES] = &sGenies,
+    [BOSS_TAPUS] = &sTapus,
+    [BOSS_TREASURES] = &sTreasures,
+    [BOSS_LOYAL] = &sLoyal,
+    [BOSS_GALAR_BIRDS] = &sGalarBirds,
+    [BOSS_PARADOX_BEASTS] = &sParadoxBeasts,
+    [BOSS_PARADOX_SWORDS] = &sParadoxSwords,
+    [BOSS_PSEUDOS] = &sPseudos,
 };
 
-const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =
+static const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =
 {
     [MON_LIST_RAIN_DIRECT] =
     {
@@ -245,7 +245,7 @@ const struct StarterMon sStarterSetters[MON_LIST_RANDOM] =
     },
 };
 
-const struct StarterPool sRainPool =
+static const struct StarterPool sRainPool =
 {
     .numMons = 6,
     .mons =
@@ -277,7 +277,7 @@ const struct StarterPool sRainPool =
     },
 };
 
-const struct StarterPool sSunPool =
+static const struct StarterPool sSunPool =
 {
     .numMons = 6,
     .mons =
@@ -309,7 +309,7 @@ const struct StarterPool sSunPool =
     },
 };
 
-const struct StarterPool sSnowPool =
+static const struct StarterPool sSnowPool =
 {
     .numMons = 6,
     .mons =
@@ -341,7 +341,7 @@ const struct StarterPool sSnowPool =
     },
 };
 
-const struct StarterPool sSandPool =
+static const struct StarterPool sSandPool =
 {
     .numMons = 6,
     .mons =
@@ -373,7 +373,7 @@ const struct StarterPool sSandPool =
     },
 };
 
-const u16 sRainMiniBosses[] =
+static const u16 sRainMiniBosses[] =
 {
     SPECIES_BLASTOISE,
     SPECIES_BUTTERFREE,
@@ -410,7 +410,7 @@ const u16 sRainMiniBosses[] =
     SPECIES_LANTURN,
 };
 
-const u16 sSunMiniBosses[] =
+static const u16 sSunMiniBosses[] =
 {
     SPECIES_BLASTOISE,
     SPECIES_BUTTERFREE,
@@ -447,7 +447,7 @@ const u16 sSunMiniBosses[] =
     SPECIES_LANTURN,
 };
 
-const u16 sSnowMiniBosses[] =
+static const u16 sSnowMiniBosses[] =
 {
     SPECIES_BLASTOISE,
     SPECIES_BUTTERFREE,
@@ -484,7 +484,7 @@ const u16 sSnowMiniBosses[] =
     SPECIES_LANTURN,
 };
 
-const u16 sSandMiniBosses[] =
+static const u16 sSandMiniBosses[] =
 {
     SPECIES_BLASTOISE,
     SPECIES_BUTTERFREE,
