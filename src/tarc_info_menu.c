@@ -30,31 +30,39 @@
 #include "constants/songs.h"
 
 #include "constants/hunt_setup.h"
+#include "hunt_setup.h"
+#include "data/hunt_setup_data.h"
+
 
 struct Tarc_InfoMenuState
 {
     MainCallback savedCallback;
     u8 loadState;
     u8 hubSpriteIds[9];
+    u8 finalBossSelector;
+    u8 mode;
+    u8 speciesSpriteId;
+};
+
+enum DisplayModes
+{
+    MODE_TOTAL,
+    MODE_WINS,
+    MODE_LOSSES,
 };
 
 enum WindowIds
 {
-    WIN_MODE,
-    WIN_LIST,
-    WIN_SELECT1,
-    WIN_SELECT2,
-    WIN_SELECT3,
-    WIN_SELECT4,
-    WIN_INFO,
-    WIN_SUB,
-    WIN_CONTROLLS,
-    WIN_HP,
-    WIN_ATK,
-    WIN_DEF,
-    WIN_SPA,
-    WIN_SPD,
-    WIN_SPE,
+    WIN_NAME,
+    WIN_RUNS,
+    WIN_BESTRUN,
+    WIN_MYTH_NAME,
+    WIN_RAIN_STATS,
+    WIN_SUN_STATS,
+    WIN_SNOW_STATS,
+    WIN_SAND_STATS,
+    WIN_STAT_TITLE,
+    WIN_STAT_NUMBER,
     WIN_COUNT
 };
 
@@ -67,9 +75,9 @@ struct BossIcon
 static EWRAM_DATA struct Tarc_InfoMenuState *sTarcUiState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 
-static const u32 sTarcTiles[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.4bpp.lz");
-static const u32 sTarcTilemap[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.bin.lz");
-static const u16 sTarcPalette[] = INCBIN_U16("graphics/tarc_party/tarc_party_tiles.gbapal");
+static const u32 sTarcInfoTiles[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.4bpp.lz");
+static const u32 sTarcInfoTilemap[] = INCBIN_U32("graphics/tarc_party/tarc_party_tiles.bin.lz");
+static const u16 sTarcInfoPalette[] = INCBIN_U16("graphics/tarc_party/tarc_party_tiles.gbapal");
 
 static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 
@@ -150,206 +158,150 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
     }
 };
 
-#define MODE_WIDTH  10
-#define MODE_HEIGHT 2
-#define LIST_WIDTH  10
-#define LIST_HEIGHT 10
-#define SELECT_WIDTH      8
-#define SELECT_HEIGHT     2
-#define INFO_WIDTH  20
-#define INFO_HEIGHT 6
-#define SUB_WIDTH   20
-#define SUB_HEIGHT  4
-#define CONTROLLS_WIDTH  22
-#define CONTROLLS_HEIGHT 2
-#define HP_WIDTH  8
-#define HP_HEIGHT 2
-#define STAT_WIDTH  5
-#define STAT_HEIGHT 2
+#define NAME_WIDTH 8
+#define NAME_HEIGHT 2
+#define RUNS_WIDTH 8
+#define RUNS_HEIGHT 2
+#define BESTRUN_WIDTH 10
+#define BESTRUN_HEIGHT 2
+#define MYTH_NAME_WIDTH 20
+#define MYTH_NAME_HEIGHT 2
+#define RAIN_STATS_WIDTH 4
+#define RAIN_STATS_HEIGHT 6
+#define SUN_STATS_WIDTH 4
+#define SUN_STATS_HEIGHT 6
+#define SNOW_STATS_WIDTH 4
+#define SNOW_STATS_HEIGHT 6
+#define SAND_STATS_WIDTH 4
+#define SAND_STATS_HEIGHT 6
+#define STAT_TITLE_WIDTH 6
+#define STAT_TITLE_HEIGHT 2
+#define STAT_NUMBER_WIDTH 6
+#define STAT_NUMBER_HEIGHT 2
 
-#define MODE_SIZE MODE_WIDTH * MODE_HEIGHT
-#define LIST_SIZE LIST_WIDTH * LIST_HEIGHT
-#define SELECT1_SIZE SELECT_WIDTH * SELECT_HEIGHT
-#define SELECT2_SIZE SELECT1_SIZE
-#define SELECT3_SIZE SELECT1_SIZE
-#define SELECT4_SIZE SELECT1_SIZE
-#define INFO_SIZE INFO_WIDTH * INFO_HEIGHT
-#define SUB_SIZE SUB_WIDTH * SUB_HEIGHT
-#define CONTROLLS_SIZE CONTROLLS_WIDTH * CONTROLLS_HEIGHT
-#define HP_SIZE HP_WIDTH * HP_HEIGHT
-#define ATK_SIZE STAT_WIDTH * STAT_HEIGHT
-#define DEF_SIZE ATK_SIZE
-#define SPA_SIZE ATK_SIZE
-#define SPD_SIZE ATK_SIZE
-#define SPE_SIZE ATK_SIZE
+#define NAME_SIZE NAME_WIDTH * NAME_HEIGHT
+#define RUNS_SIZE RUNS_WIDTH * RUNS_HEIGHT
+#define BESTRUN_SIZE BESTRUN_WIDTH * BESTRUN_HEIGHT
+#define MYTH_NAME_SIZE MYTH_NAME_WIDTH * MYTH_NAME_HEIGHT
+#define RAIN_STATS_SIZE RAIN_STATS_WIDTH * RAIN_STATS_HEIGHT
+#define SUN_STATS_SIZE RAIN_STATS_WIDTH * RAIN_STATS_HEIGHT
+#define SNOW_STATS_SIZE SNOW_STATS_WIDTH * RAIN_STATS_HEIGHT
+#define SAND_STATS_SIZE SAND_STATS_WIDTH * SAND_STATS_HEIGHT
+#define STAT_TITLE_SIZE STAT_TITLE_WIDTH * STAT_TITLE_HEIGHT
+#define STAT_NUMBER_SIZE STAT_NUMBER_WIDTH * STAT_NUMBER_HEIGHT
 
-#define MODE_BASEBLOCK 1
-#define LIST_BASEBLOCK MODE_BASEBLOCK + MODE_SIZE
-#define SELECT1_BASEBLOCK LIST_BASEBLOCK + LIST_SIZE
-#define SELECT2_BASEBLOCK SELECT1_BASEBLOCK + SELECT1_SIZE
-#define SELECT3_BASEBLOCK SELECT2_BASEBLOCK + SELECT1_SIZE
-#define SELECT4_BASEBLOCK SELECT3_BASEBLOCK + SELECT1_SIZE
-#define INFO_BASEBLOCK SELECT4_BASEBLOCK + SELECT1_SIZE
-#define SUB_BASEBLOCK INFO_BASEBLOCK + INFO_SIZE
-#define CONTROLLS_BASEBLOCK SUB_BASEBLOCK + SUB_SIZE
-#define HP_BASEBLOCK CONTROLLS_BASEBLOCK + CONTROLLS_SIZE
-#define ATK_BASEBLOCK HP_BASEBLOCK + HP_SIZE
-#define DEF_BASEBLOCK ATK_BASEBLOCK + ATK_SIZE
-#define SPA_BASEBLOCK DEF_BASEBLOCK + DEF_SIZE
-#define SPD_BASEBLOCK SPA_BASEBLOCK + SPA_SIZE
-#define SPE_BASEBLOCK SPD_BASEBLOCK + SPD_SIZE
+#define NAME_BASEBLOCK 1
+#define RUNS_BASEBLOCK NAME_BASEBLOCK + NAME_SIZE
+#define BESTRUN_BASEBLOCK RUNS_BASEBLOCK + RUNS_SIZE
+#define MYTH_NAME_BASEBLOCK BESTRUN_BASEBLOCK + BESTRUN_SIZE
+#define RAIN_STATS_BASEBLOCK MYTH_NAME_BASEBLOCK + MYTH_NAME_SIZE
+#define SUN_STATS_BASEBLOCK RAIN_STATS_BASEBLOCK + RAIN_STATS_SIZE
+#define SNOW_STATS_BASEBLOCK SUN_STATS_BASEBLOCK + SUN_STATS_SIZE
+#define SAND_STATS_BASEBLOCK SNOW_STATS_BASEBLOCK + SNOW_STATS_SIZE
+#define STAT_TITLE_BASEBLOCK SAND_STATS_BASEBLOCK + SAND_STATS_SIZE
+#define STAT_NUMBER_BASEBLOCK STAT_TITLE_BASEBLOCK + STAT_TITLE_SIZE
 
 static const struct WindowTemplate sTarcUiWindowTemplates[] =
 {
-    [WIN_MODE] =
-    {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 0,
-        .width = MODE_WIDTH,
-        .height = MODE_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = MODE_BASEBLOCK,
-    },
-    [WIN_LIST] =
-    {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 2,
-        .width = LIST_WIDTH,
-        .height = LIST_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = LIST_BASEBLOCK
-    },
-    [WIN_SELECT1] =
-    {
-        .bg = 0,
-        .tilemapLeft = 12,
-        .tilemapTop = 0,
-        .width = SELECT_WIDTH,
-        .height = SELECT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SELECT1_BASEBLOCK
-    },
-    [WIN_SELECT2] =
-    {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 0,
-        .width = SELECT_WIDTH,
-        .height = SELECT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SELECT2_BASEBLOCK
-    },
-    [WIN_SELECT3] =
-    {
-        .bg = 0,
-        .tilemapLeft = 12,
-        .tilemapTop = 2,
-        .width = SELECT_WIDTH,
-        .height = SELECT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SELECT3_BASEBLOCK
-    },
-    [WIN_SELECT4] =
-    {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 2,
-        .width = SELECT_WIDTH,
-        .height = SELECT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SELECT4_BASEBLOCK
-    },
-    [WIN_INFO] =
+    [WIN_NAME] =
     {
         .bg = 0,
         .tilemapLeft = 10,
-        .tilemapTop = 8,
-        .width = INFO_WIDTH,
-        .height = INFO_HEIGHT,
+        .tilemapTop = 1,
+        .width = NAME_WIDTH,
+        .height = NAME_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = INFO_BASEBLOCK
+        .baseBlock = NAME_BASEBLOCK,
     },
-    [WIN_SUB] =
+    [WIN_RUNS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 20,
+        .tilemapTop = 1,
+        .width = RUNS_WIDTH,
+        .height = RUNS_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = RUNS_BASEBLOCK
+    },
+    [WIN_BESTRUN] =
     {
         .bg = 0,
         .tilemapLeft = 10,
         .tilemapTop = 4,
-        .width = SUB_WIDTH,
-        .height = SUB_HEIGHT,
+        .width = BESTRUN_WIDTH,
+        .height = BESTRUN_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = SUB_BASEBLOCK
+        .baseBlock = BESTRUN_BASEBLOCK
     },
-    [WIN_CONTROLLS] =
+    [WIN_MYTH_NAME] =
     {
         .bg = 0,
-        .tilemapLeft = 8,
-        .tilemapTop = 18,
-        .width = CONTROLLS_WIDTH,
-        .height = CONTROLLS_HEIGHT,
+        .tilemapLeft = 0,
+        .tilemapTop = 10,
+        .width = MYTH_NAME_WIDTH,
+        .height = MYTH_NAME_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = CONTROLLS_BASEBLOCK
+        .baseBlock = MYTH_NAME_BASEBLOCK
     },
-    [WIN_HP] =
-    {
-        .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 14,
-        .width = HP_WIDTH,
-        .height = HP_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = HP_BASEBLOCK
-    },
-    [WIN_ATK] =
-    {
-        .bg = 0,
-        .tilemapLeft = 18,
-        .tilemapTop = 14,
-        .width = STAT_WIDTH,
-        .height = STAT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = ATK_BASEBLOCK
-    },
-    [WIN_DEF] =
-    {
-        .bg = 0,
-        .tilemapLeft = 23,
-        .tilemapTop = 14,
-        .width = STAT_WIDTH,
-        .height = STAT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = DEF_BASEBLOCK
-    },
-    [WIN_SPA] =
-    {
-        .bg = 0,
-        .tilemapLeft = 18,
-        .tilemapTop = 16,
-        .width = STAT_WIDTH,
-        .height = STAT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SPA_BASEBLOCK
-    },
-    [WIN_SPD] =
-    {
-        .bg = 0,
-        .tilemapLeft = 23,
-        .tilemapTop = 16,
-        .width = STAT_WIDTH,
-        .height = STAT_HEIGHT,
-        .paletteNum = 15,
-        .baseBlock = SPD_BASEBLOCK
-    },
-    [WIN_SPE] =
+    [WIN_RAIN_STATS] =
     {
         .bg = 0,
         .tilemapLeft = 13,
-        .tilemapTop = 16,
-        .width = STAT_WIDTH,
-        .height = STAT_HEIGHT,
+        .tilemapTop = 14,
+        .width = RAIN_STATS_WIDTH,
+        .height = RAIN_STATS_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = SPE_BASEBLOCK
+        .baseBlock = RAIN_STATS_BASEBLOCK
+    },
+    [WIN_SUN_STATS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 17,
+        .tilemapTop = 14,
+        .width = SUN_STATS_WIDTH,
+        .height = SUN_STATS_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = SUN_STATS_BASEBLOCK
+    },
+    [WIN_SNOW_STATS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 21,
+        .tilemapTop = 14,
+        .width = SNOW_STATS_WIDTH,
+        .height = SNOW_STATS_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = SNOW_STATS_BASEBLOCK
+    },
+    [WIN_SAND_STATS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 25,
+        .tilemapTop = 14,
+        .width = SAND_STATS_WIDTH,
+        .height = SAND_STATS_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = SAND_STATS_BASEBLOCK
+    },
+    [WIN_STAT_TITLE] =
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 14,
+        .width = STAT_TITLE_WIDTH,
+        .height = STAT_TITLE_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = STAT_TITLE_BASEBLOCK
+    },
+    [WIN_STAT_NUMBER] =
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 16,
+        .width = STAT_NUMBER_WIDTH,
+        .height = STAT_NUMBER_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = STAT_NUMBER_BASEBLOCK
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -383,6 +335,7 @@ static void TarcUi_InitWindows(void);
 static void Task_TarcUiWaitFadeIn(u8 taskId);
 static void Task_TarcUiMainInput(u8 taskId);
 static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId);
+static void PrintAllInfoText(void);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
@@ -473,6 +426,8 @@ static void TarcUi_SetupCB(void)
     case 5:
         if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_MYTH_HUB))
             DrawHubStuff();
+        else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
+            PrintAllInfoText();
         CreateTask(Task_TarcUiWaitFadeIn, 0);
         gMain.state++;
         break;
@@ -602,6 +557,7 @@ static bool8 TarcUi_LoadGraphics(void)
         {
         case MAP_NUM(MAP_ENTRANCE):
             //  Info screen
+            DecompressAndCopyTileDataToVram(1, sTarcInfoTiles, 0, 0, 0);
             break;
         //  Maps
         case MAP_NUM(MAP_MYTH_HUB):
@@ -637,6 +593,7 @@ static bool8 TarcUi_LoadGraphics(void)
             {
             case MAP_NUM(MAP_ENTRANCE):
                 //  Info screen
+                LZDecompressWram(sTarcInfoTilemap, sBg1TilemapBuffer);
                 break;
             //  Maps
             case MAP_NUM(MAP_MYTH_HUB):
@@ -671,6 +628,7 @@ static bool8 TarcUi_LoadGraphics(void)
         {
         case MAP_NUM(MAP_ENTRANCE):
             //  Info screen
+            LoadPalette(sTarcInfoPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
             break;
         //  Maps
         case MAP_NUM(MAP_MYTH_HUB):
@@ -758,4 +716,224 @@ static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId)
 void CB2_InfoScreenFromStartMenu(void)
 {
     Tarc_InitInfoScreen(CB2_ReturnToFieldWithOpenMenu);
+}
+
+static void PrintNameText(void)
+{
+    FillWindowPixelBuffer(WIN_NAME, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_NAME,
+                                 FONT_NORMAL,
+                                 TarcUi_JustifyCenter(gSaveBlock2Ptr->playerName, NAME_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 gSaveBlock2Ptr->playerName);
+    CopyWindowToVram(WIN_NAME, COPYWIN_GFX);
+}
+
+static void PrintRunsText(void)
+{
+    u8 tempStr[8];
+    ConvertIntToDecimalStringN(tempStr, gSaveBlock1Ptr->totalRuns, STR_CONV_MODE_LEFT_ALIGN, 7);
+    FillWindowPixelBuffer(WIN_RUNS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_RUNS,
+                                 FONT_NORMAL,
+                                 TarcUi_JustifyCenter(tempStr, NAME_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_RUNS, COPYWIN_GFX);
+}
+
+static const u8 sNoRecord[] = COMPOUND_STRING("No Record");
+static void PrintRecordText(u32 bossId)
+{
+    FillWindowPixelBuffer(WIN_BESTRUN, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    if (gSaveBlock1Ptr->bestBosses[0].teamMembers[0] == 0)
+    {
+        AddTextPrinterParameterized4(WIN_BESTRUN,
+                                     FONT_NORMAL,
+                                     0, 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     sNoRecord);
+    }
+    else
+    {
+        u8 subBossString[2];
+        u8 miniBossString[3] = {0, 0, 0};
+        ConvertIntToDecimalStringN(subBossString, gSaveBlock1Ptr->bestBosses[bossId].numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
+        ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMinibosses, STR_CONV_MODE_LEFT_ALIGN, 2);
+
+        u8 tempStr[5];
+        tempStr[0] = subBossString[0];
+        tempStr[1] = CHAR_PLUS;
+        tempStr[2] = miniBossString[0];
+        tempStr[3] = miniBossString[1];
+        tempStr[4] = miniBossString[2];
+
+        AddTextPrinterParameterized4(WIN_BESTRUN,
+                                     FONT_NORMAL,
+                                     0, 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     tempStr);
+    }
+
+    CopyWindowToVram(WIN_BESTRUN, COPYWIN_GFX);
+}
+
+const u8 *const sMythNames[] =
+{
+    COMPOUND_STRING("Life of Xerneas"),
+    COMPOUND_STRING("Storm of Lugia"),
+    COMPOUND_STRING("Shadow of Giratina"),
+};
+
+
+static void PrintMythName(u32 bossId)
+{
+    FillWindowPixelBuffer(WIN_MYTH_NAME, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_MYTH_NAME,
+                                 FONT_NORMAL,
+                                 0, 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 sMythNames[bossId]);
+    CopyWindowToVram(WIN_MYTH_NAME, COPYWIN_GFX);
+}
+
+const u8 *const sStatTitles[] =
+{
+    COMPOUND_STRING("Attempts"),
+    COMPOUND_STRING("Victories"),
+    COMPOUND_STRING("Losses"),
+};
+
+static void PrintStatTitle()
+{
+    FillWindowPixelBuffer(WIN_STAT_TITLE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_STAT_TITLE,
+                                 FONT_NORMAL,
+                                 TarcUi_JustifyCenter(sStatTitles[sTarcUiState->mode], STAT_TITLE_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 sStatTitles[sTarcUiState->mode]);
+    CopyWindowToVram(WIN_STAT_TITLE, COPYWIN_GFX);
+}
+
+static void PrintStatNumber(u32 bossId)
+{
+    u32 number = 0;
+    for (u32 archetype = 0; archetype < 12; archetype++)
+    {
+        for (u32 i = 0; i < 3; i++)
+        {
+            switch (sTarcUiState->mode)
+            {
+            case MODE_TOTAL:
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].attempts;
+                break;
+            case MODE_WINS:
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].wins;
+                break;
+            case MODE_LOSSES:
+                number += gSaveBlock1Ptr->victoryStats[bossId][archetype][i].attempts - gSaveBlock1Ptr->victoryStats[bossId][archetype][i].wins;
+                break;
+            }
+        }
+    }
+
+    u8 tempStr[8];
+    ConvertIntToDecimalStringN(tempStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);
+    FillWindowPixelBuffer(WIN_STAT_NUMBER, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(WIN_STAT_NUMBER,
+                                 FONT_NORMAL,
+                                 TarcUi_JustifyCenter(tempStr, STAT_NUMBER_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 tempStr);
+    CopyWindowToVram(WIN_STAT_NUMBER, COPYWIN_GFX);
+}
+
+static void PrintArchetypeStats(u32 bossId)
+{
+    FillWindowPixelBuffer(WIN_RAIN_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SUN_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SNOW_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SAND_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+
+    for (u32 i = 0; i < 4; i++)
+    {
+        u8 tempStr[22];
+        u32 tempChar = 0;
+        for (u32 j = 0; j < 3; j++)
+        {
+            u8 numStr[8];
+            u32 number = 0;
+            switch (sTarcUiState->mode)
+            {
+            case MODE_TOTAL:
+                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].attempts;
+                break;
+            case MODE_WINS:
+                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].wins;
+                break;
+            case MODE_LOSSES:
+                number += gSaveBlock1Ptr->victoryStats[bossId][i][j].attempts - gSaveBlock1Ptr->victoryStats[bossId][i][j].wins;
+                break;
+            }
+            ConvertIntToDecimalStringN(numStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);
+            u32 numChar = 0;
+            while (numStr[numChar] != EOS)
+            {
+                tempStr[tempChar] = numStr[numChar];
+                tempChar++;
+                numChar++;
+            }
+            tempStr[tempChar++] = CHAR_NEWLINE;
+        }
+        tempStr[tempChar - 1] = EOS;
+        AddTextPrinterParameterized4(WIN_RAIN_STATS + i,
+                                     FONT_NORMAL,
+                                     0, 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     tempStr);
+    }
+
+    CopyWindowToVram(WIN_RAIN_STATS, COPYWIN_GFX);
+    CopyWindowToVram(WIN_SUN_STATS, COPYWIN_GFX);
+    CopyWindowToVram(WIN_SNOW_STATS, COPYWIN_GFX);
+    CopyWindowToVram(WIN_SAND_STATS, COPYWIN_GFX);
+}
+
+static void PrintBoss(u32 bossId)
+{
+    u32 species = sFinalBossToSpecies[bossId];
+    if (species == SPECIES_XERNEAS)
+        species = SPECIES_XERNEAS_ACTIVE;
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = gSpeciesInfo[species].frontPic;
+    cs.tileTag = 0xCEC1;
+    cs.spriteCompressed = TRUE;
+    cs.palette = gSpeciesInfo[species].palette;
+    cs.palTag = 0xCEC1;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+    cs.posX = 200;
+    cs.posY = 64;
+    cs.subpriority = 0;
+    sTarcUiState->speciesSpriteId = Even_CreateSprite(&cs);
+}
+
+static void PrintAllInfoText(void)
+{
+    PrintNameText();
+    PrintRunsText();
+    PrintRecordText(sTarcUiState->finalBossSelector);
+    PrintMythName(sTarcUiState->finalBossSelector);
+    PrintStatTitle();
+    PrintStatNumber(sTarcUiState->finalBossSelector);
+    PrintArchetypeStats(sTarcUiState->finalBossSelector);
+    PrintBoss(sTarcUiState->finalBossSelector);
 }
