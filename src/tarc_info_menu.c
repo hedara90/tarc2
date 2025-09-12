@@ -419,6 +419,7 @@ static void TarcUi_SetupCB(void)
             gMain.state++;
         break;
     case 4:
+        sTarcUiState->speciesSpriteId = SPRITE_NONE;
         if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
             TarcUi_InitWindows();
         gMain.state++;
@@ -692,6 +693,35 @@ static void Task_TarcUiMainInput(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_TarcUiWaitFadeAndExitGracefully;
     }
+    if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
+    {
+        if (JOY_NEW(L_BUTTON))
+        {
+            //  Change boss left
+            if (sTarcUiState->finalBossSelector == 0)
+                sTarcUiState->finalBossSelector = FINAL_BOSS_COUNT - 1;
+            else
+                sTarcUiState->finalBossSelector--;
+        }
+        if (JOY_NEW(R_BUTTON))
+        {
+            //  Change boss right
+            if (sTarcUiState->finalBossSelector == FINAL_BOSS_COUNT - 1)
+                sTarcUiState->finalBossSelector = 0;
+            else
+                sTarcUiState->finalBossSelector++;
+            PrintAllInfoText();
+        }
+        if (JOY_NEW(A_BUTTON))
+        {
+            //  Change mode
+            if (sTarcUiState->mode == MODE_LOSSES)
+                sTarcUiState->mode = MODE_TOTAL;
+            else
+                sTarcUiState->mode++;
+            PrintAllInfoText();
+        }
+    }
 }
 
 static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId)
@@ -928,6 +958,12 @@ static void PrintBoss(u32 bossId)
 
 static void PrintAllInfoText(void)
 {
+    if (sTarcUiState->speciesSpriteId != SPRITE_NONE)
+    {
+        DestroySprite(&gSprites[sTarcUiState->speciesSpriteId]);
+        FreeSpriteTilesByTag(0xCEC1);
+        FreeSpritePaletteByTag(0xCEC1);
+    }
     PrintNameText();
     PrintRunsText();
     PrintRecordText(sTarcUiState->finalBossSelector);
