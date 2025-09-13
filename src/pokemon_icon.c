@@ -280,7 +280,7 @@ void FreeMonIconPalette(u16 species)
 
 void SpriteCB_MonIcon(struct Sprite *sprite)
 {
-    UpdateMonIconFrame(sprite);
+    //UpdateMonIconFrame(sprite);
 }
 
 const u8 *GetMonIconTiles(u16 species, u32 personality)
