@@ -149,7 +149,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
     {
         .bg = 0,
         .charBaseIndex = 0,
-        .mapBaseIndex = 31,
+        .mapBaseIndex = 22,
         .priority = 1
     },
     {
@@ -164,17 +164,17 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define NAME_HEIGHT 2
 #define RUNS_WIDTH 8
 #define RUNS_HEIGHT 2
-#define BESTRUN_WIDTH 10
+#define BESTRUN_WIDTH 4
 #define BESTRUN_HEIGHT 2
 #define MYTH_NAME_WIDTH 20
 #define MYTH_NAME_HEIGHT 2
-#define RAIN_STATS_WIDTH 4
+#define RAIN_STATS_WIDTH 3
 #define RAIN_STATS_HEIGHT 6
-#define SUN_STATS_WIDTH 4
+#define SUN_STATS_WIDTH 3
 #define SUN_STATS_HEIGHT 6
-#define SNOW_STATS_WIDTH 4
+#define SNOW_STATS_WIDTH 3
 #define SNOW_STATS_HEIGHT 6
-#define SAND_STATS_WIDTH 4
+#define SAND_STATS_WIDTH 3
 #define SAND_STATS_HEIGHT 6
 #define STAT_TITLE_WIDTH 6
 #define STAT_TITLE_HEIGHT 2
@@ -208,7 +208,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_NAME] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
+        .tilemapLeft = 11,
         .tilemapTop = 1,
         .width = NAME_WIDTH,
         .height = NAME_HEIGHT,
@@ -218,8 +218,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_RUNS] =
     {
         .bg = 0,
-        .tilemapLeft = 20,
-        .tilemapTop = 1,
+        .tilemapLeft = 11,
+        .tilemapTop = 3,
         .width = RUNS_WIDTH,
         .height = RUNS_HEIGHT,
         .paletteNum = 15,
@@ -228,8 +228,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_BESTRUN] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 4,
+        .tilemapLeft = 25,
+        .tilemapTop = 11,
         .width = BESTRUN_WIDTH,
         .height = BESTRUN_HEIGHT,
         .paletteNum = 15,
@@ -238,8 +238,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_MYTH_NAME] =
     {
         .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 10,
+        .tilemapLeft = 2,
+        .tilemapTop = 5,
         .width = MYTH_NAME_WIDTH,
         .height = MYTH_NAME_HEIGHT,
         .paletteNum = 15,
@@ -248,7 +248,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_RAIN_STATS] =
     {
         .bg = 0,
-        .tilemapLeft = 13,
+        .tilemapLeft = 8,
         .tilemapTop = 14,
         .width = RAIN_STATS_WIDTH,
         .height = RAIN_STATS_HEIGHT,
@@ -258,7 +258,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SUN_STATS] =
     {
         .bg = 0,
-        .tilemapLeft = 17,
+        .tilemapLeft = 5,
         .tilemapTop = 14,
         .width = SUN_STATS_WIDTH,
         .height = SUN_STATS_HEIGHT,
@@ -268,7 +268,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SNOW_STATS] =
     {
         .bg = 0,
-        .tilemapLeft = 21,
+        .tilemapLeft = 14,
         .tilemapTop = 14,
         .width = SNOW_STATS_WIDTH,
         .height = SNOW_STATS_HEIGHT,
@@ -278,7 +278,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_SAND_STATS] =
     {
         .bg = 0,
-        .tilemapLeft = 25,
+        .tilemapLeft = 11,
         .tilemapTop = 14,
         .width = SAND_STATS_WIDTH,
         .height = SAND_STATS_HEIGHT,
@@ -288,8 +288,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_STAT_TITLE] =
     {
         .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 14,
+        .tilemapLeft = 3,
+        .tilemapTop = 9,
         .width = STAT_TITLE_WIDTH,
         .height = STAT_TITLE_HEIGHT,
         .paletteNum = 15,
@@ -298,8 +298,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_STAT_NUMBER] =
     {
         .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 16,
+        .tilemapLeft = 9,
+        .tilemapTop = 9,
         .width = STAT_NUMBER_WIDTH,
         .height = STAT_NUMBER_HEIGHT,
         .paletteNum = 15,
@@ -639,7 +639,7 @@ static bool8 TarcUi_LoadGraphics(void)
         {
         case MAP_NUM(MAP_ENTRANCE):
             //  Info screen
-            LoadPalette(sTarcInfoPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
+            LoadPalette(sTarcInfoPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP * 4);
             break;
         //  Maps
         case MAP_NUM(MAP_MYTH_HUB):
@@ -802,21 +802,21 @@ static void PrintRecordText(u32 bossId)
         u8 subBossString[2];
         u8 miniBossString[3] = {0, 0, 0};
         ConvertIntToDecimalStringN(subBossString, gSaveBlock1Ptr->bestBosses[bossId].numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
-        ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
+        // ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
 
-        u8 tempStr[5];
-        tempStr[0] = subBossString[0];
-        tempStr[1] = CHAR_PLUS;
-        tempStr[2] = miniBossString[0];
-        tempStr[3] = miniBossString[1];
-        tempStr[4] = miniBossString[2];
+        // u8 tempStr[5];
+        // tempStr[0] = subBossString[0];
+        // tempStr[1] = CHAR_PLUS;
+        // tempStr[2] = miniBossString[0];
+        // tempStr[3] = miniBossString[1];
+        // tempStr[4] = miniBossString[2];
 
         AddTextPrinterParameterized4(WIN_BESTRUN,
                                      FONT_NORMAL,
-                                     0, 0, 0, 0,
+                                     0, 2, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
                                      TEXT_SKIP_DRAW,
-                                     tempStr);
+                                     subBossString);
     }
 
     CopyWindowToVram(WIN_BESTRUN, COPYWIN_GFX);
@@ -836,7 +836,7 @@ static void PrintMythName(u32 bossId)
     AddTextPrinterParameterized4(WIN_MYTH_NAME,
                                  FONT_NORMAL,
                                  4, 0, 0, 0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  sMythNames[bossId]);
     CopyWindowToVram(WIN_MYTH_NAME, COPYWIN_GFX);
@@ -935,7 +935,7 @@ static void PrintArchetypeStats(u32 bossId)
         tempStr[tempChar - 1] = EOS;
         AddTextPrinterParameterized4(WIN_RAIN_STATS + i,
                                      FONT_NORMAL,
-                                     5, 0, 0, 0,
+                                     TarcUi_JustifyCenter(tempStr, RAIN_STATS_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
                                      TEXT_SKIP_DRAW,
                                      tempStr);
@@ -969,7 +969,7 @@ static void PrintBoss(u32 bossId)
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
     cs.posX = 200;
-    cs.posY = 64;
+    cs.posY = 52;
     cs.subpriority = 0;
     sTarcUiState->speciesSpriteId = Even_CreateSprite(&cs);
 }
@@ -992,16 +992,16 @@ static void PrintMonIcons(u32 bossId)
             switch (i)
             {
             case 0:
-                posX = 64;
-                posY = 64;
+                posX = 194;
+                posY = 134;
                 break;
             case 1:
-                posX = 96;
-                posY = 64;
+                posX = 172;
+                posY = 118;
                 break;
             case 2:
-                posX = 128;
-                posY = 64;
+                posX = 218;
+                posY = 118;
                 break;
             }
             sTarcUiState->monIconSpriteIds[i] = CreateMonIcon(gSaveBlock1Ptr->bestBosses[bossId].teamMembers[i], SpriteCB_MonIcon, posX, posY, 0, 0);
