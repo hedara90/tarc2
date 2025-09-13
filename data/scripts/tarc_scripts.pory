@@ -1,0 +1,9 @@
+script EventScript_Meditate {
+    msgbox("Do you want to abandon this story?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        callnative(SetLossData)
+        fadescreen(FADE_TO_BLACK)
+        warpsilent(MAP_ENTRANCE, 19, 22)
+    }
+    releaseall
+}

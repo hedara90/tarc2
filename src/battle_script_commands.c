@@ -1886,10 +1886,13 @@ static void Cmd_ppreduce(void)
         if (gCurrentMove != gLastResultingMoves[gBattlerAttacker] || WasUnableToUseMove(gBattlerAttacker))
             gBattleStruct->sameMoveTurns[gBattlerAttacker] = 0;
 
-        if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
-        else
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        if (TESTING)
+        {
+            if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
+            else
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        }
 
         if (MOVE_IS_PERMANENT(gBattlerAttacker, gCurrMovePos))
         {
