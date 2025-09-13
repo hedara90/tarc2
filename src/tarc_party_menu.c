@@ -1292,10 +1292,10 @@ static void BuildSubStringMove(u8 *str, u32 move)
 
     if (gMovesInfo[move].hpBonus > 0
      || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0)
+     || gMovesInfo[move].defBonus > 0
+     || gMovesInfo[move].spaBonus > 0
+     || gMovesInfo[move].spdBonus > 0
+     || gMovesInfo[move].speBonus > 0)
     {
         u32 numStats = 0;
         str[currChar++] = CHAR_G;

@@ -18,6 +18,8 @@
 #include "constants/abilities.h"
 #include "constants/vars.h"
 
+#include "tarc_help_system.h"
+
 #include "start_menu.h"
 
 #include "data/hunt_setup_data.h"
@@ -299,6 +301,7 @@ void CheckBossStatus(struct ScriptContext *ctx)
 
 void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
+    HelpSystem_AddTrigger(TRIGGER_CHOOSE_BOSS);
     u32 area = ScriptReadByte(ctx) - 1;
 
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
@@ -343,6 +346,9 @@ void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 
 static void Task_SelectorTask(u8 taskId)
 {
+    if (HelpSystem_Process())
+        return;
+
     if (gTasks[taskId].data[0])
     {
         gTasks[taskId].data[0] = 0;
