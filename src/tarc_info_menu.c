@@ -22,6 +22,7 @@
 #include "text.h"
 #include "window.h"
 #include "tarc_info_menu.h"
+#include "pokemon_icon.h"
 
 #include "constants/abilities.h"
 #include "constants/characters.h"
@@ -42,6 +43,7 @@ struct Tarc_InfoMenuState
     u8 finalBossSelector;
     u8 mode;
     u8 speciesSpriteId;
+    u8 monIconSpriteIds[3];
 };
 
 enum DisplayModes
@@ -426,9 +428,17 @@ static void TarcUi_SetupCB(void)
         break;
     case 5:
         if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_MYTH_HUB))
+        {
             DrawHubStuff();
+        }
         else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
+        {
+            sTarcUiState->monIconSpriteIds[0] = SPRITE_NONE;
+            sTarcUiState->monIconSpriteIds[1] = SPRITE_NONE;
+            sTarcUiState->monIconSpriteIds[2] = SPRITE_NONE;
+            LoadMonIconPalettes();
             PrintAllInfoText();
+        }
         CreateTask(Task_TarcUiWaitFadeIn, 0);
         gMain.state++;
         break;
@@ -946,7 +956,15 @@ static void PrintBoss(u32 bossId)
     cs.sprite = gSpeciesInfo[species].frontPic;
     cs.tileTag = 0xCEC1;
     cs.spriteCompressed = TRUE;
-    cs.palette = gSpeciesInfo[species].palette;
+    u16 palette[16];
+    for (u32 i = 0; i < 16; i++)
+    {
+        if (!gSpeciesInfo[species].excludeBlend[i])
+            palette[i] = ConvertColorToDesaturatedNaive(gSpeciesInfo[species].palette[i]);
+        else
+            palette[i] = gSpeciesInfo[species].palette[i];
+    }
+    cs.palette = palette;
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
@@ -954,6 +972,41 @@ static void PrintBoss(u32 bossId)
     cs.posY = 64;
     cs.subpriority = 0;
     sTarcUiState->speciesSpriteId = Even_CreateSprite(&cs);
+}
+
+static void PrintMonIcons(u32 bossId)
+{
+    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] = SPECIES_WOBBUFFET;
+    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[1] = SPECIES_MEOWTH;
+    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[2] = SPECIES_MEWTWO;
+    if (gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] != SPECIES_NONE)
+    {
+        for (u32 i = 0; i < 3; i++)
+        {
+            if (sTarcUiState->monIconSpriteIds[i] != SPRITE_NONE)
+            {
+                FreeAndDestroyMonIconSprite(&gSprites[sTarcUiState->monIconSpriteIds[i]]);
+            }
+            u32 posX = 0;
+            u32 posY = 0;
+            switch (i)
+            {
+            case 0:
+                posX = 64;
+                posY = 64;
+                break;
+            case 1:
+                posX = 96;
+                posY = 64;
+                break;
+            case 2:
+                posX = 128;
+                posY = 64;
+                break;
+            }
+            sTarcUiState->monIconSpriteIds[i] = CreateMonIcon(gSaveBlock1Ptr->bestBosses[bossId].teamMembers[i], SpriteCB_MonIcon, posX, posY, 0, 0);
+        }
+    }
 }
 
 static void PrintAllInfoText(void)
@@ -972,4 +1025,5 @@ static void PrintAllInfoText(void)
     PrintStatNumber(sTarcUiState->finalBossSelector);
     PrintArchetypeStats(sTarcUiState->finalBossSelector);
     PrintBoss(sTarcUiState->finalBossSelector);
+    PrintMonIcons(sTarcUiState->finalBossSelector);
 }
