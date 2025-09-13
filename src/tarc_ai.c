@@ -8,7 +8,7 @@ void SetNextBossMove(void)
 {
     if (TESTING)
         return;
-    if (gBattleStruct->aiTurnCounter >= sAiLists[gBattleStruct->currentBoss].phaseMoves[gBattleStruct->currentPhase]->numMoves)
+    if (gBattleStruct->aiTurnCounter >= sAiLists[gBattleStruct->currentBoss].phaseMoves[gBattleStruct->currentPhase - 1]->numMoves)
         gBattleStruct->aiTurnCounter = 0;
     if (gBattleMons[1].status2 & STATUS2_LOCK_CONFUSE)
         return;
