@@ -79,7 +79,13 @@ static const u8 sText_WildFled[] = _("{PLAY_SE SE_FLEE}{B_LINK_OPPONENT1_NAME} f
 static const u8 sText_TwoWildFled[] = _("{PLAY_SE SE_FLEE}{B_LINK_OPPONENT1_NAME} and {B_LINK_OPPONENT2_NAME} fled!"); //not in gen 5+, replaced with match was forfeited text
 static const u8 sText_PlayerDefeatedLinkTrainerTrainer1[] = _("You defeated {B_TRAINER1_NAME_WITH_CLASS}!\p");
 static const u8 sText_OpponentMon1Appeared[] = _("{B_OPPONENT_MON1_NAME} appeared!\p");
+#if TESTING
 static const u8 sText_WildPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
+#else
+static const u8 sText_WildPkmnAppeared[] = _("You challenged the {B_OPPONENT_MON1_NAME}!\p");
+#endif
+static const u8 sText_BossPkmnAppeared[] = _("{B_OPPONENT_MON1_NAME} accepts your challenge!\p");
+static const u8 sText_FinalBossPkmnAppeared[] = _("{B_OPPONENT_MON1_NAME} stands before you.\nPrepare yourself!\p");
 static const u8 sText_LegendaryPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_WildPkmnAppearedPause[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!{PAUSE 127}");
 static const u8 sText_TwoWildPkmnAppeared[] = _("Oh! A wild {B_OPPONENT_MON1_NAME} and {B_OPPONENT_MON2_NAME} appeared!\p");
@@ -918,8 +924,16 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_MENTAL_RESET]                         = COMPOUND_STRING("{B_BUFF1}'s fallen stats were restored!"),
     [STRINGID_STATIC_BUILDUP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was charged by the swirling sand!"),
     [STRINGID_LUNAR_COLD]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} became fully charged due to the lunar light!"),
-    [STRINGID_ICYVEINSHPDROP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} takes its toll!"), //don't think this message is displayed anymore
-    [STRINGID_RESORPTION]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} healed by absorbing poison from {B_DEF_NAME_WITH_PREFIX2}!"), //don't think this message is displayed anymore
+    [STRINGID_ICYVEINSHPDROP]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} takes its toll!"),
+    [STRINGID_RESORPTION]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} healed by absorbing poison from {B_DEF_NAME_WITH_PREFIX2}!"),
+    [STRINGID_FATED_CHANGE]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future change!"),
+    [STRINGID_FATED_STRIKE]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"),
+    [STRINGID_FATED_SIGHT]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} foresaw a future attack!"),
+    [STRINGID_FRACTAL_SHARDS]                       = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} released fractal dust!"),
+    [STRINGID_CIRCLE_OF_LIFE]                       = COMPOUND_STRING("The circle of life restores all!"),
+    [STRINGID_YGGDRASIL]                            = COMPOUND_STRING("Yggdrasil's energy boosted {B_BUFF1}'s {B_BUFF3}!"),
+    [STRINGID_SANCTUARY]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} manifested its realm to safeguard itself!"),
+    [STRINGID_HEALING_SPIRIT]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} restored everyone on the field!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
@@ -2145,14 +2159,35 @@ void BufferStringBattle(enum StringID stringID, u32 battler)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
-                stringPtr = sText_LegendaryPkmnAppeared;
-            else if (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))))
-                stringPtr = sText_TwoWildPkmnAppeared;
-            else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
-                stringPtr = sText_WildPkmnAppearedPause;
+            if (TESTING)
+            {
+                if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
+                    stringPtr = sText_LegendaryPkmnAppeared;
+                else if (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))))
+                    stringPtr = sText_TwoWildPkmnAppeared;
+                else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
+                    stringPtr = sText_WildPkmnAppearedPause;
+                else
+                    stringPtr = sText_WildPkmnAppeared;
+            }
             else
-                stringPtr = sText_WildPkmnAppeared;
+            {
+                u32 phases = gSpeciesInfo[gBattleMons[1].species].maxPhases;
+                switch (phases)
+                {
+                case 2:
+                    stringPtr = sText_WildPkmnAppeared;
+                    break;
+                case 3:
+                    stringPtr = sText_BossPkmnAppeared;
+                    break;
+                case 4:
+                    stringPtr = sText_FinalBossPkmnAppeared;
+                    break;
+                default:
+                    stringPtr = sText_WildPkmnAppeared;
+                }
+            }
         }
         break;
     case STRINGID_INTROSENDOUT: // poke first send-out

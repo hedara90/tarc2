@@ -2614,3 +2614,29 @@
 	.byte \battler
 	.4byte \jumpInstr
 	.endm
+
+	.macro simulhealthbarupdate
+	callnative BS_SimulHealthbarUpdate
+	.endm
+
+	.macro simuldatahpupdate
+	callnative BS_SimulDataHPUpdate
+	.endm
+
+	.macro jumpifabundance battler:req, jumpInstr:req
+	callnative BS_JumpIfAbundance
+	.byte \battler
+	.4byte \jumpInstr
+	.endm
+
+	.macro sethealingspirithealing
+	callnative BS_SetHealingSpiritHealing
+	.endm
+
+	.macro skipaiincrement
+	callnative BS_SkipAiIncrement
+	.endm
+
+	.macro doaiincrement
+	callnative BS_DoAiIncrement
+	.endm

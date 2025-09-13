@@ -18,6 +18,8 @@
 #include "constants/abilities.h"
 #include "constants/vars.h"
 
+#include "tarc_help_system.h"
+
 #include "start_menu.h"
 
 #include "data/hunt_setup_data.h"
@@ -53,6 +55,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         gSaveBlock1Ptr->huntTargets.finalBoss = finalBoss;
     }
     gSaveBlock1Ptr->huntTargets.finalBossDefeated = FALSE;
+    gSaveBlock1Ptr->huntTargets.numBossesDefeated = 0;
 
     gSaveBlock1Ptr->huntTargets.bosses[0] = BOSS_PSEUDOS;
     gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
@@ -82,7 +85,7 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         bosses[currIndex] = tempValue;
     }
 
-    gSaveBlock1Ptr->huntTargets.bosses[0] = 12;
+    gSaveBlock1Ptr->huntTargets.bosses[0] = BOSS_PSEUDOS;
     gSaveBlock1Ptr->huntTargets.bossesDefeated[0] = FALSE;
     for (u32 i = 0; i < 8; i++)
     {
@@ -167,6 +170,8 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
         for (u32 j = 0; j < 3; j++)
             gSaveBlock1Ptr->extraAbilities[i][j] = ABILITY_NONE;
 
+    gSaveBlock1Ptr->totalRuns++;
+    gSaveBlock1Ptr->victoryStats[gSaveBlock1Ptr->huntTargets.finalBoss][gSaveBlock1Ptr->playerAffinity].attempts++;
 }
 
 static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
@@ -255,6 +260,8 @@ void SetupPlayerMons(enum PlayerMonList monList, rng_value_t *localRngState)
     switch (monList)
     {
         case MON_LIST_RANDOM:
+            monList = LocalRandom32(localRngState) % MON_LIST_RANDOM;
+            gSaveBlock1Ptr->playerAffinity = monList;
         default:
             GiveHuntMons(monList, localRngState);
             break;
@@ -294,6 +301,7 @@ void CheckBossStatus(struct ScriptContext *ctx)
 
 void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 {
+    HelpSystem_AddTrigger(TRIGGER_CHOOSE_BOSS);
     u32 area = ScriptReadByte(ctx) - 1;
 
     sBossSelect.group = sBossGroups[gSaveBlock1Ptr->huntTargets.bosses[area]];
@@ -338,6 +346,9 @@ void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
 
 static void Task_SelectorTask(u8 taskId)
 {
+    if (HelpSystem_Process())
+        return;
+
     if (gTasks[taskId].data[0])
     {
         gTasks[taskId].data[0] = 0;
@@ -453,6 +464,7 @@ void SetAbilityReward(void)
     while (gSaveBlock1Ptr->abilityStorage[index] != ABILITY_NONE)
         index++;
     gSaveBlock1Ptr->abilityStorage[index] = gSpeciesInfo[species].abilityReward;
+    gSaveBlock1Ptr->huntTargets.numBossesDefeated++;
 }
 
 void SetHuntFlags(void)
@@ -479,6 +491,7 @@ void SetPostBattleData(void)
         }
         break;
     case 3: //  Boss
+        HealPlayerParty();
         gSaveBlock1Ptr->huntTargets.bossesDefeated[gSaveBlock1Ptr->huntTargets.currentArea] = species;
         break;
     case 4: //  Final Boss
@@ -498,4 +511,35 @@ void SetWinData(void)
 {
     FlagSet(FLAG_WON_LAST_RUN);
     FlagClear(FLAG_LOST_LAST_RUN);
+    u32 numMiniBosses = 0;
+    for (u32 i = 0; i < 27; i++)
+        if (gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i])
+            numMiniBosses++;
+    gSaveBlock1Ptr->victoryStats[gSaveBlock1Ptr->huntTargets.finalBoss][gSaveBlock1Ptr->playerAffinity].wins++;
+    if (gSaveBlock1Ptr->bestBosses[gSaveBlock1Ptr->huntTargets.finalBoss].teamMembers[0] == SPECIES_NONE
+     || gSaveBlock1Ptr->huntTargets.numBossesDefeated < gSaveBlock1Ptr->bestBosses[gSaveBlock1Ptr->huntTargets.finalBoss].numSubBosses
+     || (gSaveBlock1Ptr->huntTargets.numBossesDefeated == gSaveBlock1Ptr->bestBosses[gSaveBlock1Ptr->huntTargets.finalBoss].numSubBosses
+      && numMiniBosses < gSaveBlock1Ptr->bestBosses[gSaveBlock1Ptr->huntTargets.finalBoss].numMiniBosses))
+     {
+         struct VictoryData *data = &gSaveBlock1Ptr->bestBosses[gSaveBlock1Ptr->huntTargets.finalBoss];
+         data->affinity = gSaveBlock1Ptr->playerAffinity;
+         data->teamMembers[0] = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+         data->teamMembers[1] = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+         data->teamMembers[2] = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+         data->numMiniBosses = numMiniBosses;
+         data->numSubBosses = gSaveBlock1Ptr->huntTargets.numBossesDefeated;
+         for (u32 monIndex = 0; monIndex < 3; monIndex++)
+         {
+             for (u32 moveIndex = 0; moveIndex < 4; moveIndex++)
+             {
+                 data->moves[monIndex][moveIndex] = GetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + moveIndex);
+             }
+
+             data->abilities[monIndex][0] = gSpeciesInfo[GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES)].abilities[GetMonData(&gPlayerParty[monIndex], MON_DATA_ABILITY_NUM)];
+             for (u32 abilityIndex = 1; abilityIndex < 4; abilityIndex++)
+             {
+                 data->abilities[monIndex][abilityIndex] = GetSpeciesInnate(GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES), abilityIndex, 0, TRUE);
+             }
+         }
+     }
 }

@@ -3556,6 +3556,12 @@ BattleScript_LunarPowerActivation:
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_AbundanceActivation:
+	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
+	printstring STRINGID_POWERHERB
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_EffectTwoTurnsAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
@@ -3564,15 +3570,20 @@ BattleScript_EffectTwoTurnsAttack::
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
 	jumpiflunarcold BS_ATTACKER, BattleScript_TwoTurnMovesSecondLunarColdActivates
+	jumpifabundance BS_ATTACKER, BattleScript_TwoTurnMovesSecondAbundanceActivates
+	skipaiincrement
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_GeomancySecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_GeomancySecondTurn
 	call BattleScript_FirstChargingTurn
+	skipaiincrement
+	jumpifabundance BS_ATTACKER, BattleScript_GeomancySecondTurn
 	jumpifnoholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_MoveEnd
 	call BattleScript_PowerHerbActivation
 BattleScript_GeomancySecondTurn:
+	doaiincrement
 	attackcanceler
 	setbyte sB_ANIM_TURN, 1
 	clearstatusfromeffect BS_ATTACKER, MOVE_EFFECT_CHARGING
@@ -3637,6 +3648,11 @@ BattleScript_FromTwoTurnMovesSecondTurnRet:
 
 BattleScript_TwoTurnMovesSecondLunarColdActivates:
 	call BattleScript_LunarPowerActivation
+	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
+	goto BattleScript_FromTwoTurnMovesSecondTurnRet
+
+BattleScript_TwoTurnMovesSecondAbundanceActivates:
+	call BattleScript_AbundanceActivation
 	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
 	goto BattleScript_FromTwoTurnMovesSecondTurnRet
 
@@ -7465,6 +7481,26 @@ BattleScript_MoodyLower:
 BattleScript_MoodyEnd:
 	end3
 
+BattleScript_MoodSwingActivates::
+	jumpifbyteequal sSTATCHANGER, sZero, BattleScript_MoodSwingLower
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_NOT_PROTECT_AFFECTED, BattleScript_MoodSwingLower
+	jumpifbyte CMP_GREATER_THAN, cMULTISTRING_CHOOSER, B_MSG_DEFENDER_STAT_ROSE, BattleScript_MoodSwingLower
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MoodSwingLower:
+	jumpifbyteequal sSAVED_STAT_CHANGER, sZero, BattleScript_MoodSwingEnd
+	copybyte sSTATCHANGER, sSAVED_STAT_CHANGER
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_NOT_PROTECT_AFFECTED, BattleScript_MoodSwingEnd
+	jumpifbyte CMP_GREATER_THAN, cMULTISTRING_CHOOSER, B_MSG_DEFENDER_STAT_FELL, BattleScript_MoodSwingEnd
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MoodSwingEnd:
+	end3
+
 BattleScript_EmergencyExit::
 	.if B_ABILITY_POP_UP == TRUE
 	pause 5
@@ -10409,3 +10445,119 @@ BattleScript_CripplingVenomTryLowerSpAtk::
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_CripplingVenomEnd::
 	end2
+
+BattleScript_FatedChange::
+	printstring STRINGID_FATED_CHANGE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FatedStrike::
+	printstring STRINGID_FATED_STRIKE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FatedSight::
+	printstring STRINGID_FATED_SIGHT
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FractalShards::
+	printstring STRINGID_FRACTAL_SHARDS
+	waitmessage B_WAIT_TIME_SHORTEST
+	return
+
+BattleScript_CircleOfLife::
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	pause B_WAIT_TIME_SHORTEST
+	simulhealthbarupdate
+	simuldatahpupdate
+	printstring STRINGID_CIRCLE_OF_LIFE
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_YggdrasilsGift::
+	setgraphicalstatchangevalues
+	playanimation BS_SCRIPTING, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_YGGDRASIL
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_Sanctuary::
+	attackcanceler
+	attackstring
+	ppreduce
+	setremoveterrain BattleScript_ButItFailed
+	setsafeguard
+	attackanimation
+	waitanimation
+	printstring STRINGID_SANCTUARY
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_RESTORE_BG
+	call BattleScript_ActivateTerrainEffects
+	goto BattleScript_MoveEnd
+
+BattleScript_HealingSpirit::
+	attackcanceler
+	attackstring
+	ppreduce
+	attackanimation
+	waitanimation
+	sethealingspirithealing
+	pause B_WAIT_TIME_SHORTEST
+	simulhealthbarupdate
+	simuldatahpupdate
+	printstring STRINGID_HEALING_SPIRIT
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
+
+BattleScript_ElectronCondensateActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_TERRAINBECOMESELECTRIC
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
+	call BattleScript_ActivateTerrainEffects
+	return
+
+BattleScript_MoveEffectDisable::
+	jumpifability BS_TARGET_SIDE, ABILITY_AROMA_VEIL, BattleScript_MoveEffectDisableEnd
+	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
+	playmoveanimation BS_ATTACKER, MOVE_DISABLE
+	disablelastusedattack BattleScript_MoveEffectDisableEnd
+	printstring STRINGID_PKMNMOVEWASDISABLED
+BattleScript_MoveEffectDisableEnd:
+	goto BattleScript_MoveEnd
+
+BattleScript_MoveEffectTopsyTurvy::
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_ATK, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_DEF, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPATK, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPDEF, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_SPEED, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_NOT_EQUAL, STAT_ACC, 6, BattleScript_MoveEffectTopsyTurvyWorks
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_EVASION, 6, BattleScript_MoveEffectTopsyTurvyEnd
+BattleScript_MoveEffectTopsyTurvyWorks:
+	invertstatstages BS_TARGET
+	playmoveanimation BS_ATTACKER, MOVE_TOPSY_TURVY
+	printstring STRINGID_TOPSYTURVYSWITCHEDSTATS
+	waitmessage B_WAIT_TIME_LONG
+	waitanimation
+BattleScript_MoveEffectTopsyTurvyEnd:
+	goto BattleScript_MoveEnd
+
+BattleScript_MindStealSteal::
+	setbyte sB_ANIM_TURN, 1
+	playmoveanimation BS_ATTACKER, MOVE_SPECTRAL_THIEF
+	waitanimation
+	setbyte sB_ANIM_TURN, 0
+	printstring STRINGID_SPECTRALTHIEFSTEAL
+	waitmessage B_WAIT_TIME_LONG
+	setbyte sB_ANIM_ARG2, 0
+	spectralthiefprintstats
+	flushtextbox
+	goto BattleScript_MoveEffectStatStealEnd
+
+BattleScript_MoveEffectStatSteal::
+	tryspectralthiefsteal BattleScript_MindStealSteal
+BattleScript_MoveEffectStatStealEnd:
+	goto BattleScript_MoveEnd

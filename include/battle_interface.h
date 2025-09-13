@@ -139,4 +139,6 @@ void CategoryIcons_LoadSpritesGfx(void);
 void TryToAddMoveInfoWindow(void);
 void TryToHideMoveInfoWindow(void);
 
+void CreateBossMovePopUp(void);
+
 #endif // GUARD_BATTLE_INTERFACE_H

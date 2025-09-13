@@ -729,6 +729,7 @@ const u8 gPPUpGetMask[MAX_MON_MOVES]   = {PP_UP_SHIFTS(3)};
 const u8 gPPUpClearMask[MAX_MON_MOVES] = {PP_UP_SHIFTS_INV(3)};
 const u8 gPPUpAddValues[MAX_MON_MOVES] = {PP_UP_SHIFTS(1)};
 
+#if TESTING
 const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
 {
     {10, 40}, // -6, MIN_STAT_STAGE
@@ -745,6 +746,24 @@ const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
     {35, 10}, // +5
     {40, 10}, // +6, MAX_STAT_STAGE
 };
+#else
+const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
+{
+    {6, 12}, // -6, MIN_STAT_STAGE
+    {6, 11}, // -5
+    {6, 10}, // -4
+    {6, 9}, // -3
+    {6, 8}, // -2
+    {6, 7}, // -1
+    {6, 6}, //  0, DEFAULT_STAT_STAGE
+    {7, 6}, // +1
+    {8, 6}, // +2
+    {9, 6}, // +3
+    {10, 6}, // +4
+    {11, 6}, // +5
+    {12, 6}, // +6, MAX_STAT_STAGE
+};
+#endif
 
 // The classes used by other players in the Union Room.
 // These should correspond with the overworld graphics in sUnionRoomObjGfxIds
@@ -3755,6 +3774,7 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->moveCD[3] = 0;
     dst->numOverrides = 0;
     dst->danced = FALSE;
+    dst->turnsInBack = 0;
 
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
@@ -7232,7 +7252,17 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
     }
     else
     {
-        for (u32 i = 0; i < MAX_MON_INNATES; i++)
+        u32 maxInnates = 3;
+        if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
+        {
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+                maxInnates =  0;
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+                maxInnates = 1;
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+                maxInnates = 2;
+        }
+        for (u32 i = 0; i < maxInnates; i++)
         {
             if (gSpeciesInfo[species].innates[i] == ability)
             {
@@ -7277,6 +7307,15 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     }
     else
     {
+        if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
+        {
+            if (traitNum > 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+                return 0;
+            if (traitNum > 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+                return 0;
+            if (traitNum > 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+                return 0;
+        }
         if (MAX_MON_INNATES > 0)
             return gSpeciesInfo[species].innates[traitNum - 1];
         else

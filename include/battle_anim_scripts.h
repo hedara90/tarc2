@@ -1027,4 +1027,9 @@ extern const u8 gBattleAnimMove_Frostwisp[];
 extern const u8 gBattleAnimMove_SomeSparks[];
 extern const u8 gBattleAnimMove_SomeSnow[];
 
+extern const u8 gBattleAnimMove_Sanctuary[];
+extern const u8 gBattleAnimMove_HealingSpirit[];
+extern const u8 gBattleAnimMove_JabMind[];
+extern const u8 gBattleAnimMove_PoisonDroplets[];
+
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H

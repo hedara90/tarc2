@@ -1,7 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
 
-SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke prevent intimidate")
+SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, White Smoke, and Abundance prevent intimidate")
 {
     s16 turnOneHit;
     s16 turnTwoHit;
@@ -10,6 +10,7 @@ SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke prevent intimid
     PARAMETRIZE{ species = SPECIES_METANG; ability = ABILITY_CLEAR_BODY; }
     PARAMETRIZE{ species = SPECIES_SOLGALEO; ability = ABILITY_FULL_METAL_BODY; }
     PARAMETRIZE{ species = SPECIES_TORKOAL; ability = ABILITY_WHITE_SMOKE; }
+    PARAMETRIZE{ species = SPECIES_XERNEAS; ability = ABILITY_ABUNDANCE; }
     GIVEN {
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_SHED_SKIN); };
         PLAYER(SPECIES_EKANS) { Ability(ABILITY_INTIMIDATE); };
@@ -29,15 +30,17 @@ SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke prevent intimid
             MESSAGE("The opposing Solgaleo's Full Metal Body prevents stat loss!");
         else if (ability == ABILITY_WHITE_SMOKE)
             MESSAGE("The opposing Torkoal's White Smoke prevents stat loss!");
-        else
+        else if (ability == ABILITY_CLEAR_BODY)
             MESSAGE("The opposing Metang's Clear Body prevents stat loss!");
+        else
+            MESSAGE("The opposing Xerneas's Abundance prevents stat loss!");
         HP_BAR(player, captureDamage: &turnTwoHit);
     } THEN {
         EXPECT_EQ(turnOneHit, turnTwoHit);
     }
 }
 
-SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke prevent stat stage reduction from moves")
+SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, White Smoke, and Abundance prevent stat stage reduction from moves")
 {
     u16 move = MOVE_NONE;
     u32 j, species = SPECIES_NONE, ability = ABILITY_NONE;
@@ -77,6 +80,8 @@ SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke prevent stat st
         ABILITY_POPUP(opponent, ability);
         if (ability == ABILITY_FULL_METAL_BODY)
             MESSAGE("The opposing Solgaleo's Full Metal Body prevents stat loss!");
+        else if (ability == ABILITY_ABUNDANCE)
+            MESSAGE("The opposing Xerneas's Abundance prevents stat loss!");
         else if (ability == ABILITY_WHITE_SMOKE)
             MESSAGE("The opposing Torkoal's White Smoke prevents stat loss!");
         else

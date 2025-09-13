@@ -43,6 +43,9 @@ struct Tarc_Mon
     u16 moves[4];
     u16 abilities[4];
     bool8 isFainted;
+    u32 *sprite;
+    u16 palette[16];
+    u32 types[2];
 };
 
 struct Tarc_PartyMenuState
@@ -61,6 +64,9 @@ struct Tarc_PartyMenuState
     u8 scrollOffset;
     u8 selectedRow;
     u8 prevListPos;
+    u8 type1SpriteId;
+    u8 type2SpriteId;
+    bool8 hasTypeIcons;
     struct ListMenuItem listBuffer[36];
     struct ListMenuTemplate list;
     u8 listNames[36][20];
@@ -131,6 +137,45 @@ static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 static const u8 sTextMoves[] = _("Moves");
 static const u8 sTextAbilities[] = _("Abilities");
 
+static const u32 sTarcTypeBlankGfx[] = INCBIN_U32("graphics/tarc_party/blank.4bpp");
+static const u16 sTarcTypeBlankPal[] = INCBIN_U16("graphics/tarc_party/blank.gbapal");
+static const u32 sTarcTypeNormalGfx[] = INCBIN_U32("graphics/tarc_party/normal.4bpp");
+static const u16 sTarcTypeNormalPal[] = INCBIN_U16("graphics/tarc_party/normal.gbapal");
+static const u32 sTarcTypeFightingGfx[] = INCBIN_U32("graphics/tarc_party/fight.4bpp");
+static const u16 sTarcTypeFightingPal[] = INCBIN_U16("graphics/tarc_party/fight.gbapal");
+static const u32 sTarcTypeFlyingGfx[] = INCBIN_U32("graphics/tarc_party/flying.4bpp");
+static const u16 sTarcTypeFlyingPal[] = INCBIN_U16("graphics/tarc_party/flying.gbapal");
+static const u32 sTarcTypePoisonGfx[] = INCBIN_U32("graphics/tarc_party/poison.4bpp");
+static const u16 sTarcTypePoisonPal[] = INCBIN_U16("graphics/tarc_party/poison.gbapal");
+static const u32 sTarcTypeGroundGfx[] = INCBIN_U32("graphics/tarc_party/ground.4bpp");
+static const u16 sTarcTypeGroundPal[] = INCBIN_U16("graphics/tarc_party/ground.gbapal");
+static const u32 sTarcTypeRockGfx[] = INCBIN_U32("graphics/tarc_party/rock.4bpp");
+static const u16 sTarcTypeRockPal[] = INCBIN_U16("graphics/tarc_party/rock.gbapal");
+static const u32 sTarcTypeBugGfx[] = INCBIN_U32("graphics/tarc_party/bug.4bpp");
+static const u16 sTarcTypeBugPal[] = INCBIN_U16("graphics/tarc_party/bug.gbapal");
+static const u32 sTarcTypeGhostGfx[] = INCBIN_U32("graphics/tarc_party/ghost.4bpp");
+static const u16 sTarcTypeGhostPal[] = INCBIN_U16("graphics/tarc_party/ghost.gbapal");
+static const u32 sTarcTypeSteelGfx[] = INCBIN_U32("graphics/tarc_party/steel.4bpp");
+static const u16 sTarcTypeSteelPal[] = INCBIN_U16("graphics/tarc_party/steel.gbapal");
+static const u32 sTarcTypeFireGfx[] = INCBIN_U32("graphics/tarc_party/fire.4bpp");
+static const u16 sTarcTypeFirePal[] = INCBIN_U16("graphics/tarc_party/fire.gbapal");
+static const u32 sTarcTypeWaterGfx[] = INCBIN_U32("graphics/tarc_party/water.4bpp");
+static const u16 sTarcTypeWaterPal[] = INCBIN_U16("graphics/tarc_party/water.gbapal");
+static const u32 sTarcTypeGrassGfx[] = INCBIN_U32("graphics/tarc_party/grass.4bpp");
+static const u16 sTarcTypeGrassPal[] = INCBIN_U16("graphics/tarc_party/grass.gbapal");
+static const u32 sTarcTypeElectricGfx[] = INCBIN_U32("graphics/tarc_party/electric.4bpp");
+static const u16 sTarcTypeElectricPal[] = INCBIN_U16("graphics/tarc_party/electric.gbapal");
+static const u32 sTarcTypePsychicGfx[] = INCBIN_U32("graphics/tarc_party/psychic.4bpp");
+static const u16 sTarcTypePsychicPal[] = INCBIN_U16("graphics/tarc_party/psychic.gbapal");
+static const u32 sTarcTypeIceGfx[] = INCBIN_U32("graphics/tarc_party/ice.4bpp");
+static const u16 sTarcTypeIcePal[] = INCBIN_U16("graphics/tarc_party/ice.gbapal");
+static const u32 sTarcTypeDragonGfx[] = INCBIN_U32("graphics/tarc_party/dragon.4bpp");
+static const u16 sTarcTypeDragonPal[] = INCBIN_U16("graphics/tarc_party/dragon.gbapal");
+static const u32 sTarcTypeDarkGfx[] = INCBIN_U32("graphics/tarc_party/dark.4bpp");
+static const u16 sTarcTypeDarkPal[] = INCBIN_U16("graphics/tarc_party/dark.gbapal");
+static const u32 sTarcTypeFairyGfx[] = INCBIN_U32("graphics/tarc_party/fairy.4bpp");
+static const u16 sTarcTypeFairyPal[] = INCBIN_U16("graphics/tarc_party/fairy.gbapal");
+
 static const struct BgTemplate sTarcUiBgTemplates[] =
 {
     {
@@ -154,9 +199,9 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define SELECT_WIDTH      8
 #define SELECT_HEIGHT     2
 #define INFO_WIDTH  20
-#define INFO_HEIGHT 8
-#define SUB_WIDTH   19
-#define SUB_HEIGHT  2
+#define INFO_HEIGHT 6
+#define SUB_WIDTH   20
+#define SUB_HEIGHT  4
 #define CONTROLLS_WIDTH  22
 #define CONTROLLS_HEIGHT 2
 #define HP_WIDTH  8
@@ -262,7 +307,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 10,
-        .tilemapTop = 4,
+        .tilemapTop = 8,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -272,7 +317,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 10,
-        .tilemapTop = 12,
+        .tilemapTop = 4,
         .width = SUB_WIDTH,
         .height = SUB_HEIGHT,
         .paletteNum = 15,
@@ -394,13 +439,9 @@ static void TryMoveSelection(void);
 static u32 CompactMoveStorage(void);
 static u32 CompactAbilityStorage(void);
 static void TarcUi_WriteMonData(void);
+static void TarcUi_PrintMonTypes(u32 type1, u32 type2);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
-
-void OpenFromScript(void)
-{
-    Tarc_InitSummaryScreen(CB2_ReturnToFieldWithOpenMenu);
-}
 
 void Tarc_InitSummaryScreen(MainCallback callback)
 {
@@ -567,6 +608,10 @@ static void TarcUi_FreeResources(void)
 {
     if (sTarcUiState != NULL)
     {
+        for (u32 i = 0; i < 3; i++)
+        {
+            Free(sTarcUiState->mons[i].sprite);
+        }
         Free(sTarcUiState);
     }
     if (sBg1TilemapBuffer != NULL)
@@ -820,6 +865,37 @@ static void TarcUi_LoadMons(void)
     {
         TarcUi_UpdateMon(i);
     }
+    for (u32 i = 0; i < 3; i++)
+    {
+        u32 species = sTarcUiState->mons[i].species;
+        sTarcUiState->mons[i].types[0] = gSpeciesInfo[species].types[0];
+        sTarcUiState->mons[i].types[1] = gSpeciesInfo[species].types[1];
+        //  Load mon sprites to memory
+        sTarcUiState->mons[i].sprite = Alloc(64*64);
+        bool32 isFemale = IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
+        bool32 isShiny = GetMonData(&gPlayerParty[i], MON_DATA_IS_SHINY);
+        if (isFemale && gSpeciesInfo[species].frontPicFemale != NULL)
+            LZDecompressWram(gSpeciesInfo[species].frontPicFemale, sTarcUiState->mons[i].sprite);
+        else
+            LZDecompressWram(gSpeciesInfo[species].frontPic, sTarcUiState->mons[i].sprite);
+        for (u32 j = 0; j < 16; j++)
+        {
+            if (isFemale && gSpeciesInfo[species].paletteFemale != NULL)
+            {
+                if (isShiny)
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].shinyPaletteFemale[j];
+                else
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].paletteFemale[j];
+            }
+            else
+            {
+                if (isShiny)
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].shinyPalette[j];
+                else
+                    sTarcUiState->mons[i].palette[j] = gSpeciesInfo[species].palette[j];
+            }
+        }
+    }
 }
 
 static void TarcUi_InitScrollList(void)
@@ -989,14 +1065,10 @@ static void TarcUi_PrintMon(void)
 
     //  Show new mon sprite
     struct Even_CreateSpriteStruct cs = {0};
-    u32 species = GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_SPECIES);
-    cs.sprite = gSpeciesInfo[species].frontPic;
+    cs.sprite = sTarcUiState->mons[activeMon].sprite;
     cs.tileTag = 0xCEC1;
-    cs.spriteCompressed = TRUE;
-    if (GetMonData(&gPlayerParty[sTarcUiState->activeMon], MON_DATA_IS_SHINY))
-        cs.palette = gSpeciesInfo[species].shinyPalette;
-    else
-        cs.palette = gSpeciesInfo[species].palette;
+    cs.spriteCompressed = FALSE;
+    cs.palette = sTarcUiState->mons[activeMon].palette;
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
@@ -1101,9 +1173,11 @@ static void TarcUi_PrintMon(void)
             PrintAbility(WIN_SELECT1 + i, sTarcUiState->mons[activeMon].abilities[i]);
         break;
     }
+
+    TarcUi_PrintMonTypes(sTarcUiState->mons[activeMon].types[0], sTarcUiState->mons[activeMon].types[1]);
 }
 
-static const u8 sButtonHints[] = _("{SELECT_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
+static const u8 sButtonHints[] = _("{START_BUTTON} Toggle info : : {A_BUTTON} Change move/ability");
 
 static void TarcUi_PrintButtonHints(void)
 {
@@ -1117,12 +1191,294 @@ static void TarcUi_PrintButtonHints(void)
     CopyWindowToVram(WIN_CONTROLLS, COPYWIN_GFX);
 }
 
+static void BuildSubStringMove(u8 *str, u32 move)
+{
+    if (move == MOVE_NONE)
+    {
+        str[0] = EOS;
+        return;
+    }
+    u32 currChar = 0;
+    u32 subChar = 0;
+    str[0] = CHAR_A;
+    str[1] = CHAR_SPACE;
+    currChar = 2;
+    u8 tempStr[20];
+    if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
+    {
+        ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].power, STR_CONV_MODE_LEFT_ALIGN, 3);
+        while (tempStr[subChar] != EOS)
+            str[currChar++] = tempStr[subChar++];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_B;
+        str[currChar++] = CHAR_P;
+        str[currChar++] = CHAR_SPACE;
+        if (gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL)
+        {
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_h;
+            str[currChar++] = CHAR_y;
+            str[currChar++] = CHAR_s;
+            str[currChar++] = CHAR_i;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_a;
+            str[currChar++] = CHAR_l;
+            str[currChar++] = CHAR_SPACE;
+        }
+        else
+        {
+            str[currChar++] = CHAR_s;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_e;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_i;
+            str[currChar++] = CHAR_a;
+            str[currChar++] = CHAR_l;
+            str[currChar++] = CHAR_SPACE;
+        }
+    }
+    else
+    {
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_a;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_SPACE;
+    }
+
+    subChar = 0;
+    const u8 *typeStr = gTypesInfo[gMovesInfo[move].type].name;
+    while (typeStr[subChar] != EOS)
+        str[currChar++] = typeStr[subChar++];
+
+    str[currChar++] = CHAR_SPACE;
+    str[currChar++] = CHAR_t;
+    str[currChar++] = CHAR_y;
+    str[currChar++] = CHAR_p;
+    str[currChar++] = CHAR_e;
+    str[currChar++] = CHAR_SPACE;
+    str[currChar++] = CHAR_m;
+    str[currChar++] = CHAR_o;
+    str[currChar++] = CHAR_v;
+    str[currChar++] = CHAR_e;
+    if (gMovesInfo[move].cd > 0)
+    {
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_w;
+        str[currChar++] = CHAR_i;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_h;
+        str[currChar++] = CHAR_NEWLINE;
+        ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].cd, STR_CONV_MODE_LEFT_ALIGN, 1);
+        str[currChar++] = tempStr[0];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_r;
+        str[currChar++] = CHAR_n;
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_C;
+        str[currChar++] = CHAR_D;
+        str[currChar++] = CHAR_PERIOD;
+        str[currChar++] = CHAR_SPACE;
+    }
+    else
+    {
+        str[currChar++] = CHAR_PERIOD;
+        str[currChar++] = CHAR_NEWLINE;
+    }
+
+    if (gMovesInfo[move].hpBonus > 0
+     || gMovesInfo[move].atkBonus > 0
+     || gMovesInfo[move].defBonus > 0
+     || gMovesInfo[move].spaBonus > 0
+     || gMovesInfo[move].spdBonus > 0
+     || gMovesInfo[move].speBonus > 0)
+    {
+        u32 numStats = 0;
+        str[currChar++] = CHAR_G;
+        str[currChar++] = CHAR_i;
+        str[currChar++] = CHAR_v;
+        str[currChar++] = CHAR_e;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_SPACE;
+        if (gMovesInfo[move].hpBonus > 0)
+        {
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].hpBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_H;
+            str[currChar++] = CHAR_P;
+        }
+        if (gMovesInfo[move].atkBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].atkBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_A;
+            str[currChar++] = CHAR_t;
+            str[currChar++] = CHAR_k;
+        }
+        if (gMovesInfo[move].defBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].defBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_D;
+            str[currChar++] = CHAR_e;
+            str[currChar++] = CHAR_f;
+        }
+        if (gMovesInfo[move].spaBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].spaBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_A;
+        }
+        if (gMovesInfo[move].spdBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].spdBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_D;
+        }
+        if (gMovesInfo[move].speBonus > 0)
+        {
+            if (numStats > 0)
+                str[currChar++] = CHAR_SPACE;
+            numStats++;
+            str[currChar++] = CHAR_PLUS;
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].speBonus, STR_CONV_MODE_LEFT_ALIGN, 2);
+            str[currChar++] = tempStr[0];
+            if (tempStr[1] != EOS)
+                str[currChar++] = tempStr[1];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_S;
+            str[currChar++] = CHAR_p;
+            str[currChar++] = CHAR_e;
+        }
+        str[currChar++] = CHAR_PERIOD;
+    }
+
+    str[currChar] = EOS;
+}
+
+const u8 sPassiveStr[]     = _("A passive ability that's always active.\n");
+const u8 sTriggerStr[]     = _("An ability that is triggered in some way.\n");
+const u8 sSwitchInStr[]    = _("An ability with effect on entering the\nfield. ");
+const u8 sSwitchOutStr[]   = _("An ability with effect on exiting the\nfield. ");
+const u8 sOnHitStr[]       = _("An ability that work when being hit.\n");
+const u8 sOnAttackStr[]    = _("An ability that work when hitting.\n");
+const u8 sEndOfTurnStr[]   = _("An ability that happens at end of\nturn. ");
+const u8 sConditionalStr[] = _("An ability that work under certain\nconditions. ");
+const u8 sCooldown[]       = _("It has a cooldown of ");
+
+static void BuildSubStringAbility(u8 *str, u32 ability)
+{
+    if (ability == ABILITY_NONE)
+    {
+        str[0] = EOS;
+        return;
+    }
+    u32 currChar = 0;
+    u32 subChar = 0;
+    u8 tempStr[4];
+    const u8 *srcStr = sPassiveStr;
+    switch (gAbilitiesInfo[ability].category)
+    {
+    case AC_PASSIVE:
+        break;
+    case AC_TRIGGERED:
+        srcStr = sTriggerStr;
+        break;
+    case AC_SWITCH_IN:
+        srcStr = sSwitchInStr;
+        break;
+    case AC_SWITCH_OUT:
+        srcStr = sSwitchOutStr;
+        break;
+    case AC_ON_HIT:
+        srcStr = sOnHitStr;
+        break;
+    case AC_ON_ATTACK:
+        srcStr = sOnAttackStr;
+        break;
+    case AC_EOT:
+        srcStr = sEndOfTurnStr;
+        break;
+    case AC_CONDITIONAL:
+        srcStr = sConditionalStr;
+        break;
+    }
+    while (srcStr[currChar] != EOS)
+    {
+        str[currChar] = srcStr[currChar];
+        currChar++;
+    }
+
+    if (gAbilitiesInfo[ability].cd > 0)
+    {
+        while (sCooldown[subChar] != EOS)
+            str[currChar++] = sCooldown[subChar++];
+
+        str[currChar++] = CHAR_SPACE;
+        ConvertIntToDecimalStringN(tempStr, gAbilitiesInfo[ability].cd, STR_CONV_MODE_LEFT_ALIGN, 1);
+        subChar = 0;
+        str[currChar++] = tempStr[0];
+        str[currChar++] = CHAR_SPACE;
+        str[currChar++] = CHAR_t;
+        str[currChar++] = CHAR_u;
+        str[currChar++] = CHAR_r;
+        str[currChar++] = CHAR_n;
+        str[currChar++] = CHAR_s;
+        str[currChar++] = CHAR_PERIOD;
+    }
+    str[currChar] = EOS;
+}
+
 static void TarcUi_PrintSelection(void)
 {
     u32 currSelection;
+    u32 subFont = FONT_NORMAL;
     const u8 *origStr = gMovesInfo[MOVE_NONE].description;
+    u8 *subString = Alloc(256);
     u32 listPos = sTarcUiState->scrollOffset + sTarcUiState->selectedRow;
     FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_SUB, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     switch (sTarcUiState->mode)
     {
     case MODE_MOVES:
@@ -1131,6 +1487,8 @@ static void TarcUi_PrintSelection(void)
         else
             currSelection = gSaveBlock1Ptr->moveStorage[listPos];
         origStr = gMovesInfo[currSelection].description;
+        BuildSubStringMove(subString, currSelection);
+        subFont = FONT_NARROWER;
         break;
     case MODE_ABILITIES:
         if (sTarcUiState->rightSelected)
@@ -1138,6 +1496,8 @@ static void TarcUi_PrintSelection(void)
         else
             currSelection = gSaveBlock1Ptr->abilityStorage[listPos];
         origStr = gAbilitiesInfo[currSelection].description;
+        BuildSubStringAbility(subString, currSelection);
+        subFont = FONT_NARROWER;
         break;
     }
     u32 currChar = 0;
@@ -1146,11 +1506,22 @@ static void TarcUi_PrintSelection(void)
 
     AddTextPrinterParameterized4(WIN_INFO,
                                  FONT_NORMAL,
-                                 0, 5, 0 ,0,
+                                 0, 0, 0, 0,
                                  sTarcUiWindowFontColors[FONT_FADED],
                                  TEXT_SKIP_DRAW,
                                  origStr);
     CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
+
+    AddTextPrinterParameterized4(WIN_SUB,
+                                 subFont,
+                                 0, 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_FADED],
+                                 TEXT_SKIP_DRAW,
+                                 subString);
+    CopyWindowToVram(WIN_INFO, COPYWIN_GFX);
+    CopyWindowToVram(WIN_SUB, COPYWIN_GFX);
+
+    Free(subString);
 }
 
 static void TarcUi_UpdateSelector(void)
@@ -1378,6 +1749,7 @@ static void TarcUi_WriteMonData(void)
             }
 
             SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + targetIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_PP1 + targetIndex, &gMovesInfo[sTarcUiState->mons[monIndex].moves[moveIndex]].pp);
             targetIndex++;
         }
 
@@ -1403,5 +1775,137 @@ static void TarcUi_WriteMonData(void)
             hp = 0;
             SetMonData(&gPlayerParty[monIndex], MON_DATA_HP, &hp);
         }
+    }
+}
+
+static void FillTypePointers(const u32 **sprite, const u16 **palette, u32 type)
+{
+    switch (type)
+    {
+    case TYPE_NORMAL:
+        *sprite = sTarcTypeNormalGfx;
+        *palette = sTarcTypeNormalPal;
+        break;
+    case TYPE_FIGHTING:
+        *sprite = sTarcTypeFightingGfx;
+        *palette = sTarcTypeFightingPal;
+        break;
+    case TYPE_FLYING:
+        *sprite = sTarcTypeFlyingGfx;
+        *palette = sTarcTypeFlyingPal;
+        break;
+    case TYPE_POISON:
+        *sprite = sTarcTypePoisonGfx;
+        *palette = sTarcTypePoisonPal;
+        break;
+    case TYPE_GROUND:
+        *sprite = sTarcTypeGroundGfx;
+        *palette = sTarcTypeGrassPal;
+        break;
+    case TYPE_ROCK:
+        *sprite = sTarcTypeRockGfx;
+        *palette = sTarcTypeRockPal;
+        break;
+    case TYPE_BUG:
+        *sprite = sTarcTypeBugGfx;
+        *palette = sTarcTypeBugPal;
+        break;
+    case TYPE_GHOST:
+        *sprite = sTarcTypeGhostGfx;
+        *palette = sTarcTypeGhostPal;
+        break;
+    case TYPE_STEEL:
+        *sprite = sTarcTypeSteelGfx;
+        *palette = sTarcTypeSteelPal;
+        break;
+    case TYPE_FIRE:
+        *sprite = sTarcTypeFireGfx;
+        *palette = sTarcTypeFirePal;
+        break;
+    case TYPE_WATER:
+        *sprite = sTarcTypeWaterGfx;
+        *palette = sTarcTypeWaterPal;
+        break;
+    case TYPE_GRASS:
+        *sprite = sTarcTypeGrassGfx;
+        *palette = sTarcTypeGrassPal;
+        break;
+    case TYPE_ELECTRIC:
+        *sprite = sTarcTypeElectricGfx;
+        *palette = sTarcTypeElectricPal;
+        break;
+    case TYPE_PSYCHIC:
+        *sprite = sTarcTypePsychicGfx;
+        *palette = sTarcTypePsychicPal;
+        break;
+    case TYPE_ICE:
+        *sprite = sTarcTypeIceGfx;
+        *palette = sTarcTypeIcePal;
+        break;
+    case TYPE_DRAGON:
+        *sprite = sTarcTypeDragonGfx;
+        *palette = sTarcTypeDragonPal;
+        break;
+    case TYPE_DARK:
+        *sprite = sTarcTypeDarkGfx;
+        *palette = sTarcTypeDarkPal;
+        break;
+    case TYPE_FAIRY:
+        *sprite = sTarcTypeFairyGfx;
+        *palette = sTarcTypeFairyPal;
+        break;
+    }
+}
+
+static void TarcUi_PrintMonTypes(u32 type1, u32 type2)
+{
+    if (sTarcUiState->hasTypeIcons)
+    {
+        DestroySprite(&gSprites[sTarcUiState->type1SpriteId]);
+        DestroySprite(&gSprites[sTarcUiState->type2SpriteId]);
+        FreeSpriteTilesByTag(0xCEC3);
+        FreeSpritePaletteByTag(0xCEC3);
+        FreeSpriteTilesByTag(0xCEC4);
+        FreeSpritePaletteByTag(0xCEC4);
+    }
+    sTarcUiState->hasTypeIcons = TRUE;
+    const u32 *sprite1 = sTarcTypeNormalGfx;
+    const u32 *sprite2 = sTarcTypeNormalGfx;
+    const u16 *pal1 = sTarcTypeNormalPal;
+    const u16 *pal2 = sTarcTypeNormalPal;
+
+    FillTypePointers(&sprite1, &pal1, type1);
+    FillTypePointers(&sprite2, &pal2, type2);
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = sprite1;
+    cs.tileTag = 0xCEC3;
+    cs.palette = pal1;
+    cs.palTag = 0xCEC3;
+    cs.spriteSize = SPRITE_SIZE(16x16);
+    cs.spriteShape = SPRITE_SHAPE(16x16);
+    cs.posX = 80;
+    cs.posY = 136;
+
+    sTarcUiState->type1SpriteId = Even_CreateSprite(&cs);
+    if (type1 != type2)
+    {
+        cs.sprite = sprite2;
+        cs.tileTag = 0xCEC4;
+        cs.palette = pal2;
+        cs.palTag = 0xCEC4;
+        cs.posX = 96;
+        cs.posY = 136;
+        sTarcUiState->type2SpriteId = Even_CreateSprite(&cs);
+    }
+    else
+    {
+        cs.sprite = sTarcTypeBlankGfx;
+        cs.tileTag = 0xCEC4;
+        cs.palette = sTarcTypeBlankPal;
+        cs.palTag = 0xCEC4;
+        cs.posX = 96;
+        cs.posY = 136;
+        sTarcUiState->type2SpriteId = Even_CreateSprite(&cs);
     }
 }

@@ -70,6 +70,7 @@
 #include "load_save.h"
 
 #include "tarc_ai.h"
+#include "tarc_help_system.h"
 
 // table to avoid ugly powing on gba (courtesy of doesnt)
 // this returns (i^2.5)/4
@@ -324,7 +325,6 @@ enum GiveCaughtMonStates
 #define TAG_LVLUP_BANNER_MON_ICON 55130
 
 static void TrySetDestinyBondToHappen(void);
-static u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr);
 static bool32 IsMonGettingExpSentOut(void);
 static void InitLevelUpBanner(void);
 static bool8 SlideInLevelUpBanner(void);
@@ -1886,10 +1886,13 @@ static void Cmd_ppreduce(void)
         if (gCurrentMove != gLastResultingMoves[gBattlerAttacker] || WasUnableToUseMove(gBattlerAttacker))
             gBattleStruct->sameMoveTurns[gBattlerAttacker] = 0;
 
-        if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
-        else
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        if (TESTING)
+        {
+            if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
+            else
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        }
 
         if (MOVE_IS_PERMANENT(gBattlerAttacker, gCurrMovePos))
         {
@@ -1985,7 +1988,8 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
           || MoveAlwaysCrits(move)
           || (BattlerHasTrait(gBattlerAttacker, ABILITY_MERCILESS)
               && ((gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY)
-               || (gBattleMons[battlerDef].status1 & STATUS1_PARALYSIS)))
+               || (gBattleMons[battlerDef].status1 & STATUS1_PARALYSIS)
+               || (gBattleMons[battlerDef].status1 & STATUS1_FROSTBITE)))
           || (gBattleMons[gBattlerTarget].status1 & STATUS1_FROSTBITE && BattlerHasTrait(gBattlerAttacker, ABILITY_HOARFROST)))
     {
         critChance = CRITICAL_HIT_ALWAYS;
@@ -2662,6 +2666,8 @@ static void Cmd_healthbarupdate(void)
             else
             {
                 s16 healthValue = min(gBattleStruct->moveDamage[battler], 10000); // Max damage (10000) not present in R/S, ensures that huge damage values don't change sign
+                if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    healthValue = 3 * healthValue / 2;
 
                 BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, healthValue);
                 MarkBattlerForControllerExec(battler);
@@ -2735,7 +2741,10 @@ static void Cmd_datahpupdate(void)
             if (gBattleStruct->moveDamage[battler] < 0)
             {
                 // Negative damage is HP gain
-                gBattleMons[battler].hp += -gBattleStruct->moveDamage[battler];
+                if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
+                else
+                    gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
                 if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                     gBattleMons[battler].hp = gBattleMons[battler].maxHP;
             }
@@ -2765,6 +2774,9 @@ static void Cmd_datahpupdate(void)
                     gBattleMons[battler].hp = 0;
                     if (battler == 1 && gBattleStruct->currentPhase < gBattleStruct->maxPhases)
                     {
+                        if (!BattlerHasTrait(1, ABILITY_INNER_FOCUS))
+                            gBattleMons[1].status2 |= STATUS2_FLINCHED;
+                        HelpSystem_AddTrigger(TRIGGER_PHASE);
                         ResetTurnCounter();
                         gBattleStruct->skipIncrement = TRUE;
                         isBossRestore = TRUE;
@@ -3945,7 +3957,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_DIRE_CLAW:
                 if (!gBattleMons[gEffectBattler].status1)
                 {
-                    static const u8 sDireClawEffects[] = { MOVE_EFFECT_POISON, MOVE_EFFECT_PARALYSIS, MOVE_EFFECT_SLEEP };
+                    static const u8 sDireClawEffects[] = { MOVE_EFFECT_POISON, MOVE_EFFECT_PARALYSIS, MOVE_EFFECT_FREEZE_OR_FROSTBITE };
                     gBattleScripting.moveEffect = RandomElement(RNG_DIRE_CLAW, sDireClawEffects);
                     SetMoveEffect(primary, certain);
                 }
@@ -4503,6 +4515,18 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_INFATUATE_SIDE:
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_EffectInfatuateSide;
+                break;
+            case MOVE_EFFECT_DISABLE:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectDisable;
+                break;
+            case MOVE_EFFECT_TOPSY_TURVY:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectTopsyTurvy;
+                break;
+            case MOVE_EFFECT_STAT_STEAL:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectStatSteal;
                 break;
             case MOVE_EFFECT_TORMENT_SIDE:
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -6090,8 +6114,9 @@ static void Cmd_playstatchangeanimation(void)
                 else if (!gSideTimers[GetBattlerSide(battler)].mistTimer
                         && GetBattlerHoldEffect(battler, TRUE) != HOLD_EFFECT_CLEAR_AMULET
                         && !SearchTraits(battlerTraits, ABILITY_CLEAR_BODY)
+                        && !SearchTraits(battlerTraits, ABILITY_ABUNDANCE)
                         && !SearchTraits(battlerTraits, ABILITY_FULL_METAL_BODY)
-                        && !SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE)
+                        && !(SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
                         && !((SearchTraits(battlerTraits, ABILITY_KEEN_EYE) || SearchTraits(battlerTraits, ABILITY_MINDS_EYE)) && currStat == STAT_ACC)
                         && !(B_ILLUMINATE_EFFECT >= GEN_9 && SearchTraits(battlerTraits, ABILITY_ILLUMINATE) && currStat == STAT_ACC)
                         && !(SearchTraits(battlerTraits, ABILITY_HYPER_CUTTER) && currStat == STAT_ATK)
@@ -8544,6 +8569,8 @@ static bool32 DoSwitchInEffectsForBattler(u32 battler)
             PushTraitStack(battler, ABILITY_FULL_METAL_BODY);
         else if (SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
             PushTraitStack(battler, ABILITY_WHITE_SMOKE);
+        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+            PushTraitStack(battler, ABILITY_ABUNDANCE);
         gBattlescriptCurrInstr = BattleScript_StickyWebOnSwitchIn;
     }
     else if (!(gDisableStructs[battler].steelSurgeDone)
@@ -12494,7 +12521,7 @@ static u16 ReverseStatChangeMoveEffect(u16 moveEffect)
     }
 }
 
-static u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr)
+u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr)
 {
     bool32 certain = FALSE;
     bool32 notProtectAffected = FALSE;
@@ -12598,6 +12625,8 @@ static u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr
                             battlerAbility = ABILITY_FULL_METAL_BODY;
                         else if (SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
                             battlerAbility = ABILITY_WHITE_SMOKE;
+                        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+                            battlerAbility = ABILITY_ABUNDANCE;
 
                         gBattlerAbility = battler;
                         BattleScriptPush(BS_ptr);
@@ -17156,6 +17185,7 @@ static bool8 CanBattlerPreventStatLoss(u16 battler)
 
     if (SearchTraits(battlerTraits, ABILITY_CLEAR_BODY)
      || SearchTraits(battlerTraits, ABILITY_FULL_METAL_BODY)
+     || (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
      || SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
         return TRUE;
     
@@ -17618,6 +17648,10 @@ void BS_SetRemoveTerrain(void)
 
     switch (GetMoveEffect(gCurrentMove))
     {
+    case EFFECT_SANCTUARY:
+        statusFlag = STATUS_FIELD_GRASSY_TERRAIN;
+        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_TERRAIN_SET_GRASSY;
+        break;
     case EFFECT_MISTY_TERRAIN:
         statusFlag = STATUS_FIELD_MISTY_TERRAIN;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_TERRAIN_SET_MISTY;
@@ -19313,4 +19347,101 @@ void BS_JumpIfLunarCold(void)
         gBattlescriptCurrInstr = cmd->jumpInstr;
     else
         gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_JumpIfAbundance(void)
+{
+    NATIVE_ARGS(u8 battler, const u8 *jumpInstr);
+    u32 battler = GetBattlerForBattleScript(cmd->battler);
+
+    if (gBattleMons[battler].hp != gBattleMons[battler].maxHP)
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+
+    bool32 hasAbundance = BattlerHasTrait(battler, ABILITY_ABUNDANCE);
+
+    if (hasAbundance && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+    {
+        CreateAbilityPopUp(battler, ABILITY_ABUNDANCE, FALSE);
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
+void BS_SimulHealthbarUpdate(void)
+{
+    NATIVE_ARGS();
+
+    for (u32 battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (gBattleStruct->moveDamage[battler] != 0)
+        {
+            s32 currDmg = gBattleStruct->moveDamage[battler];
+            if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                currDmg = 3 * currDmg / 2;
+            BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, currDmg);
+            MarkBattlerForControllerExec(battler);
+        }
+    }
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SimulDataHPUpdate(void)
+{
+    NATIVE_ARGS();
+
+    for (u32 battler = 0; battler < gBattlersCount; battler++)
+    {
+        //  Healing
+        if (gBattleStruct->moveDamage[battler] < 0)
+        {
+            if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
+            else
+                gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
+            if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
+                gBattleMons[battler].hp = gBattleMons[battler].maxHP;
+        }
+        gHitMarker &= ~HITMARKER_PASSIVE_DAMAGE;
+        // Send updated HP
+        BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_HP_BATTLE, 0, sizeof(gBattleMons[battler].hp), &gBattleMons[battler].hp);
+        MarkBattlerForControllerExec(battler);
+    }
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SetHealingSpiritHealing(void)
+{
+    NATIVE_ARGS();
+    for (u32 battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (gBattleMons[battler].hp > 0 && gBattleMons[battler].hp != gBattleMons[battler].maxHP)
+        {
+            gBattleStruct->moveDamage[battler] = -(GetNonDynamaxMaxHP(battler) / 2);
+        }
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SkipAiIncrement(void)
+{
+    NATIVE_ARGS();
+    if (gBattlerAttacker == 1)
+        gBattleStruct->skipIncrement = TRUE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_DoAiIncrement(void)
+{
+    NATIVE_ARGS();
+    if (gBattlerAttacker == 1)
+        gBattleStruct->skipIncrement = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }

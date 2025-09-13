@@ -1656,6 +1656,7 @@ static u32 GetBattlerMonData(u32 battler, struct Pokemon *party, u32 monId, u8 *
                 battleMon.innates[i] = GetSpeciesInnate(battleMon.species, i + 1, 0 , TRUE);
             }
         }
+        battleMon.turnsInBack = 0;
 
         src = (u8 *)&battleMon;
         for (size = 0; size < sizeof(battleMon); size++)

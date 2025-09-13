@@ -502,6 +502,19 @@ struct SpeciesInfo /*0xC4*/
     bool32 isPlayer;
     u16 moveReward;
     u16 abilityReward;
+    bool8 excludeBlend[16];
+};
+
+enum AbilityCategory
+{
+    AC_PASSIVE,
+    AC_TRIGGERED,
+    AC_SWITCH_IN,
+    AC_SWITCH_OUT,
+    AC_ON_HIT,
+    AC_ON_ATTACK,
+    AC_EOT,
+    AC_CONDITIONAL,
 };
 
 struct Ability
@@ -516,6 +529,8 @@ struct Ability
     u8 cantBeOverwritten:1; // cannot be overwritten by Entrainment, Worry Seed or Simple Beam (but can be by Mummy) - same as cantBeSuppressed except for Truant
     u8 breakable:1; // can be bypassed by Mold Breaker and clones
     u8 failsOnImposter:1; // doesn't work on an Imposter mon; when can we actually use this?
+    enum AbilityCategory category;
+    u32 cd;
 };
 
 enum {
