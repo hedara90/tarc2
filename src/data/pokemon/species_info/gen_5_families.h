@@ -2856,7 +2856,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sAudinoFormSpeciesIdTable,
         .formChangeTable = sAudinoFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_HEAL_PULSE,
+        .moveReward = MOVE_REWARD_WISH,
     },
 
 #if P_MEGA_EVOLUTIONS
