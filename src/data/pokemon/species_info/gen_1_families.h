@@ -18339,7 +18339,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sEspeonLevelUpLearnset,
         .teachableLearnset = sEspeonTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_PSYCHIC_NOISE,
+        .moveReward = MOVE_REWARD_FROSTWISP,
     },
 
     [SPECIES_UMBREON] =
@@ -38894,7 +38894,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sEspeonLevelUpLearnset,
         .teachableLearnset = sEspeonTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_PSYCHIC_NOISE,
+        .moveReward = MOVE_REWARD_FROSTWISP,
     },
 
     [SPECIES_UMBREON] =
