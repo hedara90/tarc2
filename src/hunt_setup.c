@@ -314,7 +314,15 @@ void ChooseCurrentBossFromScript(struct ScriptContext *ctx)
     cs.sprite = gSpeciesInfo[sBossSelect.group->members[0]].frontPic;
     cs.spriteCompressed = TRUE;
     cs.tileTag = 0xCEC1;
-    cs.palette = gSpeciesInfo[sBossSelect.group->members[0]].palette;
+    u16 palette[16];
+    for (u32 i = 0; i < 16; i++)
+    {
+        if (!gSpeciesInfo[sBossSelect.group->members[0]].excludeBlend[i])
+            palette[i] = ConvertColorToDesaturatedNaive(gSpeciesInfo[sBossSelect.group->members[0]].palette[i]);
+        else
+            palette[i] = gSpeciesInfo[sBossSelect.group->members[0]].palette[i];
+    }
+    cs.palette = palette;
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
@@ -416,7 +424,15 @@ static void ReplaceShownSprite(void)
     cs.sprite = gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].frontPic;
     cs.spriteCompressed = TRUE;
     cs.tileTag = 0xCEC1;
-    cs.palette = gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].palette;
+    u16 palette[16];
+    for (u32 i = 0; i < 16; i++)
+    {
+        if (!gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].excludeBlend[i])
+            palette[i] = ConvertColorToDesaturatedNaive(gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].palette[i]);
+        else
+            palette[i] = gSpeciesInfo[sBossSelect.group->members[sBossSelect.currIndex]].palette[i];
+    }
+    cs.palette = palette;
     cs.palTag = 0xCEC1;
     cs.spriteSize = SPRITE_SIZE(64x64);
     cs.spriteShape = SPRITE_SHAPE(64x64);
