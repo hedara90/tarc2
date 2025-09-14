@@ -42,7 +42,7 @@ const struct BossMoveList sMesprit1 =
         MOVE_MYSTICAL_POWER,
         MOVE_FIERY_WRATH,
         MOVE_PSYCHIC,
-        MOVE_WISH
+        MOVE_STORED_POWER
     },
 };
 
@@ -63,8 +63,8 @@ const struct BossMoveList sMesprit3 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_STORED_POWER,
-        MOVE_POWER_TRIP,
+        MOVE_MIND_SCRAMBLE,
+        MOVE_MYSTICAL_POWER,
         MOVE_HEADBUTT,
         MOVE_CELEBRATE,
     },

@@ -3996,6 +3996,7 @@ static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
     gBattleStruct->isEndOfTurnWeather = FALSE;
+    gBattleStruct->isEndOfTurnFuture = FALSE;
 
     HelpSystem_AddTrigger(TRIGGER_BOSS_MOVE);
 
@@ -5343,7 +5344,7 @@ static bool32 TryDoMoveEffectsBeforeMoves(void)
             return TRUE;
         }
 
-        if (!TESTING && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
+        if (!TESTING && gBattleStruct->shouldTriggerRotate && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
         {
             gBattleStruct->triggeredRotate = TRUE;
             gBattleStruct->shouldTriggerRotate = FALSE;
@@ -5922,6 +5923,10 @@ static void ReturnFromBattleToOverworld(void)
 #endif                                                                               // & with B_OUTCOME_WON (1) will return TRUE and deactivates the roamer.
             SetRoamerInactive(gEncounteredRoamerIndex);
     }
+
+    //  BANDAID FIX TO ISSUE WITH PARTY GETTING DUPLICATED
+    for (u32 index = 3; index < 6; index++)
+        memset(&gPlayerParty[index], 0, sizeof(struct Pokemon));
 
     m4aSongNumStop(SE_LOW_HEALTH);
     SetMainCallback2(gMain.savedCallback);
