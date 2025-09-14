@@ -14,8 +14,8 @@
     {
       "local_id": "LOCALID_BOSS",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(BOSS)",
-      "x": 10,
-      "y": 3,
+      "x": 5,
+      "y": 4,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -28,8 +28,8 @@
     {
       "local_id": "LOCALID_MINIBOSS1",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MINIBOSS_1)",
-      "x": 2,
-      "y": 16,
+      "x": 3,
+      "y": 13,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -42,8 +42,8 @@
     {
       "local_id": "LOCALID_MINIBOSS2",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MINIBOSS_2)",
-      "x": 10,
-      "y": 16,
+      "x": 11,
+      "y": 14,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -56,8 +56,8 @@
     {
       "local_id": "LOCALID_MINIBOSS3",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MINIBOSS_3)",
-      "x": 18,
-      "y": 16,
+      "x": 15,
+      "y": 7,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
