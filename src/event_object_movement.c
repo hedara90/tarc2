@@ -2042,6 +2042,7 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
         if ((paletteNum = IndexOfSpritePaletteTag(palTag)) < 16)
             return paletteNum;
         spritePalette.tag = palTag;
+        u16 tempPalette[16];
     #if P_GENDER_DIFFERENCES
         if (female && gSpeciesInfo[species].overworldPaletteFemale != NULL)
         {
@@ -2058,6 +2059,12 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
             else
                 spritePalette.data = gSpeciesInfo[species].overworldPalette;
         }
+
+        for (u32 i = 0; i < 16; i++)
+        {
+            tempPalette[i] = ConvertColorToDesaturatedNaive(spritePalette.data[i]);
+        }
+        spritePalette.data = tempPalette;
 
         // Check if pal data must be decompressed
         if (IsLZ77Data(spritePalette.data, PLTT_SIZE_4BPP, PLTT_SIZE_4BPP))

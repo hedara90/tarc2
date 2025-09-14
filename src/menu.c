@@ -24,6 +24,9 @@
 #include "config/overworld.h"
 #include "constants/songs.h"
 
+#include "even_sprite.h"
+#include "constants/tarc_color_constants.h"
+
 struct MenuInfoIcon
 {
     u8 width;
@@ -59,6 +62,17 @@ static void WindowFunc_ClearDialogWindowAndFrameNullPalette(u8, u8, u8, u8, u8, 
 static void WindowFunc_DrawStdFrameWithCustomTileAndPalette(u8, u8, u8, u8, u8, u8);
 static void WindowFunc_ClearStdWindowAndFrameToTransparent(u8, u8, u8, u8, u8, u8);
 static void task_free_buf_after_copying_tile_data_to_vram(u8 taskId);
+
+static void LoadTarcMessagebox(void);
+static void LoadTarcYesNoBox(void);
+static void HideTarcYesNoBox(void);
+
+const u32 sTarcYesNoBoxGfx[] = INCBIN_U32("graphics/interface/yesno_box.4bpp");
+const u32 sTarcMessageboxGfx[] = INCBIN_U32("graphics/interface/message_box.4bpp");
+const u16 sTarcMessageboxPal[] = INCBIN_U16("graphics/interface/message_box.gbapal");
+
+static EWRAM_INIT u8 sMessageboxSpriteIds[4] = {255, 255, 255, 255};
+static EWRAM_DATA u8 sYesNoBoxSpriteId;
 
 static EWRAM_DATA u8 sStartMenuWindowId = 0;
 static EWRAM_DATA u8 sMapNamePopupWindowId = 0;
@@ -196,7 +210,7 @@ void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)
 {
     void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), callback, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), callback, TARC_FG_COLOR, TARC_BG_COLOR, TARC_SHADOW_COLOR);
 }
 
 void AddTextPrinterForMessage_2(bool8 allowSkippingDelayWithButtonPress)
@@ -336,8 +350,9 @@ static inline void *GetWindowFunc_DialogueFrame(void)
 
 void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
 {
-    CallWindowFunction(windowId, GetWindowFunc_DialogueFrame());
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+    LoadTarcMessagebox();
+    //CallWindowFunction(windowId, GetWindowFunc_DialogueFrame());
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     PutWindowTilemap(windowId);
     if (copyToVram == TRUE)
         CopyWindowToVram(windowId, COPYWIN_FULL);
@@ -354,6 +369,7 @@ void DrawStdWindowFrame(u8 windowId, bool8 copyToVram)
 
 void ClearDialogWindowAndFrame(u8 windowId, bool8 copyToVram)
 {
+    HideTarcMessagebox();
     CallWindowFunction(windowId, WindowFunc_ClearDialogWindowAndFrame);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ClearWindowTilemap(windowId);
@@ -801,6 +817,7 @@ static void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemap
 void ClearDialogWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
 {
     // The palette slot doesn't matter, since the tiles are transparent.
+    HideTarcMessagebox();
     CallWindowFunction(windowId, WindowFunc_ClearDialogWindowAndFrameNullPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);
@@ -1070,8 +1087,24 @@ void RedrawMenuCursor(u8 oldPos, u8 newPos)
 
     width = GetMenuCursorDimensionByFont(sMenu.fontId, 0);
     height = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
-    FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), sMenu.left, sMenu.optionHeight * oldPos + sMenu.top, width, height);
-    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow3, sMenu.left, sMenu.optionHeight * newPos + sMenu.top, 0, 0);
+    FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(0), sMenu.left, sMenu.optionHeight * oldPos + sMenu.top, width, height);
+
+    struct TextPrinterTemplate printerTemplate;
+
+    printerTemplate.currentChar = gText_SelectorArrow3;
+    printerTemplate.windowId = sMenu.windowId;
+    printerTemplate.fontId = sMenu.fontId;
+    printerTemplate.x = sMenu.left;
+    printerTemplate.y = sMenu.optionHeight * newPos + sMenu.top;
+    printerTemplate.currentX = sMenu.left;
+    printerTemplate.currentY = sMenu.optionHeight * newPos + sMenu.top;
+    printerTemplate.letterSpacing = gFonts[sMenu.fontId].letterSpacing;
+    printerTemplate.lineSpacing = gFonts[sMenu.fontId].lineSpacing;
+    printerTemplate.unk = gFonts[sMenu.fontId].unk;
+    printerTemplate.fgColor = TEXT_COLOR_RED;
+    printerTemplate.bgColor = 0;
+    printerTemplate.shadowColor = 0;
+    AddTextPrinter(&printerTemplate, 0, 0);
 }
 
 u8 Menu_MoveCursor(s8 cursorDelta)
@@ -1347,6 +1380,7 @@ s8 Menu_ProcessInputNoWrapClearOnChoose(void)
 
 void EraseYesNoWindow(void)
 {
+    HideTarcYesNoBox();
     ClearStdWindowAndFrameToTransparent(sYesNoWindowId, TRUE);
     RemoveWindow(sYesNoWindowId);
 }
@@ -1754,7 +1788,11 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 pa
     struct TextPrinterTemplate printer;
 
     sYesNoWindowId = AddWindow(window);
-    DrawStdFrameWithCustomTileAndPalette(sYesNoWindowId, TRUE, baseTileNum, paletteNum);
+    //DrawStdFrameWithCustomTileAndPalette(sYesNoWindowId, TRUE, baseTileNum, paletteNum);
+    LoadTarcYesNoBox();
+    FillWindowPixelBuffer(sYesNoWindowId, PIXEL_FILL(0));
+    PutWindowTilemap(sYesNoWindowId);
+    CopyWindowToVram(sYesNoWindowId, COPYWIN_FULL);
 
     printer.currentChar = gText_YesNo;
     printer.windowId = sYesNoWindowId;
@@ -1763,9 +1801,9 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 pa
     printer.y = 1;
     printer.currentX = printer.x;
     printer.currentY = printer.y;
-    printer.fgColor = GetFontAttribute(FONT_NORMAL, FONTATTR_COLOR_FOREGROUND);
-    printer.bgColor = GetFontAttribute(FONT_NORMAL, FONTATTR_COLOR_BACKGROUND);
-    printer.shadowColor = GetFontAttribute(FONT_NORMAL, FONTATTR_COLOR_SHADOW);
+    printer.fgColor = TEXT_COLOR_WHITE;
+    printer.bgColor = 0;
+    printer.shadowColor = TEXT_COLOR_DARK_GRAY;
     printer.unk = GetFontAttribute(FONT_NORMAL, FONTATTR_UNKNOWN);
     printer.letterSpacing = 0;
     printer.lineSpacing = 0;
@@ -2316,5 +2354,66 @@ void HBlankCB_DoublePopupWindow(void)
     else
     {
         REG_BG0VOFS = 512 - offset;
+    }
+}
+
+static void LoadTarcMessagebox(void)
+{
+    if (sMessageboxSpriteIds[0] != 255)
+        return;
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.palette = sTarcMessageboxPal;
+    cs.palTag = 0xCEC0;
+    cs.spriteSize = SPRITE_SIZE(64x32);
+    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.posY = 136;
+    cs.subpriority = 0;
+
+    for (u32 i = 0; i < 4; i++)
+    {
+        cs.sprite = &sTarcMessageboxGfx[i * 256];
+        cs.tileTag = 0xCEC0 - i;
+        cs.posX = 24 + 64 * i;
+        sMessageboxSpriteIds[i] = Even_CreateSprite(&cs);
+    }
+}
+
+void HideTarcMessagebox(void)
+{
+    FreeSpritePaletteByTag(0xCEC0);
+    for (u32 i = 0; i < 4; i++)
+    {
+        if (sMessageboxSpriteIds[i] != 255)
+        {
+            DestroySprite(&gSprites[sMessageboxSpriteIds[i]]);
+            FreeSpriteTilesByTag(0xCEC0 - i);
+        }
+        sMessageboxSpriteIds[i] = 255;
+    }
+}
+
+static void LoadTarcYesNoBox(void)
+{
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.palette = sTarcMessageboxPal;
+    cs.palTag = 0xCEC0;
+    cs.sprite = sTarcYesNoBoxGfx;
+    cs.tileTag = 0xCEC0 - 4;
+    cs.spriteSize = SPRITE_SIZE(64x32);
+    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.posX = 176;
+    cs.posY = 88;
+    cs.subpriority = 0;
+
+    sYesNoBoxSpriteId = Even_CreateSprite(&cs);
+}
+
+static void HideTarcYesNoBox(void)
+{
+    if (sYesNoBoxSpriteId != 255)
+    {
+        DestroySprite(&gSprites[sYesNoBoxSpriteId]);
+        FreeSpriteTilesByTag(0xCEC0 - 4);
+        sYesNoBoxSpriteId = 255;
     }
 }

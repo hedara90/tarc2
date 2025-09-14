@@ -1886,10 +1886,13 @@ static void Cmd_ppreduce(void)
         if (gCurrentMove != gLastResultingMoves[gBattlerAttacker] || WasUnableToUseMove(gBattlerAttacker))
             gBattleStruct->sameMoveTurns[gBattlerAttacker] = 0;
 
-        if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
-        else
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        if (TESTING)
+        {
+            if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
+            else
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        }
 
         if (MOVE_IS_PERMANENT(gBattlerAttacker, gCurrMovePos))
         {
@@ -4512,6 +4515,18 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_INFATUATE_SIDE:
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_EffectInfatuateSide;
+                break;
+            case MOVE_EFFECT_DISABLE:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectDisable;
+                break;
+            case MOVE_EFFECT_TOPSY_TURVY:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectTopsyTurvy;
+                break;
+            case MOVE_EFFECT_STAT_STEAL:
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_MoveEffectStatSteal;
                 break;
             case MOVE_EFFECT_TORMENT_SIDE:
                 BattleScriptPush(gBattlescriptCurrInstr + 1);

@@ -26821,6 +26821,32 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_Wish,
         .validApprenticeMove = TRUE,
     },
+    [MOVE_REWARD_FROSTWISP] =
+    {
+        .name = COMPOUND_STRING("Frostwisp"),
+        .description = COMPOUND_STRING(
+            "Inflicts frostbite on the\n"
+            "foe with cold wisps."),
+        .effect = EFFECT_NON_VOLATILE_STATUS,
+        .power = 0,
+        .type = TYPE_ICE,
+        .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 75,
+        .pp = 15,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .argument = { .nonVolatileStatus = MOVE_EFFECT_FREEZE_OR_FROSTBITE },
+        .zMove = { .effect = Z_EFFECT_ATK_UP_1 },
+        .magicCoatAffected = TRUE,
+        .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
+        .contestCategory = CONTEST_CATEGORY_BEAUTY,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
+        .battleAnimScript = gBattleAnimMove_Frostwisp,
+        .validApprenticeMove = TRUE,
+        .defBonus = 20,
+        .spdBonus = 20,
+    },
     [MOVE_SANCTUARY] =
     {
         .name = COMPOUND_STRING("Sanctuary"),
@@ -26869,5 +26895,144 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_HealingSpirit,
+    },
+    [MOVE_MIND_LOCK] =
+    {
+        .name = COMPOUND_STRING("Mind Lock"),
+        .description = COMPOUND_STRING(
+            "Vanishes, then hits and\n"
+            "disables the targets\n"
+            "last move."),
+        .effect = EFFECT_SEMI_INVULNERABLE,
+        .power = 90,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 100,
+        .pp = 5,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .gravityBanned = TRUE,
+        .sleepTalkBanned = TRUE,
+        .instructBanned = TRUE,
+        .assistBanned = TRUE,
+        .argument.twoTurnAttack = { .stringId =  STRINGID_PKMNSPRANGUP, .status = COMPRESS_BITS(STATUS3_ON_AIR) },
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_DISABLE,
+            .chance = 100,
+            .sheerForceBoost = SHEER_FORCE_NO_BOOST,
+        }),
+        .contestEffect = CONTEST_EFFECT_AVOID_STARTLE,
+        .contestCategory = CONTEST_CATEGORY_CUTE,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Bounce,
+        .validApprenticeMove = TRUE,
+    },
+    [MOVE_MIND_SCRAMBLE] =
+    {
+        .name = COMPOUND_STRING("Mind Scramble"),
+        .description = COMPOUND_STRING(
+            "Vanishes, then hits and\n"
+            "inverts the targets stat\n"
+            "boosts."),
+        .effect = EFFECT_SEMI_INVULNERABLE,
+        .power = 90,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 100,
+        .pp = 5,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .gravityBanned = TRUE,
+        .sleepTalkBanned = TRUE,
+        .instructBanned = TRUE,
+        .assistBanned = TRUE,
+        .argument.twoTurnAttack = { .stringId =  STRINGID_PKMNSPRANGUP, .status = COMPRESS_BITS(STATUS3_ON_AIR) },
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_TOPSY_TURVY,
+            .chance = 100,
+            .sheerForceBoost = SHEER_FORCE_NO_BOOST,
+        }),
+        .contestEffect = CONTEST_EFFECT_AVOID_STARTLE,
+        .contestCategory = CONTEST_CATEGORY_CUTE,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Bounce,
+        .validApprenticeMove = TRUE,
+    },
+    [MOVE_MIND_STEAL] =
+    {
+        .name = COMPOUND_STRING("Mind Steal"),
+        .description = COMPOUND_STRING(
+            "Vanishes, then hits and\n"
+            "steals the target's stat\n"
+            "boosts."),
+        .effect = EFFECT_SEMI_INVULNERABLE,
+        .power = 90,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 100,
+        .pp = 5,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .gravityBanned = TRUE,
+        .sleepTalkBanned = TRUE,
+        .instructBanned = TRUE,
+        .assistBanned = TRUE,
+        .argument.twoTurnAttack = { .stringId =  STRINGID_PKMNSPRANGUP, .status = COMPRESS_BITS(STATUS3_ON_AIR) },
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_STAT_STEAL,
+            .chance = 100,
+            .sheerForceBoost = SHEER_FORCE_NO_BOOST,
+        }),
+        .contestEffect = CONTEST_EFFECT_AVOID_STARTLE,
+        .contestCategory = CONTEST_CATEGORY_CUTE,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Bounce,
+        .validApprenticeMove = TRUE,
+    },
+    [MOVE_JAB_MIND] =
+    {
+        .name = COMPOUND_STRING("Jab Mind"),
+        .description = COMPOUND_STRING(
+            "Jabs the foe 2 to 5 times\n"
+            "with psychic power."),
+        .effect = EFFECT_MULTI_HIT,
+        .power = 20,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_JabMind,
+    },
+    [MOVE_POISON_DROPLETS] =
+    {
+        .name = COMPOUND_STRING("Poison Droplets"),
+        .description = COMPOUND_STRING(
+            "Jabs the foe 2 to 5 times\n"
+            "with manifested poison."),
+        .effect = EFFECT_MULTI_HIT,
+        .power = 20,
+        .type = TYPE_POISON,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_PoisonDroplets,
     },
 };

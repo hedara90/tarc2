@@ -11332,7 +11332,8 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_DRAGON),
-        .abilities = { ABILITY_SAP_SIPPER, ABILITY_HYDRATION, ABILITY_GOOEY },
+        .abilities = { ABILITY_GOOEY, ABILITY_GOOEY, ABILITY_GOOEY },
+        .innates = { ABILITY_UNAWARE, ABILITY_SAP_SIPPER, ABILITY_OBLIVIOUS },
         .bodyColor = BODY_COLOR_PURPLE,
         .speciesName = _("Goodra"),
         .cryId = CRY_GOODRA,
@@ -12715,6 +12716,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
         .maxPhases = 4,
+        .excludeBlend = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
     },
 
     [SPECIES_XERNEAS_ACTIVE] =
@@ -12781,6 +12783,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
         .maxPhases = 4,
+        .excludeBlend = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
     },
 #endif //P_FAMILY_XERNEAS
 

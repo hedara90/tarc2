@@ -52,6 +52,9 @@
 
 #include "even_sprite.h"
 #include "constants/map_types.h"
+#include "constants/tarc_color_constants.h"
+
+#include "tarc_info_menu.h"
 
 // Menu actions
 enum
@@ -777,13 +780,17 @@ static bool8 StartMenuPlayerNameCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
+        SetMainCallback2(CB2_PartyMenuFromStartMenu); // Display party menu
+        SetMainCallback2(CB2_InfoScreenFromStartMenu);
 
+        /*
         if (IsOverworldLinkActive() || InUnionRoom())
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
         else if (FlagGet(FLAG_SYS_FRONTIER_PASS))
             ShowFrontierPass(CB2_ReturnToFieldWithOpenMenu); // Display frontier pass
         else
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
+        */
 
         return TRUE;
     }
@@ -996,8 +1003,13 @@ void SaveGame(void)
 static void ShowSaveMessage(const u8 *message, u8 (*saveCallback)(void))
 {
     StringExpandPlaceholders(gStringVar4, message);
-    LoadMessageBoxAndFrameGfx(0, TRUE);
-    AddTextPrinterForMessage_2(TRUE);
+
+    //LoadMessageBoxGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+    //DrawDialogFrameWithCustomTileAndPalette(0, TRUE, DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
+    DrawDialogueFrame(0, TRUE);
+
+    gTextFlags.canABSpeedUpPrint = TRUE;
+    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), NULL, TARC_FG_COLOR, TARC_BG_COLOR, TARC_SHADOW_COLOR);
     sSavingComplete = TRUE;
     sSaveDialogCallback = saveCallback;
 }
@@ -1030,7 +1042,7 @@ static void HideSaveMessageWindow(void)
 
 static void HideSaveInfoWindow(void)
 {
-    RemoveSaveInfoWindow();
+    //RemoveSaveInfoWindow();
 }
 
 static void SaveStartTimer(void)
@@ -1073,15 +1085,22 @@ static u8 SaveConfirmSaveCallback(void)
 {
     ClearStdWindowAndFrame(GetStartMenuWindowId(), FALSE);
     RemoveStartMenuWindow();
-    ShowSaveInfoWindow();
 
-    if (InBattlePyramid())
+    switch (gSaveFileStatus)
     {
-        ShowSaveMessage(gText_BattlePyramidConfirmRest, SaveYesNoCallback);
-    }
-    else
-    {
-        ShowSaveMessage(gText_ConfirmSave, SaveYesNoCallback);
+    case SAVE_STATUS_EMPTY:
+    case SAVE_STATUS_CORRUPT:
+        if (gDifferentSaveFile == FALSE)
+        {
+            sSaveDialogCallback = SaveFileExistsCallback;
+            return SAVE_IN_PROGRESS;
+        }
+
+        sSaveDialogCallback = SaveSavingMessageCallback;
+        return SAVE_IN_PROGRESS;
+    default:
+        sSaveDialogCallback = SaveOverwriteInputCallback;
+        return SAVE_IN_PROGRESS;
     }
 
     return SAVE_IN_PROGRESS;
@@ -1096,30 +1115,21 @@ static u8 SaveYesNoCallback(void)
 
 static u8 SaveConfirmInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    switch (gSaveFileStatus)
     {
-    case 0: // Yes
-        switch (gSaveFileStatus)
+    case SAVE_STATUS_EMPTY:
+    case SAVE_STATUS_CORRUPT:
+        if (gDifferentSaveFile == FALSE)
         {
-        case SAVE_STATUS_EMPTY:
-        case SAVE_STATUS_CORRUPT:
-            if (gDifferentSaveFile == FALSE)
-            {
-                sSaveDialogCallback = SaveFileExistsCallback;
-                return SAVE_IN_PROGRESS;
-            }
-
-            sSaveDialogCallback = SaveSavingMessageCallback;
-            return SAVE_IN_PROGRESS;
-        default:
             sSaveDialogCallback = SaveFileExistsCallback;
             return SAVE_IN_PROGRESS;
         }
-    case MENU_B_PRESSED:
-    case 1: // No
-        HideSaveInfoWindow();
-        HideSaveMessageWindow();
-        return SAVE_CANCELED;
+
+        sSaveDialogCallback = SaveSavingMessageCallback;
+        return SAVE_IN_PROGRESS;
+    default:
+        sSaveDialogCallback = SaveOverwriteInputCallback;
+        return SAVE_IN_PROGRESS;
     }
 
     return SAVE_IN_PROGRESS;
@@ -1156,18 +1166,7 @@ static u8 SaveConfirmOverwriteCallback(void)
 
 static u8 SaveOverwriteInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
-    case 0: // Yes
-        sSaveDialogCallback = SaveSavingMessageCallback;
-        return SAVE_IN_PROGRESS;
-    case MENU_B_PRESSED:
-    case 1: // No
-        HideSaveInfoWindow();
-        HideSaveMessageWindow();
-        return SAVE_CANCELED;
-    }
-
+    sSaveDialogCallback = SaveSavingMessageCallback;
     return SAVE_IN_PROGRESS;
 }
 
@@ -1619,4 +1618,15 @@ static void SetTarcSpriteToActive(u32 id)
             slot = sTarcPalSlots[0];
         gSprites[sTarcMenuSpriteIds[i]].oam.paletteNum = slot;
     }
+}
+
+void AutoSaveDoSave(void)
+{
+    u8 saveStatus;
+    SaveMapView();
+    sSavingComplete = FALSE;
+    IncrementGameStat(GAME_STAT_SAVED_GAME);
+    saveStatus = TrySavingData(SAVE_NORMAL);
+    gDifferentSaveFile = FALSE;
+    return;
 }

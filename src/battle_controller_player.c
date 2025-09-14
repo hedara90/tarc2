@@ -874,6 +874,9 @@ void HandleInputChooseMove(u32 battler)
     if (HelpSystem_Process())
         return;
 
+    if (gBattleStruct->battlerState[1].activeAbilityPopUps)
+        return;
+
     u16 moveTarget;
     u32 canSelectTarget = 0;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
@@ -1176,13 +1179,7 @@ void HandleInputChooseMove(u32 battler)
     else if (JOY_NEW(START_BUTTON))
     {
         gBattleStruct->triedCDMove = FALSE;
-        if (gBattleStruct->gimmick.usableGimmick[battler] != GIMMICK_NONE && !HasTrainerUsedGimmick(battler, gBattleStruct->gimmick.usableGimmick[battler]))
-        {
-            gBattleStruct->gimmick.playerSelect ^= 1;
-            ReloadMoveNames(battler);
-            ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, gBattleStruct->gimmick.playerSelect);
-            PlaySE(SE_SELECT);
-        }
+        CreateBossMovePopUp();
     }
 }
 

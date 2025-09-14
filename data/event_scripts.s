@@ -1185,3 +1185,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Area9/scripts.inc"
 
 	.include "data/maps/Entrance/scripts.inc"
+
+	.include "data/scripts/tarc_scripts.inc"

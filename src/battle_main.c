@@ -3996,6 +3996,9 @@ static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
     gBattleStruct->isEndOfTurnWeather = FALSE;
+    gBattleStruct->isEndOfTurnFuture = FALSE;
+
+    HelpSystem_AddTrigger(TRIGGER_BOSS_MOVE);
 
     //  Increment the AI turn counter
     if (gBattleStruct->skipIncrement)
@@ -4083,6 +4086,7 @@ void BattleTurnPassed(void)
         if (gBattleStruct->battlerState[i].stompingTantrumTimer > 0)
             gBattleStruct->battlerState[i].stompingTantrumTimer--;
     }
+    gBattleStruct->hasShownMoodSwing = FALSE;
 
     for (i = 0; i < NUM_BATTLE_SIDES; i++)
     {
@@ -4832,7 +4836,7 @@ u32 GetBattlerTotalSpeedStatArgs(u32 battler, u32 ability, enum ItemHoldEffect h
     // other abilities
     if (SearchTraits(battlerTraits, ABILITY_QUICK_FEET) && gBattleMons[battler].status1 & STATUS1_ANY)
         speed += baseSpeed / 2;
-    if (SearchTraits(battlerTraits, ABILITY_SURGE_SURFER) && gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN)
+    if (SearchTraits(battlerTraits, ABILITY_SURGE_SURFER) && gFieldStatuses & STATUS_FIELD_TERRAIN_ANY)
         speed += baseSpeed;
     if (SearchTraits(battlerTraits, ABILITY_PROTOSYNTHESIS) && !(gBattleMons[battler].status2 & STATUS2_TRANSFORMED) && ((gBattleWeather & B_WEATHER_SUN && HasWeatherEffect()) || gDisableStructs[battler].boosterEnergyActivates & (1u << battler)))
         speed += (GetHighestStatId(battler) == STAT_SPEED) ? baseSpeed / 2 : 0;
@@ -5340,7 +5344,7 @@ static bool32 TryDoMoveEffectsBeforeMoves(void)
             return TRUE;
         }
 
-        if (!TESTING && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
+        if (!TESTING && gBattleStruct->shouldTriggerRotate && !gBattleStruct->triggeredRotate && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0, 0) != 0)
         {
             gBattleStruct->triggeredRotate = TRUE;
             gBattleStruct->shouldTriggerRotate = FALSE;
@@ -5920,6 +5924,10 @@ static void ReturnFromBattleToOverworld(void)
             SetRoamerInactive(gEncounteredRoamerIndex);
     }
 
+    //  BANDAID FIX TO ISSUE WITH PARTY GETTING DUPLICATED
+    for (u32 index = 3; index < 6; index++)
+        memset(&gPlayerParty[index], 0, sizeof(struct Pokemon));
+
     m4aSongNumStop(SE_LOW_HEALTH);
     SetMainCallback2(gMain.savedCallback);
 }
@@ -6022,13 +6030,13 @@ u32 GetDynamicMoveType(struct Pokemon *mon, u32 move, u32 battler, enum MonState
         {
             if (HasWeatherEffect())
             {
-                if (gBattleWeather & B_WEATHER_RAIN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
+                if (IsBattlerWeatherAffected(battler, B_WEATHER_RAIN))
                     return TYPE_WATER;
-                else if (gBattleWeather & B_WEATHER_SANDSTORM)
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SANDSTORM))
                     return TYPE_ROCK;
-                else if (gBattleWeather & B_WEATHER_SUN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SUN))
                     return TYPE_FIRE;
-                else if (gBattleWeather & (B_WEATHER_SNOW | B_WEATHER_HAIL))
+                else if (IsBattlerWeatherAffected(battler, B_WEATHER_SNOW | B_WEATHER_HAIL))
                     return TYPE_ICE;
                 else
                     return moveType;
@@ -6233,6 +6241,13 @@ void SetTypeBeforeUsingMove(u32 move, u32 battler)
                                   move,
                                   battler,
                                   MON_IN_BATTLE);
+    // Handle Purifying Water
+    if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS
+     && gMovesInfo[move].type == TYPE_POISON
+     && BattlerHasTrait(gBattleStruct->moveTarget[battler], ABILITY_PURIFYING_WATER))
+    {
+        moveType = TYPE_WATER;
+    }
 
     if (moveType != TYPE_NONE)
         gBattleStruct->dynamicMoveType = moveType | F_DYNAMIC_TYPE_SET;
