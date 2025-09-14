@@ -5917,6 +5917,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL
+         && !gBattleStruct->isEndOfTurnFuture
          && !gBattleStruct->foreseenTrigger[battler]
          && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
          && gCurrentMove != MOVE_FUTURE_SIGHT
