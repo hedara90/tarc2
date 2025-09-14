@@ -7,6 +7,9 @@
   "requires_flash": false,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_TOWN",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
@@ -29,7 +32,7 @@
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
-      "script": "MythHub_Area1"
+      "script": "MythHub_Boss"
     }
   ],
   "bg_events": [
@@ -105,8 +108,5 @@
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "MythHub_Area7"
     }
-  ],
-  "allow_cycling": false,
-  "allow_escaping": false,
-  "allow_running": false
+  ]
 }

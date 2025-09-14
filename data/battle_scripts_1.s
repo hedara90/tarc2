@@ -5454,8 +5454,8 @@ BattleScript_LocalBattleLostPrintWhiteOut::
 	jumpifbattletype BATTLE_TYPE_TRAINER, BattleScript_LocalBattleLostEnd
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage B_WAIT_TIME_LONG
-	printstring STRINGID_PLAYERWHITEOUT2
-	waitmessage B_WAIT_TIME_LONG
+	@printstring STRINGID_PLAYERWHITEOUT2
+	@waitmessage B_WAIT_TIME_LONG
 	end2
 BattleScript_LocalBattleLostEnd::
 	printstring STRINGID_PLAYERLOSTTOENEMYTRAINER

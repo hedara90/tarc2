@@ -116,9 +116,17 @@ static const u8 sText_PkmnGoodComeBack[] = _("Good job, {B_BUFF1}! Come back!");
 static const u8 sText_Trainer1WithdrewPkmn[] = _("{B_TRAINER1_NAME_WITH_CLASS} withdrew {B_BUFF1}!");
 static const u8 sText_LinkTrainer1WithdrewPkmn[] = _("{B_LINK_OPPONENT1_NAME} withdrew {B_BUFF1}!");
 static const u8 sText_LinkTrainer2WithdrewPkmn[] = _("{B_LINK_SCR_TRAINER_NAME} withdrew {B_BUFF1}!");
+#if TESTING
 static const u8 sText_WildPkmnPrefix[] = _("The wild ");
+#else
+static const u8 sText_WildPkmnPrefix[] = _("The opposing ");
+#endif
 static const u8 sText_FoePkmnPrefix[] = _("The opposing ");
+#if TESTING
 static const u8 sText_WildPkmnPrefixLower[] = _("the wild ");
+#else
+static const u8 sText_WildPkmnPrefixLower[] = _("the opposing ");
+#endif
 static const u8 sText_FoePkmnPrefixLower[] = _("the opposing ");
 static const u8 sText_EmptyString8[] = _("");
 static const u8 sText_FoePkmnPrefix2[] = _("Opposing");
@@ -196,7 +204,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ATTACKERFAINTED]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_TARGETFAINTED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_PLAYERGOTMONEY]                       = COMPOUND_STRING("You got ¥{B_BUFF1} for winning!\p"),
-    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("You have no more Pokémon that can fight!\p"),
+    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("You have no more Pokémon that can fight!\pThis is where this story ends.{PAUSE_UNTIL_PRESS}"),
 #if B_WHITEOUT_MONEY >= GEN_4
     [STRINGID_PLAYERWHITEOUT2]                      = COMPOUND_STRING("You panicked and dropped ¥{B_BUFF1}…\pYou were overwhelmed by your defeat!{PAUSE_UNTIL_PRESS}"),
 #else
