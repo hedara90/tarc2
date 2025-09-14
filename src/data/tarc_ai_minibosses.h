@@ -295,7 +295,7 @@ const struct BossMoveList sRapidash1 =
     .moves =
     {
         MOVE_AGILITY,
-        MOVE_TACKLE,
+        MOVE_PYROCLASM,
         MOVE_SWORDS_DANCE,
         MOVE_HIGH_HORSEPOWER
     },

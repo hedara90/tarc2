@@ -7,5 +7,21 @@ script Boss_BossBattle {
     playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
     waitmoncry
     dowildbattle
+    if (var(VAR_RESULT) == TRUE) {
+        lock
+        setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
+        playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+        setvar(VAR_0x8004, 0)  # vertical pan
+        setvar(VAR_0x8005, 2)  # horizontal pan
+        setvar(VAR_0x8006, 8)  # num shakes
+        setvar(VAR_0x8007, 3)  # shake delay
+        special(ShakeCamera)
+        waitstate
+        playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+        waitmoncry
+        message("Put some profound text here.\p")
+        waitmessage
+        warpsilent(MAP_ENTRANCE, 19, 22)
+    }
     release
 }
