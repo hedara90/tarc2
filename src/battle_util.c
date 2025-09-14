@@ -5917,6 +5917,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL
+         && !gBattleStruct->isEndOfTurnFuture
          && !gBattleStruct->foreseenTrigger[battler]
          && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
          && gCurrentMove != MOVE_FUTURE_SIGHT
@@ -12681,7 +12682,7 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
     {
         mon->status1 = 0;
-        SetMonData(&gPlayerParty[1], MON_DATA_STATUS, &mon->status1);
+        SetMonData(&gPlayerParty[index], MON_DATA_STATUS, &mon->status1);
     }
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status2 != 0)
     {

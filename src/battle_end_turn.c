@@ -1847,17 +1847,17 @@ static bool32 HandleEndTurnAbilities(u32 battler)
     if (!TESTING && battler == 0)
     {
 
-        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gLeftMon.hp == 0 && SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_ELECTRIC);
-        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gLeftMon.hp == 0 && SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_FIRE);
-        if (SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gLeftMon.hp == 0 && SpeciesHasInnate(gLeftMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gLeftMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gLeftMon, &gPlayerParty[1], TYPE_WATER);
-        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gRightMon.hp == 0 && SpeciesHasInnate(gRightMon.species, ABILITY_RISING_THUNDER, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_ELECTRIC);
-        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gRightMon.hp == 0 && SpeciesHasInnate(gRightMon.species, ABILITY_RISING_FLAMES, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_FIRE);
-        if (SpeciesHasInnate(gRightMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
+        if (gRightMon.hp == 0 && SpeciesHasInnate(gRightMon.species, ABILITY_RISING_TIDE, 0, TRUE) && gRightMon.turnsInBack == 4 && !gBattleStruct->hasRessed)
             effect = RessMon(&gRightMon, &gPlayerParty[2], TYPE_WATER);
     }
 
@@ -2063,6 +2063,7 @@ u32 DoEndTurnEffects(void)
 {
     u32 battler = MAX_BATTLERS_COUNT;
     gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
+    gBattleStruct->isEndOfTurnFuture = TRUE;
 
     for (;;)
     {
