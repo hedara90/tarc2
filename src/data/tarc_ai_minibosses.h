@@ -1861,12 +1861,24 @@ const struct BossMoveList sSamurott1 =
     },
 };
 
+const struct BossMoveList sSamurott2 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_AQUA_CUTTER,
+        MOVE_SACRED_SWORD,
+        MOVE_SUCKER_PUNCH,
+        MOVE_X_SCISSOR
+    },
+};
+
 const struct BossAi sSamurottAi =
 {
     .phaseMoves =
     {
         &sSamurott1,
-        &sSamurott1,
+        &sSamurott2,
         &sSamurott1,
         &sSamurott1,
     },
