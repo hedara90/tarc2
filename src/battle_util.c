@@ -3649,6 +3649,20 @@ static bool32 CheckHydrationTrigger(u32 battler)
     }
 }
 
+bool32 IsChargeMove(u32 move)
+{
+    switch (gMovesInfo[move].effect)
+    {
+    case EFFECT_SOLAR_BEAM:
+    case EFFECT_TWO_TURNS_ATTACK:
+    case EFFECT_GEOMANCY:
+    case EFFECT_SEMI_INVULNERABLE:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
 {
     u32 effect = 0;
@@ -5885,6 +5899,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && !IsChargeMove(gCurrentMove)
          && !gBattleStruct->foreseenTrigger[battler]
          && SearchTraits(battlerTraits, ABILITY_FATED_CHANGE)
          && !(gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] > gBattleTurnCounter))
@@ -5902,6 +5917,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_PHYSICAL
          && !gBattleStruct->foreseenTrigger[battler]
+         && !IsChargeMove(gCurrentMove)
          && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
          && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
         {
@@ -5917,6 +5933,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL
+         && !IsChargeMove(gCurrentMove)
          && !gBattleStruct->isEndOfTurnFuture
          && !gBattleStruct->foreseenTrigger[battler]
          && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
@@ -10538,9 +10555,16 @@ static inline s32 DoMoveDamageCalcVars(struct DamageCalculationData *damageCalcD
     {
         dmg *= DMG_ROLL_PERCENT_HI - RandomUniform(RNG_DAMAGE_MODIFIER, 0, DMG_ROLL_PERCENT_HI - DMG_ROLL_PERCENT_LO);
         if (TESTING)
+        {
             dmg /= 100;
+        }
         else
-            dmg /= TARC_DAMAGE_DIVISION;
+        {
+            if (battlerAtk == 0)
+                dmg /= TARC_PLAYER_DAMAGE_DIVISION;
+            else
+                dmg /= TARC_OPPONENT_DAMAGE_DIVISION;
+        }
     }
     else // Apply rest of modifiers in the ai function
     {
@@ -11030,7 +11054,10 @@ uq4_12_t GetTypeModifier(u32 atkType, u32 defType)
 {
     if (B_FLAG_INVERSE_BATTLE != 0 && FlagGet(B_FLAG_INVERSE_BATTLE))
         return GetInverseTypeMultiplier(gTypeEffectivenessTable[atkType][defType]);
-    return gTypeEffectivenessTable[atkType][defType];
+    uq4_12_t modifier = gTypeEffectivenessTable[atkType][defType];
+    if (modifier < UQ_4_12(1.0) && modifier > UQ_4_12(0.5))
+        modifier = UQ_4_12(1.0);
+    return modifier;
 }
 
 s32 GetStealthHazardDamageByTypesAndHP(enum TypeSideHazard hazardType, u8 type1, u8 type2, u32 maxHp)
