@@ -12682,7 +12682,7 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status1 != 0)
     {
         mon->status1 = 0;
-        SetMonData(&gPlayerParty[1], MON_DATA_STATUS, &mon->status1);
+        SetMonData(&gPlayerParty[index], MON_DATA_STATUS, &mon->status1);
     }
     if (mon->turnsInBack == TARC_STATUS_CURE_TURN && mon->status2 != 0)
     {
