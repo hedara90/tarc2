@@ -866,20 +866,17 @@ static void PrintStatNumber(u32 bossId)
     u32 number = 0;
     for (u32 archetype = 0; archetype < 12; archetype++)
     {
-        for (u32 i = 0; i < 3; i++)
+        switch (sTarcUiState->mode)
         {
-            switch (sTarcUiState->mode)
-            {
-            case MODE_TOTAL:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts;
-                break;
-            case MODE_WINS:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
-                break;
-            case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts - gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
-                break;
-            }
+        case MODE_TOTAL:
+            number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts;
+            break;
+        case MODE_WINS:
+            number += gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
+            break;
+        case MODE_LOSSES:
+            number += gSaveBlock1Ptr->victoryStats[bossId][archetype].attempts - gSaveBlock1Ptr->victoryStats[bossId][archetype].wins;
+            break;
         }
     }
 
@@ -902,7 +899,7 @@ static void PrintArchetypeStats(u32 bossId)
     FillWindowPixelBuffer(WIN_SNOW_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WIN_SAND_STATS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
 
-    for (u32 i = 0; i < 4; i++)
+    for (u32 archetype = 0; archetype < 4; archetype++)
     {
         u8 tempStr[22];
         u32 tempChar = 0;
@@ -913,13 +910,13 @@ static void PrintArchetypeStats(u32 bossId)
             switch (sTarcUiState->mode)
             {
             case MODE_TOTAL:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i].attempts;
+                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts;
                 break;
             case MODE_WINS:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].wins;
                 break;
             case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][i].attempts - gSaveBlock1Ptr->victoryStats[bossId][i].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts - gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 4].wins;
                 break;
             }
             ConvertIntToDecimalStringN(numStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);
@@ -933,7 +930,7 @@ static void PrintArchetypeStats(u32 bossId)
             tempStr[tempChar++] = CHAR_NEWLINE;
         }
         tempStr[tempChar - 1] = EOS;
-        AddTextPrinterParameterized4(WIN_RAIN_STATS + i,
+        AddTextPrinterParameterized4(WIN_RAIN_STATS + archetype,
                                      FONT_NORMAL,
                                      TarcUi_JustifyCenter(tempStr, RAIN_STATS_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
@@ -976,9 +973,6 @@ static void PrintBoss(u32 bossId)
 
 static void PrintMonIcons(u32 bossId)
 {
-    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] = SPECIES_WOBBUFFET;
-    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[1] = SPECIES_MEOWTH;
-    gSaveBlock1Ptr->bestBosses[bossId].teamMembers[2] = SPECIES_MEWTWO;
     if (gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] != SPECIES_NONE)
     {
         for (u32 i = 0; i < 3; i++)
