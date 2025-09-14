@@ -213,3 +213,9 @@ const u16 gMetatileAttributes_painted[] = INCBIN_U16("data/tilesets/primary/pain
 
 const u16 gMetatiles_paintedhub[] = INCBIN_U16("data/tilesets/secondary/paintedhub/metatiles.bin");
 const u16 gMetatileAttributes_paintedhub[] = INCBIN_U16("data/tilesets/secondary/paintedhub/metatile_attributes.bin");
+
+const u16 gMetatiles_hub[] = INCBIN_U16("data/tilesets/primary/hub/metatiles.bin");
+const u16 gMetatileAttributes_hub[] = INCBIN_U16("data/tilesets/primary/hub/metatile_attributes.bin");
+
+const u16 gMetatiles_hubsecondary[] = INCBIN_U16("data/tilesets/secondary/hubsecondary/metatiles.bin");
+const u16 gMetatileAttributes_hubsecondary[] = INCBIN_U16("data/tilesets/secondary/hubsecondary/metatile_attributes.bin");
