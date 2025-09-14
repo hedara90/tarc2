@@ -361,6 +361,17 @@ const u32 gObjectEventPic_PokeBall[] = INCBIN_U32("graphics/object_events/pics/m
 const u16 gObjectEventPal_Satsuki[] = INCBIN_U16("graphics/object_events/palettes/satsuki.gbapal");
 const u32 gObjectEventPic_Satsuki[] = INCBIN_U32("graphics/object_events/pics/people/satsuki.4bpp");
 
+const u16 gObjectEventPal_NPCTarc1[] = INCBIN_U16("graphics/object_events/palettes/npc_tarc_1.gbapal");
+const u16 gObjectEventPal_NPCTarc2[] = INCBIN_U16("graphics/object_events/palettes/npc_tarc_2.gbapal");
+
+const u32 gObjectEventPic_AcolyteM[] = INCBIN_U32("graphics/object_events/pics/people/acolyte_m.4bpp");
+const u32 gObjectEventPic_AcolyteF[] = INCBIN_U32("graphics/object_events/pics/people/acolyte_f.4bpp");
+const u32 gObjectEventPic_Chisa[] = INCBIN_U32("graphics/object_events/pics/people/chisa.4bpp");
+const u32 gObjectEventPic_Empress[] = INCBIN_U32("graphics/object_events/pics/people/empress.4bpp");
+const u32 gObjectEventPic_Kaito[] = INCBIN_U32("graphics/object_events/pics/people/kaito.4bpp");
+const u32 gObjectEventPic_Monk[] = INCBIN_U32("graphics/object_events/pics/people/monk.4bpp");
+const u32 gObjectEventPic_PrayerGirl[] = INCBIN_U32("graphics/object_events/pics/people/prayergirl.4bpp");
+
 const u32 gObjectEventPic_DeoxysOld[] = INCBIN_U32("graphics/object_events/pics/pokemon_old/deoxys.4bpp");
 const u32 gObjectEventPic_MewOld[] = INCBIN_U32("graphics/object_events/pics/pokemon_old/mew.4bpp");
 const u32 gObjectEventPic_DusclopsOld[] = INCBIN_U32("graphics/object_events/pics/pokemon_old/dusclops.4bpp");
