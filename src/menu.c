@@ -73,7 +73,7 @@ const u32 sTarcMessageboxGfx[] = INCBIN_U32("graphics/interface/message_box.4bpp
 const u16 sTarcMessageboxPal[] = INCBIN_U16("graphics/interface/message_box.gbapal");
 
 static EWRAM_INIT u8 sMessageboxSpriteIds[4] = {255, 255, 255, 255};
-static EWRAM_DATA u8 sYesNoBoxSpriteId;
+static EWRAM_INIT u8 sYesNoBoxSpriteId = SPRITE_NONE;
 
 static EWRAM_DATA u8 sStartMenuWindowId = 0;
 static EWRAM_DATA u8 sMapNamePopupWindowId = 0;
@@ -113,7 +113,7 @@ static const struct WindowTemplate sStandardTextBox_WindowTemplates[] =
 static const struct WindowTemplate sYesNo_WindowTemplates =
 {
     .bg = 0,
-    .tilemapLeft = 21,
+    .tilemapLeft = 25,
     .tilemapTop = 9,
     .width = 5,
     .height = 4,
@@ -2421,7 +2421,7 @@ static void LoadTarcMessagebox(void)
     {
         cs.sprite = &sTarcMessageboxGfx[i * 256];
         cs.tileTag = 0xCEC0 - i;
-        cs.posX = 24 + 64 * i;
+        cs.posX = 32 + 64 * i;
         sMessageboxSpriteIds[i] = Even_CreateSprite(&cs);
     }
 }
@@ -2449,7 +2449,7 @@ static void LoadTarcYesNoBox(void)
     cs.tileTag = 0xCEC0 - 4;
     cs.spriteSize = SPRITE_SIZE(64x32);
     cs.spriteShape = SPRITE_SHAPE(64x32);
-    cs.posX = 176;
+    cs.posX = 208;
     cs.posY = 88;
     cs.subpriority = 0;
 
@@ -2458,7 +2458,7 @@ static void LoadTarcYesNoBox(void)
 
 static void HideTarcYesNoBox(void)
 {
-    if (sYesNoBoxSpriteId != 255)
+    if (sYesNoBoxSpriteId != SPRITE_NONE)
     {
         DestroySprite(&gSprites[sYesNoBoxSpriteId]);
         FreeSpriteTilesByTag(0xCEC0 - 4);
