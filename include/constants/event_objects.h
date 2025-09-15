@@ -254,7 +254,7 @@
 #define OBJ_EVENT_GFX_EMPRESS                    246
 #define OBJ_EVENT_GFX_KAITO                      247
 #define OBJ_EVENT_GFX_MONK                       248
-#define OBJ_EVENT_PRAYERGIRL                     249
+#define OBJ_EVENT_GFX_PRAYERGIRL                 249
 
 // NOTE: The maximum amount of object events has been expanded from 255 to 65535.
 // Since dynamic graphics ids still require at least 16 free values, the actual limit

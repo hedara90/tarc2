@@ -843,6 +843,14 @@ void AnimTask_ElectricBolt(u8 taskId)
     gTasks[taskId].func = AnimTask_ElectricBolt_Step;
 }
 
+void AnimTask_ElectricBoltThunderstrike(u8 taskId)
+{
+    gTasks[taskId].data[0] = GetBattlerSpriteCoord(0, BATTLER_COORD_X) + gBattleAnimArgs[0];
+    gTasks[taskId].data[1] = GetBattlerSpriteCoord(0, BATTLER_COORD_Y) + gBattleAnimArgs[1];
+    gTasks[taskId].data[2] = gBattleAnimArgs[2];
+    gTasks[taskId].func = AnimTask_ElectricBolt_Step;
+}
+
 static void AnimTask_ElectricBolt_Step(u8 taskId)
 {
     u16 r8;

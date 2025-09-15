@@ -2929,6 +2929,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Can intercept incoming hits."),
         .aiRating = 7,
         .category = AC_TRIGGERED,
+        .cd = TARC_SENTINEL_CD,
     },
     [ABILITY_STATIC_BUILDUP] =
     {
@@ -3053,7 +3054,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_GIANT_SLAYER] =
     {
         .name = _("Giant Slayer"),
-        .description = COMPOUND_STRING("Increases crit rate vs\nopponents with 2+ stat boosts.\n"),
+        .description = COMPOUND_STRING("Increases crit rate vs\nopponents with 2+ stat\nboosts."),
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
@@ -3168,7 +3169,6 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Boosts defense of allies\nin Snow."),
         .aiRating = 5,
         .category = AC_CONDITIONAL,
-        .cd = TARC_SENTINEL_CD,
     },
     [ABILITY_FATED_CHANGE] =
     {

@@ -4651,6 +4651,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             if (SearchTraits(battlerTraits, ABILITY_SOLAR_POWER)
+             && gProtectStructs[battler].usedAttackingMove
              && IsBattlerWeatherAffected(battler, B_WEATHER_SUN))
             {
                 PushTraitStack(battler, ABILITY_SOLAR_POWER);
@@ -4662,9 +4663,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     effect++;
             }
             if (SearchTraits(battlerTraits, ABILITY_ICY_VEINS)
+             && gProtectStructs[battler].usedAttackingMove
              && IsBattlerWeatherAffected(battler, B_WEATHER_SNOW))
             {
-                PushTraitStack(battler, ABILITY_SOLAR_POWER);
+                PushTraitStack(battler, ABILITY_ICY_VEINS);
                 BattleScriptPushCursorAndCallback(BattleScript_IcyVeinsActivates);
                 gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 8;
                 if (gBattleStruct->moveDamage[battler] == 0)
@@ -10865,11 +10867,20 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(u32 move, u32 mov
     u16 battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battlerDef);
 
-    MulByTypeEffectiveness(&modifier, move, moveType, battlerDef, defAbility, types[0], battlerAtk, recordAbilities);
+    uq4_12_t tempMod = UQ_4_12(1.0);
+
+    MulByTypeEffectiveness(&tempMod, move, moveType, battlerDef, defAbility, types[0], battlerAtk, recordAbilities);
     if (types[1] != types[0])
-        MulByTypeEffectiveness(&modifier, move, moveType, battlerDef, defAbility, types[1], battlerAtk, recordAbilities);
+        MulByTypeEffectiveness(&tempMod, move, moveType, battlerDef, defAbility, types[1], battlerAtk, recordAbilities);
+    //  Handle SE x NVE
+    if (tempMod < UQ_4_12(1.0) && tempMod > UQ_4_12(0.5))
+        tempMod = UQ_4_12(1.0);
     if (types[2] != TYPE_MYSTERY && types[2] != types[1] && types[2] != types[0])
-        MulByTypeEffectiveness(&modifier, move, moveType, battlerDef, defAbility, types[2], battlerAtk, recordAbilities);
+        MulByTypeEffectiveness(&tempMod, move, moveType, battlerDef, defAbility, types[2], battlerAtk, recordAbilities);
+    //  Handle SE x NVE
+    if (tempMod < UQ_4_12(1.0) && tempMod > UQ_4_12(0.5))
+        tempMod = UQ_4_12(1.0);
+    modifier = uq4_12_multiply(modifier, tempMod);
     if (moveType == TYPE_FIRE && gDisableStructs[battlerDef].tarShot)
         modifier = uq4_12_multiply(modifier, UQ_4_12(2.0));
 
@@ -11054,10 +11065,7 @@ uq4_12_t GetTypeModifier(u32 atkType, u32 defType)
 {
     if (B_FLAG_INVERSE_BATTLE != 0 && FlagGet(B_FLAG_INVERSE_BATTLE))
         return GetInverseTypeMultiplier(gTypeEffectivenessTable[atkType][defType]);
-    uq4_12_t modifier = gTypeEffectivenessTable[atkType][defType];
-    if (modifier < UQ_4_12(1.0) && modifier > UQ_4_12(0.5))
-        modifier = UQ_4_12(1.0);
-    return modifier;
+    return gTypeEffectivenessTable[atkType][defType];
 }
 
 s32 GetStealthHazardDamageByTypesAndHP(enum TypeSideHazard hazardType, u8 type1, u8 type2, u32 maxHp)
@@ -11068,6 +11076,9 @@ s32 GetStealthHazardDamageByTypesAndHP(enum TypeSideHazard hazardType, u8 type1,
     modifier = uq4_12_multiply(modifier, GetTypeModifier((u8)hazardType, type1));
     if (type2 != type1)
         modifier = uq4_12_multiply(modifier, GetTypeModifier((u8)hazardType, type2));
+
+    if (modifier < UQ_4_12(1.0) && modifier > UQ_4_12(0.5))
+        modifier = UQ_4_12(1.0);
 
     switch (modifier)
     {
@@ -12659,6 +12670,9 @@ bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId)
 
 bool32 LeftMonHurt(void)
 {
+    if (gLeftMon.hp == 0)
+        return FALSE;
+
     if (gLeftMon.hp < gLeftMon.maxHP)
         return TRUE;
 
@@ -12674,6 +12688,9 @@ bool32 LeftMonHurt(void)
 
 bool32 RightMonHurt(void)
 {
+    if (gRightMon.hp == 0)
+        return FALSE;
+
     if (gRightMon.hp < gRightMon.maxHP)
         return TRUE;
 

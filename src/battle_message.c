@@ -922,7 +922,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_RESTORE_BACKLINE]                     = COMPOUND_STRING("{B_BUFF1}{B_BUFF2}{B_BUFF3} recovered a little!"),
     [STRINGID_SLEET_STORM]                          = COMPOUND_STRING("Sleet fall all over the area!"),
     [STRINGID_THUNDERSTRIKE]                        = COMPOUND_STRING("Thunder strikes {B_BUFF1}!"),
-    [STRINGID_INFERNO]                              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was burned by the inferno!"),
+    [STRINGID_INFERNO]                              = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was burned by the inferno!"),
     [STRINGID_CD_OVERRIDE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} suffered from exhaustion!"),
     [STRINGID_RESS_MON]                             = COMPOUND_STRING("{B_BUFF1} was ressurrected!"),
     [STRINGID_CLOUDWALKER]                          = COMPOUND_STRING("Cloudwalker"),
@@ -942,6 +942,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_YGGDRASIL]                            = COMPOUND_STRING("Yggdrasil's energy boosted {B_BUFF1}'s {B_BUFF3}!"),
     [STRINGID_SANCTUARY]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} manifested its realm to safeguard itself!"),
     [STRINGID_HEALING_SPIRIT]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} restored everyone on the field!"),
+    [STRINGID_ABUNDANCE]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} overflows with energy!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
