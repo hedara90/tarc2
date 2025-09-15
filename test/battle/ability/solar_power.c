@@ -41,7 +41,21 @@ SINGLE_BATTLE_TEST("Solar Power doesn't increases a Sp. Attack if Cloud Nine/Air
     }
 }
 
-SINGLE_BATTLE_TEST("Solar Power causes the Pokémon to lose 1/8 max HP in Sun")
+SINGLE_BATTLE_TEST("Solar Power causes the Pokémon to lose 1/8 max HP in Sun if it attacked")
+{
+    GIVEN {
+        PLAYER(SPECIES_CHARIZARD) { Ability(ABILITY_SOLAR_POWER); MaxHP(80); HP(80); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } SCENE {
+        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_SUNNY_DAY); }
+    } SCENE {
+        HP_BAR(player);
+    } THEN {
+        EXPECT_EQ(player->hp, player->maxHP - player->maxHP/8);
+    }
+}
+
+SINGLE_BATTLE_TEST("Solar Power doesn't cause the Pokémon to lose 1/8 max HP in Sun if it didn't attack")
 {
     GIVEN {
         PLAYER(SPECIES_CHARIZARD) { Ability(ABILITY_SOLAR_POWER); MaxHP(80); HP(80); }
@@ -51,7 +65,7 @@ SINGLE_BATTLE_TEST("Solar Power causes the Pokémon to lose 1/8 max HP in Sun")
     } SCENE {
         HP_BAR(player);
     } THEN {
-        EXPECT_EQ(player->hp, player->maxHP - player->maxHP/8);
+        EXPECT_EQ(player->hp, player->maxHP);
     }
 }
 

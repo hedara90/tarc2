@@ -41,7 +41,21 @@ SINGLE_BATTLE_TEST("Icy Veins doesn't increases a Sp. Attack if Cloud Nine/Air L
     }
 }
 
-SINGLE_BATTLE_TEST("Icy Veins causes the Pokémon to lose 1/8 max HP in Sun")
+SINGLE_BATTLE_TEST("Icy Veins causes the Pokémon to lose 1/8 max HP in Snow if it attacked")
+{
+    GIVEN {
+        PLAYER(SPECIES_CHARIZARD) { Ability(ABILITY_ICY_VEINS); MaxHP(80); HP(80); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } SCENE {
+        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_SNOWSCAPE); }
+    } SCENE {
+        HP_BAR(player);
+    } THEN {
+        EXPECT_EQ(player->hp, player->maxHP - player->maxHP/8);
+    }
+}
+
+SINGLE_BATTLE_TEST("Icy Veins doesn't cause the Pokémon to lose 1/8 max HP in Snow if it didn't attack")
 {
     GIVEN {
         PLAYER(SPECIES_CHARIZARD) { Ability(ABILITY_ICY_VEINS); MaxHP(80); HP(80); }
@@ -51,7 +65,7 @@ SINGLE_BATTLE_TEST("Icy Veins causes the Pokémon to lose 1/8 max HP in Sun")
     } SCENE {
         HP_BAR(player);
     } THEN {
-        EXPECT_EQ(player->hp, player->maxHP - player->maxHP/8);
+        EXPECT_EQ(player->hp, player->maxHP);
     }
 }
 

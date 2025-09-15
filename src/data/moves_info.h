@@ -26774,7 +26774,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     },
     [MOVE_REWARD_DARKEST_LARIAT] =
     {
-        .name = COMPOUND_STRING("Darkest Lariat"),
+        .name = COMPOUND_STRING("Darkest Lariat+"),
         .description = COMPOUND_STRING(
             "Swings the arms to strike\n"
             "It ignores stat changes."),
@@ -26793,6 +26793,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_DarkestLariat,
+        .atkBonus = 15,
+        .spdBonus = 15,
     },
 
     [MOVE_REWARD_WISH] =
@@ -26820,6 +26822,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Wish,
         .validApprenticeMove = TRUE,
+        .hpBonus = 10,
+        .defBonus = 10,
+        .spdBonus = 10,
     },
     [MOVE_REWARD_FROSTWISP] =
     {

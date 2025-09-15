@@ -6530,6 +6530,10 @@ static void Cmd_moveend(void)
 
                 gBattleStruct->shouldTriggerSharedBurdens = FALSE;
             }
+
+            if (gBattleScripting.savedDmg > 0)
+                gProtectStructs[gBattlerAttacker].usedAttackingMove = TRUE;
+
             break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
