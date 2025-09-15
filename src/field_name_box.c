@@ -65,8 +65,8 @@ void TrySpawnNamebox(void)
     struct WindowTemplate template =
     {
         .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 13,
+        .tilemapLeft = 1,
+        .tilemapTop = 12,
         .width = winWidth,
         .height = OW_NAME_BOX_DEFAULT_HEIGHT,
         .paletteNum = matchCall ? 14 : DLG_WINDOW_PALETTE_NUM,
