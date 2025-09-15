@@ -117,6 +117,7 @@ script Entrance_StartingAnAdventure {
     applymovement(LOCALID_CAMERA, moves(walk_down, walk_diag_southwest*2))
     waitmovement(LOCALID_CAMERA)
     applymovement(satsuki, moves(face_left))
+    applymovement(player, moves(face_right))
     special(RemoveCameraObject)
     msgbox("Remember, once you're in a story,\nyou cannot receive any help\lfrom outside.\p"
             "Make sure to use all the information\nthe tree provides.")
