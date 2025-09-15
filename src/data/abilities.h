@@ -3053,7 +3053,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_GIANT_SLAYER] =
     {
         .name = _("Giant Slayer"),
-        .description = COMPOUND_STRING("Increases crit rate vs\nopponents with 2+ stat boosts.\n"),
+        .description = COMPOUND_STRING("Increases crit rate vs\nopponents with 2+ stat\nboosts."),
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
