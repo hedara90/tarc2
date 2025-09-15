@@ -443,11 +443,6 @@ static void TarcUi_PrintMonTypes(u32 type1, u32 type2);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
-void OpenFromScript(void)
-{
-    Tarc_InitSummaryScreen(CB2_ReturnToFieldWithOpenMenu);
-}
-
 void Tarc_InitSummaryScreen(MainCallback callback)
 {
     sTarcUiState = AllocZeroed(sizeof(struct Tarc_PartyMenuState));
@@ -1297,10 +1292,10 @@ static void BuildSubStringMove(u8 *str, u32 move)
 
     if (gMovesInfo[move].hpBonus > 0
      || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0
-     || gMovesInfo[move].atkBonus > 0)
+     || gMovesInfo[move].defBonus > 0
+     || gMovesInfo[move].spaBonus > 0
+     || gMovesInfo[move].spdBonus > 0
+     || gMovesInfo[move].speBonus > 0)
     {
         u32 numStats = 0;
         str[currChar++] = CHAR_G;
@@ -1754,6 +1749,7 @@ static void TarcUi_WriteMonData(void)
             }
 
             SetMonData(&gPlayerParty[monIndex], MON_DATA_MOVE1 + targetIndex, &sTarcUiState->mons[monIndex].moves[moveIndex]);
+            SetMonData(&gPlayerParty[monIndex], MON_DATA_PP1 + targetIndex, &gMovesInfo[sTarcUiState->mons[monIndex].moves[moveIndex]].pp);
             targetIndex++;
         }
 

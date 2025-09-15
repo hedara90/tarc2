@@ -75,6 +75,7 @@ enum {
     ABILITYEFFECT_SWITCH_IN_WEATHER,
     ABILITYEFFECT_OPPORTUNIST,
     ABILITYEFFECT_SWITCH_IN_STATUSES,
+    ABILITYEFFECT_MOOD_SWING,
 };
 
 #define STORE_BATTLER_TRAITS(battler) \
@@ -418,6 +419,8 @@ bool32 IsAbilityOnCD(u32 ability, u32 battler);
 void SetAbilityCD(u32 ability, u32 battler);
 bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability);
 u32 NumBattlerStatBoosts(u32 battler);
+
+u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr);
 
 void SwitchActiveMonLeft(void);
 void SwitchActiveMonRight(void);

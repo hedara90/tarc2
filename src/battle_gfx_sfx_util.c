@@ -653,8 +653,27 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battler)
     else
         paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personalityValue);
 
-    LoadPalette(paletteData, paletteOffset, PLTT_SIZE_4BPP);
-    LoadPalette(paletteData, BG_PLTT_ID(8) + BG_PLTT_ID(battler), PLTT_SIZE_4BPP);
+    u16 palette[16];
+
+    if (!gSpeciesInfo[species].isPlayer)
+    {
+        for (u16 i = 0; i < 16; i++)
+        {
+            if (gSpeciesInfo[species].excludeBlend[i])
+                palette[i] = paletteData[i];
+            else
+                palette[i] = ConvertColorToDesaturatedNaive(paletteData[i]);
+                //palette[i] = DesaturateColor(paletteData[i]);
+        }
+    }
+    else
+    {
+        for (u16 i = 0; i < 16; i++)
+            palette[i] = paletteData[i];
+    }
+
+    LoadPalette(palette, paletteOffset, PLTT_SIZE_4BPP);
+    LoadPalette(palette, BG_PLTT_ID(8) + BG_PLTT_ID(battler), PLTT_SIZE_4BPP);
 
     // transform's pink color
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != SPECIES_NONE)

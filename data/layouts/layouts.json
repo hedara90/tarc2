@@ -4444,8 +4444,8 @@
     {
       "id": "LAYOUT_AREA2",
       "name": "Area2_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 26,
+      "height": 26,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Area2/border.bin",
@@ -4464,7 +4464,7 @@
     {
       "id": "LAYOUT_AREA4",
       "name": "Area4_Layout",
-      "width": 20,
+      "width": 22,
       "height": 20,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
@@ -4474,8 +4474,8 @@
     {
       "id": "LAYOUT_AREA5",
       "name": "Area5_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 23,
+      "height": 22,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Area5/border.bin",
@@ -4484,7 +4484,7 @@
     {
       "id": "LAYOUT_AREA6",
       "name": "Area6_Layout",
-      "width": 20,
+      "width": 21,
       "height": 20,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
@@ -4494,8 +4494,8 @@
     {
       "id": "LAYOUT_BOSS",
       "name": "Boss_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 31,
+      "height": 31,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Boss/border.bin",
@@ -4504,8 +4504,8 @@
     {
       "id": "LAYOUT_AREA8",
       "name": "Area8_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 26,
+      "height": 24,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Area8/border.bin",
@@ -4514,8 +4514,8 @@
     {
       "id": "LAYOUT_AREA9",
       "name": "Area9_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 24,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Area9/border.bin",
@@ -4534,10 +4534,10 @@
     {
       "id": "LAYOUT_ENTRANCE",
       "name": "Entrance_Layout",
-      "width": 40,
-      "height": 40,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_OceanicMuseum",
+      "width": 50,
+      "height": 52,
+      "primary_tileset": "gTileset_hub",
+      "secondary_tileset": "gTileset_hubsecondary",
       "border_filepath": "data/layouts/Entrance/border.bin",
       "blockdata_filepath": "data/layouts/Entrance/map.bin"
     }

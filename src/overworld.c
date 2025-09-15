@@ -77,6 +77,7 @@
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
+#include "event_scripts.h"
 
 STATIC_ASSERT((B_FLAG_FOLLOWERS_DISABLED == 0 || OW_FOLLOWERS_ENABLED), FollowersFlagAssignedWithoutEnablingThem);
 
@@ -1519,6 +1520,8 @@ bool32 IsOverworldLinkActive(void)
         return FALSE;
 }
 
+EWRAM_DATA u32 meditateTimer = 0;
+
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
 {
     struct FieldInput inputStruct;
@@ -1537,6 +1540,20 @@ static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
         else
         {
             PlayerStep(inputStruct.dpadDirection, newKeys, heldKeys);
+        }
+        if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE) && heldKeys == (L_BUTTON | R_BUTTON))
+        {
+            if (meditateTimer > 60)
+            {
+                meditateTimer = 0;
+                ScriptContext_SetupScript(EventScript_Meditate);
+            }
+            else
+                meditateTimer++;
+        }
+        else
+        {
+            meditateTimer = 0;
         }
     }
     // If stop running but keep holding B -> fix follower frame.
@@ -1782,12 +1799,35 @@ static bool8 RunFieldCallback(void)
     return TRUE;
 }
 
+const u8 sArchieName[] = _("archie");
+const u8 sArchieNameCaps[] = _("ARCHIE");
+
+static void CheckArchie(void)
+{
+    bool32 isArchie = TRUE;
+    for (u32 i = 0; i < 7; i++)
+    {
+        u8 currChar = gSaveBlock2Ptr->playerName[i];
+        if (currChar != sArchieName[i]
+         && currChar != sArchieNameCaps[i])
+        {
+            isArchie = FALSE;
+            break;
+        }
+    }
+    if (isArchie)
+        gSaveBlock2Ptr->isArchie = TRUE;
+    else
+        gSaveBlock2Ptr->isArchie = FALSE;
+}
+
 void CB2_NewGame(void)
 {
     FieldClearVBlankHBlankCallbacks();
     StopMapMusic();
     ResetSafariZoneFlag_();
     NewGameInitData();
+    CheckArchie();
     ResetInitialPlayerAvatarState();
     PlayTimeCounter_Start();
     ScriptContext_Init();

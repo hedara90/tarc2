@@ -12,6 +12,7 @@
 #include "tarc_ai_paradox_swords.h"
 #include "tarc_ai_pseudos.h"
 #include "tarc_ai_minibosses.h"
+#include "tarc_ai_final.h"
 
 const struct BossAi sAiLists[] =
 {
@@ -191,7 +192,7 @@ const struct BossAi sAiLists[] =
     [BOSS_MINI_WYRDEER] = sWyrdeerAi,
     [BOSS_MINI_URSALUNA] = sUrsalunaAi,
     [BOSS_MINI_MAROWAK_ALOLA] = sMarowakAlolaAi,
-    [BOSS_MINI_MR_MIME_GALAR] = sMrMimeGalarAi,
+    [BOSS_MINI_MR_RIME] = sMrMimeGalarAi,
     [BOSS_MINI_BRAVIARY] = sBraviaryAi,
     [BOSS_MINI_CASTFORM_SUN] = sCastformAi,
     [BOSS_MINI_CASTFORM_RAIN] = sCastformAi,
@@ -215,7 +216,8 @@ const struct BossAi sAiLists[] =
     [BOSS_MINI_MAGCARGO] = sMagcargoAi,
     [BOSS_MINI_CLAWITZER] = sClawitzerAi,
     [BOSS_MINI_SIMISEAR] = sSimisearAi,
-    [BOSS_MINI_KRICKETUNE] = sKricketuneAi,
+    [BOSS_MINI_KLEAVOR] = sKleavorAi,
+    [BOSS_FINAL_XERNEAS] = sXerneasAi,
 };
 
 const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
@@ -396,7 +398,7 @@ const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
     [SPECIES_WYRDEER] = BOSS_MINI_WYRDEER,
     [SPECIES_URSALUNA] = BOSS_MINI_URSALUNA,
     [SPECIES_MAROWAK_ALOLA] = BOSS_MINI_MAROWAK_ALOLA,
-    [SPECIES_MR_MIME_GALAR] = BOSS_MINI_MR_MIME_GALAR,
+    [SPECIES_MR_RIME] = BOSS_MINI_MR_RIME,
     [SPECIES_BRAVIARY_HISUI] = BOSS_MINI_BRAVIARY,
     [SPECIES_CASTFORM_SUNNY] = BOSS_MINI_CASTFORM_SUN,
     [SPECIES_CASTFORM_RAINY] = BOSS_MINI_CASTFORM_RAIN,
@@ -420,5 +422,7 @@ const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
     [SPECIES_MAGCARGO] = BOSS_MINI_MAGCARGO,
     [SPECIES_CLAWITZER] = BOSS_MINI_CLAWITZER,
     [SPECIES_SIMISEAR] = BOSS_MINI_SIMISEAR,
-    [SPECIES_KRICKETUNE] = BOSS_MINI_KRICKETUNE,
+    [SPECIES_KLEAVOR] = BOSS_MINI_KLEAVOR,
+    [SPECIES_XERNEAS] = BOSS_FINAL_XERNEAS,
+    [SPECIES_XERNEAS_ACTIVE] = BOSS_FINAL_XERNEAS,
 };

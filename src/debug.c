@@ -4906,5 +4906,8 @@ static void DebugAction_Util_CheckEWRAMCounters(u8 taskId)
 
 void AddStuff(void)
 {
-    gSaveBlock1Ptr->abilityStorage[0] = ABILITY_RISING_THUNDER;
+    FlagSet(FLAG_HELP_ROTATION);
+    FlagSet(FLAG_HELP_PHASE);
+    FlagSet(FLAG_HELP_COOLDOWN);
+    FlagSet(FLAG_HELP_HEAL);
 }

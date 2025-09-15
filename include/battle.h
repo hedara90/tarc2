@@ -241,6 +241,7 @@ struct SideTimer
     u16 followmeTimer;
     u8 followmeTarget:3;
     u8 followmePowder:1; // Rage powder, does not affect grass type pokemon.
+    u8 fractalShardCounter:4;
     u16 retaliateTimer;
     u16 damageNonTypesTimer;
     u8 damageNonTypesType;
@@ -808,11 +809,14 @@ struct BattleStruct
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:19;
+    u32 sentinelState:17;
+    u32 isEndOfTurnFuture:1;
     u32 isEndOfTurnWeather:1;
     u32 shouldTriggerSharedBurdens:1;
     u32 empathCounter:6;
     u32 cripplingPoisonFlip:1;
+    u32 hasShownMoodSwing:1;
+    bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
 };
 
 struct AiBattleData

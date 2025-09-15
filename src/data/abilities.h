@@ -3053,7 +3053,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_GIANT_SLAYER] =
     {
         .name = _("Giant Slayer"),
-        .description = COMPOUND_STRING("Increases crit rate vs\nopponets with 2+ stat boosts.\n"),
+        .description = COMPOUND_STRING("Increases crit rate vs\nopponents with 2+ stat boosts.\n"),
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
@@ -3169,5 +3169,96 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_CONDITIONAL,
         .cd = TARC_SENTINEL_CD,
+    },
+    [ABILITY_FATED_CHANGE] =
+    {
+        .name = _("Fated Change"),
+        .description = COMPOUND_STRING("Foresees used status moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_FATED_STRIKE] =
+    {
+        .name = _("Fated Strike"),
+        .description = COMPOUND_STRING("Foresees used physical moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_FATED_SIGHT] =
+    {
+        .name = _("Fated Sight"),
+        .description = COMPOUND_STRING("Foresees used special moves\nif no move is not already\nforeseen."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_TECTONIC_TITAN] =
+    {
+        .name = _("Tectonic Titan"),
+        .description = COMPOUND_STRING("Powers up Ground moves."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_FRACTAL_SHARDS] =
+    {
+        .name = _("Fractal Shards"),
+        .description = COMPOUND_STRING("Releases shards of gems\nin snow that boosts attacks."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_CIRCLE_OF_LIFE] =
+    {
+        .name = _("Circle of Light"),
+        .description = COMPOUND_STRING("Heal all battlers at\nend of turn for 1/6."),
+        .aiRating = 5,
+        .category = AC_EOT,
+    },
+    [ABILITY_YGGDRASILS_GIFT] =
+    {
+        .name = _("Yggdrasil's Gift"),
+        .description = COMPOUND_STRING("At end of turn, raise\na random stat for each\nmon at full HP."),
+        .aiRating = 5,
+        .category = AC_EOT,
+    },
+    [ABILITY_AURA_OF_VITALITY] =
+    {
+        .name = _("Aura of Vitality"),
+        .description = COMPOUND_STRING("Increase healing effects\non self by 50%."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_ABUNDANCE] =
+    {
+        .name = _("Abundance"),
+        .description = COMPOUND_STRING("At full HP, moves don't\nhave charge turns and\nstats can't be lowered."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_HASTE] =
+    {
+        .name = _("Haste"),
+        .description = COMPOUND_STRING("Moves with increased\npriority deal more damage."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_PURIFYING_WATER] =
+    {
+        .name = _("Purifying Water"),
+        .description = COMPOUND_STRING("Turns poison type attacks\ninto water. Immune to status\nconditions."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_MOOD_SWING] =
+    {
+        .name = _("Mood Swing"),
+        .description = COMPOUND_STRING("Moves with increased\npriority deal more damage."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_ELECTRON_RELESE] =
+    {
+        .name = _("Electron Release"),
+        .description = COMPOUND_STRING("Sets Electric Terrain\non getting hit."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
     },
 };

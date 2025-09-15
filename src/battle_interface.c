@@ -203,6 +203,7 @@ static void MoveBattleBarGraphically(u8, u8);
 static u8 CalcBarFilledPixels(s32, s32, s32, s32 *, u8 *, u8);
 
 static void SpriteCb_AbilityPopUp(struct Sprite *);
+static void SpriteCb_BossMovePopUp(struct Sprite *);
 static void Task_FreeAbilityPopUpGfx(u8);
 
 static void SpriteCB_LastUsedBall(struct Sprite *);
@@ -2481,6 +2482,7 @@ static void SafariTextIntoHealthboxObject(void *dest, u8 *windowTileData, u32 wi
 #define tRightToLeft    data[3]
 #define tBattlerId      data[4]
 #define tIsMain         data[5]
+#define tGotInput       data[6]
 
 // for task
 #define tSpriteId1      data[6]
@@ -2516,6 +2518,17 @@ static const struct SpriteTemplate sSpriteTemplate_AbilityPopUp =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCb_AbilityPopUp
+};
+
+static const struct SpriteTemplate sSpriteTemplate_BossMovePopUp =
+{
+    .tileTag = ABILITY_POP_UP_TAG,
+    .paletteTag = ABILITY_POP_UP_TAG,
+    .oam = &sOamData_AbilityPopUp,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCb_BossMovePopUp,
 };
 
 #define ABILITY_POP_UP_POS_X_DIFF (64 - 7) // Hide second sprite underneath to gain proper letter spacing
@@ -2647,10 +2660,33 @@ static void PrintBattlerOnAbilityPopUp(u8 battler, u8 spriteId1, u8 spriteId2)
                         8, 1, 7);
 }
 
+static const u8 sBossMoveHeader[] = _("Foe will use:");
+
+static void PrintThingOnAbilityPopUp(u8 spriteId1, u8 spriteId2)
+{
+    PrintOnAbilityPopUp(sBossMoveHeader,
+                        (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32),
+                        (void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32),
+                        5, 12,
+                        0,
+                        8, 1, 7);
+}
+
 static void PrintAbilityOnAbilityPopUp(u32 ability, u8 spriteId1, u8 spriteId2)
 {
     ClearAbilityName(spriteId1, spriteId2);
     PrintOnAbilityPopUp(gAbilitiesInfo[ability].name,
+                        (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
+                        (void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
+                        5, 12,
+                        4,
+                        8, 1, 7);
+}
+
+static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
+{
+    ClearAbilityName(spriteId1, spriteId2);
+    PrintOnAbilityPopUp(gMovesInfo[move].name,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
                         5, 12,
@@ -2862,6 +2898,52 @@ void CreateAbilityPopUp(u8 battler, u32 ability, bool32 isDoubleBattle)
     RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
 }
 
+void CreateBossMovePopUp(void)
+{
+    const s16 (*coords)[2];
+    u8 spriteId1, spriteId2, battlerPosition, taskId;
+
+    LoadSpriteSheet(&sSpriteSheet_AbilityPopUp);
+    LoadSpritePalette(&sSpritePalette_AbilityPopUp);
+
+    gBattleStruct->battlerState[1].activeAbilityPopUps = TRUE;
+    battlerPosition = GetBattlerPosition(1);
+
+    coords = sAbilityPopUpCoordsSingles;
+
+    spriteId1 = CreateSprite(&sSpriteTemplate_BossMovePopUp,
+                            coords[battlerPosition][0] + ABILITY_POP_UP_POS_X_SLIDE,
+                            coords[battlerPosition][1], 0);
+    spriteId2 = CreateSprite(&sSpriteTemplate_BossMovePopUp,
+                            coords[battlerPosition][0] + ABILITY_POP_UP_POS_X_SLIDE + ABILITY_POP_UP_POS_X_DIFF,
+                            coords[battlerPosition][1], 1); //Appears below
+
+    gSprites[spriteId1].tRightToLeft = FALSE;
+    gSprites[spriteId2].tRightToLeft = FALSE;
+
+    gSprites[spriteId1].tOriginalX = coords[battlerPosition][0];
+    gSprites[spriteId2].tOriginalX = coords[battlerPosition][0] + ABILITY_POP_UP_POS_X_DIFF;
+    gSprites[spriteId2].oam.tileNum += (8 * 4); //Second half of pop up
+
+    gBattleStruct->abilityPopUpSpriteIds[1][0] = spriteId1;
+    gBattleStruct->abilityPopUpSpriteIds[1][1] = spriteId2;
+
+    taskId = CreateTask(Task_FreeAbilityPopUpGfx, 5);
+    gTasks[taskId].tSpriteId1 = spriteId1;
+    gTasks[taskId].tSpriteId2 = spriteId2;
+
+    gSprites[spriteId1].tIsMain = TRUE;
+    gSprites[spriteId1].tBattlerId = 1;
+    gSprites[spriteId2].tBattlerId = 1;
+
+    StartSpriteAnim(&gSprites[spriteId1], 0);
+    StartSpriteAnim(&gSprites[spriteId2], 0);
+
+    PrintThingOnAbilityPopUp(spriteId1, spriteId2);
+    PrintMoveOnAbilityPopUp(gBattleMons[1].moves[0], spriteId1, spriteId2);
+    RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
+}
+
 void UpdateAbilityPopup(u8 battler)
 {
     u8 spriteId1 = gBattleStruct->abilityPopUpSpriteIds[battler][0];
@@ -2907,6 +2989,48 @@ static void SpriteCb_AbilityPopUp(struct Sprite *sprite)
             if (!gBattleScripting.fixedPopup)
                 sprite->tFrames--;
         }
+    }
+}
+
+static void SpriteCb_BossMovePopUp(struct Sprite *sprite)
+{
+    if (!sprite->tHide) // Show
+    {
+        if (sprite->tIsMain && ++sprite->tFrames == 4)
+            PlaySE(SE_BALL_TRAY_ENTER);
+        if ((!sprite->tRightToLeft && (sprite->x -= 4) <= sprite->tOriginalX)
+            || (sprite->tRightToLeft && (sprite->x += 4) >= sprite->tOriginalX)
+           )
+        {
+            sprite->x = sprite->tOriginalX;
+            sprite->tHide = TRUE;
+            sprite->tFrames = FRAMES_TO_WAIT;
+            sprite->tGotInput = FALSE;
+        }
+    }
+    else if (sprite->tGotInput)
+    {
+        if (sprite->tFrames == 0)
+        {
+            if ((!sprite->tRightToLeft && (sprite->x += 4) >= sprite->tOriginalX + ABILITY_POP_UP_POS_X_SLIDE)
+                ||(sprite->tRightToLeft && (sprite->x -= 4) <= sprite->tOriginalX - ABILITY_POP_UP_POS_X_SLIDE)
+               )
+            {
+                gBattleStruct->battlerState[sprite->tBattlerId].activeAbilityPopUps = FALSE;
+                DestroySprite(sprite);
+            }
+        }
+        else
+        {
+            if (!gBattleScripting.fixedPopup)
+                sprite->tFrames--;
+        }
+    }
+    else if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY | START_BUTTON | SELECT_BUTTON | R_BUTTON | L_BUTTON))
+    {
+        PlaySE(SE_BALL_TRAY_ENTER);
+        sprite->tGotInput = TRUE;
+        sprite->tFrames = 0;
     }
 }
 
