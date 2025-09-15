@@ -35123,16 +35123,16 @@ gBattleAnimGeneral_DynamaxGrowth:: @ PORTED FROM CFRU
 
 gBattleAnimGeneral_ThunderstrikeActive::
 	loadspritegfx ANIM_TAG_SPARK
-	createvisualtask AnimTask_ElectricBolt, 5, 24, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 24, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 28, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 28, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 32, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 32, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 20, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 20, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
 	waitforvisualfinish
@@ -35140,16 +35140,16 @@ gBattleAnimGeneral_ThunderstrikeActive::
 
 gBattleAnimGeneral_ThunderstrikeLeft::
 	loadspritegfx ANIM_TAG_SPARK
-	createvisualtask AnimTask_ElectricBolt, 5, -55, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, -55, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, -59, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, -59, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, -63, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, -63, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, -51, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, -51, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
 	waitforvisualfinish
@@ -35157,16 +35157,16 @@ gBattleAnimGeneral_ThunderstrikeLeft::
 
 gBattleAnimGeneral_ThunderstrikeRight::
 	loadspritegfx ANIM_TAG_SPARK
-	createvisualtask AnimTask_ElectricBolt, 5, 150, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 150, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 154, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 154, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 158, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 158, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
-	createvisualtask AnimTask_ElectricBolt, 5, 146, -52, 0
+	createvisualtask AnimTask_ElectricBoltThunderstrike, 5, 146, -52, 0
 	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
 	delay 7
 	waitforvisualfinish
@@ -35216,7 +35216,23 @@ gBattleAnimGeneral_RessMon::
 gBattleAnimMove_SomeSparks::
 	loadspritegfx ANIM_TAG_SPARK_2
 	createvisualtask AnimTask_ShakeMon2, 2, ANIM_ATTACKER, 1, 0, 10, 1
-	call ElectricityEffect
+	playsewithpan SE_M_THUNDERBOLT2, SOUND_PAN_TARGET
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, 5, 0, 5, 0, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, -5, 10, 5, 1, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, 15, 20, 5, 2, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, -15, -10, 5, 0, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, 25, 0, 5, 1, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, -8, 8, 5, 2, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, 2, -8, 5, 0, ANIM_ATTACKER
+	delay 2
+	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, -20, 15, 5, 1, ANIM_ATTACKER
+	return
 	end
 
 gBattleAnimMove_SomeSnow::

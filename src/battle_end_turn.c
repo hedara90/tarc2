@@ -42,6 +42,7 @@ enum EndTurnResolutionOrder
     ENDTURN_NIGHTMARE,
     ENDTURN_CURSE,
     ENDTURN_WRAP,
+    ENDTURN_BIRDS,
     ENDTURN_SALT_CURE,
     ENDTURN_OCTOLOCK,
     ENDTURN_SYRUP_BOMB,
@@ -1589,7 +1590,7 @@ static bool32 RessMon(struct BattlePokemon *battleMon, struct Pokemon *mon, u32 
     return TRUE;
 }
 
-static bool32 HandleEndTurnAbilities(u32 battler)
+static bool32 HandleEndTurnBirds(u32 battler)
 {
     bool32 effect = FALSE;
 
@@ -1600,16 +1601,8 @@ static bool32 HandleEndTurnAbilities(u32 battler)
     u16 battlerTraits[MAX_MON_TRAITS];
     STORE_BATTLER_TRAITS(battler);
 
-    if (SearchTraits(battlerTraits, ABILITY_POWER_CONSTRUCT) // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
-     || SearchTraits(battlerTraits, ABILITY_SCHOOLING)
-     || SearchTraits(battlerTraits, ABILITY_SHIELDS_DOWN)
-     || SearchTraits(battlerTraits, ABILITY_ZEN_MODE))
-        if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
-            effect = TRUE;
-
     if (!TESTING && battler == 1)
     {
-        gBattlerAttacker = 0;
         if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
         {
             //  Damage all player mons
@@ -1627,7 +1620,7 @@ static bool32 HandleEndTurnAbilities(u32 battler)
             CreateAbilityPopUp(1, ABILITY_THUNDERSTRIKE, FALSE);
             if (target == 0)
             {
-                gBattlerAttacker = 0;
+                gBattlerTarget = 0;
                 gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_THUNDERSTRIKE_FRACTION;
                 BattleScriptExecute(BattleScript_ThunderstrikeActive);
             }
@@ -1650,7 +1643,7 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
         {
             //  Damage active mon
-            gBattlerAttacker = 0;
+            gBattlerTarget = 0;
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_FLAMES_EMBRACE_FRACTION;
             gBattleScripting.animArg1 = MOVE_FIRE_SPIN;
             CreateAbilityPopUp(1, ABILITY_INFERNO, FALSE);
@@ -1659,12 +1652,31 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         }
     }
 
+    return effect;
+}
+
+static bool32 HandleEndTurnAbilities(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    u32 ability = GetBattlerAbility(battler);
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
+
+    if (SearchTraits(battlerTraits, ABILITY_POWER_CONSTRUCT) // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
+     || SearchTraits(battlerTraits, ABILITY_SCHOOLING)
+     || SearchTraits(battlerTraits, ABILITY_SHIELDS_DOWN)
+     || SearchTraits(battlerTraits, ABILITY_ZEN_MODE))
+        if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE))
+            effect = TRUE;
+
     if (gBattleWeather & B_WEATHER_SANDSTORM && !IsAbilityOnCD(ABILITY_STATIC_BUILDUP, battler) && SearchTraits(battlerTraits, ABILITY_STATIC_BUILDUP))
     {
         CreateAbilityPopUp(battler, ABILITY_STATIC_BUILDUP, FALSE);
         SetAbilityCD(ABILITY_STATIC_BUILDUP, battler);
-        gBattlerAttacker = battler;
-        gBattlerTarget = battler;
         BattleScriptExecute(BattleScript_StaticBuildup);
         effect = TRUE;
     }
@@ -2025,6 +2037,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_NIGHTMARE] = HandleEndTurnNightmare,
     [ENDTURN_CURSE] = HandleEndTurnCurse,
     [ENDTURN_WRAP] = HandleEndTurnWrap,
+    [ENDTURN_BIRDS] = HandleEndTurnBirds,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,
     [ENDTURN_SYRUP_BOMB] = HandleEndTurnSyrupBomb,

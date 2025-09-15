@@ -10164,20 +10164,27 @@ BattleScript_HailstoneFall::
 	goto BattleScript_DoTurnDmg
 
 BattleScript_FlamesEmbrace::
-	playanimation BS_ATTACKER, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
+	playanimation BS_TARGET, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
 	printstring STRINGID_INFERNO
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
-	hitanimation BS_ATTACKER
-	goto BattleScript_DoTurnDmg
+	hitanimation BS_TARGET
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	tryfaintmon BS_TARGET
+	end2
 
 BattleScript_ThunderstrikeActive::
-	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_ACTIVE
+	playanimation BS_TARGET, B_ANIM_THUNDERSTRIKE_ACTIVE
 	printstring STRINGID_THUNDERSTRIKE
 	effectivenesssound
-	hitanimation BS_ATTACKER
+	hitanimation BS_TARGET
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_DoTurnDmg
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	tryfaintmon BS_TARGET
+	end2
 
 BattleScript_ThunderstrikeLeft::
 	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_LEFT
