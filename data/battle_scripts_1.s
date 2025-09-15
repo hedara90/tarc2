@@ -3552,13 +3552,13 @@ BattleScript_PowerHerbActivation:
 
 BattleScript_LunarPowerActivation:
 	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
-	printstring STRINGID_POWERHERB
+	printstring STRINGID_LUNAR_COLD
 	waitmessage B_WAIT_TIME_LONG
 	return
 
 BattleScript_AbundanceActivation:
 	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
-	printstring STRINGID_POWERHERB
+	printstring STRINGID_ABUNDANCE
 	waitmessage B_WAIT_TIME_LONG
 	return
 
