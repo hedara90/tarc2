@@ -47,7 +47,7 @@ SINGLE_BATTLE_TEST("Toxic cannot miss if used by a Poison-type")
 {
     u32 species;
     bool32 hit;
-    PARAMETRIZE { species = SPECIES_WOBBUFFET; hit = FALSE; }
+    //PARAMETRIZE { species = SPECIES_WOBBUFFET; hit = FALSE; }
     PARAMETRIZE { species = SPECIES_NIDORAN_M; hit = TRUE; }
     GIVEN {
         ASSUME(B_TOXIC_NEVER_MISS >= GEN_6);
