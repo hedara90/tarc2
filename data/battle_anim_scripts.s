@@ -35232,7 +35232,7 @@ gBattleAnimMove_SomeSparks::
 	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, 2, -8, 5, 0, ANIM_ATTACKER
 	delay 2
 	createsprite gElectricitySpriteTemplate, ANIM_ATTACKER, 2, -20, 15, 5, 1, ANIM_ATTACKER
-	return
+	waitforvisualfinish
 	end
 
 gBattleAnimMove_SomeSnow::
