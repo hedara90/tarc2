@@ -2692,6 +2692,7 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
 {
     if (sSwitchData->state == 0)
     {
+        DebugPrintf("%S %S", gSpeciesInfo[gLeftMon.species].speciesName, gSpeciesInfo[gRightMon.species].speciesName);
         sSwitchData->spriteIdLeft = 255;
         if (gLeftMon.hp == 0)
         {
@@ -2773,6 +2774,18 @@ static void NewPlayerHandleChoosePokemonHide(u32 battler)
     else
     {
         //  Remove sprites and data
+        if (sSwitchData->spriteIdLeft != 255)
+        {
+            DestroySprite(&gSprites[sSwitchData->spriteIdLeft]);
+            FreeSpriteTilesByTag(0xCEC1);
+            FreeSpritePaletteByTag(0xCEC1);
+        }
+        if (sSwitchData->spriteIdRight != 255)
+        {
+            DestroySprite(&gSprites[sSwitchData->spriteIdRight]);
+            FreeSpriteTilesByTag(0xCEC2);
+            FreeSpritePaletteByTag(0xCEC2);
+        }
         Free(sSwitchData);
         sSwitchData = NULL;
         PlayerBufferExecCompleted(battler);
