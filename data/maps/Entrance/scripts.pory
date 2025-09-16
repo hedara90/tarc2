@@ -2,110 +2,229 @@ mapscripts Entrance_MapScripts {
     MAP_SCRIPT_ON_RESUME {
         callnative(Init_PulseNeonLights)
     }
+    MAP_SCRIPT_ON_TRANSITION: Entrance_SatsukiPosition
 }
 
-script Entrance_Random {
-    msgbox("Set affinity to random?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_RANDOM)
+const satsuki = ENTRANCE_SATSUKI
+const player = OBJ_EVENT_ID_PLAYER
+
+script Entrance_SatsukiPosition {
+    if(var(VAR_STORY) == 0) {
+        setobjectxyperm(satsuki, 25, 12)
     }
-    closemessage
+    else {
+        setobjectxyperm(satsuki, 32, 12)
+    }
 }
 
-script Entrance_RainDirect {
-    msgbox("Set affinity to direct rain?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_RAIN_DIRECT)
-    }
-    closemessage
+script Entrance_FirstDay_Top {
+    lock
+    msgbox("Good morning {PLAYER}.\pUp nice and early, hmm?")
+    applymovement(player, moves(walk_right*2))
+    waitmovement(player)
+    goto(Entrance_FirstDay)
 }
 
-script Entrance_RainIndirect {
-    msgbox("Set affinity to indirect rain?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_RAIN_CONDITIONAL)
-    }
-    closemessage
+script Entrance_FirstDay_Mid {
+    lock
+    msgbox("Good morning {PLAYER}.\pUp nice and early, hmm?")
+    applymovement(player, moves(walk_right, walk_up))
+    waitmovement(player)
+    goto(Entrance_FirstDay)
 }
 
-script Entrance_RainManual {
-    msgbox("Set affinity to manual rain?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_RAIN_MANUAL)
-    }
-    closemessage
+script Entrance_FirstDay_Bot {
+    lock
+    msgbox("Good morning {PLAYER}.\pUp nice and early, hmm?")
+    applymovement(player, moves(walk_up*2))
+    waitmovement(player)
+    goto(Entrance_FirstDay)
 }
 
-script Entrance_SunDirect {
-    msgbox("Set affinity to direct sun?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SUN_DIRECT)
-    }
+
+script Entrance_FirstDay {
+    applymovement(player, moves(walk_up*3, walk_right))
+    waitmovement(player)
+    applymovement(satsuki, moves(face_left))
+    msgbox("So are you, miss Satsuki.\p"
+            "You look like you just rolled out\nof bed yourself.")
     closemessage
+    msgbox("… No matter. I did say we could\nsleep in for once.\p"
+            "You've … definitely taken that\nopportunity.")
+    waitmessage
+    applymovement(satsuki, moves(face_up))
+    waitmovement(satsuki)
+    msgbox("The birds have long ceased their\nmorning chatter.")
+    closemessage
+    applymovement(satsuki, moves(face_left))
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_right))
+    waitmovement(player)
+    msgbox("Hey hey, I don't get to celebrate\nmy graduation every day!")
+    msgbox("Fufufu, you are right.\pI was just pulling your leg.\p"
+            "So, do you still remember your\ntraining, or did all the partying\llast night muddy up your memory?\p")
+    dynmultichoice(0,0, TRUE, 2, 1, DYN_MULTICHOICE_CB_NONE,
+                    "Ofcourse I still remember.",
+                    "Uhhh…")
+    if(var(VAR_RESULT)==0){
+        goto(Entrance_SatsukiIntro)
+    }
+    else {
+        goto(Entrance_SatsukiBattle)
+    }
 }
 
-script Entrance_SunIndirect {
-    msgbox("Set affinity to indirect sun?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SUN_CONDITIONAL)
-    }
+script Entrance_SatsukiBattle {
+    applymovement(satsuki, moves(face_up))
+    waitmovement(satsuki)
+    msgbox("Honestly…\pAll that practice and studying,\nyet you still forget everything\lthe moment you graduate…")
+    waitmessage
+    applymovement(satsuki, moves(face_left))
+    msgbox("It appears I have to teach\nmy student one more lesson.\pSteady yourself.")
     closemessage
+    msgbox("placeholder battle")
+    msgbox("That should cover the gaps in\nyour knowledge.\p"
+            "Now, let's move on. We don't have\nall day.")
+    closemessage
+    applymovement(satsuki, moves(face_down))
+    waitmovement(satsuki)
+    msgbox("Less than half a day, in fact.")
+    closemessage
+    applymovement(satsuki, moves(face_left))
+    waitmovement(satsuki)
+    goto(Entrance_StartingAnAdventure)
 }
 
-script Entrance_SunManual {
-    msgbox("Set affinity to manual sun?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SUN_MANUAL)
-    }
-    closemessage
+script Entrance_SatsukiIntro {
+    msgbox("Excellent, that means you can get\nstarted right away.")
+    waitmessage
+    goto(Entrance_StartingAnAdventure)
 }
 
-script Entrance_SnowDirect {
-    msgbox("Set affinity to direct snow?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SNOW_DIRECT)
-    }
+script Entrance_StartingAnAdventure {
+    special(SpawnCameraObject)
+    applymovement(LOCALID_CAMERA, moves(walk_left*4, walk_diag_northwest))
+    applymovement(player, moves(delay_16*2, face_left))
+    waitmovement(LOCALID_CAMERA)
+    msgbox("You can select your strategy there.")
     closemessage
+    applymovement(LOCALID_CAMERA, moves(walk_right*2, walk_diag_northeast*2, walk_right*3))
+    applymovement(satsuki, moves(delay_16*2, face_up))
+    applymovement(player, moves(delay_16*2, face_up))
+    waitmovement(LOCALID_CAMERA)
+    msgbox("Interact with the Bodhai Tree\nbehind me to enter a Myth")
+    closemessage
+    applymovement(LOCALID_CAMERA, moves(walk_down, walk_diag_southwest*2))
+    waitmovement(LOCALID_CAMERA)
+    applymovement(satsuki, moves(face_left))
+    applymovement(player, moves(face_right))
+    special(RemoveCameraObject)
+    msgbox("Remember, once you're in a story,\nyou cannot receive any help\lfrom outside.\p"
+            "Make sure to use all the information\nthe tree provides.")
+    closemessage
+    msgbox("Satsuki, we've gone over this so.\nmany. times.\pI got it, okay?")
+    closemessage
+    msgbox("Wonderful.\p"
+            "As you know, the Bodhai Tree\nwrites records of what you do\lautomatically.\p"
+            "And since your work will now\nbe public, I do not want to see\lany nonsense.\pGot it?\p"
+            "I've loaded in the Myths we have\nyet to understand.\pI look forward to your\ndiscoveries.")
+    closemessage
+    applymovement(player, moves(walk_in_place_right))
+    waitmovement(player)
+    msgbox("Mhm, I'll give it my all!\pI know the drill by now, miss Satsuki.")
+    waitmessage
+    msgbox("Fufu, that's the spirit.\p"
+            "Now then, let me know if you need\nany more help.\p"
+            "Not like there's anyone else who\ncould help anyway.")
+    closemessage
+    applymovement(satsuki, moves(face_down))
+    waitmovement(satsuki)
+    msgbox("Oh right, one more thing.")
+    waitmessage
+    applymovement(satsuki, moves(face_left))
+    waitmovement(satsuki)
+    msgbox("The library is now open to the public\nagain.\p"
+            "Since you are now officially a\nRecordkeeper, I expect you treat\lour guests properly.")
+    msgbox("Ofcourse! I'll be on my best behaviour,\nboss!")
+    setvar(VAR_STORY, 1)
+    closemessage
+    release
 }
 
-script Entrance_SnowIndirect {
-    msgbox("Set affinity to indirect snow?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SNOW_CONDITIONAL)
+script Entrance_PickWeather {
+    lock
+    msgbox("Select Affinity")
+    dynmultichoice(0,0, FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Sun",
+                    "Rain",
+                    "Sand",
+                    "Snow",
+                    "Random")
+    switch(var(VAR_RESULT)) {
+        case 0: setvar(VAR_TEMP_1, 0)
+                goto(Entrance_PickSet)
+        case 1: setvar(VAR_TEMP_1, 1)
+                goto(Entrance_PickSet)
+        case 2: setvar(VAR_TEMP_1, 2)
+                goto(Entrance_PickSet)
+        case 3: setvar(VAR_TEMP_1, 3)
+                goto(Entrance_PickSet)
+        case 4: setaffinity(MON_LIST_RANDOM)
+                goto(Entrance_PickExit)
     }
-    closemessage
 }
 
-script Entrance_SnowManual {
-    msgbox("Set affinity to manual snow?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SNOW_MANUAL)
-    }
-    closemessage
+script Entrance_PickSet {
+    msgbox("Select style")
+    dynmultichoice(0,0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Grace",
+                    "Favor",
+                    "Prayer",)
+    switch(var(VAR_RESULT)) {
+        case 0: switch(var(VAR_TEMP_1)) {
+            case 0: setaffinity(MON_LIST_SUN_DIRECT)
+            case 1: setaffinity(MON_LIST_RAIN_DIRECT)
+            case 2: setaffinity(MON_LIST_SAND_DIRECT)
+            case 3: setaffinity(MON_LIST_SNOW_DIRECT)
+            }
+        case 1: switch(var(VAR_TEMP_1)) {
+            case 0: setaffinity(MON_LIST_SUN_CONDITIONAL)
+            case 1: setaffinity(MON_LIST_RAIN_CONDITIONAL)
+            case 2: setaffinity(MON_LIST_SAND_CONDITIONAL)
+            case 3: setaffinity(MON_LIST_SNOW_CONDITIONAL)
+           }
+        case 2: switch(var(VAR_TEMP_1)) {
+            case 0: setaffinity(MON_LIST_SUN_MANUAL)
+            case 1: setaffinity(MON_LIST_RAIN_MANUAL)
+            case 2: setaffinity(MON_LIST_SAND_MANUAL)
+            case 3: setaffinity(MON_LIST_SNOW_MANUAL)
+           }
+        }
+    goto(Entrance_PickExit)
 }
 
-script Entrance_SandDirect {
-    msgbox("Set affinity to direct sand?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SAND_DIRECT)
-    }
+script Entrance_PickExit {
+    msgbox("Affinity confirmed")
     closemessage
+    release
 }
 
-script Entrance_SandIndirect {
-    msgbox("Set affinity to indirect sand?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SAND_CONDITIONAL)
+script Entrance_Boss {
+    msgbox("Confirm Myth to uncover.")
+    dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Overflowing Abundance",
+                    "Quest for the flooded lands",
+                    "The Original Sinner")
+    switch(var(VAR_RESULT)) {
+        case 0: setuphunt(FINAL_BOSS_XERNEAS)
+            msgbox(format("Initializing 'Overflowing Abundance'…"))
+        case 1: setuphunt(FINAL_BOSS_LUGIA)
+            msgbox(format("Initializing 'Quest for the flooded lands'…"))
+        case 2: setuphunt(FINAL_BOSS_GIRATINA)
+            msgbox(format("Initializing 'The Original Sinner'…"))
     }
-    closemessage
-}
-
-script Entrance_SandManual {
-    msgbox("Set affinity to manual sand?", MSGBOX_YESNO)
-    if (var(VAR_RESULT) == YES) {
-        setaffinity(MON_LIST_SAND_MANUAL)
-    }
-    closemessage
+    msgbox("Myth initialized succesfully. Entering story.")
+    warpsilent(MAP_MYTH_HUB, 20, 18)
 }
 
 script Entrance_Xerneas {
