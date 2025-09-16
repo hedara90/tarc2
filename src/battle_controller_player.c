@@ -989,6 +989,7 @@ void HandleInputChooseMove(u32 battler)
         if (gBattleStruct->startTurnSpecies != gBattleMons[0].species)
             gBattleStruct->shouldTriggerRotate = TRUE;
 
+        HideWeatherTimer();
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
 
@@ -2556,6 +2557,7 @@ void HandleChooseMoveAfterDma3(u32 battler)
         gBattle_BG0_X = 0;
         gBattle_BG0_Y = DISPLAY_HEIGHT * 2;
         gBattlerControllerFuncs[battler] = HandleInputChooseMove;
+        DisplayWeatherTimer();
     }
 }
 

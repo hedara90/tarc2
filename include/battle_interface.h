@@ -140,5 +140,7 @@ void TryToAddMoveInfoWindow(void);
 void TryToHideMoveInfoWindow(void);
 
 void CreateBossMovePopUp(void);
+void DisplayWeatherTimer(void);
+void HideWeatherTimer(void);
 
 #endif // GUARD_BATTLE_INTERFACE_H
