@@ -172,11 +172,12 @@ script Entrance_PickWeather {
         case 4: setaffinity(MON_LIST_RANDOM)
                 goto(Entrance_PickExit)
     }
+    closemessage
 }
 
 script Entrance_PickSet {
     msgbox("Select style")
-    dynmultichoice(0,0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+    dynmultichoice(0,0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Grace",
                     "Favor",
                     "Prayer",)
@@ -187,20 +188,23 @@ script Entrance_PickSet {
             case 2: setaffinity(MON_LIST_SAND_DIRECT)
             case 3: setaffinity(MON_LIST_SNOW_DIRECT)
             }
+            goto(Entrance_PickExit)
         case 1: switch(var(VAR_TEMP_1)) {
             case 0: setaffinity(MON_LIST_SUN_CONDITIONAL)
             case 1: setaffinity(MON_LIST_RAIN_CONDITIONAL)
             case 2: setaffinity(MON_LIST_SAND_CONDITIONAL)
             case 3: setaffinity(MON_LIST_SNOW_CONDITIONAL)
            }
+           goto(Entrance_PickExit)
         case 2: switch(var(VAR_TEMP_1)) {
             case 0: setaffinity(MON_LIST_SUN_MANUAL)
             case 1: setaffinity(MON_LIST_RAIN_MANUAL)
             case 2: setaffinity(MON_LIST_SAND_MANUAL)
             case 3: setaffinity(MON_LIST_SNOW_MANUAL)
            }
+            goto(Entrance_PickExit)
         }
-    goto(Entrance_PickExit)
+    goto(Entrance_PickWeather)
 }
 
 script Entrance_PickExit {
@@ -223,7 +227,7 @@ script Entrance_Boss {
         case 2: setuphunt(FINAL_BOSS_GIRATINA)
             msgbox(format("Initializing 'The Original Sinner'…"))
     }
-    msgbox("Myth initialized succesfully. Entering story.")
+    msgbox("Myth initialized succesfully.\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
 }
 
