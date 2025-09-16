@@ -223,7 +223,7 @@ script Entrance_Boss {
         case 2: setuphunt(FINAL_BOSS_GIRATINA)
             msgbox(format("Initializing 'The Original Sinner'…"))
     }
-    msgbox("Myth initialized succesfully. Entering story.")
+    msgbox("Myth initialized successfully.\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
 }
 
