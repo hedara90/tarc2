@@ -869,6 +869,30 @@ static void TestThing(u32 battler)
     sMonSwitchState++;
 }
 
+EWRAM_DATA u32 sSurrenderCounter = 0;
+EWRAM_DATA u8 sSurrenderSpriteId[2];
+
+const u32 sSurrenderGfx[] = INCBIN_U32("graphics/battle_interface/surrender.4bpp");
+const u16 sSurrenderPal[] = INCBIN_U16("graphics/battle_interface/surrender.gbapal");
+
+static void DisplaySurrenderMessage(void)
+{
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.posX = 88;
+    cs.posY = 72;
+    cs.sprite = &sSurrenderGfx[0];
+    cs.tileTag = 0xF897;
+    cs.palette = sSurrenderPal;
+    cs.palTag = 0xF897;
+    cs.spriteSize = SPRITE_SIZE(64x32);
+    cs.spriteShape = SPRITE_SHAPE(64x32);
+    sSurrenderSpriteId[0] = Even_CreateSprite(&cs);
+    cs.sprite = &sSurrenderGfx[256];
+    cs.tileTag = 0xF898;
+    cs.posX = 152;
+    sSurrenderSpriteId[1] = Even_CreateSprite(&cs);
+}
+
 void HandleInputChooseMove(u32 battler)
 {
     if (HelpSystem_Process())
@@ -880,6 +904,65 @@ void HandleInputChooseMove(u32 battler)
     u16 moveTarget;
     u32 canSelectTarget = 0;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
+
+    if (sSurrenderCounter != 0)
+    {
+        if (sSurrenderCounter > 61)
+        {
+            //  Slide out side mons
+            gSprites[gSideMons.spriteIdLeft].x -= 2;
+            gSprites[gSideMons.hpBarIdLeft].x -= 2;
+            gSprites[gSideMons.spriteIdRight].x += 2;
+            gSprites[gSideMons.hpBarIdRight].x += 2;
+            sSurrenderCounter++;
+            if (sSurrenderCounter == 78)
+            {
+                BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+                PlayerBufferExecCompleted(battler);
+                return;
+            }
+            return;
+        }
+
+        if (JOY_HELD(START_BUTTON))
+            sSurrenderCounter++;
+        else
+            sSurrenderCounter = 1;
+
+        if (JOY_NEW(A_BUTTON)
+         || JOY_NEW(B_BUTTON)
+         || JOY_NEW(L_BUTTON)
+         || JOY_NEW(R_BUTTON)
+         || JOY_NEW(SELECT_BUTTON))
+        {
+            DestroySprite(&gSprites[sSurrenderSpriteId[0]]);
+            DestroySprite(&gSprites[sSurrenderSpriteId[1]]);
+            FreeSpriteTilesByTag(0xF897);
+            FreeSpriteTilesByTag(0xF898);
+            FreeSpritePaletteByTag(0xF897);
+            sSurrenderCounter = 0;
+        }
+
+        if (sSurrenderCounter == 61)
+        {
+            DestroySprite(&gSprites[sSurrenderSpriteId[0]]);
+            DestroySprite(&gSprites[sSurrenderSpriteId[1]]);
+            FreeSpriteTilesByTag(0xF897);
+            FreeSpriteTilesByTag(0xF898);
+            FreeSpritePaletteByTag(0xF897);
+            sSurrenderCounter++;
+        }
+        return;
+    }
+
+    if (JOY_NEW(SELECT_BUTTON))
+    {
+        //BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+        //PlayerBufferExecCompleted(battler);
+        sSurrenderCounter = 1;
+        DisplaySurrenderMessage();
+        return;
+    }
 
     if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
         gPlayerDpadHoldFrames++;
