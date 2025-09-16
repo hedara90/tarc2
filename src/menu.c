@@ -2412,14 +2412,14 @@ static void LoadTarcMessagebox(void)
     struct Even_CreateSpriteStruct cs = {0};
     cs.palette = sTarcMessageboxPal;
     cs.palTag = 0xCEC0;
-    cs.spriteSize = SPRITE_SIZE(64x32);
-    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
     cs.posY = 136;
     cs.subpriority = 0;
 
     for (u32 i = 0; i < 4; i++)
     {
-        cs.sprite = &sTarcMessageboxGfx[i * 256];
+        cs.sprite = &sTarcMessageboxGfx[i * 512];
         cs.tileTag = 0xCEC0 - i;
         cs.posX = 32 + 64 * i;
         sMessageboxSpriteIds[i] = Even_CreateSprite(&cs);

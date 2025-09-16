@@ -204,7 +204,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ATTACKERFAINTED]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_TARGETFAINTED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_PLAYERGOTMONEY]                       = COMPOUND_STRING("You got ¥{B_BUFF1} for winning!\p"),
-    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("You have no more Pokémon that can fight!\pThis is where this story ends.{PAUSE_UNTIL_PRESS}"),
+    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("This is where this story ends.{PAUSE_UNTIL_PRESS}"),
 #if B_WHITEOUT_MONEY >= GEN_4
     [STRINGID_PLAYERWHITEOUT2]                      = COMPOUND_STRING("You panicked and dropped ¥{B_BUFF1}…\pYou were overwhelmed by your defeat!{PAUSE_UNTIL_PRESS}"),
 #else

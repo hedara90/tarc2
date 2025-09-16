@@ -36,6 +36,8 @@
 #include "constants/items.h"
 #include "caps.h"
 
+#include "even_sprite.h"
+
 enum
 {   // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
     // These are indexes into the tables, which are filled with 8x8 square pixel data.
@@ -3488,4 +3490,96 @@ void CategoryIcons_LoadSpritesGfx(void)
 {
     LoadCompressedSpriteSheet(&gSpriteSheet_CategoryIcons);
     LoadSpritePalette(&gSpritePal_CategoryIcons);
+}
+
+EWRAM_INIT u8 sWeatherTimerSpriteId = SPRITE_NONE;
+
+static void Task_ShowWeatherTimer(u8 taskId)
+{
+    if (gTasks[taskId].data[0] < 8)
+    {
+        gSprites[sWeatherTimerSpriteId].y += 2;
+        gTasks[taskId].data[0]++;
+    }
+    else
+    {
+        DestroyTask(taskId);
+    }
+}
+
+const u32 sRainIconGfx[] = INCBIN_U32("graphics/battle_interface/weather_icon_rain.4bpp");
+const u16 sRainIconPal[] = INCBIN_U16("graphics/battle_interface/weather_icon_rain.gbapal");
+const u32 sSunIconGfx[] = INCBIN_U32("graphics/battle_interface/weather_icon_sun.4bpp");
+const u16 sSunIconPal[] = INCBIN_U16("graphics/battle_interface/weather_icon_sun.gbapal");
+const u32 sSnowIconGfx[] = INCBIN_U32("graphics/battle_interface/weather_icon_snow.4bpp");
+const u16 sSnowIconPal[] = INCBIN_U16("graphics/battle_interface/weather_icon_snow.gbapal");
+const u32 sSandIconGfx[] = INCBIN_U32("graphics/battle_interface/weather_icon_sand.4bpp");
+const u16 sSandIconPal[] = INCBIN_U16("graphics/battle_interface/weather_icon_sand.gbapal");
+
+void DisplayWeatherTimer(void)
+{
+    if (!(gBattleWeather & B_WEATHER_ANY))
+        return;
+
+    u32 turns = gWishFutureKnock.weatherDuration;
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.tileTag = 0x248E;
+    cs.palTag = 0x248E;
+    cs.posX = 120;
+    cs.posY = -8;
+    cs.spriteSize = SPRITE_SIZE(32x16);
+    cs.spriteShape = SPRITE_SHAPE(32x16);
+    if (gBattleWeather & B_WEATHER_RAIN)
+    {
+        cs.sprite = &sRainIconGfx[64 * (turns - 1)];
+        cs.palette = sRainIconPal;
+        sWeatherTimerSpriteId = Even_CreateSprite(&cs);
+    }
+    else if (gBattleWeather & B_WEATHER_SUN)
+    {
+        cs.sprite = &sSunIconGfx[64 * (turns - 1)];
+        cs.palette = sSunIconPal;
+        sWeatherTimerSpriteId = Even_CreateSprite(&cs);
+    }
+    else if (gBattleWeather & B_WEATHER_SNOW)
+    {
+        cs.sprite = &sSnowIconGfx[64 * (turns - 1)];
+        cs.palette = sSnowIconPal;
+        sWeatherTimerSpriteId = Even_CreateSprite(&cs);
+    }
+    else if (gBattleWeather & B_WEATHER_SANDSTORM)
+    {
+        cs.sprite = &sSandIconGfx[64 * (turns - 1)];
+        cs.palette = sSandIconPal;
+        sWeatherTimerSpriteId = Even_CreateSprite(&cs);
+    }
+
+    u32 taskId = CreateTask(Task_ShowWeatherTimer, 0);
+    gTasks[taskId].data[0] = 0;
+}
+
+static void Task_HideWeatherTimer(u8 taskId)
+{
+    if (gTasks[taskId].data[0] < 8)
+    {
+        gSprites[sWeatherTimerSpriteId].y -= 2;
+        gTasks[taskId].data[0]++;
+    }
+    else
+    {
+        DestroySprite(&gSprites[sWeatherTimerSpriteId]);
+        FreeSpriteTilesByTag(0x248E);
+        FreeSpritePaletteByTag(0x248E);
+        sWeatherTimerSpriteId = SPRITE_NONE;
+        DestroyTask(taskId);
+    }
+}
+
+void HideWeatherTimer(void)
+{
+    if (sWeatherTimerSpriteId != SPRITE_NONE)
+    {
+        u32 taskId = CreateTask(Task_HideWeatherTimer, 0);
+        gTasks[taskId].data[0] = 0;
+    }
 }

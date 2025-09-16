@@ -4951,4 +4951,7 @@ graphics/door_anims/battle_tower_multi_corridor.4bpp: %.4bpp: %.png
 
 # TARC custom messagebox
 graphics/interface/message_box.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8
+
+graphics/battle_interface/surrender.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 8 -mheight 4
