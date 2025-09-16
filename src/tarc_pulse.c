@@ -17,6 +17,10 @@ enum PulseColors
 {
     PULSE_ONE,
     PULSE_TWO,
+    PULSE_THREE,
+    PULSE_FOUR,
+    PULSE_FIVE,
+    PULSE_SIX,
     PULSE_COUNT,
 };
 
@@ -24,14 +28,42 @@ const struct PulseData sPulseDatas[PULSE_COUNT] =
 {
     [PULSE_ONE] =
     {
-        .colorIndex = 54,
+        .colorIndex = 39,
         .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
         .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
         .stepChange = 1 << 10,
     },
     [PULSE_TWO] =
     {
-        .colorIndex = 20,
+        .colorIndex = 70,
+        .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
+        .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
+        .stepChange = 1 << 10,
+    },
+    [PULSE_THREE] =
+    {
+        .colorIndex = 86,
+        .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
+        .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
+        .stepChange = 1 << 10,
+    },
+    [PULSE_FOUR] =
+    {
+        .colorIndex = 102,
+        .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
+        .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
+        .stepChange = 1 << 10,
+    },
+    [PULSE_FIVE] =
+    {
+        .colorIndex = 119,
+        .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
+        .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
+        .stepChange = 1 << 10,
+    },
+    [PULSE_SIX] =
+    {
+        .colorIndex = 195,
         .upperLimit = 0x05 + (0x0d << 5) + (30 << 10),
         .lowerLimit = 0x05 + (0x0d << 5) + (19 << 10),
         .stepChange = 1 << 10,
