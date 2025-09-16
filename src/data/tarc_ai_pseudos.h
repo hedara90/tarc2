@@ -212,10 +212,9 @@ const struct BossMoveList sHydreigon3 =
 
 const struct BossMoveList sGoodra1 =
 {
-    .numMoves = 4,
+    .numMoves = 3,
     .moves =
     {
-        MOVE_AQUA_RING,
         MOVE_SHELTER,
         MOVE_DRAGON_PULSE,
         MOVE_MUDDY_WATER

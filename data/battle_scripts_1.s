@@ -10335,8 +10335,8 @@ BattleScript_SentinelOut::
 
 BattleScript_StaticBuildup::
 	printstring STRINGID_STATIC_BUILDUP
-	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
 	setcharge BS_ABILITY_BATTLER
+	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
 	waitanimation
 	end2
 
