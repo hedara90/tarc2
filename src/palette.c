@@ -1367,6 +1367,17 @@ u16 ConvertColorToDesaturatedNaive(u16 input)
     return output;
 }
 
+void DesaturateSpeciesPalette(const u16 *palIn, u16 *palOut, const bool8 *exclusions)
+{
+    for (u32 i = 0; i < 16; i++)
+    {
+        if (exclusions[i])
+            palOut[i] = palIn[i];
+        else
+            palOut[i] = ConvertColorToDesaturatedNaive(palIn[i]);
+    }
+}
+
 /*
 struct rgbColor
 {
