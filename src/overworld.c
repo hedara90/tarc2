@@ -900,6 +900,9 @@ static void LoadMapFromWarp(bool32 a1)
     bool8 isOutdoors;
     bool8 isIndoors;
 
+    //  Explicitly hide it to make sure sprite data is freed
+    HideTarcMessagebox();
+
     LoadCurrentMapData();
     if (!(sObjectEventLoadFlag & SKIP_OBJECT_EVENT_LOAD))
     {
