@@ -209,6 +209,24 @@ script Entrance_PickExit {
     release
 }
 
+script Entrance_Boss {
+    msgbox("Confirm Myth to uncover.")
+    dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Overflowing Abundance",
+                    "Quest for the flooded lands",
+                    "The Original Sinner")
+    switch(var(VAR_RESULT)) {
+        case 0: setuphunt(FINAL_BOSS_XERNEAS)
+            msgbox(format("Initializing 'Overflowing Abundance'…"))
+        case 1: setuphunt(FINAL_BOSS_LUGIA)
+            msgbox(format("Initializing 'Quest for the flooded lands'…"))
+        case 2: setuphunt(FINAL_BOSS_GIRATINA)
+            msgbox(format("Initializing 'The Original Sinner'…"))
+    }
+    msgbox("Myth initialized succesfully. Entering story.")
+    warpsilent(MAP_MYTH_HUB, 20, 18)
+}
+
 script Entrance_Xerneas {
     msgbox("Hunt Xerneas?", MSGBOX_YESNO)
     closemessage
