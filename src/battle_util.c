@@ -738,6 +738,11 @@ void HandleAction_UseItem(void)
 
 bool32 TryRunFromBattle(u32 battler)
 {
+    gCurrentTurnActionNumber = gBattlersCount;
+    gBattleOutcome = B_OUTCOME_LOST;
+
+    return TRUE;
+
     bool32 effect = FALSE;
     u8 holdEffect;
     u8 pyramidMultiplier;

@@ -3,7 +3,7 @@ script EventScript_Meditate {
     if (var(VAR_RESULT) == YES) {
         callnative(SetLossData)
         fadescreen(FADE_TO_BLACK)
-        warpsilent(MAP_ENTRANCE, 19, 22)
+        warpsilent(MAP_ENTRANCE, 13, 12)
     }
     releaseall
 }
