@@ -673,9 +673,12 @@ static bool8 HandleStartMenuInput(void)
 
     if (JOY_NEW(DPAD_LEFT))
     {
-        sStartMenuCursorPos = 1;
-        PlaySE(SE_NOTE_G);
-        SetTarcSpriteToActive(3);
+        if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_BOSS))
+        {
+            sStartMenuCursorPos = 1;
+            PlaySE(SE_NOTE_G);
+            SetTarcSpriteToActive(3);
+        }
     }
 
     if (JOY_NEW(A_BUTTON))
@@ -1586,7 +1589,10 @@ static void ShowTarcMenu(void)
     cs.posY = 76;
     sTarcMenuSpriteIds[2] = Even_CreateSprite(&cs);
 
-    cs.sprite = gStartMenu_Info;
+    if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_BOSS))
+        cs.sprite = gStartMenu_Info;
+    else
+        cs.sprite = sBlankSprite;
     cs.tileTag = 0xDED4;
     cs.posX = 80;
     cs.posY = 76;
