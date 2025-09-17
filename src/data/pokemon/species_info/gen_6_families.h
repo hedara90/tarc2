@@ -13266,6 +13266,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sDiancieTeachableLearnset,
         .formSpeciesIdTable = sDiancieFormSpeciesIdTable,
         .formChangeTable = sDiancieFormChangeTable,
+        .isPlayer = TRUE,
     },
 
 #if P_MEGA_EVOLUTIONS
