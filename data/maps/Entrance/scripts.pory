@@ -237,15 +237,26 @@ script Entrance_Boss {
     dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
                     "Quest for the flooded lands",
-                    "The Original Sinner")
+                    "The Original Sinner",
+                    "Exit")
     switch(var(VAR_RESULT)) {
         case 0: setuphunt(FINAL_BOSS_XERNEAS)
-            msgbox(format("Initializing 'Overflowing Abundance'…"))
+            msgbox(format("Initializing 'Overflowing Abundance'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
+            goto(Entrance_BossStart)
         case 1: setuphunt(FINAL_BOSS_LUGIA)
-            msgbox(format("Initializing 'Quest for the flooded lands'…"))
+            msgbox(format("Initializing 'Quest for the flooded lands'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
+            goto(Entrance_BossStart)
         case 2: setuphunt(FINAL_BOSS_GIRATINA)
-            msgbox(format("Initializing 'The Original Sinner'…"))
+            msgbox(format("Initializing 'The Original Sinner'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
+            goto(Entrance_BossStart)
+        case 3: closemessage
+                release
     }
+    closemessage
+    release
+}
+
+script Entrance_BossStart {
     msgbox("Myth initialized succesfully.{PAUSE 60}\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
 }
