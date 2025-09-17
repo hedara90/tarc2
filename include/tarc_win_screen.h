@@ -6,5 +6,6 @@
 #include "main.h"
 
 void Tarc_InitWinScreen(MainCallback callback);
+void Tarc_InitWinScreenFromScript(void);
 
 #endif

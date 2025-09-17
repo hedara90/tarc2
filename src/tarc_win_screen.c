@@ -126,7 +126,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 20,
-        .tilemapTop = 18,
+        .tilemapTop = 10,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -181,6 +181,11 @@ void Tarc_InitWinScreen(MainCallback callback)
     sTarcUiState->loadState = 0;
 
     SetMainCallback2(TarcUi_SetupCB);
+}
+
+void Tarc_InitWinScreenFromScript(void)
+{
+    Tarc_InitWinScreen(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
 static void TarcUi_SetupCB(void)
@@ -442,4 +447,76 @@ static void DrawAll(void)
 {
     u32 bossId = gSaveBlock1Ptr->huntTargets.finalBoss;
     PrintMythName(bossId);
+    for (u32 i = 0; i  < 3; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        bool32 isFemale = IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
+        bool32 isShiny = GetMonData(&gPlayerParty[i], MON_DATA_IS_SHINY);
+        struct Even_CreateSpriteStruct cs = {0};
+        cs.spriteCompressed = TRUE;
+        cs.tileTag = 0xCEC1 + i;
+        cs.palTag = 0xCEC1 + i;
+        if (isFemale && gSpeciesInfo[species].frontPicFemale != NULL)
+            cs.sprite = gSpeciesInfo[species].frontPicFemale;
+        else
+            cs.sprite = gSpeciesInfo[species].frontPic;
+        if (isFemale && gSpeciesInfo[species].paletteFemale != NULL)
+        {
+            if (isShiny)
+                cs.palette = gSpeciesInfo[species].shinyPaletteFemale;
+            else
+                cs.palette = gSpeciesInfo[species].paletteFemale;
+        }
+        else
+        {
+            if (isShiny)
+                cs.palette = gSpeciesInfo[species].shinyPalette;
+            else
+                cs.palette = gSpeciesInfo[species].palette;
+        }
+        cs.spriteSize = SPRITE_SIZE(64x64);
+        cs.spriteShape = SPRITE_SHAPE(64x64);
+        cs.posX = 40 + i * 80;
+        cs.posY = 48;
+        Even_CreateSprite(&cs);
+        u8 text[200];
+        u32 currChar = 0;
+        for (u32 j = 0; j < 4; j++)
+        {
+            u32 move = GetMonData(&gPlayerParty[j], MON_DATA_MOVE1 + j);
+            if (move == MOVE_NONE)
+            {
+                text[currChar++] = CHAR_NEWLINE;
+                continue;
+            }
+            u32 tempChar = 0;
+            while (gMovesInfo[move].name[tempChar] != EOS)
+                text[currChar++] = gMovesInfo[move].name[tempChar++];
+            text[currChar++] = CHAR_NEWLINE;
+        }
+        u32 ability = gSpeciesInfo[species].abilities[GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM)];
+        u32 tempChar = 0;
+        while (gAbilitiesInfo[ability].name[tempChar] != EOS)
+            text[currChar++] = gAbilitiesInfo[ability].name[tempChar++];
+        text[currChar++] = CHAR_NEWLINE;
+
+        for (u32 j = 0; j < 3; j++)
+        {
+            ability = gSaveBlock1Ptr->extraAbilities[i][j];
+            if (ability == ABILITY_NONE)
+                break;
+            tempChar = 0;
+            while (gAbilitiesInfo[ability].name[tempChar] != EOS)
+                text[currChar++] = gAbilitiesInfo[ability].name[tempChar++];
+            text[currChar++] = CHAR_NEWLINE;
+        }
+        text[currChar - 1] = EOS;
+        AddTextPrinterParameterized4(WIN_INFO1 + i,
+                                     FONT_SPECIAL_SMALL,
+                                     8, 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     text);
+        CopyWindowToVram(WIN_INFO1 + i, COPYWIN_FULL);
+    }
 }

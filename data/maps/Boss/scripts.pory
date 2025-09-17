@@ -21,7 +21,7 @@ script Boss_BossBattle {
         waitmoncry
         message("Put some profound text here.\p")
         waitmessage
-        warpsilent(MAP_ENTRANCE, 19, 22)
+        //warpsilent(MAP_ENTRANCE, 13, 12)
     }
     release
 }
