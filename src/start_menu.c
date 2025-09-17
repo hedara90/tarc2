@@ -673,7 +673,8 @@ static bool8 HandleStartMenuInput(void)
 
     if (JOY_NEW(DPAD_LEFT))
     {
-        if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_BOSS))
+        if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE)
+         || gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_MYTH_HUB))
         {
             sStartMenuCursorPos = 1;
             PlaySE(SE_NOTE_G);
@@ -1589,7 +1590,8 @@ static void ShowTarcMenu(void)
     cs.posY = 76;
     sTarcMenuSpriteIds[2] = Even_CreateSprite(&cs);
 
-    if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_BOSS))
+    if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE)
+     || gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_MYTH_HUB))
         cs.sprite = gStartMenu_Info;
     else
         cs.sprite = sBlankSprite;
