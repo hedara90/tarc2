@@ -34,6 +34,8 @@
 #include "hunt_setup.h"
 #include "data/hunt_setup_data.h"
 
+#include "palette.h"
+
 
 struct Tarc_InfoMenuState
 {
@@ -68,6 +70,15 @@ enum WindowIds
     WIN_COUNT
 };
 
+enum OtherWindowIds
+{
+    WIN_BOSS_TEXT,
+    WIN_MINI1_TEXT,
+    WIN_MINI2_TEXT,
+    WIN_MINI3_TEXT,
+    WIN_COUNT_OTHER
+};
+
 struct BossIcon
 {
     const u32 *sprite;
@@ -86,6 +97,10 @@ static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 static const u32 sMythHubMapTiles[] = INCBIN_U32("graphics/tarc_info/myth_hub_map_tiles.4bpp.lz");
 static const u32 sMythHubMapTilemap[] = INCBIN_U32("graphics/tarc_info/myth_hub_map_tiles.bin.lz");
 static const u16 sMythHubMapPalette[] = INCBIN_U16("graphics/tarc_info/myth_hub_map_tiles.gbapal");
+
+static const u32 sSubAreaMapTiles[] = INCBIN_U32("graphics/tarc_info/sub_area_tiles.4bpp.lz");
+static const u32 sSubAreaMapTilemap[] = INCBIN_U32("graphics/tarc_info/sub_area_tiles.bin.lz");
+static const u16 sSubAreaMapPalette[] = INCBIN_U16("graphics/tarc_info/sub_area_tiles.gbapal");
 
 static const u32 sIconGfxPseudo[] = INCBIN_U32("graphics/tarc_info/icon_pseudo.4bpp");
 static const u16 sIconPalPseudo[] = INCBIN_U16("graphics/tarc_info/icon_pseudo.gbapal");
@@ -308,6 +323,60 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     DUMMY_WIN_TEMPLATE
 };
 
+#define REWARD_WIDTH 10
+#define REWARD_HEIGHT 2
+
+#define REWARD_BOX_SIZE REWARD_WIDTH * REWARD_HEIGHT
+
+#define BOSS_TEXT_BASEBLOCK 1
+#define MINI1_TEXT_BASEBLOCK BOSS_TEXT_BASEBLOCK + REWARD_BOX_SIZE
+#define MINI2_TEXT_BASEBLOCK MINI1_TEXT_BASEBLOCK + REWARD_BOX_SIZE
+#define MINI3_TEXT_BASEBLOCK MINI2_TEXT_BASEBLOCK + REWARD_BOX_SIZE
+
+static const struct WindowTemplate sTarcUiOtherWindowTemplates[] =
+{
+    [WIN_BOSS_TEXT] =
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 8,
+        .width = REWARD_WIDTH,
+        .height = REWARD_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = BOSS_TEXT_BASEBLOCK
+    },
+    [WIN_MINI1_TEXT] =
+    {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 18,
+        .width = REWARD_WIDTH,
+        .height = REWARD_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = MINI1_TEXT_BASEBLOCK
+    },
+    [WIN_MINI2_TEXT] =
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 18,
+        .width = REWARD_WIDTH,
+        .height = REWARD_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = MINI2_TEXT_BASEBLOCK
+    },
+    [WIN_MINI3_TEXT] =
+    {
+        .bg = 0,
+        .tilemapLeft = 20,
+        .tilemapTop = 18,
+        .width = REWARD_WIDTH,
+        .height = REWARD_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = MINI3_TEXT_BASEBLOCK
+    }
+};
+
 enum FontColor
 {
     FONT_BLACK,
@@ -334,10 +403,12 @@ static void TarcUi_FreeResources(void);
 static void TarcUi_MainCB(void);
 static bool8 TarcUi_LoadGraphics(void);
 static void TarcUi_InitWindows(void);
+static void TarcUi_InitOtherWindows(void);
 static void Task_TarcUiWaitFadeIn(u8 taskId);
 static void Task_TarcUiMainInput(u8 taskId);
 static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId);
 static void PrintAllInfoText(void);
+static void DrawSubAreaStuff(void);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
@@ -424,6 +495,8 @@ static void TarcUi_SetupCB(void)
         sTarcUiState->speciesSpriteId = SPRITE_NONE;
         if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
             TarcUi_InitWindows();
+        else if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_MYTH_HUB))
+            TarcUi_InitOtherWindows();
         gMain.state++;
         break;
     case 5:
@@ -438,6 +511,13 @@ static void TarcUi_SetupCB(void)
             sTarcUiState->monIconSpriteIds[2] = SPRITE_NONE;
             LoadMonIconPalettes();
             PrintAllInfoText();
+        }
+        else
+        {
+            sTarcUiState->monIconSpriteIds[0] = SPRITE_NONE;
+            sTarcUiState->monIconSpriteIds[1] = SPRITE_NONE;
+            sTarcUiState->monIconSpriteIds[2] = SPRITE_NONE;
+            DrawSubAreaStuff();
         }
         CreateTask(Task_TarcUiWaitFadeIn, 0);
         gMain.state++;
@@ -574,26 +654,8 @@ static bool8 TarcUi_LoadGraphics(void)
         case MAP_NUM(MAP_MYTH_HUB):
             DecompressAndCopyTileDataToVram(1, sMythHubMapTiles, 0, 0, 0);
             break;
-        case MAP_NUM(MAP_AREA1):
-            break;
-        case MAP_NUM(MAP_AREA2):
-            break;
-        case MAP_NUM(MAP_AREA3):
-            break;
-        case MAP_NUM(MAP_AREA4):
-            break;
-        case MAP_NUM(MAP_AREA5):
-            break;
-        case MAP_NUM(MAP_AREA6):
-            break;
-        case MAP_NUM(MAP_AREA7):
-            break;
-        case MAP_NUM(MAP_AREA8):
-            break;
-        case MAP_NUM(MAP_AREA9):
-            break;
-        case MAP_NUM(MAP_BOSS):
-            break;
+        default:
+            DecompressAndCopyTileDataToVram(1, sSubAreaMapTiles, 0, 0, 0);
         }
         sTarcUiState->loadState++;
         break;
@@ -610,26 +672,8 @@ static bool8 TarcUi_LoadGraphics(void)
             case MAP_NUM(MAP_MYTH_HUB):
                 LZDecompressWram(sMythHubMapTilemap, sBg1TilemapBuffer);
                 break;
-            case MAP_NUM(MAP_AREA1):
-                break;
-            case MAP_NUM(MAP_AREA2):
-                break;
-            case MAP_NUM(MAP_AREA3):
-                break;
-            case MAP_NUM(MAP_AREA4):
-                break;
-            case MAP_NUM(MAP_AREA5):
-                break;
-            case MAP_NUM(MAP_AREA6):
-                break;
-            case MAP_NUM(MAP_AREA7):
-                break;
-            case MAP_NUM(MAP_AREA8):
-                break;
-            case MAP_NUM(MAP_AREA9):
-                break;
-            case MAP_NUM(MAP_BOSS):
-                break;
+            default:
+                LZDecompressWram(sSubAreaMapTilemap, sBg1TilemapBuffer);
             }
             sTarcUiState->loadState++;
         }
@@ -645,26 +689,8 @@ static bool8 TarcUi_LoadGraphics(void)
         case MAP_NUM(MAP_MYTH_HUB):
             LoadPalette(sMythHubMapPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
             break;
-        case MAP_NUM(MAP_AREA1):
-            break;
-        case MAP_NUM(MAP_AREA2):
-            break;
-        case MAP_NUM(MAP_AREA3):
-            break;
-        case MAP_NUM(MAP_AREA4):
-            break;
-        case MAP_NUM(MAP_AREA5):
-            break;
-        case MAP_NUM(MAP_AREA6):
-            break;
-        case MAP_NUM(MAP_AREA7):
-            break;
-        case MAP_NUM(MAP_AREA8):
-            break;
-        case MAP_NUM(MAP_AREA9):
-            break;
-        case MAP_NUM(MAP_BOSS):
-            break;
+        default:
+            LoadPalette(sSubAreaMapPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
         }
         LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
@@ -673,6 +699,20 @@ static bool8 TarcUi_LoadGraphics(void)
         return TRUE;
     }
     return FALSE;
+}
+
+static void TarcUi_InitOtherWindows(void)
+{
+    InitWindows(sTarcUiOtherWindowTemplates);
+    DeactivateAllTextPrinters();
+    ScheduleBgCopyTilemapToVram(0);
+
+    for (u32 i = 0; i < WIN_COUNT_OTHER; i++)
+    {
+        FillWindowPixelBuffer(i, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+        PutWindowTilemap(i);
+        CopyWindowToVram(i, COPYWIN_FULL);
+    }
 }
 
 static void TarcUi_InitWindows(void)
@@ -1020,4 +1060,55 @@ static void PrintAllInfoText(void)
     PrintArchetypeStats(sTarcUiState->finalBossSelector);
     PrintBoss(sTarcUiState->finalBossSelector);
     PrintMonIcons(sTarcUiState->finalBossSelector);
+}
+
+static void DrawSubAreaStuff(void)
+{
+    u32 species = gSaveBlock1Ptr->huntTargets.currentBoss;
+    FillWindowPixelBuffer(WIN_BOSS_TEXT, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    const u8 *currString = gAbilitiesInfo[gSpeciesInfo[species].abilityReward].name;
+    AddTextPrinterParameterized4(WIN_BOSS_TEXT,
+                                 FONT_NORMAL,
+                                 TarcUi_JustifyCenter(currString, REWARD_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 currString);
+    CopyWindowToVram(WIN_BOSS_TEXT, COPYWIN_GFX);
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = gSpeciesInfo[species].frontPic;
+    cs.spriteCompressed = TRUE;
+    u16 palette[16];
+    DesaturateSpeciesPalette(gSpeciesInfo[species].palette, palette, gSpeciesInfo[species].excludeBlend);
+    cs.palette = palette;
+    cs.tileTag = 0xCEC1;
+    cs.palTag = 0xCEC1;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+    cs.posX = 120;
+    cs.posY = 32;
+    Even_CreateSprite(&cs);
+    u32 area = gSaveBlock1Ptr->huntTargets.currentArea;
+    cs.posY = 112;
+    for (u32 i = 0; i < 3; i++)
+    {
+        species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area + i];
+        currString = gMovesInfo[gSpeciesInfo[species].moveReward].name;
+        AddTextPrinterParameterized4(WIN_MINI1_TEXT + i,
+                                     FONT_NORMAL,
+                                     TarcUi_JustifyCenter(currString, REWARD_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     currString);
+        CopyWindowToVram(WIN_MINI1_TEXT + i, COPYWIN_GFX);
+        cs.sprite = gSpeciesInfo[species].frontPic;
+        cs.spriteCompressed = TRUE;
+        DesaturateSpeciesPalette(gSpeciesInfo[species].palette, palette, gSpeciesInfo[species].excludeBlend);
+        cs.palette = palette;
+        cs.tileTag = 0xCEC2 + i;
+        cs.palTag = 0xCEC2 + i;
+        cs.spriteSize = SPRITE_SIZE(64x64);
+        cs.spriteShape = SPRITE_SHAPE(64x64);
+        cs.posX = 40 + 80 * i;
+        Even_CreateSprite(&cs);
+    }
 }
