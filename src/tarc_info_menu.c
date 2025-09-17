@@ -862,7 +862,7 @@ static void PrintRecordText(u32 bossId)
     CopyWindowToVram(WIN_BESTRUN, COPYWIN_GFX);
 }
 
-const u8 *const sMythNames[] =
+static const u8 *const sMythNames[] =
 {
     COMPOUND_STRING("Life of Xerneas"),
     COMPOUND_STRING("Storm of Lugia"),
