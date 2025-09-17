@@ -3520,6 +3520,8 @@ void DisplayWeatherTimer(void)
 {
     if (!(gBattleWeather & B_WEATHER_ANY))
         return;
+    if (sWeatherTimerSpriteId != SPRITE_NONE)
+        return;
 
     u32 turns = gWishFutureKnock.weatherDuration;
     struct Even_CreateSpriteStruct cs = {0};

@@ -57,7 +57,6 @@ void TrySpawnNamebox(void)
     if (sNameboxWindowId != WINDOW_NONE)
     {
         DestroyNamebox();
-        RedrawDialogueFrame();
     }
 
     bool32 matchCall = IsMatchCallTaskActive();
@@ -189,6 +188,4 @@ void TrySpawnAndShowNamebox(const u8 *speaker)
     TrySpawnNamebox();
     if (sNameboxWindowId != WINDOW_NONE)
         DrawNamebox(sNameboxWindowId, TRUE);
-    else // either NULL or SP_NAME_NONE
-        RedrawDialogueFrame();
 }
