@@ -18339,7 +18339,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sEspeonLevelUpLearnset,
         .teachableLearnset = sEspeonTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_PSYCHIC_NOISE,
+        .moveReward = MOVE_REWARD_FROSTWISP,
     },
 
     [SPECIES_UMBREON] =
@@ -36885,6 +36885,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         )
         .levelUpLearnset = sKleavorLevelUpLearnset,
         .teachableLearnset = sKleavorTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_X_SCISSOR,
     },
 #endif //P_GEN_8_CROSS_EVOS
 #endif //P_FAMILY_SCYTHER
@@ -38894,7 +38896,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sEspeonLevelUpLearnset,
         .teachableLearnset = sEspeonTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_PSYCHIC_NOISE,
+        .moveReward = MOVE_REWARD_FROSTWISP,
     },
 
     [SPECIES_UMBREON] =

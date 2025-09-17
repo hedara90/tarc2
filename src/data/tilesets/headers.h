@@ -852,3 +852,25 @@ const struct Tileset gTileset_paintedhub =
     .metatileAttributes = gMetatileAttributes_paintedhub,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_hub =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_hub,
+    .palettes = gTilesetPalettes_hub,
+    .metatiles = gMetatiles_hub,
+    .metatileAttributes = gMetatileAttributes_hub,
+    .callback = InitTilesetAnim_Entrance,
+};
+
+const struct Tileset gTileset_hubsecondary =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_hubsecondary,
+    .palettes = gTilesetPalettes_hubsecondary,
+    .metatiles = gMetatiles_hubsecondary,
+    .metatileAttributes = gMetatileAttributes_hubsecondary,
+    .callback = NULL,
+};

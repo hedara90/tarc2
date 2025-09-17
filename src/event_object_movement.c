@@ -527,6 +527,9 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_Satsuki,               OBJ_EVENT_PAL_TAG_SATSUKI},
+    {gObjectEventPal_NPCTarc1,              OBJ_EVENT_PAL_TAG_NPC_TARC_1},
+    {gObjectEventPal_NPCTarc2,              OBJ_EVENT_PAL_TAG_NPC_TARC_2},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -2039,6 +2042,7 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
         if ((paletteNum = IndexOfSpritePaletteTag(palTag)) < 16)
             return paletteNum;
         spritePalette.tag = palTag;
+        u16 tempPalette[16];
     #if P_GENDER_DIFFERENCES
         if (female && gSpeciesInfo[species].overworldPaletteFemale != NULL)
         {
@@ -2055,6 +2059,12 @@ static u32 LoadDynamicFollowerPalette(u32 species, bool32 shiny, bool32 female)
             else
                 spritePalette.data = gSpeciesInfo[species].overworldPalette;
         }
+
+        for (u32 i = 0; i < 16; i++)
+        {
+            tempPalette[i] = ConvertColorToDesaturatedNaive(spritePalette.data[i]);
+        }
+        spritePalette.data = tempPalette;
 
         // Check if pal data must be decompressed
         if (IsLZ77Data(spritePalette.data, PLTT_SIZE_4BPP, PLTT_SIZE_4BPP))

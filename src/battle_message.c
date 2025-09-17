@@ -116,9 +116,17 @@ static const u8 sText_PkmnGoodComeBack[] = _("Good job, {B_BUFF1}! Come back!");
 static const u8 sText_Trainer1WithdrewPkmn[] = _("{B_TRAINER1_NAME_WITH_CLASS} withdrew {B_BUFF1}!");
 static const u8 sText_LinkTrainer1WithdrewPkmn[] = _("{B_LINK_OPPONENT1_NAME} withdrew {B_BUFF1}!");
 static const u8 sText_LinkTrainer2WithdrewPkmn[] = _("{B_LINK_SCR_TRAINER_NAME} withdrew {B_BUFF1}!");
+#if TESTING
 static const u8 sText_WildPkmnPrefix[] = _("The wild ");
+#else
+static const u8 sText_WildPkmnPrefix[] = _("The opposing ");
+#endif
 static const u8 sText_FoePkmnPrefix[] = _("The opposing ");
+#if TESTING
 static const u8 sText_WildPkmnPrefixLower[] = _("the wild ");
+#else
+static const u8 sText_WildPkmnPrefixLower[] = _("the opposing ");
+#endif
 static const u8 sText_FoePkmnPrefixLower[] = _("the opposing ");
 static const u8 sText_EmptyString8[] = _("");
 static const u8 sText_FoePkmnPrefix2[] = _("Opposing");
@@ -196,7 +204,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ATTACKERFAINTED]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_TARGETFAINTED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} fainted!\p"),
     [STRINGID_PLAYERGOTMONEY]                       = COMPOUND_STRING("You got ¥{B_BUFF1} for winning!\p"),
-    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("You have no more Pokémon that can fight!\p"),
+    [STRINGID_PLAYERWHITEOUT]                       = COMPOUND_STRING("This is where this story ends.{PAUSE_UNTIL_PRESS}"),
 #if B_WHITEOUT_MONEY >= GEN_4
     [STRINGID_PLAYERWHITEOUT2]                      = COMPOUND_STRING("You panicked and dropped ¥{B_BUFF1}…\pYou were overwhelmed by your defeat!{PAUSE_UNTIL_PRESS}"),
 #else
@@ -914,7 +922,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_RESTORE_BACKLINE]                     = COMPOUND_STRING("{B_BUFF1}{B_BUFF2}{B_BUFF3} recovered a little!"),
     [STRINGID_SLEET_STORM]                          = COMPOUND_STRING("Sleet fall all over the area!"),
     [STRINGID_THUNDERSTRIKE]                        = COMPOUND_STRING("Thunder strikes {B_BUFF1}!"),
-    [STRINGID_INFERNO]                              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was burned by the inferno!"),
+    [STRINGID_INFERNO]                              = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was burned by the inferno!"),
     [STRINGID_CD_OVERRIDE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} suffered from exhaustion!"),
     [STRINGID_RESS_MON]                             = COMPOUND_STRING("{B_BUFF1} was ressurrected!"),
     [STRINGID_CLOUDWALKER]                          = COMPOUND_STRING("Cloudwalker"),
@@ -934,6 +942,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_YGGDRASIL]                            = COMPOUND_STRING("Yggdrasil's energy boosted {B_BUFF1}'s {B_BUFF3}!"),
     [STRINGID_SANCTUARY]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} manifested its realm to safeguard itself!"),
     [STRINGID_HEALING_SPIRIT]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} restored everyone on the field!"),
+    [STRINGID_ABUNDANCE]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} overflows with energy!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

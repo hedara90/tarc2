@@ -577,6 +577,7 @@ struct SaveBlock2
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
+             u16 isArchie:1;
              //u16 padding1:4;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
@@ -1066,6 +1067,22 @@ struct BufferedObjectRemoveStruct
     bool8 shouldRemove;
 };
 
+struct VictoryData
+{
+    u8 numSubBosses;
+    u8 numMiniBosses;
+    u8 affinity;
+    u16 teamMembers[3];
+    u16 moves[3][4];
+    u16 abilities[3][4];
+};
+
+struct VictoryStats
+{
+    u16 attempts;
+    u16 wins;
+};
+
 struct SaveBlock1
 {
     /*0x00*/ struct Coords16 pos;
@@ -1157,6 +1174,9 @@ struct SaveBlock1
     struct BufferedObjectRemoveStruct bors;
     u16 savedMove;
     u16 savedAbility;
+    u32 totalRuns;
+    struct VictoryData bestBosses[30];
+    struct VictoryStats victoryStats[30][36];    // Affinity, {Direct, Indirect, Manual}
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

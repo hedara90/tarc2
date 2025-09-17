@@ -15,6 +15,9 @@ const u16 sHelpHealPal[] = INCBIN_U16("graphics/help_messages/help_heal.gbapal")
 const u32 sHelpBossMoveGfx[] = INCBIN_U32("graphics/help_messages/help_boss_move.4bpp");
 const u16 sHelpBossMovePal[] = INCBIN_U16("graphics/help_messages/help_boss_move.gbapal");
 
+const u32 sHelpChooseBossGfx[] = INCBIN_U32("graphics/help_messages/help_choose_boss.4bpp");
+const u16 sHelpChooseBossPal[] = INCBIN_U16("graphics/help_messages/help_choose_boss.gbapal");
+
 const struct HelpData sHelpDatas[] =
 {
     [TRIGGER_ROTATION] = {
@@ -55,6 +58,14 @@ const struct HelpData sHelpDatas[] =
         .spritePtr = sHelpBossMoveGfx,
         .palettePtr = sHelpBossMovePal,
         .flag = FLAG_HELP_BOSS_MOVE,
+        .numSprites = 1,
+    },
+    [TRIGGER_CHOOSE_BOSS] = {
+        .x = 130,
+        .y = 112,
+        .spritePtr = sHelpChooseBossGfx,
+        .palettePtr = sHelpChooseBossPal,
+        .flag = FLAG_HELP_CHOOSE_BOSS,
         .numSprites = 1,
     },
     [TRIGGER_MOVES] = {

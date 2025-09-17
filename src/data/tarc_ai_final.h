@@ -33,7 +33,7 @@ const struct BossMoveList sXerneas3 =
         MOVE_GEOMANCY,
         MOVE_EARTH_POWER,
         MOVE_DRAINING_KISS,
-        MOVE_STORED_POWER,
+        MOVE_MOONBLAST,
     },
 };
 
@@ -46,7 +46,7 @@ const struct BossMoveList sXerneas4 =
         MOVE_EARTH_POWER,
         MOVE_FLEUR_CANNON,
         MOVE_ANCIENT_POWER,
-        MOVE_STORED_POWER,
+        MOVE_MOONBLAST,
     },
 };
 

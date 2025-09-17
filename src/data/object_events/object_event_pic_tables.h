@@ -1356,3 +1356,35 @@ static const struct SpriteFrameImage sPicTable_KirliaOld[] = {
 static const struct SpriteFrameImage sPicTable_RubySapphireMay[] = {
     overworld_ascending_frames(gObjectEventPic_RubySapphireMayNormal, 2, 4),
 };
+
+static const struct SpriteFrameImage sPicTable_Satsuki[] = {
+    overworld_ascending_frames(gObjectEventPic_Satsuki, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_AcolyteM[] = {
+    overworld_ascending_frames(gObjectEventPic_AcolyteM, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_AcolyteF[] = {
+    overworld_ascending_frames(gObjectEventPic_AcolyteF, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Chisa[] = {
+    overworld_ascending_frames(gObjectEventPic_Chisa, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Empress[] = {
+    overworld_ascending_frames(gObjectEventPic_Empress, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Kaito[] = {
+    overworld_ascending_frames(gObjectEventPic_Kaito, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Monk[] = {
+    overworld_ascending_frames(gObjectEventPic_Monk, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_PrayerGirl[] = {
+    overworld_ascending_frames(gObjectEventPic_PrayerGirl, 2, 4),
+};

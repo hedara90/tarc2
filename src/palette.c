@@ -1337,3 +1337,150 @@ static void Task_BlendPalettesGradually(u8 taskId)
         }
     }
 }
+
+u16 ConvertColorToDesaturatedNaive(u16 input)
+{
+    u16 output = 0;
+    s32 rVal = input & 0x1F;
+    s32 gVal = (input >> 5) & 0x1f;
+    s32 bVal = (input >> 10) & 0x1f;
+    s32 i = (rVal + gVal + bVal) / 3;
+    s32 rD = i - rVal;
+    s32 gD = i - gVal;
+    s32 bD = i - bVal;
+    s32 rValNew = rVal + 3 * rD / 4;
+    s32 gValNew = gVal + 3 * gD / 4;
+    s32 bValNew = bVal + 3 * bD / 4;
+    if (rValNew < 0)
+        rValNew = 0;
+    else if (rValNew > 31)
+        rValNew = 31;
+    if (gValNew < 0)
+        gValNew = 0;
+    else if (gValNew > 31)
+        gValNew = 31;
+    if (bValNew < 0)
+        bValNew = 0;
+    else if (bValNew > 31)
+        bValNew = 31;
+    output = (bValNew << 10) | (gValNew << 5) | rValNew;
+    return output;
+}
+
+void DesaturateSpeciesPalette(const u16 *palIn, u16 *palOut, const bool8 *exclusions)
+{
+    for (u32 i = 0; i < 16; i++)
+    {
+        if (exclusions[i])
+            palOut[i] = palIn[i];
+        else
+            palOut[i] = ConvertColorToDesaturatedNaive(palIn[i]);
+    }
+}
+
+/*
+struct rgbColor
+{
+    u8 r;
+    u8 g;
+    u8 b;
+};
+
+struct hsvColor
+{
+    u8 h;
+    u8 s;
+    u8 v;
+};
+
+struct hsvColor rgb2hsv(struct rgbColor rgb)
+{
+    struct hsvColor hsv;
+    u8 rgbMin, rgbMax;
+    rgbMin = rgb.r < rgb.g ? (rgb.r < rgb.b ? rgb.r : rgb.b) : (rgb.g < rgb.b ? rgb.g : rgb.b);
+    rgbMax = rgb.r > rgb.g ? (rgb.r > rgb.b ? rgb.r : rgb.b) : (rgb.g > rgb.b ? rgb.g : rgb.b);
+    hsv.v = rgbMax;
+    if (hsv.v == 0)
+    {
+        hsv.h = 0;
+        hsv.s = 0;
+        return hsv;
+    }
+
+    s32 tempVal = 255 * (rgbMax - rgbMin) / hsv.v;
+    hsv.s = tempVal;
+    if (hsv.s == 0)
+    {
+        hsv.h = 0;
+        return hsv;
+    }
+
+    if (rgbMax == rgb.r)
+        hsv.h = 0 + 43 * (rgb.g - rgb.b) / (rgbMax - rgbMin);
+    else if (rgbMax == rgb.g)
+        hsv.h = 85 + 43 * (rgb.b - rgb.r) / (rgbMax - rgbMin);
+    else
+        hsv.h = 171 + 43 * (rgb.r - rgb.g) / (rgbMax - rgbMin);
+
+    return hsv;
+}
+
+struct rgbColor hsv2rgb(struct hsvColor hsv)
+{
+    struct rgbColor rgb;
+    u8 region, remainder, p, q, t;
+    if (hsv.s == 0)
+    {
+        rgb.r = hsv.v;
+        rgb.g = hsv.v;
+        rgb.b = hsv.v;
+        return rgb;
+    }
+
+    region = hsv.h / 43;
+    remainder = (hsv.h - (region * 43)) * 6;
+
+    p = (hsv.v * (255 - hsv.s)) >> 8;
+    q = (hsv.v * (255 - ((hsv.s * remainder) >> 8))) >> 8;
+    t = (hsv.v * (255 - ((hsv.s * (255 - remainder)) >> 8))) >> 8;
+
+    switch (region)
+    {
+        case 0:
+            rgb.r = hsv.v; rgb.g = t; rgb.b = p;
+            break;
+        case 1:
+            rgb.r = q; rgb.g = hsv.v; rgb.b = p;
+            break;
+        case 2:
+            rgb.r = p; rgb.g = hsv.v; rgb.b = t;
+            break;
+        case 3:
+            rgb.r = p; rgb.g = q; rgb.b = hsv.v;
+            break;
+        case 4:
+            rgb.r = t; rgb.g = p; rgb.b = hsv.v;
+            break;
+        default:
+            rgb.r = hsv.v; rgb.g = p; rgb.b = q;
+            break;
+    }
+    return rgb;
+}
+
+u16 DesaturateColor(u16 input)
+{
+    struct rgbColor rgb;
+    rgb.r = (input & 0x1F) << 3;
+    rgb.g = ((input >> 5) & 0x1f) << 3;
+    rgb.b = ((input >> 10) & 0x1f) << 3;
+    struct hsvColor hsv = rgb2hsv(rgb);
+    u32 tempVal = 25 * hsv.s / 100;
+    hsv.s = tempVal;
+    rgb = hsv2rgb(hsv);
+    rgb.r = rgb.r >> 3;
+    rgb.g = rgb.g >> 3;
+    rgb.b = rgb.b >> 3;
+    return (rgb.r + (rgb.g << 5) + (rgb.b << 10));
+}
+*/

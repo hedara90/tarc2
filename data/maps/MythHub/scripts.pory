@@ -7,7 +7,7 @@ script MythHub_Boss {
     if (var(VAR_RESULT) == YES) {
         closemessage
         callnative(SetFinalBoss)
-        warpsilent(MAP_BOSS, 10, 10)
+        warpsilent(MAP_BOSS, 15, 22)
     } else {
         closemessage
         applymovement(LOCALID_PLAYER, moves(walk_down))
@@ -27,7 +27,7 @@ script MythHub_Area1 {
     choosecurrentboss(1)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA1, 10 , 10)
+        warpsilent(MAP_AREA1, 15 , 10)
     }
     release
 }
@@ -43,7 +43,7 @@ script MythHub_Area2 {
     choosecurrentboss(2)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA2, 10 , 10)
+        warpsilent(MAP_AREA2, 10 , 13)
     }
     release
 }
@@ -59,7 +59,7 @@ script MythHub_Area3 {
     choosecurrentboss(3)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA3, 10 , 10)
+        warpsilent(MAP_AREA3, 9 , 7)
     }
     release
 }
@@ -75,7 +75,7 @@ script MythHub_Area4 {
     choosecurrentboss(4)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA4, 10 , 10)
+        warpsilent(MAP_AREA4, 9 , 11)
     }
     release
 }
@@ -91,7 +91,7 @@ script MythHub_Area5 {
     choosecurrentboss(5)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA5, 10 , 10)
+        warpsilent(MAP_AREA5, 10 , 12)
     }
     release
 }
@@ -107,7 +107,7 @@ script MythHub_Area6 {
     choosecurrentboss(6)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA6, 10 , 10)
+        warpsilent(MAP_AREA6, 5 , 12)
     }
     release
 }
@@ -123,7 +123,7 @@ script MythHub_Area7 {
     choosecurrentboss(7)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA7, 10 , 10)
+        warpsilent(MAP_AREA7, 9 , 10)
     }
     release
 }
@@ -139,7 +139,7 @@ script MythHub_Area8 {
     choosecurrentboss(8)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA8, 10 , 10)
+        warpsilent(MAP_AREA8, 19 , 5)
     }
     release
 }
@@ -155,7 +155,7 @@ script MythHub_Area9 {
     choosecurrentboss(9)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_AREA9, 10 , 10)
+        warpsilent(MAP_AREA9, 17 , 4)
     }
     release
 }

@@ -1886,10 +1886,13 @@ static void Cmd_ppreduce(void)
         if (gCurrentMove != gLastResultingMoves[gBattlerAttacker] || WasUnableToUseMove(gBattlerAttacker))
             gBattleStruct->sameMoveTurns[gBattlerAttacker] = 0;
 
-        if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
-        else
-            gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        if (TESTING)
+        {
+            if (gBattleMons[gBattlerAttacker].pp[gCurrMovePos] > ppToDeduct)
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] -= ppToDeduct;
+            else
+                gBattleMons[gBattlerAttacker].pp[gCurrMovePos] = 0;
+        }
 
         if (MOVE_IS_PERMANENT(gBattlerAttacker, gCurrMovePos))
         {
@@ -2663,8 +2666,8 @@ static void Cmd_healthbarupdate(void)
             else
             {
                 s16 healthValue = min(gBattleStruct->moveDamage[battler], 10000); // Max damage (10000) not present in R/S, ensures that huge damage values don't change sign
-                if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                    healthValue = 3 * healthValue / 2;
+                //if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                //    healthValue = 3 * healthValue / 2;
 
                 BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, healthValue);
                 MarkBattlerForControllerExec(battler);
@@ -2738,9 +2741,9 @@ static void Cmd_datahpupdate(void)
             if (gBattleStruct->moveDamage[battler] < 0)
             {
                 // Negative damage is HP gain
-                if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-                else
+                //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
+                //else
                     gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
                 if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                     gBattleMons[battler].hp = gBattleMons[battler].maxHP;
@@ -6527,6 +6530,10 @@ static void Cmd_moveend(void)
 
                 gBattleStruct->shouldTriggerSharedBurdens = FALSE;
             }
+
+            if (gBattleScripting.savedDmg > 0)
+                gProtectStructs[gBattlerAttacker].usedAttackingMove = TRUE;
+
             break;
         case MOVEEND_PROTECT_LIKE_EFFECT:
             if (gProtectStructs[gBattlerAttacker].touchedProtectLike)
@@ -9078,15 +9085,16 @@ static void Cmd_getmoneyreward(void)
 {
     CMD_ARGS();
 
-    u32 money;
-    u8 sPartyLevel = 1;
+    u32 money = 0;
+    //u8 sPartyLevel = 1;
 
+    /*
     if (gBattleOutcome == B_OUTCOME_WON)
     {
         money = GetTrainerMoneyToGive(TRAINER_BATTLE_PARAM.opponentA);
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
             money += GetTrainerMoneyToGive(TRAINER_BATTLE_PARAM.opponentB);
-        AddMoney(&gSaveBlock1Ptr->money, money);
+        //AddMoney(&gSaveBlock1Ptr->money, money);
     }
     else
     {
@@ -9113,8 +9121,9 @@ static void Cmd_getmoneyreward(void)
             }
             money = sWhiteOutBadgeMoney[count] * sPartyLevel;
         }
-        RemoveMoney(&gSaveBlock1Ptr->money, money);
+        //RemoveMoney(&gSaveBlock1Ptr->money, money);
     }
+    */
 
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, money);
     gBattlescriptCurrInstr = cmd->nextInstr;
@@ -19379,8 +19388,8 @@ void BS_SimulHealthbarUpdate(void)
         if (gBattleStruct->moveDamage[battler] != 0)
         {
             s32 currDmg = gBattleStruct->moveDamage[battler];
-            if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                currDmg = 3 * currDmg / 2;
+            //if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+            //    currDmg = 3 * currDmg / 2;
             BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, currDmg);
             MarkBattlerForControllerExec(battler);
         }
@@ -19398,9 +19407,9 @@ void BS_SimulDataHPUpdate(void)
         //  Healing
         if (gBattleStruct->moveDamage[battler] < 0)
         {
-            if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-            else
+            //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+            //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
+            //else
                 gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
             if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                 gBattleMons[battler].hp = gBattleMons[battler].maxHP;

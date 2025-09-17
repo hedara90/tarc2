@@ -502,6 +502,7 @@ struct SpeciesInfo /*0xC4*/
     bool32 isPlayer;
     u16 moveReward;
     u16 abilityReward;
+    bool8 excludeBlend[16];
 };
 
 enum AbilityCategory

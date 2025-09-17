@@ -2856,7 +2856,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sAudinoFormSpeciesIdTable,
         .formChangeTable = sAudinoFormChangeTable,
         .maxPhases = 2,
-        .moveReward = MOVE_REWARD_HEAL_PULSE,
+        .moveReward = MOVE_REWARD_WISH,
     },
 
 #if P_MEGA_EVOLUTIONS
@@ -25942,8 +25942,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .friendship = 35,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_BRUTE_FORCE, ABILITY_NONE, ABILITY_NONE },
-        .innates = { ABILITY_GIANT_SLAYER, ABILITY_SOLID_ROCK, ABILITY_ANGER_POINT },
+        .abilities = { ABILITY_GIANT_SLAYER, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_BRUTE_FORCE, ABILITY_SOLID_ROCK, ABILITY_ANGER_POINT },
         .bodyColor = BODY_COLOR_GRAY,
         .speciesName = _("Terrakion"),
         .cryId = CRY_TERRAKION,

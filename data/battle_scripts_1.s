@@ -3552,13 +3552,13 @@ BattleScript_PowerHerbActivation:
 
 BattleScript_LunarPowerActivation:
 	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
-	printstring STRINGID_POWERHERB
+	printstring STRINGID_LUNAR_COLD
 	waitmessage B_WAIT_TIME_LONG
 	return
 
 BattleScript_AbundanceActivation:
 	playmoveanimation BS_ATTACKER, MOVE_MOONLIGHT
-	printstring STRINGID_POWERHERB
+	printstring STRINGID_ABUNDANCE
 	waitmessage B_WAIT_TIME_LONG
 	return
 
@@ -5454,8 +5454,8 @@ BattleScript_LocalBattleLostPrintWhiteOut::
 	jumpifbattletype BATTLE_TYPE_TRAINER, BattleScript_LocalBattleLostEnd
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage B_WAIT_TIME_LONG
-	printstring STRINGID_PLAYERWHITEOUT2
-	waitmessage B_WAIT_TIME_LONG
+	@printstring STRINGID_PLAYERWHITEOUT2
+	@waitmessage B_WAIT_TIME_LONG
 	end2
 BattleScript_LocalBattleLostEnd::
 	printstring STRINGID_PLAYERLOSTTOENEMYTRAINER
@@ -10164,20 +10164,27 @@ BattleScript_HailstoneFall::
 	goto BattleScript_DoTurnDmg
 
 BattleScript_FlamesEmbrace::
-	playanimation BS_ATTACKER, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
+	playanimation BS_TARGET, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
 	printstring STRINGID_INFERNO
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
-	hitanimation BS_ATTACKER
-	goto BattleScript_DoTurnDmg
+	hitanimation BS_TARGET
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	tryfaintmon BS_TARGET
+	end2
 
 BattleScript_ThunderstrikeActive::
-	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_ACTIVE
+	playanimation BS_TARGET, B_ANIM_THUNDERSTRIKE_ACTIVE
 	printstring STRINGID_THUNDERSTRIKE
 	effectivenesssound
-	hitanimation BS_ATTACKER
+	hitanimation BS_TARGET
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_DoTurnDmg
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	tryfaintmon BS_TARGET
+	end2
 
 BattleScript_ThunderstrikeLeft::
 	playanimation BS_ATTACKER, B_ANIM_THUNDERSTRIKE_LEFT
@@ -10328,8 +10335,8 @@ BattleScript_SentinelOut::
 
 BattleScript_StaticBuildup::
 	printstring STRINGID_STATIC_BUILDUP
-	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
 	setcharge BS_ABILITY_BATTLER
+	playmoveanimation BS_ABILITY_BATTLER, MOVE_STUPID_WORKAROUND
 	waitanimation
 	end2
 

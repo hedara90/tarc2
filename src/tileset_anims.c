@@ -1186,3 +1186,35 @@ static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
             sSecondaryTilesetAnimCallback = NULL;
     }
 }
+
+const u16 gTilesetAnims_Entrance_Water_Frame0[] = INCBIN_U16("data/tilesets/primary/hub/anim/water/00.4bpp");
+const u16 gTilesetAnims_Entrance_Water_Frame1[] = INCBIN_U16("data/tilesets/primary/hub/anim/water/01.4bpp");
+const u16 gTilesetAnims_Entrance_Water_Frame2[] = INCBIN_U16("data/tilesets/primary/hub/anim/water/02.4bpp");
+const u16 gTilesetAnims_Entrance_Water_Frame3[] = INCBIN_U16("data/tilesets/primary/hub/anim/water/03.4bpp");
+
+const u16 *const gTilesetAnims_Entrance_Water[] = {
+    gTilesetAnims_Entrance_Water_Frame0,
+    gTilesetAnims_Entrance_Water_Frame1,
+    gTilesetAnims_Entrance_Water_Frame2,
+    gTilesetAnims_Entrance_Water_Frame3
+};
+
+static void QueueAnimTiles_Entrance_Water(u16 timer)
+{
+    u16 i = timer % ARRAY_COUNT(gTilesetAnims_Entrance_Water);
+    AppendTilesetAnimToBuffer(gTilesetAnims_Entrance_Water[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(1)), 12 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_Entrance(u16 timer)
+{
+    if (timer % 16 == 0) {
+        QueueAnimTiles_Entrance_Water(timer / 16);
+    }
+}
+
+void InitTilesetAnim_Entrance(void)
+{
+    sPrimaryTilesetAnimCounter = 0;
+    sPrimaryTilesetAnimCounterMax = 256;
+    sPrimaryTilesetAnimCallback = TilesetAnim_Entrance;
+}

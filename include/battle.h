@@ -172,7 +172,8 @@ struct ProtectStruct
     u16 activateOpportunist:2; // 2 - to copy stats. 1 - stats copied (do not repeat). 0 - no stats to copy
     u16 usedAllySwitch:1;
     u16 lashOutAffected:1;
-    u16 padding:4;
+    u16 usedAttackingMove:1;
+    u16 padding:3;
     // End of 16-bit bitfield
     u16 physicalDmg;
     u16 specialDmg;
@@ -809,7 +810,8 @@ struct BattleStruct
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:18;
+    u32 sentinelState:17;
+    u32 isEndOfTurnFuture:1;
     u32 isEndOfTurnWeather:1;
     u32 shouldTriggerSharedBurdens:1;
     u32 empathCounter:6;

@@ -295,7 +295,7 @@ const struct BossMoveList sRapidash1 =
     .moves =
     {
         MOVE_AGILITY,
-        MOVE_TACKLE,
+        MOVE_PYROCLASM,
         MOVE_SWORDS_DANCE,
         MOVE_HIGH_HORSEPOWER
     },
@@ -1861,12 +1861,24 @@ const struct BossMoveList sSamurott1 =
     },
 };
 
+const struct BossMoveList sSamurott2 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_AQUA_CUTTER,
+        MOVE_SACRED_SWORD,
+        MOVE_SUCKER_PUNCH,
+        MOVE_X_SCISSOR
+    },
+};
+
 const struct BossAi sSamurottAi =
 {
     .phaseMoves =
     {
         &sSamurott1,
-        &sSamurott1,
+        &sSamurott2,
         &sSamurott1,
         &sSamurott1,
     },
@@ -1972,7 +1984,7 @@ const struct BossMoveList sAudino1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_COTTON_GUARD,
+        MOVE_HYPER_VOICE,
         MOVE_CALM_MIND,
         MOVE_STORED_POWER,
         MOVE_DRAINING_KISS
@@ -3134,13 +3146,15 @@ const struct BossAi sSpidopsAi =
 
 const struct BossMoveList sGarganacl1 =
 {
-    .numMoves = 4,
+    .numMoves = 6,
     .moves =
     {
         MOVE_SALT_CURE,
         MOVE_CURSE,
+        MOVE_EARTHQUAKE,
+        MOVE_ROCK_SLIDE,
+        MOVE_ROCK_BLAST,
         MOVE_RECOVER,
-        MOVE_EARTHQUAKE
     },
 };
 
@@ -3157,16 +3171,14 @@ const struct BossAi sGarganaclAi =
 
 const struct BossMoveList sBellibolt1 =
 {
-    .numMoves = 7,
+    .numMoves = 5,
     .moves =
     {
         MOVE_CHARGE_BEAM,
-        MOVE_REFLECT,
         MOVE_SOAK,
         MOVE_PARABOLIC_CHARGE,
         MOVE_ACID_SPRAY,
-        MOVE_SOAK,
-        MOVE_TOXIC,
+        MOVE_SPARK,
     },
 };
 

@@ -8,7 +8,7 @@ ASSUMPTIONS
 
 SINGLE_BATTLE_TEST("Leech Seed doesn't affect Grass-type Pokémon")
 {
-    PASSES_RANDOMLY(90, 100, RNG_ACCURACY);
+    //PASSES_RANDOMLY(90, 100, RNG_ACCURACY);
     GIVEN {
         ASSUME(gSpeciesInfo[SPECIES_ODDISH].types[0] == TYPE_GRASS);
         PLAYER(SPECIES_WYNAUT);

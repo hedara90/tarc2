@@ -95,12 +95,13 @@ static void InitPlayerTrainerId(void)
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+    FlagSet(FLAG_SYS_B_DASH);
 }
 
 static void ClearPokedexFlags(void)
@@ -131,7 +132,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_ENTRANCE), MAP_NUM(MAP_ENTRANCE), WARP_ID_NONE, 19, 22);
+    SetWarpDestination(MAP_GROUP(MAP_ENTRANCE), MAP_NUM(MAP_ENTRANCE), WARP_ID_NONE, 13, 12);
     WarpIntoMap();
 }
 
@@ -155,8 +156,8 @@ void SetHealLocationToEntrance(void)
 {
     gSaveBlock1Ptr->lastHealLocation.mapGroup = 0;
     gSaveBlock1Ptr->lastHealLocation.mapNum = 11;
-    gSaveBlock1Ptr->lastHealLocation.x = 20;
-    gSaveBlock1Ptr->lastHealLocation.y = 20;
+    gSaveBlock1Ptr->lastHealLocation.x = 13;
+    gSaveBlock1Ptr->lastHealLocation.y = 12;
     gSaveBlock1Ptr->lastHealLocation.warpId = -1;
 }
 

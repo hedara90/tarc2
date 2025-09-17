@@ -12716,6 +12716,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
         .maxPhases = 4,
+        .excludeBlend = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
     },
 
     [SPECIES_XERNEAS_ACTIVE] =
@@ -12782,6 +12783,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
         .maxPhases = 4,
+        .excludeBlend = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
     },
 #endif //P_FAMILY_XERNEAS
 
@@ -13264,6 +13266,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .teachableLearnset = sDiancieTeachableLearnset,
         .formSpeciesIdTable = sDiancieFormSpeciesIdTable,
         .formChangeTable = sDiancieFormChangeTable,
+        .isPlayer = TRUE,
     },
 
 #if P_MEGA_EVOLUTIONS

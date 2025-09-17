@@ -21,6 +21,7 @@
 #include "task.h"
 #include "text_window.h"
 #include "window.h"
+#include "match_call.h"
 #include "config/overworld.h"
 #include "constants/songs.h"
 
@@ -72,7 +73,7 @@ const u32 sTarcMessageboxGfx[] = INCBIN_U32("graphics/interface/message_box.4bpp
 const u16 sTarcMessageboxPal[] = INCBIN_U16("graphics/interface/message_box.gbapal");
 
 static EWRAM_INIT u8 sMessageboxSpriteIds[4] = {255, 255, 255, 255};
-static EWRAM_DATA u8 sYesNoBoxSpriteId;
+static EWRAM_INIT u8 sYesNoBoxSpriteId = SPRITE_NONE;
 
 static EWRAM_DATA u8 sStartMenuWindowId = 0;
 static EWRAM_DATA u8 sMapNamePopupWindowId = 0;
@@ -112,7 +113,7 @@ static const struct WindowTemplate sStandardTextBox_WindowTemplates[] =
 static const struct WindowTemplate sYesNo_WindowTemplates =
 {
     .bg = 0,
-    .tilemapLeft = 21,
+    .tilemapLeft = 25,
     .tilemapTop = 9,
     .width = 5,
     .height = 4,
@@ -356,6 +357,53 @@ void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
     PutWindowTilemap(windowId);
     if (copyToVram == TRUE)
         CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
+static void WindowFunc_RedrawDialogueFrame(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
+{
+    FillBgTilemapBufferRect(bg,
+                            DLG_WINDOW_BASE_TILE_NUM + 1,
+                            tilemapLeft - 2,
+                            tilemapTop - 1,
+                            1,
+                            1,
+                            DLG_WINDOW_PALETTE_NUM);
+    FillBgTilemapBufferRect(bg,
+                            DLG_WINDOW_BASE_TILE_NUM + 3,
+                            tilemapLeft - 1,
+                            tilemapTop - 1,
+                            1,
+                            1,
+                            DLG_WINDOW_PALETTE_NUM);
+    FillBgTilemapBufferRect(bg,
+                            DLG_WINDOW_BASE_TILE_NUM + 4,
+                            tilemapLeft,
+                            tilemapTop - 1,
+                            width - 1,
+                            1,
+                            DLG_WINDOW_PALETTE_NUM);
+    FillBgTilemapBufferRect(bg,
+                            DLG_WINDOW_BASE_TILE_NUM + 5,
+                            tilemapLeft + width - 1,
+                            tilemapTop - 1,
+                            1,
+                            1,
+                            DLG_WINDOW_PALETTE_NUM);
+    FillBgTilemapBufferRect(bg,
+                            DLG_WINDOW_BASE_TILE_NUM + 6,
+                            tilemapLeft + width,
+                            tilemapTop - 1,
+                            1,
+                            1,
+                            DLG_WINDOW_PALETTE_NUM);
+}
+
+void RedrawDialogueFrame(void)
+{
+    if (IsMatchCallTaskActive())
+        RedrawMatchCallTextBoxBorder();
+    else
+        CallWindowFunction(0, WindowFunc_RedrawDialogueFrame);
 }
 
 void DrawStdWindowFrame(u8 windowId, bool8 copyToVram)
@@ -2364,16 +2412,16 @@ static void LoadTarcMessagebox(void)
     struct Even_CreateSpriteStruct cs = {0};
     cs.palette = sTarcMessageboxPal;
     cs.palTag = 0xCEC0;
-    cs.spriteSize = SPRITE_SIZE(64x32);
-    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
     cs.posY = 136;
     cs.subpriority = 0;
 
     for (u32 i = 0; i < 4; i++)
     {
-        cs.sprite = &sTarcMessageboxGfx[i * 256];
+        cs.sprite = &sTarcMessageboxGfx[i * 512];
         cs.tileTag = 0xCEC0 - i;
-        cs.posX = 24 + 64 * i;
+        cs.posX = 32 + 64 * i;
         sMessageboxSpriteIds[i] = Even_CreateSprite(&cs);
     }
 }
@@ -2401,7 +2449,7 @@ static void LoadTarcYesNoBox(void)
     cs.tileTag = 0xCEC0 - 4;
     cs.spriteSize = SPRITE_SIZE(64x32);
     cs.spriteShape = SPRITE_SHAPE(64x32);
-    cs.posX = 176;
+    cs.posX = 208;
     cs.posY = 88;
     cs.subpriority = 0;
 
@@ -2410,7 +2458,7 @@ static void LoadTarcYesNoBox(void)
 
 static void HideTarcYesNoBox(void)
 {
-    if (sYesNoBoxSpriteId != 255)
+    if (sYesNoBoxSpriteId != SPRITE_NONE)
     {
         DestroySprite(&gSprites[sYesNoBoxSpriteId]);
         FreeSpriteTilesByTag(0xCEC0 - 4);

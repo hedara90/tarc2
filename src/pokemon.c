@@ -6154,6 +6154,9 @@ static inline bool32 CanFirstMonBoostHeldItemRarity(void)
 
 void SetWildMonHeldItem(void)
 {
+    if (!TESTING)
+        return;
+
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
     {
         u16 rnd;
@@ -7309,11 +7312,11 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     {
         if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
-            if (traitNum > 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+            if (traitNum >= 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
                 return 0;
-            if (traitNum > 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+            if (traitNum >= 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
                 return 0;
-            if (traitNum > 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+            if (traitNum >= 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
                 return 0;
         }
         if (MAX_MON_INNATES > 0)
