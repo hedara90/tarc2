@@ -956,7 +956,7 @@ static void PrintArchetypeStats(u32 bossId)
                 number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].wins;
                 break;
             case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts - gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 4].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts - gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].wins;
                 break;
             }
             ConvertIntToDecimalStringN(numStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);

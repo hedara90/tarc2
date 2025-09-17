@@ -1594,8 +1594,6 @@ static bool32 HandleEndTurnBirds(u32 battler)
 {
     bool32 effect = FALSE;
 
-    u32 ability = GetBattlerAbility(battler);
-
     gBattleStruct->turnEffectsBattlerId++;
 
     u16 battlerTraits[MAX_MON_TRAITS];
@@ -1606,6 +1604,8 @@ static bool32 HandleEndTurnBirds(u32 battler)
         if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
         {
             //  Damage all player mons
+            SaveBattlerAttacker(gBattlerAttacker);
+            gBattlerAttacker = 0;
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
             DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
             DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
