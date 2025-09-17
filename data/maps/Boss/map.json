@@ -7,14 +7,14 @@
   "requires_flash": false,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_TOWN",
-  "show_map_name": true,
+  "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [
     {
       "local_id": "LOCALID_FINAL_BOSS",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FINAL_BOSS)",
-      "x": 14,
+      "x": 15,
       "y": 6,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
