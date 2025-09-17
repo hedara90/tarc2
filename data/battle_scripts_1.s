@@ -10161,7 +10161,14 @@ BattleScript_HailstoneFall::
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
 	hitanimation BS_ATTACKER
-	goto BattleScript_DoTurnDmg
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	tryfaintmon BS_ATTACKER
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
+	restoreattacker
+	end2
 
 BattleScript_FlamesEmbrace::
 	playanimation BS_TARGET, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
