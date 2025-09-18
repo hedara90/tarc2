@@ -260,3 +260,50 @@ script Entrance_BossStart {
     msgbox("Myth initialized succesfully.{PAUSE 60}\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
 }
+
+script Entrance_NotThisWay {
+    lock
+    msgbox("There is still more to uncover")
+    applymovement(player, moves(walk_up))
+    waitmovement
+    release
+}
+
+// Xerneas - This woman is quite old
+script Entrance_Morgan {
+    lock
+    faceplayer 
+    if(flag(FLAG_MORGAN_INTRO)==FALSE) {
+        goto(Entrance_Morgan_Introduction)
+    }
+}
+
+script Entrance_Morgan_Introduction {
+    msgbox("This place is truly fascinating..."
+            "I mean, discovering history by simulating stories to find out what really happened? It's incredible what technology can do these days.")
+    closemessage
+    msgbox("If you're interested, you should talk to miss Satsuki.")
+    closemessage
+    msgbox("Haha, I appreciate the sentiment. I assume you're a member of the Recordkeepers then?")
+    msgbox("Since recently, yup!")
+    closemessage
+    msgbox("Impressive, at such a young age too!")
+    closemessage
+    msgbox("I will have to decline your offer, though."
+            "I'm no good with technology, and prefer the more traditional ways of storytelling."
+            "You can't teach an old dog new tricks, as they say...")
+    msgbox("Aww don't be so harsh on yourself, you look hardly older than me!")
+    msgbox("Hehee, thank you. Don't worry about it too much."
+            "Just a question for my own curiousity, are you working on anything specifically?")
+    msgbox("I think miss Satsuki assigned me the Abundance myth, the story about the Original Sinner, and the Lost Archipelago")
+    msgbox("The Abundance myth, hm? That does sound rather fascinating. As do the others"
+            "It sounds like you have a lot to do. I shan't hold you up any longer then.")
+    msgbox("Well, talking to visitors is also part of the job description!"
+            "But you're right, I do have to get back to unravelling the truths"
+            "See you around, miss...")
+    msgbox("Morgan.")
+    msgbox("Got it. Take care, miss Morgan!")
+    setflag(FLAG_MORGAN_INTRO)
+    closemessage
+    release
+}
