@@ -557,5 +557,18 @@ void SetWinData(void)
                  data->abilities[monIndex][abilityIndex] = GetSpeciesInnate(GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES), abilityIndex, 0, TRUE);
              }
          }
+        switch (gSaveBlock1Ptr->huntTargets.finalBoss) {
+            case SPECIES_XERNEAS: 
+                VarSet(VAR_XERNEAS_PROGRESS, gSaveBlock1Ptr->huntTargets.numBossesDefeated);
+                break;
+            case SPECIES_GIRATINA:
+                VarSet(VAR_GIRATINA_PROGRESS, gSaveBlock1Ptr->huntTargets.numBossesDefeated);
+                break;
+            case SPECIES_LUGIA:
+                VarSet(VAR_LUGIA_PROGRESS, gSaveBlock1Ptr->huntTargets.numBossesDefeated);
+                break;
+        }
      }
+
+
 }
