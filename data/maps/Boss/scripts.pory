@@ -4,13 +4,12 @@ mapscripts Boss_MapScripts {
 script Boss_BossBattle {
     callnative(SetFinalBoss)
     setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
-    //playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
-    //waitmoncry
-    //dowildbattle
-    //if (var(VAR_RESULT) == TRUE) {
+    playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+    waitmoncry
+    dowildbattle
+    if (var(VAR_RESULT) == TRUE) {
         lock
         lockall
-        //setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
         callnative(SetFinalBoss)
         playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
         setvar(VAR_0x8004, 0)  # vertical pan
@@ -27,8 +26,15 @@ script Boss_BossBattle {
         delay(128)
         removeobject(LOCALID_FINAL_BOSS)
         setflag(FLAG_BOSS_BOSS)
-        //warpsilent(MAP_ENTRANCE, 13, 12)
-    //}
+    }
     release
     releaseall
+}
+
+script Boss_Exit {
+    lock
+    setwarp(MAP_ENTRANCE, 13, 12)
+    fadescreen(FADE_TO_WHITE)
+    callnative(Tarc_InitWinScreenFromScript)
+    waitstate
 }

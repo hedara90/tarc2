@@ -240,7 +240,7 @@ static void TarcUi_SetupCB(void)
         gMain.state++;
         break;
     case 6:
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_WHITE);
         gMain.state++;
         break;
     case 7:
@@ -424,9 +424,11 @@ static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        SetMainCallback2(sTarcUiState->savedCallback);
         TarcUi_FreeResources();
         DestroyTask(taskId);
+        ResetInitialPlayerAvatarState();
+        WarpIntoMap();
+        SetMainCallback2(CB2_LoadMap);
     }
 }
 
