@@ -7,6 +7,7 @@ mapscripts Entrance_MapScripts {
 
 const satsuki = ENTRANCE_SATSUKI
 const player = OBJ_EVENT_ID_PLAYER
+const morgan = ENTRANEC_MORGAN
 
 script Entrance_SatsukiPosition {
     if(var(VAR_STORY) == 0) {
@@ -279,21 +280,26 @@ script Entrance_Morgan {
 }
 
 script Entrance_Morgan_Introduction {
+    lock
     msgbox("This place is truly fascinating..."
             "I mean, discovering history by simulating stories to find out what really happened? It's incredible what technology can do these days.")
     closemessage
     msgbox("If you're interested, you should talk to miss Satsuki.")
     closemessage
-    msgbox("Haha, I appreciate the sentiment. I assume you're a member of the Recordkeepers then?")
+    faceplayer
+    msgbox("Oh? Haha, I appreciate the sentiment. I assume you're a member of the Recordkeepers then?")
+    call(Entrance_GetDirectionAndJumpInPlace_Player)
     msgbox("Since recently, yup!")
     closemessage
-    msgbox("Impressive, at such a young age too!")
-    closemessage
-    msgbox("I will have to decline your offer, though."
+    call(Entrance_GetDirectionAndWalkInPlace_Morgan)
+    msgbox("Impressive, at such a young age too!"
+            "I will have to decline your offer, though."
             "I'm no good with technology, and prefer the more traditional ways of storytelling."
             "You can't teach an old dog new tricks, as they say...")
+    call(Entrance_GetDirectionAndWalkInPlace_Player)
     msgbox("Aww don't be so harsh on yourself, you look hardly older than me!")
-    msgbox("Hehee, thank you. Don't worry about it too much."
+    call(Entrance_GetDirectionAndWalkInPlace_Morgan)
+    msgbox("Hehee, thank you. Don't worry about it too much. But I will still have to decline. I won't be here for long. My destination lies elsewhere."
             "Just a question for my own curiousity, are you working on anything specifically?")
     msgbox("I think miss Satsuki assigned me the Abundance myth, the story about the Original Sinner, and the Lost Archipelago")
     msgbox("The Abundance myth, hm? That does sound rather fascinating. As do the others"
@@ -307,3 +313,129 @@ script Entrance_Morgan_Introduction {
     closemessage
     release
 }
+
+script Entrance_Morgan_XerneasFalseEnding {
+    msgbox("Hey, miss Morgan! Not leaving yet, I see?")
+    msgbox("Leaving? Why'd I do that? I'm still far from finished converting all my experiences into data for the archives."
+            "I heard from miss Satsuki you are a little forgetful, so I don't blame you.")
+    msgbox("...?")
+    msgbox("I did see you've completed Xerneas's tale. Just as I told you, wasn't it?"
+            "Sigh... if only things went different that day, I wouldn't be stuck like this."
+            "Oh well, I may as well make myself useful while I still can.")
+    msgbox("I... see.")
+    msgbox("You've got other business to attend to, correct?"
+            "I think your time is better spent archiving your own findings, rather than concerning yourself with little old me.")
+    msgbox("Mmm, I suppose you are right. In that case, stay safe, miss Morgan.")
+}
+
+script Entrance_Morgan_XerneasTrueEnding {
+    lock
+    msgbox("Good day, miss Morgan. How are you doing?")
+    faceplayer
+    msgbox("I- sorry, I think you have the wrong person"
+            "Also, you don't have to adress me with miss. I'm not that old.")
+    msgbox("Ah, right. I... must've mistaken you for someone else then")
+    msgbox("It's fine, it's fine. Don't stress too much about it."
+            "Though... hmm. It's funny you called me that. It was one of the names my parents were considering.")
+    msgbox("Mhm, looks like I just had a brainwave. So if not Morgan, what is your given name?")
+    msgbox("Oh, it's Fenria! I should've introduced myself before going on that ramble. And you?")
+    msgbox("Tiana. I'm a recordkeeper here!")
+    msgbox("Oh, what a cute name."
+            "Since you work here, I actually have a request. Reason I'm here today and all that."
+            "My familiy is convinced that we are descendents from the Morgan who helped quell Xerneas."
+            "But I feel like that's just a load of hot air.")
+    msgbox("Keeping up public appearance huh?")
+    msgbox("Yeah, good way of putting it"
+            "Anyway, I heard you guys recently you finished deciphering Xerneas' tale.")
+    msgbox("Oh hey, yeah that's right! It was me who did that, actually.")
+    msgbox("Whoa, lucky me. Seems I bumped into the right person."
+            "I did read there was indeed a Morgan among the heroes who defeated Xerneas."
+            "Would you know more about what happened to her afterwards?")
+    msgbox("Well-"
+            "The archive shows my own notes, I don't know more than what is written down."
+            "That said, the Morgan in the files does bear a striking resemblance to you.")
+    msgbox("... I see. Hmmmm."
+            "Intriguing. That gives me something to think about."
+            "Thank you for your cooperation.")
+    
+}
+
+script Entrance_GetDirectionAndWalkInPlace_Player {
+    getobjectfacingdirection(player, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(player, moves(walk_in_place_down))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(player, moves(walk_in_place_up))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(player, moves(walk_in_place_left))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(player, moves(walk_in_place_right))
+        waitmovement
+        return
+    }
+    return
+}
+
+script Entrance_GetDirectionAndJumpInPlace_Player {
+    getobjectfacingdirection(player, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(player, moves(jump_in_place_down))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(player, moves(jump_in_place_up))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(player, moves(jump_in_place_left))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(player, moves(jump_in_place_right))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    return
+}
+
+script Entrance_GetDirectionAndWalkInPlace_Morgan {
+    getobjectfacingdirection(morgan, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(morgan, moves(walk_in_place_down))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(morgan, moves(walk_in_place_up))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(morgan, moves(walk_in_place_left))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(morgan, moves(walk_in_place_right))
+        waitmovement
+        return
+    }
+    return
+}
+
