@@ -489,6 +489,7 @@ void SetHuntFlags(void)
     {
         FlagClear(FLAG_AREA1_MINIBOSS1 + i);
     }
+    FlagClear(FLAG_BOSS_BOSS);
 }
 
 void SetPostBattleData(void)

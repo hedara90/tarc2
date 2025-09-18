@@ -35,6 +35,10 @@
 #include "data/hunt_setup_data.h"
 
 #include "palette.h"
+#include "constants/map_event_ids.h"
+#include "constants/event_object_movement.h"
+#include "overworld.h"
+#include "random.h"
 
 
 struct Tarc_InfoMenuState
@@ -165,6 +169,8 @@ static void Task_TarcUiMainInput(u8 taskId);
 static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId);
 
 static void DrawAll(void);
+static void DrawSprites(void);
+static void DrawText(void);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
@@ -224,11 +230,12 @@ static void TarcUi_SetupCB(void)
         break;
     case 4:
         TarcUi_InitWindows();
+        DrawText();
         gMain.state++;
         break;
     case 5:
         //  Draw stuff
-        DrawAll();
+        DrawSprites();
         CreateTask(Task_TarcUiWaitFadeIn, 0);
         gMain.state++;
         break;
@@ -443,7 +450,7 @@ static void PrintMythName(u32 bossId)
     CopyWindowToVram(WIN_TITLE, COPYWIN_GFX);
 }
 
-static void DrawAll(void)
+static void DrawSprites(void)
 {
     u32 bossId = gSaveBlock1Ptr->huntTargets.finalBoss;
     PrintMythName(bossId);
@@ -479,6 +486,14 @@ static void DrawAll(void)
         cs.posX = 40 + i * 80;
         cs.posY = 48;
         Even_CreateSprite(&cs);
+    }
+}
+
+static void DrawText()
+{
+    for (u32 i = 0; i < 3; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
         u8 text[200];
         u32 currChar = 0;
         for (u32 j = 0; j < 4; j++)
@@ -519,4 +534,52 @@ static void DrawAll(void)
                                      text);
         CopyWindowToVram(WIN_INFO1 + i, COPYWIN_FULL);
     }
+}
+
+static void DrawAll()
+{
+    DrawSprites();
+    DrawText();
+}
+
+#include "data/tarc_fade_ids.h"
+
+static void Task_FadeBoss(u8 taskId)
+{
+    //  Offset might have to be adjusted if the debug sprite is added
+    u16 *tileStart = (u16 *)(OBJ_VRAM0 + 20 * TILE_SIZE_4BPP);
+
+    for (u32 i = 0; i < 32; i++)
+    {
+        u32 currId = sFadeIds[gTasks[taskId].data[1] + i];
+        u16 pixelMask = 0;
+        switch (currId & 0x3)
+        {
+        case 0:
+            pixelMask = 0xfff0;
+            break;
+        case 1:
+            pixelMask = 0xff0f;
+            break;
+        case 2:
+            pixelMask = 0xf0ff;
+            break;
+        case 3:
+            pixelMask = 0x0fff;
+            break;
+        }
+        tileStart[currId >> 2] = tileStart[currId >> 2] & pixelMask;
+    }
+    gTasks[taskId].data[1] += 32;
+
+    gTasks[taskId].data[0]++;
+    if (gTasks[taskId].data[0] == 128)
+        DestroyTask(taskId);
+}
+
+void FadeBoss()
+{
+    u32 taskId = CreateTask(Task_FadeBoss, 0);
+    gTasks[taskId].data[0] = 0;
+    gTasks[taskId].data[1] = 0;
 }

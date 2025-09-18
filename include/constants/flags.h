@@ -78,7 +78,7 @@
 #define FLAG_HELP_HEAL          0x40
 #define FLAG_HELP_BOSS_MOVE     0x41
 #define FLAG_HELP_CHOOSE_BOSS   0x42
-#define FLAG_UNUSED_0x043    0x43 // Unused Flag
+#define FLAG_BOSS_BOSS          0x43 // Unused Flag
 #define FLAG_UNUSED_0x044    0x44 // Unused Flag
 #define FLAG_UNUSED_0x045    0x45 // Unused Flag
 #define FLAG_UNUSED_0x046    0x46 // Unused Flag

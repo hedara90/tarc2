@@ -26,7 +26,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Boss_BossBattle",
-      "flag": "0"
+      "flag": "FLAG_BOSS_BOSS"
     }
   ],
   "warp_events": [],
