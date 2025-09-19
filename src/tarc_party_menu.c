@@ -22,6 +22,7 @@
 #include "text.h"
 #include "window.h"
 #include "tarc_party_menu.h"
+#include "line_break.h"
 
 #include "constants/abilities.h"
 #include "constants/characters.h"
@@ -1200,9 +1201,6 @@ static void BuildSubStringMove(u8 *str, u32 move)
     }
     u32 currChar = 0;
     u32 subChar = 0;
-    str[0] = CHAR_A;
-    str[1] = CHAR_SPACE;
-    currChar = 2;
     u8 tempStr[20];
     if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
     {
@@ -1212,7 +1210,21 @@ static void BuildSubStringMove(u8 *str, u32 move)
         str[currChar++] = CHAR_SPACE;
         str[currChar++] = CHAR_B;
         str[currChar++] = CHAR_P;
+        str[currChar++] = CHAR_COMMA;
         str[currChar++] = CHAR_SPACE;
+        if (gMovesInfo[move].accuracy < 100)
+        {
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].accuracy, STR_CONV_MODE_LEFT_ALIGN, 2);
+            subChar = 0;
+            while (tempStr[subChar] != EOS)
+                str[currChar++] = tempStr[subChar++];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_A;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_COMMA;
+            str[currChar++] = CHAR_SPACE;
+        }
         if (gMovesInfo[move].category == DAMAGE_CATEGORY_PHYSICAL)
         {
             str[currChar++] = CHAR_p;
@@ -1239,6 +1251,22 @@ static void BuildSubStringMove(u8 *str, u32 move)
     }
     else
     {
+        str[currChar++] = CHAR_A;
+        str[currChar++] = CHAR_SPACE;
+        u32 acc = gMovesInfo[move].accuracy;
+        if (acc != 0 && acc < 100)
+        {
+            ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].accuracy, STR_CONV_MODE_LEFT_ALIGN, 2);
+            subChar = 0;
+            while (tempStr[subChar] != EOS)
+                str[currChar++] = tempStr[subChar++];
+            str[currChar++] = CHAR_SPACE;
+            str[currChar++] = CHAR_A;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_c;
+            str[currChar++] = CHAR_COMMA;
+            str[currChar++] = CHAR_SPACE;
+        }
         str[currChar++] = CHAR_s;
         str[currChar++] = CHAR_t;
         str[currChar++] = CHAR_a;
@@ -1270,7 +1298,7 @@ static void BuildSubStringMove(u8 *str, u32 move)
         str[currChar++] = CHAR_i;
         str[currChar++] = CHAR_t;
         str[currChar++] = CHAR_h;
-        str[currChar++] = CHAR_NEWLINE;
+        str[currChar++] = CHAR_SPACE;
         ConvertIntToDecimalStringN(tempStr, gMovesInfo[move].cd, STR_CONV_MODE_LEFT_ALIGN, 1);
         str[currChar++] = tempStr[0];
         str[currChar++] = CHAR_SPACE;
@@ -1287,7 +1315,7 @@ static void BuildSubStringMove(u8 *str, u32 move)
     else
     {
         str[currChar++] = CHAR_PERIOD;
-        str[currChar++] = CHAR_NEWLINE;
+        str[currChar++] = CHAR_SPACE;
     }
 
     if (gMovesInfo[move].hpBonus > 0
@@ -1395,6 +1423,7 @@ static void BuildSubStringMove(u8 *str, u32 move)
     }
 
     str[currChar] = EOS;
+    BreakStringAutomatic(str, 160, 2, FONT_NARROWER, HIDE_SCROLL_PROMPT);
 }
 
 const u8 sPassiveStr[]     = _("A passive ability that's always active.\n");
