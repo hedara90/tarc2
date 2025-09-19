@@ -2701,3 +2701,9 @@
 	callnative SetSpeaker
 	.4byte \name
 	.endm
+
+	@ Change current frame around dynmultichoice boxes
+	.macro setboxframe frame:req
+	callnative SetBoxFrame
+	.byte \frame
+	.endm
