@@ -6180,11 +6180,14 @@ u8 BattlerHasInnate(u8 battlerId, u16 ability)
 
     if (gBattleMons[battlerId].innates[0] == ability)
         return 2;
-    if (gBattleMons[battlerId].innates[1] == ability)
+    else if (gBattleMons[battlerId].innates[1] == ability)
         return 3;
-    if (gBattleMons[battlerId].innates[2] == ability)
+    else if (gBattleMons[battlerId].innates[2] == ability)
         return 4;
+    else
+        return 0;
 
+    //  This case shouldn't be reached
     return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].personality, isEnemyMon); 
 }
 
