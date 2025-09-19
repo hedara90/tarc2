@@ -31,6 +31,16 @@ script Area9_BossBattle {
 script Area9_AfterBossWarp {
     fadescreen(FADE_FROM_BLACK)
     msgBox("The domain of {STR_VAR_3} collapsed.")
+    callnative(CheckBossPowerUp)
+    switch(var(VAR_RESULT)) {
+    case 0:
+    case 1:
+        msgBox("The dissipated power energized the\nremaining foes.")
+    case 2:
+        msgBox("The dissipated power energized the\nremaining foes.")
+    case 3:
+        msgBox("The dissipated power energized the\nremaining foes.")
+    }
     release
 }
 
