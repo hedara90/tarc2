@@ -23,23 +23,7 @@ script Area9_BossBattle {
         special(ShakeCamera)
         waitstate
         delay(40)
-        warpcontinuescript(MAP_MYTH_HUB, 20, 18, Area9_AfterBossWarp)
-    }
-    release
-}
-
-script Area9_AfterBossWarp {
-    fadescreen(FADE_FROM_BLACK)
-    msgBox("The domain of {STR_VAR_3} collapsed.")
-    callnative(CheckBossPowerUp)
-    switch(var(VAR_RESULT)) {
-    case 0:
-    case 1:
-        msgBox("The dissipated power energized the\nremaining foes.")
-    case 2:
-        msgBox("The dissipated power energized the\nremaining foes.")
-    case 3:
-        msgBox("The dissipated power energized the\nremaining foes.")
+        warpcontinuescript(MAP_MYTH_HUB, 20, 18, MythHub_AfterBoss)
     }
     release
 }
