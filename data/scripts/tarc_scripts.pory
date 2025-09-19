@@ -7,3 +7,7 @@ script EventScript_Meditate {
     }
     releaseall
 }
+
+script EventScript_CallDanceDone {
+    goto(Entrance_DanceDone)
+}

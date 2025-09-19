@@ -779,12 +779,30 @@ bool32 CanTriggerSpinEvolution()
 
 static void PlayerNotOnBikeTurningInPlace(u8 direction, u16 heldKeys)
 {
+    if (gIsDancing)
+    {
+        u32 value = direction - 1;
+        value = value << (gDanceTimer * 2);
+        gDance += value;
+        gDanceTimer++;
+        if (gDanceTimer == 16)
+            gIsDancing = FALSE;
+    }
     WindUpSpinTimer(direction);
     PlayerTurnInPlace(direction);
 }
 
 static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
 {
+    if (gIsDancing)
+    {
+        u32 value = direction - 1;
+        value = value << (gDanceTimer * 2);
+        gDance += value;
+        gDanceTimer++;
+        if (gDanceTimer == 16)
+            gIsDancing = FALSE;
+    }
     u8 collision = CheckForPlayerAvatarCollision(direction);
 
     if (collision)
