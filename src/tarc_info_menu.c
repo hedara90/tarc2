@@ -148,15 +148,15 @@ static const struct BossIcon sBossIcons[] =
 
 static const u32 sBossIconCoords[9][2] =
 {
-    {203, 65},
-    {184, 54},
-    {100, 57},
-    {80, 23},
-    {49, 23},
-    {79, 116},
-    {50, 129},
-    {109, 132},
-    {73, 144},
+    {224, 64},
+    {192, 54},
+    {96, 55},
+    {80, 27},
+    {40, 22},
+    {80, 104},
+    {40, 96},
+    {112, 120},
+    {56, 127},
 };
 
 static const struct BgTemplate sTarcUiBgTemplates[] =
