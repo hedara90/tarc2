@@ -1659,6 +1659,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL, COMBO_STARTER_POWDER_SNOW},
         .battleAnimScript = gBattleAnimMove_Blizzard,
         .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 
     [MOVE_PSYBEAM] =
@@ -20881,6 +20882,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .sheerForceBoost = SHEER_FORCE_BOOST,
         }),
         .battleAnimScript = gBattleAnimMove_ElectroShot,
+        .cd = 1,
     },
 
     [MOVE_TERA_STARSTORM] =
