@@ -1659,6 +1659,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL, COMBO_STARTER_POWDER_SNOW},
         .battleAnimScript = gBattleAnimMove_Blizzard,
         .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 
     [MOVE_PSYBEAM] =
@@ -8446,7 +8447,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_SPECIAL_DEFENSE_DOWN_2,
         .power = 0,
         .type = TYPE_STEEL,
-        .accuracy = 85,
+        .accuracy = 100,
         .pp = 40,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -9695,7 +9696,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .accuracy = 100,
         .pp = 10,
         .target = MOVE_TARGET_DEPENDS,
-        .priority = 0,
+        .priority = -4,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .meFirstBanned = TRUE,
         .contestEffect = CONTEST_EFFECT_AVOID_STARTLE_ONCE,
@@ -19276,7 +19277,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 70,
         .type = TYPE_PSYCHIC,
-        .accuracy = 90,
+        .accuracy = 100,
         .pp = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -20881,6 +20882,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .sheerForceBoost = SHEER_FORCE_BOOST,
         }),
         .battleAnimScript = gBattleAnimMove_ElectroShot,
+        .cd = 1,
     },
 
     [MOVE_TERA_STARSTORM] =
@@ -23220,7 +23222,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_SEMI_INVULNERABLE,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 90 : 70,
         .type = TYPE_FLYING,
-        .accuracy = 95,
+        .accuracy = 100,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,

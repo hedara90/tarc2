@@ -2209,7 +2209,7 @@ static void MainMenu_FormatSavegameBadges(void)
 
 static void LoadMainMenuWindowFrameTiles(u8 bgId, u16 tileOffset)
 {
-    LoadBgTiles(bgId, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, tileOffset);
+    LoadBgTiles(bgId, GetWindowFrameTilesPal(0)->tiles, 0x120, tileOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, BG_PLTT_ID(2), PLTT_SIZE_4BPP);
 }
 

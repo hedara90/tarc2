@@ -60,6 +60,8 @@
 #include "constants/event_objects.h"
 #include "constants/map_types.h"
 
+#include "constants/tarc_balance_constants.h"
+
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
 
@@ -3330,4 +3332,22 @@ void SetBoxFrame(struct ScriptContext *ctx)
 {
     u8 frame = ScriptReadByte(ctx);
     gSaveBlock2Ptr->optionsWindowFrameType = frame;
+}
+
+void CheckBossPowerUp(void)
+{
+    switch (gSaveBlock1Ptr->huntTargets.numBossesDefeated)
+    {
+    case TARC_INNATE_1:
+        gSpecialVar_Result = 1;
+        break;
+    case TARC_INNATE_2:
+        gSpecialVar_Result = 2;
+        break;
+    case TARC_INNATE_3:
+        gSpecialVar_Result = 3;
+        break;
+    default:
+        gSpecialVar_Result = 0;
+    }
 }

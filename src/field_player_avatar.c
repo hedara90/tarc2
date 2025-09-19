@@ -1389,7 +1389,12 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 direction)
             if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileBehaviorAt(x, y)))
                 return;
         }
-        PlaySE(SE_WALL_HIT);
+        if (gIsDancing)
+            PlaySE(SE_GLASS_FLUTE);
+        else if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE))
+            PlaySE(SE_SHINY);
+        else
+            PlaySE(SE_WALL_HIT);
     }
 }
 

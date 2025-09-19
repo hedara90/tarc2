@@ -5878,6 +5878,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && !IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_GRASS)
          && !(gStatuses3[gBattlerTarget] & STATUS3_LEECHSEED))
         {
+            if (gBattlerTarget == 1)
+                gBattleStruct->leechSeedSpecies = gBattleMons[0].species;
             gStatuses3[gBattlerTarget] |= gBattlerAttacker;
             gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
             BattleScriptPushCursor();

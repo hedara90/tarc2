@@ -618,6 +618,8 @@ static bool32 HandleEndTurnLeechSeed(u32 battler)
      && IsBattlerAlive(battler)
      && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
     {
+        if (battler == 1 && gBattleStruct->leechSeedSpecies != gBattleMons[0].species)
+            return effect;
         gBattlerTarget = gStatuses3[battler] & STATUS3_LEECHSEED_BATTLER; // Notice gBattlerTarget is actually the HP receiver.
         gBattleScripting.animArg1 = gBattlerTarget;
         gBattleScripting.animArg2 = gBattlerAttacker;
@@ -1983,6 +1985,7 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
 
 static bool32 HandleEndTurnPlayerCD(u32 battler)
 {
+    gBattleStruct->empathCounter = 0;
     gBattleStruct->turnEffectsBattlerId++;
     if (TESTING)
         return TRUE;
