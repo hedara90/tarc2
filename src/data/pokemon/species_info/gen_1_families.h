@@ -36563,7 +36563,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMrRimeLevelUpLearnset,
         .teachableLearnset = sMrRimeTeachableLearnset,
         .maxPhases = 2,
-        .moveReward = MOVE_LIGHT_SCREEN,
+        .moveReward = MOVE_REWARD_LIGHT_SCREEN,
     },
 #endif //P_GALARIAN_FORMS
 #endif //P_FAMILY_MR_MIME
