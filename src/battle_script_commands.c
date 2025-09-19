@@ -4159,6 +4159,8 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_LEECH_SEED:
                 if (!IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_GRASS) && !(gStatuses3[gBattlerTarget] & STATUS3_LEECHSEED))
                 {
+                    if (gBattlerTarget == 1)
+                        gBattleStruct->leechSeedSpecies = gBattleMons[0].species;
                     gStatuses3[gBattlerTarget] |= gBattlerAttacker;
                     gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
                     BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -19207,6 +19209,11 @@ void BS_CureBoss(void)
     }
 
     gBattleMons[gBattlerAttacker].status1 = 0;
+    if (gStatuses3[1] & STATUS3_LEECHSEED)
+    {
+        gStatuses3[1] &= ~STATUS3_LEECHSEED;
+        gStatuses3[1] &= ~STATUS3_LEECHSEED_BATTLER;
+    }
     //  Also reset most other stats
 
     gBattlescriptCurrInstr = cmd->nextInstr;

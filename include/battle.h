@@ -818,6 +818,7 @@ struct BattleStruct
     u32 cripplingPoisonFlip:1;
     u32 hasShownMoodSwing:1;
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
+    u16 leechSeedSpecies;
 };
 
 struct AiBattleData
