@@ -2666,8 +2666,8 @@ static void Cmd_healthbarupdate(void)
             else
             {
                 s16 healthValue = min(gBattleStruct->moveDamage[battler], 10000); // Max damage (10000) not present in R/S, ensures that huge damage values don't change sign
-                //if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                //    healthValue = 3 * healthValue / 2;
+                if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    healthValue = Q_4_12_TO_INT(healthValue * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
 
                 BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, healthValue);
                 MarkBattlerForControllerExec(battler);
@@ -2741,9 +2741,9 @@ static void Cmd_datahpupdate(void)
             if (gBattleStruct->moveDamage[battler] < 0)
             {
                 // Negative damage is HP gain
-                //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-                //else
+                if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    gBattleMons[battler].hp += - Q_4_12_TO_INT(gBattleStruct->moveDamage[battler] * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
+                else
                     gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
                 if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                     gBattleMons[battler].hp = gBattleMons[battler].maxHP;
@@ -19388,8 +19388,8 @@ void BS_SimulHealthbarUpdate(void)
         if (gBattleStruct->moveDamage[battler] != 0)
         {
             s32 currDmg = gBattleStruct->moveDamage[battler];
-            //if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-            //    currDmg = 3 * currDmg / 2;
+            if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                currDmg = Q_4_12_TO_INT(currDmg * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
             BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, currDmg);
             MarkBattlerForControllerExec(battler);
         }
@@ -19407,9 +19407,9 @@ void BS_SimulDataHPUpdate(void)
         //  Healing
         if (gBattleStruct->moveDamage[battler] < 0)
         {
-            //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-            //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-            //else
+            if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                gBattleMons[battler].hp += - Q_4_12_TO_INT(gBattleStruct->moveDamage[battler] * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
+            else
                 gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
             if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                 gBattleMons[battler].hp = gBattleMons[battler].maxHP;
