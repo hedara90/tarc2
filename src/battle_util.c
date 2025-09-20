@@ -3168,6 +3168,16 @@ static inline uq4_12_t GetSupremeOverlordModifier(u32 battler)
     return UQ_4_12(1.0) + (PercentToUQ4_12(gBattleStruct->supremeOverlordCounter[battler] * 10));
 }
 
+static uq4_12_t GetHeraldOfCurrentsModifier(u32 battler)
+{
+    u32 statsUnderDefault = 0;
+    for (u32 i = 1; i < NUM_BATTLE_STATS; i++)
+        if (gBattleMons[battler].statStages[i] < DEFAULT_STAT_STAGE)
+            statsUnderDefault++;
+
+    return UQ_4_12(1.0) + (PercentToUQ4_12(statsUnderDefault * TARC_HERALD_OF_CURRENTS_PERCENT_INCREASE));
+}
+
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
 {
     u32 cutoff = gBattleMons[battler].maxHP / 2;
@@ -9616,6 +9626,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_SUPREME_OVERLORD))
         modifier = uq4_12_multiply(modifier, GetSupremeOverlordModifier(battlerAtk));
+    if (SearchTraits(battlerTraits, ABILITY_HERALD_OF_CURRENTS))
+        modifier = uq4_12_multiply(modifier, GetHeraldOfCurrentsModifier(battlerDef));
 
     // field abilities
     if ((IsAbilityOnField(ABILITY_DARK_AURA) && moveType == TYPE_DARK)
