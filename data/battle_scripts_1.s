@@ -10590,3 +10590,12 @@ BattleScript_EffectShackle::
 	tryfaintmon BS_TARGET
 	moveendall
 	end
+
+BattleScript_BringerOfStormsActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_RAINSTARTEDPOURING
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
+	call BattleScript_ActivateWeatherAbilities
+	return

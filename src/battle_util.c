@@ -5961,6 +5961,26 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptExecute(BattleScript_FatedSight);
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_BRINGER_OF_STORMS)
+         && gMovesInfo[gCurrentMove].type == TYPE_FLYING
+         && !(gBattleWeather &B_WEATHER_RAIN))
+        {
+            if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
+            {
+                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
+                effect++;
+            }
+            else if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+            {
+                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
+                effect++;
+            }
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
