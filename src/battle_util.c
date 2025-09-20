@@ -5883,8 +5883,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_GRASS
-         && IsBattlerTurnDamaged(gBattlerTarget)
          && SearchTraits(battlerTraits, ABILITY_SPORANGIUM)
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && IsBattlerAlive(gBattlerTarget)
          && !IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_GRASS)
          && !(gStatuses3[gBattlerTarget] & STATUS3_LEECHSEED))
         {

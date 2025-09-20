@@ -6,7 +6,7 @@ const struct BossMoveList sUxie1 =
         MOVE_FUTURE_SIGHT,
         MOVE_MYSTICAL_POWER,
         MOVE_MIND_LOCK,
-        MOVE_ICE_BEAM
+        MOVE_FREEZE_DRY,
     },
 };
 
@@ -15,10 +15,10 @@ const struct BossMoveList sUxie2 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_DARK_PULSE,
+        MOVE_FLAMETHROWER,
+        MOVE_AURA_SPHERE,
+        MOVE_SCALD,
     },
 };
 
@@ -27,10 +27,10 @@ const struct BossMoveList sUxie3 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_MIND_LOCK,
+        MOVE_EARTH_POWER,
+        MOVE_AEROBLAST,
+        MOVE_RECOVER,
     },
 };
 

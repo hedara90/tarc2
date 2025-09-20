@@ -752,6 +752,7 @@ static void Task_TarcUiMainInput(u8 taskId)
                 sTarcUiState->finalBossSelector = FINAL_BOSS_COUNT - 1;
             else
                 sTarcUiState->finalBossSelector--;
+            PrintAllInfoText();
         }
         if (JOY_NEW(R_BUTTON))
         {
