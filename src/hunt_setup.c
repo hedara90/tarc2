@@ -44,7 +44,13 @@ void SetupHuntFromScript(struct ScriptContext *ctx)
 void SetupHuntTargets(enum FinalBossList finalBoss)
 {
     SetHuntFlags();
-    u32 randomSeed = Random32();
+    u32 randomSeed;
+    if (gDanceTimer == 0)
+        randomSeed = Random32();
+    else
+        randomSeed = gDance;
+
+    gDanceTimer = 0;
     rng_value_t localRngState = LocalRandomSeed(randomSeed);
     if (finalBoss == FINAL_BOSS_RANDOM)
     {
@@ -489,6 +495,7 @@ void SetHuntFlags(void)
     {
         FlagClear(FLAG_AREA1_MINIBOSS1 + i);
     }
+    FlagClear(FLAG_BOSS_BOSS);
 }
 
 void SetPostBattleData(void)

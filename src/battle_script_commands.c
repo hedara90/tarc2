@@ -2666,8 +2666,8 @@ static void Cmd_healthbarupdate(void)
             else
             {
                 s16 healthValue = min(gBattleStruct->moveDamage[battler], 10000); // Max damage (10000) not present in R/S, ensures that huge damage values don't change sign
-                //if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                //    healthValue = 3 * healthValue / 2;
+                if (healthValue < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    healthValue = Q_4_12_TO_INT(healthValue * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
 
                 BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, healthValue);
                 MarkBattlerForControllerExec(battler);
@@ -2741,9 +2741,9 @@ static void Cmd_datahpupdate(void)
             if (gBattleStruct->moveDamage[battler] < 0)
             {
                 // Negative damage is HP gain
-                //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-                //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-                //else
+                if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                    gBattleMons[battler].hp += - Q_4_12_TO_INT(gBattleStruct->moveDamage[battler] * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
+                else
                     gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
                 if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                     gBattleMons[battler].hp = gBattleMons[battler].maxHP;
@@ -3592,6 +3592,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 }
                 else
                 {
+                    gBattleMons[gEffectBattler].status2 |= STATUS2_ESCAPE_PREVENTION;
                     gBattleMons[gEffectBattler].status2 |= STATUS2_WRAPPED;
                     if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_GRIP_CLAW)
                         gDisableStructs[gEffectBattler].wrapTurns = B_BINDING_TURNS >= GEN_5 ? 7 : 5;
@@ -4159,6 +4160,8 @@ void SetMoveEffect(bool32 primary, bool32 certain)
             case MOVE_EFFECT_LEECH_SEED:
                 if (!IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_GRASS) && !(gStatuses3[gBattlerTarget] & STATUS3_LEECHSEED))
                 {
+                    if (gBattlerTarget == 1)
+                        gBattleStruct->leechSeedSpecies = gBattleMons[0].species;
                     gStatuses3[gBattlerTarget] |= gBattlerAttacker;
                     gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
                     BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -6812,6 +6815,41 @@ static void Cmd_moveend(void)
                     effect = TRUE;
                     BattleScriptPush(gBattlescriptCurrInstr);
                     gBattlescriptCurrInstr = BattleScript_MoveEffectSmackDown;
+                }
+                break;
+            case EFFECT_TSUNAMI:
+                if (!TESTING && gBattlerTarget == 0)
+                {
+                    uq4_12_t effectiveness;
+                    struct BattlePokemon tempBattleMon;
+                    u32 *a = (u32 *)(&tempBattleMon);
+                    u32 *b = (u32 *)(&gBattleMons[0]);
+                    if (gLeftMon.hp > 0)
+                    {
+                        u32 *c = (u32 *)(&gLeftMon);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                        {
+                            a[i] = b[i];
+                            b[i] = c[i];
+                        }
+                        struct SimulatedDamage dmg = AI_CalcDamage(TARC_TSUNAMI_BACK_MOVE, gBattlerAttacker, gBattlerTarget, &effectiveness, FALSE, gBattleWeather);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                            b[i] = a[i];
+                        DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, dmg.median);
+                    }
+                    if (gRightMon.hp > 0)
+                    {
+                        u32 *c = (u32 *)(&gRightMon);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                        {
+                            a[i] = b[i];
+                            b[i] = c[i];
+                        }
+                        struct SimulatedDamage dmg = AI_CalcDamage(TARC_TSUNAMI_BACK_MOVE, gBattlerAttacker, gBattlerTarget, &effectiveness, FALSE, gBattleWeather);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                            b[i] = a[i];
+                        DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, dmg.median);
+                    }
                 }
                 break;
             default:
@@ -12195,6 +12233,8 @@ static void Cmd_setseeded(void)
     }
     else
     {
+        if (gBattlerTarget == 1)
+            gBattleStruct->leechSeedSpecies = gBattleMons[0].species;
         gStatuses3[gBattlerTarget] |= gBattlerAttacker;
         gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_LEECH_SEED_SET;
@@ -19207,6 +19247,11 @@ void BS_CureBoss(void)
     }
 
     gBattleMons[gBattlerAttacker].status1 = 0;
+    if (gStatuses3[1] & STATUS3_LEECHSEED)
+    {
+        gStatuses3[1] &= ~STATUS3_LEECHSEED;
+        gStatuses3[1] &= ~STATUS3_LEECHSEED_BATTLER;
+    }
     //  Also reset most other stats
 
     gBattlescriptCurrInstr = cmd->nextInstr;
@@ -19388,8 +19433,8 @@ void BS_SimulHealthbarUpdate(void)
         if (gBattleStruct->moveDamage[battler] != 0)
         {
             s32 currDmg = gBattleStruct->moveDamage[battler];
-            //if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-            //    currDmg = 3 * currDmg / 2;
+            if (currDmg < 0 && BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                currDmg = Q_4_12_TO_INT(currDmg * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
             BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, currDmg);
             MarkBattlerForControllerExec(battler);
         }
@@ -19407,9 +19452,9 @@ void BS_SimulDataHPUpdate(void)
         //  Healing
         if (gBattleStruct->moveDamage[battler] < 0)
         {
-            //if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
-            //    gBattleMons[battler].hp += - (3 * gBattleStruct->moveDamage[battler] / 2);
-            //else
+            if (BattlerHasTrait(battler, ABILITY_AURA_OF_VITALITY))
+                gBattleMons[battler].hp += - Q_4_12_TO_INT(gBattleStruct->moveDamage[battler] * Q_4_12(TARC_AURA_VITALITY_MULTIPLIER));
+            else
                 gBattleMons[battler].hp += - gBattleStruct->moveDamage[battler];
             if (gBattleMons[battler].hp > gBattleMons[battler].maxHP)
                 gBattleMons[battler].hp = gBattleMons[battler].maxHP;

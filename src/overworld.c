@@ -1524,6 +1524,9 @@ bool32 IsOverworldLinkActive(void)
 }
 
 EWRAM_DATA u32 meditateTimer = 0;
+EWRAM_DATA u32 gDanceTimer = 0;
+EWRAM_DATA u32 gDance = 0;
+EWRAM_DATA bool32 gIsDancing = 0;
 
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
 {
@@ -1544,7 +1547,7 @@ static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
         {
             PlayerStep(inputStruct.dpadDirection, newKeys, heldKeys);
         }
-        if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE) && heldKeys == (L_BUTTON | R_BUTTON))
+        if (!gSaveBlock1Ptr->huntTargets.finalBossDefeated && gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE) && heldKeys == (L_BUTTON | R_BUTTON))
         {
             if (meditateTimer > 60)
             {

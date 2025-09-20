@@ -655,7 +655,7 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battler)
 
     u16 palette[16];
 
-    if (!gSpeciesInfo[species].isPlayer)
+    if (!gSpeciesInfo[species].isPlayer && gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE))
     {
         for (u16 i = 0; i < 16; i++)
         {
@@ -663,7 +663,6 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battler)
                 palette[i] = paletteData[i];
             else
                 palette[i] = ConvertColorToDesaturatedNaive(paletteData[i]);
-                //palette[i] = DesaturateColor(paletteData[i]);
         }
     }
     else

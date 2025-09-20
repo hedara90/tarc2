@@ -148,15 +148,15 @@ static const struct BossIcon sBossIcons[] =
 
 static const u32 sBossIconCoords[9][2] =
 {
-    {203, 65},
-    {184, 54},
-    {100, 57},
-    {80, 23},
-    {49, 23},
-    {79, 116},
-    {50, 129},
-    {109, 132},
-    {73, 144},
+    {224, 64},
+    {192, 54},
+    {96, 55},
+    {80, 27},
+    {40, 22},
+    {80, 104},
+    {40, 96},
+    {112, 120},
+    {56, 127},
 };
 
 static const struct BgTemplate sTarcUiBgTemplates[] =
@@ -752,6 +752,7 @@ static void Task_TarcUiMainInput(u8 taskId)
                 sTarcUiState->finalBossSelector = FINAL_BOSS_COUNT - 1;
             else
                 sTarcUiState->finalBossSelector--;
+            PrintAllInfoText();
         }
         if (JOY_NEW(R_BUTTON))
         {
@@ -862,7 +863,7 @@ static void PrintRecordText(u32 bossId)
     CopyWindowToVram(WIN_BESTRUN, COPYWIN_GFX);
 }
 
-const u8 *const sMythNames[] =
+static const u8 *const sMythNames[] =
 {
     COMPOUND_STRING("Life of Xerneas"),
     COMPOUND_STRING("Storm of Lugia"),
@@ -956,7 +957,7 @@ static void PrintArchetypeStats(u32 bossId)
                 number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].wins;
                 break;
             case MODE_LOSSES:
-                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts - gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 4].wins;
+                number += gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].attempts - gSaveBlock1Ptr->victoryStats[bossId][j + archetype * 3].wins;
                 break;
             }
             ConvertIntToDecimalStringN(numStr, number, STR_CONV_MODE_LEFT_ALIGN, 7);

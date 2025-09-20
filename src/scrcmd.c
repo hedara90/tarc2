@@ -60,6 +60,8 @@
 #include "constants/event_objects.h"
 #include "constants/map_types.h"
 
+#include "constants/tarc_balance_constants.h"
+
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
 
@@ -3246,4 +3248,106 @@ void Script_EndTrainerCanSeeIf(struct ScriptContext *ctx)
     u8 condition = ScriptReadByte(ctx);
     if (ctx->breakOnTrainerBattle && sScriptConditionTable[condition][ctx->comparisonResult] == 1)
         StopScript(ctx);
+}
+
+void GetPositionForDance(void)
+{
+    s16 x = gObjectEvents[0].currentCoords.x;
+    s16 y = gObjectEvents[0].currentCoords.y;
+    if (x == 12 && y == 32)
+    {
+        gSpecialVar_Result = 0;
+    }
+    else if (x == 13 && y == 33)
+    {
+        gSpecialVar_Result = 1;
+    }
+    else
+    {
+        // There are only 3 different positions that you can talk to the girl from, so by process of elimination if it wasn't one of the first 2, it has to be this one
+        gSpecialVar_Result = 2;
+    }
+}
+
+void Task_CheckDancing(u8 taskId)
+{
+    if (!gIsDancing)
+    {
+        DestroyTask(taskId);
+        ScriptContext_SetupScript(EventScript_CallDanceDone);
+    }
+}
+
+void SetupPrayerDance(void)
+{
+    gDanceTimer = 0;
+    gDance = 0;
+    gIsDancing = TRUE;
+    CreateTask(Task_CheckDancing, 0);
+}
+
+void GetPositionForDanceDone(void)
+{
+    s16 x = gObjectEvents[0].currentCoords.x;
+    s16 y = gObjectEvents[0].currentCoords.y;
+    if (x == 14)
+    {
+        if (y == 32)
+            gSpecialVar_Result = 0;
+        else if (y == 33)
+            gSpecialVar_Result = 1;
+        else
+            gSpecialVar_Result = 2;
+    }
+    else if (x == 15)
+    {
+        if (y == 32)
+            gSpecialVar_Result = 3;
+        else if (y == 33)
+            gSpecialVar_Result = 4;
+        else
+            gSpecialVar_Result = 5;
+    }
+    else
+    {
+        //  x has to be 16
+        if (y == 32)
+            gSpecialVar_Result = 6;
+        else if (y == 33)
+            gSpecialVar_Result = 7;
+        else
+            gSpecialVar_Result = 8;
+    }
+}
+
+void CheckHasDanced(void)
+{
+    if (gDanceTimer != 0)
+        gSpecialVar_Result = 1;
+    else
+        gSpecialVar_Result = 0;
+}
+
+void SetBoxFrame(struct ScriptContext *ctx)
+{
+    u8 frame = ScriptReadByte(ctx);
+    gSaveBlock2Ptr->optionsWindowFrameType = frame;
+}
+
+void CheckBossPowerUp(void)
+{
+    switch (gSaveBlock1Ptr->huntTargets.numBossesDefeated)
+    {
+    case TARC_INNATE_1:
+        gSpecialVar_Result = 1;
+        break;
+    case TARC_INNATE_2:
+        gSpecialVar_Result = 2;
+        break;
+    case TARC_INNATE_3:
+        gSpecialVar_Result = 3;
+        break;
+    default:
+        gSpecialVar_Result = 0;
+    }
 }

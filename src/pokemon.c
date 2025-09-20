@@ -7258,11 +7258,11 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
         u32 maxInnates = 3;
         if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
-            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
-                maxInnates =  0;
-            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_1)
+                maxInnates = 0;
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_2)
                 maxInnates = 1;
-            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+            if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_3)
                 maxInnates = 2;
         }
         for (u32 i = 0; i < maxInnates; i++)
@@ -7312,11 +7312,11 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     {
         if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
-            if (traitNum >= 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 3)
+            if (traitNum >= 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_1)
                 return 0;
-            if (traitNum >= 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 5)
+            if (traitNum >= 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_2)
                 return 0;
-            if (traitNum >= 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < 7)
+            if (traitNum >= 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_3)
                 return 0;
         }
         if (MAX_MON_INNATES > 0)

@@ -1192,4 +1192,8 @@ struct MapPosition
 extern bool32 gLoadFail;
 #endif // T_SHOULD_RUN_MOVE_ANIM
 
+extern u32 gDanceTimer;
+extern u32 gDance;
+extern bool32 gIsDancing;
+
 #endif // GUARD_GLOBAL_H

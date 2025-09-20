@@ -2929,6 +2929,17 @@ bool32 TwoOpponentIntroMons(u32 battler) // Double battle with both opponent pok
 // Sprite data for SpriteCB_FreePlayerSpriteLoadMonSprite
 #define sBattlerId data[5]
 
+//set data[0] to delay in frames
+static void Task_DelayThrowStart (u8 taskId){
+    if(gTasks[taskId].data[0] < 24) {
+        gTasks[taskId].data[0]++;
+    }
+    else {
+        gSprites[gTasks[taskId].data[1]].callback = StartAnimLinearTranslation;
+        DestroyTask(taskId);
+    }
+}
+
 void BtlController_HandleIntroTrainerBallThrow(u32 battler, u16 tagTrainerPal, const u16 *trainerPal, s16 framesToWait, void (*controllerCallback)(u32 battler))
 {
     u8 paletteNum, taskId;
@@ -2947,7 +2958,10 @@ void BtlController_HandleIntroTrainerBallThrow(u32 battler, u16 tagTrainerPal, c
     }
 
     gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].data[4] = gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].y;
-    gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].callback = StartAnimLinearTranslation;
+    // gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].callback = StartAnimLinearTranslation;
+    u32 delayTaskId = CreateTask(Task_DelayThrowStart, 0);
+    gTasks[delayTaskId].data[0] = 0;
+    gTasks[delayTaskId].data[1] = gBattleStruct->trainerSlideSpriteIds[battler];
     gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].sBattlerId = battler;
 
     if (side == B_SIDE_PLAYER)

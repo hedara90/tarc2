@@ -76,6 +76,7 @@ script Entrance_FirstDay {
     waitmovement(satsuki)
     msgbox("{SPEAKER NAME_SATSUKI}Fufufu, you are right.\pI was just pulling your leg.\p"
             "So, do you still remember your\ntraining, or did all the partying\llast night muddy up your memory?")
+    setboxframe(BOX_FRAME_TIANA)
     dynmultichoice(0,0, TRUE, 2, 1, DYN_MULTICHOICE_CB_NONE,
                     "Ofcourse I still remember.",
                     "Uhhh…")
@@ -174,6 +175,7 @@ script Entrance_StartingAnAdventure {
 script Entrance_PickWeather {
     lock
     msgbox("Select Affinity")
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0,0, FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
                     "Sun",
                     "Rain",
@@ -197,6 +199,7 @@ script Entrance_PickWeather {
 
 script Entrance_PickSet {
     msgbox("Select style")
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0,0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Grace",
                     "Favor",
@@ -235,6 +238,7 @@ script Entrance_PickExit {
 
 script Entrance_Boss {
     msgbox("Confirm Myth to uncover.")
+    setboxframe(BOX_FRAME_BODHAI)
     dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
                     "Quest for the flooded lands",
@@ -261,6 +265,126 @@ script Entrance_BossStart {
     msgbox("Myth initialized succesfully.{PAUSE 60}\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
 }
+
+script Entrance_PrayerGirl {
+    lock
+    faceplayer
+    callnative(CheckHasDanced)
+    switch (var(VAR_RESULT)) {
+    case 0:
+        msgbox("{SPEAKER NAME_KIO}You're a Recordkeeper! Could you show\nme a prayer dance?")
+        setboxframe(BOX_FRAME_TIANA)
+        dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+                        "Sure!",
+                        "Not right now.",
+                        "No.")
+        switch(var(VAR_RESULT)) {
+        case 0:
+            msgbox("{SPEAKER NAME_KIO}Yay!")
+            waitmessage
+            closemessage
+            goto(Entrance_DoPrayerDance)
+        case 1:
+            msgbox("{SPEAKER NAME_KIO}I'll look forward to it!")
+            waitmessage
+            release
+        case 2:
+            msgbox("{SPEAKER NAME_KIO}Oh… Maybe I can ask again later?")
+            waitmessage
+            release
+        }
+    case 1:
+        msgbox("{SPEAKER NAME_KIO}Thanks you for showing me the dance!")
+        waitmessage
+        release
+    }
+}
+
+script Entrance_DoPrayerDance {
+    callnative(GetPositionForDance)
+    switch(var(VAR_RESULT)) {
+    case 0:
+        applymovement(player, moves(walk_right, walk_down))
+        waitmovement
+        applymovement(LOCALID_KIO, moves(face_right))
+        applymovement(player, moves(walk_right, walk_right))
+        waitmovement
+        release
+    case 1:
+        applymovement(player, moves(walk_right*2))
+        waitmovement
+        release
+    case 2:
+        applymovement(player, moves(walk_right, walk_up))
+        waitmovement
+        applymovement(LOCALID_KIO, moves(face_right))
+        applymovement(player, moves(walk_right, walk_right))
+        waitmovement
+        release
+    }
+    callnative(SetupPrayerDance)
+    setmetatile(10, 25, 0x26, TRUE)
+    setmetatile(10, 26, 0x26, TRUE)
+    setmetatile(10, 27, 0x26, TRUE)
+    setmetatile(9, 28, 0x26, TRUE)
+    setmetatile(8, 28, 0x26, TRUE)
+    setmetatile(7, 28, 0x26, TRUE)
+    setmetatile(6, 27, 0x26, TRUE)
+    setmetatile(6, 26, 0x26, TRUE)
+    setmetatile(6, 25, 0x26, TRUE)
+}
+
+script Entrance_DanceDone {
+    lock
+    callnative(GetPositionForDanceDone)
+    switch(var(VAR_RESULT)){
+    case 0:
+        applymovement(player, moves(walk_right, walk_down, face_left))
+        waitmovement
+    case 1:
+        applymovement(player, moves(walk_right, face_left))
+        waitmovement
+    case 2:
+        applymovement(player, moves(walk_right, walk_up, face_left))
+        waitmovement
+    case 3:
+        applymovement(player, moves(walk_down, face_left))
+        waitmovement
+    case 4:
+        applymovement(player, moves(face_left))
+        waitmovement
+    case 5:
+        applymovement(player, moves(walk_up, face_left))
+        waitmovement
+    case 6:
+        applymovement(player, moves(walk_down, walk_left))
+        waitmovement
+    case 7:
+        applymovement(player, moves(walk_left))
+        waitmovement
+    case 8:
+        applymovement(player, moves(walk_up, walk_left))
+        waitmovement
+    }
+    applymovement(player, moves(face_up, delay_1*3 face_right, delay_1*3,,,, face_down, delay_1*3, face_left, delay_1*3, jump_in_place_left))
+    waitmovement
+    applymovement(LOCALID_KIO, moves(emote_heart, jump_in_place_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_KIO}Yay! That was so cute!\pThank you!")
+
+    setmetatile(10, 25, 0x13, FALSE)
+    setmetatile(10, 26, 0xB, FALSE)
+    setmetatile(10, 27, 0x13, FALSE)
+    setmetatile(9, 28, 0x20A, FALSE)
+    setmetatile(8, 28, 0x209, FALSE)
+    setmetatile(7, 28, 0x208, FALSE)
+    setmetatile(6, 27, 0x99, FALSE)
+    setmetatile(6, 26, 0x91, FALSE)
+    setmetatile(6, 25, 0x89, FALSE)
+
+    release
+}
+
 
 script Entrance_NotThisWay {
     lock

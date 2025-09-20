@@ -316,7 +316,7 @@ static const struct StarterPool sSnowPool =
     {
         {
             .species = SPECIES_ESCAVALIER,
-            .moves = {MOVE_MEGAHORN, MOVE_SHELTER},
+            .moves = {MOVE_X_SCISSOR, MOVE_SHELTER},
         },
         {
             .species = SPECIES_GLACEON,

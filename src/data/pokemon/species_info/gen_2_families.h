@@ -16946,7 +16946,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = 0,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_PRESSURE, ABILITY_NONE, ABILITY_MULTISCALE },
+        .abilities = { ABILITY_GUARDIAN_OF_THE_SEA, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_GRACE_OF_THE_WINDS, ABILITY_BRINGER_OF_STORMS, ABILITY_HERALD_OF_CURRENTS },
         .bodyColor = BODY_COLOR_WHITE,
         .speciesName = _("Lugia"),
         .cryId = CRY_LUGIA,
@@ -17008,6 +17009,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sLugiaLevelUpLearnset,
         .teachableLearnset = sLugiaTeachableLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_LUGIA
 

@@ -779,12 +779,30 @@ bool32 CanTriggerSpinEvolution()
 
 static void PlayerNotOnBikeTurningInPlace(u8 direction, u16 heldKeys)
 {
+    if (gIsDancing)
+    {
+        u32 value = direction - 1;
+        value = value << (gDanceTimer * 2);
+        gDance += value;
+        gDanceTimer++;
+        if (gDanceTimer == 16)
+            gIsDancing = FALSE;
+    }
     WindUpSpinTimer(direction);
     PlayerTurnInPlace(direction);
 }
 
 static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
 {
+    if (gIsDancing)
+    {
+        u32 value = direction - 1;
+        value = value << (gDanceTimer * 2);
+        gDance += value;
+        gDanceTimer++;
+        if (gDanceTimer == 16)
+            gIsDancing = FALSE;
+    }
     u8 collision = CheckForPlayerAvatarCollision(direction);
 
     if (collision)
@@ -1371,7 +1389,12 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 direction)
             if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileBehaviorAt(x, y)))
                 return;
         }
-        PlaySE(SE_WALL_HIT);
+        if (gIsDancing)
+            PlaySE(SE_GLASS_FLUTE);
+        else if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE))
+            PlaySE(SE_SHINY);
+        else
+            PlaySE(SE_WALL_HIT);
     }
 }
 

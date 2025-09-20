@@ -218,6 +218,7 @@ const struct BossAi sAiLists[] =
     [BOSS_MINI_SIMISEAR] = sSimisearAi,
     [BOSS_MINI_KLEAVOR] = sKleavorAi,
     [BOSS_FINAL_XERNEAS] = sXerneasAi,
+    [BOSS_FINAL_LUGIA] = sLugiaAi,
 };
 
 const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
@@ -425,4 +426,5 @@ const enum Bosses sSpeciesToBossTable[NUM_SPECIES] =
     [SPECIES_KLEAVOR] = BOSS_MINI_KLEAVOR,
     [SPECIES_XERNEAS] = BOSS_FINAL_XERNEAS,
     [SPECIES_XERNEAS_ACTIVE] = BOSS_FINAL_XERNEAS,
+    [SPECIES_LUGIA] = BOSS_FINAL_LUGIA,
 };

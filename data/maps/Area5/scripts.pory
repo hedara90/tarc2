@@ -23,14 +23,8 @@ script Area5_BossBattle {
         special(ShakeCamera)
         waitstate
         delay(40)
-        warpcontinuescript(MAP_MYTH_HUB, 20, 18, Area5_AfterBossWarp)
+        warpcontinuescript(MAP_MYTH_HUB, 20, 18, MythHub_AfterBoss)
     }
-    release
-}
-
-script Area5_AfterBossWarp {
-    fadescreen(FADE_FROM_BLACK)
-    msgBox("The domain of {STR_VAR_3} collapsed.")
     release
 }
 

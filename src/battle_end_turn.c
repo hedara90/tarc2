@@ -42,6 +42,7 @@ enum EndTurnResolutionOrder
     ENDTURN_NIGHTMARE,
     ENDTURN_CURSE,
     ENDTURN_WRAP,
+    ENDTURN_SUBMERGED,
     ENDTURN_BIRDS,
     ENDTURN_SALT_CURE,
     ENDTURN_OCTOLOCK,
@@ -618,6 +619,8 @@ static bool32 HandleEndTurnLeechSeed(u32 battler)
      && IsBattlerAlive(battler)
      && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
     {
+        if (battler == 1 && gBattleStruct->leechSeedSpecies != gBattleMons[0].species)
+            return effect;
         gBattlerTarget = gStatuses3[battler] & STATUS3_LEECHSEED_BATTLER; // Notice gBattlerTarget is actually the HP receiver.
         gBattleScripting.animArg1 = gBattlerTarget;
         gBattleScripting.animArg2 = gBattlerAttacker;
@@ -821,6 +824,36 @@ static bool32 HandleEndTurnWrap(u32 battler)
             gBattleMons[battler].status2 &= ~STATUS2_WRAPPED;
             PREPARE_MOVE_BUFFER(gBattleTextBuff1, gBattleStruct->wrappedMove[battler]);
             BattleScriptExecute(BattleScript_WrapEnds);
+        }
+        effect = TRUE;
+    }
+
+    return effect;
+}
+
+static bool32 HandleEndTurnSubmerged(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    if (gStatuses4[battler] & STATUS4_SUBMERGED
+     && IsBattlerAlive(battler))
+    {
+        SaveBattlerTarget(gBattlerTarget);
+        SaveBattlerAttacker(gBattlerAttacker);
+        gBattlerTarget = battler;
+        gBattlerAttacker = battler;
+        if (IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+        {
+            BattleScriptExecute(BattleScript_DoSubmergedStatDrop);
+        }
+        else
+        {
+            gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / TARC_SUBMERGED_EOT_DAMAGE_FRACTION;
+            if (gBattleStruct->moveDamage[battler] == 0)
+                gBattleStruct->moveDamage[battler] = 1;
+            BattleScriptExecute(BattleScript_DoSubmergedDamage);
         }
         effect = TRUE;
     }
@@ -1594,8 +1627,6 @@ static bool32 HandleEndTurnBirds(u32 battler)
 {
     bool32 effect = FALSE;
 
-    u32 ability = GetBattlerAbility(battler);
-
     gBattleStruct->turnEffectsBattlerId++;
 
     u16 battlerTraits[MAX_MON_TRAITS];
@@ -1606,6 +1637,8 @@ static bool32 HandleEndTurnBirds(u32 battler)
         if (SearchTraits(battlerTraits, ABILITY_SLEET_STORM))
         {
             //  Damage all player mons
+            SaveBattlerAttacker(gBattlerAttacker);
+            gBattlerAttacker = 0;
             gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP / TARC_HAILSTONE_FALL_FRACTION;
             DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
             DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, TARC_HAILSTONE_FALL_FRACTION);
@@ -1983,6 +2016,10 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
 
 static bool32 HandleEndTurnPlayerCD(u32 battler)
 {
+    //  Various stuff I couldn't find a good place to handle elsewhere
+    gBattleStruct->empathCounter = 0;
+
+    //  Actual Player CD handling
     gBattleStruct->turnEffectsBattlerId++;
     if (TESTING)
         return TRUE;
@@ -2037,6 +2074,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_NIGHTMARE] = HandleEndTurnNightmare,
     [ENDTURN_CURSE] = HandleEndTurnCurse,
     [ENDTURN_WRAP] = HandleEndTurnWrap,
+    [ENDTURN_SUBMERGED] = HandleEndTurnSubmerged,
     [ENDTURN_BIRDS] = HandleEndTurnBirds,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,

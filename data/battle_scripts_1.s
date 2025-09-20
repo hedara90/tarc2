@@ -10161,7 +10161,14 @@ BattleScript_HailstoneFall::
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
 	hitanimation BS_ATTACKER
-	goto BattleScript_DoTurnDmg
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	tryfaintmon BS_ATTACKER
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
+	restoreattacker
+	end2
 
 BattleScript_FlamesEmbrace::
 	playanimation BS_TARGET, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
@@ -10568,3 +10575,108 @@ BattleScript_MoveEffectStatSteal::
 	tryspectralthiefsteal BattleScript_MindStealSteal
 BattleScript_MoveEffectStatStealEnd:
 	goto BattleScript_MoveEnd
+
+BattleScript_EffectShackle::
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	critcalc
+	damagecalc
+	adjustdamage
+	call BattleScript_Hit_RetFromAtkAnimation
+	printstring STRINGID_SHACKLED
+	waitmessage B_WAIT_TIME_SHORT
+	tryfaintmon BS_TARGET
+	moveendall
+	end
+
+BattleScript_BringerOfStormsActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_RAINSTARTEDPOURING
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
+	call BattleScript_ActivateWeatherAbilities
+	return
+
+BattleScript_ApplySubmerged::
+	playmoveanimation BS_ATTACKER, MOVE_WHIRLPOOL
+	printstring STRINGID_APPLY_SUBMERGED
+	waitmessage B_WAIT_TIME_SHORT
+	return
+
+BattleScript_DoSubmergedDamage::
+	printstring STRINGID_EOT_SUBMERGED
+	playmoveanimation BS_ATTACKER, MOVE_WHIRLPOOL
+	waitanimation
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	tryfaintmon BS_TARGET
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
+	call BattleScript_AllStatsDown
+	restoretarget
+	restoreattacker
+	end2
+
+BattleScript_DoSubmergedStatDrop::
+	printstring STRINGID_EOT_SUBMERGED
+	playmoveanimation BS_ATTACKER, MOVE_WHIRLPOOL
+	waitanimation
+	call BattleScript_AllStatsDown
+	restoretarget
+	restoreattacker
+	end2
+
+BattleScript_AllStatsDown::
+	jumpifstat BS_ATTACKER, CMP_GREATER_THAN, STAT_ATK, MIN_STAT_STAGE, BattleScript_AllStatsDownAtk
+	jumpifstat BS_ATTACKER, CMP_GREATER_THAN, STAT_DEF, MIN_STAT_STAGE, BattleScript_AllStatsDownAtk
+	jumpifstat BS_ATTACKER, CMP_GREATER_THAN, STAT_SPEED, MIN_STAT_STAGE, BattleScript_AllStatsDownAtk
+	jumpifstat BS_ATTACKER, CMP_GREATER_THAN, STAT_SPATK, MIN_STAT_STAGE, BattleScript_AllStatsDownAtk
+	jumpifstat BS_ATTACKER, CMP_EQUAL, STAT_SPDEF, MIN_STAT_STAGE, BattleScript_AllStatsDownRet
+BattleScript_AllStatsDownAtk::
+	setbyte sSTAT_ANIM_PLAYED, FALSE
+	playstatchangeanimation BS_ATTACKER, BIT_ATK | BIT_DEF | BIT_SPEED | BIT_SPATK | BIT_SPDEF, STAT_CHANGE_NEGATIVE
+	setstatchanger STAT_ATK, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsDownDef
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsDownDef::
+	setstatchanger STAT_DEF, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsDownSpeed
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsDownSpeed::
+	setstatchanger STAT_SPEED, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsDownSpAtk
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsDownSpAtk::
+	setstatchanger STAT_SPATK, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsDownSpDef
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsDownSpDef::
+	setstatchanger STAT_SPDEF, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsDownRet
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsDownRet::
+	return
+
+BattleScript_Tsunami::
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	critcalc
+	damagecalc
+	adjustdamage
+	call BattleScript_Hit_RetFromAtkAnimation
+	tryfaintmon BS_TARGET
+	moveendall
+	printstring STRINGID_TSUNAMI
+	waitmessage B_WAIT_TIME_MED
+	end

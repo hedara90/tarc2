@@ -1659,6 +1659,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HAIL, COMBO_STARTER_POWDER_SNOW},
         .battleAnimScript = gBattleAnimMove_Blizzard,
         .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 
     [MOVE_PSYBEAM] =
@@ -8446,7 +8447,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_SPECIAL_DEFENSE_DOWN_2,
         .power = 0,
         .type = TYPE_STEEL,
-        .accuracy = 85,
+        .accuracy = 100,
         .pp = 40,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -9695,7 +9696,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .accuracy = 100,
         .pp = 10,
         .target = MOVE_TARGET_DEPENDS,
-        .priority = 0,
+        .priority = -4,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .meFirstBanned = TRUE,
         .contestEffect = CONTEST_EFFECT_AVOID_STARTLE_ONCE,
@@ -15719,7 +15720,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Those hit by the wave can\n"
             "no longer escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 90,
         .type = TYPE_GROUND,
         .accuracy = 100,
@@ -15961,7 +15962,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "After being hit, foes can\n"
             "no longer escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 80,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -16332,7 +16333,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Strangles the foe with a\n"
             "chain. The foe can't escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 80,
         .type = TYPE_STEEL,
         .accuracy = 100,
@@ -19225,22 +19226,24 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Stone Axe"),
         .description = COMPOUND_STRING(
-            "High critical hit ratio. Sets\n"
-            "Splinters that hurt the foe."),
+            "High critical hit ratio."),
         .effect = EFFECT_HIT,
-        .power = 65,
+        .power = 80,
         .type = TYPE_ROCK,
-        .accuracy = 90,
+        .accuracy = 100,
+        .criticalHitStage = 1,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .slicingMove = TRUE,
+#if TESTING
         .additionalEffects = ADDITIONAL_EFFECTS({
             .moveEffect = MOVE_EFFECT_STEALTH_ROCK,
             .chance = 100,
         }),
+#endif
         .battleAnimScript = gBattleAnimMove_StoneAxe,
     },
 
@@ -19276,7 +19279,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 70,
         .type = TYPE_PSYCHIC,
-        .accuracy = 90,
+        .accuracy = 100,
         .pp = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -20881,6 +20884,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .sheerForceBoost = SHEER_FORCE_BOOST,
         }),
         .battleAnimScript = gBattleAnimMove_ElectroShot,
+        .cd = 1,
     },
 
     [MOVE_TERA_STARSTORM] =
@@ -23220,7 +23224,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_SEMI_INVULNERABLE,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 90 : 70,
         .type = TYPE_FLYING,
-        .accuracy = 95,
+        .accuracy = 100,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -27039,5 +27043,25 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
         .battleAnimScript = gBattleAnimMove_PoisonDroplets,
+    },
+    [MOVE_TSUNAMI] =
+    {
+        .name = COMPOUND_STRING("Tsunami"),
+        .description = COMPOUND_STRING(
+            "A great wave strikes the\n"
+            "opposing field."),
+        .effect = EFFECT_TSUNAMI,
+        .power = 85,
+        .type = TYPE_WATER,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_Surf,
     },
 };

@@ -818,6 +818,7 @@ struct BattleStruct
     u32 cripplingPoisonFlip:1;
     u32 hasShownMoodSwing:1;
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
+    u16 leechSeedSpecies;
 };
 
 struct AiBattleData
@@ -1175,7 +1176,11 @@ extern u8 gPartyCriticalHits[PARTY_SIZE];
 extern u8 gCategoryIconSpriteId;
 
 extern struct BattlePokemon gLeftMon;
+extern u32 gLeftStatus3;
+extern u32 gLeftStatus4;
 extern struct BattlePokemon gRightMon;
+extern u32 gRightStatus3;
+extern u32 gRightStatus4;
 
 static inline bool32 IsBattlerAlive(u32 battler)
 {

@@ -686,5 +686,6 @@ extern const u8 EventScript_TooDark[];
 extern const u8 EventScript_MovedTooFast[];
 
 extern const u8 EventScript_Meditate[];
+extern const u8 EventScript_CallDanceDone[];
 
 #endif // GUARD_EVENT_SCRIPTS_H
