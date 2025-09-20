@@ -10665,3 +10665,18 @@ BattleScript_AllStatsDownSpDef::
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_AllStatsDownRet::
 	return
+
+BattleScript_Tsunami::
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	critcalc
+	damagecalc
+	adjustdamage
+	call BattleScript_Hit_RetFromAtkAnimation
+	tryfaintmon BS_TARGET
+	moveendall
+	printstring STRINGID_TSUNAMI
+	waitmessage B_WAIT_TIME_MED
+	end

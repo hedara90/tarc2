@@ -927,5 +927,6 @@ extern const u8 BattleScript_BringerOfStormsActivates[];
 extern const u8 BattleScript_ApplySubmerged[];
 extern const u8 BattleScript_DoSubmergedDamage[];
 extern const u8 BattleScript_DoSubmergedStatDrop[];
+extern const u8 BattleScript_Tsunami[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -6817,6 +6817,41 @@ static void Cmd_moveend(void)
                     gBattlescriptCurrInstr = BattleScript_MoveEffectSmackDown;
                 }
                 break;
+            case EFFECT_TSUNAMI:
+                if (!TESTING && gBattlerTarget == 0)
+                {
+                    uq4_12_t effectiveness;
+                    struct BattlePokemon tempBattleMon;
+                    u32 *a = (u32 *)(&tempBattleMon);
+                    u32 *b = (u32 *)(&gBattleMons[0]);
+                    if (gLeftMon.hp > 0)
+                    {
+                        u32 *c = (u32 *)(&gLeftMon);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                        {
+                            a[i] = b[i];
+                            b[i] = c[i];
+                        }
+                        struct SimulatedDamage dmg = AI_CalcDamage(TARC_TSUNAMI_BACK_MOVE, gBattlerAttacker, gBattlerTarget, &effectiveness, FALSE, gBattleWeather);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                            b[i] = a[i];
+                        DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_ABSOLUTE, dmg.median);
+                    }
+                    if (gRightMon.hp > 0)
+                    {
+                        u32 *c = (u32 *)(&gRightMon);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                        {
+                            a[i] = b[i];
+                            b[i] = c[i];
+                        }
+                        struct SimulatedDamage dmg = AI_CalcDamage(TARC_TSUNAMI_BACK_MOVE, gBattlerAttacker, gBattlerTarget, &effectiveness, FALSE, gBattleWeather);
+                        for (u32 i = 0; i < sizeof(struct BattlePokemon) / 4; i++)
+                            b[i] = a[i];
+                        DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_ABSOLUTE, dmg.median);
+                    }
+                }
+                break;
             default:
                 break;
             }
