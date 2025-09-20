@@ -1869,12 +1869,17 @@ static void Cmd_ppreduce(void)
         for (i = 0; i < gBattlersCount; i++)
         {
             if (!IsBattlerAlly(i, gBattlerAttacker) && IsBattlerAlive(i))
+            {
                 ppToDeduct += (BattlerHasTrait(i, ABILITY_PRESSURE) != FALSE);
+                ppToDeduct += (BattlerHasTrait(i, ABILITY_LIVING_SHADOW) != FALSE);
+            }
         }
     }
     else if (moveTarget != MOVE_TARGET_OPPONENTS_FIELD)
     {
         if (gBattlerAttacker != gBattlerTarget && BattlerHasTrait(gBattlerTarget, ABILITY_PRESSURE))
+             ppToDeduct++;
+        if (gBattlerAttacker != gBattlerTarget && BattlerHasTrait(gBattlerTarget, ABILITY_LIVING_SHADOW))
              ppToDeduct++;
     }
 

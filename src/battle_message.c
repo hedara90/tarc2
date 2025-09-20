@@ -948,6 +948,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_EOT_SUBMERGED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is drowning in the churning seas!"),
     [STRINGID_TSUNAMI]                              = COMPOUND_STRING("The massive wave strikes the entire field!"),
     [STRINGID_THE_SPACE_BETWEEN]                    = COMPOUND_STRING("{B_BUFF1}'s {B_BUFF3} were boosted in their absence!"),
+    [STRINGID_LIVING_SHADOW_ENTERS]                 = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s intangible presence looms over you!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
@@ -1039,6 +1040,7 @@ const u16 gSwitchInAbilityStringIds[] =
     [B_MSG_SWITCHIN_ANTICIPATION] = STRINGID_ANTICIPATIONACTIVATES,
     [B_MSG_SWITCHIN_FOREWARN] = STRINGID_FOREWARNACTIVATES,
     [B_MSG_SWITCHIN_PRESSURE] = STRINGID_PRESSUREENTERS,
+    [B_MSG_SWITCHIN_LIVING_SHADOW] = STRINGID_LIVING_SHADOW_ENTERS,
     [B_MSG_SWITCHIN_DARKAURA] = STRINGID_DARKAURAENTERS,
     [B_MSG_SWITCHIN_FAIRYAURA] = STRINGID_FAIRYAURAENTERS,
     [B_MSG_SWITCHIN_AURABREAK] = STRINGID_AURABREAKENTERS,

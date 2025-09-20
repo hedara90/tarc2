@@ -4094,6 +4094,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_PRESSURE)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_PRESSURE, ABILITY_PRESSURE, traitCheck, 0);
 
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_LIVING_SHADOW)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_LIVING_SHADOW, ABILITY_LIVING_SHADOW, traitCheck, 0);
+
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_DARK_AURA)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_DARKAURA, ABILITY_DARK_AURA, traitCheck, 0);
 
@@ -10861,6 +10864,9 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
         if (defType == TYPE_FLYING && mod >= UQ_4_12(2.0))
             mod = UQ_4_12(1.0);
     }
+
+    if (moveType == TYPE_GHOST && BattlerHasTrait(gBattlerTarget, ABILITY_LIVING_SHADOW))
+        mod = UQ_4_12(0.0);
 
     if (gSpecialStatuses[battlerDef].distortedTypeMatchups || (mod > UQ_4_12(0.0) && ShouldTeraShellDistortTypeMatchups(move, battlerDef, defAbility)))
     {
