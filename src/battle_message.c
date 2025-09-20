@@ -269,7 +269,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNFLEWHIGH]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} flew up high!"),
     [STRINGID_PKMNDUGHOLE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} burrowed its way under the ground!"),
     [STRINGID_PKMNSQUEEZEDBYBIND]                   = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was squeezed by {B_ATK_NAME_WITH_PREFIX2}!"),
-    [STRINGID_PKMNTRAPPEDINVORTEX]                  = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} became trapped in the vortex!"),
+    [STRINGID_PKMNTRAPPEDINVORTEX]                  = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} became temporarily trapped in the vortex!"),
     [STRINGID_PKMNWRAPPEDBY]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was wrapped by {B_ATK_NAME_WITH_PREFIX2}!"),
     [STRINGID_PKMNCLAMPED]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} clamped down on {B_DEF_NAME_WITH_PREFIX2}!"),
     [STRINGID_PKMNHURTBY]                           = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by {B_BUFF1}!"),
@@ -943,6 +943,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SANCTUARY]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} manifested its realm to safeguard itself!"),
     [STRINGID_HEALING_SPIRIT]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} restored everyone on the field!"),
     [STRINGID_ABUNDANCE]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} overflows with energy!"),
+    [STRINGID_SHACKLED]                             = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is temporarily forced to stay in!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

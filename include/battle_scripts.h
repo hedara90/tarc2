@@ -922,5 +922,6 @@ extern const u8 BattleScript_ElectronCondensateActivates[];
 extern const u8 BattleScript_MoveEffectDisable[];
 extern const u8 BattleScript_MoveEffectTopsyTurvy[];
 extern const u8 BattleScript_MoveEffectStatSteal[];
+extern const u8 BattleScript_EffectShackle[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

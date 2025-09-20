@@ -2228,4 +2228,9 @@ const struct BattleMoveEffect gBattleMoveEffects[NUM_BATTLE_MOVE_EFFECTS] =
         .battleScript = BattleScript_HealingSpirit,
         .battleTvScore = 0, // TODO: Assign points
     },
+    [EFFECT_SHACKLE] =
+    {
+        .battleScript = BattleScript_EffectShackle,
+        .battleTvScore = 0, // TODO: Assign points
+    },
 };
