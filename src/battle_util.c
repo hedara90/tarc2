@@ -8217,7 +8217,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
         case HOLD_EFFECT_FLINCH:
             {
                 //u16 ability = GetBattlerAbility(gBattlerAttacker);
-                if (B_SERENE_GRACE_BOOST >= GEN_5 && BattlerHasTrait(gBattlerAttacker, ABILITY_SERENE_GRACE))
+                if (B_SERENE_GRACE_BOOST >= GEN_5 && (BattlerHasTrait(gBattlerAttacker, ABILITY_SERENE_GRACE) || BattlerHasTrait(gBattlerAttacker, ABILITY_GRACE_OF_THE_WINDS)))
                     atkHoldEffectParam *= 2;
                 if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_RAINBOW && gCurrentMove != MOVE_SECRET_POWER)
                     atkHoldEffectParam *= 2;
@@ -12212,7 +12212,7 @@ bool32 AreBattlersOfSameGender(u32 battler1, u32 battler2)
 
 u32 CalcSecondaryEffectChance(u32 battler, u32 battlerAbility, const struct AdditionalEffect *additionalEffect)
 {
-    bool8 hasSereneGrace = (BattlerHasTrait(battler, ABILITY_SERENE_GRACE));
+    bool8 hasSereneGrace = (BattlerHasTrait(battler, ABILITY_SERENE_GRACE) || BattlerHasTrait(battler, ABILITY_GRACE_OF_THE_WINDS));
     bool8 hasRainbow = (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_RAINBOW) != 0;
     u16 secondaryEffectChance = additionalEffect->chance;
 
