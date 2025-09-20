@@ -3168,6 +3168,16 @@ static inline uq4_12_t GetSupremeOverlordModifier(u32 battler)
     return UQ_4_12(1.0) + (PercentToUQ4_12(gBattleStruct->supremeOverlordCounter[battler] * 10));
 }
 
+static uq4_12_t GetHeraldOfCurrentsModifier(u32 battler)
+{
+    u32 statsUnderDefault = 0;
+    for (u32 i = 1; i < NUM_BATTLE_STATS; i++)
+        if (gBattleMons[battler].statStages[i] < DEFAULT_STAT_STAGE)
+            statsUnderDefault++;
+
+    return UQ_4_12(1.0) + (PercentToUQ4_12(statsUnderDefault * TARC_HERALD_OF_CURRENTS_PERCENT_INCREASE));
+}
+
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
 {
     u32 cutoff = gBattleMons[battler].maxHP / 2;
@@ -5961,6 +5971,37 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptExecute(BattleScript_FatedSight);
             effect++;
         }
+        if (SearchTraits(battlerTraits, ABILITY_BRINGER_OF_STORMS)
+         && gMovesInfo[gCurrentMove].type == TYPE_FLYING
+         && !(gBattleWeather &B_WEATHER_RAIN))
+        {
+            if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
+            {
+                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
+                effect++;
+            }
+            else if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+            {
+                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
+                effect++;
+            }
+        }
+        if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
+         && gMovesInfo[gCurrentMove].type == TYPE_WATER
+         && !(gStatuses4[gBattlerTarget] & STATUS4_SUBMERGED)
+         && IsBattlerTurnDamaged(gBattlerTarget))
+        {
+            gStatuses4[gBattlerTarget] |= STATUS4_SUBMERGED;
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_GUARDIAN_OF_THE_SEA, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_ApplySubmerged;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
@@ -8217,7 +8258,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
         case HOLD_EFFECT_FLINCH:
             {
                 //u16 ability = GetBattlerAbility(gBattlerAttacker);
-                if (B_SERENE_GRACE_BOOST >= GEN_5 && BattlerHasTrait(gBattlerAttacker, ABILITY_SERENE_GRACE))
+                if (B_SERENE_GRACE_BOOST >= GEN_5 && (BattlerHasTrait(gBattlerAttacker, ABILITY_SERENE_GRACE) || BattlerHasTrait(gBattlerAttacker, ABILITY_GRACE_OF_THE_WINDS)))
                     atkHoldEffectParam *= 2;
                 if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_RAINBOW && gCurrentMove != MOVE_SECRET_POWER)
                     atkHoldEffectParam *= 2;
@@ -9596,6 +9637,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_SUPREME_OVERLORD))
         modifier = uq4_12_multiply(modifier, GetSupremeOverlordModifier(battlerAtk));
+    if (SearchTraits(battlerTraits, ABILITY_HERALD_OF_CURRENTS))
+        modifier = uq4_12_multiply(modifier, GetHeraldOfCurrentsModifier(battlerDef));
 
     // field abilities
     if ((IsAbilityOnField(ABILITY_DARK_AURA) && moveType == TYPE_DARK)
@@ -9880,6 +9923,9 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_TECTONIC_TITAN)
      && moveType == TYPE_GROUND)
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+    if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
+     && moveType == TYPE_WATER)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_PROTOSYNTHESIS)
      && !(gBattleMons[battlerAtk].status2 & STATUS2_TRANSFORMED))
@@ -12212,7 +12258,7 @@ bool32 AreBattlersOfSameGender(u32 battler1, u32 battler2)
 
 u32 CalcSecondaryEffectChance(u32 battler, u32 battlerAbility, const struct AdditionalEffect *additionalEffect)
 {
-    bool8 hasSereneGrace = (BattlerHasTrait(battler, ABILITY_SERENE_GRACE));
+    bool8 hasSereneGrace = (BattlerHasTrait(battler, ABILITY_SERENE_GRACE) || BattlerHasTrait(battler, ABILITY_GRACE_OF_THE_WINDS));
     bool8 hasRainbow = (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_RAINBOW) != 0;
     u16 secondaryEffectChance = additionalEffect->chance;
 

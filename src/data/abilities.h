@@ -3261,4 +3261,32 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_TRIGGERED,
     },
+    [ABILITY_GUARDIAN_OF_THE_SEA] =
+    {
+        .name = _("Guardian of the Sea"),
+        .description = COMPOUND_STRING("Water moves do increased\ndamage and apply the\nSubmerged status."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_GRACE_OF_THE_WINDS] =
+    {
+        .name = _("Grace of the Winds"),
+        .description = COMPOUND_STRING("Promotes added effects."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_BRINGER_OF_STORMS] =
+    {
+        .name = _("Bringer of Storms"),
+        .description = COMPOUND_STRING("Flying moves sets rain."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_HERALD_OF_CURRENTS] =
+    {
+        .name = _("Herald of Currents"),
+        .description = COMPOUND_STRING("Damage is increased for\neach reduced stat the\ntarget has."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

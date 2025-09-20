@@ -944,6 +944,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_HEALING_SPIRIT]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} restored everyone on the field!"),
     [STRINGID_ABUNDANCE]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} overflows with energy!"),
     [STRINGID_SHACKLED]                             = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is temporarily forced to stay in!"),
+    [STRINGID_APPLY_SUBMERGED]                      = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is caught in the churning seas!"),
+    [STRINGID_EOT_SUBMERGED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is drowning in the churning seas!"),
+    [STRINGID_TSUNAMI]                              = COMPOUND_STRING("The massive wave strikes the entire field!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

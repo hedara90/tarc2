@@ -27042,4 +27042,24 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
         .battleAnimScript = gBattleAnimMove_PoisonDroplets,
     },
+    [MOVE_TSUNAMI] =
+    {
+        .name = COMPOUND_STRING("Tsunami"),
+        .description = COMPOUND_STRING(
+            "A great wave strikes the\n"
+            "opposing field."),
+        .effect = EFFECT_TSUNAMI,
+        .power = 85,
+        .type = TYPE_WATER,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_COOL,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
+        .battleAnimScript = gBattleAnimMove_Surf,
+    },
 };

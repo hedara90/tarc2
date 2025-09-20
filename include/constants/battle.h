@@ -207,6 +207,7 @@ enum BattlerId
 #define STATUS4_SYRUP_BOMB              (1 << 5)
 #define STATUS4_GLAIVE_RUSH             (1 << 6)
 #define STATUS4_CLOUDWALKER             (1 << 7)
+#define STATUS4_SUBMERGED               (1 << 8)
 
 #define HITMARKER_UNUSED_1              (1 << 4)
 #define HITMARKER_IGNORE_BIDE           (1 << 5)
