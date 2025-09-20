@@ -10680,3 +10680,10 @@ BattleScript_Tsunami::
 	printstring STRINGID_TSUNAMI
 	waitmessage B_WAIT_TIME_MED
 	end
+
+BattleScript_TheSpaceBetween::
+	setgraphicalstatchangevalues
+	playanimation BS_SCRIPTING, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_THE_SPACE_BETWEEN
+	waitmessage B_WAIT_TIME_LONG
+	end3
