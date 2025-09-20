@@ -12912,6 +12912,13 @@ void SwitchActiveMonLeft(void)
         activeMon[i] = backMon[i];
         backMon[i] = tempData;
     }
+    u32 tempVal = gStatuses3[0];
+    gStatuses3[0] = gLeftStatus3;
+    gLeftStatus3 = tempVal;
+
+    tempVal = gStatuses4[0];
+    gStatuses4[0] = gLeftStatus4;
+    gLeftStatus4 = tempVal;
 }
 
 void SwitchActiveMonRight(void)
@@ -12932,6 +12939,13 @@ void SwitchActiveMonRight(void)
         activeMon[i] = backMon[i];
         backMon[i] = tempData;
     }
+    u32 tempVal = gStatuses3[0];
+    gStatuses3[0] = gRightStatus3;
+    gRightStatus3 = tempVal;
+
+    tempVal = gStatuses4[0];
+    gStatuses4[0] = gRightStatus4;
+    gRightStatus4 = tempVal;
 }
 
 bool32 SideMonHasAbility(struct BattlePokemon *mon, u32 ability)

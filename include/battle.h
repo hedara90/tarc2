@@ -1176,7 +1176,11 @@ extern u8 gPartyCriticalHits[PARTY_SIZE];
 extern u8 gCategoryIconSpriteId;
 
 extern struct BattlePokemon gLeftMon;
+extern u32 gLeftStatus3;
+extern u32 gLeftStatus4;
 extern struct BattlePokemon gRightMon;
+extern u32 gRightStatus3;
+extern u32 gRightStatus4;
 
 static inline bool32 IsBattlerAlive(u32 battler)
 {
