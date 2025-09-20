@@ -5991,6 +5991,17 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
         }
+        if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
+         && gMovesInfo[gCurrentMove].type == TYPE_WATER
+         && !(gStatuses4[gBattlerTarget] & STATUS4_SUBMERGED)
+         && IsBattlerTurnDamaged(gBattlerTarget))
+        {
+            gStatuses4[gBattlerTarget] |= STATUS4_SUBMERGED;
+            CreateAbilityPopUp(gBattlerAttacker, ABILITY_GUARDIAN_OF_THE_SEA, FALSE);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_ApplySubmerged;
+            effect++;
+        }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
         if (SearchTraits(battlerTraits, ABILITY_DANCER)
@@ -9912,6 +9923,9 @@ static inline u32 CalcAttackStat(struct DamageCalculationData *damageCalcData, u
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_TECTONIC_TITAN)
      && moveType == TYPE_GROUND)
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+    if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
+     && moveType == TYPE_WATER)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_PROTOSYNTHESIS)
      && !(gBattleMons[battlerAtk].status2 & STATUS2_TRANSFORMED))

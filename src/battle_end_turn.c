@@ -42,6 +42,7 @@ enum EndTurnResolutionOrder
     ENDTURN_NIGHTMARE,
     ENDTURN_CURSE,
     ENDTURN_WRAP,
+    ENDTURN_SUBMERGED,
     ENDTURN_BIRDS,
     ENDTURN_SALT_CURE,
     ENDTURN_OCTOLOCK,
@@ -823,6 +824,36 @@ static bool32 HandleEndTurnWrap(u32 battler)
             gBattleMons[battler].status2 &= ~STATUS2_WRAPPED;
             PREPARE_MOVE_BUFFER(gBattleTextBuff1, gBattleStruct->wrappedMove[battler]);
             BattleScriptExecute(BattleScript_WrapEnds);
+        }
+        effect = TRUE;
+    }
+
+    return effect;
+}
+
+static bool32 HandleEndTurnSubmerged(u32 battler)
+{
+    bool32 effect = FALSE;
+
+    gBattleStruct->turnEffectsBattlerId++;
+
+    if (gStatuses4[battler] & STATUS4_SUBMERGED
+     && IsBattlerAlive(battler))
+    {
+        SaveBattlerTarget(gBattlerTarget);
+        SaveBattlerAttacker(gBattlerAttacker);
+        gBattlerTarget = battler;
+        gBattlerAttacker = battler;
+        if (IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+        {
+            BattleScriptExecute(BattleScript_DoSubmergedStatDrop);
+        }
+        else
+        {
+            gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / TARC_SUBMERGED_EOT_DAMAGE_FRACTION;
+            if (gBattleStruct->moveDamage[battler] == 0)
+                gBattleStruct->moveDamage[battler] = 1;
+            BattleScriptExecute(BattleScript_DoSubmergedDamage);
         }
         effect = TRUE;
     }
@@ -2043,6 +2074,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_NIGHTMARE] = HandleEndTurnNightmare,
     [ENDTURN_CURSE] = HandleEndTurnCurse,
     [ENDTURN_WRAP] = HandleEndTurnWrap,
+    [ENDTURN_SUBMERGED] = HandleEndTurnSubmerged,
     [ENDTURN_BIRDS] = HandleEndTurnBirds,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,
