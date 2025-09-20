@@ -35362,3 +35362,22 @@ gBattleAnimMove_PoisonDroplets::
 	waitsound
 	waitforvisualfinish
 	end
+
+gBattleAnimMove_GiratinaPhaseChange::
+	loadspritegfx ANIM_TAG_FOCUS_ENERGY
+	loadspritegfx ANIM_TAG_HANDS_AND_FEET
+	loadspritegfx ANIM_TAG_IMPACT
+	loadspritegfx ANIM_TAG_PAIN_SPLIT
+	loadspritegfx ANIM_TAG_SPARKLE_4
+	createvisualtask AnimTask_BlendParticle, 0x5, ANIM_TAG_PAIN_SPLIT, 0x0, 0x9, 0x9, 0x1F
+	createvisualtask AnimTask_BlendParticle, 0x5, ANIM_TAG_FOCUS_ENERGY, 0x0, 0x8, 0x8, 0x1F
+	playsewithpan SE_M_DRAGON_RAGE, SOUND_PAN_ATTACKER
+	call WickedBlowBuffEffect
+	delay 0x8
+	createvisualtask AnimTask_BlendColorCycle, 2, F_PAL_ATTACKER, 2, 2, 0, 11, RGB_BLACK
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_ATTACKER, 1, 0, 32, 1
+	call WickedBlowBuffEffect
+	delay 0x8
+	call WickedBlowBuffEffect
+	waitforvisualfinish
+	end

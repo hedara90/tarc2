@@ -1031,5 +1031,6 @@ extern const u8 gBattleAnimMove_Sanctuary[];
 extern const u8 gBattleAnimMove_HealingSpirit[];
 extern const u8 gBattleAnimMove_JabMind[];
 extern const u8 gBattleAnimMove_PoisonDroplets[];
+extern const u8 gBattleAnimMove_GiratinaPhaseChange[];
 
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H

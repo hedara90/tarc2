@@ -2792,7 +2792,11 @@ static void Cmd_datahpupdate(void)
                         gCurrentMove = MOVE_RECOVER;
                         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gBattlerAttacker].status1), &gBattleMons[gBattlerAttacker].status1);
                         MarkBattlerForControllerExec(gBattlerAttacker);
-                        gBattlescriptCurrInstr = BattleScript_BossRestore;
+                        if (BattlerHasTrait(battler, ABILITY_ORIGINAL_SIN))
+                            gBattlescriptCurrInstr = BattleScript_OriginalSin;
+                        else
+                            //gBattlescriptCurrInstr = BattleScript_BossRestore;
+                            gBattlescriptCurrInstr = BattleScript_OriginalSin;
                         gBattleStruct->currentPhase++;
                     }
                 }
@@ -19499,5 +19503,12 @@ void BS_DoAiIncrement(void)
     NATIVE_ARGS();
     if (gBattlerAttacker == 1)
         gBattleStruct->skipIncrement = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_ReleaseImprisonedMons(void)
+{
+    NATIVE_ARGS();
+    CreateAbilityPopUp(1, ABILITY_ORIGINAL_SIN, FALSE);
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

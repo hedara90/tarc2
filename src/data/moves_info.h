@@ -26776,6 +26776,24 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .assistBanned = TRUE,
         .battleAnimScript = gBattleAnimMove_SomeSnow,
     },
+    [MOVE_STUPID_WORKAROUND3] =
+    {
+        .name = COMPOUND_STRING("-"),
+        .description = COMPOUND_STRING(""),
+        .effect = EFFECT_HIT,
+        .power = 0,
+        .type = TYPE_NORMAL,
+        .accuracy = 0,
+        .pp = 0,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .metronomeBanned = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .sketchBanned = TRUE,
+        .assistBanned = TRUE,
+        .battleAnimScript = gBattleAnimMove_GiratinaPhaseChange,
+    },
     [MOVE_REWARD_DARKEST_LARIAT] =
     {
         .name = COMPOUND_STRING("Darkest Lariat+"),

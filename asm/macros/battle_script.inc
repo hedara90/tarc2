@@ -2640,3 +2640,7 @@
 	.macro doaiincrement
 	callnative BS_DoAiIncrement
 	.endm
+
+	.macro releaseimprisonedmons
+	callnative BS_ReleaseImprisonedMons
+	.endm
