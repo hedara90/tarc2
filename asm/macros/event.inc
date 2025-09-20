@@ -2707,3 +2707,9 @@
 	callnative SetBoxFrame
 	.byte \frame
 	.endm
+
+	@ Change current frame around dynmultichoice boxes
+	.macro checkbossdefeated bossId:req
+	callnative CheckBossDefeated
+	.byte \bossId
+	.endm

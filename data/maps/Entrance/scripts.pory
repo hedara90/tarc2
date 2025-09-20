@@ -408,140 +408,254 @@ script Entrance_Satsuki {
 
 // Xerneas - This woman is quite old
 script Entrance_Morgan {
-    lock
-    if(flag(FLAG_MORGAN_INTRO)==FALSE) {
-        goto(Entrance_Morgan_Introduction)
+    checkbossdefeated(FINAL_BOSS_XERNEAS)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_MORGAN_INTRO_CHAT)==FALSE) {
+            goto(Entrance_Morgan_Introduction)
+        }
+        else {
+            goto(Entrance_Morgan_Introduction_Followup)
+        }
+    }
+    else {
+        if(var(VAR_XERNEAS_PROGRESS > 5)) {
+            if(flag(FLAG_MORGAN_FALSE_ENDING_CHAT)==FALSE) {
+                goto(Entrance_Morgan_XerneasFalseEnding)
+            }
+            else {
+                goto(Entrance_Morgan_XerneasFalseEnding_Followup)
+            }
+        }
+        else {
+            if(flag(FLAG_MORGAN_TRUE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Morgan_XerneasTrueEnding)
+            }
+            else {
+                goto(Entrance_Morgan_XerneasTrueEnding_Followup)
+            }
+        }
     }
 }
 
 script Entrance_Morgan_Introduction {
     lock
-    msgbox("This place is truly fascinating..."
-            "I mean, discovering history by simulating stories to find out what really happened? It's incredible what technology can do these days.")
-    closemessage
-    setvar(VAR_TEMP_2, player)
-    msgbox("If you're interested, you should talk to miss Satsuki.")
-    closemessage
     faceplayer
-    msgbox("Oh? Haha, I appreciate the sentiment. I assume you're a member of the Recordkeepers then?")
+    msgbox("This place is truly fascinating…\p"
+            "I mean, discovering history by\nsimulating stories to find out\lwhat really happened?\p"
+            "It's incredible what technology\ncan do these days.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yup, the whole system is incredible!\p"
+            "Though, I still don't really\nunderstand how it works.\lEven though I use it daily…")
+    closemessage
+    msgbox("Ah, so you are a recordkeeper?")
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Since recently, yup!")
+    msgbox("Since recently, yeah!")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Impressive, at such a young age too!"
-            "I will have to decline your offer, though."
-            "I'm no good with technology, and prefer the more traditional ways of storytelling."
-            "You can't teach an old dog new tricks, as they say...")
+    msgbox("Impressive, at such a young age too!")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Aww don't be so harsh on yourself, you look hardly older than me!")
+    msgbox("If you're interested, I could\nlet miss Satsuki know.\p"
+            "We could always use more members.")
+    closemessage
     setvar(VAR_TEMP_2, morgan)
-    call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Hehee, thank you. Don't worry about it too much. But I will still have to decline. I won't be here for long. My destination lies elsewhere.")
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Just a question for my own curiousity, are you working on anything specifically?")
+    msgbox("Mhm, thank you for the offer, but\nI think I'll pass.\p"
+            "I'm no good with technology, and\nprefer the more traditional ways of\lstorytelling.\p"
+            "You can't teach an old dog\nnew tricks, as they say…")
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("I think miss Satsuki assigned me the Abundance myth, the story about the Original Sinner, and the Lost Archipelago")
+    msgbox("Aww don't be so harsh on yourself,\nyou look hardly older than me!")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Hehee, thank you. Don't worry about\nit too much.\p"
+            "But I will still have to decline.\p"
+            "I won't be here for long.\nMy destination lies elsewhere.")
+    closemessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Just a question for my own\ncuriosity, are you working on\lanything specifically?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, I've been assigned a couple of\nstories.\p"
+            "They were.{PAUSE 15}.{PAUSE 15}.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
+    closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("The Abundance myth, hm? That does sound rather fascinating. As do the others"
-            "It sounds like you have a lot to do. I shan't hold you up any longer then.")
+    msgbox("The Abundance myth, hm?\p"
+            "That does sound rather fascinating.\nAs do the others.\p"
+            "It sounds like you have a lot to do.\p"
+            "I shan't hold you up any longer\nthen.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Well, talking to visitors is also part of the job description!"
-            "But you're right, I do have to get back to unravelling the truths"
-            "See you around, miss...")
+    msgbox("Well, talking to visitors is also part\nof the job description!\p"
+            "But you're right, I do have to\nget back to them.\p"
+            "See you around, miss…")
+    closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Morgan.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Got it. Take care, miss Morgan!")
-    setflag(FLAG_MORGAN_INTRO)
+    msgbox("Got it.\nTake care, miss Morgan!")
+    closemessage
+    setflag(FLAG_MORGAN_INTRO_CHAT)
+    release
+}
+
+script Entrance_Morgan_Introduction_Followup {
+    lock
+    faceplayer
+    msgbox("You guys truly have a lot of stories\nstored in here.\p"
+            "I think I'll stick around for a\nwhile until I've read most of them.")
     closemessage
     release
 }
 
 script Entrance_Morgan_XerneasFalseEnding {
-    msgbox("Hey, miss Morgan! Not leaving yet, I see?")
+    lock
     faceplayer
-    msgbox("Leaving? Why'd I do that? I'm still far from finished converting all my experiences into data for the archives."
-            "I heard from miss Satsuki you are a little forgetful, so I don't blame you.")
-    msgbox("...?")
+    msgbox("Hey, miss Morgan! Not leaving yet,\nI see?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("I did see you've completed Xerneas's tale. Just as I told you, wasn't it?")
+    msgbox("Leaving? Why'd I do that?\p"
+            "Right, miss Satsuki did mention that\nyou are a bit forgetful.\p"
+            "I'm still far from finished converting\nall my experiences into data for\lthe archives.")
+    closemessage
+    msgbox(".{PAUSE 15}.{PAUSE 15}.?")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("I did see you've completed Xerneas's\ntale.\p"
+            "It is just as I told you, right?")
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Sigh... if only things went different that day, I wouldn't be stuck like this."
-            "Oh well, I may as well make myself useful while I still can.")
+    msgbox("Sigh…\nif only things went different that day,\lI wouldn't be stuck like this.\p"
+            "Oh well, I may as well make myself\nuseful while I still can.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("I... see.")
+    msgbox("I… see.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("You've got other business to attend to, correct?"
-            "I think your time is better spent archiving your own findings, rather than concerning yourself with little old me.")
+    msgbox("You've got other business to attend\nto, correct?\p"
+            "I think your time is better spent\narchiving your own findings, rather\lthan worrying about little old me.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Mmm, I suppose you are right. In that case, stay safe, miss Morgan.")
+    msgbox("Mmm, I suppose you are right.\p"
+            "In that case, stay safe, miss Morgan.")
+    closemessage
+    setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
+    release
+}
+
+script Entrance_Morgan_XerneasFalseEnding_Followup {
+    lock
+    faceplayer
+    msgbox("Oh, Tiana. I'm managing just fine.\p"
+            "But thanks for checking in.")
     closemessage
     release
 }
 
 script Entrance_Morgan_XerneasTrueEnding {
-    msgbox("Good day, miss Morgan. How are you doing?")
+    msgbox("Good day, miss Morgan.\nHow are you doing?")
+    closemessage
     faceplayer
-    msgbox("I- sorry, I think you have the wrong person"
-            "Also, you don't have to adress me with miss. I'm not that old.")
+    msgbox("I- sorry, I think you have the\nwrong person\p"
+            "Also, you don't have to adress me\nwith miss. I'm not that old.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Ah, right. I... must've mistaken you for someone else then")
+    msgbox("Ah, right. I… must've mistaken you\nfor someone else then")
+    closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("It's fine, it's fine. Don't stress too much about it.")
+    msgbox("It's fine, it's fine. Don't stress too\nmuch about it.")
+    waitmessage
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Though... hmm. It's funny you called me that. It was one of the names my parents were considering.")
+    msgbox("Though… hmm.\nIt's funny you called me that.\p"
+            "It was one of the names my parents\nwere considering to give me.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Mhm, looks like I just had a brainwave. So if not Morgan, what is your given name?")
+    msgbox("Mhm, that's a pretty odd coincidence\p"
+            "So if not Morgan, what can I call\nyou?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Oh, it's Yfa! I should've introduced myself before going on that ramble. And you?")
-    msgbox("Tiana. I'm a recordkeeper here!")
+    msgbox("Oh, you can call me Yfa!\p"
+            "I should've introduced myself before\ngoing on that ramble. And you?")
+    closemessage
+    msgbox("Tiana.\nI'm a recordkeeper here!")
+    closemessage
     msgbox("Oh, what a cute name.")
+    closemessage
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Since you work here, I actually have a request. Reason I'm here today and all that."
-            "My familiy is convinced that we are descendents from the Morgan who helped quell Xerneas."
-            "But I feel like that's just a load of hot air.")
+    msgbox("Since you work here, I actually have a\nrequest.\p"
+            "Reason I'm here today and all that.\p"
+            "My familiy is convinced that we are\ndescendants from the Morgan who\lhelped quell Xerneas.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Which is also why they were\nconsidering that name.\p"
+            "But I feel like that's just a load\nof hot air.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Keeping up public appearance huh?")
+    closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Yeah, good way of putting it"
-            "Anyway, I heard you guys recently you finished deciphering Xerneas' tale.")
+    msgbox("Yeah, good way of putting it.\p"
+            "Anyway, I heard you guys recently\nfinished deciphering Xerneas' tale.")
+    closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Oh hey, yeah that's right! It was me who did that, actually.")
+    msgbox("Oh hey, yeah that's right!\p"
+            "It was me who did that, actually.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Whoa, lucky me. Seems I bumped into the right person."
-            "I read there was indeed a Morgan among the heroes who defeated Xerneas."
-            "Would you know more about what happened to her afterwards?")
+    msgbox("Whoa, lucky me. Seems I bumped\ninto the right person."
+            "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas."
+            "Do you know more about what\nhappened to her afterwards?")
+    closemessage
     msgbox("Well-")
+    waitmessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("The archive shows my own notes, I don't know more than what is written down."
-            "That said, the Morgan in the files does bear a striking resemblance to you.")
-    msgbox("... I see. Hmmmm.")
+    msgbox("The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
+            "That said, you bear a striking\nresemblance to how she was \ldepicted.")
+    closemessage
+    msgbox("… I see. Hmmmm.")
+    waitmessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Intriguing. That gives me something to think about."
+    msgbox("Intriguing. That gives me something\nto think about.\p"
             "Thank you for your cooperation.")
     closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Anytime! Let me know if there's\nanything else.")
+    closemessage
+    msgbox("That's all for now.")
+    closemessage
+    msgbox("I'll be going back to work then.\nTake care Yfa!")
+    setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
     release
+}
+
+script Entrance_Morgan_XerneasTrueEnding_Followup {
+    msgbox("Hey Tiana! I've decided- I'm going to join you guys here!"
+            "Soon, I'll be 'Recordkeeper Yfa'")
+    closemessage
 }
 
 script Entrance_GetDirectionAndWalkInPlace {

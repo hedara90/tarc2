@@ -3351,3 +3351,15 @@ void CheckBossPowerUp(void)
         gSpecialVar_Result = 0;
     }
 }
+
+void CheckBossDefeated (struct ScriptContext *ctx)
+{
+    u32 bossId = ScriptReadByte(ctx);
+    if (gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] == SPECIES_NONE){
+        gSpecialVar_Result = FALSE;
+    }
+    else {
+        gSpecialVar_Result = TRUE;
+    }
+    
+}
