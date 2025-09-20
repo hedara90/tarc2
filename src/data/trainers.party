@@ -11047,7 +11047,7 @@ IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 === TRAINER_TIANA ===
 Name: TIANA
 Class: Lass
-Pic: Lass
+Pic: Satsuki
 Gender: Female
 Music: Female
 Double Battle: No
@@ -16873,3 +16873,14 @@ Double Battle: No
 Kyogre
 Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_SATSUKI ===
+Name: Satsuki
+Class: Recordkeeper
+Pic: Satsuki
+Gender: Female
+Music: Female
+Double Battle: No
+
+Celebi
+Level: 100
