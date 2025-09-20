@@ -19226,22 +19226,24 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Stone Axe"),
         .description = COMPOUND_STRING(
-            "High critical hit ratio. Sets\n"
-            "Splinters that hurt the foe."),
+            "High critical hit ratio."),
         .effect = EFFECT_HIT,
-        .power = 65,
+        .power = 80,
         .type = TYPE_ROCK,
-        .accuracy = 90,
+        .accuracy = 100,
+        .criticalHitStage = 1,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .slicingMove = TRUE,
+#if TESTING
         .additionalEffects = ADDITIONAL_EFFECTS({
             .moveEffect = MOVE_EFFECT_STEALTH_ROCK,
             .chance = 100,
         }),
+#endif
         .battleAnimScript = gBattleAnimMove_StoneAxe,
     },
 
