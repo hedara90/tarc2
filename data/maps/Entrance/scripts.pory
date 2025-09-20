@@ -418,7 +418,7 @@ script Entrance_Morgan {
         }
     }
     else {
-        if(var(VAR_XERNEAS_PROGRESS > 5)) {
+        if(var(VAR_XERNEAS_PROGRESS)>5) {
             if(flag(FLAG_MORGAN_FALSE_ENDING_CHAT)==FALSE) {
                 goto(Entrance_Morgan_XerneasFalseEnding)
             }
@@ -623,8 +623,8 @@ script Entrance_Morgan_XerneasTrueEnding {
             "It was me who did that, actually.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Whoa, lucky me. Seems I bumped\ninto the right person."
-            "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas."
+    msgbox("Whoa, lucky me. Seems I bumped\ninto the right person.\p"
+            "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas.\p"
             "Do you know more about what\nhappened to her afterwards?")
     closemessage
     msgbox("Well-")
@@ -648,14 +648,18 @@ script Entrance_Morgan_XerneasTrueEnding {
     msgbox("That's all for now.")
     closemessage
     msgbox("I'll be going back to work then.\nTake care Yfa!")
+    closemessage
     setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
     release
 }
 
 script Entrance_Morgan_XerneasTrueEnding_Followup {
+    lock
+    faceplayer
     msgbox("Hey Tiana! I've decided- I'm going to join you guys here!"
             "Soon, I'll be 'Recordkeeper Yfa'")
     closemessage
+    release
 }
 
 script Entrance_GetDirectionAndWalkInPlace {
