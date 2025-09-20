@@ -1,6 +1,6 @@
 const struct BossMoveList sWoChien1 =
 {
-    .numMoves = 4,
+    .numMoves = 5,
     .moves =
     {
         MOVE_ENERGY_BALL,
@@ -134,7 +134,7 @@ const struct BossMoveList sChiYu2 =
 
 const struct BossMoveList sChiYu3 =
 {
-    .numMoves = 4,
+    .numMoves = 3,
     .moves =
     {
         MOVE_NASTY_PLOT,

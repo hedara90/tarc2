@@ -1985,7 +1985,10 @@ static bool32 HandleEndTurnBacklineRestore(u32 battler)
 
 static bool32 HandleEndTurnPlayerCD(u32 battler)
 {
+    //  Various stuff I couldn't find a good place to handle elsewhere
     gBattleStruct->empathCounter = 0;
+
+    //  Actual Player CD handling
     gBattleStruct->turnEffectsBattlerId++;
     if (TESTING)
         return TRUE;

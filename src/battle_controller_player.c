@@ -989,6 +989,10 @@ void HandleInputChooseMove(u32 battler)
         if (gBattleStruct->startTurnSpecies != gBattleMons[0].species)
             gBattleStruct->shouldTriggerRotate = TRUE;
 
+        //  Clear out switch prevention
+        if (gBattleMons[0].status2 & STATUS2_ESCAPE_PREVENTION)
+            gBattleMons[0].status2 &= ~STATUS2_ESCAPE_PREVENTION;
+
         HideWeatherTimer();
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
@@ -1202,6 +1206,12 @@ void HandleInputChooseMove(u32 battler)
     else if (JOY_NEW(L_BUTTON))
     {
         gBattleStruct->triedCDMove = FALSE;
+        //  Only allow switching if not prevented
+        if (gBattleMons[0].status2 & STATUS2_ESCAPE_PREVENTION)
+        {
+            PlaySE(SE_WALL_HIT);
+            return;
+        }
         //  Switch Active mon to left mon
         //if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
         if (gLeftMon.hp > 0)
@@ -1220,6 +1230,12 @@ void HandleInputChooseMove(u32 battler)
     else if (JOY_NEW(R_BUTTON))
     {
         gBattleStruct->triedCDMove = FALSE;
+        //  Only allow switching if not prevented
+        if (gBattleMons[0].status2 & STATUS2_ESCAPE_PREVENTION)
+        {
+            PlaySE(SE_WALL_HIT);
+            return;
+        }
         //  Switch Active mon to right mon
         if (gRightMon.hp > 0)
         {

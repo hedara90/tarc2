@@ -3592,6 +3592,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 }
                 else
                 {
+                    gBattleMons[gEffectBattler].status2 |= STATUS2_ESCAPE_PREVENTION;
                     gBattleMons[gEffectBattler].status2 |= STATUS2_WRAPPED;
                     if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_GRIP_CLAW)
                         gDisableStructs[gEffectBattler].wrapTurns = B_BINDING_TURNS >= GEN_5 ? 7 : 5;

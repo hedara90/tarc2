@@ -15720,7 +15720,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Those hit by the wave can\n"
             "no longer escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 90,
         .type = TYPE_GROUND,
         .accuracy = 100,
@@ -15962,7 +15962,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "After being hit, foes can\n"
             "no longer escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 80,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -16333,7 +16333,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Strangles the foe with a\n"
             "chain. The foe can't escape."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_SHACKLE,
         .power = 80,
         .type = TYPE_STEEL,
         .accuracy = 100,

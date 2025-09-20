@@ -10575,3 +10575,18 @@ BattleScript_MoveEffectStatSteal::
 	tryspectralthiefsteal BattleScript_MindStealSteal
 BattleScript_MoveEffectStatStealEnd:
 	goto BattleScript_MoveEnd
+
+BattleScript_EffectShackle::
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	critcalc
+	damagecalc
+	adjustdamage
+	call BattleScript_Hit_RetFromAtkAnimation
+	printstring STRINGID_SHACKLED
+	waitmessage B_WAIT_TIME_SHORT
+	tryfaintmon BS_TARGET
+	moveendall
+	end

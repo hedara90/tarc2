@@ -253,7 +253,11 @@ EWRAM_DATA static u8 sTriedEvolving = 0;
 EWRAM_DATA u8 gCategoryIconSpriteId = 0;
 
 EWRAM_DATA struct BattlePokemon gLeftMon;
+EWRAM_DATA u32 gLeftStatus3;
+EWRAM_DATA u32 gLeftStatus4;
 EWRAM_DATA struct BattlePokemon gRightMon;
+EWRAM_DATA u32 gRightStatus3;
+EWRAM_DATA u32 gRightStatus4;
 
 COMMON_DATA void (*gPreBattleCallback1)(void) = NULL;
 COMMON_DATA void (*gBattleMainFunc)(void) = NULL;
