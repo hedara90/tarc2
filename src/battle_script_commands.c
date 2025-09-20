@@ -12197,6 +12197,8 @@ static void Cmd_setseeded(void)
     }
     else
     {
+        if (gBattlerTarget == 1)
+            gBattleStruct->leechSeedSpecies = gBattleMons[0].species;
         gStatuses3[gBattlerTarget] |= gBattlerAttacker;
         gStatuses3[gBattlerTarget] |= STATUS3_LEECHSEED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_LEECH_SEED_SET;
