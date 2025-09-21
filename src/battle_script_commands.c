@@ -19541,6 +19541,9 @@ void BS_DoPlanarImprisonment(void)
     {
         gLeftMon.isBanished = TRUE;
         gRightMon.isBanished = TRUE;
+        u32 value = gBattleMons[1].maxHP / TARC_PLANAR_IMPRISONMENT_FRACTION;
+        SetMonData(&gEnemyParty[0], MON_DATA_HP, &value);
+        gBattleMons[1].hp = value;
     }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

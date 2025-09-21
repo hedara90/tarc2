@@ -10711,6 +10711,7 @@ BattleScript_PlanarImprisonment::
 	attackstring
 	attackanimation
 	doplanarimprisonment
+	healthbarupdate BS_ATTACKER
 	end
 
 BattleScript_Banish::
