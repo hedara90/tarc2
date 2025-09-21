@@ -47,12 +47,22 @@ struct Tarc_InfoMenuState
     u8 loadState;
 };
 
+struct Tarc_BossWinBackground
+{
+    const u32 *tiles;
+    const u32 *tilemap;
+    const u16 *palette;
+};
+
 enum WindowIds
 {
     WIN_TITLE,
-    WIN_INFO1,
-    WIN_INFO2,
-    WIN_INFO3,
+    WIN_MOVE1,
+    WIN_ABI1,
+    WIN_MOVE2,
+    WIN_ABI2,
+    WIN_MOVE3,
+    WIN_ABI3,
     WIN_COUNT
 };
 
@@ -62,6 +72,20 @@ static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 static const u32 sTarcInfoTiles[] = INCBIN_U32("graphics/tarc_win/tarc_win_tiles.4bpp.lz");
 static const u32 sTarcInfoTilemap[] = INCBIN_U32("graphics/tarc_win/tarc_win_tiles.bin.lz");
 static const u16 sTarcInfoPalette[] = INCBIN_U16("graphics/tarc_win/tarc_win_tiles.gbapal");
+
+static const u32 sTarcTiles_Xerneas[] = INCBIN_U32("graphics/tarc_win/win_xerneas_tiles.4bpp.lz");
+static const u32 sTarcTilemap_Xerneas[] = INCBIN_U32("graphics/tarc_win/win_xerneas_tiles.bin.lz");
+static const u16 sTarcPalette_Xerneas[] = INCBIN_U16("graphics/tarc_win/win_xerneas_tiles.gbapal");
+
+static const struct Tarc_BossWinBackground sBossBG[] =
+{
+    [FINAL_BOSS_XERNEAS] =
+    {
+        .tiles = sTarcTiles_Xerneas,
+        .tilemap = sTarcTilemap_Xerneas,
+        .palette = sTarcPalette_Xerneas,
+    }
+};
 
 static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
 
@@ -83,16 +107,19 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 
 #define TITLE_WIDTH 30
 #define TITLE_HEIGHT 2
-#define INFO_WIDTH 10
-#define INFO_HEIGHT 10
+#define INFO_WIDTH 9
+#define INFO_HEIGHT 6
 
 #define TITLE_SIZE TITLE_WIDTH * TITLE_HEIGHT
 #define INFO_SIZE INFO_WIDTH * INFO_HEIGHT
 
 #define TITLE_BASEBLOCK 1
-#define INFO1_BASEBLOCK TITLE_BASEBLOCK + TITLE_SIZE
-#define INFO2_BASEBLOCK INFO1_BASEBLOCK + INFO_SIZE
-#define INFO3_BASEBLOCK INFO2_BASEBLOCK + INFO_SIZE
+#define MOVE1_BASEBLOCK     TITLE_BASEBLOCK + TITLE_SIZE
+#define ABI1_BASEBLOCK      MOVE1_BASEBLOCK + INFO_SIZE
+#define MOVE2_BASEBLOCK     ABI1_BASEBLOCK + INFO_SIZE
+#define ABI2_BASEBLOCK      MOVE2_BASEBLOCK + INFO_SIZE
+#define MOVE3_BASEBLOCK     ABI2_BASEBLOCK + INFO_SIZE
+#define ABI3_BASEBLOCK      MOVE3_BASEBLOCK + INFO_SIZE
 
 static const struct WindowTemplate sTarcUiWindowTemplates[] =
 {
@@ -105,8 +132,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .height = TITLE_HEIGHT,
         .paletteNum = 15,
         .baseBlock = TITLE_BASEBLOCK
-    },
-    [WIN_INFO1] =
+    },    
+    [WIN_MOVE1] =
     {
         .bg = 0,
         .tilemapLeft = 0,
@@ -114,9 +141,9 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = INFO1_BASEBLOCK
+        .baseBlock = MOVE1_BASEBLOCK
     },
-    [WIN_INFO2] =
+    [WIN_ABI1] =
     {
         .bg = 0,
         .tilemapLeft = 10,
@@ -124,9 +151,9 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = INFO2_BASEBLOCK
+        .baseBlock = ABI1_BASEBLOCK
     },
-    [WIN_INFO3] =
+    [WIN_MOVE2] =
     {
         .bg = 0,
         .tilemapLeft = 20,
@@ -134,8 +161,38 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = INFO3_BASEBLOCK
-    }
+        .baseBlock = MOVE2_BASEBLOCK
+    },
+    [WIN_ABI2] =
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 10,
+        .width = INFO_WIDTH,
+        .height = INFO_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = ABI2_BASEBLOCK
+    },
+    [WIN_MOVE3] =
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 10,
+        .width = INFO_WIDTH,
+        .height = INFO_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = MOVE3_BASEBLOCK
+    },
+    [WIN_ABI3] =
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 10,
+        .width = INFO_WIDTH,
+        .height = INFO_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = ABI3_BASEBLOCK
+    },
 };
 
 enum FontColor
@@ -356,22 +413,23 @@ static void TarcUi_MainCB(void)
 
 static bool8 TarcUi_LoadGraphics(void)
 {
+    u32 bossId = gSaveBlock1Ptr->huntTargets.finalBoss;
     switch (sTarcUiState->loadState)
     {
     case 0:
         ResetTempTileDataBuffers();
-        DecompressAndCopyTileDataToVram(1, sTarcInfoTiles, 0, 0, 0);
+        DecompressAndCopyTileDataToVram(1, sBossBG[bossId].tiles, 0, 0, 0);
         sTarcUiState->loadState++;
         break;
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != TRUE)
         {
-            LZDecompressWram(sTarcInfoTilemap, sBg1TilemapBuffer);
+            LZDecompressWram(sBossBG[bossId].tilemap, sBg1TilemapBuffer);
             sTarcUiState->loadState++;
         }
         break;
     case 2:
-        LoadPalette(sTarcInfoPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP * 4);
+        LoadPalette(sBossBG[bossId].palette, BG_PLTT_ID(0), PLTT_SIZE_4BPP * 4);
         LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
     default:
@@ -459,30 +517,12 @@ static void DrawSprites(void)
     for (u32 i = 0; i  < 3; i++)
     {
         u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
-        bool32 isFemale = IsPersonalityFemale(species, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
-        bool32 isShiny = GetMonData(&gPlayerParty[i], MON_DATA_IS_SHINY);
         struct Even_CreateSpriteStruct cs = {0};
-        cs.spriteCompressed = TRUE;
+        cs.spriteCompressed = FALSE;
         cs.tileTag = 0xCEC1 + i;
         cs.palTag = 0xCEC1 + i;
-        if (isFemale && gSpeciesInfo[species].frontPicFemale != NULL)
-            cs.sprite = gSpeciesInfo[species].frontPicFemale;
-        else
-            cs.sprite = gSpeciesInfo[species].frontPic;
-        if (isFemale && gSpeciesInfo[species].paletteFemale != NULL)
-        {
-            if (isShiny)
-                cs.palette = gSpeciesInfo[species].shinyPaletteFemale;
-            else
-                cs.palette = gSpeciesInfo[species].paletteFemale;
-        }
-        else
-        {
-            if (isShiny)
-                cs.palette = gSpeciesInfo[species].shinyPalette;
-            else
-                cs.palette = gSpeciesInfo[species].palette;
-        }
+        cs.sprite = gSpeciesInfo[species].portraitPic;
+        cs.palette = gSpeciesInfo[species].portraitPal;
         cs.spriteSize = SPRITE_SIZE(64x64);
         cs.spriteShape = SPRITE_SHAPE(64x64);
         cs.posX = 40 + i * 80;
