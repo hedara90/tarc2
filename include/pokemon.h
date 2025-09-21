@@ -430,6 +430,8 @@ struct SpeciesInfo /*0xC4*/
     const u16 *shinyPaletteFemale;
     const u8 *iconSpriteFemale;
 #endif //P_GENDER_DIFFERENCES
+    const u32 *portraitPic;
+    const u16 *portraitPal;
 #if P_FOOTPRINTS
     const u8 *footprint;
 #endif

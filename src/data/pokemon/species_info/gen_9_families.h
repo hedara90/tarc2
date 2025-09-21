@@ -11242,6 +11242,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .shinyPalette = gMonShinyPalette_Kilowattrel,
         .iconSprite = gMonIcon_Kilowattrel,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Kilowattrel,
+        .portraitPal = gMonPortraitPal_Kilowattrel,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-6, 6, SHADOW_SIZE_M)
         FOOTPRINT(Kilowattrel)
@@ -14271,6 +14273,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .shinyPalette = gMonShinyPalette_SandyShocks,
         .iconSprite = gMonIcon_SandyShocks,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_SandyShocks,
+        .portraitPal = gMonPortraitPal_SandyShocks, 
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 13, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(SandyShocks)
