@@ -5715,10 +5715,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (SearchTraits(battlerTraits, ABILITY_CLOUDWALKER)
          && gMovesInfo[gCurrentMove].windMove
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gStatuses4[gBattlerAttacker] & STATUS4_CLOUDWALKER))
         {
             gStatuses4[gBattlerAttacker] |= STATUS4_CLOUDWALKER;
-            gDisableStructs[gBattlerAttacker].cloudwalkerTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
+            gDisableStructs[gBattlerAttacker].cloudwalkerTimer = gBattleTurnCounter + TARC_CLOUDWALKER_DURATION;
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_CLOUDWALKER, FALSE);
             BattleScriptPushCursor();
             gBattlescriptCurrInstr = BattleScript_CloudwalkerTrigger;
