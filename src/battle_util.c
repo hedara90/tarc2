@@ -3178,6 +3178,32 @@ static uq4_12_t GetHeraldOfCurrentsModifier(u32 battler)
     return UQ_4_12(1.0) + (PercentToUQ4_12(statsUnderDefault * TARC_HERALD_OF_CURRENTS_PERCENT_INCREASE));
 }
 
+static uq4_12_t GetRequiemForTheDeadModifier(u32 battler)
+{
+    u32 numMissingMons = 0;
+    //  Count number of fainted and otherwise indisposed mons
+    u32 side = GetBattlerSide(battler);
+
+    if (side == B_SIDE_PLAYER)
+    {
+        for (u32 i = 0; i < gPlayerPartyCount; i++)
+        {
+            if (gPlayerParty[i].hp == 0)
+                numMissingMons++;
+        }
+    }
+    else
+    {
+        for (u32 i = 0; i < gEnemyPartyCount; i++)
+        {
+            if (gEnemyParty[i].hp == 0)
+                numMissingMons++;
+        }
+    }
+
+    return UQ_4_12(1.0) + (PercentToUQ4_12(numMissingMons * TARC_REQUIEM_FOR_THE_DEAD_PERCENT_INCREASE));
+}
+
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
 {
     u32 cutoff = gBattleMons[battler].maxHP / 2;
@@ -9643,6 +9669,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, GetSupremeOverlordModifier(battlerAtk));
     if (SearchTraits(battlerTraits, ABILITY_HERALD_OF_CURRENTS))
         modifier = uq4_12_multiply(modifier, GetHeraldOfCurrentsModifier(battlerDef));
+    if (SearchTraits(battlerTraits, ABILITY_REQUIEM_FOR_THE_DEAD))
+        modifier = uq4_12_multiply(modifier, GetRequiemForTheDeadModifier(battlerDef));
 
     // field abilities
     if ((IsAbilityOnField(ABILITY_DARK_AURA) && moveType == TYPE_DARK)
