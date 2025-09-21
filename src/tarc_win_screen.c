@@ -136,8 +136,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_MOVE1] =
     {
         .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 10,
+        .tilemapLeft = 7,
+        .tilemapTop = 2,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -146,8 +146,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_ABI1] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 10,
+        .tilemapLeft = 17,
+        .tilemapTop = 2,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -156,8 +156,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_MOVE2] =
     {
         .bg = 0,
-        .tilemapLeft = 20,
-        .tilemapTop = 10,
+        .tilemapLeft = 7,
+        .tilemapTop = 8,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -166,8 +166,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_ABI2] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 10,
+        .tilemapLeft = 17,
+        .tilemapTop = 8,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -176,8 +176,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_MOVE3] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 10,
+        .tilemapLeft = 7,
+        .tilemapTop = 14,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
@@ -186,8 +186,8 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_ABI3] =
     {
         .bg = 0,
-        .tilemapLeft = 10,
-        .tilemapTop = 10,
+        .tilemapLeft = 17,
+        .tilemapTop = 14,
         .width = INFO_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
