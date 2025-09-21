@@ -2238,4 +2238,16 @@ const struct BattleMoveEffect gBattleMoveEffects[NUM_BATTLE_MOVE_EFFECTS] =
         .battleScript = BattleScript_Tsunami,
         .battleTvScore = 0, // TODO: Assign points
     },
+    [EFFECT_PLANAR_IMPRISONMENT] =
+    {
+        .battleScript = BattleScript_PlanarImprisonment,
+        .battleTvScore = 0, // TODO: Assign points
+    },
+    [EFFECT_BANISH] =
+    {
+        .battleScript = BattleScript_Banish,
+        .battleTvScore = 0, // TODO: Assign points
+        .twoTurnEffect = TRUE,
+        .semiInvulnerableEffect = TRUE,
+    },
 };

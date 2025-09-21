@@ -3289,4 +3289,32 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_TRIGGERED,
     },
+    [ABILITY_THE_SPACE_BETWEEN] =
+    {
+        .name = _("The Space Between"),
+        .description = COMPOUND_STRING("Boosts 2 random stats\nwhen not on the field."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_LIVING_SHADOW] =
+    {
+        .name = _("Living Shadow"),
+        .description = COMPOUND_STRING("Immune to Ghost type moves.\nPreassuring presence."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_REQUIEM_FOR_THE_DEAD] =
+    {
+        .name = _("Requiem for the Dead"),
+        .description = COMPOUND_STRING("Boosets damage by 20% for\neach lost foe."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_ORIGINAL_SIN] =
+    {
+        .name = _("Original Sin"),
+        .description = COMPOUND_STRING("Raise all stats on\nphase change."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

@@ -2860,6 +2860,12 @@ bool32 HasNoMonsToSwitch(u32 battler, u8 partyIdBattlerOn1, u8 partyIdBattlerOn2
     u32 i, playerId, flankId;
     struct Pokemon *party;
 
+    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+     && (gRightMon.isBanished || gRightMon.hp == 0))
+    {
+        return TRUE;
+    }
+
     if (!IsDoubleBattle())
         return FALSE;
 
@@ -3176,6 +3182,39 @@ static uq4_12_t GetHeraldOfCurrentsModifier(u32 battler)
             statsUnderDefault++;
 
     return UQ_4_12(1.0) + (PercentToUQ4_12(statsUnderDefault * TARC_HERALD_OF_CURRENTS_PERCENT_INCREASE));
+}
+
+static uq4_12_t GetRequiemForTheDeadModifier(u32 battler)
+{
+    u32 numMissingMons = 0;
+    //  Count number of fainted and otherwise indisposed mons
+    u32 side = GetBattlerSide(battler);
+
+    if (side == B_SIDE_PLAYER)
+    {
+        for (u32 i = 0; i < gPlayerPartyCount; i++)
+        {
+            if (gPlayerParty[i].hp == 0)
+                numMissingMons++;
+        }
+    }
+    else
+    {
+        for (u32 i = 0; i < gEnemyPartyCount; i++)
+        {
+            if (gEnemyParty[i].hp == 0)
+                numMissingMons++;
+        }
+    }
+    if (!TESTING)
+    {
+        if (gLeftMon.isBanished && gLeftMon.hp > 0)
+            numMissingMons++;
+        if (gRightMon.isBanished && gRightMon.hp > 0)
+            numMissingMons++;
+    }
+
+    return UQ_4_12(1.0) + (PercentToUQ4_12(numMissingMons * TARC_REQUIEM_FOR_THE_DEAD_PERCENT_INCREASE));
 }
 
 bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
@@ -3672,6 +3711,7 @@ bool32 IsChargeMove(u32 move)
     case EFFECT_TWO_TURNS_ATTACK:
     case EFFECT_GEOMANCY:
     case EFFECT_SEMI_INVULNERABLE:
+    case EFFECT_BANISH:
         return TRUE;
     default:
         return FALSE;
@@ -4093,6 +4133,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_PRESSURE)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_PRESSURE, ABILITY_PRESSURE, traitCheck, 0);
+
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_LIVING_SHADOW)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_LIVING_SHADOW, ABILITY_LIVING_SHADOW, traitCheck, 0);
 
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_DARK_AURA)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_DARKAURA, ABILITY_DARK_AURA, traitCheck, 0);
@@ -9640,6 +9683,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, GetSupremeOverlordModifier(battlerAtk));
     if (SearchTraits(battlerTraits, ABILITY_HERALD_OF_CURRENTS))
         modifier = uq4_12_multiply(modifier, GetHeraldOfCurrentsModifier(battlerDef));
+    if (SearchTraits(battlerTraits, ABILITY_REQUIEM_FOR_THE_DEAD))
+        modifier = uq4_12_multiply(modifier, GetRequiemForTheDeadModifier(battlerDef));
 
     // field abilities
     if ((IsAbilityOnField(ABILITY_DARK_AURA) && moveType == TYPE_DARK)
@@ -10861,6 +10906,9 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
         if (defType == TYPE_FLYING && mod >= UQ_4_12(2.0))
             mod = UQ_4_12(1.0);
     }
+
+    if (moveType == TYPE_GHOST && BattlerHasTrait(gBattlerTarget, ABILITY_LIVING_SHADOW))
+        mod = UQ_4_12(0.0);
 
     if (gSpecialStatuses[battlerDef].distortedTypeMatchups || (mod > UQ_4_12(0.0) && ShouldTeraShellDistortTypeMatchups(move, battlerDef, defAbility)))
     {
@@ -12724,7 +12772,7 @@ bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId)
 
 bool32 LeftMonHurt(void)
 {
-    if (gLeftMon.hp == 0)
+    if (gLeftMon.hp == 0 || gLeftMon.isBanished)
         return FALSE;
 
     if (gLeftMon.hp < gLeftMon.maxHP)
@@ -12742,7 +12790,7 @@ bool32 LeftMonHurt(void)
 
 bool32 RightMonHurt(void)
 {
-    if (gRightMon.hp == 0)
+    if (gRightMon.hp == 0 || gRightMon.isBanished)
         return FALSE;
 
     if (gRightMon.hp < gRightMon.maxHP)
@@ -12797,8 +12845,10 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
 
 void UpdateBacklineTurns(void)
 {
-    gLeftMon.turnsInBack++;
-    gRightMon.turnsInBack++;
+    if (!gLeftMon.isBanished)
+        gLeftMon.turnsInBack++;
+    if (!gRightMon.isBanished)
+        gRightMon.turnsInBack++;
     gBattleMons[0].turnsInBack = 0;
 }
 
