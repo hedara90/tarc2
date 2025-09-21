@@ -35381,3 +35381,34 @@ gBattleAnimMove_GiratinaPhaseChange::
 	call WickedBlowBuffEffect
 	waitforvisualfinish
 	end
+
+gBattleAnimMove_DimensionBreak::
+	loadspritegfx ANIM_TAG_ROUND_SHADOW
+	loadspritegfx ANIM_TAG_IMPACT
+	choosetwoturnanim DimensionBreakSetUp, DimensionBreakUnleash
+DimensionBreakEnd:
+	waitforvisualfinish
+	end
+
+DimensionBreakSetUp:
+	loadspritegfx ANIM_TAG_PURPLE_DRAKE
+	playsewithpan SE_M_FLY, SOUND_PAN_ATTACKER
+	createsprite gDimensionBreakSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, 13, 336
+	waitforvisualfinish
+	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
+	goto DimensionBreakEnd
+
+DimensionBreakUnleash:
+	loadspritegfx ANIM_TAG_PURPLE_DRAKE
+	monbg ANIM_DEF_PARTNER
+	setalpha 12, 8
+	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
+	createsprite gDimensionBreakAttackSpriteTemplate, ANIM_ATTACKER, 2, 20, FALSE
+	delay 20
+	createsprite gBasicHitSplatSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, ANIM_TARGET, 0
+	createvisualtask AnimTask_ShakeMon, 5, ANIM_TARGET, 6, 0, 8, 1
+	playsewithpan SE_M_RAZOR_WIND, SOUND_PAN_TARGET
+	waitforvisualfinish
+	clearmonbg ANIM_DEF_PARTNER
+	blendoff
+	goto DimensionBreakEnd

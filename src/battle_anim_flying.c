@@ -1355,3 +1355,43 @@ static void AnimTask_LoadWindstormBackground_Step(u8 taskId)
         break;
     }
 }
+
+const struct SpriteTemplate gDimensionBreakSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PURPLE_DRAKE,
+    .paletteTag = ANIM_TAG_PURPLE_DRAKE,
+    .oam = &gOamData_AffineDouble_ObjNormal_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_FlyBallUp,
+    .callback = AnimFlyBallUp,
+};
+
+static const union AffineAnimCmd sAffineAnim_DimensionBreakAttack_0[] =
+{
+    AFFINEANIMCMD_FRAME(0x0, 0x0, -100, 1),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd sAffineAnim_DimensionBreakAttack_1[] =
+{
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 80, 1),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd *const gAffineAnims_DimensionBreakAttack[] =
+{
+    sAffineAnim_DimensionBreakAttack_0,
+    sAffineAnim_DimensionBreakAttack_1,
+};
+
+const struct SpriteTemplate gDimensionBreakAttackSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PURPLE_DRAKE,
+    .paletteTag = ANIM_TAG_PURPLE_DRAKE,
+    .oam = &gOamData_AffineNormal_ObjNormal_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_DimensionBreakAttack,
+    .callback = AnimFlyBallAttack,
+};

@@ -1033,4 +1033,6 @@ extern const u8 gBattleAnimMove_JabMind[];
 extern const u8 gBattleAnimMove_PoisonDroplets[];
 extern const u8 gBattleAnimMove_GiratinaPhaseChange[];
 
+extern const u8 gBattleAnimMove_DimensionBreak[];
+
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H
