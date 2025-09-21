@@ -27043,6 +27043,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .formSpeciesIdTable = sKeldeoFormSpeciesIdTable,
         .formChangeTable = sKeldeoFormChangeTable,
         .maxPhases = 3,
+        .abilityReward = ABILITY_ADAPTABILITY,
     },
 
     [SPECIES_KELDEO_RESOLUTE] =
