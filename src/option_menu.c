@@ -15,6 +15,8 @@
 #include "window.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
+#include "constants/speaker_names.h"
+#include "tarc_debug.h"
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
@@ -195,12 +197,12 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 3:
-        LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
+        LoadBgTiles(1, GetWindowFrameTilesPal(BOX_FRAME_TIANA)->tiles, 0x120, 0x1A2);
         gMain.state++;
         break;
     case 4:
         LoadPalette(sOptionMenuBg_Pal, BG_PLTT_ID(0), sizeof(sOptionMenuBg_Pal));
-        LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        LoadPalette(GetWindowFrameTilesPal(BOX_FRAME_TIANA)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         gMain.state++;
         break;
     case 5:
