@@ -10706,3 +10706,9 @@ BattleScript_OriginalSin::
 	waitmessage B_WAIT_TIME_MED
 	call BattleScript_AllStatsUp
 	goto BattleScript_MoveEnd
+
+BattleScript_PlanarImprisonment::
+	attackstring
+	attackanimation
+	doplanarimprisonment
+	end

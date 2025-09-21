@@ -2644,3 +2644,7 @@
 	.macro releaseimprisonedmons
 	callnative BS_ReleaseImprisonedMons
 	.endm
+
+	.macro doplanarimprisonment
+	callnative BS_DoPlanarImprisonment
+	.endm

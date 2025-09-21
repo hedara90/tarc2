@@ -3200,6 +3200,13 @@ static uq4_12_t GetRequiemForTheDeadModifier(u32 battler)
                 numMissingMons++;
         }
     }
+    if (!TESTING)
+    {
+        if (gLeftMon.isBanished && gLeftMon.hp > 0)
+            numMissingMons++;
+        if (gRightMon.isBanished && gRightMon.hp > 0)
+            numMissingMons++;
+    }
 
     return UQ_4_12(1.0) + (PercentToUQ4_12(numMissingMons * TARC_REQUIEM_FOR_THE_DEAD_PERCENT_INCREASE));
 }

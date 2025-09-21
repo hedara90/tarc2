@@ -19510,5 +19510,28 @@ void BS_ReleaseImprisonedMons(void)
 {
     NATIVE_ARGS();
     CreateAbilityPopUp(1, ABILITY_ORIGINAL_SIN, FALSE);
+    if (gLeftMon.isBanished)
+    {
+        gLeftMon.isBanished = FALSE;
+        gLeftMon.hp = gLeftMon.maxHP;
+        SetMonData(&gPlayerParty[1], MON_DATA_HP, &gLeftMon.hp);
+    }
+    if (gRightMon.isBanished)
+    {
+        gRightMon.isBanished = FALSE;
+        gRightMon.hp = gRightMon.maxHP;
+        SetMonData(&gPlayerParty[2], MON_DATA_HP, &gRightMon.hp);
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_DoPlanarImprisonment(void)
+{
+    NATIVE_ARGS();
+    if (!TESTING)
+    {
+        gLeftMon.isBanished = TRUE;
+        gRightMon.isBanished = TRUE;
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

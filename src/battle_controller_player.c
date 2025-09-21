@@ -1214,7 +1214,7 @@ void HandleInputChooseMove(u32 battler)
         }
         //  Switch Active mon to left mon
         //if (GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0)
-        if (gLeftMon.hp > 0)
+        if (gLeftMon.hp > 0 && !gLeftMon.isBanished)
         {
             SwitchActiveMonLeft();
             gSideMons.leftSwitch = TRUE;
@@ -1237,7 +1237,7 @@ void HandleInputChooseMove(u32 battler)
             return;
         }
         //  Switch Active mon to right mon
-        if (gRightMon.hp > 0)
+        if (gRightMon.hp > 0 && !gRightMon.isBanished)
         {
             SwitchActiveMonRight();
             gSideMons.rightSwitch = TRUE;
@@ -2642,11 +2642,23 @@ static void ShowSideMons(void)
     //  Create left sprite
     struct Even_CreateSpriteStruct createStruct = {0};
     u32 leftSpecies = gLeftMon.species;
+    u32 scrambledSprite[128];
     for (u32 i = 0; i < 3; i++)
     {
         if (gSideMons.sideSprites[i].species == leftSpecies)
         {
-            createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            if (gLeftMon.isBanished)
+            {
+                u8 *a = (u8 *)scrambledSprite;
+                u8 *b = (u8 *)gSideMons.sideSprites[i].sprite;
+                for (u32 j = 0; j < 512; j++)
+                    a[j] = b[511 - j];
+                createStruct.sprite = scrambledSprite;
+            }
+            else
+            {
+                createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            }
             createStruct.palette = gSideMons.sideSprites[i].palette;
             break;
         }
@@ -2659,6 +2671,8 @@ static void ShowSideMons(void)
     createStruct.posY = 128;
     createStruct.subpriority = 0;
     gSideMons.spriteIdLeft = Even_CreateSprite(&createStruct);
+    if (gLeftMon.isBanished)
+        gSprites[gSideMons.spriteIdLeft].vFlip = TRUE;
     gSprites[gSideMons.spriteIdLeft].oam.priority = 0;
     //  Create right sprite
     u32 rightSpecies = gRightMon.species;
@@ -2666,7 +2680,18 @@ static void ShowSideMons(void)
     {
         if (gSideMons.sideSprites[i].species == rightSpecies)
         {
-            createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            if (gRightMon.isBanished)
+            {
+                u8 *a = (u8 *)scrambledSprite;
+                u8 *b = (u8 *)gSideMons.sideSprites[i].sprite;
+                for (u32 j = 0; j < 512; j++)
+                    a[j] = b[511 - j];
+                createStruct.sprite = scrambledSprite;
+            }
+            else
+            {
+                createStruct.sprite = gSideMons.sideSprites[i].sprite;
+            }
             createStruct.palette = gSideMons.sideSprites[i].palette;
             break;
         }
@@ -2675,9 +2700,14 @@ static void ShowSideMons(void)
     createStruct.palTag = 0xCEC4;
     createStruct.posX = 256;
     gSideMons.spriteIdRight = Even_CreateSprite(&createStruct);
+    if (gRightMon.isBanished)
+        gSprites[gSideMons.spriteIdRight].vFlip = TRUE;
     gSprites[gSideMons.spriteIdRight].oam.priority = 0;
     //  Create left hp bar
-    createStruct.sprite = GetMiniHPBar(gLeftMon.hp, gLeftMon.maxHP);
+    if (gLeftMon.isBanished)
+        createStruct.sprite = GetMiniHPBar(0, gLeftMon.maxHP);
+    else
+        createStruct.sprite = GetMiniHPBar(gLeftMon.hp, gLeftMon.maxHP);
     createStruct.tileTag = 0xCEC5;
     createStruct.palTag = TAG_HEALTHBOX_PAL;
     createStruct.spriteSize = SPRITE_SIZE(32x16);
@@ -2688,7 +2718,10 @@ static void ShowSideMons(void)
     gSideMons.hpBarIdLeft = Even_CreateSprite(&createStruct);
     gSprites[gSideMons.hpBarIdLeft].oam.priority = 0;
     //  Create right hp bar
-    createStruct.sprite = GetMiniHPBar(gRightMon.hp, gRightMon.maxHP);
+    if (gRightMon.isBanished)
+        createStruct.sprite = GetMiniHPBar(0, gRightMon.maxHP);
+    else
+        createStruct.sprite = GetMiniHPBar(gRightMon.hp, gRightMon.maxHP);
     createStruct.tileTag = 0xCEC6;
     createStruct.posX = 256;
     gSideMons.hpBarIdRight = Even_CreateSprite(&createStruct);

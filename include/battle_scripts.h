@@ -930,5 +930,6 @@ extern const u8 BattleScript_DoSubmergedStatDrop[];
 extern const u8 BattleScript_Tsunami[];
 extern const u8 BattleScript_TheSpaceBetween[];
 extern const u8 BattleScript_OriginalSin[];
+extern const u8 BattleScript_PlanarImprisonment[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

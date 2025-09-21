@@ -1034,5 +1034,6 @@ extern const u8 gBattleAnimMove_PoisonDroplets[];
 extern const u8 gBattleAnimMove_GiratinaPhaseChange[];
 
 extern const u8 gBattleAnimMove_DimensionBreak[];
+extern const u8 gBattleAnimMove_PlanarImprisonment[];
 
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H

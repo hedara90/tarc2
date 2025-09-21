@@ -3540,6 +3540,7 @@ static void DoBattleIntro(void)
                 for (u32 move = 0; move < 4; move++)
                     gBattleMons[battler].moveCD[move] = 0;
                 gBattleMons[battler].numOverrides = 0;
+                gBattleMons[battler].isBanished = FALSE;
                 #if TESTING
                 if (gTestRunnerEnabled)
                 {
