@@ -27114,7 +27114,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Vanishes along with the\n"
             "opponent."),
-        .effect = EFFECT_SEMI_INVULNERABLE,
+        .effect = EFFECT_BANISH,
         .power = 70,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -27134,7 +27134,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
-        .battleAnimScript = gBattleAnimMove_ShadowForce,
+        .battleAnimScript = gBattleAnimMove_Banish,
     },
     [MOVE_PLANAR_IMPRISONMENT] =
     {

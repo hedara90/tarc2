@@ -2826,9 +2826,8 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
 {
     if (sSwitchData->state == 0)
     {
-        DebugPrintf("%S %S", gSpeciesInfo[gLeftMon.species].speciesName, gSpeciesInfo[gRightMon.species].speciesName);
         sSwitchData->spriteIdLeft = 255;
-        if (gLeftMon.hp == 0)
+        if (gLeftMon.hp == 0 || gLeftMon.isBanished)
         {
             sSwitchData->state++;
             return;
@@ -2854,7 +2853,7 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
     else if (sSwitchData->state == 1)
     {
         sSwitchData->spriteIdRight = 255;
-        if (gRightMon.hp == 0)
+        if (gRightMon.hp == 0 || gRightMon.isBanished)
         {
             sSwitchData->state++;
             return;
@@ -2932,7 +2931,7 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
 {
     if (JOY_NEW(L_BUTTON))
     {
-        if (gLeftMon.hp == 0)
+        if (gLeftMon.hp == 0 || gLeftMon.isBanished)
             return;
 
         gBattleStruct->storedBattleMon = gLeftMon;
@@ -2944,7 +2943,7 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
     }
     else if (JOY_NEW(R_BUTTON))
     {
-        if (gRightMon.hp == 0)
+        if (gRightMon.hp == 0 || gRightMon.isBanished)
             return;
 
         gBattleStruct->storedBattleMon = gRightMon;

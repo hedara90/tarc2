@@ -8200,6 +8200,14 @@ static void Cmd_openpartyscreen(void)
     u32 i, battler = 0;
     const u8 *failInstr = cmd->failInstr;
 
+    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+     && (gRightMon.isBanished || gRightMon.hp == 0))
+    {
+        gBattlescriptCurrInstr = failInstr;
+        gCurrentTurnActionNumber = gBattlersCount;
+        return;
+    }
+
     if (cmd->battler == BS_FAINTED_MULTIPLE_1)
     {
         if ((gBattleTypeFlags & BATTLE_TYPE_MULTI) || !(IsDoubleBattle()))
@@ -17182,6 +17190,7 @@ bool32 IsMoveAffectedByParentalBond(u32 move, u32 battler)
         && GetMoveCategory(move) != DAMAGE_CATEGORY_STATUS
         && GetMoveStrikeCount(move) < 2
         && GetMoveEffect(move) != EFFECT_SEMI_INVULNERABLE
+        && GetMoveEffect(move) != EFFECT_BANISH
         && GetMoveEffect(move) != EFFECT_TWO_TURNS_ATTACK
         && GetMoveEffect(move) != EFFECT_MULTI_HIT)
     {
@@ -19532,6 +19541,16 @@ void BS_DoPlanarImprisonment(void)
     {
         gLeftMon.isBanished = TRUE;
         gRightMon.isBanished = TRUE;
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_BanishCurrentMon(void)
+{
+    NATIVE_ARGS();
+    if (!TESTING)
+    {
+        gBattleMons[0].isBanished = TRUE;
     }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

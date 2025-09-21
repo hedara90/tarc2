@@ -950,6 +950,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_THE_SPACE_BETWEEN]                    = COMPOUND_STRING("{B_BUFF1}'s {B_BUFF3} were boosted in their absence!"),
     [STRINGID_LIVING_SHADOW_ENTERS]                 = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s intangible presence looms over you!"),
     [STRINGID_DIMENSIONAL_PRISON_RELEASE]           = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} releases all dimensional shackles!"),
+    [STRINGID_BANISH]                               = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was banished!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 

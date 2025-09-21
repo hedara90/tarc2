@@ -2648,3 +2648,7 @@
 	.macro doplanarimprisonment
 	callnative BS_DoPlanarImprisonment
 	.endm
+
+	.macro banishcurrentmon
+	callnative BS_BanishCurrentMon
+	.endm

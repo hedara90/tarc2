@@ -2860,6 +2860,12 @@ bool32 HasNoMonsToSwitch(u32 battler, u8 partyIdBattlerOn1, u8 partyIdBattlerOn2
     u32 i, playerId, flankId;
     struct Pokemon *party;
 
+    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+     && (gRightMon.isBanished || gRightMon.hp == 0))
+    {
+        return TRUE;
+    }
+
     if (!IsDoubleBattle())
         return FALSE;
 
@@ -3705,6 +3711,7 @@ bool32 IsChargeMove(u32 move)
     case EFFECT_TWO_TURNS_ATTACK:
     case EFFECT_GEOMANCY:
     case EFFECT_SEMI_INVULNERABLE:
+    case EFFECT_BANISH:
         return TRUE;
     default:
         return FALSE;

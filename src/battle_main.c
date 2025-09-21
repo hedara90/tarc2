@@ -5536,7 +5536,24 @@ static void RunTurnActionsFunctions(void)
     if (gCurrentTurnActionNumber >= gBattlersCount) // everyone did their actions, turn finished
     {
         gHitMarker &= ~HITMARKER_PASSIVE_DAMAGE;
-        gBattleMainFunc = sEndTurnFuncsTable[gBattleOutcome & 0x7F];
+        bool32 everythingGone = FALSE;
+        if (!TESTING)
+        {
+            if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+             && (gRightMon.isBanished || gRightMon.hp == 0)
+             && (gBattleMons[0].isBanished || gBattleMons[0].hp == 0))
+                everythingGone = TRUE;
+        }
+
+        if (everythingGone)
+        {
+            gBattleMainFunc = sEndTurnFuncsTable[B_OUTCOME_LOST];
+            gBattleOutcome = B_OUTCOME_LOST;
+        }
+        else
+        {
+            gBattleMainFunc = sEndTurnFuncsTable[gBattleOutcome & 0x7F];
+        }
     }
     else
     {

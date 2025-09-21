@@ -10712,3 +10712,29 @@ BattleScript_PlanarImprisonment::
 	attackanimation
 	doplanarimprisonment
 	end
+
+BattleScript_Banish::
+	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
+	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
+	call BattleScript_FirstChargingTurn
+	skipaiincrement
+	moveendall
+
+	banishcurrentmon
+	printstring STRINGID_BANISH
+	waitmessage B_WAIT_TIME_MED
+	openpartyscreen BS_TARGET, BattleScript_AllBanished
+	switchoutabilities BS_TARGET
+	waitstate
+	switchhandleorder BS_TARGET, 2
+	returntoball BS_TARGET, FALSE
+	getswitchedmondata BS_TARGET
+	switchindataupdate BS_TARGET
+	hpthresholds BS_TARGET
+	printstring STRINGID_SWITCHINMON
+	switchinanim BS_TARGET, FALSE, TRUE
+	waitstate
+	switchineffects BS_TARGET
+	end
+BattleScript_AllBanished:
+	end
