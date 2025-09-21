@@ -992,6 +992,7 @@ void HandleInputChooseMove(u32 battler)
         //  Clear out switch prevention
         if (gBattleMons[0].status2 & STATUS2_ESCAPE_PREVENTION)
             gBattleMons[0].status2 &= ~STATUS2_ESCAPE_PREVENTION;
+        gBattleMons[0].turnsInBack = 0;
 
         HideWeatherTimer();
         TryToHideMoveInfoWindow();

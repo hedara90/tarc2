@@ -12772,7 +12772,7 @@ bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId)
 
 bool32 LeftMonHurt(void)
 {
-    if (gLeftMon.hp == 0)
+    if (gLeftMon.hp == 0 || gLeftMon.isBanished)
         return FALSE;
 
     if (gLeftMon.hp < gLeftMon.maxHP)
@@ -12790,7 +12790,7 @@ bool32 LeftMonHurt(void)
 
 bool32 RightMonHurt(void)
 {
-    if (gRightMon.hp == 0)
+    if (gRightMon.hp == 0 || gRightMon.isBanished)
         return FALSE;
 
     if (gRightMon.hp < gRightMon.maxHP)
@@ -12845,8 +12845,10 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
 
 void UpdateBacklineTurns(void)
 {
-    gLeftMon.turnsInBack++;
-    gRightMon.turnsInBack++;
+    if (!gLeftMon.isBanished)
+        gLeftMon.turnsInBack++;
+    if (!gRightMon.isBanished)
+        gRightMon.turnsInBack++;
     gBattleMons[0].turnsInBack = 0;
 }
 
