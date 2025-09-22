@@ -8200,7 +8200,8 @@ static void Cmd_openpartyscreen(void)
     u32 i, battler = 0;
     const u8 *failInstr = cmd->failInstr;
 
-    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+    if (!TESTING
+     && (gLeftMon.isBanished || gLeftMon.hp == 0)
      && (gRightMon.isBanished || gRightMon.hp == 0))
     {
         gBattlescriptCurrInstr = failInstr;

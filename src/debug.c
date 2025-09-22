@@ -71,6 +71,8 @@
 #include "fake_rtc.h"
 #include "save.h"
 
+#include "tarc_debug.h"
+
 // *******************************
 enum DebugMenu
 {
@@ -4910,4 +4912,11 @@ void AddStuff(void)
     FlagSet(FLAG_HELP_PHASE);
     FlagSet(FLAG_HELP_COOLDOWN);
     FlagSet(FLAG_HELP_HEAL);
+}
+
+u32 RomXor();
+
+void CheckRom(void)
+{
+    BuildDebugInfoSprite();
 }

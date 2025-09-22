@@ -36,6 +36,7 @@
 
 #include "palette.h"
 
+#include "tarc_debug.h"
 
 struct Tarc_InfoMenuState
 {
@@ -523,6 +524,7 @@ static void TarcUi_SetupCB(void)
         gMain.state++;
         break;
     case 6:
+        DisplayDebugInfoSprite();
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         gMain.state++;
         break;

@@ -78,6 +78,7 @@
 #include "cable_club.h"
 
 #include "tarc_help_system.h"
+#include "tarc_debug.h"
 
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
@@ -655,6 +656,7 @@ static void CB2_InitBattleInternal(void)
     gSaveBlock1Ptr->huntTargets.currentEnemy = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES);
 
     InitializeSideSprites();
+    DisplayDebugInfoSprite();
 
     gBattleCommunication[MULTIUSE_STATE] = 0;
 }
@@ -5545,7 +5547,7 @@ static void RunTurnActionsFunctions(void)
                 everythingGone = TRUE;
         }
 
-        if (everythingGone)
+        if (!TESTING && everythingGone)
         {
             gBattleMainFunc = sEndTurnFuncsTable[B_OUTCOME_LOST];
             gBattleOutcome = B_OUTCOME_LOST;

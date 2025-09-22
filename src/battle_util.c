@@ -2860,7 +2860,8 @@ bool32 HasNoMonsToSwitch(u32 battler, u8 partyIdBattlerOn1, u8 partyIdBattlerOn2
     u32 i, playerId, flankId;
     struct Pokemon *party;
 
-    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+    if (!TESTING
+     && (gLeftMon.isBanished || gLeftMon.hp == 0)
      && (gRightMon.isBanished || gRightMon.hp == 0))
     {
         return TRUE;
@@ -5578,7 +5579,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
     case ABILITYEFFECT_MOVE_END_ATTACKER: // Same as above, but for attacker
         STORE_BATTLER_TRAITS(gBattlerAttacker);
 
-        if (SearchTraits(battlerTraits, ABILITY_TANGO) && gMovesInfo[gCurrentMove].danceMove)
+        if (SearchTraits(battlerTraits, ABILITY_TANGO) && gMovesInfo[gCurrentMove].danceMove
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
             gBattleMons[gBattlerAttacker].danced = TRUE;
 
         if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH)
@@ -5715,10 +5717,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (SearchTraits(battlerTraits, ABILITY_CLOUDWALKER)
          && gMovesInfo[gCurrentMove].windMove
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gStatuses4[gBattlerAttacker] & STATUS4_CLOUDWALKER))
         {
             gStatuses4[gBattlerAttacker] |= STATUS4_CLOUDWALKER;
-            gDisableStructs[gBattlerAttacker].cloudwalkerTimer = gBattleTurnCounter + TARC_UPDRAFT_DURATION;
+            gDisableStructs[gBattlerAttacker].cloudwalkerTimer = gBattleTurnCounter + TARC_CLOUDWALKER_DURATION;
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_CLOUDWALKER, FALSE);
             BattleScriptPushCursor();
             gBattlescriptCurrInstr = BattleScript_CloudwalkerTrigger;
