@@ -293,7 +293,7 @@ script Entrance_PlayerTerminal {
     }
     msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
     closemessage
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Story structure",
                     "Battle mechanics",
                     "Affinity",
@@ -314,7 +314,7 @@ script Entrance_PlayerTerminal_Exit {
 
 script Entrance_PlayerTerminal_Story {
     msgbox("Hmm... I think I had my notes on the\nrecording process here.")
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "General structure",
                     "Initializing Pokémon",
                     "Obtaining moves",
@@ -369,7 +369,7 @@ text Entrance_Text_Abilities {
 
 script Entrance_PlayerTerminal_Battle {
     msgbox("Right, the Tree's battle system is a bit different from usual battles.")
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Switching around",
                     "Backline",
                     "Phases",
@@ -552,6 +552,33 @@ script Entrance_DanceDone {
     setmetatile(6, 26, 0x91, FALSE)
     setmetatile(6, 25, 0x89, FALSE)
 
+    release
+}
+
+script Entrance_Receptionist_Direct {
+    lock
+    faceplayer
+    msgbox("Please {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    waitmessage
+    applymovement(LOCALID_RECEPTIONIST_1, moves(face_right))
+    waitmovement
+    release
+}
+
+script Entrance_Receptionist_Counter {
+    lock
+    msgbox("For once you did it correctly.")
+    waitmessage
+    release
+}
+
+script Entrance_PottedPlantMan {
+    lock
+    faceplayer
+    msgbox("How do you even water the pots over\nthere?")
+    waitmessage
+    applymovement(LOCALID_POTTED_PLANT_MAN, moves(face_left))
+    waitmovement
     release
 }
 
