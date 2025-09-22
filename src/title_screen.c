@@ -66,6 +66,9 @@ static const u32 sTitleScreenLogoShineGfx[] = INCBIN_U32("graphics/title_screen/
 static const u32 sTitleScreenCloudsGfx[] = INCBIN_U32("graphics/title_screen/clouds.4bpp.lz");
 
 
+static const u16 sTarc_TitleBgPalette[] = INCBIN_U16("graphics/title_screen/Tarc_title_screen_tiles.gbapal");
+static const u32 sTarc_TitleBgTiles[] = INCBIN_U32("graphics/title_screen/Tarc_title_screen_tiles.4bpp.lz");
+static const u32 sTarc_TitleBgTilemap[] = INCBIN_U32("graphics/title_screen/Tarc_title_screen_tiles.bin.lz");
 
 // Used to blend "Emerald Version" as it passes over over the Pokémon banner.
 // Also used by the intro to blend the Game Freak name/logo in and out as they appear and disappear
