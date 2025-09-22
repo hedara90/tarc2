@@ -64,6 +64,7 @@ enum WindowIds
     WIN_ABI2,
     WIN_MOVE3,
     WIN_ABI3,
+    WIN_STATS,
     WIN_COUNT
 };
 
@@ -110,9 +111,12 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define TITLE_HEIGHT 2
 #define INFO_WIDTH 9
 #define INFO_HEIGHT 6
+#define STAT_WIDTH 4
+#define STAT_HEIGHT 2
 
 #define TITLE_SIZE TITLE_WIDTH * TITLE_HEIGHT
 #define INFO_SIZE INFO_WIDTH * INFO_HEIGHT
+#define STAT_SIZE STAT_WIDTH * STAT_HEIGHT
 
 #define TITLE_BASEBLOCK 1
 #define MOVE1_BASEBLOCK     TITLE_BASEBLOCK + TITLE_SIZE
@@ -121,6 +125,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define ABI2_BASEBLOCK      MOVE2_BASEBLOCK + INFO_SIZE
 #define MOVE3_BASEBLOCK     ABI2_BASEBLOCK + INFO_SIZE
 #define ABI3_BASEBLOCK      MOVE3_BASEBLOCK + INFO_SIZE
+#define STAT_BASEBLOCK      ABI3_BASEBLOCK + INFO_SIZE
 
 static const struct WindowTemplate sTarcUiWindowTemplates[] =
 {
@@ -133,7 +138,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .height = TITLE_HEIGHT,
         .paletteNum = 15,
         .baseBlock = TITLE_BASEBLOCK
-    },    
+    },
     [WIN_MOVE1] =
     {
         .bg = 0,
@@ -194,6 +199,16 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .paletteNum = 15,
         .baseBlock = ABI3_BASEBLOCK
     },
+    [WIN_STATS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 0,
+        .width = STAT_WIDTH,
+        .height = STAT_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = STAT_BASEBLOCK,
+    },
 };
 
 enum FontColor
@@ -229,6 +244,7 @@ static u32 TarcUi_JustifyCenter(const u8 *input, u32 width, u8 fontId);
 static void DrawAll(void);
 static void DrawSprites(void);
 static void DrawText(void);
+static void DrawStats(void);
 
 static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
@@ -289,6 +305,7 @@ static void TarcUi_SetupCB(void)
     case 4:
         TarcUi_InitWindows();
         DrawText();
+        DrawStats();
         gMain.state++;
         break;
     case 5:
@@ -526,8 +543,8 @@ static void DrawSprites(void)
         cs.palette = gSpeciesInfo[species].portraitPal;
         cs.spriteSize = SPRITE_SIZE(64x64);
         cs.spriteShape = SPRITE_SHAPE(64x64);
-        cs.posX = 40 + i * 80;
-        cs.posY = 48;
+        cs.posX = 26;
+        cs.posY = 39 + i * 48;
         Even_CreateSprite(&cs);
     }
 }
@@ -536,8 +553,7 @@ static void DrawText()
 {
     for (u32 i = 0; i < 3; i++)
     {
-        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
-        u8 text[200];
+        u8 text[100];
         u32 currChar = 0;
         for (u32 j = 0; j < 4; j++)
         {
@@ -552,37 +568,81 @@ static void DrawText()
                 text[currChar++] = gMovesInfo[move].name[tempChar++];
             text[currChar++] = CHAR_NEWLINE;
         }
-        u32 ability = gSpeciesInfo[species].abilities[GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM)];
-        u32 tempChar = 0;
-        while (gAbilitiesInfo[ability].name[tempChar] != EOS)
-            text[currChar++] = gAbilitiesInfo[ability].name[tempChar++];
+        text[currChar - 1] = EOS;
+        AddTextPrinterParameterized4(WIN_MOVE1 + 2 * i,
+                                     FONT_SPECIAL_SMALL,
+                                     0, 0, 0, 0,
+                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     TEXT_SKIP_DRAW,
+                                     text);
+        CopyWindowToVram(WIN_MOVE1 + 2 * i, COPYWIN_FULL);
+    }
+    for (u32 i = 0; i < 3; i++)
+    {
+        u8 text[100];
+        u32 currChar = 0;
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        while (gAbilitiesInfo[gSpeciesInfo[species].abilities[0]].name[currChar] != EOS)
+        {
+            text[currChar] = gAbilitiesInfo[gSpeciesInfo[species].abilities[0]].name[currChar];
+            currChar++;
+        }
         text[currChar++] = CHAR_NEWLINE;
 
         for (u32 j = 0; j < 3; j++)
         {
-            ability = gSaveBlock1Ptr->extraAbilities[i][j];
+            u32 ability = gSaveBlock1Ptr->extraAbilities[i][j];
             if (ability == ABILITY_NONE)
+            {
+                text[currChar++] = CHAR_NEWLINE;
                 break;
-            tempChar = 0;
+            }
+            u32 tempChar = 0;
             while (gAbilitiesInfo[ability].name[tempChar] != EOS)
+            {
                 text[currChar++] = gAbilitiesInfo[ability].name[tempChar++];
+            }
             text[currChar++] = CHAR_NEWLINE;
         }
         text[currChar - 1] = EOS;
-        AddTextPrinterParameterized4(WIN_INFO1 + i,
+        AddTextPrinterParameterized4(WIN_ABI1 + 2 * i,
                                      FONT_SPECIAL_SMALL,
-                                     8, 0, 0, 0,
+                                     0, 0, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
                                      TEXT_SKIP_DRAW,
                                      text);
-        CopyWindowToVram(WIN_INFO1 + i, COPYWIN_FULL);
+        CopyWindowToVram(WIN_ABI1 + 2 * i, COPYWIN_FULL);
     }
+}
+
+static void DrawStats(void)
+{
+    u32 numSubBosses = gSaveBlock1Ptr->huntTargets.numBossesDefeated;
+    u32 numMiniBosses = 0;
+
+    for (u32 i = 0; i < 27; i++)
+        if (gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i])
+            numMiniBosses++;
+
+    u8 text[8];
+    ConvertIntToDecimalStringN(text, numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
+    text[1] = CHAR_PLUS;
+    ConvertIntToDecimalStringN(&text[2], numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
+
+    AddTextPrinterParameterized4(WIN_STATS,
+                                 FONT_SHORT,
+                                 TarcUi_JustifyCenter(text, 8 * STAT_WIDTH, FONT_SHORT), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 text);
+    CopyWindowToVram(WIN_STATS, COPYWIN_FULL);
 }
 
 static void DrawAll()
 {
     DrawSprites();
     DrawText();
+    DrawStats();
 }
 
 #include "data/tarc_fade_ids.h"
