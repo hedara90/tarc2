@@ -1,9 +1,9 @@
 #include "tarc_debug.h"
 #include "even_sprite.h"
 
-EWRAM_DATA u32 gDebugInfoSprite[128];
+EWRAM_DATA u32 gDebugInfoSprite[128] = { 0 };
 EWRAM_DATA u8 gDebugInfoSpriteId;
-EWRAM_DATA bool8 gShouldShowDebugInfo;
+EWRAM_DATA bool8 gShouldShowDebugInfo = FALSE;
 //EWRAM_DATA u8 sMyBoyDetector = 0;
 
 const u32 sNumberDotsGfx[] = INCBIN_U32("graphics/tarc_debug/number_dots.4bpp");
@@ -70,4 +70,5 @@ void DisplayDebugInfoSprite(void)
     cs.posX = 240 - 16;
     cs.posY = 16;
     gDebugInfoSpriteId = Even_CreateSprite(&cs);
+    gSprites[gDebugInfoSpriteId].oam.priority = 0;
 }

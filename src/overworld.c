@@ -2259,6 +2259,7 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
             (*state)++;
         break;
     case 13:
+        DisplayDebugInfoSprite();
         return TRUE;
     }
 
