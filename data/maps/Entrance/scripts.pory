@@ -141,12 +141,12 @@ script Entrance_StartingAnAdventure {
     closemessage
     msgbox("{SPEAKER NAME_SATSUKI}Wonderful.\p"
             "As you know, the Bodhai Tree\nwrites records of what you do\lautomatically.\p"
-            "And since your work will now\nbe public, I do not want to see\lany nonsense.\pGot it?\p"
+            "And since your work will now\nbe public, I do not want to see\lany nonsense.\pUnderstood?\p"
             "I've loaded in the Myths we have\nyet to understand.\pI look forward to your\ndiscoveries.")
     closemessage
     applymovement(player, moves(walk_in_place_right))
     waitmovement(player)
-    msgbox("{SPEAKER NAME_PLAYER}Mhm, I'll give it my all!\pI know the drill by now, miss Satsuki.")
+    msgbox("{SPEAKER NAME_PLAYER}Mhm, I'll give it my all!")
     waitmessage
     msgbox("{SPEAKER NAME_SATSUKI}Fufu, that's the spirit.\p"
             "I assume you've still got all your\nstudy notes written down in the\lterminal in your room, right?")
@@ -278,12 +278,85 @@ script Entrance_Satsuki {
     // else {
     //     msgbox("You have not cleared 2 myths")
     // }
+    setboxframe(BOX_FRAME_TIANA)
     dynmultipush("Got anything new?", 0)
-    dynmultipush("How's my progress?",1)
+    dynmultipush("Can we have another practice battle?",1)
+    dynmultipush("Deciphering anything today?",2)
+    dynmultipush("Did you set up the Bodhai system?",3)
     //if var story == 2
-    dynmultipush("I managed to clear one of the stories!",2)
+    dynmultipush("I managed to clear one of the stories!",4)
+    dynmultistack(0,0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    switch(var(VAR_RESULT)){
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+    }
     closemessage
     release
+}
+
+script Entrance_Satsuki_AnythingNew {
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("You're still working on the\nassignments, aren't you?\p"
+            "Focus on them first before\nasking me for more.\p"
+            "History doesn't write itself")
+    closemessage
+    msgbox("{SPEAKER SPEAKER_PLAYER}Sigh... Fair point.\p"
+            "I'll get back to work.")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_MockBattle {
+    msgbox("{SPEAKER SPEAKER_SATSUKI}Fufu, sure.\p"
+            "Are you sure it's for practice, and not just because you want to win over me?\p"
+            "I could use a little break anyway.")
+    closemessage
+    msgbox("Mock Battle Here")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_Deciphering {
+    msgbox("{SPEAKER SPEAKER_SATSUKI}Fufu, well that is your job now.\p"
+            "I can sit back and watch you do everything now.")
+    waitmessage
+    delay(60)
+    msgbox("You're too gullible.\p"
+            "I am mostly leaving the decoding up to you.\p"
+            "But this means I now have time for different things that must be done\p"
+            "There's still many mysteries left to uncover.\p"
+            "However, many of them are too incomplete to enter into the system.\p")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER SPEAKER_SATSUKI}You remember the Archivologists, right?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER SPEAKER_PLAYER}Yeah, you did mention them.\p"
+            "They've got all this tech to figure out when and where something happened, right?")
+    closemessage
+    msgbox("{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
+            "But yes. They have ways of figuring out where and when a myth originated.\p"
+            "That's the limit though. They can't determine the actual events.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("So naturally, that's where we step in.\p"
+            "I've not recently had contact with them, though."
+            "Elio's not been answering me, and I don't have any other direct contact points.\p"
+            "Had to go through the 'Official' channels.\p"
+            "I dislike all this bureaucracy.")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Haha, yeah you never were one for strict rules.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Shush, I can always add more rules.\p")
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("But yeah, that's the situation. Will be a bit before we get anything new.")
 }
 
 script Entrance_PlayerTerminal {
@@ -294,6 +367,7 @@ script Entrance_PlayerTerminal {
     }
     msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
     closemessage
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Story structure",
                     "Battle mechanics",
@@ -352,19 +426,19 @@ text Entrance_Text_Pokemon {
 }
 
 text Entrance_Text_Moves {
-    format("The Pokémon I start off with know 2 moves."
-    "Defeating a minor enemy in a subdomain rewards a move."
-    "This move can be assigned to a Pokémon via the Pokémon menu."
-    "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon."
-    "To remove an assigned move, select it and press {A_BUTTON}."
-    "Any move can be put onto any Pokémon, and starting moves can also be switched around."
+    format("The Pokémon I start off with know 2 moves.\p"
+    "Defeating a minor enemy in a subdomain rewards a move.\p"
+    "This move can be assigned to a Pokémon via the Pokémon menu.\p"
+    "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon.\p"
+    "To remove an assigned move, select it and press {A_BUTTON}.\p"
+    "Any move can be put onto any Pokémon, and starting moves can also be switched around.\p"
     "Lastly, rewarded moves also increase the Pokémon's stats.")
 }
 
 text Entrance_Text_Abilities {
-    format("Pokemon initialized by the Bodhai Tree start with a single ability."
-    "Unlike starting moves, this ability is not removable."
-    "Defeating the boss in a subdomain rewards an ability."
+    format("Pokemon initialized by the Bodhai Tree start with a single ability.\p"
+    "Unlike starting moves, this ability is not removable.\p"
+    "Defeating the boss in a subdomain rewards an ability.\p"
     "Obtained abilities can be assigned to any Pokémon, and swapped at will.")
 }
 
@@ -397,44 +471,71 @@ script Entrance_PlayerTerminal_Battle {
 }
 
 text Entrance_Text_Switching {
-    format("Apparantly switching works like rotation battles. Never heard of them, though."
-    "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn."
+    format("Apparantly switching works like rotation battles. Never heard of them, though.\p"
+    "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn.\p"
     "Abilities that activate on switch-in do require the Pokémon to take a turn, though.")
 }
 
 text Entrance_Text_Backline {
-    format("When not the active battler, a Pokémon will restore a bit of health every turn."
-    "After 3 turns of being in the back, they will get rid of any negative stat drops."
-    "And after 5 turns, they'll heal negative status effects"
+    format("When not the active battler, a Pokémon will restore a bit of health every turn.\p"
+    "After 3 turns of being in the back, they will get rid of any negative stat drops.\p"
+    "And after 5 turns, they'll heal negative status effects.\p"
     "Well, most of them.")
 }
 
 text Entrance_Text_Phases {
-    format("All enemies have multiple phases."
-    "Dealing enough damage puts the opponent to the next phase."
-    "When this happens, they cure themselves of any statuses."
+    format("All enemies have multiple phases.\p"
+    "Dealing enough damage puts the opponent to the next phase.\p"
+    "When this happens, they cure themselves of any statuses.\p"
     "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!")
 }
 
 text Entrance_Text_Cooldowns {
-    format("Some moves and abilities have cooldowns."
-    "After activating, they won't do so until a number of turns have passed."
+    format("Some moves and abilities have cooldowns.\p"
+    "After activating, they won't do so until a number of turns have passed.\p"
     "Moves can be used when on cooldown, but this will deal recoil damage.")
 }
 
 text Entrance_Abilities {
-    format("Just like my own Pokémon, enemies can also have multiple abilities"
+    format("Just like my own Pokémon, enemies can also have multiple abilities.\p"
     "The longer the story goes on, the more abilities they will have...")
 }
 
 text Entrance_StatBoosts {
-    format("To improve consistency, the Bodhai Tree makes stat boost levels less drastic."
-    "There are still six stages, but the maximum is a 2x multiplier."
+    format("To improve consistency, the Bodhai Tree makes stat boost levels less drastic.\p"
+    "There are still six stages, but the maximum is a 2x multiplier.\p"
     "or a 0.5x for negative stat changes.")
 }
 
 script Entrance_PlayerTerminal_Affinity {
+    msgbox("Oh yeah, the team archetypes")
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Archetypes",
+                    "Variations",
+                    "Back",)
+    switch(var(VAR_RESULT)){
+        case 0: msgbox(Entrance_Text_Archetypes)
+            goto(Entrance_PlayerTerminal_Affinity)
+        case 1: msgbox(Entrance_Text_Variations)
+            goto(Entrance_PlayerTerminal_Affinity)
+        case 2: goto(Entrance_PlayerTerminal)
+    }
+    goto(Entrance_PlayerTerminal)
+}
 
+text Entrance_Text_Archetypes {
+    format("I can pick from certain presets.\p"
+            "Currently, I only have access to the 4 weather types: Sun, Rain, Snow and Sand.\p"
+            "Satsuki did tell me that there are more team styles, but I can't use them yet...\p"
+            "Wonder what they are.")
+}
+
+text Entrance_Text_Variations {
+    format("Within the archetype, I can select 3 variations.\p"
+            "Grace, Favor and Prayer.\nDon't ask me why they're named that way.\p"
+            "Anyway, Grace teams feature a Pokémon that automatically sets the weather via their ability.\p"
+            "Favor has a setter with a more conditional setting ability, like requiring to be hit.\p"
+            "Lastly, Prayer features a manual weather setter.")
 }
 
 script Entrance_PrayerGirl {
@@ -465,7 +566,7 @@ script Entrance_PrayerGirl {
             release
         }
     case 1:
-        msgbox("{SPEAKER NAME_KIO}Thanks you for showing me the dance!")
+        msgbox("{SPEAKER NAME_KIO}Thank you for showing me the dance!")
         waitmessage
         release
     }
