@@ -10134,7 +10134,6 @@ BattleScript_BossRestore::
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
-	printstring STRINGID_BOSSRESTORED
 	waitmessage B_WAIT_TIME_LONG
 	updatestatusicon BS_ATTACKER
 	updatebgbar
@@ -10679,4 +10678,64 @@ BattleScript_Tsunami::
 	moveendall
 	printstring STRINGID_TSUNAMI
 	waitmessage B_WAIT_TIME_MED
+	end
+
+BattleScript_TheSpaceBetween::
+	setgraphicalstatchangevalues
+	playanimation BS_SCRIPTING, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_THE_SPACE_BETWEEN
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_OriginalSin::
+	playfaintcry BS_OPPONENT1
+	printstring STRINGID_BOSSRESTORED
+	updatefgbar
+	healbossfull
+	cureboss
+	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND3
+	waitanimation
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
+	updatestatusicon BS_ATTACKER
+	updatebgbar
+	releaseimprisonedmons
+	printstring STRINGID_DIMENSIONAL_PRISON_RELEASE
+	waitmessage B_WAIT_TIME_MED
+	call BattleScript_AllStatsUp
+	goto BattleScript_MoveEnd
+
+BattleScript_PlanarImprisonment::
+	attackstring
+	attackanimation
+	doplanarimprisonment
+	healthbarupdate BS_ATTACKER
+	end
+
+BattleScript_Banish::
+	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
+	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
+	call BattleScript_FirstChargingTurn
+	skipaiincrement
+	moveendall
+
+	banishcurrentmon
+	printstring STRINGID_BANISH
+	waitmessage B_WAIT_TIME_MED
+	openpartyscreen BS_TARGET, BattleScript_AllBanished
+	switchoutabilities BS_TARGET
+	waitstate
+	switchhandleorder BS_TARGET, 2
+	returntoball BS_TARGET, FALSE
+	getswitchedmondata BS_TARGET
+	switchindataupdate BS_TARGET
+	hpthresholds BS_TARGET
+	printstring STRINGID_SWITCHINMON
+	switchinanim BS_TARGET, FALSE, TRUE
+	waitstate
+	switchineffects BS_TARGET
+	end
+BattleScript_AllBanished:
 	end

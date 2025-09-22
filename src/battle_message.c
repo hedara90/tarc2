@@ -926,7 +926,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_CD_OVERRIDE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} suffered from exhaustion!"),
     [STRINGID_RESS_MON]                             = COMPOUND_STRING("{B_BUFF1} was ressurrected!"),
     [STRINGID_CLOUDWALKER]                          = COMPOUND_STRING("Cloudwalker"),
-    [STRINGID_CLOUDWALKER_TRIGGER]                  = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s move caused an updraft!"),
+    [STRINGID_CLOUDWALKER_TRIGGER]                  = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}' is walking among the clouds!"),
     [STRINGID_SPARKING_ZEPHYR]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} triggered a Tailwind with their electric discharge!"),
     [STRINGID_UNCONTAINED_BLAZE]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s attack hurt {B_BUFF1}{B_BUFF2}{B_BUFF3} too!"),
     [STRINGID_MENTAL_RESET]                         = COMPOUND_STRING("{B_BUFF1}'s fallen stats were restored!"),
@@ -947,6 +947,10 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_APPLY_SUBMERGED]                      = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is caught in the churning seas!"),
     [STRINGID_EOT_SUBMERGED]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is drowning in the churning seas!"),
     [STRINGID_TSUNAMI]                              = COMPOUND_STRING("The massive wave strikes the entire field!"),
+    [STRINGID_THE_SPACE_BETWEEN]                    = COMPOUND_STRING("{B_BUFF1}'s {B_BUFF3} were boosted in their absence!"),
+    [STRINGID_LIVING_SHADOW_ENTERS]                 = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s intangible presence looms over you!"),
+    [STRINGID_DIMENSIONAL_PRISON_RELEASE]           = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} releases all dimensional shackles!"),
+    [STRINGID_BANISH]                               = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was banished!"),
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
@@ -1038,6 +1042,7 @@ const u16 gSwitchInAbilityStringIds[] =
     [B_MSG_SWITCHIN_ANTICIPATION] = STRINGID_ANTICIPATIONACTIVATES,
     [B_MSG_SWITCHIN_FOREWARN] = STRINGID_FOREWARNACTIVATES,
     [B_MSG_SWITCHIN_PRESSURE] = STRINGID_PRESSUREENTERS,
+    [B_MSG_SWITCHIN_LIVING_SHADOW] = STRINGID_LIVING_SHADOW_ENTERS,
     [B_MSG_SWITCHIN_DARKAURA] = STRINGID_DARKAURAENTERS,
     [B_MSG_SWITCHIN_FAIRYAURA] = STRINGID_FAIRYAURAENTERS,
     [B_MSG_SWITCHIN_AURABREAK] = STRINGID_AURABREAKENTERS,

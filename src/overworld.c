@@ -79,6 +79,8 @@
 #include "constants/weather.h"
 #include "event_scripts.h"
 
+#include "tarc_debug.h"
+
 STATIC_ASSERT((B_FLAG_FOLLOWERS_DISABLED == 0 || OW_FOLLOWERS_ENABLED), FollowersFlagAssignedWithoutEnablingThem);
 
 struct CableClubPlayer
@@ -2257,6 +2259,7 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
             (*state)++;
         break;
     case 13:
+        DisplayDebugInfoSprite();
         return TRUE;
     }
 
@@ -2290,6 +2293,7 @@ static bool32 ReturnToFieldLocal(u8 *state)
             (*state)++;
         break;
     case 3:
+        DisplayDebugInfoSprite();
         return TRUE;
     }
 

@@ -14506,7 +14506,8 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .friendship = 0,
         .growthRate = GROWTH_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
-        .abilities = { ABILITY_LEVITATE, ABILITY_NONE, ABILITY_NONE },
+        .abilities = { ABILITY_THE_SPACE_BETWEEN, ABILITY_NONE, ABILITY_NONE },
+        .innates = { ABILITY_LIVING_SHADOW, ABILITY_REQUIEM_FOR_THE_DEAD, ABILITY_ORIGINAL_SIN },
         .bodyColor = BODY_COLOR_BLACK,
         .speciesName = _("Giratina"),
         .cryId = CRY_GIRATINA,
@@ -14562,6 +14563,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .teachableLearnset = sGiratinaTeachableLearnset,
         .formSpeciesIdTable = sGiratinaFormSpeciesIdTable,
         .formChangeTable = sGiratinaFormChangeTable,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_GIRATINA
 

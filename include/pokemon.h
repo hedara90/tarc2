@@ -349,7 +349,8 @@ struct BattlePokemon
     u16 innates[MAX_MON_INNATES_INTERNAL];
     u8 turnsInBack;
     u8 numOverrides;
-    bool8 danced;
+    bool8 danced:1;
+    bool8 isBanished:1;
     u8 moveCD[4];
 };
 

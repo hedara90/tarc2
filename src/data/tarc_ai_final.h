@@ -126,3 +126,70 @@ const struct BossAi sLugiaAi =
         &sLugia4,
     },
 };
+
+const struct BossMoveList sGiratina1 =
+{
+    .numMoves = 6,
+    .moves =
+    {
+        MOVE_TRICK_OR_TREAT,
+        MOVE_PHANTOM_FORCE,
+        MOVE_AURA_SPHERE,
+        MOVE_BANISH,
+        MOVE_DIMENSION_BREAK,
+        MOVE_PAIN_SPLIT,
+    },
+};
+
+const struct BossMoveList sGiratina2 =
+{
+    .numMoves = 6,
+    .moves =
+    {
+        MOVE_SPIRIT_SHACKLE,
+        MOVE_TRICK_OR_TREAT,
+        MOVE_SHADOW_BALL,
+        MOVE_BANISH,
+        MOVE_EARTH_POWER,
+        MOVE_DRAGON_PULSE,
+    },
+};
+
+const struct BossMoveList sGiratina3 =
+{
+    .numMoves = 7,
+    .moves =
+    {
+        MOVE_PLANAR_IMPRISONMENT,
+        MOVE_PHANTOM_FORCE,
+        MOVE_DRAGON_DANCE,
+        MOVE_SHADOW_BALL,
+        MOVE_DRAGON_PULSE,
+        MOVE_AURA_SPHERE,
+        MOVE_SPECTRAL_THIEF,
+    },
+};
+
+const struct BossMoveList sGiratina4 =
+{
+    .numMoves = 5,
+    .moves =
+    {
+        MOVE_DIMENSION_BREAK,
+        MOVE_AURA_SPHERE,
+        MOVE_BANISH,
+        MOVE_SHADOW_BALL,
+        MOVE_CURSE,
+    },
+};
+
+const struct BossAi sGiratinaAi =
+{
+    .phaseMoves =
+    {
+        &sGiratina1,
+        &sGiratina2,
+        &sGiratina3,
+        &sGiratina4,
+    },
+};

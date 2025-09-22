@@ -1869,12 +1869,17 @@ static void Cmd_ppreduce(void)
         for (i = 0; i < gBattlersCount; i++)
         {
             if (!IsBattlerAlly(i, gBattlerAttacker) && IsBattlerAlive(i))
+            {
                 ppToDeduct += (BattlerHasTrait(i, ABILITY_PRESSURE) != FALSE);
+                ppToDeduct += (BattlerHasTrait(i, ABILITY_LIVING_SHADOW) != FALSE);
+            }
         }
     }
     else if (moveTarget != MOVE_TARGET_OPPONENTS_FIELD)
     {
         if (gBattlerAttacker != gBattlerTarget && BattlerHasTrait(gBattlerTarget, ABILITY_PRESSURE))
+             ppToDeduct++;
+        if (gBattlerAttacker != gBattlerTarget && BattlerHasTrait(gBattlerTarget, ABILITY_LIVING_SHADOW))
              ppToDeduct++;
     }
 
@@ -2787,7 +2792,11 @@ static void Cmd_datahpupdate(void)
                         gCurrentMove = MOVE_RECOVER;
                         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gBattlerAttacker].status1), &gBattleMons[gBattlerAttacker].status1);
                         MarkBattlerForControllerExec(gBattlerAttacker);
-                        gBattlescriptCurrInstr = BattleScript_BossRestore;
+                        if (BattlerHasTrait(battler, ABILITY_ORIGINAL_SIN))
+                            gBattlescriptCurrInstr = BattleScript_OriginalSin;
+                        else
+                            //gBattlescriptCurrInstr = BattleScript_BossRestore;
+                            gBattlescriptCurrInstr = BattleScript_OriginalSin;
                         gBattleStruct->currentPhase++;
                     }
                 }
@@ -8190,6 +8199,15 @@ static void Cmd_openpartyscreen(void)
     u8 hitmarkerFaintBits = 0;
     u32 i, battler = 0;
     const u8 *failInstr = cmd->failInstr;
+
+    if (!TESTING
+     && (gLeftMon.isBanished || gLeftMon.hp == 0)
+     && (gRightMon.isBanished || gRightMon.hp == 0))
+    {
+        gBattlescriptCurrInstr = failInstr;
+        gCurrentTurnActionNumber = gBattlersCount;
+        return;
+    }
 
     if (cmd->battler == BS_FAINTED_MULTIPLE_1)
     {
@@ -17173,6 +17191,7 @@ bool32 IsMoveAffectedByParentalBond(u32 move, u32 battler)
         && GetMoveCategory(move) != DAMAGE_CATEGORY_STATUS
         && GetMoveStrikeCount(move) < 2
         && GetMoveEffect(move) != EFFECT_SEMI_INVULNERABLE
+        && GetMoveEffect(move) != EFFECT_BANISH
         && GetMoveEffect(move) != EFFECT_TWO_TURNS_ATTACK
         && GetMoveEffect(move) != EFFECT_MULTI_HIT)
     {
@@ -19494,5 +19513,48 @@ void BS_DoAiIncrement(void)
     NATIVE_ARGS();
     if (gBattlerAttacker == 1)
         gBattleStruct->skipIncrement = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_ReleaseImprisonedMons(void)
+{
+    NATIVE_ARGS();
+    CreateAbilityPopUp(1, ABILITY_ORIGINAL_SIN, FALSE);
+    if (gLeftMon.isBanished)
+    {
+        gLeftMon.isBanished = FALSE;
+        gLeftMon.hp = gLeftMon.maxHP;
+        SetMonData(&gPlayerParty[1], MON_DATA_HP, &gLeftMon.hp);
+    }
+    if (gRightMon.isBanished)
+    {
+        gRightMon.isBanished = FALSE;
+        gRightMon.hp = gRightMon.maxHP;
+        SetMonData(&gPlayerParty[2], MON_DATA_HP, &gRightMon.hp);
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_DoPlanarImprisonment(void)
+{
+    NATIVE_ARGS();
+    if (!TESTING)
+    {
+        gLeftMon.isBanished = TRUE;
+        gRightMon.isBanished = TRUE;
+        u32 value = gBattleMons[1].maxHP / TARC_PLANAR_IMPRISONMENT_FRACTION;
+        SetMonData(&gEnemyParty[0], MON_DATA_HP, &value);
+        gBattleMons[1].hp = value;
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_BanishCurrentMon(void)
+{
+    NATIVE_ARGS();
+    if (!TESTING)
+    {
+        gBattleMons[0].isBanished = TRUE;
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
