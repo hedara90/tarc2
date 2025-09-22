@@ -556,6 +556,33 @@ script Entrance_DanceDone {
     release
 }
 
+script Entrance_Receptionist_Direct {
+    lock
+    faceplayer
+    msgbox("Please {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    waitmessage
+    applymovement(LOCALID_RECEPTIONIST_1, moves(face_right))
+    waitmovement
+    release
+}
+
+script Entrance_Receptionist_Counter {
+    lock
+    msgbox("For once you did it correctly.")
+    waitmessage
+    release
+}
+
+script Entrance_PottedPlantMan {
+    lock
+    faceplayer
+    msgbox("How do you even water the pots over\nthere?")
+    waitmessage
+    applymovement(LOCALID_POTTED_PLANT_MAN, moves(face_left))
+    waitmovement
+    release
+}
+
 
 script Entrance_NotThisWay {
     lock
