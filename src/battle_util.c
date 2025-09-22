@@ -2860,7 +2860,8 @@ bool32 HasNoMonsToSwitch(u32 battler, u8 partyIdBattlerOn1, u8 partyIdBattlerOn2
     u32 i, playerId, flankId;
     struct Pokemon *party;
 
-    if ((gLeftMon.isBanished || gLeftMon.hp == 0)
+    if (!TESTING
+     && (gLeftMon.isBanished || gLeftMon.hp == 0)
      && (gRightMon.isBanished || gRightMon.hp == 0))
     {
         return TRUE;
