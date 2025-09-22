@@ -4955,3 +4955,9 @@ graphics/interface/message_box.4bpp: %.4bpp: %.png
 
 graphics/battle_interface/surrender.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 8 -mheight 4
+
+graphics/title_screen/pokemon_tarc.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8
+
+graphics/title_screen/recordkeepers.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8

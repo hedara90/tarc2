@@ -2,7 +2,7 @@
   "id": "MAP_MYTH_HUB",
   "name": "MythHub",
   "layout": "LAYOUT_MYTH_HUB",
-  "music": "MUS_DUMMY",
+  "music": "MUS_MT_PYRE_EXTERIOR",
   "region_map_section": "MAPSEC_ABANDONED_SHIP",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
