@@ -7,6 +7,7 @@ mapscripts Entrance_MapScripts {
 
 const satsuki = ENTRANCE_SATSUKI
 const player = OBJ_EVENT_ID_PLAYER
+const morgan = ENTRANCE_MORGAN
 
 script Entrance_SatsukiPosition {
     if(var(VAR_STORY) == 0) {
@@ -148,8 +149,9 @@ script Entrance_StartingAnAdventure {
     msgbox("{SPEAKER NAME_PLAYER}Mhm, I'll give it my all!\pI know the drill by now, miss Satsuki.")
     waitmessage
     msgbox("{SPEAKER NAME_SATSUKI}Fufu, that's the spirit.\p"
-            "Now then, let me know if you need\nany more help.\p"
-            "Not like there's anyone else who\ncould help anyway.")
+            "I assume you've still got all your\nstudy notes written down in the\lterminal in your room, right?")
+    applymovement(player, moves(face_down, delay_16*2, face_right))
+    msgbox("{SPEAKER NAME_PLAYER}Well, I have{PAUSE 10}.{PAUSE 10}.{PAUSE 10}. most of it, yeah!\n{PAUSE 50}I think.")
     closemessage
     applymovement(satsuki, moves(walk_right*2, delay_16*2, face_left))
     waitmovement(satsuki)
@@ -183,20 +185,20 @@ script Entrance_PickWeather {
                     "Random")
     switch(var(VAR_RESULT)) {
         case 0: setvar(VAR_TEMP_1, 0)
-                goto(Entrance_PickSet)
+                goto(Entrance_PickWeather_Set)
         case 1: setvar(VAR_TEMP_1, 1)
-                goto(Entrance_PickSet)
+                goto(Entrance_PickWeather_Set)
         case 2: setvar(VAR_TEMP_1, 2)
-                goto(Entrance_PickSet)
+                goto(Entrance_PickWeather_Set)
         case 3: setvar(VAR_TEMP_1, 3)
-                goto(Entrance_PickSet)
+                goto(Entrance_PickWeather_Set)
         case 4: setaffinity(MON_LIST_RANDOM)
-                goto(Entrance_PickExit)
+                goto(Entrance_PickWeather_Exit)
     }
     closemessage
 }
 
-script Entrance_PickSet {
+script Entrance_PickWeather_Set {
     msgbox("Select style")
     setboxframe(BOX_FRAME_PC)
     dynmultichoice(0,0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
@@ -210,26 +212,26 @@ script Entrance_PickSet {
             case 2: setaffinity(MON_LIST_SAND_DIRECT)
             case 3: setaffinity(MON_LIST_SNOW_DIRECT)
             }
-            goto(Entrance_PickExit)
+            goto(Entrance_PickWeather_Exit)
         case 1: switch(var(VAR_TEMP_1)) {
             case 0: setaffinity(MON_LIST_SUN_CONDITIONAL)
             case 1: setaffinity(MON_LIST_RAIN_CONDITIONAL)
             case 2: setaffinity(MON_LIST_SAND_CONDITIONAL)
             case 3: setaffinity(MON_LIST_SNOW_CONDITIONAL)
            }
-           goto(Entrance_PickExit)
+           goto(Entrance_PickWeather_Exit)
         case 2: switch(var(VAR_TEMP_1)) {
             case 0: setaffinity(MON_LIST_SUN_MANUAL)
             case 1: setaffinity(MON_LIST_RAIN_MANUAL)
             case 2: setaffinity(MON_LIST_SAND_MANUAL)
             case 3: setaffinity(MON_LIST_SNOW_MANUAL)
            }
-            goto(Entrance_PickExit)
+            goto(Entrance_PickWeather_Exit)
         }
     goto(Entrance_PickWeather)
 }
 
-script Entrance_PickExit {
+script Entrance_PickWeather_Exit {
     msgbox("Affinity confirmed")
     closemessage
     release
@@ -263,6 +265,175 @@ script Entrance_Boss {
 script Entrance_BossStart {
     msgbox("Myth initialized succesfully.{PAUSE 60}\nEntering story.")
     warpsilent(MAP_MYTH_HUB, 20, 18)
+}
+
+script Entrance_Satsuki {
+    lock
+    faceplayer
+    msgbox("{SPEAKER NAME_SATSUKI}Hmm? Something the matter?")
+    // totalmythscleared
+    // if(var(VAR_RESULT) >= 2){
+    //     msgbox("You've cleared 2 myths!")
+    // }
+    // else {
+    //     msgbox("You have not cleared 2 myths")
+    // }
+    dynmultipush("Got anything new?", 0)
+    dynmultipush("How's my progress?",1)
+    //if var story == 2
+    dynmultipush("I managed to clear one of the stories!",2)
+    closemessage
+    release
+}
+
+script Entrance_PlayerTerminal {
+    lock
+    if(var(VAR_STORY)== 0){
+        msgbox("{SPEAKER NAME_PLAYER}It's already late, I don't have time\nto review anything right now!")
+    }
+    msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
+    closemessage
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+                    "Story structure",
+                    "Battle mechanics",
+                    "Affinity",
+                    "Exit")
+    switch(var(VAR_RESULT)){
+        case 0: goto(Entrance_PlayerTerminal_Story)
+        case 1: goto(Entrance_PlayerTerminal_Battle)
+        case 2: goto(Entrance_PlayerTerminal_Affinity)
+        case 3: goto(Entrance_PlayerTerminal_Exit)
+    }
+    goto(Entrance_PlayerTerminal_Exit)
+}
+
+script Entrance_PlayerTerminal_Exit {
+    closemessage
+    release
+}
+
+script Entrance_PlayerTerminal_Story {
+    msgbox("Hmm... I think I had my notes on the\nrecording process here.")
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+                    "General structure",
+                    "Initializing Pokémon",
+                    "Obtaining moves",
+                    "Gaining abilities",
+                    "Back")
+    switch(var(VAR_RESULT)){
+        case 0: msgbox(Entrance_Text_Structure)
+            goto(Entrance_PlayerTerminal_Story)
+        case 1: msgbox(Entrance_Text_Pokemon)
+            goto(Entrance_PlayerTerminal_Story)
+        case 2: msgbox(Entrance_Text_Moves)
+            goto(Entrance_PlayerTerminal_Story)
+        case 3: msgbox(Entrance_Text_Abilities)
+            goto(Entrance_PlayerTerminal_Story)
+        case 4: goto(Entrance_PlayerTerminal)
+    }
+    goto(Entrance_PlayerTerminal)
+}
+
+text Entrance_Text_Structure {
+    "The Bodhai system creates a similar\nstructure for each myth.\p"
+    "Select a myth to examine.\nThe system will create a boss\lassociated with the myth.\p"
+    "It will also generate 9 subdomains.\p"
+    "Each domain contains a single\npowerful opponent, as well as\na number of weaker enemies.\p"
+    "They represent the obstacles\nthe protagonists had to overcome.\p"
+    "The final boss can be challenged\nat any time.\p"
+    "Depending on the number of\nsubdomains entered, the story may\lreach different conclusions."
+}
+
+text Entrance_Text_Pokemon {
+    "I can bring 3 Pokémon into\na myth.\p"
+    "They are initialized via the\nBodhai system.\p"
+    "There are no levels, but they\ncan become stronger through\lother means."
+}
+
+text Entrance_Text_Moves {
+    "The Pokémon I start off with know 2 moves."
+    "Defeating a minor enemy in a subdomain rewards a move."
+    "This move can be assigned to a Pokémon via the Pokémon menu."
+    "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon."
+    "To remove an assigned move, select it and press {A_BUTTON}."
+    "Any move can be put onto any Pokémon, and starting moves can also be switched around."
+    "Lastly, rewarded moves also increase the Pokémon's stats."
+}
+
+text Entrance_Text_Abilities {
+    "Pokemon initialized by the Bodhai Tree start with a single ability."
+    "Unlike starting moves, this ability is not removable."
+    "Defeating the boss in a subdomain rewards an ability."
+    "Obtained abilities can be assigned to any Pokémon, and swapped at will."
+}
+
+script Entrance_PlayerTerminal_Battle {
+    msgbox("Right, the Tree's battle system is a bit different from usual battles.")
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+                    "Switching around",
+                    "Backline",
+                    "Phases",
+                    "Cooldowns",
+                    "Abilities",
+                    "Stat boosts",
+                    "Back")
+    switch(var(VAR_RESULT)){
+        case 0: msgbox(Entrance_Text_Switching)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 1: msgbox(Entrance_Text_Backline)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 2: msgbox(Entrance_Text_Phases)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 3: msgbox(Entrance_Text_Cooldowns)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 4: msgbox(Entrance_Abilities)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 5: msgbox(Entrance_StatBoosts)
+            goto(Entrance_PlayerTerminal_Battle)
+        case 6: goto(Entrance_PlayerTerminal)
+    }
+    goto(Entrance_PlayerTerminal)
+}
+
+text Entrance_Text_Switching {
+    "Apparantly switching works like rotation battles. Never heard of them, though."
+    "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn."
+    "Abilities that activate on switch-in do require the Pokémon to take a turn, though."
+}
+
+text Entrance_Text_Backline {
+    "When not the active battler, a Pokémon will restore a bit of health every turn."
+    "After 3 turns of being in the back, they will get rid of any negative stat drops."
+    "And after 5 turns, they'll heal negative status effects"
+    "Well, most of them."
+}
+
+text Entrance_Text_Phases {
+    "All enemies have multiple phases."
+    "Dealing enough damage puts the opponent to the next phase."
+    "When this happens, they cure themselves of any statuses."
+    "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!"
+}
+
+text Entrance_Text_Cooldowns {
+    "Some moves and abilities have cooldowns."
+    "After activating, they won't do so until a number of turns have passed."
+    "Moves can be used when on cooldown, but this will deal recoil damage."
+}
+
+text Entrance_Abilities {
+    "Just like my own Pokémon, enemies can also have multiple abilities"
+    "The longer the story goes on, the more abilities they will have..."
+}
+
+text Entrance_StatBoosts {
+    "To improve consistency, the Bodhai Tree makes stat boost levels less drastic."
+    "There are still six stages, but the maximum is a 2x multiplier."
+    "or a 0.5x for negative stat changes."
+}
+
+script Entrance_PlayerTerminal_Affinity {
+
 }
 
 script Entrance_PrayerGirl {
@@ -383,3 +554,348 @@ script Entrance_DanceDone {
 
     release
 }
+
+
+script Entrance_NotThisWay {
+    lock
+    msgbox("There is still more to uncover")
+    applymovement(player, moves(walk_up))
+    waitmovement
+    release
+}
+
+// Xerneas - This woman is quite old
+script Entrance_Morgan {
+    checkbossdefeated(FINAL_BOSS_XERNEAS)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_MORGAN_INTRO_CHAT)==FALSE) {
+            goto(Entrance_Morgan_Introduction)
+        }
+        else {
+            goto(Entrance_Morgan_Introduction_Followup)
+        }
+    }
+    else {
+        if(var(VAR_XERNEAS_PROGRESS)>5) {
+            if(flag(FLAG_MORGAN_FALSE_ENDING_CHAT)==FALSE) {
+                goto(Entrance_Morgan_XerneasFalseEnding)
+            }
+            else {
+                goto(Entrance_Morgan_XerneasFalseEnding_Followup)
+            }
+        }
+        else {
+            if(flag(FLAG_MORGAN_TRUE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Morgan_XerneasTrueEnding)
+            }
+            else {
+                goto(Entrance_Morgan_XerneasTrueEnding_Followup)
+            }
+        }
+    }
+}
+
+script Entrance_Morgan_Introduction {
+    lock
+    faceplayer
+    msgbox("This place is truly fascinating…\p"
+            "I mean, discovering history by\nsimulating stories to find out\lwhat really happened?\p"
+            "It's incredible what technology\ncan do these days.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yup, the whole system is incredible!\p"
+            "Though, I still don't really\nunderstand how it works.\lEven though I use it daily…")
+    closemessage
+    msgbox("Ah, so you are a recordkeeper?")
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Since recently, yeah!")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Impressive, at such a young age too!")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("If you're interested, I could\nlet miss Satsuki know.\p"
+            "We could always use more members.")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Mhm, thank you for the offer, but\nI think I'll pass.\p"
+            "I'm no good with technology, and\nprefer the more traditional ways of\lstorytelling.\p"
+            "You can't teach an old dog\nnew tricks, as they say…")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Aww don't be so harsh on yourself,\nyou look hardly older than me!")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Hehee, thank you. Don't worry about\nit too much.\p"
+            "But I will still have to decline.\p"
+            "I won't be here for long.\nMy destination lies elsewhere.")
+    closemessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Just a question for my own\ncuriosity, are you working on\lanything specifically?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, I've been assigned a couple of\nstories.\p"
+            "They were.{PAUSE 15}.{PAUSE 15}.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("The Abundance myth, hm?\p"
+            "That does sound rather fascinating.\nAs do the others.\p"
+            "It sounds like you have a lot to do.\p"
+            "I shan't hold you up any longer\nthen.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Well, talking to visitors is also part\nof the job description!\p"
+            "But you're right, I do have to\nget back to them.\p"
+            "See you around, miss…")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Morgan.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Got it.\nTake care, miss Morgan!")
+    closemessage
+    setflag(FLAG_MORGAN_INTRO_CHAT)
+    release
+}
+
+script Entrance_Morgan_Introduction_Followup {
+    lock
+    faceplayer
+    msgbox("You guys truly have a lot of stories\nstored in here.\p"
+            "I think I'll stick around for a\nwhile until I've read most of them.")
+    closemessage
+    release
+}
+
+script Entrance_Morgan_XerneasFalseEnding {
+    lock
+    faceplayer
+    msgbox("Hey, miss Morgan! Not leaving yet,\nI see?")
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Leaving? Why'd I do that?\p"
+            "Right, miss Satsuki did mention that\nyou are a bit forgetful.\p"
+            "I'm still far from finished converting\nall my experiences into data for\lthe archives.")
+    closemessage
+    msgbox(".{PAUSE 15}.{PAUSE 15}.?")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("I did see you've completed Xerneas's\ntale.\p"
+            "It is just as I told you, right?")
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Sigh…\nif only things went different that day,\lI wouldn't be stuck like this.\p"
+            "Oh well, I may as well make myself\nuseful while I still can.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("I… see.")
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("You've got other business to attend\nto, correct?\p"
+            "I think your time is better spent\narchiving your own findings, rather\lthan worrying about little old me.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Mmm, I suppose you are right.\p"
+            "In that case, stay safe, miss Morgan.")
+    closemessage
+    setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
+    release
+}
+
+script Entrance_Morgan_XerneasFalseEnding_Followup {
+    lock
+    faceplayer
+    msgbox("Oh, Tiana. I'm managing just fine.\p"
+            "But thanks for checking in.")
+    closemessage
+    release
+}
+
+script Entrance_Morgan_XerneasTrueEnding {
+    msgbox("Good day, miss Morgan.\nHow are you doing?")
+    closemessage
+    faceplayer
+    msgbox("I- sorry, I think you have the\nwrong person\p"
+            "Also, you don't have to adress me\nwith miss. I'm not that old.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Ah, right. I… must've mistaken you\nfor someone else then")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("It's fine, it's fine. Don't stress too\nmuch about it.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Though… hmm.\nIt's funny you called me that.\p"
+            "It was one of the names my parents\nwere considering to give me.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Mhm, that's a pretty odd coincidence\p"
+            "So if not Morgan, what can I call\nyou?")
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Oh, you can call me Yfa!\p"
+            "I should've introduced myself before\ngoing on that ramble. And you?")
+    closemessage
+    msgbox("Tiana.\nI'm a recordkeeper here!")
+    closemessage
+    msgbox("Oh, what a cute name.")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Since you work here, I actually have a\nrequest.\p"
+            "Reason I'm here today and all that.\p"
+            "My familiy is convinced that we are\ndescendants from the Morgan who\lhelped quell Xerneas.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Which is also why they were\nconsidering that name.\p"
+            "But I feel like that's just a load\nof hot air.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Keeping up public appearance huh?")
+    closemessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Yeah, good way of putting it.\p"
+            "Anyway, I heard you guys recently\nfinished deciphering Xerneas' tale.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Oh hey, yeah that's right!\p"
+            "It was me who did that, actually.")
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Whoa, lucky me. Seems I bumped\ninto the right person.\p"
+            "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas.\p"
+            "Do you know more about what\nhappened to her afterwards?")
+    closemessage
+    msgbox("Well-")
+    waitmessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
+            "That said, you bear a striking\nresemblance to how she was \ldepicted.")
+    closemessage
+    msgbox("… I see. Hmmmm.")
+    waitmessage
+    setvar(VAR_TEMP_2, morgan)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Intriguing. That gives me something\nto think about.\p"
+            "Thank you for your cooperation.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Anytime! Let me know if there's\nanything else.")
+    closemessage
+    msgbox("That's all for now.")
+    closemessage
+    msgbox("I'll be going back to work then.\nTake care Yfa!")
+    closemessage
+    setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
+    release
+}
+
+script Entrance_Morgan_XerneasTrueEnding_Followup {
+    lock
+    faceplayer
+    msgbox("Hey Tiana! I've decided- I'm going to join you guys here!"
+            "Soon, I'll be 'Recordkeeper Yfa'")
+    closemessage
+    release
+}
+
+script Entrance_GetDirectionAndWalkInPlace {
+    getobjectfacingdirection(VAR_TEMP_2, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(VAR_TEMP_2, moves(walk_in_place_down))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(VAR_TEMP_2, moves(walk_in_place_up))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(VAR_TEMP_2, moves(walk_in_place_left))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(VAR_TEMP_2, moves(walk_in_place_right))
+        waitmovement
+        return
+    }
+    return
+}
+
+script Entrance_GetDirectionAndJumpInPlace {
+    getobjectfacingdirection(VAR_TEMP_2, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(VAR_TEMP_2, moves(jump_in_place_down))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(VAR_TEMP_2, moves(jump_in_place_up))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(VAR_TEMP_2, moves(jump_in_place_left))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(VAR_TEMP_2, moves(jump_in_place_right))
+        playse(SE_LEDGE)
+        waitmovement
+        return
+    }
+    return
+}
+
+script Entrance_GetDirectionAndLookToSide {
+    getobjectfacingdirection(VAR_TEMP_2, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
+    if(var(VAR_TEMP_3)== 1 ) {
+        applymovement(VAR_TEMP_2, moves(face_left, delay_16*3, face_down))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 2 ){
+        applymovement(VAR_TEMP_2, moves(face_left, delay_16*3, face_up))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 3 ){
+        applymovement(VAR_TEMP_2, moves(face_up, delay_16*3, face_left))
+        waitmovement
+        return
+    }
+    if(var(VAR_TEMP_3)== 4 ){
+        applymovement(VAR_TEMP_2, moves(face_down, delay_16*3, face_right))
+        waitmovement
+        return
+    }
+    return
+}
+

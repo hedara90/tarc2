@@ -275,8 +275,12 @@
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
 
 #define VAR_STORY                                        0x4100
+#define VAR_ENTRANCEBRIDGE                               0x4101
+#define VAR_XERNEAS_PROGRESS                             0x4102
+#define VAR_GIRATINA_PROGRESS                            0x4103
+#define VAR_LUGIA_PROGRESS                               0x4104
 
-#define VARS_END                                         0x4100
+#define VARS_END                                         0x4104
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 
 #define SPECIAL_VARS_START            0x8000

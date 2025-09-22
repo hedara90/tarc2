@@ -23,6 +23,7 @@
 #include "field_message_box.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
+#include "hunt_setup.h"
 #include "international_string_util.h"
 #include "item.h"
 #include "item_icon.h"
@@ -4912,6 +4913,8 @@ void AddStuff(void)
     FlagSet(FLAG_HELP_PHASE);
     FlagSet(FLAG_HELP_COOLDOWN);
     FlagSet(FLAG_HELP_HEAL);
+    gSaveBlock1Ptr->bestBosses[FINAL_BOSS_XERNEAS].teamMembers[0] = SPECIES_GALVANTULA;
+    VarSet(VAR_XERNEAS_PROGRESS, 3);
 }
 
 u32 RomXor();

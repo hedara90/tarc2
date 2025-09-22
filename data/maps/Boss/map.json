@@ -2,7 +2,7 @@
   "id": "MAP_BOSS",
   "name": "Boss",
   "layout": "LAYOUT_BOSS",
-  "music": "MUS_DUMMY",
+  "music": "MUS_CAVE_OF_ORIGIN",
   "region_map_section": "MAPSEC_ABANDONED_SHIP",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
