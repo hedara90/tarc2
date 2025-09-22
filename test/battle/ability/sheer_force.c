@@ -393,6 +393,7 @@ static inline bool32 IgnoreMoveForSheerForceBoost(u32 move)
         case MOVE_PAYBACK:
         case MOVE_REWARD_SHELL_TRAP:
         case MOVE_PYROCLASM:
+        case MOVE_BANISH:
             return TRUE;
     }
     return FALSE;
