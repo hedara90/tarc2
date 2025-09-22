@@ -40,6 +40,7 @@
 #include "overworld.h"
 #include "random.h"
 
+#include "tarc_debug.h"
 
 struct Tarc_InfoMenuState
 {
@@ -549,7 +550,15 @@ static void DrawAll()
 static void Task_FadeBoss(u8 taskId)
 {
     //  Offset might have to be adjusted if the debug sprite is added
-    u16 *tileStart = (u16 *)(OBJ_VRAM0 + 20 * TILE_SIZE_4BPP);
+    u32 tile = 20;
+    if (gShouldShowDebugInfo)
+    {
+        u32 debugStart = GetSpriteTileStartByTag(0xFBE1);
+        if (debugStart <= 20)
+            tile += 16;
+    }
+
+    u16 *tileStart = (u16 *)(OBJ_VRAM0 + tile * TILE_SIZE_4BPP);
 
     for (u32 i = 0; i < 32; i++)
     {
