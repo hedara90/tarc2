@@ -11878,6 +11878,8 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .shinyPalette = gMonShinyPalette_Palossand,
         .iconSprite = gMonIcon_Palossand,
         .iconPalIndex = 2,
+        .portraitPic = gMonPortraitPic_Palossand,
+        .portraitPal = gMonPortraitPal_Palossand,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         NO_SHADOW
         FOOTPRINT(Palossand)

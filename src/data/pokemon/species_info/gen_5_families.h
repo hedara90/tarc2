@@ -16124,6 +16124,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_Gigalith,
         .iconSprite = gMonIcon_Gigalith,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Gigalith,
+        .portraitPal = gMonPortraitPal_Gigalith,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 8, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Gigalith)
@@ -18244,6 +18246,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_BasculegionM,
         .iconSprite = gMonIcon_BasculegionM,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Basculegion,
+        .portraitPal = gMonPortraitPal_Basculegion,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 16, SHADOW_SIZE_M)
         FOOTPRINT(Basculegion)
@@ -18309,6 +18313,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_BasculegionF,
         .iconSprite = gMonIcon_BasculegionF,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Basculegion,
+        .portraitPal = gMonPortraitPal_Basculegion,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 16, SHADOW_SIZE_M)
         FOOTPRINT(Basculegion)
@@ -19002,6 +19008,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_Maractus,
         .iconSprite = gMonIcon_Maractus,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Maractus,
+        .portraitPal = gMonPortraitPal_Maractus,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 13, SHADOW_SIZE_S)
         FOOTPRINT(Maractus)
@@ -22104,6 +22112,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_Escavalier,
         .iconSprite = gMonIcon_Escavalier,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Escavalier,
+        .portraitPal = gMonPortraitPal_Escavalier,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 11, SHADOW_SIZE_M)
         FOOTPRINT(Escavalier)
@@ -23605,6 +23615,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_Chandelure,
         .iconSprite = gMonIcon_Chandelure,
         .iconPalIndex = 2,
+        .portraitPic = gMonPortraitPic_Chandelure,
+        .portraitPal = gMonPortraitPal_Chandelure,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 13, SHADOW_SIZE_S)
         FOOTPRINT(Chandelure)
@@ -25309,6 +25321,8 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .shinyPalette = gMonShinyPalette_Mandibuzz,
         .iconSprite = gMonIcon_Mandibuzz,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Mandibuzz,
+        .portraitPal = gMonPortraitPal_Mandibuzz,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 12, SHADOW_SIZE_M)
         FOOTPRINT(Mandibuzz)

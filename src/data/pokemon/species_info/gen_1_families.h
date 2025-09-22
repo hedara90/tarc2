@@ -28910,6 +28910,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .backPicFemale = gMonBackPic_PolitoedF,
         .backPicSizeFemale = MON_COORDS_SIZE(56, 56),
 #endif //P_GENDER_DIFFERENCES
+        .portraitPic = gMonPortraitPic_Politoed,
+        .portraitPal = gMonPortraitPal_Politoed,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 9, SHADOW_SIZE_M)
         FOOTPRINT(Politoed)
@@ -32934,6 +32936,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .backPicFemale = gMonBackPic_SteelixF,
         .backPicSizeFemale = MON_COORDS_SIZE(64, 64),
 #endif //P_GENDER_DIFFERENCES
+        .portraitPic = gMonPortraitPic_Steelix,
+        .portraitPal = gMonPortraitPal_Steelix,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 12, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Steelix)
@@ -35921,6 +35925,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Kingdra,
         .iconSprite = gMonIcon_Kingdra,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Kingdra,
+        .portraitPal = gMonPortraitPal_Kingdra,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(3, 12, SHADOW_SIZE_M)
         FOOTPRINT(Kingdra)
@@ -37845,6 +37851,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_TaurosPaldeaBlaze,
         .iconSprite = gMonIcon_TaurosPaldeaBlaze,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_TaurosPaldeaBlaze,
+        .portraitPal = gMonPortraitPal_TaurosPaldeaBlaze,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 7, SHADOW_SIZE_L)
         FOOTPRINT(Tauros)
@@ -39022,6 +39030,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Leafeon,
         .iconSprite = gMonIcon_Leafeon,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Leafeon,
+        .portraitPal = gMonPortraitPal_Leafeon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 4, SHADOW_SIZE_M)
         FOOTPRINT(Leafeon)
@@ -39091,6 +39101,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Glaceon,
         .iconSprite = gMonIcon_Glaceon,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Glaceon,
+        .portraitPal = gMonPortraitPal_Glaceon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 3, SHADOW_SIZE_M)
         FOOTPRINT(Glaceon)
@@ -39550,6 +39562,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Omastar,
         .iconSprite = gMonIcon_Omastar,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Omastar,
+        .portraitPal = gMonPortraitPal_Omastar,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 4, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Omastar)

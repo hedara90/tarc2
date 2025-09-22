@@ -11254,6 +11254,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .shinyPalette = gMonShinyPalette_SandacondaGmax,
         .iconSprite = gMonIcon_SandacondaGmax,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Sandaconda,
+        .portraitPal = gMonPortraitPal_Sandaconda,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 14, SHADOW_SIZE_M)
         FOOTPRINT(Sandaconda)
@@ -14359,6 +14361,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .shinyPalette = gMonShinyPalette_Dracozolt,
         .iconSprite = gMonIcon_Dracozolt,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Dracozolt,
+        .portraitPal = gMonPortraitPal_Dracozolt,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-4, 10, SHADOW_SIZE_L)
         FOOTPRINT(Dracozolt)
@@ -14750,6 +14754,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .shinyPalette = gMonShinyPalette_Archaludon,
         .iconSprite = gMonIcon_Archaludon,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Archaludon,
+        .portraitPal = gMonPortraitPal_Archaludon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(4, 14, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Archaludon)

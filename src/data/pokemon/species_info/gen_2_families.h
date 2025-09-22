@@ -11689,6 +11689,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Sunflora,
         .iconSprite = gMonIcon_Sunflora,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Sunflora,
+        .portraitPal = gMonPortraitPal_Sunflora,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 6, SHADOW_SIZE_S)
         FOOTPRINT(Sunflora)
@@ -13780,6 +13782,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Overqwil,
         .iconSprite = gMonIcon_Overqwil,
         .iconPalIndex = 2,
+        .portraitPic = gMonPortraitPic_Overqwil,
+        .portraitPal = gMonPortraitPal_Overqwil,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 11, SHADOW_SIZE_M)
         FOOTPRINT(Overqwil)
@@ -14340,6 +14344,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Sneasler,
         .iconSprite = gMonIcon_Sneasler,
         .iconPalIndex = 2,
+        .portraitPic = gMonPortraitPic_Sneasler,
+        .portraitPal = gMonPortraitPal_Sneasler,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 11, SHADOW_SIZE_M)
         FOOTPRINT(Sneasler)

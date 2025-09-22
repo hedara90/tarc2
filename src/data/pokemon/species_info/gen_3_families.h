@@ -20404,6 +20404,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Torkoal,
         .iconSprite = gMonIcon_Torkoal,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 1 : 2,
+        .portraitPic = gMonPortraitPic_Torkoal,
+        .portraitPal = gMonPortraitPal_Torkoal,
         .pokemonJumpType = PKMN_JUMP_TYPE_SLOW,
         SHADOW(2, 7, SHADOW_SIZE_L)
         FOOTPRINT(Torkoal)
@@ -21491,6 +21493,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Lunatone,
         .iconSprite = gMonIcon_Lunatone,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Lunatone,
+        .portraitPal = gMonPortraitPal_Lunatone,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 15, SHADOW_SIZE_S)
         FOOTPRINT(Lunatone)
@@ -21572,6 +21576,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Solrock,
         .iconSprite = gMonIcon_Solrock,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Solrock,
+        .portraitPal = gMonPortraitPal_Solrock,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 15, SHADOW_SIZE_M)
         FOOTPRINT(Solrock)
@@ -21740,6 +21746,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Whiscash,
         .iconSprite = gMonIcon_Whiscash,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Whiscash,
+        .portraitPal = gMonPortraitPal_Whiscash,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 3, SHADOW_SIZE_L)
         FOOTPRINT(Whiscash)
@@ -23470,6 +23478,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Tropius,
         .iconSprite = gMonIcon_Tropius,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Tropius,
+        .portraitPal = gMonPortraitPal_Tropius,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-6, 13, SHADOW_SIZE_L)
         FOOTPRINT(Tropius)
@@ -24084,6 +24094,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Froslass,
         .iconSprite = gMonIcon_Froslass,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Froslass,
+        .portraitPal = gMonPortraitPal_Froslass,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 10, SHADOW_SIZE_S)
         FOOTPRINT(Froslass)
@@ -24320,6 +24332,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .shinyPalette = gMonShinyPalette_Walrein,
         .iconSprite = gMonIcon_Walrein,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Walrein,
+        .portraitPal = gMonPortraitPal_Walrein,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 8, SHADOW_SIZE_L)
         FOOTPRINT(Walrein)
