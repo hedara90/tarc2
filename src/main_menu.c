@@ -1251,7 +1251,8 @@ static void Task_NewGameBirchSpeech_Init(u8 taskId)
     NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES);
     DestroyTask(taskId);
     gSaveBlock2Ptr->playerGender = FEMALE;
-    DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGame);
+    SetMainCallback2(CB2_NewGame);
+    // DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGame);
     /*
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
@@ -1618,7 +1619,8 @@ static void Task_NewGameBirchSpeech_StartNamingScreen(u8 taskId)
         NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES);
         DestroyTask(taskId);
         gSaveBlock2Ptr->playerGender = FEMALE;
-        DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGame);
+        // DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGame);
+        SetMainCallback2(CB2_NewGame);
     }
 }
 
