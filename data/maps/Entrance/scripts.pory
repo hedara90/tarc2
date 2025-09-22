@@ -575,7 +575,40 @@ script Entrance_Receptionist_Counter {
 script Entrance_PottedPlantMan {
     lock
     faceplayer
-    msgbox("How do you even water the pots over\nthere?")
+    switch (var(VAR_POTTED_PLANT_MAN)) {
+    case 1:
+        msgbox("{SPEAKER NAME_HIDEAKI}Do people jump over to the platform?")
+    case 2:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or is there a watering can with a\nreally long pipe?")
+    case 3:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or does someone here have really\ngood aim with a hose?")
+    case 4:
+        msgbox("{SPEAKER NAME_HIDEAKI}They could maybe grab the pots with\nwith something and lift them over\lto their side…")
+    case 5:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or they could throw water balloons\nat the pots.\pNo, that would be stupid.")
+    case 6:
+        msgbox("{SPEAKER NAME_HIDEAKI}You know those claw machines in\narcades?")
+        setboxframe(BOX_FRAME_TIANA)
+        dynmultichoice(0, 0, TRUE, 2, 0, DYN_MULTICHOICE_CB_NONE,
+                        "Yes?",
+                        "And that's relevant, how?")
+        msgbox("{SPEAKER NAME_HIDEAKI}What if there's one of those in the\nroof that picks up the pots and\lbrings it over?")
+        msgbox("{SPEAKER NAME_PLAYER}(How does he even come up with\nall these ideas?)")
+    case 7:
+        msgbox("{SPEAKER NAME_HIDEAKI}They could have some Water type\nPokémon, they probably have a better\laim than a hose.")
+    case 8:
+        msgbox("{SPEAKER NAME_HIDEAKI}Back when I was younger, I used\nto have a pair of waders for fishing.\pWith a pair of those, you could just walk\nup to the pots.")
+    case 9:
+        msgbox("{SPEAKER NAME_HIDEAKI}Wait, are the plants in the pots\nplastic? Then they don't need water!")
+        dynmultichoice(0, 0, TRUE, 2, 1, DYN_MULTICHOICE_CB_NONE,
+                        "All plants here are real.",
+                        "Too many shed leaves for that.")
+        msgbox("{SPEAKER NAME_HIDEAKI}Ah, I guess I see leaves that\nhave fallen off the plants.")
+    default:
+        msgbox("{SPEAKER NAME_HIDEAKI}How do you even water the pots over\nthere?")
+        setvar(VAR_POTTED_PLANT_MAN, 0)
+    }
+    addvar(VAR_POTTED_PLANT_MAN, 1)
     waitmessage
     applymovement(LOCALID_POTTED_PLANT_MAN, moves(face_left))
     waitmovement
