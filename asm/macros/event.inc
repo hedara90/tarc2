@@ -2708,8 +2708,13 @@
 	.byte \frame
 	.endm
 
-	@ Change current frame around dynmultichoice boxes
+	@ Check if specific boss is defeated
 	.macro checkbossdefeated bossId:req
 	callnative CheckBossDefeated
 	.byte \bossId
+	.endm
+
+	@ Check number of unique bosses defeated
+	.macro totalmythscleared
+	callnative CheckTotalBossesDefeated
 	.endm

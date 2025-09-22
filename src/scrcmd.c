@@ -61,6 +61,7 @@
 #include "constants/map_types.h"
 
 #include "constants/tarc_balance_constants.h"
+#include "hunt_setup.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -3362,4 +3363,17 @@ void CheckBossDefeated (struct ScriptContext *ctx)
         gSpecialVar_Result = TRUE;
     }
     
+}
+
+void CheckTotalBossesDefeated (void)
+{
+    u32 bossId;
+    u32 count = 0;
+    for(bossId = 0; bossId < FINAL_BOSS_COUNT; bossId++);
+    {
+        if(gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] != SPECIES_NONE) {
+            count++;
+        }
+    }
+    gSpecialVar_Result = count;
 }
