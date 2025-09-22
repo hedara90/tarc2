@@ -285,6 +285,7 @@ script Entrance_Satsuki {
     dynmultipush("Did you set up the Bodhai system?",3)
     //if var story == 2
     dynmultipush("I managed to clear one of the stories!",4)
+    dynmultipush("The visitors seem... different?",5)
     dynmultistack(0,0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
         case 0:
@@ -301,7 +302,7 @@ script Entrance_Satsuki_AnythingNew {
     call(Entrance_GetDirectionAndLookToSide)
     msgbox("You're still working on the\nassignments, aren't you?\p"
             "Focus on them first before\nasking me for more.\p"
-            "History doesn't write itself")
+            "History doesn't write itself.")
     closemessage
     msgbox("{SPEAKER SPEAKER_PLAYER}Sigh... Fair point.\p"
             "I'll get back to work.")
@@ -356,13 +357,59 @@ script Entrance_Satsuki_Deciphering {
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Shush, I can always add more rules.\p")
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("But yeah, that's the situation. Will be a bit before we get anything new.")
+    msgbox("But yeah, that's the situation."
+            "Will take some time before we get anything new.\p")
+}
+
+script Entrance_Satsuki_Bodhai {
+    msgbox("And where does this sudden interest come from?\p"
+            "Thought you didn't care for the technical mumbo jumbo")
+    msgbox("Think it dawned on me that I have to actually work with it."
+            "Not knowing much more than the basics sounds like a bad idea, to be honest")
+    msgbox("Fufu, color me surprised. Never thought I'd see the day.")
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("I didn't make this system on my own. I had help from Reki.")
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Oh, him? I thought he hated technology")
+    msgbox("Not entirely wrong, he really disliked the idea at first"
+            "Buuut I eventually managed to convince him."
+            "Got him to realize that no matter how meticulous, the human mind can't store infinite data.")
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("There was a period where he was convinced he could just get rid of useless memories."
+            "Though knowledgable, he was also just a stubborn fool.")
+    msgbox("Anyway, that aside. Back to the topic."
+            "Functionally, the tree is nothing more than a predictive algorythm."
+            "Basically, we enter a bunch of starting info and parameters."
+            "After that, its essentially just one big simulation"
+            "And you're the variable factor that's acting as the hero.")
+    msgbox("... Ah. I uh, see.")
+    msgbox("It is a lot more complicated than that, but we'd be here all day and we both have better things to do"
+            "Besides, I don't think you'd enjoy the data entry."
+            "Or that you'd be any good at it".)
+}
+
+script Entrance_Satsuki_FirstClear {
+    msgbox("I just checked the archives this morning. Good work, Tiana.")
+    msgbox("Hehe, thank you! It was nice to see the ending")
+    msgbox("Good, use that momentum. Don't get complacent now.")
+    msgbox("Also, just because you've cleared it doesn't mean you have nothing left to examine")
+    msgbox("Remember that the length of a story can influence it's outcome.")
+    msgbox("Yup yup, I'll have another look later.")
+}
+
+script Entrance_Satsuki_Visitor {
+    msgbox("Different?")
+    msgbox("Yeah, some feel like completely different people")
+    msgbox("Oh? That's interesting. Have you completed anything recently?")
+    msgbox("Yeah, I did round up another myth yesterday")
+    msgbox("Well, there you go.")
 }
 
 script Entrance_PlayerTerminal {
     lock
     if(var(VAR_STORY)== 0){
-        msgbox("{SPEAKER NAME_PLAYER}It's already late, I don't have time\nto review anything right now!")
+        msgbox("{SPEAKER NAME_PLAYER}Im running late, I don't have time\nto review anything right now!")
         goto(Entrance_PlayerTerminal_Exit)
     }
     msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
