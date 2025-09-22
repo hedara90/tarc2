@@ -290,10 +290,11 @@ script Entrance_PlayerTerminal {
     lock
     if(var(VAR_STORY)== 0){
         msgbox("{SPEAKER NAME_PLAYER}It's already late, I don't have time\nto review anything right now!")
+        goto(Entrance_PlayerTerminal_Exit)
     }
     msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
     closemessage
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Story structure",
                     "Battle mechanics",
                     "Affinity",
@@ -314,7 +315,7 @@ script Entrance_PlayerTerminal_Exit {
 
 script Entrance_PlayerTerminal_Story {
     msgbox("Hmm... I think I had my notes on the\nrecording process here.")
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "General structure",
                     "Initializing Pokémon",
                     "Obtaining moves",
@@ -351,25 +352,25 @@ text Entrance_Text_Pokemon {
 }
 
 text Entrance_Text_Moves {
-    "The Pokémon I start off with know 2 moves."
+    format("The Pokémon I start off with know 2 moves."
     "Defeating a minor enemy in a subdomain rewards a move."
     "This move can be assigned to a Pokémon via the Pokémon menu."
     "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon."
     "To remove an assigned move, select it and press {A_BUTTON}."
     "Any move can be put onto any Pokémon, and starting moves can also be switched around."
-    "Lastly, rewarded moves also increase the Pokémon's stats."
+    "Lastly, rewarded moves also increase the Pokémon's stats.")
 }
 
 text Entrance_Text_Abilities {
-    "Pokemon initialized by the Bodhai Tree start with a single ability."
+    format("Pokemon initialized by the Bodhai Tree start with a single ability."
     "Unlike starting moves, this ability is not removable."
     "Defeating the boss in a subdomain rewards an ability."
-    "Obtained abilities can be assigned to any Pokémon, and swapped at will."
+    "Obtained abilities can be assigned to any Pokémon, and swapped at will.")
 }
 
 script Entrance_PlayerTerminal_Battle {
-    msgbox("Right, the Tree's battle system is a bit different from usual battles.")
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE
+    msgbox(format("Right, the Tree's battle system is a bit different from usual battles."))
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Switching around",
                     "Backline",
                     "Phases",
@@ -396,40 +397,40 @@ script Entrance_PlayerTerminal_Battle {
 }
 
 text Entrance_Text_Switching {
-    "Apparantly switching works like rotation battles. Never heard of them, though."
+    format("Apparantly switching works like rotation battles. Never heard of them, though."
     "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn."
-    "Abilities that activate on switch-in do require the Pokémon to take a turn, though."
+    "Abilities that activate on switch-in do require the Pokémon to take a turn, though.")
 }
 
 text Entrance_Text_Backline {
-    "When not the active battler, a Pokémon will restore a bit of health every turn."
+    format("When not the active battler, a Pokémon will restore a bit of health every turn."
     "After 3 turns of being in the back, they will get rid of any negative stat drops."
     "And after 5 turns, they'll heal negative status effects"
-    "Well, most of them."
+    "Well, most of them.")
 }
 
 text Entrance_Text_Phases {
-    "All enemies have multiple phases."
+    format("All enemies have multiple phases."
     "Dealing enough damage puts the opponent to the next phase."
     "When this happens, they cure themselves of any statuses."
-    "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!"
+    "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!")
 }
 
 text Entrance_Text_Cooldowns {
-    "Some moves and abilities have cooldowns."
+    format("Some moves and abilities have cooldowns."
     "After activating, they won't do so until a number of turns have passed."
-    "Moves can be used when on cooldown, but this will deal recoil damage."
+    "Moves can be used when on cooldown, but this will deal recoil damage.")
 }
 
 text Entrance_Abilities {
-    "Just like my own Pokémon, enemies can also have multiple abilities"
-    "The longer the story goes on, the more abilities they will have..."
+    format("Just like my own Pokémon, enemies can also have multiple abilities"
+    "The longer the story goes on, the more abilities they will have...")
 }
 
 text Entrance_StatBoosts {
-    "To improve consistency, the Bodhai Tree makes stat boost levels less drastic."
+    format("To improve consistency, the Bodhai Tree makes stat boost levels less drastic."
     "There are still six stages, but the maximum is a 2x multiplier."
-    "or a 0.5x for negative stat changes."
+    "or a 0.5x for negative stat changes.")
 }
 
 script Entrance_PlayerTerminal_Affinity {
