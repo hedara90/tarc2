@@ -5545,7 +5545,7 @@ static void RunTurnActionsFunctions(void)
                 everythingGone = TRUE;
         }
 
-        if (everythingGone)
+        if (!TESTING && everythingGone)
         {
             gBattleMainFunc = sEndTurnFuncsTable[B_OUTCOME_LOST];
             gBattleOutcome = B_OUTCOME_LOST;
