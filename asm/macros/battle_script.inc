@@ -2640,3 +2640,15 @@
 	.macro doaiincrement
 	callnative BS_DoAiIncrement
 	.endm
+
+	.macro releaseimprisonedmons
+	callnative BS_ReleaseImprisonedMons
+	.endm
+
+	.macro doplanarimprisonment
+	callnative BS_DoPlanarImprisonment
+	.endm
+
+	.macro banishcurrentmon
+	callnative BS_BanishCurrentMon
+	.endm

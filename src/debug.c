@@ -72,6 +72,8 @@
 #include "fake_rtc.h"
 #include "save.h"
 
+#include "tarc_debug.h"
+
 // *******************************
 enum DebugMenu
 {
@@ -4913,4 +4915,11 @@ void AddStuff(void)
     FlagSet(FLAG_HELP_HEAL);
     gSaveBlock1Ptr->bestBosses[FINAL_BOSS_XERNEAS].teamMembers[0] = SPECIES_GALVANTULA;
     VarSet(VAR_XERNEAS_PROGRESS, 3);
+}
+
+u32 RomXor();
+
+void CheckRom(void)
+{
+    BuildDebugInfoSprite();
 }

@@ -1,3 +1,5 @@
+        .section .iwram.code
+        .align 2
 .global RomXor
 .type RomXor, %function
 RomXor:
