@@ -2718,3 +2718,9 @@
 	.macro totalmythscleared
 	callnative CheckTotalBossesDefeated
 	.endm
+
+	@ Opens the specified book
+	.macro openbook book:req
+	callnative Tarc_InitBookScreenFromScript
+	.4byte \book
+	.endm
