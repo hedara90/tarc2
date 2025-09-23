@@ -1,0 +1,19 @@
+#ifndef GUARD_TARC_BOOK_CONSTANTS_H
+#define GUARD_TARC_BOOK_CONSTANTS_H
+
+enum BookPages
+{
+    PAGE_NONE,
+    PAGE_TEST,
+    PAGE_TEST2,
+    PAGE_COUNT
+};
+
+enum BookSpriteType
+{
+    SPRITE_TYPE_NONE,
+    SPRITE_TYPE_MON,
+    SPRITE_TYPE_DIRECT,
+};
+
+#endif
