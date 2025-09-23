@@ -41,24 +41,6 @@ script Entrance_OnTransition {
             setobjectxyperm(kenichi, 29,21)
         }
     }
-
-
-    // if(flag(FLAG_KENICHI_INTRO_CHAT)==TRUE && var(VAR_RESULT)==FALSE){
-    //     setflag(FLAG_KENICHI)
-    // }
-    // elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE && var(VAR_LUGIA_PROGRESS) > 5){
-    //     clearflag(FLAG_KENICHI)
-    //     setobjectmovementtype(kenichi, MOVEMENT_TYPE_LOOK_AROUND)
-    //     setobjectxyperm(kenichi, 25, 26)
-    // }
-    // elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==TRUE && var(VAR_LUGIA_PROGRESS) > 5){
-    //     setflag(FLAG_KENICHI)
-    // }
-    // elif(var(VAR_LUGIA_PROGRESS)<=5){
-    //     clearflag(FLAG_KENICHI_FAMILY)
-    //     setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_DOWN)
-    //     setobjectxyperm(kenichi, 29,21)
-    // }
 }
 
 script Entrance_FirstDay_Top {
@@ -331,10 +313,12 @@ script Entrance_Satsuki {
     dynmultipush("The visitors seem... different?",5)
     dynmultistack(0,0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+        case 0: goto(Entrance_Satsuki_AnythingNew)
+        case 1: goto(Entrance_Satsuki_MockBattle)
+        case 2: goto(Entrance_Satsuki_Deciphering)
+        case 3: goto(Entrance_Satsuki_Bodhai)
+        case 4: goto(Entrance_Satsuki_FirstClear)
+        case 5: goto(Entrance_Satsuki_Visitor)
     }
     closemessage
     release
