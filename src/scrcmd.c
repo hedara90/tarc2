@@ -3335,6 +3335,27 @@ void SetBoxFrame(struct ScriptContext *ctx)
     gSaveBlock2Ptr->optionsWindowFrameType = frame;
 }
 
+void GetBehindCounterPos(void)
+{
+    s16 x = gObjectEvents[0].currentCoords.x;
+    s16 y = gObjectEvents[0].currentCoords.y;
+    if (x == 28 && y == 29)
+    {
+        //  Left
+        gSpecialVar_Result = 0;
+    }
+    else if (x == 29 && y == 30)
+    {
+        //  Below
+        gSpecialVar_Result = 1;
+    }
+    else if (x == 29 && y == 28)
+    {
+        //  Above
+        gSpecialVar_Result = 2;
+    }
+}
+
 void CheckBossPowerUp(void)
 {
     switch (gSaveBlock1Ptr->huntTargets.numBossesDefeated)

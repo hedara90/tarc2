@@ -757,16 +757,56 @@ script Entrance_DanceDone {
 script Entrance_Receptionist_Direct {
     lock
     faceplayer
-    msgbox("Please {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
-    waitmessage
-    applymovement(LOCALID_RECEPTIONIST_1, moves(face_right))
+    msgbox("P{SPEAKER NAME_NAOTO}lease {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    setboxframe(BOX_FRAME_TIANA)
+    dynmultichoice(0, 0, TRUE, 2, 0, DYN_MULTICHOICE_CB_NONE,
+                    "What if I want to hug my fav clerk?",
+                    "I have to keep you on your toes somehow.")
+    switch (var(VAR_RESULT)) {
+    case 0:
+        msgbox("{SPEAKER NAME_NAOTO}Then I'll tell Fuan you asked for her.")
+        msgbox("{SPEAKER NAME_PLAYER}Aww, don't be like that. I like\nyou too!")
+        msgbox("{SPEAKER NAME_NAOTO}Then show your appreciation from the\nother side of the counter.")
+    case 1:
+        msgbox("{SPEAKER NAME_NAOTO}You did that quite well during the\n"
+               "two weeks you were practicing your\l"
+               "spin throw thing.")
+        msgbox("{SPEAKER NAME_PLAYER}You said you wouldn't mention\nthat again…")
+        msgbox(format("{SPEAKER NAME_NAOTO}And you said you'd stay on the other side of the counter. So here we are."))
+    }
+    closemessage
+    callnative(GetBehindCounterPos)
+    applymovement(LOCALID_NAOTO, moves(face_right))
+    switch (var(VAR_RESULT)) {
+    case 0:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_down, walk_down))
+    case 1:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_left, walk_down))
+    case 2:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_left, walk_down, walk_down, walk_down))
+    }
     waitmovement
+    setflag(FLAG_PESTERED_NAOTO)
     release
+}
+
+script Entrance_Receptionist_Glare {
+    if (flag(FLAG_PESTERED_NAOTO)) {
+        lock
+        applymovement(LOCALID_NAOTO, moves(face_left, emote_exclamation_mark, delay_16*2))
+        waitmovement
+        msgbox("{SPEAKER NAME_PLAYER}(maybe not)")
+        applymovement(LOCALID_PLAYER, moves(walk_down))
+        waitmovement
+        applymovement(LOCALID_NAOTO, moves(face_right))
+        waitmovement
+        release
+    }
 }
 
 script Entrance_Receptionist_Counter {
     lock
-    msgbox("For once you did it correctly.")
+    msgbox("{SPEAKER NAME_NAOTO}For once you did it correctly.")
     waitmessage
     release
 }
@@ -774,7 +814,41 @@ script Entrance_Receptionist_Counter {
 script Entrance_PottedPlantMan {
     lock
     faceplayer
-    msgbox("How do you even water the pots over\nthere?")
+    switch (var(VAR_POTTED_PLANT_MAN)) {
+    case 1:
+        msgbox("{SPEAKER NAME_HIDEAKI}Do people jump over to the platform?")
+    case 2:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or is there a watering can with a\nreally long pipe?")
+    case 3:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or does someone here have really\ngood aim with a hose?")
+    case 4:
+        msgbox("{SPEAKER NAME_HIDEAKI}They could maybe grab the pots with\nwith something and lift them over\lto their side…")
+    case 5:
+        msgbox("{SPEAKER NAME_HIDEAKI}Or they could throw water balloons\nat the pots.\pNo, that would be stupid.")
+    case 6:
+        msgbox("{SPEAKER NAME_HIDEAKI}You know those claw machines in\narcades?")
+        setboxframe(BOX_FRAME_TIANA)
+        dynmultichoice(0, 0, TRUE, 2, 0, DYN_MULTICHOICE_CB_NONE,
+                        "Yes?",
+                        "And that's relevant, how?")
+        msgbox("{SPEAKER NAME_HIDEAKI}What if there's one of those in the\nroof that picks up the pots and\lbrings it over?")
+        msgbox("{SPEAKER NAME_PLAYER}(How does he even come up with\nall these ideas?)")
+    case 7:
+        msgbox("{SPEAKER NAME_HIDEAKI}They could have some Water type\nPokémon, they probably have a better\laim than a hose.")
+    case 8:
+        msgbox("{SPEAKER NAME_HIDEAKI}Back when I was younger, I used\nto have a pair of waders for fishing.\pWith a pair of those, you could just walk\nup to the pots.")
+    case 9:
+        msgbox("{SPEAKER NAME_HIDEAKI}Wait, are the plants in the pots\nplastic? Then they don't need water!")
+        setboxframe(BOX_FRAME_TIANA)
+        dynmultichoice(0, 0, TRUE, 2, 1, DYN_MULTICHOICE_CB_NONE,
+                        "All plants here are real.",
+                        "Too many shed leaves for that.")
+        msgbox("{SPEAKER NAME_HIDEAKI}Ah, I guess I see leaves that\nhave fallen off the plants.")
+    default:
+        msgbox("{SPEAKER NAME_HIDEAKI}How do you even water the pots over\nthere?")
+        setvar(VAR_POTTED_PLANT_MAN, 0)
+    }
+    addvar(VAR_POTTED_PLANT_MAN, 1)
     waitmessage
     applymovement(LOCALID_POTTED_PLANT_MAN, moves(face_left))
     waitmovement

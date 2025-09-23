@@ -64,6 +64,7 @@
 #include "constants/hunt_setup.h"
 #include "constants/tarc_balance_constants.h"
 #include "constants/speaker_names.h"
+#include "constants/tarc_book.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/event.inc"
 	.include "constants/constants.inc"

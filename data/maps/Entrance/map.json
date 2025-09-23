@@ -69,7 +69,7 @@
       "flag": "0"
     },
     {
-      "local_id": "LOCALID_RECEPTIONIST_1",
+      "local_id": "LOCALID_NAOTO",
       "graphics_id": "OBJ_EVENT_GFX_ACOLYTE_M",
       "x": 22,
       "y": 22,
@@ -206,6 +206,15 @@
       "var": "VAR_ENTRANCEBRIDGE",
       "var_value": "0",
       "script": "Entrance_NotThisWay"
+    },
+    {
+      "type": "trigger",
+      "x": 20,
+      "y": 23,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "Entrance_Receptionist_Glare"
     }
   ],
   "bg_events": [
