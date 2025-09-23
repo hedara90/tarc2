@@ -596,7 +596,7 @@ script Entrance_Receptionist_Glare {
         lock
         applymovement(LOCALID_NAOTO, moves(face_left))
         waitmovement
-        msgbox("{SPEAKER NAME_PLAYER}(placeholder)")
+        msgbox("{SPEAKER NAME_PLAYER}(maybe not)")
         applymovement(LOCALID_PLAYER, moves(walk_down))
         waitmovement
         applymovement(LOCALID_NAOTO, moves(face_right))

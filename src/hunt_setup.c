@@ -496,6 +496,7 @@ void SetHuntFlags(void)
         FlagClear(FLAG_AREA1_MINIBOSS1 + i);
     }
     FlagClear(FLAG_BOSS_BOSS);
+    FlagClear(FLAG_PESTERED_NAOTO);
 }
 
 void SetPostBattleData(void)
