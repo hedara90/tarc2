@@ -2,20 +2,63 @@ mapscripts Entrance_MapScripts {
     MAP_SCRIPT_ON_RESUME {
         callnative(Init_PulseNeonLights)
     }
-    MAP_SCRIPT_ON_TRANSITION: Entrance_SatsukiPosition
+    MAP_SCRIPT_ON_TRANSITION: Entrance_OnTransition
 }
 
 const satsuki = ENTRANCE_SATSUKI
 const player = OBJ_EVENT_ID_PLAYER
 const morgan = ENTRANCE_MORGAN
+const kenichi = ENTRANCE_KENICHI
+const scilla = ENTRANCE_SCILLA
+const akuwa = ENTRANCE_AKUWA
 
-script Entrance_SatsukiPosition {
+script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
         setobjectxyperm(satsuki, 25, 10)
     }
     else {
         setobjectxyperm(satsuki, 32, 12)
     }
+    checkbossdefeated(FINAL_BOSS_LUGIA)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_KENICHI_INTRO_CHAT)==TRUE){
+            setflag(FLAG_KENICHI)
+        }
+    }
+    else {
+        if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE && var(VAR_LUGIA_PROGRESS) > 5){
+            clearflag(FLAG_KENICHI)
+            setobjectmovementtype(kenichi, MOVEMENT_TYPE_LOOK_AROUND)
+            setobjectxyperm(kenichi, 25, 26)            
+        }
+        elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==TRUE && var(VAR_LUGIA_PROGRESS) > 5) {
+            setflag(FLAG_KENICHI)
+        }
+        if(var(VAR_LUGIA_PROGRESS)<=5){
+            clearflag(FLAG_KENICHI)
+            clearflag(FLAG_KENICHI_FAMILY)
+            setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_DOWN)
+            setobjectxyperm(kenichi, 29,21)
+        }
+    }
+
+
+    // if(flag(FLAG_KENICHI_INTRO_CHAT)==TRUE && var(VAR_RESULT)==FALSE){
+    //     setflag(FLAG_KENICHI)
+    // }
+    // elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE && var(VAR_LUGIA_PROGRESS) > 5){
+    //     clearflag(FLAG_KENICHI)
+    //     setobjectmovementtype(kenichi, MOVEMENT_TYPE_LOOK_AROUND)
+    //     setobjectxyperm(kenichi, 25, 26)
+    // }
+    // elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==TRUE && var(VAR_LUGIA_PROGRESS) > 5){
+    //     setflag(FLAG_KENICHI)
+    // }
+    // elif(var(VAR_LUGIA_PROGRESS)<=5){
+    //     clearflag(FLAG_KENICHI_FAMILY)
+    //     setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_DOWN)
+    //     setobjectxyperm(kenichi, 29,21)
+    // }
 }
 
 script Entrance_FirstDay_Top {
@@ -286,7 +329,7 @@ script Entrance_Satsuki {
     //if var story == 2
     dynmultipush("I managed to clear one of the stories!",4)
     dynmultipush("The visitors seem... different?",5)
-    dynmultistack(0,0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    dynmultistack(0,0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
         case 0:
         case 1:
@@ -1134,13 +1177,13 @@ script Entrance_Kenichi {
         }
     }
     else {
-        if(var(VAR_GIRATINA_PROGRESS) > 5){
+        if(var(VAR_LUGIA_PROGRESS) > 5){
             if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE){
                 goto(Entrance_Kenichi_FalseEnding)
             }
-            else {
-                goto(Entrance_Kenichi_FalseEnding_Followup)
-            }
+            // else {
+            //     goto(Entrance_Kenichi_FalseEnding_Followup)
+            // }
         }
         else{
             if(flag(FLAG_KENICHI_TRUE_ENDING_CHAT)==FALSE){
@@ -1154,48 +1197,333 @@ script Entrance_Kenichi {
 }
 
 script Entrance_Kenichi_Introduction {
-    msgbox("Hmmm... How do I even start...")
+    lock
+    msgbox("Hmmm...\nHow does this even work...")
     closemessage
     msgbox("{SPEAKER NAME_PLAYER}Heya! Looking for something, mister?")
     closemessage
-    //exlcamation, faceplayer
-    msgbox("Whoa, don't startle me like that!"
-            "Don't just sneak up on someone. What if they would lash out at you!?")
-    msgbox("Sir this is a library, not a fighting ring."
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark, delay_16, face_down))
+    waitmovement(kenichi)
+    msgbox("Whoa, don't startle me like that!\p"
+            "You shouldn't just sneak up\non someone.\p"
+            "What if they would lash out at you!?")
+    closemessage
+    applymovement(player, moves(face_right, delay_16*2, face_left, delay_16*2, face_up))
+    waitmovement(player)
+    msgbox("Sir this is a library, not a\nfighting ring.\p"
             "Are you okay?")
-    msgbox("...sigh. Yeah, I'm fine."
+    closemessage
+    msgbox("...sigh. {PAUSE 30} Yeah, I'm fine.\p"
             "I'm not used to...")
-    //lookaround
-    msgbox("All this."
-            "I uh. Do you work here, maybe?")
-    msgbox("I do work here, yeah."
-            "Do you need help with anything?"
-            "(Why didn't he just ask the guys at the info desk?)")
-    msgbox("Oh no no, I'm fine! You don't have to do anything for me!"
-            "I can't afford that")
-    msgbox("...?"
-            "Have you... ever been to a library?"
-            "You won't get charged here for just asking me to help.")
+    waitmessage
+    applymovement(kenichi, moves(face_right, delay_16, face_left, delay_16, face_down))
+    msgbox("All this.\p"
+            "I uh- Wait, do you work here?")
+    closemessage
+    applymovement(player, moves(walk_in_place_up))
+    msgbox("I do work here, yeah.\p"
+            "Do you need help with anything?\p"
+            "(Why didn't he just ask the guys at\nthe info desk?)")
+    closemessage
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Oh no no, I'm fine! You don't\nhave to do anything for me!\p"
+            "I can't afford that.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    msgbox("Have you... ever been to\na library?\p"
+            "You won't get charged here for\njust asking me to help.")
+    closemessage
+    delay(30)
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("...Okay. You sure?")
+    waitmessage
+    applymovement(kenichi, moves(face_up, delay_16*3, face_down))
+    waitmovement(kenichi)
+    msgbox("I'll take your word for it then.\p"
+            "I've been sent here to find stuff about\nthe Everlasting Storm.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Oh, sure, I can show you how to find it.\p"
+            "Here, this way.")
+    closemessage
+    applymovement(player, moves(walk_right*2, face_up))
+    applymovement(kenichi, moves(walk_slow_down, face_right, delay_16, walk_right))
+    waitmovement(kenichi)
+    msgbox("Okay, pay attention.\p"
+            "So, in the main terminal you see this\nbox which says 'search'?\p"
+            "You just tap the projection there.")
+    waitmessage
+    applymovement(player, moves(face_left))
+    msgbox("After that, you can enter what\nyou're looking for.")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Oh, that seems quite simple,\nI think.")
+    closemessage
+    applymovement(player, moves(face_up))
+    msgbox("Allright, let me see...\p"
+            "'Everlasting storm'{PAUSE 15}. {PAUSE 15}. {PAUSE 15}.\p"
+            "Sweet, there's info about it.")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Can I have a closer look?")
+    closemessage
+    applymovement(player, moves(face_left))
+    msgbox("Yep! Go ahead.")
+    applymovement(player, moves(lock_facing_direction, walk_right, unlock_facing_direction))
+    waitmovement(player)
+    applymovement(kenichi, moves(walk_right, face_up))
+    waitmovement(kenichi)
+    delay(60)
+    playSE(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Amazing, this looks like what I need!\p"
+            "'The Lost Archipelago.'\nSo that's what you call it...")
+    applymovement(kenichi, moves(face_right))
+    msgbox("Thank you, lass. Means a lot to me.")
+    closemessage
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("No worries, let me know if you have\nany more troubles!")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Hmm, I might take you up on that.\p"
+            "I do have ma-")
+    applymovement(kenichi, moves(face_down, delay_16*2, face_right))
+    waitmovement(kenichi)
+    msgbox("Nevermind.")
+    applymovement(kenichi, moves(face_up))
+    msgbox("Okay, lets see...")
+    setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_UP)
+    setobjectxyperm(kenichi, 38, 26)
+    setflag(FLAG_KENICHI_INTRO_CHAT)
+    closemessage
+    release
 }
 
-script Entrance_Kenichi_Intro_Followup {
 
+script Entrance_Kenichi_Intro_Followup {
+    lock
+    msgbox("400 years... Never-ending winds.\nLightning strikes, dark clouds.\lProbably cursed by some deity.\p"
+            "Dang, it really is the whole package.\p"
+            "Kenichi, what did you get yourself in to...")
+    closemessage
+    release
 }
 
 script Entrance_Kenichi_FalseEnding {
-
+    lock
+    faceplayer
+    msgbox("Hoy Tiana!\nHow's it going today?")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("You seem a lot happier than\na couple days ago, mister!\p"
+            "Something good happen?")
+    closemessage
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Huh? I was still at sea 'till this morning.\p"
+            "All that decodin' got your thoughts\nscrambled, lass?\p"
+            "Last we spoke was about a month ago!")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("An'way. I just wanted to drop by 'n\nthank you lot for having all those\ldetails on the sunken archipelago.\p"
+            "Ya did a great job with your\ndecoding work.\p"
+            "And good timing, too!\p"
+            "Can't believe ya managed that in just\na few days before we set sail.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, no problem.\n{PAUSE 60}(I think?)")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Without your efforts, we would still\nbe sailing aimlessly!\p"
+            "I like being at sea, but a man can't\nlive a life there.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Wait, you managed to confirm the\nlocation? How?")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("I wouldn't say 'tis confirmed, but we\nhauled up a lot of artefacts from\lthe seafloor.\p"
+            "No less thanks to my buddy Lanturn.\p"
+            "Illuminating the sea floor's really\nuseful when you are looking for\lsunken things.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, that's not hard to imagine.")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Dropped off most of it at the\nArchivologists after docking.\p"
+            "Knowing them, we'll likely be heading\nback there soon.")
+    waitmessage
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("I'm off now back home.\p"
+            "I'm sure the missus wants to see her\nKenichi again.")
+    closemessage
+    msgbox("Haha... Well then Kenichi, enjoy\nyour day.")
+    closemessage
+    getobjectfacingdirection(kenichi, VAR_TEMP_3)
+    if(var(VAR_RESULT)==1){
+        applymovement(kenichi, moves(walk_fast_right, walk_fast_down*8))
+    }
+    else {
+        applymovement(kenichi, moves(walk_fast_down*8))
+    }
+    waitmovement(kenichi)
+    msgbox("(That is NOT the same person.\nWhat happened to him?)\p"
+            "(Something's not adding up.)")
+    setflag(FLAG_KENICHI)
+    setflag(FLAG_KENICHI_FALSE_ENDING_CHAT)
+    removeobject(kenichi)
+    closemessage
+    release
 }
 
-script Entrance_Kenichi_FalseEnding_Followup {
+// script Entrance_Kenichi_FalseEnding_Followup {
 
-}
+// }
 
 script Entrance_Kenichi_TrueEnding {
-
+    lock
+    msgbox("Tiana! Good to see ya.")
+    closemessage
+    applymovement(player,moves(face_up))
+    msgbox("Hey Kenichi. Got company today?")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    waitmovement
+    msgbox("Aye, got the wife 'n kid with\nme today")
+    closemessage
+    applymovement(kenichi, moves(face_right))
+    waitmovement
+    msgbox("Scilla, you've met her before,\nright?")
+    closemessage
+    applymovement(scilla, moves(face_left))
+    msgbox("Yeah, we've met.\nTiana, correct?")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
+    msgbox("Yep! Ple-\p"
+            "(Hmm...)")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Hey miss! My name is Akuwa!")
+    closemessage
+    applymovement(player, moves(face_left))
+    applymovement(kenichi, moves(face_left))
+    msgbox("Hello there!\nI'm Tiana, nice to meet you.\p"
+            "Is this your first time here?")
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    msgbox("Yes! Papa said he wanted to show me\nthis awesome place!")
+    closemessage
+    applymovement(scilla, moves(walk_in_place_left))
+    applymovement(kenichi, moves(face_right))
+    applymovement(player, moves(face_up))
+    waitmovement(scilla)
+    msgbox("Sigh... your enthusiam's rubbing off\non her.")
+    waitmessage
+    applymovement(scilla, moves(face_down))
+    applymovement(kenichi, moves(face_down))
+    msgbox("He can't shut up about how cool this\nplace is.\p"
+            "You'd almost think he wants to work\nhere, rather than at sea.\p"
+            "I'll admit, what you guys do here\nis pretty impressive.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark, face_right))
+    waitmovement
+    msgbox("AHA!\nSo you DO find it cool!")
+    closemessage
+    applymovement(scilla, moves(face_left))
+    msgbox("I never said it wasn't interesting!")
+    closemessage
+    applymovement(scilla, moves(face_down))
+    applymovement(kenichi, moves(face_down))
+    applymovement(player, moves(emote_heart))
+    waitmovement(player)
+    msgbox("Pfft. I'm glad you guys see us\nin such a positive light.")
+    waitmessage
+    applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction))
+    msgbox("Kenichi, is there anything you want\nme to look at?")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("Mmm... Well, ever since ya figured\nout the history of Lugia, I don't got\nany personal requests")
+    applymovement(kenichi, moves(face_right, delay_16*4, face_down))
+    waitmovement
+    msgbox("'tis nice that that's figured out now,\nthough.\p"
+            "Wanted to know the history before I\nmoved to the archipelago.\p"
+            "A man's gotta appreciate his woman's\nculture after all!")
+    applymovement(scilla, moves(face_left))
+    msgbox("You really do not have a filter, do you.\p"
+            "Part of your charm, hah.")
+    applymovement(kenichi, moves(face_right))
+    msgbox("Thanks, honey.")
+    applymovement(kenichi, moves(face_down))
+    applymovement(scilla, moves(face_down))
+    msgbox("But I don't got anything for ya today.\p"
+            "Have requested some time off.")
+    waitmessage
+    applymovement(kenichi, moves(face_left))
+    msgbox("Kiddo's big enough now, so I wanted to\nshow her 'round the old place.\p"
+            "First time she's off the island as well.")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    applymovement(player, moves(face_left))
+    msgbox("This place is really big! And has\nso many lights!\p"
+            "Also, Mama's been helping me read\nthrough some of the stories here!\p"
+            "I don't really understand them.")
+    closemessage
+    applymovement(player, moves(face_up))
+    msgbox("Sounds like everything is fine, then.\nI'll let you enjoy your day!\p"
+            "Gotta go back to work...")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("Aye, don' let me hold you up.\p"
+            "Attagirl!")
+    closemessage
+    applymovement(scilla, moves(walk_in_place_down))
+    msgbox("Keep up the good work, Tiana")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Bye-bye, miss!")
+    setflag(FLAG_KENICHI_TRUE_ENDING_CHAT)
+    closemessage
+    release
 }
 
 script Entrance_Kenichi_TrueEnding_Followup {
+    msgbox("Inform me if anything cool is\ndiscovered, okay?", MSGBOX_NPC)
+}
 
+script Entrance_Scilla {
+    msgbox("It's great to see Akuwa's inherited\nthe same interest as her father.\p"
+            "The library near our house is not big\nenough for her curiosity, though.", MSGBOX_NPC)
+}
+
+script Entrance_Akuwa {
+    lock
+    msgbox("Miss, what is all the water for?")
+    closemessage
+    applymovement(player, moves(walk_in_place_left))
+    msgbox("Oh, it uh- it keeps the place cool.\p"
+            "And also, it's very calming!")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Okay!")
+    closemessage
+    release
 }
 
 script Entrance_GetDirectionAndWalkInPlace {
