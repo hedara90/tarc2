@@ -660,10 +660,10 @@
 #define FLAG_MORGAN_INTRO_CHAT  0x265 // Unused Flag
 #define FLAG_MORGAN_FALSE_ENDING_CHAT  0x266 // Unused Flag
 #define FLAG_MORGAN_TRUE_ENDING_CHAT  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
+#define FLAG_KENICHI  0x268 // Unused Flag
+#define FLAG_KENICHI_INTRO_CHAT  0x269 // Unused Flag
+#define FLAG_KENICHI_FALSE_ENDING_CHAT  0x26A // Unused Flag
+#define FLAG_KENICHI_TRUE_ENDING_CHAT  0x26B // Unused Flag
 #define FLAG_UNUSED_0x26C  0x26C // Unused Flag
 #define FLAG_UNUSED_0x26D  0x26D // Unused Flag
 #define FLAG_UNUSED_0x26E  0x26E // Unused Flag

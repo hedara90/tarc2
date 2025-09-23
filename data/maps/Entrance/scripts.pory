@@ -282,7 +282,7 @@ script Entrance_Satsuki {
     dynmultipush("Got anything new?", 0)
     dynmultipush("Can we have another practice battle?",1)
     dynmultipush("Deciphering anything today?",2)
-    dynmultipush("Did you set up the Bodhai system?",3)
+    dynmultipush("How did you set up the Bodhai system?",3)
     //if var story == 2
     dynmultipush("I managed to clear one of the stories!",4)
     dynmultipush("The visitors seem... different?",5)
@@ -300,19 +300,19 @@ script Entrance_Satsuki {
 script Entrance_Satsuki_AnythingNew {
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("You're still working on the\nassignments, aren't you?\p"
+    msgbox("{SPEAKER NAME_SATSUKI}You're still working on the\nassignments, aren't you?\p"
             "Focus on them first before\nasking me for more.\p"
             "History doesn't write itself.")
     closemessage
-    msgbox("{SPEAKER SPEAKER_PLAYER}Sigh... Fair point.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Sigh... Fair point.\p"
             "I'll get back to work.")
     closemessage
     release
 }
 
 script Entrance_Satsuki_MockBattle {
-    msgbox("{SPEAKER SPEAKER_SATSUKI}Fufu, sure.\p"
-            "Are you sure it's for practice, and not just because you want to win over me?\p"
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, sure.\p"
+            "Are you sure it's for practice,\nand not just because you want to win\lagainst me?\p"
             "I could use a little break anyway.")
     closemessage
     msgbox("Mock Battle Here")
@@ -321,7 +321,7 @@ script Entrance_Satsuki_MockBattle {
 }
 
 script Entrance_Satsuki_Deciphering {
-    msgbox("{SPEAKER SPEAKER_SATSUKI}Fufu, well that is your job now.\p"
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, well that is your job now.\p"
             "I can sit back and watch you do everything now.")
     waitmessage
     delay(60)
@@ -333,11 +333,11 @@ script Entrance_Satsuki_Deciphering {
     closemessage
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER SPEAKER_SATSUKI}You remember the Archivologists, right?")
+    msgbox("{SPEAKER NAME_SATSUKI}You remember the Archivologists, right?")
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("{SPEAKER SPEAKER_PLAYER}Yeah, you did mention them.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, you did mention them.\p"
             "They've got all this tech to figure out when and where something happened, right?")
     closemessage
     msgbox("{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
@@ -362,48 +362,98 @@ script Entrance_Satsuki_Deciphering {
 }
 
 script Entrance_Satsuki_Bodhai {
-    msgbox("And where does this sudden interest come from?\p"
-            "Thought you didn't care for the technical mumbo jumbo")
-    msgbox("Think it dawned on me that I have to actually work with it."
-            "Not knowing much more than the basics sounds like a bad idea, to be honest")
-    msgbox("Fufu, color me surprised. Never thought I'd see the day.")
+    msgbox("{SPEAKER NAME_SATSUKI}And where does this sudden interest\ncome from?\p"
+            "Thought you didn't care for the\ntechnical things\p")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Think it dawned on me that I have\nto actually work with it.\p"
+            "Not knowing much more than the\nbasics sounds like a bad idea,\lto be honest")
+    closemessage
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, color me surprised.\nNever thought I'd see the day.")
+    setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("I didn't make this system on my own. I had help from Reki.")
+    msgbox("{SPEAKER NAME_SATSUKI}I didn't make this system on my own.\nReki helped me out.")
     playse(SE_PIN)
     applymovement(player, moves(emote_exclamation_mark))
-    msgbox("Oh, him? I thought he hated technology")
-    msgbox("Not entirely wrong, he really disliked the idea at first"
-            "Buuut I eventually managed to convince him."
-            "Got him to realize that no matter how meticulous, the human mind can't store infinite data.")
+    msgbox("{SPEAKER NAME_PLAYER}Oh, him? I thought he hated\ntechnology")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}Not entirely wrong, he really\ndisliked the idea at first.\p"
+            "But I eventually managed to\nconvince him.\p"
+            "Got him to realize that no matter\nhow meticulous, the human mind\ncan't store infinite data.\p"
+            "And neither can the human body.")
+    closemessage
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("There was a period where he was convinced he could just get rid of useless memories."
-            "Though knowledgable, he was also just a stubborn fool.")
-    msgbox("Anyway, that aside. Back to the topic."
-            "Functionally, the tree is nothing more than a predictive algorythm."
-            "Basically, we enter a bunch of starting info and parameters."
-            "After that, its essentially just one big simulation"
-            "And you're the variable factor that's acting as the hero.")
-    msgbox("... Ah. I uh, see.")
-    msgbox("It is a lot more complicated than that, but we'd be here all day and we both have better things to do"
-            "Besides, I don't think you'd enjoy the data entry."
-            "Or that you'd be any good at it".)
+    msgbox("{SPEAKER NAME_SATSUKI}There was a period where he was\nconvinced he could just get rid of\nuseless memories.\p"
+            "Which is an exceedingly stupid idea.\p"
+            "Though knowledgable, he was also\njust a stubborn fool.")
+    closemessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}Anyway, that aside. Back to the\ntopic.\p"
+            "Functionally, the Bodhai system is\nnothing more than a predictive\lalgorithm."
+            "A very complex one, but an\nalgorithm nonetheless.\p"
+            "Basically, we enter a bunch of\nstarting info and parameters.\p"
+            "After that, its essentially\njust one big simulation.\p"
+            "And you're the variable factor that's\nacting as the hero.\p")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_PLAYER}... Aha.{PAUSE 45} So it's like that.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}It is a lot more complicated than\nthat, but we'd be here all day for\lthe detailed explanation.\p"
+            "We both have better things to do.\p"
+            "Besides, I don't think you'd\nenjoy the data entry.\p")
+    closemessage
+    delay(45)
+    msgbox("{SPEAKER NAME_SATSUKI}Or that you'd be any good at it.\p")
+    closemessage
+    release
 }
 
 script Entrance_Satsuki_FirstClear {
-    msgbox("I just checked the archives this morning. Good work, Tiana.")
-    msgbox("Hehe, thank you! It was nice to see the ending")
-    msgbox("Good, use that momentum. Don't get complacent now.")
-    msgbox("Also, just because you've cleared it doesn't mean you have nothing left to examine")
-    msgbox("Remember that the length of a story can influence it's outcome.")
-    msgbox("Yup yup, I'll have another look later.")
+    msgbox("{SPEAKER NAME_SATSUKI}I just checked the archives this\nmorning. Good work, Tiana.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Hehe, thank you! It was nice to\nsee the ending.")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}Good, use that momentum. Don't\nget complacent now.\p"
+            "Also, just because you've cleared it\ndoesn't mean you have nothing left\lto examine.\p"
+            "Remember that the length of a story\ncan influence it's outcome.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)    
+    msgbox("{SPEAKER NAME_PLAYER}Yup yup, I'll have another look later.")
+    closemessage
+    release
 }
 
 script Entrance_Satsuki_Visitor {
-    msgbox("Different?")
-    msgbox("Yeah, some feel like completely different people")
-    msgbox("Oh? That's interesting. Have you completed anything recently?")
-    msgbox("Yeah, I did round up another myth yesterday")
-    msgbox("Well, there you go.")
+    applymovement(satsuki, moves(emote_question_mark))
+    waitmovement
+    msgbox("{SPEAKER NAME_SATSUKI}Different?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, some seem like completely\ndifferent people.")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Oh? That's interesting. Have you\ncompleted anything recently?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, I did round up another myth yesterday")
+    closemessage
+    msgbox("{SPEAKER NAME_SATSUKI}Well, there you go.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    msgbox(".{PAUSE 30}.{PAUSE 30}. ??")
+    closemessage
+    release
 }
 
 script Entrance_PlayerTerminal {
@@ -780,12 +830,12 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Yup, the whole system is incredible!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Yup, the whole system is incredible!\p"
             "Though, I still don't really\nunderstand how it works.\lEven though I use it daily…")
     closemessage
     msgbox("Ah, so you are a recordkeeper?")
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Since recently, yeah!")
+    msgbox("{SPEAKER NAME_PLAYER}Since recently, yeah!")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -793,7 +843,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("If you're interested, I could\nlet miss Satsuki know.\p"
+    msgbox("{SPEAKER NAME_PLAYER}If you're interested, I could\nlet miss Satsuki know.\p"
             "We could always use more members.")
     closemessage
     setvar(VAR_TEMP_2, morgan)
@@ -803,7 +853,7 @@ script Entrance_Morgan_Introduction {
             "You can't teach an old dog\nnew tricks, as they say…")
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Aww don't be so harsh on yourself,\nyou look hardly older than me!")
+    msgbox("{SPEAKER NAME_PLAYER}Aww don't be so harsh on yourself,\nyou look hardly older than me!")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -816,11 +866,11 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Yeah, I've been assigned a couple of\nstories.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, I've been assigned a couple of\nstories.\p"
             "They were.{PAUSE 15}.{PAUSE 15}.")
     waitmessage
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
+    msgbox("{SPEAKER NAME_PLAYER}Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
@@ -831,7 +881,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Well, talking to visitors is also part\nof the job description!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Well, talking to visitors is also part\nof the job description!\p"
             "But you're right, I do have to\nget back to them.\p"
             "See you around, miss…")
     closemessage
@@ -841,7 +891,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Got it.\nTake care, miss Morgan!")
+    msgbox("{SPEAKER NAME_PLAYER}Got it.\nTake care, miss Morgan!")
     closemessage
     setflag(FLAG_MORGAN_INTRO_CHAT)
     release
@@ -859,14 +909,14 @@ script Entrance_Morgan_Introduction_Followup {
 script Entrance_Morgan_XerneasFalseEnding {
     lock
     faceplayer
-    msgbox("Hey, miss Morgan! Not leaving yet,\nI see?")
+    msgbox("{SPEAKER NAME_PLAYER}Hey, miss Morgan! Not leaving yet,\nI see?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Leaving? Why'd I do that?\p"
             "Right, miss Satsuki did mention that\nyou are a bit forgetful.\p"
             "I'm still far from finished converting\nall my experiences into data for\lthe archives.")
     closemessage
-    msgbox(".{PAUSE 15}.{PAUSE 15}.?")
+    msgbox("{SPEAKER NAME_PLAYER}.{PAUSE 15}.{PAUSE 15}.?")
     closemessage
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("I did see you've completed Xerneas's\ntale.\p"
@@ -877,7 +927,7 @@ script Entrance_Morgan_XerneasFalseEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("I… see.")
+    msgbox("{SPEAKER NAME_PLAYER}I… see.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("You've got other business to attend\nto, correct?\p"
@@ -885,7 +935,7 @@ script Entrance_Morgan_XerneasFalseEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Mmm, I suppose you are right.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Mmm, I suppose you are right.\p"
             "In that case, stay safe, miss Morgan.")
     closemessage
     setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
@@ -902,7 +952,7 @@ script Entrance_Morgan_XerneasFalseEnding_Followup {
 }
 
 script Entrance_Morgan_XerneasTrueEnding {
-    msgbox("Good day, miss Morgan.\nHow are you doing?")
+    msgbox("{SPEAKER NAME_PLAYER}Good day, miss Morgan.\nHow are you doing?")
     closemessage
     faceplayer
     msgbox("I- sorry, I think you have the\nwrong person\p"
@@ -910,7 +960,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Ah, right. I… must've mistaken you\nfor someone else then")
+    msgbox("{SPEAKER NAME_PLAYER}Ah, right. I… must've mistaken you\nfor someone else then")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -922,14 +972,14 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Mhm, that's a pretty odd coincidence\p"
+    msgbox("{SPEAKER NAME_PLAYER}Mhm, that's a pretty odd coincidence\p"
             "So if not Morgan, what can I call\nyou?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Oh, you can call me Yfa!\p"
             "I should've introduced myself before\ngoing on that ramble. And you?")
     closemessage
-    msgbox("Tiana.\nI'm a recordkeeper here!")
+    msgbox("{SPEAKER NAME_PLAYER}Tiana.\nI'm a recordkeeper here!")
     closemessage
     msgbox("Oh, what a cute name.")
     closemessage
@@ -944,7 +994,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Keeping up public appearance huh?")
+    msgbox("{SPEAKER NAME_PLAYER}Keeping up public appearance huh?")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
@@ -953,7 +1003,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Oh hey, yeah that's right!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Oh hey, yeah that's right!\p"
             "It was me who did that, actually.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -961,11 +1011,11 @@ script Entrance_Morgan_XerneasTrueEnding {
             "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas.\p"
             "Do you know more about what\nhappened to her afterwards?")
     closemessage
-    msgbox("Well-")
+    msgbox("{SPEAKER NAME_PLAYER}Well-")
     waitmessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
+    msgbox("{SPEAKER NAME_PLAYER}The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
             "That said, you bear a striking\nresemblance to how she was \ldepicted.")
     closemessage
     msgbox("… I see. Hmmmm.")
@@ -977,11 +1027,11 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Anytime! Let me know if there's\nanything else.")
+    msgbox("{SPEAKER NAME_PLAYER}Anytime! Let me know if there's\nanything else.")
     closemessage
     msgbox("That's all for now.")
     closemessage
-    msgbox("I'll be going back to work then.\nTake care Yfa!")
+    msgbox("{SPEAKER NAME_PLAYER}I'll be going back to work then.\nTake care Yfa!")
     closemessage
     setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
     release
@@ -994,6 +1044,84 @@ script Entrance_Morgan_XerneasTrueEnding_Followup {
             "Soon, I'll be 'Recordkeeper Yfa'")
     closemessage
     release
+}
+
+//Lugia - Sailor who goes to find the archipelago. Starts off in a bad situation. Basically down on his luck, nothing left, sent on what is effetcively a suicide exploration
+//false ending: Same sailor, but now he's married and in a better situation. Turns out the woman he's married to is (a descendant of) one of the people who escaped
+//true ending: Brother is finally living the good life(or at least better). He and his family now live on the archipelago, and he's come here to show his wife and kids around
+script Entrance_Kenichi {
+    checkbossdefeated(FINAL_BOSS_LUGIA)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_KENICHI_INTRO_CHAT)==FALSE){
+            goto(Entrance_Kenichi_Introduction)
+        }
+        else {
+            goto(Entrance_Kenichi_Intro_Followup)
+        }
+    }
+    else {
+        if(var(VAR_GIRATINA_PROGRESS) > 5){
+            if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Kenichi_FalseEnding)
+            }
+            else {
+                goto(Entrance_Kenichi_FalseEnding_Followup)
+            }
+        }
+        else{
+            if(flag(FLAG_KENICHI_TRUE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Kenichi_TrueEnding)
+            }
+            else {
+                goto(Entrance_Kenichi_TrueEnding_Followup)
+            }
+        }
+    }
+}
+
+script Entrance_Kenichi_Introduction {
+    msgbox("Hmmm... How do I even start...")
+    closemessage
+    msgbox("{SPEAKER NAME_PLAYER}Heya! Looking for something, mister?")
+    closemessage
+    //exlcamation, faceplayer
+    msgbox("Whoa, don't startle me like that!"
+            "Don't just sneak up on someone. What if they would lash out at you!?")
+    msgbox("Sir this is a library, not a fighting ring."
+            "Are you okay?")
+    msgbox("...sigh. Yeah, I'm fine."
+            "I'm not used to...")
+    //lookaround
+    msgbox("All this."
+            "I uh. Do you work here, maybe?")
+    msgbox("I do work here, yeah."
+            "Do you need help with anything?"
+            "(Why didn't he just ask the guys at the info desk?)")
+    msgbox("Oh no no, I'm fine! You don't have to do anything for me!"
+            "I can't afford that")
+    msgbox("...?"
+            "Have you... ever been to a library?"
+            "You won't get charged here for just asking me to help.")
+}
+
+script Entrance_Kenichi_Intro_Followup {
+
+}
+
+script Entrance_Kenichi_FalseEnding {
+
+}
+
+script Entrance_Kenichi_FalseEnding_Followup {
+
+}
+
+script Entrance_Kenichi_TrueEnding {
+
+}
+
+script Entrance_Kenichi_TrueEnding_Followup {
+
 }
 
 script Entrance_GetDirectionAndWalkInPlace {
