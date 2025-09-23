@@ -7,6 +7,8 @@ enum SpeakerNames {
     SP_NAME_PLAYER,
     SP_NAME_SATSUKI,
     SP_NAME_KIO,
+    SP_NAME_HIDEAKI,
+    SP_NAME_NAOTO,
     SP_NAME_COUNT
 };
 
