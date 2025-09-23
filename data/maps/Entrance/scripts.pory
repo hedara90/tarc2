@@ -575,10 +575,34 @@ script Entrance_Receptionist_Direct {
         msgbox("{SPEAKER NAME_PLAYER}You said you wouldn't mention\nthat again…")
         msgbox(format("{SPEAKER NAME_NAOTO}And you said you'd stay on the other side of the counter. So here we are."))
     }
-    waitmessage
-    applymovement(LOCALID_RECEPTIONIST_1, moves(face_right))
+    closemessage
+    callnative(GetBehindCounterPos)
+    applymovement(LOCALID_NAOTO, moves(face_right))
+    switch (var(VAR_RESULT)) {
+    case 0:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_down, walk_down))
+    case 1:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_left, walk_down))
+    case 2:
+        applymovement(LOCALID_PLAYER, moves(walk_left, walk_left, walk_down, walk_down, walk_down))
+    }
     waitmovement
+    setflag(FLAG_PESTERED_NAOTO)
     release
+}
+
+script Entrance_Receptionist_Glare {
+    if (flag(FLAG_PESTERED_NAOTO)) {
+        lock
+        applymovement(LOCALID_NAOTO, moves(face_left))
+        waitmovement
+        msgbox("{SPEAKER NAME_PLAYER}(placeholder)")
+        applymovement(LOCALID_PLAYER, moves(walk_down))
+        waitmovement
+        applymovement(LOCALID_NAOTO, moves(face_right))
+        waitmovement
+        release
+    }
 }
 
 script Entrance_Receptionist_Counter {
