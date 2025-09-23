@@ -558,7 +558,23 @@ script Entrance_DanceDone {
 script Entrance_Receptionist_Direct {
     lock
     faceplayer
-    msgbox("Please {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    msgbox("P{SPEAKER NAME_NAOTO}lease {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    setboxframe(BOX_FRAME_TIANA)
+    dynmultichoice(0, 0, TRUE, 2, 0, DYN_MULTICHOICE_CB_NONE,
+                    "What if I want to hug my fav clerk?",
+                    "I have to keep you on your toes somehow.")
+    switch (var(VAR_RESULT)) {
+    case 0:
+        msgbox("{SPEAKER NAME_NAOTO}Then I'll tell Fuan you asked for her.")
+        msgbox("{SPEAKER NAME_PLAYER}Aww, don't be like that. I like\nyou too!")
+        msgbox("{SPEAKER NAME_NAOTO}Then show your appreciation from the\nother side of the counter.")
+    case 1:
+        msgbox("{SPEAKER NAME_NAOTO}You did that quite well during the\n"
+               "two weeks you were practicing your\l"
+               "spin throw thing.")
+        msgbox("{SPEAKER NAME_PLAYER}You said you wouldn't mention\nthat again…")
+        msgbox(format("{SPEAKER NAME_NAOTO}And you said you'd stay on the other side of the counter. So here we are."))
+    }
     waitmessage
     applymovement(LOCALID_RECEPTIONIST_1, moves(face_right))
     waitmovement
@@ -567,7 +583,7 @@ script Entrance_Receptionist_Direct {
 
 script Entrance_Receptionist_Counter {
     lock
-    msgbox("For once you did it correctly.")
+    msgbox("{SPEAKER NAME_NAOTO}For once you did it correctly.")
     waitmessage
     release
 }
@@ -600,6 +616,7 @@ script Entrance_PottedPlantMan {
         msgbox("{SPEAKER NAME_HIDEAKI}Back when I was younger, I used\nto have a pair of waders for fishing.\pWith a pair of those, you could just walk\nup to the pots.")
     case 9:
         msgbox("{SPEAKER NAME_HIDEAKI}Wait, are the plants in the pots\nplastic? Then they don't need water!")
+        setboxframe(BOX_FRAME_TIANA)
         dynmultichoice(0, 0, TRUE, 2, 1, DYN_MULTICHOICE_CB_NONE,
                         "All plants here are real.",
                         "Too many shed leaves for that.")
