@@ -265,6 +265,14 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Entrance_Receptionist_Counter"
+    },
+    {
+      "type": "sign",
+      "x": 25,
+      "y": 40,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Entrance_ShowCredits"
     }
   ]
 }
