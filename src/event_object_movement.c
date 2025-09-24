@@ -10272,6 +10272,13 @@ static void (*const sGroundEffectFuncs[])(struct ObjectEvent *objEvent, struct S
     GroundEffect_Seaweed                // GROUND_EFFECT_FLAG_SEAWEED
 };
 
+bool32 TarcShadowCheck(struct ObjectEvent *objEvent)
+{
+    if (objEvent->localId != LOCALID_PLAYER && objEvent->mapNum != MAP_NUM(MAP_ENTRANCE))
+        return TRUE;
+    return FALSE;
+}
+
 static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *sprite, u32 flags)
 {
     u32 i;
@@ -10281,7 +10288,7 @@ static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *
     for (i = 0; i < ARRAY_COUNT(sGroundEffectFuncs); i++, flags >>= 1)
         if (flags & 1)
             sGroundEffectFuncs[i](objEvent, sprite);
-    if (!OW_OBJECT_VANILLA_SHADOWS && CurrentMapHasShadows() && !(gWeatherPtr->noShadows || objEvent->inHotSprings || objEvent->inSandPile || MetatileBehavior_IsPuddle(objEvent->currentMetatileBehavior)))
+    if (!OW_OBJECT_VANILLA_SHADOWS && CurrentMapHasShadows() && !(TarcShadowCheck(objEvent) || gWeatherPtr->noShadows || objEvent->inHotSprings || objEvent->inSandPile || MetatileBehavior_IsPuddle(objEvent->currentMetatileBehavior)))
     {
         SetUpShadow(objEvent);
     }

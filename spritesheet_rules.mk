@@ -4961,3 +4961,6 @@ graphics/title_screen/pokemon_tarc.4bpp: %.4bpp: %.png
 
 graphics/title_screen/recordkeepers.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 8 -mheight 8
+
+graphics/credits/tarc_credits.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8

@@ -12,6 +12,7 @@
 #include "menu.h"
 #include "menu_helpers.h"
 #include "move.h"
+#include "new_game.h"
 #include "overworld.h"
 #include "palette.h"
 #include "scanline_effect.h"
@@ -813,10 +814,55 @@ static void PrintNameText(void)
     CopyWindowToVram(WIN_NAME, COPYWIN_GFX);
 }
 
+u32 ConvertToHex(u32 input)
+{
+    switch (input)
+    {
+    case 0:
+        return CHAR_0;
+    case 1:
+        return CHAR_1;
+    case 2:
+        return CHAR_2;
+    case 3:
+        return CHAR_3;
+    case 4:
+        return CHAR_4;
+    case 5:
+        return CHAR_5;
+    case 6:
+        return CHAR_6;
+    case 7:
+        return CHAR_7;
+    case 8:
+        return CHAR_8;
+    case 9:
+        return CHAR_9;
+    case 10:
+        return CHAR_A;
+    case 11:
+        return CHAR_B;
+    case 12:
+        return CHAR_C;
+    case 13:
+        return CHAR_D;
+    case 14:
+        return CHAR_E;
+    case 15:
+        return CHAR_F;
+    }
+    return CHAR_0;
+}
+
 static void PrintRunsText(void)
 {
-    u8 tempStr[8];
-    ConvertIntToDecimalStringN(tempStr, gSaveBlock1Ptr->totalRuns, STR_CONV_MODE_LEFT_ALIGN, 7);
+    u8 tempStr[11];
+    u32 trainerId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
+    tempStr[0] = CHAR_0;
+    tempStr[1] = CHAR_x;
+    for (u32 i = 0; i < 8; i++)
+        tempStr[2 + i] = ConvertToHex((trainerId >> (28 - (i * 4))) & 0xF);
+    tempStr[10] = EOS;
     FillWindowPixelBuffer(WIN_RUNS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     AddTextPrinterParameterized4(WIN_RUNS,
                                  FONT_NORMAL,

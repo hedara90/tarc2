@@ -538,7 +538,7 @@ static void DrawLeftText()
         tempChar++;
     }
     pageText[currChar] = EOS;
-    BreakStringAutomatic(&(pageText[startOffset]), 96, 30, fontToUse, HIDE_SCROLL_PROMPT);
+    BreakStringAutomaticBook(&(pageText[startOffset]), 96, 30, fontToUse, HIDE_SCROLL_PROMPT);
     FillWindowPixelBuffer(WIN_LEFT_PAGE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     AddTextPrinterParameterized4(WIN_LEFT_PAGE,
                                  fontToUse,
@@ -561,7 +561,7 @@ static void DrawRightText(void)
         currChar++;
     }
     pageText[currChar] = EOS;
-    BreakStringAutomatic(pageText, 96, 30, fontToUse, HIDE_SCROLL_PROMPT);
+    BreakStringAutomaticBook(pageText, 96, 30, fontToUse, HIDE_SCROLL_PROMPT);
     FillWindowPixelBuffer(WIN_RIGHT_PAGE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     AddTextPrinterParameterized4(WIN_RIGHT_PAGE,
                                  fontToUse,
