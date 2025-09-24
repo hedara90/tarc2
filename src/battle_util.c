@@ -2622,6 +2622,30 @@ static void CancellerProtean(u32 *effect)
     }
 }
 
+static void CancellerBringerOfStorms(u32 *effect)
+{
+    if (BattlerHasTrait(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS)
+     && gMovesInfo[gCurrentMove].type == TYPE_FLYING
+     && !(gBattleWeather &B_WEATHER_RAIN))
+    {
+        if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
+        {
+            PushTraitStack(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
+            effect++;
+        }
+        else if (TryChangeBattleWeather(gBattlerAttacker, BATTLE_WEATHER_RAIN, TRUE))
+        {
+            PushTraitStack(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS);
+            gBattleScripting.battler = gBattlerAttacker;
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
+            *effect = 1;
+        }
+    }
+}
+
 static void CancellerPsychicTerrain(u32 *effect)
 {
     if (gFieldStatuses & STATUS_FIELD_PSYCHIC_TERRAIN
@@ -2829,6 +2853,7 @@ static const MoveSuccessOrderCancellers sMoveSuccessOrderCancellers[] =
     [CANCELLER_DYNAMAX_BLOCKED] = CancellerDynamaxBlocked,
     [CANCELLER_POWDER_STATUS] = CancellerPowderStatus,
     [CANCELLER_PROTEAN] = CancellerProtean,
+    [CANCELLER_BRINGER_OF_THE_STORM] = CancellerBringerOfStorms,
     [CANCELLER_PSYCHIC_TERRAIN] = CancellerPsychicTerrain,
     [CANCELLER_EXPLODING_DAMP] = CancellerExplodingDamp,
     [CANCELLER_MULTIHIT_MOVES] = CancellerMultihitMoves,
@@ -6030,26 +6055,6 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptPushCursor();
             BattleScriptExecute(BattleScript_FatedSight);
             effect++;
-        }
-        if (SearchTraits(battlerTraits, ABILITY_BRINGER_OF_STORMS)
-         && gMovesInfo[gCurrentMove].type == TYPE_FLYING
-         && !(gBattleWeather &B_WEATHER_RAIN))
-        {
-            if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
-            {
-                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
-                effect++;
-            }
-            else if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
-            {
-                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
-                gBattleScripting.battler = battler;
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
-                effect++;
-            }
         }
         if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
          && gMovesInfo[gCurrentMove].type == TYPE_WATER
