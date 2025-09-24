@@ -6020,7 +6020,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_PHYSICAL
-         && !gBattleStruct->foreseenTrigger[battler]
+         && !gBattleStruct->foreseenTrigger[gBattlerAttacker]
          && !IsChargeMove(gCurrentMove)
          && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
          && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
