@@ -2795,8 +2795,7 @@ static void Cmd_datahpupdate(void)
                         if (BattlerHasTrait(battler, ABILITY_ORIGINAL_SIN))
                             gBattlescriptCurrInstr = BattleScript_OriginalSin;
                         else
-                            //gBattlescriptCurrInstr = BattleScript_BossRestore;
-                            gBattlescriptCurrInstr = BattleScript_OriginalSin;
+                            gBattlescriptCurrInstr = BattleScript_BossRestore;
                         gBattleStruct->currentPhase++;
                     }
                 }

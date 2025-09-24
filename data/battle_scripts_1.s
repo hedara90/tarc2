@@ -10596,6 +10596,7 @@ BattleScript_BringerOfStormsActivates::
 	printstring STRINGID_RAINSTARTEDPOURING
 	waitstate
 	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
+	waitanimation
 	call BattleScript_ActivateWeatherAbilities
 	return
 

@@ -69,6 +69,8 @@ WILD_BATTLE_TEST("Embargo doesn't block held item effects that affect experience
     }
 }
 
+//  Irrelevant for our use-case, and we don't have EVs
+/*
 WILD_BATTLE_TEST("Embargo doesn't block held item effects that affect effort values")
 {
     u32 finalHPEVAmount;
@@ -94,6 +96,7 @@ WILD_BATTLE_TEST("Embargo doesn't block held item effects that affect effort val
         EXPECT_EQ(GetMonData(&gPlayerParty[0], MON_DATA_HP_EV), finalHPEVAmount);
     }
 }
+*/
 
 SINGLE_BATTLE_TEST("Embargo negates a held item's Speed reduction")
 {

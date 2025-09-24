@@ -62,6 +62,7 @@
 
 #include "constants/tarc_balance_constants.h"
 #include "hunt_setup.h"
+#include "even_sprite.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -3319,6 +3320,50 @@ void GetPositionForDanceDone(void)
         else
             gSpecialVar_Result = 8;
     }
+}
+
+const u32 sTarcCreditsGfx[] = INCBIN_U32("graphics/credits/tarc_credits.4bpp");
+const u16 sTarcCreditsPal[] = INCBIN_U16("graphics/credits/tarc_credits.gbapal");
+
+EWRAM_DATA u8 sCreditsSpriteIds[2];
+
+void Task_CreditsTask(u8 taskId)
+{
+    if (gTasks[taskId].data[0] == 0)
+    {
+        gTasks[taskId].data[0] = 1;
+    }
+    else if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        DestroySprite(&gSprites[sCreditsSpriteIds[0]]);
+        DestroySprite(&gSprites[sCreditsSpriteIds[1]]);
+        FreeSpritePaletteByTag(0xCEC1);
+        FreeSpriteTilesByTag(0xCEC1);
+        FreeSpriteTilesByTag(0xCEC2);
+        DestroyTask(taskId);
+        ScriptContext_Enable();
+    }
+}
+
+void DisplayCredits(void)
+{
+    LockPlayerFieldControls();
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.palette = sTarcCreditsPal;
+    cs.palTag = 0xCEC1;
+    cs.posY = 32;
+    cs.spriteSize = SPRITE_SIZE(64x64);
+    cs.spriteShape = SPRITE_SHAPE(64x64);
+
+    for (u32 i = 0; i < 2; i++)
+    {
+        cs.sprite = &sTarcCreditsGfx[i * 512];
+        cs.tileTag = 0xCEC1 + i;
+        cs.posX = 88 + 64 * i;
+        sCreditsSpriteIds[i] = Even_CreateSprite(&cs);
+    }
+    u32 taskId = CreateTask(Task_CreditsTask, 0);
+    gTasks[taskId].data[0] = 0;
 }
 
 void CheckHasDanced(void)

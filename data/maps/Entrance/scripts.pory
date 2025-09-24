@@ -612,6 +612,13 @@ script Entrance_Receptionist_Counter {
     release
 }
 
+script Entrance_ShowCredits {
+    callnative(DisplayCredits)
+    waitstate
+    release
+    end
+}
+
 script Entrance_PottedPlantMan {
     lock
     faceplayer

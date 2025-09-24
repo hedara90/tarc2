@@ -36,10 +36,29 @@ void BreakStringAutomatic(u8 *src, u32 maxWidth, u32 screenLines, u8 fontId, enu
     {
         if (src[currIndex] == CHAR_PROMPT_CLEAR)
         {
-            u8 replacedChar = src[currIndex + 1];
-            src[currIndex + 1] = EOS;
+            u8 replacedChar = src[currIndex];
+            src[currIndex] = EOS;
             BreakSubStringAutomatic(currSrc, maxWidth, screenLines, fontId, toggleScrollPrompt);
-            src[currIndex + 1] = replacedChar;
+            src[currIndex] = replacedChar;
+            currSrc = &src[currIndex + 1];
+        }
+        currIndex++;
+    }
+    BreakSubStringAutomatic(currSrc, maxWidth, screenLines, fontId, toggleScrollPrompt);
+}
+
+void BreakStringAutomaticBook(u8 *src, u32 maxWidth, u32 screenLines, u8 fontId, enum ToggleScrollPrompt toggleScrollPrompt)
+{
+    u32 currIndex = 0;
+    u8 *currSrc = src;
+    while (src[currIndex] != EOS)
+    {
+        if (src[currIndex] == CHAR_NEWLINE)
+        {
+            u8 replacedChar = src[currIndex];
+            src[currIndex] = EOS;
+            BreakSubStringAutomatic(currSrc, maxWidth, screenLines, fontId, toggleScrollPrompt);
+            src[currIndex] = replacedChar;
             currSrc = &src[currIndex + 1];
         }
         currIndex++;

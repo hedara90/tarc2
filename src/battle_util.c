@@ -2622,6 +2622,30 @@ static void CancellerProtean(u32 *effect)
     }
 }
 
+static void CancellerBringerOfStorms(u32 *effect)
+{
+    if (BattlerHasTrait(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS)
+     && gMovesInfo[gCurrentMove].type == TYPE_FLYING
+     && !(gBattleWeather &B_WEATHER_RAIN))
+    {
+        if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
+        {
+            PushTraitStack(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS);
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
+            effect++;
+        }
+        else if (TryChangeBattleWeather(gBattlerAttacker, BATTLE_WEATHER_RAIN, TRUE))
+        {
+            PushTraitStack(gBattlerAttacker, ABILITY_BRINGER_OF_STORMS);
+            gBattleScripting.battler = gBattlerAttacker;
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
+            *effect = 1;
+        }
+    }
+}
+
 static void CancellerPsychicTerrain(u32 *effect)
 {
     if (gFieldStatuses & STATUS_FIELD_PSYCHIC_TERRAIN
@@ -2829,6 +2853,7 @@ static const MoveSuccessOrderCancellers sMoveSuccessOrderCancellers[] =
     [CANCELLER_DYNAMAX_BLOCKED] = CancellerDynamaxBlocked,
     [CANCELLER_POWDER_STATUS] = CancellerPowderStatus,
     [CANCELLER_PROTEAN] = CancellerProtean,
+    [CANCELLER_BRINGER_OF_THE_STORM] = CancellerBringerOfStorms,
     [CANCELLER_PSYCHIC_TERRAIN] = CancellerPsychicTerrain,
     [CANCELLER_EXPLODING_DAMP] = CancellerExplodingDamp,
     [CANCELLER_MULTIHIT_MOVES] = CancellerMultihitMoves,
@@ -5728,6 +5753,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_SPARKING_ZEPHYR)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
          && !(gSideStatuses[GetBattlerSide(gBattlerAttacker)] & SIDE_STATUS_TAILWIND))
         {
@@ -5755,6 +5781,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].windMove
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_WINDS_OF_CHANGE))
         {
             u32 statArr[6];
@@ -5776,6 +5803,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
          && SearchTraits(battlerTraits, ABILITY_SUNRISE)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gBattleWeather & B_WEATHER_SUN))
         {
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SUNRISE, FALSE);
@@ -5785,6 +5813,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].effect == EFFECT_TWO_TURNS_ATTACK
          && IsBattlerTurnDamaged(gBattlerTarget)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_LUNAR_COLD)
          && !(gBattleWeather & B_WEATHER_SNOW))
         {
@@ -5795,6 +5824,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_PSYCHIC
          && IsBattlerTurnDamaged(gBattlerTarget)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_DREAD)
          && RandomPercentage(RNG_STATIC, 30))
         {
@@ -5809,6 +5839,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].category != DAMAGE_CATEGORY_STATUS
          && IsBattlerTurnDamaged(gBattlerTarget)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_WILLPOWER))
         {
             u32 statToBoost = STAT_SPATK;
@@ -5824,6 +5855,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_MENTAL_BLOCK))
         {
             if (gBattleMons[gBattlerAttacker].statStages[STAT_SPDEF] < DEFAULT_STAT_STAGE + 6)
@@ -5837,6 +5869,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
         }
         if (gMovesInfo[gCurrentMove].windMove
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS || IsBattlerTurnDamaged(gBattlerTarget))
          && SearchTraits(battlerTraits, ABILITY_TERRAS_BLESSING))
         {
@@ -5861,6 +5894,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
          && SearchTraits(battlerTraits, ABILITY_MIND_PALACE)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_PSYCHIC_TERRAIN, &gFieldTimers.terrainTimer))
         {
             PushTraitStack(gBattlerTarget, ABILITY_MIND_PALACE);
@@ -5871,6 +5905,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
          && SearchTraits(battlerTraits, ABILITY_OVERCHARGE)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_ELECTRIC_TERRAIN, &gFieldTimers.terrainTimer))
         {
             PushTraitStack(gBattlerTarget, ABILITY_OVERCHARGE);
@@ -5881,6 +5916,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_WATER
          && SearchTraits(battlerTraits, ABILITY_MISTBANK)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && TryChangeBattleTerrain(gBattlerTarget, STATUS_FIELD_MISTY_TERRAIN, &gFieldTimers.terrainTimer))
         {
             PushTraitStack(gBattlerTarget, ABILITY_MISTBANK);
@@ -5891,6 +5927,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (IsBattlerTurnDamaged(gBattlerTarget)
          && SearchTraits(battlerTraits, ABILITY_CLOUDING_MIND)
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gBattleMons[gBattlerTarget].status2 & STATUS2_TORMENT)
          && !BattlerHasTrait(gBattlerTarget, ABILITY_AROMA_VEIL))
         {
@@ -5916,6 +5953,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_FLAME_CLOAK))
         {
             if (gBattleMons[gBattlerAttacker].statStages[STAT_DEF] < DEFAULT_STAT_STAGE + 6)
@@ -6017,26 +6055,6 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             BattleScriptPushCursor();
             BattleScriptExecute(BattleScript_FatedSight);
             effect++;
-        }
-        if (SearchTraits(battlerTraits, ABILITY_BRINGER_OF_STORMS)
-         && gMovesInfo[gCurrentMove].type == TYPE_FLYING
-         && !(gBattleWeather &B_WEATHER_RAIN))
-        {
-            if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect())
-            {
-                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_BlockedByPrimalWeatherRet;
-                effect++;
-            }
-            else if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
-            {
-                PushTraitStack(battler, ABILITY_BRINGER_OF_STORMS);
-                gBattleScripting.battler = battler;
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_BringerOfStormsActivates;
-                effect++;
-            }
         }
         if (SearchTraits(battlerTraits, ABILITY_GUARDIAN_OF_THE_SEA)
          && gMovesInfo[gCurrentMove].type == TYPE_WATER
