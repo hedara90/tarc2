@@ -11,6 +11,8 @@ const morgan = ENTRANCE_MORGAN
 const kenichi = ENTRANCE_KENICHI
 const scilla = ENTRANCE_SCILLA
 const akuwa = ENTRANCE_AKUWA
+const nakamura = ENTRANCE_NAKAMURA
+const hanzo = ENTRANCE_HANZO
 
 script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
@@ -308,9 +310,11 @@ script Entrance_Satsuki {
     dynmultipush("Can we have another practice battle?",1)
     dynmultipush("Deciphering anything today?",2)
     dynmultipush("How did you set up the Bodhai system?",3)
-    //if var story == 2
+    //if one story cleared
     dynmultipush("I managed to clear one of the stories!",4)
+    //if two stories cleared
     dynmultipush("The visitors seem... different?",5)
+    //if one true ending
     dynmultistack(0,0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
         case 0: goto(Entrance_Satsuki_AnythingNew)
@@ -1367,10 +1371,6 @@ script Entrance_Kenichi_FalseEnding {
     release
 }
 
-// script Entrance_Kenichi_FalseEnding_Followup {
-
-// }
-
 script Entrance_Kenichi_TrueEnding {
     lock
     msgbox("Tiana! Good to see ya.")
@@ -1508,6 +1508,257 @@ script Entrance_Akuwa {
     msgbox("Okay!")
     closemessage
     release
+}
+
+# Giratina story
+# Giratina was once a deity equal to the others. But they committed a grave sin and were cast down, forever to live in the distortion world
+# There's the wandering empress. She gets randomly teleported every now and then.
+# Plot is that she is *currently* stuck in the distortion world. There is a group of paladins(?) that are trying to get her out
+# They have found one of the rifts that leads to the distortion world.
+# Occasionally, before it's cleared, the empress is instead in the library hall. She's talking about her experience in the dist. world.
+
+# False ending: The paladins kill Giratina. While they manage to retrive the Empress, without Giratina in the distortion world it becomes unstable.
+# Over time, Giratina's presence stabilized the distortion world. Now that he is gone, chaos starts to seep in to the world and erode it.
+# In the current time, the Paladins are desperately searching for a way to stem the problem. People have also started pointing fingers at the Empress by way of a conspiracy. Everyone is on edge
+
+# True ending: The distortion world distorts more than just physical things. It also affects the mental state of living beings that enter. Except those blessed by Giratina.
+# Because the paladins did not spend too much time, they are not driven mad and to a state of killing Giratina.
+# It's revealed that Giratina actually voluntarily went down in to the distortion world. It could easily have been cut off from reality by Arceus, but without chaos there can be only order.
+# So Giratina became sovereign of the Distortion World to keep the real world functional.
+# Throughout history, Giratina has sought out individuals to befriend and visit him in the distortion world. Gifted by his blessing, these individuals would be immune to the negative effects
+# and would also be granted the ability to "teleport" to and from the distortion world.
+
+script Entrance_Monks_Intro {
+    lock
+    applymovement(nakamura, moves(walk_in_place_left))
+    msgbox("C'mon hurry up. No time to lose.")
+    closemessage
+    applymovement(hanzo, moves(face_right))
+    msgbox("Be quiet for once, Nakimura.\p"
+            "For Arceus's sake, I cannnot\nconcentrate with you yelling in my\lear.")
+    closemessage
+    applymovement(hanzo, moves(face_up))
+    msgbox(".{PAUSE 45}.{PAUSE 45}.{PAUSE 45} There are some results at least.")
+    closemessage
+    applymovement(nakamura, moves(walk_in_place_left))
+    msgbox("Soo.{PAUSE 30}.{PAUSE 30}?")
+    closemessage
+    applymovement(hanzo, moves(walk_in_place_right))
+    msgbox("Man you know what, do it yourself.\p"
+            "I never wanted to be here anyway.\p"
+            "We know everything we need to about\nthe Distortion World.\p"
+            "Why did they have to send us here.\p"
+            "We could've already departed!")
+    closemessage
+    call(Entrance_Monks_MovementScript)
+    removeobject(hanzo)
+    setflag(FLAG_MONKS_HANZO)
+    msgbox("{SPEAKER NAME_PLAYER}Is uh. Is he okay?\n"
+            "You both seem pretty on edge.")
+    closemessage
+    applymovement(nakamura, moves(face_down))
+    msgbox("I mean yeah,who wouldn't be.\p"
+            "Empress is stuck again. Not in the\nbest place.\p"
+            "Girl's a piece of work to keep around\nI can tell ya that much.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Huh?")
+    closemessage
+    applymovement(nakamura, moves(emote_exclamation_mark))
+    waitmovement
+    msgbox("Oh- Oh no, please forget I said\nanything.\p"
+            "You were NOT meant to hear that.")
+    waitmessage
+    applymovement(nakamura, moves(face_right, delay_16*3, face_down))
+    waitmovement
+    msgbox("Argh, can this day get ANY worse.")
+    closemessage
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}I didn't hear anything, sir.")
+    waitmessage
+    applymovement(player, moves(face_right, delay_16*3, face_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Anyway, you two seemed to be\ntroubled by something.\p"
+            "Looks like I was right on the\nmoney.\p"
+            "Can I do anything for ya?")
+    closemessage
+    applymovement(nakamura, moves(walk_in_place_down))
+    msgbox("Mmm. I assume you are a\nRecordkeeper, then?\p"
+            "Do you have any more info\non Giratina?")
+    waitmessage
+    applymovement(nakamura, moves(walk_left, face_up))
+    msgbox("Like, things not in the archive here.")
+    closemessage
+    applymovement(nakamura, moves(face_down))
+    waitmovement(nakamura)
+    applymovement(player, moves(walk_up, face_left))
+    applymovement(nakamura, moves(face_right))
+    msgbox("{SPEAKER NAME_PLAYER}I'm afraid not.")
+    waitmessage
+    applymovement(player, moves(jump_in_place_left))
+    msgbox("Buuut I am currently working on\ndecyphering 'The Original Sinner'.\p"
+            "No guarantee on when that's\nfinished, though.")
+    closemessage
+    applymovement(nakamura, moves(face_down, delay_16*3, face_up, delay_16*2, face_right))
+    waitmovement
+    msgbox("Hum. I see...\p"
+            "Well, I hope you'll get it done soon.")
+    closemessage
+    applymovement(player, moves(walk_in_place_left))
+    msgbox("I'll try my best, sir.")
+    closemessage
+    applymovement(nakamura, moves(face_up, delay_16*3, face_right))
+    msgbox("Man, I was hoping we'd get more out\nof this trip.\p"
+            "Guess that's it. Time to head back.")
+    closemessage
+    applymovement(nakamura, moves(walk_down, walk_right*3))
+    applymovement(player, moves(delay_16, face_down, delay_16, face_right))
+    waitmovement
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_right))
+    msgbox("Good luck!")
+    closemessage
+    applymovement(nakamura, moves(face_left))
+    msgbox("Gonna need that, thanks.")
+    closemessage
+    applymovement(nakamura, moves(walk_right, walk_down *7))
+    waitmovement
+    removeobject(nakamura)
+    setflag(FLAG_MONKS_NAKAMURA)
+}
+
+script Entrance_Monks_MovementScript {
+    getplayerxy(VAR_TEMP_2, VAR_TEMP_3)
+    if(var(VAR_TEMP_2)== 8){
+        applymovement(hanzo, moves(walk_down, walk_right*4, walk_down*8))
+        applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction))
+        waitmovement(hanzo)
+        applymovement(player, moves(walk_right, walk_up))
+        waitmovement(player)
+    }
+    else{
+        applymovement(hanzo, moves(walk_down*2, walk_right*4, walk_down*7))
+        applymovement(player, moves(delay_16*2, face_down))
+        waitmovement(hanzo)
+        if(var(VAR_TEMP_2) == 7){
+            applymovement(player, moves(walk_down, walk_right*2, face_up))
+            
+        }
+        elif(var(VAR_TEMP_2) == 9){
+            applymovement(player, moves(face_up))
+        }
+        else {
+            applymovement(player, moves(walk_down, walk_left, face_up))
+        }
+        waitmovement(player)
+        
+    }
+    return
+}
+
+script Entrance_Empress_Intro {
+    msgbox("Hey there. Cute outfit you've got.")//empress 
+    msgbox("Oh thanks! Pieced it together myself.")
+    msgbox("It's technically my work outfit, though the only requirement was a big white coat."
+            "For... some reason.")
+    msgbox("So you work here, that why that brush is tied to your hair?")
+    msgbox("Yeah! Miss Satsuki has one too, so I figured I'd match the vibe."
+            "I was puzzled by her decision to pair a white coat with a brush dipped in ink."
+            "But it seems these coats have some sort of special quality that prevents them from staining")
+    msgbox("I see. Maybe I need that as well, hah."
+            "My dress tends to get quite dirty quickly."
+            "Especially when I get dropped somewhere muddy.")
+    msgbox("Hmm yeah, I can see that. Lot of white in your outfit."
+            "Looks really cool though. Quite fancy as well."
+            "Where'd you buy it?")
+    msgbox("Ah, it's a custom made dress by Veruka.")
+    msgbox("Whoa, Veruka!? Doesn't she have an insane waitlist?"
+            "I wanted to order something from her but was told I'd have to wait more than a year.")
+    msgbox("Waitlist? She usually completes my orders pretty fast.")
+    msgbox("Hmmm. I see. I guess you just have better connections, huh?")
+    msgbox("Haha, something like that.")
+    msgbox("Anyway, about those coats of yours...")
+    msgbox("Oh, you'll have to ask miss Satsuki."
+            "But good luck. She never told me anything.")
+    msgbox("Sounds good, I'll have a chat with Satsuki then.")
+    msgbox("Nice meeting you, Tiana.")
+    msgbox("Likewise, miss- wait, what?")
+    msgbox("You may call me Lucy."
+            "Have a nice day!")
+    //she walks off towards satsuki
+}
+
+script Entrance_Empress_Satsuki {
+    msgbox("It might take a while to handle your request, milady."
+            "I will let you know when it is done.")
+    msgbox("Thank you for your cooperation.")
+    msgbox("It was nice talking to both of you. Better than being holed up all day anyway.")
+    msgbox("Alas, time for me to head back.")
+    msgbox("Take care, both of you!")
+    //empress leaves
+    msgbox("Tiana. How did you manage to get involved with her?")
+    msgbox("? Should I not have talked with her?"
+            "You told me to treat our guests well")
+    msgbox("I suppose I did. Hmm..."
+            "Did you not recognize her?")
+    msgbox("No, why?")
+    msgbox("Okay, nevermind then")
+    msgbox("Just continue with your work.")
+}
+
+script Entrance_Empress_Intro_Followup {
+    msgbox("")
+}
+
+script Entrance_Monks_FalseEnding {
+    msgbox("Uff, let's see. Giratina...")
+    msgbox("Looking for something specific, sir?")
+    msgbox("Oh, hi. Yeah. I need everything you have about the Distortion World.")
+    msgbox("Oh, I finished updating that one the other day."
+            "Just search for the keywords. Might be something new there.")
+    msgbox("Cool, thanks.")
+    msgbox("Okay... Distortion world... Giratina... Dimensional rifts..."
+            "Seems mostly the same..."
+            "Wait. It needs an anchor being?")
+    msgbox("Oh that. Yeah. I found out that Giratina was the thing that kept the whole Distortion World together."
+            "No clue why it was tied to him though."
+            "But yeah, without it being there the distortion world's going to affect our world."
+            "(wait, hold on. That seems bad)")
+    msgbox("It also says something here about the... Griseous orb?"
+            "Okay. That's all.")
+    msgbox("Thank you for your hard work, miss."
+            "Time's pressing, so I don't have time to chat."
+            "Goobye")
+    msgbox("Bye! Good luck with whatever you're doing!")
+    //tiana checks terminal
+    msgbox("Oh. That's... a problem."
+            "I thought the rifts were stable?"
+            "Wait a second, was Giratina actually slain?"
+            "Oh drat, this is not good.")
+}
+
+script Entrance_Monks_TrueEnding {
+    msgbox("Hey miss! Good seeing you again")
+    msgbox("Oh, you've returned?")
+    msgbox("Yep, everything went smoothly."
+            "Barely, though. But yeah. Things are fine now.")
+    msgbox("Nice! Sounds like a good ending, then.")
+    msgbox("Yeah. Never thought Giratina was like that, though."
+            "I can't believe milady Luciana didn't just tell us."
+            "This whole situation could've been prevented."
+            "And who knows what would've happened if we stayed too long.")
+    msgbox("Yeah.... Probably nothing good, haha.")
+    msgbox("Mhm, I can only imagine."
+            "Good thing that Giratina is on our side though."
+            "I never want to go back in there ever again."
+            "Don't know how milady does it.")
+    msgbox("Who's Luciana?")
+    msgbox("Mm, better not to get involved."
+            "For your sake. Trust me."
+            "It's quite tiring.")
+    msgbox("...?")
 }
 
 script Entrance_GetDirectionAndWalkInPlace {

@@ -53,17 +53,18 @@
       "flag": "0"
     },
     {
+      "local_id": "ENTRANCE_NAKAMURA",
       "graphics_id": "OBJ_EVENT_GFX_MONK",
-      "x": 44,
-      "y": 27,
+      "x": 9,
+      "y": 30,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "Entrance_Monks_Intro",
+      "flag": "FLAG_MONKS_NAKAMURA"
     },
     {
       "local_id": "LOCALID_NAOTO",
@@ -148,6 +149,20 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Akuwa",
       "flag": "FLAG_KENICHI_FAMILY"
+    },
+    {
+      "local_id": "ENTRANCE_HANZO",
+      "graphics_id": "OBJ_EVENT_GFX_MONK",
+      "x": 8,
+      "y": 30,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Entrance_Monks_Intro",
+      "flag": "FLAG_MONKS_HANZO"
     }
   ],
   "warp_events": [],
