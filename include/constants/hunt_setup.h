@@ -11,7 +11,7 @@ enum FinalBossList
     FINAL_BOSS_YVELTAL,
     FINAL_BOSS_HO_OH,
     FINAL_BOSS_RANDOM,
-    FINAL_BOSS_ARCEUS
+    FINAL_BOSS_ARCEUS,
 };
 
 enum BossGroupList

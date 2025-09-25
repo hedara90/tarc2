@@ -17178,6 +17178,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sCelebiLevelUpLearnset,
         .teachableLearnset = sCelebiTeachableLearnset,
+        .maxPhases = 3,
+        .abilityReward = ABILITY_TRUANT,
     },
 #endif //P_FAMILY_CELEBI
 
