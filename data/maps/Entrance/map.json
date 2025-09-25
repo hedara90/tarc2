@@ -40,8 +40,9 @@
       "flag": "0"
     },
     {
+      "local_id": "ENTRANCE_EMPRESS",
       "graphics_id": "OBJ_EVENT_GFX_EMPRESS",
-      "x": 33,
+      "x": 32,
       "y": 29,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
@@ -49,7 +50,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "Entrance_Empress_Intro",
       "flag": "0"
     },
     {

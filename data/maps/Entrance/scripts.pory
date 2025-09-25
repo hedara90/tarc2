@@ -13,6 +13,7 @@ const scilla = ENTRANCE_SCILLA
 const akuwa = ENTRANCE_AKUWA
 const nakamura = ENTRANCE_NAKAMURA
 const hanzo = ENTRANCE_HANZO
+const empress = ENTRANCE_EMPRESS
 
 script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
@@ -1666,35 +1667,97 @@ script Entrance_Monks_MovementScript {
 }
 
 script Entrance_Empress_Intro {
+    lock
     msgbox("Hey there. Cute outfit you've got.")//empress 
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
     msgbox("Oh thanks! Pieced it together myself.")
-    msgbox("It's technically my work outfit, though the only requirement was a big white coat."
+    closemessage
+    applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction, face_right, delay_16, face_down, delay_16, face_left, delay_16, face_up))
+    waitmovement
+    msgbox("It's technically my work outfit,\nthough the only requirement\lwas a big white coat.\p"
             "For... some reason.")
-    msgbox("So you work here, that why that brush is tied to your hair?")
-    msgbox("Yeah! Miss Satsuki has one too, so I figured I'd match the vibe."
-            "I was puzzled by her decision to pair a white coat with a brush dipped in ink."
-            "But it seems these coats have some sort of special quality that prevents them from staining")
-    msgbox("I see. Maybe I need that as well, hah."
-            "My dress tends to get quite dirty quickly."
-            "Especially when I get dropped somewhere muddy.")
-    msgbox("Hmm yeah, I can see that. Lot of white in your outfit."
-            "Looks really cool though. Quite fancy as well."
-            "Where'd you buy it?")
-    msgbox("Ah, it's a custom made dress by Veruka.")
-    msgbox("Whoa, Veruka!? Doesn't she have an insane waitlist?"
-            "I wanted to order something from her but was told I'd have to wait more than a year.")
-    msgbox("Waitlist? She usually completes my orders pretty fast.")
-    msgbox("Hmmm. I see. I guess you just have better connections, huh?")
+    closemessage
+    applymovement(empress, moves(walk_down))
+    waitmovement
+    msgbox("So you work here, that why that\nbrush is tied to your hair?")
+    closemessage
+    applymovement(player, moves(walk_right, walk_up,jump_in_place_left))
+    applymovement(empress, moves(face_right))
+    waitmovement(player)
+    msgbox("Yeah! Miss Satsuki has one too, so\nI figured I'd match the vibe.\p"
+            "I was puzzled by her decision to\npair a white coat with a brush\ldipped in ink.\p"
+            "But it seems these coats have some\nsort of special quality that\lprevents them from staining.")
+    applymovement(empress, moves(walk_in_place_right))
+    msgbox("I see. Maybe I need that as well, hah.\p"
+            "My dress tends to get quite dirty\nquickly.\p"
+            "Especially when I get dropped\nsomewhere muddy.")
+    closemessage
+    applymovement(player, moves(lock_facing_direction, walk_right, delay_16*3, walk_left, unlock_facing_direction))
+    waitmovement
+    msgbox("Hmm yeah, I can see that. Lot of\nwhite in your outfit.\p"
+            "Looks really cool though.\nQuite fancy as well.\p"
+            "Where'd you get it?")
+    closemessage
+    applymovement(empress, moves(emote_heart))
+    msgbox("Ah thanks!\nit's a custom made dress by Veruka.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Whoa, Veruka!?\nDoesn't she have an insane waitlist?\p"
+            "I wanted to order something from her,\nbut was told I'd have to wait more\lthan a year.")
+    closemessage
+    applymovement(empress, moves(emote_question_mark))
+    waitmovement
+    msgbox("Waitlist? She usually completes\nmy orders pretty fast.")
+    closemessage
+    applymovement(player, moves(face_down, delay_16*3, face_left))
+    waitmovement
+    msgbox("Hmmm. I see. I guess you just\nhave better connections, huh?")
+    closemessage
+    applymovement(empress, moves(walk_in_place_right))
+    waitmovement
     msgbox("Haha, something like that.")
-    msgbox("Anyway, about those coats of yours...")
-    msgbox("Oh, you'll have to ask miss Satsuki."
-            "But good luck. She never told me anything.")
-    msgbox("Sounds good, I'll have a chat with Satsuki then.")
+    closemessage
+    msgbox("Damn, if only that could be me.")
+    closemessage
+    applymovement(empress, moves(walk_in_place_right))
+    waitmovement
+    msgbox("Anyway, about those coats of\nyours...")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_left))
+    waitmovement
+    msgbox("Oh, you'll have to ask miss Satsuki.\p"
+            "But good luck.\nShe never told me anything.")
+    closemessage
+    applymovement(empress, moves(face_up, delay_16*4, face_right))
+    waitmovement
+    msgbox("Sounds good, I'll have a chat with\nSatsuki then.")
+    closemessage
+    applymovement(empress, moves(walk_down, walk_right*3, walk_up, face_left))
+    waitmovement
     msgbox("Nice meeting you, Tiana.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(jump_in_place_right))
+    waitmovement
     msgbox("Likewise, miss- wait, what?")
-    msgbox("You may call me Lucy."
-            "Have a nice day!")
-    //she walks off towards satsuki
+    closemessage
+    applymovement(empress, moves(walk_in_place_left))
+    waitmovement
+    msgbox("You may call me Lucy.")
+    closemessage
+    applymovement(empress, moves(walk_up*4, walk_left*2, face_down))
+    waitmovement
+    msgbox("Have a nice day!")
+    closemessage
+    applymovement(empress, moves(walk_left*7, walk_up*2))
+    //Set positions and flags etc
+    waitmovement
+    release
 }
 
 script Entrance_Empress_Satsuki {
