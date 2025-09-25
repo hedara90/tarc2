@@ -2180,6 +2180,8 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
         gBattleStruct->sentinelCD--;
     if (gBattleStruct->staticBuildupCD > 0)
         gBattleStruct->staticBuildupCD--;
+    if (gBattleStruct->intrepidSwordCD > 0)
+        gBattleStruct->intrepidSwordCD--;
 
     return TRUE;
 }

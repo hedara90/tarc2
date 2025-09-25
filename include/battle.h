@@ -820,6 +820,8 @@ struct BattleStruct
     u32 hasShownMoodSwing:1;
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
     u16 leechSeedSpecies;
+    u16 intrepidSwordCD:4;
+    u16 padding:12;
 };
 
 struct AiBattleData

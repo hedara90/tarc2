@@ -2014,6 +2014,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Ups Attack on entry."),
         .aiRating = 3,
         .category = AC_SWITCH_IN,
+        .cd = TARC_INTREPID_SWORD_CD,
     },
 
     [ABILITY_DAUNTLESS_SHIELD] =

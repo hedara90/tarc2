@@ -13907,6 +13907,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Hurricane,
+        .cd = 1,
     },
 
     [MOVE_HEAD_CHARGE] =
@@ -16155,6 +16156,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_SUNNY_DAY},
         .battleAnimScript = gBattleAnimMove_SolarBlade,
+        .cd = 1,
     },
 
     [MOVE_LEAFAGE] =

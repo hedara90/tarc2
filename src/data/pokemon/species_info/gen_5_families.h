@@ -18955,11 +18955,11 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
     [SPECIES_MARACTUS] =
     {
         .baseHP        = 75,
-        .baseAttack    = 86,
-        .baseDefense   = 67,
+        .baseAttack    = 106,
+        .baseDefense   = 77,
         .baseSpeed     = 60,
         .baseSpAttack  = 106,
-        .baseSpDefense = 67,
+        .baseSpDefense = 77,
         .types = MON_TYPES(TYPE_GRASS),
         .catchRate = 255,
         .expYield = 161,
