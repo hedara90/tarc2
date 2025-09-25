@@ -10421,13 +10421,13 @@ BattleScript_MistbankActivates::
 BattleScript_CloudingMindActivates::
 	printstring STRINGID_PKMNSUBJECTEDTOTORMENT
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_SporangiumActivates::
 	playmoveanimation BS_ATTACKER, MOVE_LEECH_SEED
 	printstring STRINGID_PKMNSEEDED
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_ResorptionTriggers::
 	printstring STRINGID_RESORPTION
@@ -10435,7 +10435,7 @@ BattleScript_ResorptionTriggers::
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
-	end2
+	return
 
 BattleScript_CripplingVenom::
 	jumpifstat BS_TARGET, CMP_GREATER_THAN, STAT_ATK, MIN_STAT_STAGE, BattleScript_CripplingVenomDoAnim
@@ -10457,22 +10457,22 @@ BattleScript_CripplingVenomTryLowerSpAtk::
 	printfromtable gStatDownStringIds
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_CripplingVenomEnd::
-	end2
+	return
 
 BattleScript_FatedChange::
 	printstring STRINGID_FATED_CHANGE
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FatedStrike::
 	printstring STRINGID_FATED_STRIKE
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FatedSight::
 	printstring STRINGID_FATED_SIGHT
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FractalShards::
 	printstring STRINGID_FRACTAL_SHARDS
