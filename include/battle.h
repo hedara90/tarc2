@@ -810,7 +810,8 @@ struct BattleStruct
     u32 sentinelSide:1;
     u32 shouldAnimateSentinel:1;
     u32 shouldRemoveSentinel:1;
-    u32 sentinelState:17;
+    u32 sentinelState:16;
+    u32 fatedWorkaround:1;
     u32 isEndOfTurnFuture:1;
     u32 isEndOfTurnWeather:1;
     u32 shouldTriggerSharedBurdens:1;

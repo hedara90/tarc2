@@ -1845,6 +1845,12 @@ static void Cmd_attackstring(void)
         PrepareStringBattle(STRINGID_USEDMOVE, gBattlerAttacker);
         gHitMarker |= HITMARKER_ATTACKSTRING_PRINTED;
     }
+    else if (gBattleStruct->fatedWorkaround)
+    {
+        PrepareStringBattle(STRINGID_USEDMOVE, gBattlerAttacker);
+        gHitMarker = HITMARKER_ATTACKSTRING_PRINTED;
+        gBattleStruct->fatedWorkaround = FALSE;
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
     gBattleCommunication[MSG_DISPLAY] = 0;
 }
