@@ -124,10 +124,19 @@ script Entrance_SatsukiBattle {
     applymovement(satsuki, moves(face_left))
     msgbox("It appears I have to teach\nmy student one more lesson.\pSteady yourself.")
     closemessage
-    msgbox("placeholder battle")
-    msgbox("{SPEAKER NAME_SATSUKI}That should cover the gaps in\nyour knowledge.\p"
-            "Now, let's move on. We don't have\nall day.")
+    setflag(FLAG_NO_WHITEOUT)
+    callnative(SetupSatsukiBattle)
+    trainerbattle_no_intro(TRAINER_SATSUKI, Satsuki_After)
+    switch(var(VAR_RESULT)) {
+    case 0:
+        msgbox("{SPEAKER NAME_SATSUKI}You never were an early bird,\nso I don't know what I expected .\p"
+                "Now, let's move on. We don't have\nall day.")
+    case 1:
+        msgbox("{SPEAKER NAME_SATSUKI}That should cover the gaps in\nyour knowledge.\p"
+                "Now, let's move on. We don't have\nall day.")
+    }
     closemessage
+    clearflag(FLAG_NO_WHITEOUT)
     applymovement(satsuki, moves(face_down))
     waitmovement(satsuki)
     msgbox("{SPEAKER NAME_SATSUKI}Less than half a day, in fact.")
@@ -135,6 +144,10 @@ script Entrance_SatsukiBattle {
     applymovement(satsuki, moves(face_left))
     waitmovement(satsuki)
     goto(Entrance_StartingAnAdventure)
+}
+
+text Satsuki_After {
+    "Well fought."
 }
 
 script Entrance_SatsukiIntro {

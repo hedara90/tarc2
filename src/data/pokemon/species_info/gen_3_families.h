@@ -16615,6 +16615,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sMasquerainLevelUpLearnset,
         .teachableLearnset = sMasquerainTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SURSKIT
 
@@ -16775,6 +16776,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         )
         .levelUpLearnset = sBreloomLevelUpLearnset,
         .teachableLearnset = sBreloomTeachableLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_SHROOMISH
 

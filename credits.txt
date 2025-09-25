@@ -1,0 +1,6 @@
+hack base, Bassforte, https://github.com/bassforte123/pokeemerald-complete/tree/Trait-System
+base of hack base, pokeemerald-expansion, https://github.com/rh-hideout/pokeemerald-expansion
+base of base of hack base, pret, https://github.com/pret/pokeemerald
+Type Icons, Zatsu, https://github.com/Pawkkie/Team-Aquas-Asset-Repo/tree/main/User%20Interface/Zatsu/Tera%20Icons
+Fast Saving, Archie, https://github.com/TeamAquasHideout/pokeemerald/tree/fast_saving
+warpcontinuescript, Archie

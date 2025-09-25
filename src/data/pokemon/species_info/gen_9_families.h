@@ -15220,7 +15220,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sChienPaoLevelUpLearnset,
         .teachableLearnset = sChienPaoTeachableLearnset,
         .maxPhases = 3,
-        .abilityReward = ABILITY_BLADES_OF_FROST,
+        .abilityReward = ABILITY_INTREPID_SWORD,
     },
 #endif //P_FAMILY_CHIEN_PAO
 

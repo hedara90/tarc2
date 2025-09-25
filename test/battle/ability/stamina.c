@@ -234,3 +234,20 @@ SINGLE_BATTLE_TEST("Stamina is not activated by users own Substitute (Trait)")
         EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
     }
 }
+
+SINGLE_BATTLE_TEST("Stamina and Resilience works together")
+{
+    u16 maxHp = 500;
+    GIVEN {
+        ASSUME(!IsBattleMoveStatus(MOVE_SCRATCH));
+        PLAYER(SPECIES_DRAMPA) { Ability(ABILITY_RESILIENCE); Innates(ABILITY_STAMINA); MaxHP(maxHp); HP(maxHp / 2 + 1); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
+    } THEN {
+        EXPECT_EQ(player->statStages[STAT_SPDEF], DEFAULT_STAT_STAGE + 1);
+        EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE + 1);
+    }
+}

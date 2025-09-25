@@ -14709,12 +14709,12 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
 #if P_GEN_9_CROSS_EVOS
     [SPECIES_ARCHALUDON] =
     {
-        .baseHP        = 90,
-        .baseAttack    = 105,
-        .baseDefense   = 130,
+        .baseHP        = 70,
+        .baseAttack    = 95,
+        .baseDefense   = 115,
         .baseSpeed     = 85,
-        .baseSpAttack  = 125,
-        .baseSpDefense = 65,
+        .baseSpAttack  = 120,
+        .baseSpDefense = 50,
         .types = MON_TYPES(TYPE_STEEL, TYPE_DRAGON),
         .catchRate = 10,
         .expYield = 300,

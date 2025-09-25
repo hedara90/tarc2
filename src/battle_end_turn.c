@@ -418,7 +418,7 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
 
         if (gCurrentMove != MOVE_FUTURE_SIGHT && gCurrentMove != MOVE_DOOM_DESIRE && gCurrentMove != MOVE_REWARD_FUTURE_SIGHT)
         {
-            gBattleStruct->foreseenTrigger[battler] = TRUE;
+            gBattleStruct->foreseenTrigger[gBattlerAttacker] = TRUE;
             BattleScriptExecute(gBattleMoveEffects[gMovesInfo[gCurrentMove].effect].battleScript);
         }
         else
@@ -2180,6 +2180,8 @@ static bool32 HandleEndTurnPlayerCD(u32 battler)
         gBattleStruct->sentinelCD--;
     if (gBattleStruct->staticBuildupCD > 0)
         gBattleStruct->staticBuildupCD--;
+    if (gBattleStruct->intrepidSwordCD > 0)
+        gBattleStruct->intrepidSwordCD--;
 
     return TRUE;
 }

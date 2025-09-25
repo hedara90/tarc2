@@ -5432,9 +5432,9 @@ BattleScript_LocalBattleWonLoseTexts::
 	waitstate
 	printstring STRINGID_TRAINER2LOSETEXT
 BattleScript_LocalBattleWonReward::
-	getmoneyreward
-	printstring STRINGID_PLAYERGOTMONEY
-	waitmessage B_WAIT_TIME_LONG
+	//getmoneyreward
+	//printstring STRINGID_PLAYERGOTMONEY
+	//waitmessage B_WAIT_TIME_LONG
 BattleScript_PayDayMoneyAndPickUpItems::
 	givepaydaymoney
 	pickup
@@ -10421,13 +10421,13 @@ BattleScript_MistbankActivates::
 BattleScript_CloudingMindActivates::
 	printstring STRINGID_PKMNSUBJECTEDTOTORMENT
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_SporangiumActivates::
 	playmoveanimation BS_ATTACKER, MOVE_LEECH_SEED
 	printstring STRINGID_PKMNSEEDED
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_ResorptionTriggers::
 	printstring STRINGID_RESORPTION
@@ -10435,7 +10435,7 @@ BattleScript_ResorptionTriggers::
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
-	end2
+	return
 
 BattleScript_CripplingVenom::
 	jumpifstat BS_TARGET, CMP_GREATER_THAN, STAT_ATK, MIN_STAT_STAGE, BattleScript_CripplingVenomDoAnim
@@ -10457,22 +10457,22 @@ BattleScript_CripplingVenomTryLowerSpAtk::
 	printfromtable gStatDownStringIds
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_CripplingVenomEnd::
-	end2
+	return
 
 BattleScript_FatedChange::
 	printstring STRINGID_FATED_CHANGE
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FatedStrike::
 	printstring STRINGID_FATED_STRIKE
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FatedSight::
 	printstring STRINGID_FATED_SIGHT
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_FractalShards::
 	printstring STRINGID_FRACTAL_SHARDS
@@ -10740,3 +10740,69 @@ BattleScript_Banish::
 	end
 BattleScript_AllBanished:
 	end
+
+BattleScript_Stamina::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_DEF, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_Resilience::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_SPDEF, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_Berserk::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_SPATK, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_Justified::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_ATK, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_Rattled::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_SPEED, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_WaterCompaction::
+	copybyte sSAVED_BATTLER, gBattlerAttacker
+	copybyte gBattlerAbility, gEffectBattler
+	copybyte gBattlerAttacker, gBattlerTarget
+	setstatchanger STAT_DEF, 2, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, BattleScript_TargetAbilityStatRaiseRet_End
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
