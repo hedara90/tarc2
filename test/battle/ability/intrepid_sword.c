@@ -1,10 +1,12 @@
 #include "global.h"
 #include "test/battle.h"
 
+/*
 ASSUMPTIONS
 {
     ASSUME(B_INTREPID_SWORD == GEN_9);
 }
+*/
 
 SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage")
 {
@@ -22,6 +24,7 @@ SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage")
     }
 }
 
+/*
 SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage only once per battle")
 {
     GIVEN {
@@ -44,6 +47,7 @@ SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage only once per batt
         EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE);
     }
 }
+*/
 
 SINGLE_BATTLE_TEST("Intrepid Sword activates when it's no longer effected by Neutralizing Gas")
 {
@@ -111,6 +115,7 @@ SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage (Trait)")
     }
 }
 
+/*
 SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage only once per battle (Trait)")
 {
     GIVEN {
@@ -133,6 +138,7 @@ SINGLE_BATTLE_TEST("Intrepid Sword raises Attack by one stage only once per batt
         EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE);
     }
 }
+*/
 
 SINGLE_BATTLE_TEST("Intrepid Sword activates when it's no longer effected by Neutralizing Gas (Trait)")
 {

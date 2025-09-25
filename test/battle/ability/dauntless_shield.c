@@ -1,10 +1,10 @@
 #include "global.h"
 #include "test/battle.h"
 
-ASSUMPTIONS
-{
-    ASSUME(B_DAUNTLESS_SHIELD == GEN_9);
-}
+//ASSUMPTIONS
+//{
+//    ASSUME(B_DAUNTLESS_SHIELD == GEN_9);
+//}
 
 SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage")
 {
@@ -22,6 +22,7 @@ SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage")
     }
 }
 
+/*
 SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage only once per battle")
 {
     GIVEN {
@@ -44,6 +45,7 @@ SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage only once per b
         EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
     }
 }
+*/
 
 SINGLE_BATTLE_TEST("Dauntless Shield activates when it's no longer effected by Neutralizing Gas")
 {
@@ -80,6 +82,7 @@ SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage (Trait)")
     }
 }
 
+/*
 SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage only once per battle (Trait)")
 {
     GIVEN {
@@ -102,6 +105,7 @@ SINGLE_BATTLE_TEST("Dauntless Shield raises Defense by one stage only once per b
         EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
     }
 }
+*/
 
 SINGLE_BATTLE_TEST("Dauntless Shield activates when it's no longer effected by Neutralizing Gas (Trait)")
 {

@@ -4322,9 +4322,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gBattlerAttacker = battler;
             effect += CommonSwitchInAbilities(battler, 0, ABILITY_SHIELDS_DOWN, traitCheck, BattleScript_AttackerFormChangeEnd3);
         }
-        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_INTREPID_SWORD)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1] && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_INTREPID_SWORD)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1] && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN && !IsAbilityOnCD(ABILITY_INTREPID_SWORD, battler))
          && !(gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].intrepidSwordBoost))
         {
+            SetAbilityCD(ABILITY_INTREPID_SWORD, battler);
             gBattleScripting.savedBattler = gBattlerAttacker;
             gBattlerAttacker = battler;
             if (B_INTREPID_SWORD == GEN_9)
@@ -12992,6 +12993,9 @@ bool32 IsAbilityOnCD(u32 ability, u32 battler)
     case ABILITY_STATIC_BUILDUP:
         if (gBattleStruct->sentinelCD > 0)
             return TRUE;
+    case ABILITY_INTREPID_SWORD:
+        if (gBattleStruct->intrepidSwordCD > 0)
+            return TRUE;
     }
     return FALSE;
 }
@@ -13014,6 +13018,9 @@ void SetAbilityCD(u32 ability, u32 battler)
         break;
     case ABILITY_STATIC_BUILDUP:
         gBattleStruct->staticBuildupCD = TARC_STATIC_BUILDUP_CD;
+        break;
+    case ABILITY_INTREPID_SWORD:
+        gBattleStruct->intrepidSwordCD = TARC_INTREPID_SWORD_CD;
         break;
     }
 }
