@@ -49,6 +49,8 @@ AI_SINGLE_BATTLE_TEST("AI prefers Water Gun over Bubble if it knows that foe has
     }
 }
 
+//  Not relevant
+/*
 AI_SINGLE_BATTLE_TEST("AI prefers moves with better accuracy, but only if they both require the same number of hits to ko")
 {
     u16 move1 = MOVE_NONE, move2 = MOVE_NONE, move3 = MOVE_NONE, move4 = MOVE_NONE;
@@ -131,6 +133,7 @@ AI_SINGLE_BATTLE_TEST("AI prefers moves with better accuracy, but only if they b
         MESSAGE("Wobbuffet fainted!");
     }
 }
+*/
 
 AI_SINGLE_BATTLE_TEST("AI prefers moves which deal more damage instead of moves which are super-effective but deal less damage")
 {

@@ -18,3 +18,22 @@ SINGLE_BATTLE_TEST("Fated Sight foresees special moves")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_GUN, player);
     }
 }
+
+SINGLE_BATTLE_TEST("Fated Sight doesn't corrupt the next move")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_FATED_SIGHT); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_WATER_GUN); }
+        TURN { }
+        TURN { }
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_GUN, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_GUN, player);
+        MESSAGE("Wobbuffet used Scratch!");
+    }
+}

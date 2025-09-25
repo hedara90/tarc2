@@ -5361,6 +5361,7 @@ static bool32 TryDoMoveEffectsBeforeMoves(void)
 
         PopulateArrayWithBattlers(battlers);
         SortBattlersBySpeed(battlers, FALSE);
+
         for (i = 0; i < gBattlersCount; i++)
         {
             if (!gBattleStruct->battlerState[battlers[i]].focusPunchBattlers

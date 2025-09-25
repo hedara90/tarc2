@@ -6014,13 +6014,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightPartyIndex[(battler + 1) & 0x1] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3;
 
+            gBattleStruct->fatedWorkaround = TRUE;
+
             CreateAbilityPopUp(battler, ABILITY_FATED_CHANGE, FALSE);
             BattleScriptPushCursor();
             BattleScriptExecute(BattleScript_FatedChange);
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_PHYSICAL
-         && !gBattleStruct->foreseenTrigger[battler]
+         && !gBattleStruct->foreseenTrigger[gBattlerAttacker]
          && !IsChargeMove(gCurrentMove)
          && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
          && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
@@ -6030,6 +6032,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+
+            gBattleStruct->fatedWorkaround = TRUE;
 
             CreateAbilityPopUp(battler, ABILITY_FATED_STRIKE, FALSE);
             BattleScriptPushCursor();
@@ -6050,6 +6054,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+
+            gBattleStruct->fatedWorkaround = TRUE;
 
             CreateAbilityPopUp(battler, ABILITY_FATED_SIGHT, FALSE);
             BattleScriptPushCursor();
