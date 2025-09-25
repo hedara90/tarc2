@@ -3481,3 +3481,23 @@ const struct BossAi sKleavorAi =
         &sKleavor1,
     }
 };
+
+const struct BossMoveList sCelebi1 =
+{
+    .numMoves = 3,
+    .moves = {
+        MOVE_ENERGY_BALL,
+        MOVE_ANCIENT_POWER,
+        MOVE_PSYCHIC,
+    },
+};
+
+const struct BossAi sCelebiAi =
+{
+    .phaseMoves =
+    {
+        &sCelebi1,
+        &sCelebi1,
+        &sCelebi1,
+    },
+};

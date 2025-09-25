@@ -58,6 +58,7 @@
 #include "wild_encounter.h"
 
 #include "hunt_setup.h"
+#include "menu.h"
 
 enum {
     TRANSITION_TYPE_NORMAL,
@@ -254,6 +255,7 @@ static void Task_BattleStart(u8 taskId)
     case 1:
         if (IsBattleTransitionDone() == TRUE)
         {
+            HideTarcMessagebox();
             PrepareForFollowerNPCBattle();
             CleanupOverworldWindowsAndTilemaps();
             SetMainCallback2(CB2_InitBattle);
@@ -1313,6 +1315,7 @@ static void CB2_EndTrainerBattle(void)
     }
     else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
+        gSpecialVar_Result = FALSE;
         if (InBattlePyramid() || InTrainerHillChallenge() || (!NoAliveMonsForPlayer()) || FlagGet(B_FLAG_NO_WHITEOUT))
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
@@ -1324,6 +1327,7 @@ static void CB2_EndTrainerBattle(void)
     }
     else
     {
+        gSpecialVar_Result = TRUE;
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         DowngradeBadPoison();
         if (!InBattlePyramid() && !InTrainerHillChallenge())

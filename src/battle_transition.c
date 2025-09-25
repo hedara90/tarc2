@@ -27,6 +27,8 @@
 #include "constants/trainers.h"
 #include "constants/rgb.h"
 
+#include "menu.h"
+
 #define PALTAG_UNUSED_MUGSHOT 0x100A
 
 #define B_TRANS_DMA_FLAGS (1 | ((DMA_SRC_INC | DMA_DEST_FIXED | DMA_REPEAT | DMA_16BIT | DMA_START_HBLANK | DMA_ENABLE) << 16))
@@ -1077,6 +1079,7 @@ static bool8 Transition_WaitForIntro(struct Task *task)
 
 static bool8 Transition_StartMain(struct Task *task)
 {
+    HideTarcMessagebox();
     CreateTask(sTasks_Main[task->tTransitionId], 0);
     task->tState++;
     return FALSE;

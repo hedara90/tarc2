@@ -11604,6 +11604,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sKlefkiLevelUpLearnset,
         .teachableLearnset = sKlefkiTeachableLearnset,
         .eggMoveLearnset = sKlefkiEggMoveLearnset,
+        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_KLEFKI
 
