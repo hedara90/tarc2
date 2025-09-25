@@ -932,5 +932,11 @@ extern const u8 BattleScript_TheSpaceBetween[];
 extern const u8 BattleScript_OriginalSin[];
 extern const u8 BattleScript_PlanarImprisonment[];
 extern const u8 BattleScript_Banish[];
+extern const u8 BattleScript_Stamina[];
+extern const u8 BattleScript_Resilience[];
+extern const u8 BattleScript_Berserk[];
+extern const u8 BattleScript_Justified[];
+extern const u8 BattleScript_Rattled[];
+extern const u8 BattleScript_WaterCompaction[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

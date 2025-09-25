@@ -4883,10 +4883,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_ATK, 1, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_JUSTIFIED, FALSE);
             PushTraitStack(battler, ABILITY_JUSTIFIED);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_Justified;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_RATTLED)
@@ -4897,10 +4897,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_SPEED, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_SPEED, 1, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_RATTLED, FALSE);
             PushTraitStack(battler, ABILITY_RATTLED);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_Rattled;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_WATER_COMPACTION)
@@ -4911,10 +4911,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_DEF, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_DEF, 2, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_WATER_COMPACTION, FALSE);
             PushTraitStack(battler, ABILITY_WATER_COMPACTION);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_WaterCompaction;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_STAMINA)
@@ -4925,10 +4925,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_DEF, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_DEF, 1, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_STAMINA, FALSE);
             PushTraitStack(battler, ABILITY_STAMINA);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_Stamina;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_RESILIENCE)
@@ -4939,10 +4939,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_SPDEF, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_SPDEF, 1, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_RESILIENCE, FALSE);
             PushTraitStack(battler, ABILITY_RESILIENCE);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_Resilience;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_BERSERK)
@@ -4955,10 +4955,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && CompareStat(battler, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN))
         {
             gEffectBattler = battler;
-            SET_STATCHANGER(STAT_SPATK, 1, FALSE);
+            CreateAbilityPopUp(gBattlerTarget, ABILITY_BERSERK, FALSE);
             PushTraitStack(battler, ABILITY_BERSERK);
             BattleScriptPushCursor();
-            gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaiseRet;
+            gBattlescriptCurrInstr = BattleScript_Berserk;
             effect++;
         }
         if (SearchTraits(battlerTraits, ABILITY_WEAK_ARMOR)
