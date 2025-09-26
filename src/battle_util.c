@@ -7027,7 +7027,7 @@ bool32 CanSetNonVolatileStatus(u32 battlerAtk, u32 battlerDef, u32 abilityAtk, u
     else if (SearchTraits(battlerTraits, ABILITY_PURIFYING_WATER))
     {
         abilityAffected = TRUE;
-        battleScript = BattleScript_AbilityProtectsDoesntAffect;
+        battleScript = BattleScript_PurifyingWaterProtects;
     }
     else if (gBattleMons[battlerDef].status1 & STATUS1_ANY)
     {

@@ -20,9 +20,9 @@ SINGLE_BATTLE_TEST("Purifying Water prevents status")
         PLAYER(SPECIES_WOBBUFFET) { Innates(ABILITY_PURIFYING_WATER); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_POISON_STING); }
+        TURN { MOVE(opponent, MOVE_TOXIC); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_POISON_STING, opponent);
+        ABILITY_POPUP(player, ABILITY_PURIFYING_WATER);
         NOT STATUS_ICON(player, poison: TRUE);
     }
 }
