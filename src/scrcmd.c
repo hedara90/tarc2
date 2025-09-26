@@ -2489,6 +2489,27 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
     return FALSE;
 }
 
+u32 AdjustLevel(u32 level, u32 species)
+{
+    if (!TESTING)
+    {
+        u32 levelAdjustment = 0;
+        if (gSpeciesInfo[species].maxPhases < 4)
+        {
+            levelAdjustment = 10 - gSaveBlock1Ptr->huntTargets.numBossesDefeated;
+        }
+        if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ENTRANCE))
+            levelAdjustment = 10;
+        if (levelAdjustment >= level)
+            levelAdjustment = level - 1;
+        if (species == SPECIES_CELEBI)
+            levelAdjustment = 0;
+        level -= levelAdjustment;
+    }
+
+    return level;
+}
+
 bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     u16 species = VarGet(ScriptReadHalfword(ctx));
@@ -2500,8 +2521,7 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1);
 
-    if (gSaveBlock2Ptr->isArchie)
-        level = 90;
+    level = AdjustLevel(level, species);
 
     if(species2 == SPECIES_NONE)
     {

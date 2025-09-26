@@ -1807,27 +1807,6 @@ static bool8 RunFieldCallback(void)
     return TRUE;
 }
 
-const u8 sArchieName[] = _("archie");
-const u8 sArchieNameCaps[] = _("ARCHIE");
-
-static void CheckArchie(void)
-{
-    bool32 isArchie = TRUE;
-    for (u32 i = 0; i < 7; i++)
-    {
-        u8 currChar = gSaveBlock2Ptr->playerName[i];
-        if (currChar != sArchieName[i]
-         && currChar != sArchieNameCaps[i])
-        {
-            isArchie = FALSE;
-            break;
-        }
-    }
-    if (isArchie)
-        gSaveBlock2Ptr->isArchie = TRUE;
-    else
-        gSaveBlock2Ptr->isArchie = FALSE;
-}
 
 void CB2_NewGame(void)
 {
@@ -1835,7 +1814,6 @@ void CB2_NewGame(void)
     StopMapMusic();
     ResetSafariZoneFlag_();
     NewGameInitData();
-    CheckArchie();
     ResetInitialPlayerAvatarState();
     PlayTimeCounter_Start();
     ScriptContext_Init();
