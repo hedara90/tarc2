@@ -2,33 +2,35 @@ mapscripts Boss_MapScripts {
 }
 
 script Boss_BossBattle {
-    callnative(SetFinalBoss)
-    setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
-    playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
-    waitmoncry
-    dowildbattle
-    if (var(VAR_RESULT) == TRUE) {
-        lock
-        lockall
+    if (!flag(FLAG_BOSS_BOSS)) {
         callnative(SetFinalBoss)
+        setwildbattle(VAR_RESULT, BOSS_LEVEL, ITEM_NONE)
         playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
-        setvar(VAR_0x8004, 0)  # vertical pan
-        setvar(VAR_0x8005, 2)  # horizontal pan
-        setvar(VAR_0x8006, 8)  # num shakes
-        setvar(VAR_0x8007, 3)  # shake delay
-        special(ShakeCamera)
-        waitstate
         waitmoncry
-        message("Put some profound text here.\p")
-        waitmessage
-        closemessage
-        callnative(FadeBoss)
-        delay(128)
-        removeobject(LOCALID_FINAL_BOSS)
-        setflag(FLAG_BOSS_BOSS)
+        dowildbattle
+        if (var(VAR_RESULT) == TRUE) {
+            lock
+            lockall
+            callnative(SetFinalBoss)
+            playmoncry(VAR_RESULT, CRY_MODE_NORMAL)
+            setvar(VAR_0x8004, 0)  # vertical pan
+            setvar(VAR_0x8005, 2)  # horizontal pan
+            setvar(VAR_0x8006, 8)  # num shakes
+            setvar(VAR_0x8007, 3)  # shake delay
+            special(ShakeCamera)
+            waitstate
+            waitmoncry
+            message("This story has been brought to an end.\p")
+            waitmessage
+            closemessage
+            callnative(FadeBoss)
+            delay(128)
+            removeobject(LOCALID_FINAL_BOSS)
+            setflag(FLAG_BOSS_BOSS)
+        }
+        release
+        releaseall
     }
-    release
-    releaseall
 }
 
 script Boss_Exit {

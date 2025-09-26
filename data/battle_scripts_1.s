@@ -10379,7 +10379,7 @@ BattleScript_IcyVeinsActivates::
 	end3
 
 BattleScript_Empath::
-	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
+	printstring STRINGID_EMPATH_HEAL
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
@@ -10387,7 +10387,7 @@ BattleScript_Empath::
 	end3
 
 BattleScript_TerrasBlessing::
-	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
+	printstring STRINGID_TERRAS_BLESSING
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER

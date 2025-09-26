@@ -844,6 +844,7 @@ static bool32 HandleEndTurnSubmerged(u32 battler)
         SaveBattlerAttacker(gBattlerAttacker);
         gBattlerTarget = battler;
         gBattlerAttacker = battler;
+        gStatuses4[battler] &= ~STATUS4_SUBMERGED;
         if (IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
         {
             BattleScriptExecute(BattleScript_DoSubmergedStatDrop);
