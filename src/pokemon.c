@@ -5891,9 +5891,93 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
         default:
-            return MUS_RG_VS_LEGEND;
+            return MUS_VS_WILD;
         }
     }
+    else if (gBattleTypeFlags & BATTLE_TYPE_TARC_BOSS){
+        switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+        {
+        case SPECIES_ARTICUNO:
+        case SPECIES_ZAPDOS:
+        case SPECIES_MOLTRES:
+        case SPECIES_ZAPDOS_GALAR:
+        case SPECIES_ARTICUNO_GALAR:
+        case SPECIES_MOLTRES_GALAR:
+            return MUS_RG_VS_LEGEND;
+        case SPECIES_RAIKOU:
+        case SPECIES_ENTEI:
+        case SPECIES_SUICUNE:
+            return MUS_VS_AQUA_MAGMA_LEADER;
+        case SPECIES_REGIROCK:
+        case SPECIES_REGICE:
+        case SPECIES_REGISTEEL:
+        case SPECIES_REGIGIGAS:
+        case SPECIES_REGIELEKI:
+        case SPECIES_REGIDRAGO:
+            return MUS_VS_REGI;
+        case SPECIES_UXIE:
+        case SPECIES_MESPRIT:
+        case SPECIES_AZELF:
+            return MUS_RG_VS_GYM_LEADER;
+        case SPECIES_COBALION:
+        case SPECIES_TERRAKION:
+        case SPECIES_VIRIZION:
+        case SPECIES_KELDEO:
+            return MUS_RG_VS_LEGEND;
+        case SPECIES_TORNADUS:
+        case SPECIES_THUNDURUS:
+        case SPECIES_LANDORUS:
+        case SPECIES_ENAMORUS:
+            return MUS_C_VS_LEGEND_BEAST;
+        case SPECIES_TAPU_BULU:
+        case SPECIES_TAPU_FINI:
+        case SPECIES_TAPU_KOKO:
+        case SPECIES_TAPU_LELE:
+            return MUS_VS_GYM_LEADER;
+        case SPECIES_WO_CHIEN:
+        case SPECIES_CHIEN_PAO:
+        case SPECIES_TING_LU:
+        case SPECIES_CHI_YU:       
+            return MUS_VS_ELITE_FOUR;
+        case SPECIES_OKIDOGI:
+        case SPECIES_MUNKIDORI:
+        case SPECIES_FEZANDIPITI:
+            return MUS_VS_AQUA_MAGMA;
+        case SPECIES_WALKING_WAKE:
+        case SPECIES_GOUGING_FIRE:
+        case SPECIES_RAGING_BOLT:
+            return MUS_C_VS_LEGEND_BEAST;
+        case SPECIES_IRON_LEAVES:
+        case SPECIES_IRON_BOULDER:
+        case SPECIES_IRON_CROWN:
+            return MUS_RG_VS_GYM_LEADER;
+        case SPECIES_DRAGONITE:
+        case SPECIES_TYRANTRUM:
+        case SPECIES_METAGROSS:
+        case SPECIES_SALAMENCE:
+        case SPECIES_GARCHOMP:
+        case SPECIES_HYDREIGON:
+        case SPECIES_GOODRA:
+        case SPECIES_KOMMO_O:
+        case SPECIES_DRAGAPULT:
+        case SPECIES_BAXCALIBUR:
+            return MUS_RG_VS_LEGEND;
+
+        case SPECIES_LUGIA:
+            return MUS_VS_KYOGRE_GROUDON;
+        // case SPECIES_GIRATINA:
+        case SPECIES_GIRATINA_ALTERED:
+        case SPECIES_GIRATINA_ORIGIN:
+            return MUS_RG_VS_DEOXYS;
+        case SPECIES_XERNEAS:
+            return MUS_VS_FRONTIER_BRAIN;
+
+        default:
+            return MUS_RG_VS_TRAINER;
+        }
+        
+    }
+
     else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
     {
         return MUS_VS_TRAINER;
