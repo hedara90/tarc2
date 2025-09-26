@@ -555,7 +555,7 @@ text Entrance_Text_Structure {
     "The Bodhai system creates a similar\nstructure for each myth.\p"
     "Select a myth to examine.\nThe system will create a boss\lassociated with the myth.\p"
     "It will also generate 9 subdomains.\p"
-    "Each domain contains a single\npowerful opponent, as well as\na number of weaker enemies.\p"
+    "Each domain contains a single\npowerful opponent, as well as\la number of weaker enemies.\p"
     "They represent the obstacles\nthe protagonists had to overcome.\p"
     "The final boss can be challenged\nat any time.\p"
     "Depending on the number of\nsubdomains entered, the story may\lreach different conclusions."
@@ -620,22 +620,22 @@ text Entrance_Text_Switching {
 
 text Entrance_Text_Backline {
     format("When not the active battler, a Pokémon will restore a bit of health every turn.\p"
-    "After 3 turns of being in the back, they will get rid of any negative stat drops.\p"
+    "After 3 turns of being in the back, they will start recovering negative stat drops.\p"
     "And after 5 turns, they'll heal negative status effects.\p"
     "Well, most of them.")
 }
 
 text Entrance_Text_Phases {
     format("All enemies have multiple phases.\p"
-    "Dealing enough damage puts the opponent to the next phase.\p"
+    "Dealing enough damage transitions the opponent to the next phase.\p"
     "When this happens, they cure themselves of any statuses.\p"
     "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!")
 }
 
 text Entrance_Text_Cooldowns {
     format("Some moves and abilities have cooldowns.\p"
-    "After activating, they won't do so until a number of turns have passed.\p"
-    "Moves can be used when on cooldown, but this will deal recoil damage.")
+    "After being used, they can't be used again until a number of turns have passed.\p"
+    "Moves can be used when on cooldown though, but this will hurt the user.")
 }
 
 text Entrance_Abilities {
