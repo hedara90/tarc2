@@ -4913,8 +4913,9 @@ void AddStuff(void)
     FlagSet(FLAG_HELP_PHASE);
     FlagSet(FLAG_HELP_COOLDOWN);
     FlagSet(FLAG_HELP_HEAL);
-    gSaveBlock1Ptr->bestBosses[FINAL_BOSS_LUGIA].teamMembers[0] = SPECIES_GALVANTULA;
-    VarSet(VAR_LUGIA_PROGRESS, 7);
+    gSaveBlock1Ptr->bestBosses[FINAL_BOSS_GIRATINA].teamMembers[0] = SPECIES_GALVANTULA;
+    gSaveBlock1Ptr->bestBosses[FINAL_BOSS_XERNEAS].teamMembers[0] = SPECIES_GALVANTULA;
+    VarSet(VAR_GIRATINA_PROGRESS, 3);
 }
 
 u32 RomXor();

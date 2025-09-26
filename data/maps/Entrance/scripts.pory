@@ -44,6 +44,34 @@ script Entrance_OnTransition {
             setobjectxyperm(kenichi, 29,21)
         }
     }
+
+    checkbossdefeated(FINAL_BOSS_GIRATINA)
+    if(var(VAR_RESULT)==FALSE){
+        random(3)
+        if(var(VAR_RESULT)== 0){
+            clearflag(FLAG_EMPRESS)
+        }
+        else{
+            setflag(FLAG_EMPRESS)
+        }
+    }
+    else {
+        if(var(VAR_GIRATINA_PROGRESS) > 5){
+            setflag(FLAG_EMPRESS)
+            if(flag(FLAG_MONKS_FALSE_ENDING_CHAT)==FALSE){
+                    clearflag(FLAG_MONKS_HANZO)
+                    setflag(FLAG_MONKS_NAKAMURA)
+                }
+        }
+        else {
+            clearflag(FLAG_EMPRESS)
+            if(flag(FLAG_MONKS_TRUE_ENDING_CHAT)==FALSE){
+                clearflag(FLAG_MONKS_NAKAMURA)
+                setflag(FLAG_MONKS_HANZO)
+                setobjectxyperm(nakamura, 10, 32)
+            }
+        }
+    }
 }
 
 script Entrance_FirstDay_Top {
@@ -321,22 +349,28 @@ script Entrance_Satsuki {
     // }
     setboxframe(BOX_FRAME_TIANA)
     dynmultipush("Got anything new?", 0)
-    dynmultipush("Can we have another practice battle?",1)
+    // dynmultipush("Can we have another practice battle?",1)
     dynmultipush("Deciphering anything today?",2)
     dynmultipush("How did you set up the Bodhai system?",3)
-    //if one story cleared
-    dynmultipush("I managed to clear one of the stories!",4)
-    //if two stories cleared
-    dynmultipush("The visitors seem... different?",5)
-    //if one true ending
-    dynmultistack(0,0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    totalmythscleared
+    if(var(VAR_RESULT)!=0 && flag(FLAG_SATSUKI_FIRSTMYTH)==FALSE){
+        dynmultipush("I managed to clear one of the stories!",4)
+    }
+    if(var(VAR_RESULT)>= 2 && flag(FLAG_SATSUKI_TWOMYTHS)==FALSE){
+        dynmultipush("The visitors seem... different?",5)
+    }
+    if(var(VAR_RESULT)>= 3 && var(VAR_GIRATINA_PROGRESS)<=5 && var(VAR_LUGIA_PROGRESS)<=5 && var(VAR_XERNEAS_PROGRESS)<=5){
+        dynmultipush("I think I've finished everything!",6)
+    }
+    dynmultistack(0,0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
         case 0: goto(Entrance_Satsuki_AnythingNew)
-        case 1: goto(Entrance_Satsuki_MockBattle)
+        // case 1: goto(Entrance_Satsuki_MockBattle)
         case 2: goto(Entrance_Satsuki_Deciphering)
         case 3: goto(Entrance_Satsuki_Bodhai)
         case 4: goto(Entrance_Satsuki_FirstClear)
         case 5: goto(Entrance_Satsuki_Visitor)
+        case 6: goto(Entrance_Satsuki_AllMyths)
     }
     closemessage
     release
@@ -473,6 +507,7 @@ script Entrance_Satsuki_FirstClear {
     call(Entrance_GetDirectionAndJumpInPlace)    
     msgbox("{SPEAKER NAME_PLAYER}Yup yup, I'll have another look later.")
     closemessage
+    setflag(FLAG_SATSUKI_FIRSTMYTH)
     release
 }
 
@@ -497,6 +532,23 @@ script Entrance_Satsuki_Visitor {
     closemessage
     applymovement(player, moves(emote_question_mark))
     msgbox(".{PAUSE 30}.{PAUSE 30}. ??")
+    closemessage
+    setflag(FLAG_SATSUKI_TWOMYTHS)
+    release
+}
+
+script Entrance_Satsuki_AllMyths {
+    msgbox("Marvelous.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    msgbox("So... now what?")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Well, I have nothing for you at the\nmoment.\p"
+            "Nothing new's come in.\p"
+            "If you're eager for more, maybe\ncontact the Archivologists.\p"
+            "Maybe you can help them out.\p")
     closemessage
     release
 }
@@ -531,7 +583,7 @@ script Entrance_PlayerTerminal_Exit {
 
 script Entrance_PlayerTerminal_Story {
     msgbox("Hmm... I think I had my notes on the\nrecording process here.")
-    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+    dynmultichoice(0, 0, FALSE, 4, 0, DYN_MULTICHOICE_CB_NONE,
                     "General structure",
                     "Initializing Pokémon",
                     "Obtaining moves",
@@ -1549,6 +1601,27 @@ script Entrance_Akuwa {
 # Throughout history, Giratina has sought out individuals to befriend and visit him in the distortion world. Gifted by his blessing, these individuals would be immune to the negative effects
 # and would also be granted the ability to "teleport" to and from the distortion world.
 
+# logic
+# check if lugia is undefeated -> if so, empress 1 & 2 + monks 1
+# after that, monks disappear, empress 3.
+# if false ending -> monks 2, empress gone
+# if true ending -> monks 3, empress 4
+
+script Entrance_Monks {
+    checkbossdefeated(FINAL_BOSS_GIRATINA)
+    if(var(VAR_RESULT)==FALSE){
+        goto(Entrance_Monks_Intro)
+    }
+    else {
+        if(var(VAR_GIRATINA_PROGRESS)>5) {
+            goto(Entrance_Monks_FalseEnding)
+        }
+        else {
+            goto(Entrance_Monks_TrueEnding)
+        }
+    }
+}
+
 script Entrance_Monks_Intro {
     lock
     applymovement(nakamura, moves(walk_in_place_left))
@@ -1679,10 +1752,187 @@ script Entrance_Monks_MovementScript {
     return
 }
 
+script Entrance_Monks_FalseEnding {
+    lock
+    applymovement(hanzo, moves(walk_in_place_up))
+    msgbox("Uff, let's see. Giratina...")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("Looking for something specific, sir?")
+    closemessage
+    faceplayer
+    msgbox("Oh, hi. Yeah. I need everything you\nhave about the Distortion World.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Oh, I finished updating that one\nthe other day.\p"
+            "Just search for the keywords.\nMight be something new there.")
+    closemessage
+    setvar(VAR_TEMP_2, hanzo)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Cool, thanks.")
+    waitmessage
+    applymovement(hanzo, moves(face_up))
+    msgbox("Okay.{PAUSE 15}.{PAUSE 15}.{PAUSE 15} Distortion world.{PAUSE 15}.{PAUSE 15}. Giratina.{PAUSE 15}.{PAUSE 15}.\nDimensional rifts.{PAUSE 15}.{PAUSE 15}.\p"
+            "Seems mostly the same...")
+    waitmessage
+    applymovement(hanzo, moves(emote_question_mark))
+    waitmovement
+    msgbox("Wait. It needs an... anchor entity?")
+    closemessage
+    applymovement(player, moves(emote_exclamation_mark))
+    faceplayer
+    msgbox("Oh that! Yeah. I found out that\nGiratina was the thing that kept\lthe whole Distortion World together.\p"
+            "No clue why he was the one that\nheld everything together, though.")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("But yeah, without it being there\nthe distortion world's going to\laffect our world.\p"
+            "(wait, hold on. That seems bad.)")
+    closemessage
+    applymovement(hanzo, moves(face_up))
+    msgbox("It also says something here about\nthe... Griseous orb?\p"
+            "Okay. That's all.\nGriseous orb, hm. Got it.")
+    waitmessage
+    faceplayer
+    msgbox("Thank you for your hard work, miss.\p"
+            "Time's pressing, so I don't have\ntime to chat.\p"
+            "Goobye.")
+    closemessage
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Bye! Good luck with whatever\nyou're doing!")
+    closemessage
+    getplayerxy(VAR_TEMP_2, VAR_TEMP_3)
+    if(var(VAR_TEMP_2)==7){
+        applymovement(hanzo, moves(walk_down, walk_right*4, walk_down*7))
+        waitmovement(hanzo)
+        applymovement(player, moves(walk_right, face_up))
+        waitmovement(player)
+    }
+    elif(var(VAR_TEMP_2)==8){
+        applymovement(hanzo, moves(walk_right*4, walk_down*7))
+        waitmovement(hanzo)
+        applymovement(player, moves(walk_up))
+        waitmovement(player)
+    }
+    else{
+        applymovement(hanzo, moves(walk_down, walk_right*4, walk_down*7))
+        waitmovement(hanzo)
+        applymovement(player, moves(walk_left, face_up))
+        waitmovement(player)
+    }
+    msgbox("(Hmmm... Did the situation change\nrecently?)")
+    closemessage
+    applymovement(player, moves(walk_in_place_up))
+    delay(60)
+    msgbox("Oh. That's... a problem.\p"
+            "I thought the rifts were stable?\p"
+            "Wait a second, was Giratina actually\nslain?\p"
+            "Oh crap, this is very, very bad.")
+    closemessage
+    setflag(FLAG_MONKS_FALSE_ENDING_CHAT)
+    setflag(FLAG_MONKS_HANZO)
+    removeobject(hanzo)
+    release
+}
+
+script Entrance_Monks_TrueEnding {
+    lock
+    faceplayer
+    playse(SE_PIN)
+    applymovement(nakamura, moves(emote_exclamation_mark))
+    msgbox("Hey miss! Good seeing you again!")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Oh, you've returned?")
+    closemessage
+    setvar(VAR_TEMP_2, nakamura)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yep, everything went smoothly.\p"
+            "Barely, though. But yeah.\nThings are fine now.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Nice! Sounds like a good ending,\nthen.")
+    closemessage
+    setvar(VAR_TEMP_2, nakamura)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah. Never thought Giratina was\nike that, though.\p"
+            "Nothing at all like he usually is\ndescribed.\p"
+            "I can't believe milady Luciana\ndidn't just tell us.")
+    waitmessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("This whole situation could've been\nprevented.\p"
+            "And who knows what would've happened\nif we stayed too long.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("In the... Distortion World?\p"
+            "Probably nothing good.")
+    closemessage
+    setvar(VAR_TEMP_2, nakamura)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Mhm, I can only imagine.\p"
+            "Good thing that Giratina is on our\nside though.\p"
+            "I never want to go back in there\never again.\p"
+            "Don't know how milady does it.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("Luciana?")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Mm, better not to get involved.\p"
+            "For your sake.\nTrust me.\p"
+            "It's quite tiring.")
+    closemessage
+    applymovement(player,moves(emote_question_mark))
+    waitmovement
+    msgbox("Anyway, I just wanted to drop by\nand thank you for your service.\p"
+            "Couldn't have done it without\nyour help!\p"
+            "I'll be going now.")
+    closemessage
+    applymovement(player, moves(emote_heart))
+    msgbox("Yeah, no problem!")
+    closemessage
+    applymovement(nakamura, moves(walk_down, walk_right*2, walk_down*5))
+    applymovement(player, moves(delay_16, face_down))
+    waitmovement(nakamura)
+    setflag(FLAG_MONKS_NAKAMURA)
+    setflag(FLAG_MONKS_TRUE_ENDING_CHAT)
+    removeobject(nakamura)
+    release
+}
+
+script Entrance_Empress{
+    checkbossdefeated(FINAL_BOSS_GIRATINA)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_EMPRESS_INTRO)==FALSE){
+            goto(Entrance_Empress_Intro)
+        }
+        else{
+            goto(Entrance_Empress_Intro_Followup)
+        }
+        }
+    else {
+        if(var(VAR_GIRATINA_PROGRESS)<=5){
+        goto(Entrance_Empress_TrueEnding)
+        }
+    }
+}
+
 script Entrance_Empress_Intro {
     lock
-    msgbox("Hey there. Cute outfit you've got.")//empress 
+    faceplayer
+    msgbox("Hey there. Cute outfit you've got.") 
     closemessage
+
+    getplayerxy(VAR_TEMP_2, VAR_TEMP_3)
+    if(var(VAR_TEMP_2)==33){
+        applymovement(player, moves(walk_down, walk_left))
+        waitmovement(player)
+    }
     playse(SE_LEDGE)
     applymovement(player, moves(jump_in_place_up))
     waitmovement
@@ -1768,80 +2018,99 @@ script Entrance_Empress_Intro {
     msgbox("Have a nice day!")
     closemessage
     applymovement(empress, moves(walk_left*7, walk_up*2))
-    //Set positions and flags etc
     waitmovement
+    setvar(VAR_TEMP_F,1)
+    setobjectxy(empress, 32, 12)
+    setobjectxyperm(empress, 32, 12)
+    setobjectmovementtype(empress, MOVEMENT_TYPE_FACE_RIGHT)
+    setobjectxyperm(satsuki, 32, 11)
+    setobjectmovementtype(satsuki, MOVEMENT_TYPE_FACE_DOWN)
+    setflag(FLAG_EMPRESS_INTRO)
     release
 }
 
 script Entrance_Empress_Satsuki {
-    msgbox("It might take a while to handle your request, milady."
+    lock
+    getplayerxy(VAR_TEMP_2, VAR_TEMP_3)
+    if(var(VAR_TEMP_3)==11){
+        applymovement(player, moves(walk_down, face_right))
+    }
+    elif(var(VAR_TEMP_3)==12){
+        applymovement(player, moves(face_right))
+    }
+    elif(var(VAR_TEMP_3)==13){
+        applymovement(player, moves(walk_up, face_right))
+    }
+    applymovement(satsuki, moves(walk_in_place_down))
+    waitmovement
+    msgbox("It might take a while to handle your\nrequest, milady.\p"
             "I will let you know when it is done.")
+    closemessage
+    applymovement(empress, moves(emote_heart))
+    waitmovement
     msgbox("Thank you for your cooperation.")
-    msgbox("It was nice talking to both of you. Better than being holed up all day anyway.")
-    msgbox("Alas, time for me to head back.")
+    closemessage
+    applymovement(empress, moves(face_left, delay_16*4, face_up))
+    waitmovement
+    msgbox("It was nice talking to both of you.\p"
+            "Better than being holed up all day.\p"
+            "Alas, time for me to head back.")
+    applymovement(satsuki, moves(face_left))
+    applymovement(empress, moves(walk_left, walk_up, walk_left, face_down delay_16*3, face_right))
+    applymovement(player, moves(delay_16*2, face_up))
+    waitmovement(empress)
     msgbox("Take care, both of you!")
-    //empress leaves
-    msgbox("Tiana. How did you manage to get involved with her?")
-    msgbox("? Should I not have talked with her?"
-            "You told me to treat our guests well")
-    msgbox("I suppose I did. Hmm..."
+    closemessage
+    applymovement(empress, moves(walk_left, walk_down*5, walk_left*4, walk_down*4))
+    applymovement(player, moves(face_down))
+    waitmovement(empress)
+    setobjectxyperm(empress,32,29)
+    setflag(FLAG_EMPRESS)
+    removeobject(empress)
+    applymovement(player, moves(face_right))
+    applymovement(satsuki, moves(walk_down, face_left))
+    waitmovement(satsuki)
+    msgbox("Tiana. How did you manage to get\ninvolved with her?")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("Should I not have talked with her?\p"
+            "You told me to treat our guests\nwell.")
+    closemessage
+    applymovement(satsuki, moves(face_down, delay_16*4, face_left))
+    waitmovement
+    msgbox("I suppose I did. Hmm...\p"
             "Did you not recognize her?")
+    closemessage
+    applymovement(player, moves(walk_in_place_right))
     msgbox("No, why?")
-    msgbox("Okay, nevermind then")
-    msgbox("Just continue with your work.")
+    closemessage
+    msgbox("Okay, nevermind then\p"
+            "Just continue with your work.")
+    applymovement(satsuki, moves(face_down))
+    waitmovement
+    setvar(VAR_TEMP_F, 0)
+    closemessage
+    release
 }
 
 script Entrance_Empress_Intro_Followup {
-    msgbox("")
+    lock
+    faceplayer
+    msgbox("Hey Tiana! I got the enhanced dress\n back from Satsuki.\p"
+            "No more worries about getting it\ndirty!")
+    closemessage
+    release
 }
 
-script Entrance_Monks_FalseEnding {
-    msgbox("Uff, let's see. Giratina...")
-    msgbox("Looking for something specific, sir?")
-    msgbox("Oh, hi. Yeah. I need everything you have about the Distortion World.")
-    msgbox("Oh, I finished updating that one the other day."
-            "Just search for the keywords. Might be something new there.")
-    msgbox("Cool, thanks.")
-    msgbox("Okay... Distortion world... Giratina... Dimensional rifts..."
-            "Seems mostly the same..."
-            "Wait. It needs an anchor being?")
-    msgbox("Oh that. Yeah. I found out that Giratina was the thing that kept the whole Distortion World together."
-            "No clue why it was tied to him though."
-            "But yeah, without it being there the distortion world's going to affect our world."
-            "(wait, hold on. That seems bad)")
-    msgbox("It also says something here about the... Griseous orb?"
-            "Okay. That's all.")
-    msgbox("Thank you for your hard work, miss."
-            "Time's pressing, so I don't have time to chat."
-            "Goobye")
-    msgbox("Bye! Good luck with whatever you're doing!")
-    //tiana checks terminal
-    msgbox("Oh. That's... a problem."
-            "I thought the rifts were stable?"
-            "Wait a second, was Giratina actually slain?"
-            "Oh drat, this is not good.")
-}
-
-script Entrance_Monks_TrueEnding {
-    msgbox("Hey miss! Good seeing you again")
-    msgbox("Oh, you've returned?")
-    msgbox("Yep, everything went smoothly."
-            "Barely, though. But yeah. Things are fine now.")
-    msgbox("Nice! Sounds like a good ending, then.")
-    msgbox("Yeah. Never thought Giratina was like that, though."
-            "I can't believe milady Luciana didn't just tell us."
-            "This whole situation could've been prevented."
-            "And who knows what would've happened if we stayed too long.")
-    msgbox("Yeah.... Probably nothing good, haha.")
-    msgbox("Mhm, I can only imagine."
-            "Good thing that Giratina is on our side though."
-            "I never want to go back in there ever again."
-            "Don't know how milady does it.")
-    msgbox("Who's Luciana?")
-    msgbox("Mm, better not to get involved."
-            "For your sake. Trust me."
-            "It's quite tiring.")
-    msgbox("...?")
+script Entrance_Empress_TrueEnding {
+    lock
+    faceplayer
+    msgbox("Morning Tiana! Good job on\ndeciphering Giratina's story.\p"
+            "Heard it was a pretty tough nut\nto crack.\p"
+            "Hmm... Wonder what THEY would think of\nthis place.")
+    closemessage
+    release
 }
 
 script Entrance_GetDirectionAndWalkInPlace {
@@ -1868,6 +2137,7 @@ script Entrance_GetDirectionAndWalkInPlace {
     }
     return
 }
+
 
 script Entrance_GetDirectionAndJumpInPlace {
     getobjectfacingdirection(VAR_TEMP_2, VAR_TEMP_3) //1: south, 2: north, 3:west, 4:east
