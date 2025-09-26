@@ -1832,7 +1832,7 @@ static void FillTypePointers(const u32 **sprite, const u16 **palette, u32 type)
         break;
     case TYPE_GROUND:
         *sprite = sTarcTypeGroundGfx;
-        *palette = sTarcTypeGrassPal;
+        *palette = sTarcTypeGroundPal;
         break;
     case TYPE_ROCK:
         *sprite = sTarcTypeRockGfx;

@@ -10379,7 +10379,7 @@ BattleScript_IcyVeinsActivates::
 	end3
 
 BattleScript_Empath::
-	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
+	printstring STRINGID_EMPATH_HEAL
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
@@ -10387,7 +10387,7 @@ BattleScript_Empath::
 	end3
 
 BattleScript_TerrasBlessing::
-	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
+	printstring STRINGID_TERRAS_BLESSING
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
@@ -10805,4 +10805,17 @@ BattleScript_WaterCompaction::
 	setgraphicalstatchangevalues
 	call BattleScript_StatUp
 	copybyte gBattlerAttacker, sSAVED_BATTLER
+	return
+
+BattleScript_PurifyingWaterProtects::
+	call BattleScript_PurifyingWaterProtectsRet
+	setmoveresultflags MOVE_RESULT_FAILED
+	goto BattleScript_MoveEnd
+
+BattleScript_PurifyingWaterProtectsRet::
+	pause B_WAIT_TIME_SHORT
+	pushtraitstack BS_TARGET ABILITY_PURIFYING_WATER
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_PURIFYING_WATER
+	waitmessage B_WAIT_TIME_LONG
 	return

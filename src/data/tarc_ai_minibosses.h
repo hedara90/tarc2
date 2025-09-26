@@ -1433,10 +1433,10 @@ const struct BossMoveList sTorterra1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_EARTHQUAKE,
+        MOVE_SEED_BOMB,
+        MOVE_CRUNCH,
+        MOVE_WOOD_HAMMER
     },
 };
 
@@ -1456,10 +1456,10 @@ const struct BossMoveList sInfernape1 =
     .numMoves = 4,
     .moves =
     {
-        MOVE_TACKLE,
-        MOVE_ICE_BEAM,
-        MOVE_HAZE,
-        MOVE_ROOST
+        MOVE_POWER_UP_PUNCH,
+        MOVE_FIRE_PUNCH,
+        MOVE_PLASMA_FISTS,
+        MOVE_DRAIN_PUNCH,
     },
 };
 

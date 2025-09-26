@@ -7266,6 +7266,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Wish,
         .validApprenticeMove = TRUE,
+        .cd = 4,
     },
 
     [MOVE_ASSIST] =
@@ -26823,7 +26824,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_REWARD_WISH] =
     {
-        .name = COMPOUND_STRING("Wish"),
+        .name = COMPOUND_STRING("Wish+"),
         .description = COMPOUND_STRING(
             "A wish that restores HP.\n"
             "It takes time to work."),
@@ -26849,6 +26850,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .hpBonus = 10,
         .defBonus = 10,
         .spdBonus = 10,
+        .cd = 4,
     },
     [MOVE_REWARD_FROSTWISP] =
     {
