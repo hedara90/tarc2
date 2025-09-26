@@ -10806,3 +10806,16 @@ BattleScript_WaterCompaction::
 	call BattleScript_StatUp
 	copybyte gBattlerAttacker, sSAVED_BATTLER
 	return
+
+BattleScript_PurifyingWaterProtects::
+	call BattleScript_PurifyingWaterProtectsRet
+	setmoveresultflags MOVE_RESULT_FAILED
+	goto BattleScript_MoveEnd
+
+BattleScript_PurifyingWaterProtectsRet::
+	pause B_WAIT_TIME_SHORT
+	pushtraitstack BS_TARGET ABILITY_PURIFYING_WATER
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_PURIFYING_WATER
+	waitmessage B_WAIT_TIME_LONG
+	return

@@ -938,5 +938,6 @@ extern const u8 BattleScript_Berserk[];
 extern const u8 BattleScript_Justified[];
 extern const u8 BattleScript_Rattled[];
 extern const u8 BattleScript_WaterCompaction[];
+extern const u8 BattleScript_PurifyingWaterProtects[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
