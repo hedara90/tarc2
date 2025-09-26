@@ -2,19 +2,47 @@ mapscripts Entrance_MapScripts {
     MAP_SCRIPT_ON_RESUME {
         callnative(Init_PulseNeonLights)
     }
-    MAP_SCRIPT_ON_TRANSITION: Entrance_SatsukiPosition
+    MAP_SCRIPT_ON_TRANSITION: Entrance_OnTransition
 }
 
 const satsuki = ENTRANCE_SATSUKI
 const player = OBJ_EVENT_ID_PLAYER
 const morgan = ENTRANCE_MORGAN
+const kenichi = ENTRANCE_KENICHI
+const scilla = ENTRANCE_SCILLA
+const akuwa = ENTRANCE_AKUWA
+const nakamura = ENTRANCE_NAKAMURA
+const hanzo = ENTRANCE_HANZO
+const empress = ENTRANCE_EMPRESS
 
-script Entrance_SatsukiPosition {
+script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
         setobjectxyperm(satsuki, 25, 10)
     }
     else {
         setobjectxyperm(satsuki, 32, 12)
+    }
+    checkbossdefeated(FINAL_BOSS_LUGIA)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_KENICHI_INTRO_CHAT)==TRUE){
+            setflag(FLAG_KENICHI)
+        }
+    }
+    else {
+        if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE && var(VAR_LUGIA_PROGRESS) > 5){
+            clearflag(FLAG_KENICHI)
+            setobjectmovementtype(kenichi, MOVEMENT_TYPE_LOOK_AROUND)
+            setobjectxyperm(kenichi, 25, 26)            
+        }
+        elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==TRUE && var(VAR_LUGIA_PROGRESS) > 5) {
+            setflag(FLAG_KENICHI)
+        }
+        if(var(VAR_LUGIA_PROGRESS)<=5){
+            clearflag(FLAG_KENICHI)
+            clearflag(FLAG_KENICHI_FAMILY)
+            setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_DOWN)
+            setobjectxyperm(kenichi, 29,21)
+        }
     }
 }
 
@@ -154,12 +182,12 @@ script Entrance_StartingAnAdventure {
     closemessage
     msgbox("{SPEAKER NAME_SATSUKI}Wonderful.\p"
             "As you know, the Bodhai Tree\nwrites records of what you do\lautomatically.\p"
-            "And since your work will now\nbe public, I do not want to see\lany nonsense.\pGot it?\p"
+            "And since your work will now\nbe public, I do not want to see\lany nonsense.\pUnderstood?\p"
             "I've loaded in the Myths we have\nyet to understand.\pI look forward to your\ndiscoveries.")
     closemessage
     applymovement(player, moves(walk_in_place_right))
     waitmovement(player)
-    msgbox("{SPEAKER NAME_PLAYER}Mhm, I'll give it my all!\pI know the drill by now, miss Satsuki.")
+    msgbox("{SPEAKER NAME_PLAYER}Mhm, I'll give it my all!")
     waitmessage
     msgbox("{SPEAKER NAME_SATSUKI}Fufu, that's the spirit.\p"
             "I assume you've still got all your\nstudy notes written down in the\lterminal in your room, right?")
@@ -291,10 +319,184 @@ script Entrance_Satsuki {
     // else {
     //     msgbox("You have not cleared 2 myths")
     // }
+    setboxframe(BOX_FRAME_TIANA)
     dynmultipush("Got anything new?", 0)
-    dynmultipush("How's my progress?",1)
-    //if var story == 2
-    dynmultipush("I managed to clear one of the stories!",2)
+    dynmultipush("Can we have another practice battle?",1)
+    dynmultipush("Deciphering anything today?",2)
+    dynmultipush("How did you set up the Bodhai system?",3)
+    //if one story cleared
+    dynmultipush("I managed to clear one of the stories!",4)
+    //if two stories cleared
+    dynmultipush("The visitors seem... different?",5)
+    //if one true ending
+    dynmultistack(0,0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    switch(var(VAR_RESULT)){
+        case 0: goto(Entrance_Satsuki_AnythingNew)
+        case 1: goto(Entrance_Satsuki_MockBattle)
+        case 2: goto(Entrance_Satsuki_Deciphering)
+        case 3: goto(Entrance_Satsuki_Bodhai)
+        case 4: goto(Entrance_Satsuki_FirstClear)
+        case 5: goto(Entrance_Satsuki_Visitor)
+    }
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_AnythingNew {
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}You're still working on the\nassignments, aren't you?\p"
+            "Focus on them first before\nasking me for more.\p"
+            "History doesn't write itself.")
+    closemessage
+    msgbox("{SPEAKER NAME_PLAYER}Sigh... Fair point.\p"
+            "I'll get back to work.")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_MockBattle {
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, sure.\p"
+            "Are you sure it's for practice,\nand not just because you want to win\lagainst me?\p"
+            "I could use a little break anyway.")
+    closemessage
+    msgbox("Mock Battle Here")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_Deciphering {
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, well that is your job now.\p"
+            "I can sit back and watch you do everything now.")
+    waitmessage
+    delay(60)
+    msgbox("You're too gullible.\p"
+            "I am mostly leaving the decoding up to you.\p"
+            "But this means I now have time for different things that must be done\p"
+            "There's still many mysteries left to uncover.\p"
+            "However, many of them are too incomplete to enter into the system.\p")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}You remember the Archivologists, right?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, you did mention them.\p"
+            "They've got all this tech to figure out when and where something happened, right?")
+    closemessage
+    msgbox("{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
+            "But yes. They have ways of figuring out where and when a myth originated.\p"
+            "That's the limit though. They can't determine the actual events.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("So naturally, that's where we step in.\p"
+            "I've not recently had contact with them, though."
+            "Elio's not been answering me, and I don't have any other direct contact points.\p"
+            "Had to go through the 'Official' channels.\p"
+            "I dislike all this bureaucracy.")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Haha, yeah you never were one for strict rules.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Shush, I can always add more rules.\p")
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("But yeah, that's the situation."
+            "Will take some time before we get anything new.\p")
+}
+
+script Entrance_Satsuki_Bodhai {
+    msgbox("{SPEAKER NAME_SATSUKI}And where does this sudden interest\ncome from?\p"
+            "Thought you didn't care for the\ntechnical things\p")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Think it dawned on me that I have\nto actually work with it.\p"
+            "Not knowing much more than the\nbasics sounds like a bad idea,\lto be honest")
+    closemessage
+    msgbox("{SPEAKER NAME_SATSUKI}Fufu, color me surprised.\nNever thought I'd see the day.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}I didn't make this system on my own.\nReki helped me out.")
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("{SPEAKER NAME_PLAYER}Oh, him? I thought he hated\ntechnology")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}Not entirely wrong, he really\ndisliked the idea at first.\p"
+            "But I eventually managed to\nconvince him.\p"
+            "Got him to realize that no matter\nhow meticulous, the human mind\ncan't store infinite data.\p"
+            "And neither can the human body.")
+    closemessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}There was a period where he was\nconvinced he could just get rid of\nuseless memories.\p"
+            "Which is an exceedingly stupid idea.\p"
+            "Though knowledgable, he was also\njust a stubborn fool.")
+    closemessage
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_SATSUKI}Anyway, that aside. Back to the\ntopic.\p"
+            "Functionally, the Bodhai system is\nnothing more than a predictive\lalgorithm."
+            "A very complex one, but an\nalgorithm nonetheless.\p"
+            "Basically, we enter a bunch of\nstarting info and parameters.\p"
+            "After that, its essentially\njust one big simulation.\p"
+            "And you're the variable factor that's\nacting as the hero.\p")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("{SPEAKER NAME_PLAYER}... Aha.{PAUSE 45} So it's like that.")
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}It is a lot more complicated than\nthat, but we'd be here all day for\lthe detailed explanation.\p"
+            "We both have better things to do.\p"
+            "Besides, I don't think you'd\nenjoy the data entry.\p")
+    closemessage
+    delay(45)
+    msgbox("{SPEAKER NAME_SATSUKI}Or that you'd be any good at it.\p")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_FirstClear {
+    msgbox("{SPEAKER NAME_SATSUKI}I just checked the archives this\nmorning. Good work, Tiana.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Hehe, thank you! It was nice to\nsee the ending.")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_SATSUKI}Good, use that momentum. Don't\nget complacent now.\p"
+            "Also, just because you've cleared it\ndoesn't mean you have nothing left\lto examine.\p"
+            "Remember that the length of a story\ncan influence it's outcome.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)    
+    msgbox("{SPEAKER NAME_PLAYER}Yup yup, I'll have another look later.")
+    closemessage
+    release
+}
+
+script Entrance_Satsuki_Visitor {
+    applymovement(satsuki, moves(emote_question_mark))
+    waitmovement
+    msgbox("{SPEAKER NAME_SATSUKI}Different?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, some seem like completely\ndifferent people.")
+    closemessage
+    setvar(VAR_TEMP_2, satsuki)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Oh? That's interesting. Have you\ncompleted anything recently?")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, I did round up another myth yesterday")
+    closemessage
+    msgbox("{SPEAKER NAME_SATSUKI}Well, there you go.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    msgbox(".{PAUSE 30}.{PAUSE 30}. ??")
     closemessage
     release
 }
@@ -302,10 +504,12 @@ script Entrance_Satsuki {
 script Entrance_PlayerTerminal {
     lock
     if(var(VAR_STORY)== 0){
-        msgbox("{SPEAKER NAME_PLAYER}It's already late, I don't have time\nto review anything right now!")
+        msgbox("{SPEAKER NAME_PLAYER}Im running late, I don't have time\nto review anything right now!")
+        goto(Entrance_PlayerTerminal_Exit)
     }
     msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
     closemessage
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Story structure",
                     "Battle mechanics",
@@ -364,24 +568,24 @@ text Entrance_Text_Pokemon {
 }
 
 text Entrance_Text_Moves {
-    "The Pokémon I start off with know 2 moves."
-    "Defeating a minor enemy in a subdomain rewards a move."
-    "This move can be assigned to a Pokémon via the Pokémon menu."
-    "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon."
-    "To remove an assigned move, select it and press {A_BUTTON}."
-    "Any move can be put onto any Pokémon, and starting moves can also be switched around."
-    "Lastly, rewarded moves also increase the Pokémon's stats."
+    format("The Pokémon I start off with know 2 moves.\p"
+    "Defeating a minor enemy in a subdomain rewards a move.\p"
+    "This move can be assigned to a Pokémon via the Pokémon menu.\p"
+    "Select the move and press {A_BUTTON} to assign it to the currently viewed Pokémon.\p"
+    "To remove an assigned move, select it and press {A_BUTTON}.\p"
+    "Any move can be put onto any Pokémon, and starting moves can also be switched around.\p"
+    "Lastly, rewarded moves also increase the Pokémon's stats.")
 }
 
 text Entrance_Text_Abilities {
-    "Pokemon initialized by the Bodhai Tree start with a single ability."
-    "Unlike starting moves, this ability is not removable."
-    "Defeating the boss in a subdomain rewards an ability."
-    "Obtained abilities can be assigned to any Pokémon, and swapped at will."
+    format("Pokemon initialized by the Bodhai Tree start with a single ability.\p"
+    "Unlike starting moves, this ability is not removable.\p"
+    "Defeating the boss in a subdomain rewards an ability.\p"
+    "Obtained abilities can be assigned to any Pokémon, and swapped at will.")
 }
 
 script Entrance_PlayerTerminal_Battle {
-    msgbox("Right, the Tree's battle system is a bit different from usual battles.")
+    msgbox(format("Right, the Tree's battle system is a bit different from usual battles."))
     dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Switching around",
                     "Backline",
@@ -409,44 +613,71 @@ script Entrance_PlayerTerminal_Battle {
 }
 
 text Entrance_Text_Switching {
-    "Apparantly switching works like rotation battles. Never heard of them, though."
-    "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn."
-    "Abilities that activate on switch-in do require the Pokémon to take a turn, though."
+    format("Apparantly switching works like rotation battles. Never heard of them, though.\p"
+    "All my Pokémon are on the field at the same time, and they can be switched without taking up a turn.\p"
+    "Abilities that activate on switch-in do require the Pokémon to take a turn, though.")
 }
 
 text Entrance_Text_Backline {
-    "When not the active battler, a Pokémon will restore a bit of health every turn."
-    "After 3 turns of being in the back, they will get rid of any negative stat drops."
-    "And after 5 turns, they'll heal negative status effects"
-    "Well, most of them."
+    format("When not the active battler, a Pokémon will restore a bit of health every turn.\p"
+    "After 3 turns of being in the back, they will get rid of any negative stat drops.\p"
+    "And after 5 turns, they'll heal negative status effects.\p"
+    "Well, most of them.")
 }
 
 text Entrance_Text_Phases {
-    "All enemies have multiple phases."
-    "Dealing enough damage puts the opponent to the next phase."
-    "When this happens, they cure themselves of any statuses."
-    "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!"
+    format("All enemies have multiple phases.\p"
+    "Dealing enough damage puts the opponent to the next phase.\p"
+    "When this happens, they cure themselves of any statuses.\p"
+    "One neat trick is that if they're pushed to the next phase before they move in the turn, they flinch!")
 }
 
 text Entrance_Text_Cooldowns {
-    "Some moves and abilities have cooldowns."
-    "After activating, they won't do so until a number of turns have passed."
-    "Moves can be used when on cooldown, but this will deal recoil damage."
+    format("Some moves and abilities have cooldowns.\p"
+    "After activating, they won't do so until a number of turns have passed.\p"
+    "Moves can be used when on cooldown, but this will deal recoil damage.")
 }
 
 text Entrance_Abilities {
-    "Just like my own Pokémon, enemies can also have multiple abilities"
-    "The longer the story goes on, the more abilities they will have..."
+    format("Just like my own Pokémon, enemies can also have multiple abilities.\p"
+    "The longer the story goes on, the more abilities they will have...")
 }
 
 text Entrance_StatBoosts {
-    "To improve consistency, the Bodhai Tree makes stat boost levels less drastic."
-    "There are still six stages, but the maximum is a 2x multiplier."
-    "or a 0.5x for negative stat changes."
+    format("To improve consistency, the Bodhai Tree makes stat boost levels less drastic.\p"
+    "There are still six stages, but the maximum is a 2x multiplier.\p"
+    "or a 0.5x for negative stat changes.")
 }
 
 script Entrance_PlayerTerminal_Affinity {
+    msgbox("Oh yeah, the team archetypes")
+    dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Archetypes",
+                    "Variations",
+                    "Back",)
+    switch(var(VAR_RESULT)){
+        case 0: msgbox(Entrance_Text_Archetypes)
+            goto(Entrance_PlayerTerminal_Affinity)
+        case 1: msgbox(Entrance_Text_Variations)
+            goto(Entrance_PlayerTerminal_Affinity)
+        case 2: goto(Entrance_PlayerTerminal)
+    }
+    goto(Entrance_PlayerTerminal)
+}
 
+text Entrance_Text_Archetypes {
+    format("I can pick from certain presets.\p"
+            "Currently, I only have access to the 4 weather types: Sun, Rain, Snow and Sand.\p"
+            "Satsuki did tell me that there are more team styles, but I can't use them yet...\p"
+            "Wonder what they are.")
+}
+
+text Entrance_Text_Variations {
+    format("Within the archetype, I can select 3 variations.\p"
+            "Grace, Favor and Prayer.\nDon't ask me why they're named that way.\p"
+            "Anyway, Grace teams feature a Pokémon that automatically sets the weather via their ability.\p"
+            "Favor has a setter with a more conditional setting ability, like requiring to be hit.\p"
+            "Lastly, Prayer features a manual weather setter.")
 }
 
 script Entrance_PrayerGirl {
@@ -477,7 +708,7 @@ script Entrance_PrayerGirl {
             release
         }
     case 1:
-        msgbox("{SPEAKER NAME_KIO}Thanks you for showing me the dance!")
+        msgbox("{SPEAKER NAME_KIO}Thank you for showing me the dance!")
         waitmessage
         release
     }
@@ -725,12 +956,12 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Yup, the whole system is incredible!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Yup, the whole system is incredible!\p"
             "Though, I still don't really\nunderstand how it works.\lEven though I use it daily…")
     closemessage
     msgbox("Ah, so you are a recordkeeper?")
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Since recently, yeah!")
+    msgbox("{SPEAKER NAME_PLAYER}Since recently, yeah!")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -738,7 +969,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("If you're interested, I could\nlet miss Satsuki know.\p"
+    msgbox("{SPEAKER NAME_PLAYER}If you're interested, I could\nlet miss Satsuki know.\p"
             "We could always use more members.")
     closemessage
     setvar(VAR_TEMP_2, morgan)
@@ -748,7 +979,7 @@ script Entrance_Morgan_Introduction {
             "You can't teach an old dog\nnew tricks, as they say…")
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Aww don't be so harsh on yourself,\nyou look hardly older than me!")
+    msgbox("{SPEAKER NAME_PLAYER}Aww don't be so harsh on yourself,\nyou look hardly older than me!")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -761,11 +992,11 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Yeah, I've been assigned a couple of\nstories.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Yeah, I've been assigned a couple of\nstories.\p"
             "They were.{PAUSE 15}.{PAUSE 15}.")
     waitmessage
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
+    msgbox("{SPEAKER NAME_PLAYER}Ah, right. 'Overflowing Abundance',\n'The Lost Archipelago' and\l'The Original Sinner'")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
@@ -776,7 +1007,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Well, talking to visitors is also part\nof the job description!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Well, talking to visitors is also part\nof the job description!\p"
             "But you're right, I do have to\nget back to them.\p"
             "See you around, miss…")
     closemessage
@@ -786,7 +1017,7 @@ script Entrance_Morgan_Introduction {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Got it.\nTake care, miss Morgan!")
+    msgbox("{SPEAKER NAME_PLAYER}Got it.\nTake care, miss Morgan!")
     closemessage
     setflag(FLAG_MORGAN_INTRO_CHAT)
     release
@@ -804,14 +1035,14 @@ script Entrance_Morgan_Introduction_Followup {
 script Entrance_Morgan_XerneasFalseEnding {
     lock
     faceplayer
-    msgbox("Hey, miss Morgan! Not leaving yet,\nI see?")
+    msgbox("{SPEAKER NAME_PLAYER}Hey, miss Morgan! Not leaving yet,\nI see?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Leaving? Why'd I do that?\p"
             "Right, miss Satsuki did mention that\nyou are a bit forgetful.\p"
             "I'm still far from finished converting\nall my experiences into data for\lthe archives.")
     closemessage
-    msgbox(".{PAUSE 15}.{PAUSE 15}.?")
+    msgbox("{SPEAKER NAME_PLAYER}.{PAUSE 15}.{PAUSE 15}.?")
     closemessage
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("I did see you've completed Xerneas's\ntale.\p"
@@ -822,7 +1053,7 @@ script Entrance_Morgan_XerneasFalseEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("I… see.")
+    msgbox("{SPEAKER NAME_PLAYER}I… see.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("You've got other business to attend\nto, correct?\p"
@@ -830,7 +1061,7 @@ script Entrance_Morgan_XerneasFalseEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Mmm, I suppose you are right.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Mmm, I suppose you are right.\p"
             "In that case, stay safe, miss Morgan.")
     closemessage
     setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
@@ -847,7 +1078,7 @@ script Entrance_Morgan_XerneasFalseEnding_Followup {
 }
 
 script Entrance_Morgan_XerneasTrueEnding {
-    msgbox("Good day, miss Morgan.\nHow are you doing?")
+    msgbox("{SPEAKER NAME_PLAYER}Good day, miss Morgan.\nHow are you doing?")
     closemessage
     faceplayer
     msgbox("I- sorry, I think you have the\nwrong person\p"
@@ -855,7 +1086,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("Ah, right. I… must've mistaken you\nfor someone else then")
+    msgbox("{SPEAKER NAME_PLAYER}Ah, right. I… must've mistaken you\nfor someone else then")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -867,14 +1098,14 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Mhm, that's a pretty odd coincidence\p"
+    msgbox("{SPEAKER NAME_PLAYER}Mhm, that's a pretty odd coincidence\p"
             "So if not Morgan, what can I call\nyou?")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("Oh, you can call me Yfa!\p"
             "I should've introduced myself before\ngoing on that ramble. And you?")
     closemessage
-    msgbox("Tiana.\nI'm a recordkeeper here!")
+    msgbox("{SPEAKER NAME_PLAYER}Tiana.\nI'm a recordkeeper here!")
     closemessage
     msgbox("Oh, what a cute name.")
     closemessage
@@ -889,7 +1120,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Keeping up public appearance huh?")
+    msgbox("{SPEAKER NAME_PLAYER}Keeping up public appearance huh?")
     closemessage
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndLookToSide)
@@ -898,7 +1129,7 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("Oh hey, yeah that's right!\p"
+    msgbox("{SPEAKER NAME_PLAYER}Oh hey, yeah that's right!\p"
             "It was me who did that, actually.")
     setvar(VAR_TEMP_2, morgan)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -906,11 +1137,11 @@ script Entrance_Morgan_XerneasTrueEnding {
             "I read there was indeed a Morgan\namong the heroes who defeated\lXerneas.\p"
             "Do you know more about what\nhappened to her afterwards?")
     closemessage
-    msgbox("Well-")
+    msgbox("{SPEAKER NAME_PLAYER}Well-")
     waitmessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
+    msgbox("{SPEAKER NAME_PLAYER}The archive shows my own notes,\nI don't know more than what you\lhave already read in it.\p"
             "That said, you bear a striking\nresemblance to how she was \ldepicted.")
     closemessage
     msgbox("… I see. Hmmmm.")
@@ -922,11 +1153,11 @@ script Entrance_Morgan_XerneasTrueEnding {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("Anytime! Let me know if there's\nanything else.")
+    msgbox("{SPEAKER NAME_PLAYER}Anytime! Let me know if there's\nanything else.")
     closemessage
     msgbox("That's all for now.")
     closemessage
-    msgbox("I'll be going back to work then.\nTake care Yfa!")
+    msgbox("{SPEAKER NAME_PLAYER}I'll be going back to work then.\nTake care Yfa!")
     closemessage
     setflag(FLAG_MORGAN_FALSE_ENDING_CHAT)
     release
@@ -939,6 +1170,678 @@ script Entrance_Morgan_XerneasTrueEnding_Followup {
             "Soon, I'll be 'Recordkeeper Yfa'")
     closemessage
     release
+}
+
+//Lugia - Sailor who goes to find the archipelago. Starts off in a bad situation. Basically down on his luck, nothing left, sent on what is effetcively a suicide exploration
+//false ending: Same sailor, but now he's married and in a better situation. Turns out the woman he's married to is (a descendant of) one of the people who escaped
+//true ending: Brother is finally living the good life(or at least better). He and his family now live on the archipelago, and he's come here to show his wife and kids around
+script Entrance_Kenichi {
+    checkbossdefeated(FINAL_BOSS_LUGIA)
+    if(var(VAR_RESULT)==FALSE){
+        if(flag(FLAG_KENICHI_INTRO_CHAT)==FALSE){
+            goto(Entrance_Kenichi_Introduction)
+        }
+        else {
+            goto(Entrance_Kenichi_Intro_Followup)
+        }
+    }
+    else {
+        if(var(VAR_LUGIA_PROGRESS) > 5){
+            if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Kenichi_FalseEnding)
+            }
+            // else {
+            //     goto(Entrance_Kenichi_FalseEnding_Followup)
+            // }
+        }
+        else{
+            if(flag(FLAG_KENICHI_TRUE_ENDING_CHAT)==FALSE){
+                goto(Entrance_Kenichi_TrueEnding)
+            }
+            else {
+                goto(Entrance_Kenichi_TrueEnding_Followup)
+            }
+        }
+    }
+}
+
+script Entrance_Kenichi_Introduction {
+    lock
+    msgbox("Hmmm...\nHow does this even work...")
+    closemessage
+    msgbox("{SPEAKER NAME_PLAYER}Heya! Looking for something, mister?")
+    closemessage
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark, delay_16, face_down))
+    waitmovement(kenichi)
+    msgbox("Whoa, don't startle me like that!\p"
+            "You shouldn't just sneak up\non someone.\p"
+            "What if they would lash out at you!?")
+    closemessage
+    applymovement(player, moves(face_right, delay_16*2, face_left, delay_16*2, face_up))
+    waitmovement(player)
+    msgbox("Sir this is a library, not a\nfighting ring.\p"
+            "Are you okay?")
+    closemessage
+    msgbox("...sigh. {PAUSE 30} Yeah, I'm fine.\p"
+            "I'm not used to...")
+    waitmessage
+    applymovement(kenichi, moves(face_right, delay_16, face_left, delay_16, face_down))
+    msgbox("All this.\p"
+            "I uh- Wait, do you work here?")
+    closemessage
+    applymovement(player, moves(walk_in_place_up))
+    msgbox("I do work here, yeah.\p"
+            "Do you need help with anything?\p"
+            "(Why didn't he just ask the guys at\nthe info desk?)")
+    closemessage
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Oh no no, I'm fine! You don't\nhave to do anything for me!\p"
+            "I can't afford that.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    msgbox("Have you... ever been to\na library?\p"
+            "You won't get charged here for\njust asking me to help.")
+    closemessage
+    delay(30)
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("...Okay. You sure?")
+    waitmessage
+    applymovement(kenichi, moves(face_up, delay_16*3, face_down))
+    waitmovement(kenichi)
+    msgbox("I'll take your word for it then.\p"
+            "I've been sent here to find stuff about\nthe Everlasting Storm.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("Oh, sure, I can show you how to find it.\p"
+            "Here, this way.")
+    closemessage
+    applymovement(player, moves(walk_right*2, face_up))
+    applymovement(kenichi, moves(walk_slow_down, face_right, delay_16, walk_right))
+    waitmovement(kenichi)
+    msgbox("Okay, pay attention.\p"
+            "So, in the main terminal you see this\nbox which says 'search'?\p"
+            "You just tap the projection there.")
+    waitmessage
+    applymovement(player, moves(face_left))
+    msgbox("After that, you can enter what\nyou're looking for.")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Oh, that seems quite simple,\nI think.")
+    closemessage
+    applymovement(player, moves(face_up))
+    msgbox("Allright, let me see...\p"
+            "'Everlasting storm'{PAUSE 15}. {PAUSE 15}. {PAUSE 15}.\p"
+            "Sweet, there's info about it.")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Can I have a closer look?")
+    closemessage
+    applymovement(player, moves(face_left))
+    msgbox("Yep! Go ahead.")
+    applymovement(player, moves(lock_facing_direction, walk_right, unlock_facing_direction))
+    waitmovement(player)
+    applymovement(kenichi, moves(walk_right, face_up))
+    waitmovement(kenichi)
+    delay(60)
+    playSE(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Amazing, this looks like what I need!\p"
+            "'The Lost Archipelago.'\nSo that's what you call it...")
+    applymovement(kenichi, moves(face_right))
+    msgbox("Thank you, lass. Means a lot to me.")
+    closemessage
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("No worries, let me know if you have\nany more troubles!")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    msgbox("Hmm, I might take you up on that.\p"
+            "I do have ma-")
+    applymovement(kenichi, moves(face_down, delay_16*2, face_right))
+    waitmovement(kenichi)
+    msgbox("Nevermind.")
+    applymovement(kenichi, moves(face_up))
+    msgbox("Okay, lets see...")
+    setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_UP)
+    setobjectxyperm(kenichi, 38, 26)
+    setflag(FLAG_KENICHI_INTRO_CHAT)
+    closemessage
+    release
+}
+
+
+script Entrance_Kenichi_Intro_Followup {
+    lock
+    msgbox("400 years... Never-ending winds.\nLightning strikes, dark clouds.\lProbably cursed by some deity.\p"
+            "Dang, it really is the whole package.\p"
+            "Kenichi, what did you get yourself in to...")
+    closemessage
+    release
+}
+
+script Entrance_Kenichi_FalseEnding {
+    lock
+    faceplayer
+    msgbox("Hoy Tiana!\nHow's it going today?")
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("You seem a lot happier than\na couple days ago, mister!\p"
+            "Something good happen?")
+    closemessage
+    applymovement(kenichi, moves(emote_exclamation_mark))
+    msgbox("Huh? I was still at sea 'till this morning.\p"
+            "All that decodin' got your thoughts\nscrambled, lass?\p"
+            "Last we spoke was about a month ago!")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("An'way. I just wanted to drop by 'n\nthank you lot for having all those\ldetails on the sunken archipelago.\p"
+            "Ya did a great job with your\ndecoding work.\p"
+            "And good timing, too!\p"
+            "Can't believe ya managed that in just\na few days before we set sail.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, no problem.\n{PAUSE 60}(I think?)")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Without your efforts, we would still\nbe sailing aimlessly!\p"
+            "I like being at sea, but a man can't\nlive a life there.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Wait, you managed to confirm the\nlocation? How?")
+    closemessage
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("I wouldn't say 'tis confirmed, but we\nhauled up a lot of artefacts from\lthe seafloor.\p"
+            "No less thanks to my buddy Lanturn.\p"
+            "Illuminating the sea floor's really\nuseful when you are looking for\lsunken things.")
+    closemessage
+    setvar(VAR_TEMP_2, player)
+    call(Entrance_GetDirectionAndWalkInPlace)
+    msgbox("Yeah, that's not hard to imagine.")
+    closemessage
+    setvar(VAR_TEMP_2, kenichi)
+    call(Entrance_GetDirectionAndLookToSide)
+    msgbox("Dropped off most of it at the\nArchivologists after docking.\p"
+            "Knowing them, we'll likely be heading\nback there soon.")
+    waitmessage
+    call(Entrance_GetDirectionAndJumpInPlace)
+    msgbox("I'm off now back home.\p"
+            "I'm sure the missus wants to see her\nKenichi again.")
+    closemessage
+    msgbox("Haha... Well then Kenichi, enjoy\nyour day.")
+    closemessage
+    getobjectfacingdirection(kenichi, VAR_TEMP_3)
+    if(var(VAR_RESULT)==1){
+        applymovement(kenichi, moves(walk_fast_right, walk_fast_down*8))
+    }
+    else {
+        applymovement(kenichi, moves(walk_fast_down*8))
+    }
+    waitmovement(kenichi)
+    msgbox("(That is NOT the same person.\nWhat happened to him?)\p"
+            "(Something's not adding up.)")
+    setflag(FLAG_KENICHI)
+    setflag(FLAG_KENICHI_FALSE_ENDING_CHAT)
+    removeobject(kenichi)
+    closemessage
+    release
+}
+
+script Entrance_Kenichi_TrueEnding {
+    lock
+    msgbox("Tiana! Good to see ya.")
+    closemessage
+    applymovement(player,moves(face_up))
+    msgbox("Hey Kenichi. Got company today?")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_right))
+    waitmovement
+    msgbox("Aye, got the wife 'n kid with\nme today")
+    closemessage
+    applymovement(kenichi, moves(face_right))
+    waitmovement
+    msgbox("Scilla, you've met her before,\nright?")
+    closemessage
+    applymovement(scilla, moves(face_left))
+    msgbox("Yeah, we've met.\nTiana, correct?")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
+    msgbox("Yep! Ple-\p"
+            "(Hmm...)")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Hey miss! My name is Akuwa!")
+    closemessage
+    applymovement(player, moves(face_left))
+    applymovement(kenichi, moves(face_left))
+    msgbox("Hello there!\nI'm Tiana, nice to meet you.\p"
+            "Is this your first time here?")
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    msgbox("Yes! Papa said he wanted to show me\nthis awesome place!")
+    closemessage
+    applymovement(scilla, moves(walk_in_place_left))
+    applymovement(kenichi, moves(face_right))
+    applymovement(player, moves(face_up))
+    waitmovement(scilla)
+    msgbox("Sigh... your enthusiam's rubbing off\non her.")
+    waitmessage
+    applymovement(scilla, moves(face_down))
+    applymovement(kenichi, moves(face_down))
+    msgbox("He can't shut up about how cool this\nplace is.\p"
+            "You'd almost think he wants to work\nhere, rather than at sea.\p"
+            "I'll admit, what you guys do here\nis pretty impressive.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(kenichi, moves(emote_exclamation_mark, face_right))
+    waitmovement
+    msgbox("AHA!\nSo you DO find it cool!")
+    closemessage
+    applymovement(scilla, moves(face_left))
+    msgbox("I never said it wasn't interesting!")
+    closemessage
+    applymovement(scilla, moves(face_down))
+    applymovement(kenichi, moves(face_down))
+    applymovement(player, moves(emote_heart))
+    waitmovement(player)
+    msgbox("Pfft. I'm glad you guys see us\nin such a positive light.")
+    waitmessage
+    applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction))
+    msgbox("Kenichi, is there anything you want\nme to look at?")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("Mmm... Well, ever since ya figured\nout the history of Lugia, I don't got\nany personal requests")
+    applymovement(kenichi, moves(face_right, delay_16*4, face_down))
+    waitmovement
+    msgbox("'tis nice that that's figured out now,\nthough.\p"
+            "Wanted to know the history before I\nmoved to the archipelago.\p"
+            "A man's gotta appreciate his woman's\nculture after all!")
+    applymovement(scilla, moves(face_left))
+    msgbox("You really do not have a filter, do you.\p"
+            "Part of your charm, hah.")
+    applymovement(kenichi, moves(face_right))
+    msgbox("Thanks, honey.")
+    applymovement(kenichi, moves(face_down))
+    applymovement(scilla, moves(face_down))
+    msgbox("But I don't got anything for ya today.\p"
+            "Have requested some time off.")
+    waitmessage
+    applymovement(kenichi, moves(face_left))
+    msgbox("Kiddo's big enough now, so I wanted to\nshow her 'round the old place.\p"
+            "First time she's off the island as well.")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    applymovement(player, moves(face_left))
+    msgbox("This place is really big! And has\nso many lights!\p"
+            "Also, Mama's been helping me read\nthrough some of the stories here!\p"
+            "I don't really understand them.")
+    closemessage
+    applymovement(player, moves(face_up))
+    msgbox("Sounds like everything is fine, then.\nI'll let you enjoy your day!\p"
+            "Gotta go back to work...")
+    closemessage
+    applymovement(kenichi, moves(walk_in_place_down))
+    msgbox("Aye, don' let me hold you up.\p"
+            "Attagirl!")
+    closemessage
+    applymovement(scilla, moves(walk_in_place_down))
+    msgbox("Keep up the good work, Tiana")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Bye-bye, miss!")
+    setflag(FLAG_KENICHI_TRUE_ENDING_CHAT)
+    closemessage
+    release
+}
+
+script Entrance_Kenichi_TrueEnding_Followup {
+    msgbox("Inform me if anything cool is\ndiscovered, okay?", MSGBOX_NPC)
+}
+
+script Entrance_Scilla {
+    msgbox("It's great to see Akuwa's inherited\nthe same interest as her father.\p"
+            "The library near our house is not big\nenough for her curiosity, though.", MSGBOX_NPC)
+}
+
+script Entrance_Akuwa {
+    lock
+    msgbox("Miss, what is all the water for?")
+    closemessage
+    applymovement(player, moves(walk_in_place_left))
+    msgbox("Oh, it uh- it keeps the place cool.\p"
+            "And also, it's very calming!")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(akuwa, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Okay!")
+    closemessage
+    release
+}
+
+# Giratina story
+# Giratina was once a deity equal to the others. But they committed a grave sin and were cast down, forever to live in the distortion world
+# There's the wandering empress. She gets randomly teleported every now and then.
+# Plot is that she is *currently* stuck in the distortion world. There is a group of paladins(?) that are trying to get her out
+# They have found one of the rifts that leads to the distortion world.
+# Occasionally, before it's cleared, the empress is instead in the library hall. She's talking about her experience in the dist. world.
+
+# False ending: The paladins kill Giratina. While they manage to retrive the Empress, without Giratina in the distortion world it becomes unstable.
+# Over time, Giratina's presence stabilized the distortion world. Now that he is gone, chaos starts to seep in to the world and erode it.
+# In the current time, the Paladins are desperately searching for a way to stem the problem. People have also started pointing fingers at the Empress by way of a conspiracy. Everyone is on edge
+
+# True ending: The distortion world distorts more than just physical things. It also affects the mental state of living beings that enter. Except those blessed by Giratina.
+# Because the paladins did not spend too much time, they are not driven mad and to a state of killing Giratina.
+# It's revealed that Giratina actually voluntarily went down in to the distortion world. It could easily have been cut off from reality by Arceus, but without chaos there can be only order.
+# So Giratina became sovereign of the Distortion World to keep the real world functional.
+# Throughout history, Giratina has sought out individuals to befriend and visit him in the distortion world. Gifted by his blessing, these individuals would be immune to the negative effects
+# and would also be granted the ability to "teleport" to and from the distortion world.
+
+script Entrance_Monks_Intro {
+    lock
+    applymovement(nakamura, moves(walk_in_place_left))
+    msgbox("C'mon hurry up. No time to lose.")
+    closemessage
+    applymovement(hanzo, moves(face_right))
+    msgbox("Be quiet for once, Nakimura.\p"
+            "For Arceus's sake, I cannnot\nconcentrate with you yelling in my\lear.")
+    closemessage
+    applymovement(hanzo, moves(face_up))
+    msgbox(".{PAUSE 45}.{PAUSE 45}.{PAUSE 45} There are some results at least.")
+    closemessage
+    applymovement(nakamura, moves(walk_in_place_left))
+    msgbox("Soo.{PAUSE 30}.{PAUSE 30}?")
+    closemessage
+    applymovement(hanzo, moves(walk_in_place_right))
+    msgbox("Man you know what, do it yourself.\p"
+            "I never wanted to be here anyway.\p"
+            "We know everything we need to about\nthe Distortion World.\p"
+            "Why did they have to send us here.\p"
+            "We could've already departed!")
+    closemessage
+    call(Entrance_Monks_MovementScript)
+    removeobject(hanzo)
+    setflag(FLAG_MONKS_HANZO)
+    msgbox("{SPEAKER NAME_PLAYER}Is uh. Is he okay?\n"
+            "You both seem pretty on edge.")
+    closemessage
+    applymovement(nakamura, moves(face_down))
+    msgbox("I mean yeah,who wouldn't be.\p"
+            "Empress is stuck again. Not in the\nbest place.\p"
+            "Girl's a piece of work to keep around\nI can tell ya that much.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Huh?")
+    closemessage
+    applymovement(nakamura, moves(emote_exclamation_mark))
+    waitmovement
+    msgbox("Oh- Oh no, please forget I said\nanything.\p"
+            "You were NOT meant to hear that.")
+    waitmessage
+    applymovement(nakamura, moves(face_right, delay_16*3, face_down))
+    waitmovement
+    msgbox("Argh, can this day get ANY worse.")
+    closemessage
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}I didn't hear anything, sir.")
+    waitmessage
+    applymovement(player, moves(face_right, delay_16*3, face_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Anyway, you two seemed to be\ntroubled by something.\p"
+            "Looks like I was right on the\nmoney.\p"
+            "Can I do anything for ya?")
+    closemessage
+    applymovement(nakamura, moves(walk_in_place_down))
+    msgbox("Mmm. I assume you are a\nRecordkeeper, then?\p"
+            "Do you have any more info\non Giratina?")
+    waitmessage
+    applymovement(nakamura, moves(walk_left, face_up))
+    msgbox("Like, things not in the archive here.")
+    closemessage
+    applymovement(nakamura, moves(face_down))
+    waitmovement(nakamura)
+    applymovement(player, moves(walk_up, face_left))
+    applymovement(nakamura, moves(face_right))
+    msgbox("{SPEAKER NAME_PLAYER}I'm afraid not.")
+    waitmessage
+    applymovement(player, moves(jump_in_place_left))
+    msgbox("Buuut I am currently working on\ndecyphering 'The Original Sinner'.\p"
+            "No guarantee on when that's\nfinished, though.")
+    closemessage
+    applymovement(nakamura, moves(face_down, delay_16*3, face_up, delay_16*2, face_right))
+    waitmovement
+    msgbox("Hum. I see...\p"
+            "Well, I hope you'll get it done soon.")
+    closemessage
+    applymovement(player, moves(walk_in_place_left))
+    msgbox("I'll try my best, sir.")
+    closemessage
+    applymovement(nakamura, moves(face_up, delay_16*3, face_right))
+    msgbox("Man, I was hoping we'd get more out\nof this trip.\p"
+            "Guess that's it. Time to head back.")
+    closemessage
+    applymovement(nakamura, moves(walk_down, walk_right*3))
+    applymovement(player, moves(delay_16, face_down, delay_16, face_right))
+    waitmovement
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_right))
+    msgbox("Good luck!")
+    closemessage
+    applymovement(nakamura, moves(face_left))
+    msgbox("Gonna need that, thanks.")
+    closemessage
+    applymovement(nakamura, moves(walk_right, walk_down *7))
+    waitmovement
+    removeobject(nakamura)
+    setflag(FLAG_MONKS_NAKAMURA)
+}
+
+script Entrance_Monks_MovementScript {
+    getplayerxy(VAR_TEMP_2, VAR_TEMP_3)
+    if(var(VAR_TEMP_2)== 8){
+        applymovement(hanzo, moves(walk_down, walk_right*4, walk_down*8))
+        applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction))
+        waitmovement(hanzo)
+        applymovement(player, moves(walk_right, walk_up))
+        waitmovement(player)
+    }
+    else{
+        applymovement(hanzo, moves(walk_down*2, walk_right*4, walk_down*7))
+        applymovement(player, moves(delay_16*2, face_down))
+        waitmovement(hanzo)
+        if(var(VAR_TEMP_2) == 7){
+            applymovement(player, moves(walk_down, walk_right*2, face_up))
+            
+        }
+        elif(var(VAR_TEMP_2) == 9){
+            applymovement(player, moves(face_up))
+        }
+        else {
+            applymovement(player, moves(walk_down, walk_left, face_up))
+        }
+        waitmovement(player)
+        
+    }
+    return
+}
+
+script Entrance_Empress_Intro {
+    lock
+    msgbox("Hey there. Cute outfit you've got.")//empress 
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_up))
+    waitmovement
+    msgbox("Oh thanks! Pieced it together myself.")
+    closemessage
+    applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction, face_right, delay_16, face_down, delay_16, face_left, delay_16, face_up))
+    waitmovement
+    msgbox("It's technically my work outfit,\nthough the only requirement\lwas a big white coat.\p"
+            "For... some reason.")
+    closemessage
+    applymovement(empress, moves(walk_down))
+    waitmovement
+    msgbox("So you work here, that why that\nbrush is tied to your hair?")
+    closemessage
+    applymovement(player, moves(walk_right, walk_up,jump_in_place_left))
+    applymovement(empress, moves(face_right))
+    waitmovement(player)
+    msgbox("Yeah! Miss Satsuki has one too, so\nI figured I'd match the vibe.\p"
+            "I was puzzled by her decision to\npair a white coat with a brush\ldipped in ink.\p"
+            "But it seems these coats have some\nsort of special quality that\lprevents them from staining.")
+    applymovement(empress, moves(walk_in_place_right))
+    msgbox("I see. Maybe I need that as well, hah.\p"
+            "My dress tends to get quite dirty\nquickly.\p"
+            "Especially when I get dropped\nsomewhere muddy.")
+    closemessage
+    applymovement(player, moves(lock_facing_direction, walk_right, delay_16*3, walk_left, unlock_facing_direction))
+    waitmovement
+    msgbox("Hmm yeah, I can see that. Lot of\nwhite in your outfit.\p"
+            "Looks really cool though.\nQuite fancy as well.\p"
+            "Where'd you get it?")
+    closemessage
+    applymovement(empress, moves(emote_heart))
+    msgbox("Ah thanks!\nit's a custom made dress by Veruka.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(emote_exclamation_mark))
+    msgbox("Whoa, Veruka!?\nDoesn't she have an insane waitlist?\p"
+            "I wanted to order something from her,\nbut was told I'd have to wait more\lthan a year.")
+    closemessage
+    applymovement(empress, moves(emote_question_mark))
+    waitmovement
+    msgbox("Waitlist? She usually completes\nmy orders pretty fast.")
+    closemessage
+    applymovement(player, moves(face_down, delay_16*3, face_left))
+    waitmovement
+    msgbox("Hmmm. I see. I guess you just\nhave better connections, huh?")
+    closemessage
+    applymovement(empress, moves(walk_in_place_right))
+    waitmovement
+    msgbox("Haha, something like that.")
+    closemessage
+    msgbox("Damn, if only that could be me.")
+    closemessage
+    applymovement(empress, moves(walk_in_place_right))
+    waitmovement
+    msgbox("Anyway, about those coats of\nyours...")
+    closemessage
+    playse(SE_LEDGE)
+    applymovement(player, moves(jump_in_place_left))
+    waitmovement
+    msgbox("Oh, you'll have to ask miss Satsuki.\p"
+            "But good luck.\nShe never told me anything.")
+    closemessage
+    applymovement(empress, moves(face_up, delay_16*4, face_right))
+    waitmovement
+    msgbox("Sounds good, I'll have a chat with\nSatsuki then.")
+    closemessage
+    applymovement(empress, moves(walk_down, walk_right*3, walk_up, face_left))
+    waitmovement
+    msgbox("Nice meeting you, Tiana.")
+    closemessage
+    playse(SE_PIN)
+    applymovement(player, moves(jump_in_place_right))
+    waitmovement
+    msgbox("Likewise, miss- wait, what?")
+    closemessage
+    applymovement(empress, moves(walk_in_place_left))
+    waitmovement
+    msgbox("You may call me Lucy.")
+    closemessage
+    applymovement(empress, moves(walk_up*4, walk_left*2, face_down))
+    waitmovement
+    msgbox("Have a nice day!")
+    closemessage
+    applymovement(empress, moves(walk_left*7, walk_up*2))
+    //Set positions and flags etc
+    waitmovement
+    release
+}
+
+script Entrance_Empress_Satsuki {
+    msgbox("It might take a while to handle your request, milady."
+            "I will let you know when it is done.")
+    msgbox("Thank you for your cooperation.")
+    msgbox("It was nice talking to both of you. Better than being holed up all day anyway.")
+    msgbox("Alas, time for me to head back.")
+    msgbox("Take care, both of you!")
+    //empress leaves
+    msgbox("Tiana. How did you manage to get involved with her?")
+    msgbox("? Should I not have talked with her?"
+            "You told me to treat our guests well")
+    msgbox("I suppose I did. Hmm..."
+            "Did you not recognize her?")
+    msgbox("No, why?")
+    msgbox("Okay, nevermind then")
+    msgbox("Just continue with your work.")
+}
+
+script Entrance_Empress_Intro_Followup {
+    msgbox("")
+}
+
+script Entrance_Monks_FalseEnding {
+    msgbox("Uff, let's see. Giratina...")
+    msgbox("Looking for something specific, sir?")
+    msgbox("Oh, hi. Yeah. I need everything you have about the Distortion World.")
+    msgbox("Oh, I finished updating that one the other day."
+            "Just search for the keywords. Might be something new there.")
+    msgbox("Cool, thanks.")
+    msgbox("Okay... Distortion world... Giratina... Dimensional rifts..."
+            "Seems mostly the same..."
+            "Wait. It needs an anchor being?")
+    msgbox("Oh that. Yeah. I found out that Giratina was the thing that kept the whole Distortion World together."
+            "No clue why it was tied to him though."
+            "But yeah, without it being there the distortion world's going to affect our world."
+            "(wait, hold on. That seems bad)")
+    msgbox("It also says something here about the... Griseous orb?"
+            "Okay. That's all.")
+    msgbox("Thank you for your hard work, miss."
+            "Time's pressing, so I don't have time to chat."
+            "Goobye")
+    msgbox("Bye! Good luck with whatever you're doing!")
+    //tiana checks terminal
+    msgbox("Oh. That's... a problem."
+            "I thought the rifts were stable?"
+            "Wait a second, was Giratina actually slain?"
+            "Oh drat, this is not good.")
+}
+
+script Entrance_Monks_TrueEnding {
+    msgbox("Hey miss! Good seeing you again")
+    msgbox("Oh, you've returned?")
+    msgbox("Yep, everything went smoothly."
+            "Barely, though. But yeah. Things are fine now.")
+    msgbox("Nice! Sounds like a good ending, then.")
+    msgbox("Yeah. Never thought Giratina was like that, though."
+            "I can't believe milady Luciana didn't just tell us."
+            "This whole situation could've been prevented."
+            "And who knows what would've happened if we stayed too long.")
+    msgbox("Yeah.... Probably nothing good, haha.")
+    msgbox("Mhm, I can only imagine."
+            "Good thing that Giratina is on our side though."
+            "I never want to go back in there ever again."
+            "Don't know how milady does it.")
+    msgbox("Who's Luciana?")
+    msgbox("Mm, better not to get involved."
+            "For your sake. Trust me."
+            "It's quite tiring.")
+    msgbox("...?")
 }
 
 script Entrance_GetDirectionAndWalkInPlace {
