@@ -5894,6 +5894,22 @@ u16 GetBattleBGM(void)
             return MUS_RG_VS_LEGEND;
         }
     }
+    else if (gBattleTypeFlags & BATTLE_TYPE_TARC_BOSS){
+        switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+        {
+        case SPECIES_REGIROCK:
+        case SPECIES_REGICE:
+        case SPECIES_REGISTEEL:
+        case SPECIES_REGIGIGAS:
+        case SPECIES_REGIELEKI:
+        case SPECIES_REGIDRAGO:
+            return MUS_VS_REGI;
+        default:
+            return MUS_RG_VS_LEGEND;
+        }
+        
+    }
+
     else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
     {
         return MUS_VS_TRAINER;
