@@ -50,8 +50,8 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "Entrance_Empress_Intro",
-      "flag": "0"
+      "script": "Entrance_Empress",
+      "flag": "FLAG_EMPRESS"
     },
     {
       "local_id": "ENTRANCE_NAKAMURA",
@@ -64,7 +64,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "Entrance_Monks_Intro",
+      "script": "Entrance_Monks",
       "flag": "FLAG_MONKS_NAKAMURA"
     },
     {
@@ -162,7 +162,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "Entrance_Monks_Intro",
+      "script": "Entrance_Monks",
       "flag": "FLAG_MONKS_HANZO"
     }
   ],
@@ -257,6 +257,33 @@
       "var": "VAR_TEMP_0",
       "var_value": "0",
       "script": "Entrance_Receptionist_Glare"
+    },
+    {
+      "type": "trigger",
+      "x": 30,
+      "y": 13,
+      "elevation": 0,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "Entrance_Empress_Satsuki"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 12,
+      "elevation": 0,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "Entrance_Empress_Satsuki"
+    },
+    {
+      "type": "trigger",
+      "x": 30,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "Entrance_Empress_Satsuki"
     }
   ],
   "bg_events": [
