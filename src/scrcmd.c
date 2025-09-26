@@ -3482,17 +3482,3 @@ void CheckTotalBossesDefeated (void)
     }
     gSpecialVar_Result = count;
 }
-
-bool8 ScrCmd_doTarcBossBattle(struct ScriptContext *ctx)
-{
-    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
-
-    if (sIsScriptedWildDouble == FALSE)
-        BattleSetup_StartScriptedWildBattle();
-    else
-        BattleSetup_StartScriptedDoubleWildBattle();
-
-    ScriptContext_Stop();
-
-    return TRUE;
-}
