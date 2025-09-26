@@ -952,6 +952,8 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_DIMENSIONAL_PRISON_RELEASE]           = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} releases all dimensional shackles!"),
     [STRINGID_BANISH]                               = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was banished!"),
     [STRINGID_PURIFYING_WATER]                      = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} purifies everything trying to affect it!"),
+    [STRINGID_EMPATH_HEAL]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s Empathy restored its HP a little!"), //not in gen 5+, ability popup
+    [STRINGID_TERRAS_BLESSING]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s Terra's Blessing restored its HP a little!"), //not in gen 5+, ability popup
     //NEW
     [STRINGID_RAINSTARTEDPOURING]                   = COMPOUND_STRING("Rain started pouring down!"),
 
