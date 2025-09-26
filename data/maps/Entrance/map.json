@@ -7,9 +7,6 @@
   "requires_flash": false,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_CITY",
-  "allow_cycling": false,
-  "allow_escaping": false,
-  "allow_running": false,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
@@ -43,8 +40,9 @@
       "flag": "0"
     },
     {
+      "local_id": "ENTRANCE_EMPRESS",
       "graphics_id": "OBJ_EVENT_GFX_EMPRESS",
-      "x": 33,
+      "x": 32,
       "y": 29,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
@@ -52,21 +50,22 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "Entrance_Empress_Intro",
       "flag": "0"
     },
     {
+      "local_id": "ENTRANCE_NAKAMURA",
       "graphics_id": "OBJ_EVENT_GFX_MONK",
-      "x": 44,
-      "y": 27,
+      "x": 9,
+      "y": 30,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "Entrance_Monks_Intro",
+      "flag": "FLAG_MONKS_NAKAMURA"
     },
     {
       "local_id": "LOCALID_NAOTO",
@@ -80,19 +79,6 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Receptionist_Direct",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_KAITO",
-      "x": 25,
-      "y": 27,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
       "flag": "0"
     },
     {
@@ -122,6 +108,62 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_PottedPlantMan",
       "flag": "0"
+    },
+    {
+      "local_id": "ENTRANCE_KENICHI",
+      "graphics_id": "OBJ_EVENT_GFX_KAITO",
+      "x": 36,
+      "y": 25,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Entrance_Kenichi",
+      "flag": "FLAG_KENICHI"
+    },
+    {
+      "local_id": "ENTRANCE_SCILLA",
+      "graphics_id": "OBJ_EVENT_GFX_ACOLYTE_F",
+      "x": 30,
+      "y": 21,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Entrance_Scilla",
+      "flag": "FLAG_KENICHI_FAMILY"
+    },
+    {
+      "local_id": "ENTRANCE_AKUWA",
+      "graphics_id": "OBJ_EVENT_GFX_PRAYERGIRL",
+      "x": 28,
+      "y": 22,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Entrance_Akuwa",
+      "flag": "FLAG_KENICHI_FAMILY"
+    },
+    {
+      "local_id": "ENTRANCE_HANZO",
+      "graphics_id": "OBJ_EVENT_GFX_MONK",
+      "x": 8,
+      "y": 30,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Entrance_Monks_Intro",
+      "flag": "FLAG_MONKS_HANZO"
     }
   ],
   "warp_events": [],
@@ -240,7 +282,7 @@
       "y": 11,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "NULL"
+      "script": "Entrance_PlayerTerminal"
     },
     {
       "type": "sign",
@@ -274,5 +316,8 @@
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Entrance_ShowCredits"
     }
-  ]
+  ],
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false
 }
