@@ -851,7 +851,25 @@ script Entrance_Receptionist_Glare {
 
 script Entrance_Receptionist_Counter {
     lock
-    msgbox("{SPEAKER NAME_NAOTO}For once you did it correctly.")
+    if(flag(FLAG_PESTERED_NAOTO)) {
+        msgbox("{SPEAKER NAME_NAOTO}For once you did it correctly.")
+        waitmessage
+        msgbox(format("{SPEAKER NAME_PLAYER}Aww, don't be like that.\p"
+                      "I can behave. Besides, I brighten up the place!"))
+        waitmessage
+        msgbox(format("{SPEAKER NAME_NAOTO}Fine, I'll give you that at least.\p"
+               "Now please go and help the library visitors."))
+    }
+    else {
+        msgbox(format("{SPEAKER NAME_NAOTO}Hello {PLAYER}, the library is now open, please go check if there are any vistors who need any help."))
+        waitmessage
+        msgbox("{SPEAKER NAME_PLAYER}Okay! I'll be right on it!")
+        waitmessage
+        msgbox(format("{SPEAKER NAME_NAOTO}…"))
+        waitmessage
+        msgbox("{SPEAKER NAME_PLAYER}What? I mean it!")
+        msgbox("{SPEAKER NAME_NAOTO}I'll believe it when I see it.")
+    }
     waitmessage
     release
 }
