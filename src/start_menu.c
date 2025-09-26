@@ -981,6 +981,7 @@ static bool8 BattlePyramidRetireCallback(void)
 
 static void InitSave(void)
 {
+    gSaveBlock2Ptr->gameVersion = RECORDKEEPERS_VERSION;
     SaveMapView();
     sSaveDialogCallback = SaveConfirmSaveCallback;
     sSavingComplete = FALSE;
