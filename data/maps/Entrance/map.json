@@ -348,7 +348,7 @@
       "x": 23,
       "y": 38,
       "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_SOUTH",
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
       "script": "Entrance_ShowCredits"
     }
   ],
