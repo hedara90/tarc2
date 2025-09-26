@@ -79,6 +79,14 @@ static const u32 sTarcTiles_Xerneas[] = INCBIN_U32("graphics/tarc_win/win_xernea
 static const u32 sTarcTilemap_Xerneas[] = INCBIN_U32("graphics/tarc_win/win_xerneas_tiles.bin.lz");
 static const u16 sTarcPalette_Xerneas[] = INCBIN_U16("graphics/tarc_win/win_xerneas_tiles.gbapal");
 
+static const u32 sTarcTiles_Lugia[] = INCBIN_U32("graphics/tarc_win/win_lugia_tiles.4bpp.lz");
+static const u32 sTarcTilemap_Lugia[] = INCBIN_U32("graphics/tarc_win/win_lugia_tiles.bin.lz");
+static const u16 sTarcPalette_Lugia[] = INCBIN_U16("graphics/tarc_win/win_lugia_tiles.gbapal");
+
+static const u32 sTarcTiles_Giratina[] = INCBIN_U32("graphics/tarc_win/win_giratina_tiles.4bpp.lz");
+static const u32 sTarcTilemap_Giratina[] = INCBIN_U32("graphics/tarc_win/win_giratina_tiles.bin.lz");
+static const u16 sTarcPalette_Giratina[] = INCBIN_U16("graphics/tarc_win/win_giratina_tiles.gbapal");
+
 static const struct Tarc_BossWinBackground sBossBG[] =
 {
     [FINAL_BOSS_XERNEAS] =
@@ -86,7 +94,19 @@ static const struct Tarc_BossWinBackground sBossBG[] =
         .tiles = sTarcTiles_Xerneas,
         .tilemap = sTarcTilemap_Xerneas,
         .palette = sTarcPalette_Xerneas,
-    }
+    },
+    [FINAL_BOSS_LUGIA] =
+    {
+        .tiles = sTarcTiles_Lugia,
+        .tilemap = sTarcTilemap_Lugia,
+        .palette = sTarcPalette_Lugia,
+    },
+    [FINAL_BOSS_GIRATINA] =
+    {
+        .tiles = sTarcTiles_Giratina,
+        .tilemap = sTarcTilemap_Giratina,
+        .palette = sTarcPalette_Giratina,
+    },
 };
 
 static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");
