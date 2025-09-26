@@ -10,6 +10,7 @@ extern bool8 gShouldShowDebugInfo;
 
 u32 RomXor(void);
 void BuildDebugInfoSprite(void);
+void ModifyDebugInfoSpriteForBattle(void);
 void DisplayDebugInfoSprite(void);
 
 #endif

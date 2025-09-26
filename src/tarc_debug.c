@@ -1,5 +1,6 @@
 #include "tarc_debug.h"
 #include "even_sprite.h"
+#include "main.h"
 
 EWRAM_DATA u32 gDebugInfoSprite[128] = { 0 };
 EWRAM_DATA u8 gDebugInfoSpriteId;
@@ -55,10 +56,32 @@ void BuildDebugInfoSprite(void)
     gShouldShowDebugInfo = TRUE;
 }
 
+void ModifyDebugInfoSpriteForBattle(void)
+{
+    u32 subBossNumber = gSaveBlock1Ptr->huntTargets.numBossesDefeated;
+    for (u32 i = 0; i < 8; i++)
+    {
+        gDebugInfoSprite[72 + i] = sNumberDotsGfx[8 * subBossNumber + i];
+    }
+}
+void ModifyDebugInfoSpriteForEntrance(void)
+{
+    for (u32 i = 0; i < 8; i++)
+    {
+        gDebugInfoSprite[72 + i] = 17 + (17 << 8) + (17 << 16) + (17 << 24);
+    }
+}
+
 void DisplayDebugInfoSprite(void)
 {
     if (!gShouldShowDebugInfo)
         return;
+
+    if (gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ENTRANCE))
+        ModifyDebugInfoSpriteForBattle();
+    else
+        ModifyDebugInfoSpriteForEntrance();
+
 
     struct Even_CreateSpriteStruct cs = {0};
     cs.sprite = gDebugInfoSprite;
