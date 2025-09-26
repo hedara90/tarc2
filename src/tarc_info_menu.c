@@ -814,7 +814,7 @@ static void PrintNameText(void)
     CopyWindowToVram(WIN_NAME, COPYWIN_GFX);
 }
 
-u32 ConvertToHex(u32 input)
+static u32 ConvertToHex(u32 input)
 {
     switch (input)
     {

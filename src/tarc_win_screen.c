@@ -39,6 +39,7 @@
 #include "constants/event_object_movement.h"
 #include "overworld.h"
 #include "random.h"
+#include "new_game.h"
 
 #include "tarc_debug.h"
 
@@ -65,6 +66,7 @@ enum WindowIds
     WIN_MOVE3,
     WIN_ABI3,
     WIN_STATS,
+    WIN_ID,
     WIN_COUNT
 };
 
@@ -127,16 +129,19 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
     }
 };
 
-#define TITLE_WIDTH 30
+#define TITLE_WIDTH 16
 #define TITLE_HEIGHT 2
-#define INFO_WIDTH 9
+#define INFO_WIDTH 7
 #define INFO_HEIGHT 6
 #define STAT_WIDTH 4
 #define STAT_HEIGHT 2
+#define ID_WIDTH 7
+#define ID_HEIGHT 2
 
 #define TITLE_SIZE TITLE_WIDTH * TITLE_HEIGHT
 #define INFO_SIZE INFO_WIDTH * INFO_HEIGHT
 #define STAT_SIZE STAT_WIDTH * STAT_HEIGHT
+#define ID_SIZE ID_WIDTH * ID_HEIGHT
 
 #define TITLE_BASEBLOCK 1
 #define MOVE1_BASEBLOCK     TITLE_BASEBLOCK + TITLE_SIZE
@@ -146,13 +151,14 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define MOVE3_BASEBLOCK     ABI2_BASEBLOCK + INFO_SIZE
 #define ABI3_BASEBLOCK      MOVE3_BASEBLOCK + INFO_SIZE
 #define STAT_BASEBLOCK      ABI3_BASEBLOCK + INFO_SIZE
+#define ID_BASEBLOCK        STAT_BASEBLOCK + STAT_SIZE
 
 static const struct WindowTemplate sTarcUiWindowTemplates[] =
 {
     [WIN_TITLE] =
     {
         .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 7,
         .tilemapTop = 0,
         .width = TITLE_WIDTH,
         .height = TITLE_HEIGHT,
@@ -222,12 +228,22 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
     [WIN_STATS] =
     {
         .bg = 0,
-        .tilemapLeft = 1,
+        .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = STAT_WIDTH,
         .height = STAT_HEIGHT,
         .paletteNum = 15,
         .baseBlock = STAT_BASEBLOCK,
+    },
+    [WIN_ID] =
+    {
+        .bg = 0,
+        .tilemapLeft = 23,
+        .tilemapTop = 0,
+        .width = ID_WIDTH,
+        .height = ID_HEIGHT,
+        .paletteNum = 15,
+        .baseBlock = ID_BASEBLOCK,
     },
 };
 
@@ -542,7 +558,7 @@ static void PrintMythName(u32 bossId)
     AddTextPrinterParameterized4(WIN_TITLE,
                                  FONT_NORMAL,
                                  TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
-                                 sTarcUiWindowFontColors[FONT_WHITE],
+                                 sTarcUiWindowFontColors[FONT_BLACK],
                                  TEXT_SKIP_DRAW,
                                  currString);
     CopyWindowToVram(WIN_TITLE, COPYWIN_GFX);
@@ -592,7 +608,7 @@ static void DrawText()
         AddTextPrinterParameterized4(WIN_MOVE1 + 2 * i,
                                      FONT_SPECIAL_SMALL,
                                      0, 0, 0, 0,
-                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     sTarcUiWindowFontColors[i % 2],
                                      TEXT_SKIP_DRAW,
                                      text);
         CopyWindowToVram(WIN_MOVE1 + 2 * i, COPYWIN_FULL);
@@ -628,11 +644,51 @@ static void DrawText()
         AddTextPrinterParameterized4(WIN_ABI1 + 2 * i,
                                      FONT_SPECIAL_SMALL,
                                      0, 0, 0, 0,
-                                     sTarcUiWindowFontColors[FONT_BLACK],
+                                     sTarcUiWindowFontColors[i % 2],
                                      TEXT_SKIP_DRAW,
                                      text);
         CopyWindowToVram(WIN_ABI1 + 2 * i, COPYWIN_FULL);
     }
+}
+
+static u32 ConvertToHex(u32 input)
+{
+    switch (input)
+    {
+    case 0:
+        return CHAR_0;
+    case 1:
+        return CHAR_1;
+    case 2:
+        return CHAR_2;
+    case 3:
+        return CHAR_3;
+    case 4:
+        return CHAR_4;
+    case 5:
+        return CHAR_5;
+    case 6:
+        return CHAR_6;
+    case 7:
+        return CHAR_7;
+    case 8:
+        return CHAR_8;
+    case 9:
+        return CHAR_9;
+    case 10:
+        return CHAR_A;
+    case 11:
+        return CHAR_B;
+    case 12:
+        return CHAR_C;
+    case 13:
+        return CHAR_D;
+    case 14:
+        return CHAR_E;
+    case 15:
+        return CHAR_F;
+    }
+    return CHAR_0;
 }
 
 static void DrawStats(void)
@@ -644,7 +700,7 @@ static void DrawStats(void)
         if (gSaveBlock1Ptr->huntTargets.miniBossesDefeated[i])
             numMiniBosses++;
 
-    u8 text[8];
+    u8 text[24];
     ConvertIntToDecimalStringN(text, numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
     text[1] = CHAR_PLUS;
     ConvertIntToDecimalStringN(&text[2], numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
@@ -656,6 +712,24 @@ static void DrawStats(void)
                                  TEXT_SKIP_DRAW,
                                  text);
     CopyWindowToVram(WIN_STATS, COPYWIN_FULL);
+    u32 currChar = 0;
+
+    text[currChar++] = CHAR_0;
+    text[currChar++] = CHAR_x;
+    u32 trainerId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
+    for (u32 i = 0; i < 8; i++)
+    {
+        text[currChar++] = ConvertToHex((trainerId >> (28 - (i * 4))) & 0xF);
+    }
+    text[currChar] = EOS;
+
+    AddTextPrinterParameterized4(WIN_ID,
+                                 FONT_SHORT_NARROWER,
+                                 TarcUi_JustifyCenter(text, 8 * ID_WIDTH, FONT_SHORT_NARROWER), 0, 0, 0,
+                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 TEXT_SKIP_DRAW,
+                                 text);
+    CopyWindowToVram(WIN_ID, COPYWIN_FULL);
 }
 
 static void DrawAll()
