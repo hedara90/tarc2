@@ -102,9 +102,14 @@ void SetupHuntTargets(enum FinalBossList finalBoss)
     //  Setup player mons
     enum PlayerMonList monList;
     if (gSaveBlock1Ptr->playerAffinity == MON_LIST_RANDOM)
+    {
         monList = LocalRandom32(&localRngState) % MON_LIST_RANDOM;
+        gSaveBlock1Ptr->playerAffinity = monList;
+    }
     else
+    {
         monList = gSaveBlock1Ptr->playerAffinity;
+    }
     SetupPlayerMons(monList, &localRngState);
 
     //  Randomize minibosses
