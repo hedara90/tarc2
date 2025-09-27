@@ -8314,7 +8314,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Hacks with razorlike wind.\n"
             "High critical-hit ratio."),
         .effect = EFFECT_HIT,
-        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 55,
+        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 55,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .criticalHitStage = 1,
@@ -23255,7 +23255,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Hacks with razorlike wind.\n"
             "High critical-hit ratio."),
         .effect = EFFECT_HIT,
-        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 55,
+        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 55,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .criticalHitStage = 1,
