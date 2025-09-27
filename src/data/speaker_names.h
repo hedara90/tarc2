@@ -6,4 +6,13 @@ const u8 *const gSpeakerNamesTable[SP_NAME_COUNT] =
     [SP_NAME_KIO]     = COMPOUND_STRING("Kio"),
     [SP_NAME_HIDEAKI] = COMPOUND_STRING("Hideaki"),
     [SP_NAME_NAOTO]   = COMPOUND_STRING("Naoto"),
+    [SP_NAME_KENICHI] = COMPOUND_STRING("Kenichi"),
+    [SP_NAME_AKUWA]   = COMPOUND_STRING("Akuwa"),
+    [SP_NAME_SCILLA]  = COMPOUND_STRING("Scilla"),
+    [SP_NAME_LUCY]    = COMPOUND_STRING("Lucy"),
+    [SP_NAME_HANZO]   = COMPOUND_STRING("Hanzo"),
+    [SP_NAME_NAKAMURA]= COMPOUND_STRING("Nakamura"),
+    [SP_NAME_MORGAN]  = COMPOUND_STRING("Morgan"),
+    [SP_NAME_YFA]     = COMPOUND_STRING("Yfa"),
+    [SP_NAME_CHISA]   = COMPOUND_STRING("Chisa"),
 };

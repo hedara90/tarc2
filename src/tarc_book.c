@@ -507,8 +507,8 @@ static void DrawLeftText()
     const u8 *currString = sAllPages[sTarcUiState->currentPage].pageTitle;
     FillWindowPixelBuffer(WIN_TITLE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     AddTextPrinterParameterized4(WIN_TITLE,
-                                 FONT_NORMAL,
-                                 TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 FONT_NARROW,
+                                 TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, FONT_NARROW), 0, 0, 0,
                                  sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  currString);
