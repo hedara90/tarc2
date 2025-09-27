@@ -68,3 +68,19 @@ SINGLE_BATTLE_TEST("Poison Point will not poison Poison-Type targets with corros
         }
     }
 }
+
+SINGLE_BATTLE_TEST("Poison Point triggers on user attacks")
+{
+    PASSES_RANDOMLY(3, 10, RNG_POISON_TOUCH);
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_NIDOQUEEN) { Ability(ABILITY_POISON_POINT); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_POISON_POINT);
+        ANIMATION(ANIM_TYPE_STATUS, B_ANIM_STATUS_PSN, player);
+        MESSAGE("Wobbuffet was poisoned by the opposing Nidoqueen's Poison Point!");
+        STATUS_ICON(player, poison: TRUE);
+    }
+}

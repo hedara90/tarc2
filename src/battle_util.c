@@ -5609,7 +5609,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
             gBattleMons[gBattlerAttacker].danced = TRUE;
 
-        if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH)
+        if ((SearchTraits(battlerTraits, ABILITY_POISON_TOUCH) || SearchTraits(battlerTraits, ABILITY_POISON_POINT))
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && IsBattlerAlive(gBattlerTarget)
          && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
@@ -5620,7 +5620,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && RandomPercentage(RNG_POISON_TOUCH, 30))
         {
             gBattleScripting.moveEffect = MOVE_EFFECT_POISON;
-            gLastUsedAbility = ABILITY_POISON_TOUCH;
+            if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH))
+                gLastUsedAbility = ABILITY_POISON_TOUCH;
+            else
+                gLastUsedAbility = ABILITY_POISON_POINT;
             PREPARE_ABILITY_BUFFER(gBattleTextBuff1, gLastUsedAbility);
             PushTraitStack(gBattlerAttacker, gLastUsedAbility);
             BattleScriptPushCursor();

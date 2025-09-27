@@ -13153,7 +13153,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .teachableLearnset = sKommoOTeachableLearnset,
         .formSpeciesIdTable = sKommoOFormSpeciesIdTable,
         .maxPhases = 3,
-        .abilityReward = ABILITY_GUTS,
+        .abilityReward = ABILITY_SKILL_LINK,
     },
 
     [SPECIES_KOMMO_O_TOTEM] =
