@@ -1037,4 +1037,6 @@ extern const u8 gBattleAnimMove_DimensionBreak[];
 extern const u8 gBattleAnimMove_PlanarImprisonment[];
 extern const u8 gBattleAnimMove_Banish[];
 
+extern const u8 gBattleAnimMove_Refraction[];
+
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H
