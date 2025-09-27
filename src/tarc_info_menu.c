@@ -873,15 +873,15 @@ static void PrintRunsText(void)
     CopyWindowToVram(WIN_RUNS, COPYWIN_GFX);
 }
 
-static const u8 sNoRecord[] = COMPOUND_STRING("No Record");
+static const u8 sNoRecord[] = COMPOUND_STRING("--");
 static void PrintRecordText(u32 bossId)
 {
     FillWindowPixelBuffer(WIN_BESTRUN, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    if (gSaveBlock1Ptr->bestBosses[0].teamMembers[0] == 0)
+    if (gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] == 0)
     {
         AddTextPrinterParameterized4(WIN_BESTRUN,
                                      FONT_NORMAL,
-                                     0, 0, 0, 0,
+                                     0, 2, 0, 0,
                                      sTarcUiWindowFontColors[FONT_BLACK],
                                      TEXT_SKIP_DRAW,
                                      sNoRecord);
@@ -891,14 +891,6 @@ static void PrintRecordText(u32 bossId)
         u8 subBossString[2];
         u8 miniBossString[3] = {0, 0, 0};
         ConvertIntToDecimalStringN(subBossString, gSaveBlock1Ptr->bestBosses[bossId].numSubBosses, STR_CONV_MODE_LEFT_ALIGN, 1);
-        // ConvertIntToDecimalStringN(miniBossString, gSaveBlock1Ptr->bestBosses[bossId].numMiniBosses, STR_CONV_MODE_LEFT_ALIGN, 2);
-
-        // u8 tempStr[5];
-        // tempStr[0] = subBossString[0];
-        // tempStr[1] = CHAR_PLUS;
-        // tempStr[2] = miniBossString[0];
-        // tempStr[3] = miniBossString[1];
-        // tempStr[4] = miniBossString[2];
 
         AddTextPrinterParameterized4(WIN_BESTRUN,
                                      FONT_NORMAL,
@@ -1088,6 +1080,16 @@ static void PrintMonIcons(u32 bossId)
                 break;
             }
             sTarcUiState->monIconSpriteIds[i] = CreateMonIcon(gSaveBlock1Ptr->bestBosses[bossId].teamMembers[i], SpriteCB_MonIcon, posX, posY, 0, 0);
+        }
+    }
+    else
+    {
+        for (u32 i = 0; i < 3; i++)
+        {
+            if (sTarcUiState->monIconSpriteIds[i] != SPRITE_NONE)
+            {
+                FreeAndDestroyMonIconSprite(&gSprites[sTarcUiState->monIconSpriteIds[i]]);
+            }
         }
     }
 }
