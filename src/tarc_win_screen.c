@@ -546,9 +546,9 @@ static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId)
 
 static const u8 *const sMythNames[] =
 {
-    COMPOUND_STRING("Life of Xerneas"),
-    COMPOUND_STRING("Storm of Lugia"),
-    COMPOUND_STRING("Shadow of Giratina"),
+    gText_XerneasMyth,
+    gText_LugiaMyth,
+    gText_GiratinaMyth,
 };
 
 static void PrintMythName(u32 bossId)

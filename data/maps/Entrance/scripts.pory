@@ -311,7 +311,7 @@ script Entrance_Boss {
     setboxframe(BOX_FRAME_BODHAI)
     dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
-                    "Quest for the flooded lands",
+                    "The Lost Archipelago",
                     "The Original Sinner",
                     "Exit")
     switch(var(VAR_RESULT)) {
@@ -319,7 +319,7 @@ script Entrance_Boss {
             msgbox(format("Initializing 'Overflowing Abundance'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
             goto(Entrance_BossStart)
         case 1: setuphunt(FINAL_BOSS_LUGIA)
-            msgbox(format("Initializing 'Quest for the flooded lands'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
+            msgbox(format("Initializing 'The Lost Archipelago'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
             goto(Entrance_BossStart)
         case 2: setuphunt(FINAL_BOSS_GIRATINA)
             msgbox(format("Initializing 'The Original Sinner'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
@@ -732,11 +732,93 @@ text Entrance_Text_Variations {
             "Lastly, Prayer features a manual weather setter.")
 }
 
+script TEMP_Archive1{
+    fadescreen(FADE_TO_BLACK)
+    openbook(PAGE_GIRATINA_UNFINISHED_1)    
+}
+
+script TEMP_Archive2{
+    fadescreen(FADE_TO_BLACK)
+    openbook(PAGE_GIRATINA_FALSE_1)    
+}
+
+script TEMP_Archive3{
+    fadescreen(FADE_TO_BLACK)
+    openbook(PAGE_GIRATINA_TRUE_1)    
+}
+
 script Entrance_Archive {
     lock
-    fadescreen(FADE_TO_BLACK)
-    openbook(PAGE_TEST)
+    msgbox("Welcome to the Archive.\nSelect a topic.")
+    dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
+                    "Overflowing Abundance",
+                    "The Lost Archipelago",
+                    "The Original Sinner",
+                    "Exit")
+    switch(var(VAR_RESULT)){
+        case 0:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+            goto(Entrance_Archive_Xerneas)
+        case 1:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+            goto(Entrance_Archive_Lugia)
+        case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+            goto(Entrance_Archive_Giratina)
+    }
+    closemessage
     release
+}
+
+script Entrance_Archive_Xerneas {
+    checkbossdefeated(FINAL_BOSS_XERNEAS)
+    if(var(VAR_RESULT)==FALSE){
+        fadescreen(FADE_TO_BLACK)
+        openbook(PAGE_XERNEAS_UNFINISHED_1)
+    }
+    else {
+        if(var(VAR_XERNEAS_PROGRESS) > 5){
+            fadescreen(FADE_TO_BLACK) 
+            openbook(PAGE_XERNEAS_FALSE_1)
+        }
+        else {
+            fadescreen(FADE_TO_BLACK)
+            openbook(PAGE_XERNEAS_TRUE_1)
+        }
+    }
+}
+
+script Entrance_Archive_Lugia {
+    checkbossdefeated(FINAL_BOSS_LUGIA)
+    if(var(VAR_RESULT)==FALSE){
+        fadescreen(FADE_TO_BLACK)
+        openbook(PAGE_LUGIA_UNFINISHED)
+    }
+    else {
+        if(var(VAR_LUGIA_PROGRESS) > 5){
+            fadescreen(FADE_TO_BLACK) 
+            openbook(PAGE_LUGIA_FALSE_1)
+        }
+        else {
+            fadescreen(FADE_TO_BLACK)
+            openbook(PAGE_LUGIA_TRUE_1)
+        }
+    }
+}
+
+script Entrance_Archive_Giratina {
+    checkbossdefeated(FINAL_BOSS_GIRATINA)
+    if(var(VAR_RESULT)==FALSE){
+        fadescreen(FADE_TO_BLACK)
+        openbook(PAGE_GIRATINA_UNFINISHED_1)
+    }
+    else {
+        if(var(VAR_GIRATINA_PROGRESS) > 5){
+            fadescreen(FADE_TO_BLACK) 
+            openbook(PAGE_GIRATINA_FALSE_1)
+        }
+        else {
+            fadescreen(FADE_TO_BLACK)
+            openbook(PAGE_GIRATINA_TRUE_1)
+        }
+    }
 }
 
 script Entrance_PrayerGirl {

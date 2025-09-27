@@ -1305,3 +1305,7 @@ const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbec
 
 //New Summary Screen Pages
 const u8 gText_PkmnTraits[] = _("TRAITS");
+
+const u8 gText_XerneasMyth[] = _("Overflowing Abundance");
+const u8 gText_LugiaMyth[] = _("The Lost Archipelago");
+const u8 gText_GiratinaMyth[] = _("The Original Sinner");

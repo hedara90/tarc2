@@ -382,6 +382,30 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
       "script": "Entrance_Archive"
+    },
+    {
+      "type": "sign",
+      "x": 32,
+      "y": 24,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "TEMP_Archive1"
+    },
+    {
+      "type": "sign",
+      "x": 33,
+      "y": 24,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "TEMP_Archive2"
+    },
+    {
+      "type": "sign",
+      "x": 34,
+      "y": 24,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "TEMP_Archive3"
     }
   ],
   "allow_cycling": false,
