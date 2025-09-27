@@ -861,7 +861,7 @@ script Entrance_DanceDone {
 script Entrance_Receptionist_Direct {
     lock
     faceplayer
-    msgbox("P{SPEAKER NAME_NAOTO}lease {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
+    msgbox("{SPEAKER NAME_NAOTO}Please {PLAYER}, don't walk behind the\ncounter while the library is open.\pYou should know this…")
     setboxframe(BOX_FRAME_TIANA)
     dynmultichoice(0, 0, TRUE, 2, 0, DYN_MULTICHOICE_CB_NONE,
                     "What if I want to hug my fav clerk?",
