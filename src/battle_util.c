@@ -6437,18 +6437,21 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         && !gBattleStruct->isEndOfTurnWeather
         && !(gBattleMons[(battler + 1) & 0x1].status1 & STATUS1_FROSTBITE)
         && SearchTraits(battlerTraits, ABILITY_HOARFROST)
-        && CanBeFrozen((battler + 1) & 0x1, battler, GetBattlerAbility(battler)))
+        && CanBeFrozen(battler, (battler + 1) & 0x1, GetBattlerAbility(battler)))
        {
+           SaveBattlerTarget(gBattlerTarget);
            CreateAbilityPopUp(battler, ABILITY_HOARFROST, FALSE);
            gDisableStructs[battler].weatherAbilityDone = TRUE;
            gBattleScripting.battler = battler;
            gBattlerTarget = (battler + 1) & 0x1;
-           gBattlerAttacker = battler;
            PushTraitStack(battler, ABILITY_HOARFROST);
-           SetNonVolatileStatusCondition((battler + 1) & 0x1, MOVE_EFFECT_FREEZE_OR_FROSTBITE);
-           PushTraitStack(battler, ABILITY_HOARFROST);
-           BattleScriptPushCursor();
-           gBattlescriptCurrInstr = BattleScript_HoarfrostActivates;
+           gBattleMons[gBattlerTarget].status1 = STATUS1_FROSTBITE;
+           u32 value = STATUS1_FROSTBITE;
+           if (GetBattlerSide(gBattlerTarget) == B_SIDE_OPPONENT)
+               SetMonData(&gEnemyParty[0], MON_DATA_STATUS, &value);
+           else
+               SetMonData(&gPlayerParty[0], MON_DATA_STATUS, &value);
+           BattleScriptPushCursorAndCallback(BattleScript_HoarfrostActivates);
            effect++;
        }
        break;

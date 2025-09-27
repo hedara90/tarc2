@@ -10349,10 +10349,9 @@ BattleScript_StaticBuildup::
 BattleScript_HoarfrostActivates::
 	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND2
 	waitanimation
-	restoretarget
-	restoreattacker
 	updatestatusicon BS_TARGET
-	end2
+	restoretarget
+	end3
 
 BattleScript_Sunrise::
 	setfieldweather BATTLE_WEATHER_SUN
