@@ -1944,12 +1944,24 @@ const struct BossMoveList sUnfezant1 =
     },
 };
 
+const struct BossMoveList sUnfezant2 =
+{
+    .numMoves = 4,
+    .moves =
+    {
+        MOVE_SLASH,
+        MOVE_AERIAL_ACE,
+        MOVE_NIGHT_SLASH,
+        MOVE_ROOST,
+    },
+};
+
 const struct BossAi sUnfezantAi =
 {
     .phaseMoves =
     {
         &sUnfezant1,
-        &sUnfezant1,
+        &sUnfezant2,
         &sUnfezant1,
         &sUnfezant1,
     },
