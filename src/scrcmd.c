@@ -3474,7 +3474,7 @@ void CheckTotalBossesDefeated (void)
 {
     u32 bossId;
     u32 count = 0;
-    for(bossId = 0; bossId < FINAL_BOSS_COUNT; bossId++);
+    for(bossId = 0; bossId < FINAL_BOSS_COUNT; bossId++)
     {
         if(gSaveBlock1Ptr->bestBosses[bossId].teamMembers[0] != SPECIES_NONE) {
             count++;

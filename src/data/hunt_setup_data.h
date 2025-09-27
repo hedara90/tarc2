@@ -352,7 +352,7 @@ static const struct StarterPool sSandPool =
         },
         {
             .species = SPECIES_DRACOZOLT,
-            .moves = {MOVE_BOLT_BEAK, MOVE_DRAGON_RUSH},
+            .moves = {MOVE_BOLT_BEAK, MOVE_DRAGON_CLAW},
         },
         {
             .species = SPECIES_STEELIX,
