@@ -16172,7 +16172,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .levelUpLearnset = sMunkidoriLevelUpLearnset,
         .teachableLearnset = sMunkidoriTeachableLearnset,
         .maxPhases = 3,
-        .abilityReward = ABILITY_SKILL_LINK,
+        .abilityReward = ABILITY_POISON_POINT,
     },
 #endif //P_FAMILY_MUNKIDORI
 

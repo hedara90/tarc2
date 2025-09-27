@@ -8314,7 +8314,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Hacks with razorlike wind.\n"
             "High critical-hit ratio."),
         .effect = EFFECT_HIT,
-        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 55,
+        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 55,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .criticalHitStage = 1,
@@ -23255,7 +23255,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Hacks with razorlike wind.\n"
             "High critical-hit ratio."),
         .effect = EFFECT_HIT,
-        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 55,
+        .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 55,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .criticalHitStage = 1,
@@ -27159,5 +27159,28 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_HORN_ATTACK, COMBO_STARTER_PECK},
         .battleAnimScript = gBattleAnimMove_PlanarImprisonment,
+    },
+    [MOVE_REFRACTION] =
+    {
+        .name = COMPOUND_STRING("Refraction"),
+        .description = COMPOUND_STRING(
+            "Refracts a mystical light\n"
+            "on available surfaces."),
+        .effect = EFFECT_HIT,
+        .power = 110,
+        .type = TYPE_FAIRY,
+        .accuracy = 70,
+        .pp = 5,
+        .target = MOVE_TARGET_BOTH,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_SPECIAL,
+        .alwaysHitsInHailSnow = B_BLIZZARD_HAIL >= GEN_4,
+        .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
+        .contestCategory = CONTEST_CATEGORY_BEAUTY,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_HAIL, COMBO_STARTER_POWDER_SNOW},
+        .battleAnimScript = gBattleAnimMove_Refraction,
+        .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 };

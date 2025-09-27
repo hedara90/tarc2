@@ -31,3 +31,16 @@ SINGLE_BATTLE_TEST("Blizzard bypasses accuracy with Essence of Snow")
         NOT MESSAGE("Wobbuffet's attack missed!");
     }
 }
+
+SINGLE_BATTLE_TEST("Refraction bypasses accuracy with Essence of Snow")
+{
+    PASSES_RANDOMLY(100, 100, RNG_ACCURACY);
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_ESSENCE_OF_SNOW); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_REFRACTION); }
+    } SCENE {
+        NOT MESSAGE("Wobbuffet's attack missed!");
+    }
+}

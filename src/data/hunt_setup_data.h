@@ -320,7 +320,7 @@ static const struct StarterPool sSnowPool =
         },
         {
             .species = SPECIES_GLACEON,
-            .moves = {MOVE_BLIZZARD, MOVE_FREEZE_DRY},
+            .moves = {MOVE_REFRACTION, MOVE_FREEZE_DRY},
         },
         {
             .species = SPECIES_DIANCIE,

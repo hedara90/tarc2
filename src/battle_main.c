@@ -3811,6 +3811,10 @@ static void DoBattleIntro(void)
             gBattleMainFunc = TryDoEventsBeforeFirstTurn;
             PokemonToBattleMon(&gPlayerParty[1], &gLeftMon);
             PokemonToBattleMon(&gPlayerParty[2], &gRightMon);
+            gLeftStatus3 = 0;
+            gLeftStatus4 = 0;
+            gRightStatus3 = 0;
+            gRightStatus4 = 0;
         }
         break;
     }
