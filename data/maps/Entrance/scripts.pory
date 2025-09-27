@@ -600,7 +600,7 @@ script Entrance_PlayerTerminal_Story {
             goto(Entrance_PlayerTerminal_Story)
         case 3: msgbox(Entrance_Text_Abilities)
             goto(Entrance_PlayerTerminal_Story)
-        case 4: msgbox()
+        case 4: msgbox(Entrance_Text_Forfeit)
         case 5: goto(Entrance_PlayerTerminal)
     }
     goto(Entrance_PlayerTerminal)
@@ -2208,12 +2208,12 @@ script Entrance_Chisa_Intro {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("{SPEAKER NAME_PLAYER}It's really fun! Also a bit confusing\nat times though")
+    msgbox("{SPEAKER NAME_PLAYER}It's really fun! Also a bit confusing\nat times though.")
     closemessage
     setvar(VAR_TEMP_2, chisa)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("{SPEAKER NAME_CHISA}Mhmhm, good good.\nGlad you're having fun!\p"
-            "Are you free anytime soon?\nI want to get the gang together.\p")
+            "Are you free anytime soon?\nI want to get the gang together.")
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
@@ -2222,7 +2222,7 @@ script Entrance_Chisa_Intro {
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
     msgbox("{SPEAKER NAME_CHISA}Though, I do need to be here\nbefore midnight.\p"
-            "So I won't be able to go on\nas long as before")
+            "So I won't be able to go on\nas long as before.")
     closemessage
     setvar(VAR_TEMP_2, chisa)
     call(Entrance_GetDirectionAndJumpInPlace)
