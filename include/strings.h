@@ -2431,4 +2431,8 @@ extern const u8 gText_CannotSendMonToBoxHM[];
 //New Summary Pages
 extern const u8 gText_PkmnTraits[];
 
+extern const u8 gText_XerneasMyth[];
+extern const u8 gText_LugiaMyth[];
+extern const u8 gText_GiratinaMyth[];
+
 #endif // GUARD_STRINGS_H

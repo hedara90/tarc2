@@ -674,7 +674,7 @@
 #define FLAG_SATSUKI_FIRSTMYTH  0x273 // Unused Flag
 #define FLAG_SATSUKI_TWOMYTHS  0x274 // Unused Flag
 #define FLAG_SASTUKI_THREEMYTHS  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
+#define FLAG_CHIA_CHAT 0x276 // Unused Flag
 #define FLAG_UNUSED_0x277  0x277 // Unused Flag
 #define FLAG_UNUSED_0x278  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag

@@ -905,9 +905,9 @@ static void PrintRecordText(u32 bossId)
 
 static const u8 *const sMythNames[] =
 {
-    COMPOUND_STRING("Life of Xerneas"),
-    COMPOUND_STRING("Storm of Lugia"),
-    COMPOUND_STRING("Shadow of Giratina"),
+    gText_XerneasMyth,
+    gText_LugiaMyth,
+    gText_GiratinaMyth,
 };
 
 
