@@ -164,6 +164,19 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Monks",
       "flag": "FLAG_MONKS_HANZO"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_CHISA",
+      "x": 42,
+      "y": 29,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_range_x": 2,
+      "movement_range_y": 2,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "0"
     }
   ],
   "warp_events": [],
@@ -382,30 +395,6 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
       "script": "Entrance_Archive"
-    },
-    {
-      "type": "sign",
-      "x": 32,
-      "y": 24,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "TEMP_Archive1"
-    },
-    {
-      "type": "sign",
-      "x": 33,
-      "y": 24,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "TEMP_Archive2"
-    },
-    {
-      "type": "sign",
-      "x": 34,
-      "y": 24,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "TEMP_Archive3"
     }
   ],
   "allow_cycling": false,
