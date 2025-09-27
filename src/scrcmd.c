@@ -3400,6 +3400,10 @@ void SetBoxFrame(struct ScriptContext *ctx)
     gSaveBlock2Ptr->optionsWindowFrameType = frame;
 }
 
+const u8 sMasquerainName[] = _("Bubbles");
+const u8 sMienshaoName[] = _("Lafary");
+const u8 sLiepardName[] = _("Ank Rogue");
+
 void SetupSatsukiBattle(void)
 {
     u8 stats[6] = {0, 0, 0, 0, 0, 0};
@@ -3415,8 +3419,11 @@ void SetupSatsukiBattle(void)
     ScriptGiveMonParameterized(0, 2, SPECIES_LIEPARD, 100, ITEM_NONE, 0, NATURE_HARDY, 2, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
 
     gSaveBlock1Ptr->playerSpecies[0] = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+    SetMonData(&gPlayerParty[0], MON_DATA_NICKNAME, sMasquerainName);
     gSaveBlock1Ptr->playerSpecies[1] = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
+    SetMonData(&gPlayerParty[1], MON_DATA_NICKNAME, sMienshaoName);
     gSaveBlock1Ptr->playerSpecies[2] = GetMonData(&gPlayerParty[2], MON_DATA_SPECIES);
+    SetMonData(&gPlayerParty[2], MON_DATA_NICKNAME, sLiepardName);
 }
 
 void GetBehindCounterPos(void)
