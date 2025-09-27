@@ -732,6 +732,13 @@ text Entrance_Text_Variations {
             "Lastly, Prayer features a manual weather setter.")
 }
 
+script Entrance_Archive {
+    lock
+    fadescreen(FADE_TO_BLACK)
+    openbook(PAGE_TEST)
+    release
+}
+
 script Entrance_PrayerGirl {
     lock
     faceplayer

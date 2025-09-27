@@ -509,7 +509,7 @@ static void DrawLeftText()
     AddTextPrinterParameterized4(WIN_TITLE,
                                  FONT_NORMAL,
                                  TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
-                                 sTarcUiWindowFontColors[FONT_BLACK],
+                                 sTarcUiWindowFontColors[FONT_WHITE],
                                  TEXT_SKIP_DRAW,
                                  currString);
     CopyWindowToVram(WIN_TITLE, COPYWIN_GFX);
