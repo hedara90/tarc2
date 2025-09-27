@@ -19269,7 +19269,7 @@ void BS_CureBoss(void)
     for (u32 j = 0; j < NUM_BATTLE_STATS; j++)
     {
         if (gBattleMons[1].statStages[j] < DEFAULT_STAT_STAGE)
-            gBattleMons[1].statStages[j] = DEFAULT_STAT_STAGE;
+            gBattleMons[1].statStages[j]++;
     }
 
     gBattleMons[gBattlerAttacker].status1 = 0;

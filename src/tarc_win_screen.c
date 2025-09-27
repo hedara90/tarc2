@@ -131,7 +131,7 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 
 #define TITLE_WIDTH 16
 #define TITLE_HEIGHT 2
-#define INFO_WIDTH 7
+#define INFO_WIDTH 9
 #define INFO_HEIGHT 6
 #define STAT_WIDTH 4
 #define STAT_HEIGHT 2
@@ -593,7 +593,7 @@ static void DrawText()
         u32 currChar = 0;
         for (u32 j = 0; j < 4; j++)
         {
-            u32 move = GetMonData(&gPlayerParty[j], MON_DATA_MOVE1 + j);
+            u32 move = GetMonData(&gPlayerParty[i], MON_DATA_MOVE1 + j);
             if (move == MOVE_NONE)
             {
                 text[currChar++] = CHAR_NEWLINE;

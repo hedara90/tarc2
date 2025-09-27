@@ -12846,6 +12846,8 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     if (mon->hp < mon->maxHP && mon->hp != 0)
     {
         u32 healFrac = mon->maxHP / TARC_HP_RESTORE_FRAC;
+        if (gBattleMons[1].species == SPECIES_LUGIA)
+            healFrac *= 2;
         if (healFrac > (mon->maxHP - mon->hp))
             mon->hp = mon->maxHP;
         else
