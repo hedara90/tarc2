@@ -2797,6 +2797,7 @@ static void Cmd_datahpupdate(void)
                         gBattlerAttacker = 1;
                         gBattlerTarget = 1;
                         gMultiHitCounter = 0;
+                        gBattleStruct->triedCDMove = FALSE;
                         gCurrentMove = MOVE_RECOVER;
                         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gBattlerAttacker].status1), &gBattleMons[gBattlerAttacker].status1);
                         MarkBattlerForControllerExec(gBattlerAttacker);
@@ -19269,7 +19270,7 @@ void BS_CureBoss(void)
     for (u32 j = 0; j < NUM_BATTLE_STATS; j++)
     {
         if (gBattleMons[1].statStages[j] < DEFAULT_STAT_STAGE)
-            gBattleMons[1].statStages[j] = DEFAULT_STAT_STAGE;
+            gBattleMons[1].statStages[j]++;
     }
 
     gBattleMons[gBattlerAttacker].status1 = 0;

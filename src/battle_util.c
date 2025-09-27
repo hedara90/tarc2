@@ -5609,7 +5609,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
             gBattleMons[gBattlerAttacker].danced = TRUE;
 
-        if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH)
+        if ((SearchTraits(battlerTraits, ABILITY_POISON_TOUCH) || SearchTraits(battlerTraits, ABILITY_POISON_POINT))
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && IsBattlerAlive(gBattlerTarget)
          && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
@@ -5620,7 +5620,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
          && RandomPercentage(RNG_POISON_TOUCH, 30))
         {
             gBattleScripting.moveEffect = MOVE_EFFECT_POISON;
-            gLastUsedAbility = ABILITY_POISON_TOUCH;
+            if (SearchTraits(battlerTraits, ABILITY_POISON_TOUCH))
+                gLastUsedAbility = ABILITY_POISON_TOUCH;
+            else
+                gLastUsedAbility = ABILITY_POISON_POINT;
             PREPARE_ABILITY_BUFFER(gBattleTextBuff1, gLastUsedAbility);
             PushTraitStack(gBattlerAttacker, gLastUsedAbility);
             BattleScriptPushCursor();
@@ -6437,18 +6440,21 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         && !gBattleStruct->isEndOfTurnWeather
         && !(gBattleMons[(battler + 1) & 0x1].status1 & STATUS1_FROSTBITE)
         && SearchTraits(battlerTraits, ABILITY_HOARFROST)
-        && CanBeFrozen((battler + 1) & 0x1, battler, GetBattlerAbility(battler)))
+        && CanBeFrozen(battler, (battler + 1) & 0x1, GetBattlerAbility(battler)))
        {
+           SaveBattlerTarget(gBattlerTarget);
            CreateAbilityPopUp(battler, ABILITY_HOARFROST, FALSE);
            gDisableStructs[battler].weatherAbilityDone = TRUE;
            gBattleScripting.battler = battler;
            gBattlerTarget = (battler + 1) & 0x1;
-           gBattlerAttacker = battler;
            PushTraitStack(battler, ABILITY_HOARFROST);
-           SetNonVolatileStatusCondition((battler + 1) & 0x1, MOVE_EFFECT_FREEZE_OR_FROSTBITE);
-           PushTraitStack(battler, ABILITY_HOARFROST);
-           BattleScriptPushCursor();
-           gBattlescriptCurrInstr = BattleScript_HoarfrostActivates;
+           gBattleMons[gBattlerTarget].status1 = STATUS1_FROSTBITE;
+           u32 value = STATUS1_FROSTBITE;
+           if (GetBattlerSide(gBattlerTarget) == B_SIDE_OPPONENT)
+               SetMonData(&gEnemyParty[0], MON_DATA_STATUS, &value);
+           else
+               SetMonData(&gPlayerParty[0], MON_DATA_STATUS, &value);
+           BattleScriptPushCursorAndCallback(BattleScript_HoarfrostActivates);
            effect++;
        }
        break;
@@ -12846,6 +12852,8 @@ void HealBackLineMon(struct BattlePokemon *mon, u32 index)
     if (mon->hp < mon->maxHP && mon->hp != 0)
     {
         u32 healFrac = mon->maxHP / TARC_HP_RESTORE_FRAC;
+        if (gBattleMons[1].species == SPECIES_LUGIA)
+            healFrac *= 2;
         if (healFrac > (mon->maxHP - mon->hp))
             mon->hp = mon->maxHP;
         else

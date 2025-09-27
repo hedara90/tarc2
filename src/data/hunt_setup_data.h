@@ -320,7 +320,7 @@ static const struct StarterPool sSnowPool =
         },
         {
             .species = SPECIES_GLACEON,
-            .moves = {MOVE_BLIZZARD, MOVE_FREEZE_DRY},
+            .moves = {MOVE_REFRACTION, MOVE_FREEZE_DRY},
         },
         {
             .species = SPECIES_DIANCIE,
@@ -352,7 +352,7 @@ static const struct StarterPool sSandPool =
         },
         {
             .species = SPECIES_DRACOZOLT,
-            .moves = {MOVE_BOLT_BEAK, MOVE_DRAGON_RUSH},
+            .moves = {MOVE_BOLT_BEAK, MOVE_DRAGON_CLAW},
         },
         {
             .species = SPECIES_STEELIX,

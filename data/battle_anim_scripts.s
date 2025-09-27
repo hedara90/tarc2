@@ -36503,3 +36503,71 @@ BanishBg:
 	createvisualtask AnimTask_FadeScreenToWhite, 5
 	waitbgfadein
 	return
+
+gBattleAnimMove_Refraction::
+	loadspritegfx ANIM_TAG_WHITE_STREAK
+	loadspritegfx ANIM_TAG_SPARKLE_3
+	loadspritegfx ANIM_TAG_PINK_ORB
+	setalpha 12, 8
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, F_PAL_BG, 3, 0, 12, RGB_BLACK
+	waitforvisualfinish
+	loopsewithpan SE_M_DOUBLE_TEAM, SOUND_PAN_ATTACKER, 10, 7
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -10, 3
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 24, -19
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -28, -15
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -6, -30
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -20, 6
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 28, 2
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -14, -25
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 9, -2
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -1, 0
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 21, 4
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 28, 20
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -7, 24
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -11, 1
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 12, -18
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -21, -14
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -29, 7
+	delay 2
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, 15, 28
+	delay 1
+	createsprite gRefractionStreakSpriteTemplate, ANIM_ATTACKER, 2, -21, -16
+	delay 2
+	waitforvisualfinish
+	playsewithpan SE_M_ATTRACT, SOUND_PAN_ATTACKER
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, -20, 9
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, -10, -15
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, 1, 17
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, -23, -16
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, 10, -6
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, -16, -7
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, 22, -7
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, -19, 11
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, 12, 12
+	delay 1
+	createsprite gRefractionSparkleSpriteTemplate, ANIM_ATTACKER, 2, 0, -17
+	waitforvisualfinish
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, F_PAL_BG, 3, 12, 0, RGB_BLACK
+	waitforvisualfinish
+	blendoff
+	end

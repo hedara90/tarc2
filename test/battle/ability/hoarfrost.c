@@ -7,9 +7,9 @@ SINGLE_BATTLE_TEST("Hoarfrost triggers when Snow is set")
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_HOARFROST); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SNOWSCAPE); }
-    } WHEN {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SNOWSCAPE, opponent);
+        TURN { MOVE(player, MOVE_SNOWSCAPE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SNOWSCAPE, player);
         STATUS_ICON(opponent, frostbite: TRUE);
         HP_BAR(opponent);
     }
@@ -22,11 +22,10 @@ SINGLE_BATTLE_TEST("Hoarfrost doesn't trigger at end of turn")
         OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
-        TURN { MOVE(player, MOVE_CELEBRATE); MOVE(opponent, MOVE_SNOWSCAPE); }
+        TURN { MOVE(player, MOVE_SNOWSCAPE); }
         TURN { SWITCH(opponent, 1); }
-    } WHEN {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SNOWSCAPE, opponent);
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SNOWSCAPE, player);
         STATUS_ICON(opponent, frostbite: TRUE);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, player);
         NONE_OF {
