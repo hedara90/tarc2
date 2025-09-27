@@ -17103,11 +17103,11 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
     [SPECIES_CELEBI] =
     {
         .baseHP        = 100,
-        .baseAttack    = 100,
-        .baseDefense   = 100,
+        .baseAttack    = 150,
+        .baseDefense   = 50,
         .baseSpeed     = 100,
-        .baseSpAttack  = 100,
-        .baseSpDefense = 100,
+        .baseSpAttack  = 150,
+        .baseSpDefense = 50,
         .types = MON_TYPES(TYPE_PSYCHIC, TYPE_GRASS),
         .catchRate = 45,
     #if P_UPDATED_EXP_YIELDS >= GEN_8
