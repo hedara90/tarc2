@@ -757,6 +757,8 @@ script Entrance_Archive {
             goto(Entrance_Archive_Lugia)
         case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
             goto(Entrance_Archive_Giratina)
+        case 3: closemessage
+            release
     }
     closemessage
     release
