@@ -745,6 +745,7 @@ text Entrance_Text_Variations {
 script Entrance_Archive {
     lock
     msgbox("Welcome to the Archive.\nSelect a topic.")
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
                     "The Lost Archipelago",
