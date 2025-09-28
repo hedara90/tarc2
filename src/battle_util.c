@@ -5827,9 +5827,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_PSYCHIC
-         && IsBattlerTurnDamaged(gBattlerTarget)
-         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && SearchTraits(battlerTraits, ABILITY_DREAD)
+         && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && CanBeParalyzed(gBattlerAttacker, gBattlerTarget, GetBattlerAbility(gBattlerTarget))
+         && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && RandomPercentage(RNG_STATIC, 30))
         {
             gBattleScripting.moveEffect = MOVE_EFFECT_PARALYSIS;
