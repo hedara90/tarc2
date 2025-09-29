@@ -19552,8 +19552,10 @@ void BS_DoPlanarImprisonment(void)
     NATIVE_ARGS();
     if (!TESTING)
     {
-        gLeftMon.isBanished = TRUE;
-        gRightMon.isBanished = TRUE;
+        if (gLeftMon.hp > 0)
+            gLeftMon.isBanished = TRUE;
+        if (gRightMon.hp > 0)
+            gRightMon.isBanished = TRUE;
         u32 value = gBattleMons[1].maxHP / TARC_PLANAR_IMPRISONMENT_FRACTION;
         SetMonData(&gEnemyParty[0], MON_DATA_HP, &value);
         gBattleMons[1].hp = value;
