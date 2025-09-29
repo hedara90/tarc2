@@ -3105,6 +3105,8 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .shinyPalette = gMonShinyPalette_GastrodonWestSea,
         .iconSprite = gMonIcon_GastrodonWestSea,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Gastrodon,
+        .portraitPal = gMonPortraitPal_Gastrodon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 3, SHADOW_SIZE_M)
         FOOTPRINT(Gastrodon)
@@ -3170,6 +3172,8 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .shinyPalette = gMonShinyPalette_GastrodonEast,
         .iconSprite = gMonIcon_GastrodonEast,
         .iconPalIndex = 0,
+        .portraitPic = gMonPortraitPic_Gastrodon,
+        .portraitPal = gMonPortraitPal_Gastrodon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 4, SHADOW_SIZE_M)
         FOOTPRINT(Gastrodon)
@@ -12411,7 +12415,6 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         )
         .levelUpLearnset = sHippowdonLevelUpLearnset,
         .teachableLearnset = sHippowdonTeachableLearnset,
-        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_HIPPOPOTAS
 

@@ -7883,7 +7883,6 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sTalonflameLevelUpLearnset,
         .teachableLearnset = sTalonflameTeachableLearnset,
-        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_FLETCHLING
 
@@ -11604,7 +11603,6 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sKlefkiLevelUpLearnset,
         .teachableLearnset = sKlefkiTeachableLearnset,
         .eggMoveLearnset = sKlefkiEggMoveLearnset,
-        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_KLEFKI
 
