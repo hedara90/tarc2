@@ -13178,7 +13178,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MINERAL),
-        .abilities = { ABILITY_TOXIC_DEBRIS, ABILITY_NONE, ABILITY_CORROSION },
+        .abilities = { ABILITY_POISON_POINT, ABILITY_NONE, ABILITY_CORROSION },
+        .innates = { ABILITY_CORROSION, ABILITY_MERCILESS, ABILITY_FILTER },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Glimmora"),
         .cryId = CRY_GLIMMORA,
@@ -13223,6 +13224,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGlimmoraLevelUpLearnset,
         .teachableLearnset = sGlimmoraTeachableLearnset,
+        .maxPhases = 2,
+        .moveReward = MOVE_REWARD_VENOSHOCK,
     },
 #endif //P_FAMILY_GLIMMET
 
