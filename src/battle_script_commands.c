@@ -7592,6 +7592,10 @@ static void Cmd_moveend(void)
              && IsBattlerAlive(gBattlerAttacker)
              && !NoAliveMonsForBattlerSide(gBattlerTarget))
             {
+                //  Need to clear the bit here
+                if (B_CHARGE >= GEN_9 && moveType == TYPE_ELECTRIC && (IsBattlerTurnDamaged(gBattlerTarget) || gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT))
+                    gStatuses3[gBattlerAttacker] &= ~(STATUS3_CHARGED_UP);
+
                 effect = TRUE;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_EffectHitEscape;
