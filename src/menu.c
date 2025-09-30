@@ -1833,6 +1833,9 @@ void PrintMenuActionTextsInUpperLeftCorner(u8 windowId, u8 itemCount, const stru
 
 void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
 {
+    if (gSkipYesNoBox)
+        return;
+
     struct TextPrinterTemplate printer;
 
     sYesNoWindowId = AddWindow(window);
@@ -2438,6 +2441,7 @@ void HideTarcMessagebox(void)
         }
         sMessageboxSpriteIds[i] = 255;
     }
+    gSkipYesNoBox = FALSE;
 }
 
 static void LoadTarcYesNoBox(void)

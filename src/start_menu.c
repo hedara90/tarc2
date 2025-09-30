@@ -56,6 +56,8 @@
 
 #include "tarc_info_menu.h"
 
+EWRAM_DATA bool32 gSkipYesNoBox = FALSE;
+
 // Menu actions
 enum
 {
@@ -807,6 +809,7 @@ static bool8 StartMenuSaveCallback(void)
     if (InBattlePyramid())
         RemoveExtraStartMenuWindows();
 
+    gSkipYesNoBox = TRUE;
     gMenuCallback = SaveStartCallback; // Display save menu
 
     return FALSE;

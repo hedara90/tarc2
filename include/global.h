@@ -1198,4 +1198,6 @@ extern u32 gDanceTimer;
 extern u32 gDance;
 extern bool32 gIsDancing;
 
+extern bool32 gSkipYesNoBox;
+
 #endif // GUARD_GLOBAL_H
