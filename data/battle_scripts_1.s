@@ -10179,6 +10179,8 @@ BattleScript_FlamesEmbrace::
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	tryfaintmon BS_TARGET
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
 	end2
 
 BattleScript_ThunderstrikeActive::
@@ -10190,6 +10192,8 @@ BattleScript_ThunderstrikeActive::
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	tryfaintmon BS_TARGET
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
 	end2
 
 BattleScript_ThunderstrikeLeft::

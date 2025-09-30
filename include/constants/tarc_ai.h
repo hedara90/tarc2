@@ -208,6 +208,7 @@ enum Bosses
     BOSS_FINAL_LUGIA,
     BOSS_FINAL_GIRATINA,
     BOSS_CELEBI,
+    BOSS_MINI_GLIMMORA,
 };
 
 #endif

@@ -6009,16 +6009,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_STATUS
+         && SearchTraits(battlerTraits, ABILITY_FATED_CHANGE)
          && !IsChargeMove(gCurrentMove)
          && !gBattleStruct->foreseenTrigger[battler]
-         && SearchTraits(battlerTraits, ABILITY_FATED_CHANGE)
          && !(gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] > gBattleTurnCounter))
         {
             gSideStatuses[GetBattlerSide((battler + 1) & 0x1)] |= SIDE_STATUS_FUTUREATTACK;
             gWishFutureKnock.futureSightMove[(battler + 1) & 0x1] = gCurrentMove;
             gWishFutureKnock.futureSightBattlerIndex[(battler + 1) & 0x1] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[(battler + 1) & 0x1] = gBattlerPartyIndexes[gBattlerAttacker];
-            gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3;
+            gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
@@ -6028,16 +6028,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_PHYSICAL
+         && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
+         && IsBattlerTurnDamaged(gBattlerTarget)
+         && !gBattleStruct->isEndOfTurnFuture
          && !gBattleStruct->foreseenTrigger[gBattlerAttacker]
          && !IsChargeMove(gCurrentMove)
-         && SearchTraits(battlerTraits, ABILITY_FATED_STRIKE)
          && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
         {
             gSideStatuses[GetBattlerSide(gBattlerTarget)] |= SIDE_STATUS_FUTUREATTACK;
             gWishFutureKnock.futureSightMove[gBattlerTarget] = gCurrentMove;
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
-            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
@@ -6047,10 +6049,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             effect++;
         }
         if (gMovesInfo[gCurrentMove].category == DAMAGE_CATEGORY_SPECIAL
+         && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
+         && IsBattlerTurnDamaged(gBattlerTarget)
          && !IsChargeMove(gCurrentMove)
          && !gBattleStruct->isEndOfTurnFuture
-         && !gBattleStruct->foreseenTrigger[battler]
-         && SearchTraits(battlerTraits, ABILITY_FATED_SIGHT)
+         && !gBattleStruct->foreseenTrigger[gBattlerAttacker]
          && gCurrentMove != MOVE_FUTURE_SIGHT
          && gCurrentMove != MOVE_DOOM_DESIRE
          && !(gWishFutureKnock.futureSightCounter[gBattlerTarget] > gBattleTurnCounter))
@@ -6059,7 +6062,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightMove[gBattlerTarget] = gCurrentMove;
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
-            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3;
+            gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
 
             gBattleStruct->fatedWorkaround = TRUE;
 

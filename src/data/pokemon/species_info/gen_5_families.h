@@ -16446,7 +16446,6 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         )
         .levelUpLearnset = sExcadrillLevelUpLearnset,
         .teachableLearnset = sExcadrillTeachableLearnset,
-        .isPlayer = TRUE,
     },
 #endif //P_FAMILY_DRILBUR
 

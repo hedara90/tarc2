@@ -7592,6 +7592,10 @@ static void Cmd_moveend(void)
              && IsBattlerAlive(gBattlerAttacker)
              && !NoAliveMonsForBattlerSide(gBattlerTarget))
             {
+                //  Need to clear the bit here
+                if (B_CHARGE >= GEN_9 && moveType == TYPE_ELECTRIC && (IsBattlerTurnDamaged(gBattlerTarget) || gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT))
+                    gStatuses3[gBattlerAttacker] &= ~(STATUS3_CHARGED_UP);
+
                 effect = TRUE;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_EffectHitEscape;
@@ -19548,8 +19552,10 @@ void BS_DoPlanarImprisonment(void)
     NATIVE_ARGS();
     if (!TESTING)
     {
-        gLeftMon.isBanished = TRUE;
-        gRightMon.isBanished = TRUE;
+        if (gLeftMon.hp > 0)
+            gLeftMon.isBanished = TRUE;
+        if (gRightMon.hp > 0)
+            gRightMon.isBanished = TRUE;
         u32 value = gBattleMons[1].maxHP / TARC_PLANAR_IMPRISONMENT_FRACTION;
         SetMonData(&gEnemyParty[0], MON_DATA_HP, &value);
         gBattleMons[1].hp = value;
