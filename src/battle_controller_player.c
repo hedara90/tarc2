@@ -54,6 +54,7 @@
 #include "graphics.h"
 
 #include "tarc_help_system.h"
+#include "tarc_speedup.h"
 
 static void PlayerBufferExecCompleted(u32 battler);
 static void PlayerHandleLoadMonSprite(u32 battler);
@@ -997,6 +998,8 @@ void HandleInputChooseMove(u32 battler)
         HideWeatherTimer();
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
+
+        StartSpeedup();
 
         u32 taskId = CreateTask(Task_SlideOutSideSprites, 0);
         gTasks[taskId].data[0] = 0;
@@ -2372,6 +2375,8 @@ static void PlayerHandleDrawTrainerPic(u32 battler)
     s16 xPos, yPos;
     u32 trainerPicId;
 
+    StartSpeedup();
+
     trainerPicId = PlayerGetTrainerBackPicId();
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
@@ -2495,6 +2500,7 @@ static void HandleChooseActionAfterDma3(u32 battler)
 
 static void PlayerHandleChooseAction(u32 battler)
 {
+    StopSpeedup();
     //  BATTLE SYSTEM CHANGE
     BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_MOVE, 0);
     PlayerBufferExecCompleted(battler);
@@ -2941,6 +2947,7 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
         SwitchActiveMonLeft();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
         gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;
+        StartSpeedup();
     }
     else if (JOY_NEW(R_BUTTON))
     {
@@ -2953,11 +2960,13 @@ static void NewPlayerHandleChoosePokemonInput(u32 battler)
         SwitchActiveMonRight();
         BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, 0, gBattlePartyCurrentOrder);
         gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonHide;
+        StartSpeedup();
     }
 }
 
 static void PlayerHandleChoosePokemon(u32 battler)
 {
+    StopSpeedup();
     gBattlerControllerFuncs[battler] = NewPlayerHandleChoosePokemonDisplay;
     sSwitchData = AllocZeroed(sizeof(struct NewSwitchData));
     return;
