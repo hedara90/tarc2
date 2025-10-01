@@ -199,7 +199,7 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
 
     bool8 isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
 
-    ScriptGiveMonParameterized(0, 0, sStarterSetters[monList].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 0, sStarterSetters[monList].species, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 
     gSaveBlock1Ptr->playerSpecies[0] = sStarterSetters[monList].species;
 
@@ -244,14 +244,14 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
     {
         moves[i] = pool->mons[index1].moves[i];
     }
-    ScriptGiveMonParameterized(0, 1, pool->mons[index1].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 1, pool->mons[index1].species, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 
     isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
     for (u32 i = 0; i < 2; i++)
     {
         moves[i] = pool->mons[index2].moves[i];
     }
-    ScriptGiveMonParameterized(0, 2, pool->mons[index2].species, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 2, pool->mons[index2].species, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, isShiny, FALSE, TYPE_NONE, 0);
 
     gSaveBlock1Ptr->playerSpecies[0] = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
     gSaveBlock1Ptr->playerSpecies[1] = GetMonData(&gPlayerParty[1], MON_DATA_SPECIES);
