@@ -107,8 +107,8 @@ DOUBLE_BATTLE_TEST("Dragon Darts strikes an opponent twice if electrified and th
         ASSUME(GetMoveEffect(MOVE_ELECTRIFY) == EFFECT_ELECTRIFY);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_LANTURN) { Ability(abilityLeft); };
-        OPPONENT(SPECIES_LANTURN) { Ability(abilityRight); };
+        OPPONENT(SPECIES_CHINCHOU) { Ability(abilityLeft); };
+        OPPONENT(SPECIES_CHINCHOU) { Ability(abilityRight); };
     } WHEN {
         TURN { MOVE(opponentRight, MOVE_ELECTRIFY, target: playerLeft); MOVE(playerLeft, MOVE_DRAGON_DARTS, target: chosenTarget); }
     } SCENE {

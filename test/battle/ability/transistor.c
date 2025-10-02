@@ -22,7 +22,7 @@ SINGLE_BATTLE_TEST("Transistor increases Electric-type attack / special attack",
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
         ASSUME(GetMoveCategory(MOVE_WILD_CHARGE) == DAMAGE_CATEGORY_PHYSICAL);
         ASSUME(GetMoveCategory(MOVE_THUNDER_SHOCK) == DAMAGE_CATEGORY_SPECIAL);
-        PLAYER(SPECIES_REGIELEKI) { Ability(ability); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ability); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, move); }
@@ -44,7 +44,7 @@ SINGLE_BATTLE_TEST("Transistor is blocked by neutralizing gas", s16 damage)
 
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
-        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_TRANSISTOR); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_TRANSISTOR); }
         OPPONENT(SPECIES_KOFFING) { Ability(ability); }
     } WHEN {
         TURN { MOVE(player, MOVE_THUNDER_SHOCK); }
@@ -73,7 +73,7 @@ SINGLE_BATTLE_TEST("Transistor increases Electric-type attack / special attack (
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
         ASSUME(GetMoveCategory(MOVE_WILD_CHARGE) == DAMAGE_CATEGORY_PHYSICAL);
         ASSUME(GetMoveCategory(MOVE_THUNDER_SHOCK) == DAMAGE_CATEGORY_SPECIAL);
-        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); Innates(ability); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_KLUTZ); Innates(ability); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, move); }
@@ -95,7 +95,7 @@ SINGLE_BATTLE_TEST("Transistor is blocked by neutralizing gas (Trait)", s16 dama
 
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
-        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_TRANSISTOR); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_TRANSISTOR); }
         OPPONENT(SPECIES_KOFFING) { Ability(ABILITY_LEVITATE); Innates(ability); }
     } WHEN {
         TURN { MOVE(player, MOVE_THUNDER_SHOCK); }
