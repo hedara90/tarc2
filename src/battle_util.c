@@ -13114,3 +13114,11 @@ u32 NumBattlerStatBoosts(u32 battler)
 
     return numBoosts;
 }
+
+bool32 IsLivingShadowProtected(u32 battler)
+{
+    if (BattlerHasTrait(battler, ABILITY_LIVING_SHADOW)
+     && gStatuses3[battler] & STATUS3_PHANTOM_FORCE)
+        return TRUE;
+    return FALSE;
+}
