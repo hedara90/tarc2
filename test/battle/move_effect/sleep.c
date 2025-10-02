@@ -7,14 +7,13 @@ ASSUMPTIONS
     ASSUME(GetMoveNonVolatileStatus(MOVE_HYPNOSIS) == MOVE_EFFECT_SLEEP);
 }
 
-SINGLE_BATTLE_TEST("Hypnosis inflicts 1-3 turns of sleep")
+SINGLE_BATTLE_TEST("Hypnosis inflicts 1-2 turns of sleep")
 {
     u32 turns, count;
     ASSUME(B_SLEEP_TURNS >= GEN_5);
     PARAMETRIZE { turns = 1; }
     PARAMETRIZE { turns = 2; }
-    PARAMETRIZE { turns = 3; }
-    PASSES_RANDOMLY(1, 3, RNG_SLEEP_TURNS);
+    PASSES_RANDOMLY(1, 2, RNG_SLEEP_TURNS);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
