@@ -1599,7 +1599,7 @@ static u32 FindValidThunderstrikeTarget(void)
     while (!foundValid)
     {
         target = Random32() % 3;
-        if (target == 0)
+        if (target == 0 && IsBattlerAlive(0))
         {
             StringCopy(gBattleTextBuff1, gSpeciesInfo[gBattleMons[0].species].speciesName);
             foundValid = TRUE;
@@ -1687,7 +1687,8 @@ static bool32 HandleEndTurnBirds(u32 battler)
             }
             effect = TRUE;
         }
-        else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
+        else if (SearchTraits(battlerTraits, ABILITY_INFERNO)
+              && IsBattlerAlive(0))
         {
             //  Damage active mon
             gBattlerTarget = 0;
