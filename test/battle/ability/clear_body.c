@@ -298,7 +298,7 @@ SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke don't prevent A
         NOT ABILITY_POPUP(opponent, ability);
         HP_BAR(player, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.75), results[1].damage);
     }
 }
 
@@ -750,7 +750,7 @@ SINGLE_BATTLE_TEST("Clear Body, Full Metal Body, and White Smoke don't prevent A
         NOT ABILITY_POPUP(opponent, innate);
         HP_BAR(player, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.75), results[1].damage);
     }
 }
 

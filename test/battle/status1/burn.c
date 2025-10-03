@@ -23,7 +23,7 @@ SINGLE_BATTLE_TEST("Burn deals 1/16th (Gen7+) or 1/8th damage per turn")
     }
 }
 
-SINGLE_BATTLE_TEST("Burn reduces Attack by 50%", s16 damage)
+SINGLE_BATTLE_TEST("Burn reduces Attack by 25%", s16 damage)
 {
     bool32 burned;
     PARAMETRIZE { burned = FALSE; }
@@ -37,7 +37,7 @@ SINGLE_BATTLE_TEST("Burn reduces Attack by 50%", s16 damage)
     } SCENE {
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.75), results[1].damage);
     }
 }
 

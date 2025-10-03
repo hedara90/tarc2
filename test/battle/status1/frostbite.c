@@ -1,7 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
 
-SINGLE_BATTLE_TEST("Frostbite reduces the special attack by 50 percent")
+SINGLE_BATTLE_TEST("Frostbite reduces the special attack by 25 percent")
 {
     s16 reducedDamage;
     s16 normaleDamage;
@@ -9,7 +9,7 @@ SINGLE_BATTLE_TEST("Frostbite reduces the special attack by 50 percent")
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_SWIFT) == DAMAGE_CATEGORY_SPECIAL);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Status1(STATUS1_FROSTBITE); }
+        OPPONENT(SPECIES_XURKITREE) { Status1(STATUS1_FROSTBITE); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_SWIFT); MOVE(player, MOVE_FLAME_WHEEL); }
         TURN { MOVE(opponent, MOVE_SWIFT); }
@@ -20,7 +20,7 @@ SINGLE_BATTLE_TEST("Frostbite reduces the special attack by 50 percent")
         HP_BAR(opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SWIFT, opponent);
         HP_BAR(player, captureDamage: &normaleDamage);
-   } THEN { EXPECT_EQ(reducedDamage * 2, normaleDamage); }
+   } THEN { EXPECT_MUL_EQ(reducedDamage * 4, UQ_4_12(1.0), normaleDamage * 3); }
 }
 
 SINGLE_BATTLE_TEST("Frostbite deals 1/16th (Gen7+) or 1/8th damage to affected pokemon")

@@ -10385,11 +10385,11 @@ static inline uq4_12_t GetBurnOrFrostBiteModifier(struct DamageCalculationData *
         && IsBattleMovePhysical(move)
         && (B_BURN_FACADE_DMG < GEN_6 || moveEffect != EFFECT_FACADE)
         && !BattlerHasTrait(battlerAtk, ABILITY_GUTS))
-        return UQ_4_12(0.5);
+        return UQ_4_12(0.75);
     if (gBattleMons[battlerAtk].status1 & STATUS1_FROSTBITE
         && IsBattleMoveSpecial(move)
         && (B_BURN_FACADE_DMG < GEN_6 || moveEffect != EFFECT_FACADE))
-        return UQ_4_12(0.5);
+        return UQ_4_12(0.75);
     return UQ_4_12(1.0);
 }
 
