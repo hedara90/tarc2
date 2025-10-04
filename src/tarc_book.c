@@ -169,6 +169,7 @@ static void Task_TarcUiWaitFadeAndExitGracefully(u8 taskId);
 
 void Tarc_InitBookScreen(MainCallback callback, enum BookPages page)
 {
+    HideTarcMessagebox();
     sTarcUiState = AllocZeroed(sizeof(struct Tarc_BookState));
     if (sTarcUiState == NULL)
     {

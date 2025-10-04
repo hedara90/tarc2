@@ -11187,6 +11187,8 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .shinyPalette = gMonShinyPalette_Sandaconda,
         .iconSprite = gMonIcon_Sandaconda,
         .iconPalIndex = 1,
+        .portraitPic = gMonPortraitPic_Sandaconda,
+        .portraitPal = gMonPortraitPal_Sandaconda,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, -1, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Sandaconda)

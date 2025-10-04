@@ -3513,3 +3513,23 @@ const struct BossAi sCelebiAi =
         &sCelebi1,
     },
 };
+
+const struct BossMoveList sGlimmora1 =
+{
+    .numMoves = 4,
+    .moves = {
+        MOVE_TOXIC,
+        MOVE_SLUDGE_BOMB,
+        MOVE_VENOSHOCK,
+        MOVE_POWER_GEM,
+    },
+};
+
+const struct BossAi sGlimmoraAi =
+{
+    .phaseMoves =
+    {
+        &sGlimmora1,
+        &sGlimmora1,
+    },
+};

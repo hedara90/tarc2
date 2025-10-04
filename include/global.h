@@ -579,7 +579,7 @@ struct SaveBlock2
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
-             //u16 padding1:4;
+             u16 speedup:4;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u8 filler_90[0x4];
@@ -1197,5 +1197,7 @@ extern bool32 gLoadFail;
 extern u32 gDanceTimer;
 extern u32 gDance;
 extern bool32 gIsDancing;
+
+extern bool32 gSkipYesNoBox;
 
 #endif // GUARD_GLOBAL_H

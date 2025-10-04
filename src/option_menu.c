@@ -17,6 +17,7 @@
 #include "constants/rgb.h"
 #include "constants/speaker_names.h"
 #include "tarc_debug.h"
+#include "tarc_speedup.h"
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
@@ -33,7 +34,7 @@ enum
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     //MENUITEM_BUTTONMODE,
-    //MENUITEM_FRAMETYPE,
+    MENUITEM_FRAMETYPE,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -64,9 +65,9 @@ static u8 BattleStyle_ProcessInput(u8 selection);
 static void BattleStyle_DrawChoices(u8 selection);
 static u8 Sound_ProcessInput(u8 selection);
 static void Sound_DrawChoices(u8 selection);
-/*
 static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection);
+/*
 static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection);
 */
@@ -87,7 +88,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
     [MENUITEM_SOUND]       = gText_Sound,
     //[MENUITEM_BUTTONMODE]  = gText_ButtonMode,
-    //[MENUITEM_FRAMETYPE]   = gText_Frame,
+    [MENUITEM_FRAMETYPE]   = gText_Frame,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
@@ -237,14 +238,14 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tBattleStyle = gShouldShowDebugInfo;
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
-        gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+        gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->speedup;
 
         TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
         BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
         BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle);
         Sound_DrawChoices(gTasks[taskId].tSound);
         //ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
-        //FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
+        FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
         CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
@@ -334,6 +335,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tButtonMode)
                 ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
             break;
+        */
         case MENUITEM_FRAMETYPE:
             previousOption = gTasks[taskId].tWindowFrameType;
             gTasks[taskId].tWindowFrameType = FrameType_ProcessInput(gTasks[taskId].tWindowFrameType);
@@ -341,7 +343,6 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tWindowFrameType)
                 FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
             break;
-        */
         default:
             return;
         }
@@ -361,7 +362,7 @@ static void Task_OptionMenuSave(u8 taskId)
     //gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
-    gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
+    gSaveBlock2Ptr->speedup = gTasks[taskId].tWindowFrameType;
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -535,18 +536,17 @@ static void Sound_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), YPOS_SOUND, styles[1]);
 }
 
-/*
 static u8 FrameType_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
     {
-        if (selection < WINDOW_FRAMES_COUNT - 1)
+        if (selection < MAX_SPEEDUP)
             selection++;
         else
             selection = 0;
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
-        LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        //LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        //LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         sArrowPressed = TRUE;
     }
     if (JOY_NEW(DPAD_LEFT))
@@ -554,21 +554,22 @@ static u8 FrameType_ProcessInput(u8 selection)
         if (selection != 0)
             selection--;
         else
-            selection = WINDOW_FRAMES_COUNT - 1;
+            selection = MAX_SPEEDUP;
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
-        LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        //LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        //LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         sArrowPressed = TRUE;
     }
     return selection;
 }
-*/
 
-/*
+static const u8 sSpeedX[] = _("x    ");
+static const u8 sOff[] = _("OFF        ");
+
 static void FrameType_DrawChoices(u8 selection)
 {
     u8 text[16] = {EOS};
-    u8 n = selection + 1;
+    u8 n = selection;
     u16 i;
 
     for (i = 0; gText_FrameTypeNumber[i] != EOS && i <= 5; i++)
@@ -592,10 +593,16 @@ static void FrameType_DrawChoices(u8 selection)
 
     text[i] = EOS;
 
-    DrawOptionMenuChoice(gText_FrameType, 104, YPOS_FRAMETYPE, 0);
-    DrawOptionMenuChoice(text, 128, YPOS_FRAMETYPE, 1);
+    if (selection == 0)
+    {
+        DrawOptionMenuChoice(sOff, 104, YPOS_FRAMETYPE, 0);
+    }
+    else
+    {
+        DrawOptionMenuChoice(sSpeedX, 104, YPOS_FRAMETYPE, 0);
+        DrawOptionMenuChoice(text, 128, YPOS_FRAMETYPE, 1);
+    }
 }
-*/
 
 /*
 static u8 ButtonMode_ProcessInput(u8 selection)

@@ -567,12 +567,14 @@ script Entrance_PlayerTerminal {
                     "Story structure",
                     "Battle mechanics",
                     "Affinity",
+                    "Speedup",
                     "Exit")
     switch(var(VAR_RESULT)){
         case 0: goto(Entrance_PlayerTerminal_Story)
         case 1: goto(Entrance_PlayerTerminal_Battle)
         case 2: goto(Entrance_PlayerTerminal_Affinity)
-        case 3: goto(Entrance_PlayerTerminal_Exit)
+        case 3: goto(Entrance_PlayerTerminal_Speedup)
+        case 4: goto(Entrance_PlayerTerminal_Exit)
     }
     goto(Entrance_PlayerTerminal_Exit)
 }
@@ -742,9 +744,17 @@ text Entrance_Text_Variations {
             "Lastly, Prayer features a manual weather setter.")
 }
 
+script Entrance_PlayerTerminal_Speedup {
+    msgbox(format("The Bodhai system is capable of accelerating perceived time in battles.\p"
+                  "It can be enabled in the Option menu, then adjusted in battle during animations with {L_BUTTON} and {R_BUTTON}, or paused completely with {B_BUTTON}."))
+    msgbox(format("{SPEAKER NAME_PLAYER}(Isn't this just making me work more hours per… hour?"))
+    goto(Entrance_PlayerTerminal)
+}
+
 script Entrance_Archive {
     lock
     msgbox("Welcome to the Archive.\nSelect a topic.")
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
                     "The Lost Archipelago",
