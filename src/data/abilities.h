@@ -2813,7 +2813,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     },
     [ABILITY_RISING_TIDE] =
     {
-        .name = _("Rising Ride"),
+        .name = _("Rising Tide"),
         .description = COMPOUND_STRING("Revives after 4 turns with\nhalf hp as Water type."),
         .aiRating = 9,
         .category = AC_EOT,
