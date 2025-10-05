@@ -10159,6 +10159,7 @@ BattleScript_HailstoneFall::
 	printstring STRINGID_SLEET_STORM
 	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
+	jumpiffainted BS_ATTACKER, TRUE, HailstoneFallEnd
 	hitanimation BS_ATTACKER
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
@@ -10166,6 +10167,7 @@ BattleScript_HailstoneFall::
 	tryfaintmon BS_ATTACKER
 	checkteamslost BattleScript_DoTurnDmgEnd
 	tryrestorehpberry
+HailstoneFallEnd:
 	restoreattacker
 	end2
 
@@ -10179,6 +10181,8 @@ BattleScript_FlamesEmbrace::
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	tryfaintmon BS_TARGET
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
 	end2
 
 BattleScript_ThunderstrikeActive::
@@ -10190,6 +10194,8 @@ BattleScript_ThunderstrikeActive::
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	tryfaintmon BS_TARGET
+	checkteamslost BattleScript_DoTurnDmgEnd
+	tryrestorehpberry
 	end2
 
 BattleScript_ThunderstrikeLeft::

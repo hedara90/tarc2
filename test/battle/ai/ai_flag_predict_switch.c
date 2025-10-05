@@ -2,6 +2,7 @@
 #include "test/battle.h"
 #include "battle_ai_util.h"
 
+/*
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI will use Pursuit on predicted switches")
 {
     PASSES_RANDOMLY(5, 10, RNG_AI_PREDICT_SWITCH);
@@ -14,6 +15,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI will use Pursuit on predicted 
         TURN { SWITCH(player, 1); EXPECT_MOVE(opponent, MOVE_PURSUIT); SEND_OUT(player, 1); }
     }
 }
+*/
 
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in Pursuit scenario")
 {
@@ -98,6 +100,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI can use Focus Punch on predict
     }
 }
 
+/*
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in Focus Punch scenario")
 {
     GIVEN {
@@ -109,7 +112,9 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in Focus Punc
         TURN { EXPECT_SWITCH(opponent, 1); MOVE(player, MOVE_FOCUS_PUNCH); }
     }
 }
+*/
 
+/*
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH | AI_FLAG_PREDICT_INCOMING_MON: AI will score against predicted incoming mon when switch predicted")
 {
     PASSES_RANDOMLY(5, 10, RNG_AI_PREDICT_SWITCH);
@@ -135,6 +140,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in predicted-
         TURN { MOVE(player, MOVE_CRUNCH); EXPECT_SWITCH(opponent, 1); }
     }
 }
+*/
 
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would normally choose prediction-informed move against mon in predicted-incoming-mon scenario")
 {

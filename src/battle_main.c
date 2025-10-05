@@ -79,6 +79,7 @@
 
 #include "tarc_help_system.h"
 #include "tarc_debug.h"
+#include "tarc_speedup.h"
 
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
@@ -2981,29 +2982,24 @@ void SpriteCB_PlayerMonSlideIn(struct Sprite *sprite)
 {
     if (sprite->data[3] == 0)
     {
+        sprite->x = -28;
         PlaySE(SE_BALL_TRAY_ENTER);
         sprite->data[3]++;
     }
     else if (sprite->data[3] == 1)
     {
-        if (sprite->animEnded)
-            return;
-        sprite->data[4] = sprite->x;
-        sprite->x = -33;
         sprite->invisible = FALSE;
         sprite->data[3]++;
     }
-    else if (sprite->data[3] < 27)
+    else if (sprite->data[3] < 22)
     {
-        sprite->x += 4;
+        sprite->x += 5;
         sprite->data[3]++;
     }
     else
     {
         sprite->data[3] = 0;
-        sprite->x = sprite->data[4];
-        sprite->data[4] = 0;
-        sprite->callback = SpriteCB_PlayerMonFromBall;
+        sprite->callback = SpriteCallbackDummy;
         PlayCry_ByMode(sprite->sSpeciesId, -25, CRY_MODE_NORMAL);
     }
 }
@@ -5717,6 +5713,7 @@ static void HandleEndTurn_MonFled(void)
 
 static void HandleEndTurn_FinishBattle(void)
 {
+    StopSpeedup();
     u32 i, battler;
 
     if (gCurrentActionFuncId == B_ACTION_TRY_FINISH || gCurrentActionFuncId == B_ACTION_FINISHED)

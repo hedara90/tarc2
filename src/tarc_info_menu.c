@@ -858,8 +858,8 @@ static void PrintRunsText(void)
 {
     u8 tempStr[11];
     u32 trainerId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
-    tempStr[0] = CHAR_0;
-    tempStr[1] = CHAR_x;
+    tempStr[0] = ConvertToHex(RECORDKEEPERS_VERSION % 16) - 1;
+    tempStr[1] = CHAR_x + RECORDKEEPERS_VERSION / 16;
     for (u32 i = 0; i < 8; i++)
         tempStr[2 + i] = ConvertToHex((trainerId >> (28 - (i * 4))) & 0xF);
     tempStr[10] = EOS;

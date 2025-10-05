@@ -426,5 +426,6 @@ u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr);
 void SwitchActiveMonLeft(void);
 void SwitchActiveMonRight(void);
 void AnimateSentinel(void);
+bool32 IsLivingShadowProtected(u32 battler);
 
 #endif // GUARD_BATTLE_UTIL_H

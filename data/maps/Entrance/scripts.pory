@@ -418,27 +418,27 @@ script Entrance_Satsuki_Deciphering {
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("{SPEAKER NAME_PLAYER}Yeah, you did mention them.\p"
-            "They've got all this tech to figure out when and where something happened, right?")
+            "They've got all this tech to figure\nout when and where something\lhappened, right?")
     closemessage
     msgbox("{SPEAKER NAME_SATSUKI}{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
-            "But yes. They have ways of figuring out where and when a myth originated.\p"
-            "That's the limit though. They can't determine the actual events.")
+            "But yes. They have ways of figuring\nout where and when a myth\loriginated.\p"
+            "That's the limit though. They can't\ndetermine the actual events.")
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_SATSUKI}So naturally, that's where we step in.\p"
-            "I've not recently had contact with them, though."
-            "Elio's not been answering me, and I don't have any other direct contact points.\p"
-            "Had to go through the 'Official' channels.\p"
+    msgbox("{SPEAKER NAME_SATSUKI}So naturally,\nthat's where we step in.\p"
+            "I've not recently had contact with\nthem, though.\p"
+            "Elio's not been answering me, and\nI don't have any other direct\lcontact points.\p"
+            "Had to go through the 'Official'\nchannels.\p"
             "I dislike all this bureaucracy.")
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
-    msgbox("{SPEAKER NAME_PLAYER}Haha, yeah you never were one for strict rules.")
+    msgbox("{SPEAKER NAME_PLAYER}Haha, yeah you never were one for\nstrict rules.")
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("{SPEAKER NAME_SATSUKI}Shush, I can always add more rules.\p")
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_SATSUKI}But yeah, that's the situation."
-            "Will take some time before we get anything new.\p")
+    msgbox("{SPEAKER NAME_SATSUKI}But yeah, that's the situation.\p"
+            "Will take some time before we get\nanything new.")
 }
 
 script Entrance_Satsuki_Bodhai {
@@ -567,12 +567,14 @@ script Entrance_PlayerTerminal {
                     "Story structure",
                     "Battle mechanics",
                     "Affinity",
+                    "Speedup",
                     "Exit")
     switch(var(VAR_RESULT)){
         case 0: goto(Entrance_PlayerTerminal_Story)
         case 1: goto(Entrance_PlayerTerminal_Battle)
         case 2: goto(Entrance_PlayerTerminal_Affinity)
-        case 3: goto(Entrance_PlayerTerminal_Exit)
+        case 3: goto(Entrance_PlayerTerminal_Speedup)
+        case 4: goto(Entrance_PlayerTerminal_Exit)
     }
     goto(Entrance_PlayerTerminal_Exit)
 }
@@ -742,9 +744,17 @@ text Entrance_Text_Variations {
             "Lastly, Prayer features a manual weather setter.")
 }
 
+script Entrance_PlayerTerminal_Speedup {
+    msgbox(format("The Bodhai system is capable of accelerating perceived time in battles.\p"
+                  "It can be enabled in the Option menu, then adjusted in battle during animations with {L_BUTTON} and {R_BUTTON}, or paused completely with {B_BUTTON}."))
+    msgbox(format("{SPEAKER NAME_PLAYER}(Isn't this just making me work more hours per… hour?"))
+    goto(Entrance_PlayerTerminal)
+}
+
 script Entrance_Archive {
     lock
     msgbox("Welcome to the Archive.\nSelect a topic.")
+    setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
                     "Overflowing Abundance",
                     "The Lost Archipelago",
@@ -757,6 +767,8 @@ script Entrance_Archive {
             goto(Entrance_Archive_Lugia)
         case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
             goto(Entrance_Archive_Giratina)
+        case 3: closemessage
+            release
     }
     closemessage
     release

@@ -124,18 +124,18 @@ SINGLE_BATTLE_TEST("Heal Bell cures inactive Soundproof Pokemon (Gen5+)")
         ASSUME(IsSoundMove(MOVE_HEAL_BELL));
         WITH_CONFIG(GEN_CONFIG_HEAL_BELL_SOUNDPROOF, config);
         PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_POISON); }
-        PLAYER(SPECIES_EXPLOUD) { Ability(ability); Status1(STATUS1_POISON); }
+        PLAYER(SPECIES_WYNAUT) { Ability(ability); Status1(STATUS1_POISON); }
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(player, MOVE_HEAL_BELL, target: player); }
         TURN { SWITCH(player, 1); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_HEAL_BELL, player);
-        SEND_IN_MESSAGE("Exploud");
+        SEND_IN_MESSAGE("Wynaut");
         if (ability == ABILITY_SCRAPPY || config >= GEN_5) {
-            NOT MESSAGE("Exploud was hurt by its poisoning!");
+            NOT MESSAGE("Wynaut was hurt by its poisoning!");
         } else {
-            MESSAGE("Exploud was hurt by its poisoning!");
+            MESSAGE("Wynaut was hurt by its poisoning!");
         }
     }
 }
@@ -176,18 +176,18 @@ SINGLE_BATTLE_TEST("Heal Bell cures inactive Soundproof Pokemon (Gen5+) (Trait)"
         ASSUME(IsSoundMove(MOVE_HEAL_BELL));
         WITH_CONFIG(GEN_CONFIG_HEAL_BELL_SOUNDPROOF, config);
         PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_POISON); }
-        PLAYER(SPECIES_EXPLOUD) { Ability(ABILITY_SCRAPPY); Innates(ability); Status1(STATUS1_POISON); }
+        PLAYER(SPECIES_WYNAUT) { Ability(ABILITY_SCRAPPY); Innates(ability); Status1(STATUS1_POISON); }
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(player, MOVE_HEAL_BELL, target: player); }
         TURN { SWITCH(player, 1); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_HEAL_BELL, player);
-        SEND_IN_MESSAGE("Exploud");
+        SEND_IN_MESSAGE("Wynaut");
         if (ability == ABILITY_SCRAPPY || config >= GEN_5) {
-            NOT MESSAGE("Exploud was hurt by its poisoning!");
+            NOT MESSAGE("Wynaut was hurt by its poisoning!");
         } else {
-            MESSAGE("Exploud was hurt by its poisoning!");
+            MESSAGE("Wynaut was hurt by its poisoning!");
         }
     }
 }

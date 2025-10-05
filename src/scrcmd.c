@@ -3410,13 +3410,13 @@ void SetupSatsukiBattle(void)
 
     u16 moves[4] = {MOVE_STRUGGLE_BUG, MOVE_AIR_CUTTER, MOVE_NONE, MOVE_NONE};
 
-    ScriptGiveMonParameterized(0, 0, SPECIES_MASQUERAIN, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 0, SPECIES_MASQUERAIN, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
     moves[0] = MOVE_POISON_JAB;
     moves[1] = MOVE_POWER_UP_PUNCH;
-    ScriptGiveMonParameterized(0, 1, SPECIES_MIENSHAO, 100, ITEM_NONE, 0, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 1, SPECIES_MIENSHAO, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 0, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
     moves[0] = MOVE_FROSTWISP;
     moves[1] = MOVE_NIGHT_SLASH;
-    ScriptGiveMonParameterized(0, 2, SPECIES_LIEPARD, 100, ITEM_NONE, 0, NATURE_HARDY, 2, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
+    ScriptGiveMonParameterized(0, 2, SPECIES_LIEPARD, 100, ITEM_NONE, BALL_POKE, NATURE_HARDY, 2, MON_GENDERLESS, stats, stats, moves, FALSE, FALSE, TYPE_NONE, 0);
 
     gSaveBlock1Ptr->playerSpecies[0] = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
     SetMonData(&gPlayerParty[0], MON_DATA_NICKNAME, sMasquerainName);

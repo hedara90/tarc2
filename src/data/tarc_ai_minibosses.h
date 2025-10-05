@@ -1685,7 +1685,7 @@ const struct BossAi sDrapionAi =
 
 const struct BossMoveList sToxicroak1 =
 {
-    .numMoves = 5,
+    .numMoves = 4,
     .moves =
     {
         MOVE_FURY_SWIPES,
@@ -3511,5 +3511,25 @@ const struct BossAi sCelebiAi =
         &sCelebi1,
         &sCelebi1,
         &sCelebi1,
+    },
+};
+
+const struct BossMoveList sGlimmora1 =
+{
+    .numMoves = 4,
+    .moves = {
+        MOVE_TOXIC,
+        MOVE_SLUDGE_BOMB,
+        MOVE_VENOSHOCK,
+        MOVE_POWER_GEM,
+    },
+};
+
+const struct BossAi sGlimmoraAi =
+{
+    .phaseMoves =
+    {
+        &sGlimmora1,
+        &sGlimmora1,
     },
 };

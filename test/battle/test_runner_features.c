@@ -12,10 +12,10 @@ ASSUMPTIONS {
 SINGLE_BATTLE_TEST("Forced abilities activate on switch-in")
 {
     GIVEN {
-        PLAYER(SPECIES_ALAKAZAM);
+        PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_KADABRA) { Ability(ABILITY_QUARK_DRIVE); SpAttack(400);}
         OPPONENT(SPECIES_ARON);
-        OPPONENT(SPECIES_ALAKAZAM) { Ability(ABILITY_ELECTRIC_SURGE); };
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_ELECTRIC_SURGE); };
     } WHEN {
         TURN { SWITCH(player, 1); SWITCH(opponent, 1);}
     } SCENE {
@@ -29,10 +29,10 @@ SINGLE_BATTLE_TEST("Forced abilities activate on switch-in")
 SINGLE_BATTLE_TEST("INNATE: Forced abilities activate on switch-in")
 {
     GIVEN {
-        PLAYER(SPECIES_ALAKAZAM);
+        PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_KADABRA) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_QUARK_DRIVE); SpAttack(400);}
         OPPONENT(SPECIES_ARON);
-        OPPONENT(SPECIES_ALAKAZAM) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_ELECTRIC_SURGE); };
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_ELECTRIC_SURGE); };
     } WHEN {
         TURN { SWITCH(player, 1); SWITCH(opponent, 1);}
     } SCENE {

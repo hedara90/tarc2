@@ -1,7 +1,6 @@
 #include "global.h"
 #include "test/battle.h"
 
-/*
 SINGLE_BATTLE_TEST("Aura of Vitality increases healing by 50%")
 {
     s16 healing[2];
@@ -16,7 +15,7 @@ SINGLE_BATTLE_TEST("Aura of Vitality increases healing by 50%")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_RECOVER, opponent);
         HP_BAR(opponent, captureDamage: &healing[1]);
     } THEN {
-        EXPECT_MUL_EQ(healing[1], Q_4_12(1.5), healing[0]);
+        EXPECT_MUL_EQ(healing[1], Q_4_12(1.2), healing[0]);
     }
 }
 
@@ -37,4 +36,3 @@ SINGLE_BATTLE_TEST("Aura of Vitality doesn't affect damage", s16 damage)
         EXPECT_EQ(results[0].damage, results[1].damage);
     }
 }
-*/

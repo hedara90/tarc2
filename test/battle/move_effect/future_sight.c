@@ -19,9 +19,9 @@ SINGLE_BATTLE_TEST("Future Sight uses Sp. Atk stat of the original user without 
     PARAMETRIZE { item = ITEM_PSYCHIC_GEM; }
 
     GIVEN {
-        PLAYER(SPECIES_PIKACHU) { Item(item); }
-        PLAYER(SPECIES_RAICHU) { Item(item); }
-        OPPONENT(SPECIES_REGICE);
+        PLAYER(SPECIES_CHANSEY) { Item(item); }
+        PLAYER(SPECIES_WOBBUFFET) { Item(item); }
+        OPPONENT(SPECIES_CHANSEY);
     } WHEN {
         TURN { MOVE(player, MOVE_SEED_FLARE, WITH_RNG(RNG_SECONDARY_EFFECT, FALSE)); }
         TURN { MOVE(player, MOVE_FUTURE_SIGHT); }
@@ -32,7 +32,7 @@ SINGLE_BATTLE_TEST("Future Sight uses Sp. Atk stat of the original user without 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SEED_FLARE, player);
         HP_BAR(opponent, captureDamage: &seedFlareDmg);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
-        MESSAGE("The opposing Regice took the Future Sight attack!");
+        MESSAGE("The opposing Chansey took the Future Sight attack!");
         HP_BAR(opponent, captureDamage: &futureSightDmg);
     } THEN {
         EXPECT_EQ(seedFlareDmg, futureSightDmg);
@@ -45,8 +45,8 @@ SINGLE_BATTLE_TEST("Future Sight is not boosted by Life Orb is original user if 
     s16 futureSightDmg;
 
     GIVEN {
-        PLAYER(SPECIES_PIKACHU);
-        PLAYER(SPECIES_RAICHU) { Item(ITEM_LIFE_ORB); }
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_LIFE_ORB); }
         OPPONENT(SPECIES_REGICE);
     } WHEN {
         TURN { MOVE(player, MOVE_SEED_FLARE, WITH_RNG(RNG_SECONDARY_EFFECT, FALSE)); }
@@ -60,7 +60,8 @@ SINGLE_BATTLE_TEST("Future Sight is not boosted by Life Orb is original user if 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FUTURE_SIGHT, player);
         MESSAGE("The opposing Regice took the Future Sight attack!");
         HP_BAR(opponent, captureDamage: &futureSightDmg);
-        NOT MESSAGE("Raichu was hurt by its Life Orb!");
+        //NOT MESSAGE("Wobbuffet was hurt by its Life Orb!");
+        NOT HP_BAR(player);
     } THEN {
         EXPECT_EQ(seedFlareDmg, futureSightDmg);
     }
@@ -73,8 +74,8 @@ SINGLE_BATTLE_TEST("Future Sight receives STAB from party mon")
 
     GIVEN {
         PLAYER(SPECIES_RALTS);
-        PLAYER(SPECIES_RAICHU);
-        OPPONENT(SPECIES_REGICE);
+        PLAYER(SPECIES_CHANSEY);
+        OPPONENT(SPECIES_CHANSEY);
     } WHEN {
         TURN { MOVE(player, MOVE_SEED_FLARE, WITH_RNG(RNG_SECONDARY_EFFECT, FALSE)); }
         TURN { MOVE(player, MOVE_FUTURE_SIGHT); }

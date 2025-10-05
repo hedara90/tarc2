@@ -137,20 +137,22 @@ static const struct BgTemplate sTarcUiBgTemplates[] =
 #define STAT_HEIGHT 2
 #define ID_WIDTH 7
 #define ID_HEIGHT 2
+#define ABI_WIDTH 11
 
 #define TITLE_SIZE TITLE_WIDTH * TITLE_HEIGHT
 #define INFO_SIZE INFO_WIDTH * INFO_HEIGHT
 #define STAT_SIZE STAT_WIDTH * STAT_HEIGHT
 #define ID_SIZE ID_WIDTH * ID_HEIGHT
+#define ABI_SIZE ABI_WIDTH * INFO_HEIGHT
 
 #define TITLE_BASEBLOCK 1
 #define MOVE1_BASEBLOCK     TITLE_BASEBLOCK + TITLE_SIZE
 #define ABI1_BASEBLOCK      MOVE1_BASEBLOCK + INFO_SIZE
-#define MOVE2_BASEBLOCK     ABI1_BASEBLOCK + INFO_SIZE
+#define MOVE2_BASEBLOCK     ABI1_BASEBLOCK + ABI_SIZE
 #define ABI2_BASEBLOCK      MOVE2_BASEBLOCK + INFO_SIZE
-#define MOVE3_BASEBLOCK     ABI2_BASEBLOCK + INFO_SIZE
+#define MOVE3_BASEBLOCK     ABI2_BASEBLOCK + ABI_SIZE
 #define ABI3_BASEBLOCK      MOVE3_BASEBLOCK + INFO_SIZE
-#define STAT_BASEBLOCK      ABI3_BASEBLOCK + INFO_SIZE
+#define STAT_BASEBLOCK      ABI3_BASEBLOCK + ABI_SIZE
 #define ID_BASEBLOCK        STAT_BASEBLOCK + STAT_SIZE
 
 static const struct WindowTemplate sTarcUiWindowTemplates[] =
@@ -180,7 +182,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 17,
         .tilemapTop = 2,
-        .width = INFO_WIDTH,
+        .width = ABI_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
         .baseBlock = ABI1_BASEBLOCK
@@ -200,7 +202,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 17,
         .tilemapTop = 8,
-        .width = INFO_WIDTH,
+        .width = ABI_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
         .baseBlock = ABI2_BASEBLOCK
@@ -220,7 +222,7 @@ static const struct WindowTemplate sTarcUiWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 17,
         .tilemapTop = 14,
-        .width = INFO_WIDTH,
+        .width = ABI_WIDTH,
         .height = INFO_HEIGHT,
         .paletteNum = 15,
         .baseBlock = ABI3_BASEBLOCK
@@ -714,8 +716,8 @@ static void DrawStats(void)
     CopyWindowToVram(WIN_STATS, COPYWIN_FULL);
     u32 currChar = 0;
 
-    text[currChar++] = CHAR_0;
-    text[currChar++] = CHAR_x;
+    text[currChar++] = ConvertToHex(RECORDKEEPERS_VERSION % 16) - 1;
+    text[currChar++] = CHAR_x + RECORDKEEPERS_VERSION / 16;
     u32 trainerId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
     for (u32 i = 0; i < 8; i++)
     {

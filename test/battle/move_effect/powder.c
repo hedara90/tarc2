@@ -65,8 +65,8 @@ SINGLE_BATTLE_TEST("Powder only blocks the target's Fire type moves on the same 
 SINGLE_BATTLE_TEST("Powder doesn't damage target if it has Magic Guard")
 {
     GIVEN {
-        PLAYER(SPECIES_ALAKAZAM) { Ability(ABILITY_MAGIC_GUARD); }
-        OPPONENT(SPECIES_VIVILLON);
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_MAGIC_GUARD); }
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_POWDER); MOVE(player, MOVE_EMBER); }
     } SCENE {
@@ -273,10 +273,10 @@ DOUBLE_BATTLE_TEST("Powder damages a target using Shell Trap even if it wasn't h
         ASSUME(GetMoveCategory(MOVE_EMBER) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetMoveCategory(MOVE_TICKLE) == DAMAGE_CATEGORY_STATUS);
         ASSUME(GetMoveEffect(MOVE_TICKLE) == EFFECT_TICKLE);
-        PLAYER(SPECIES_TURTONATOR);
+        PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_VIVILLON);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_SHELL_TRAP); MOVE(opponentRight, MOVE_POWDER, target: playerLeft); MOVE(opponentLeft, move, target: playerLeft); }
     } SCENE {
@@ -297,8 +297,8 @@ DOUBLE_BATTLE_TEST("Powder damages a target using Shell Trap even if it wasn't h
 SINGLE_BATTLE_TEST("Powder doesn't damage target if it has Magic Guard (Trait)")
 {
     GIVEN {
-        PLAYER(SPECIES_ALAKAZAM) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_MAGIC_GUARD); }
-        OPPONENT(SPECIES_VIVILLON);
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_INNER_FOCUS); Innates(ABILITY_MAGIC_GUARD); }
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(opponent, MOVE_POWDER); MOVE(player, MOVE_EMBER); }
     } SCENE {
