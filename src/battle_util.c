@@ -10461,7 +10461,7 @@ static inline uq4_12_t GetScreensModifier(u32 move, u32 battlerAtk, u32 battlerD
     if (isCrit || BattlerHasTrait(battlerAtk, ABILITY_INFILTRATOR) || gProtectStructs[battlerAtk].confusionSelfDmg)
         return UQ_4_12(1.0);
     if (reflect || lightScreen || auroraVeil)
-        return (IsDoubleBattle()) ? UQ_4_12(0.667) : UQ_4_12(0.5);
+        return ((IsDoubleBattle()) || !TESTING) ? UQ_4_12(0.667) : UQ_4_12(0.5);
     return UQ_4_12(1.0);
 }
 
