@@ -43,7 +43,7 @@ SINGLE_BATTLE_TEST("Fury Cutter counter is the same for both hits of Parental Bo
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_PARENTAL_BOND); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_FURY_CUTTER); }
         TURN { MOVE(player, MOVE_FURY_CUTTER); }
@@ -67,7 +67,7 @@ SINGLE_BATTLE_TEST("Fury Cutter counter is the same for both hits of Parental Bo
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); Innates(ABILITY_PARENTAL_BOND); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_FURY_CUTTER); }
         TURN { MOVE(player, MOVE_FURY_CUTTER); }

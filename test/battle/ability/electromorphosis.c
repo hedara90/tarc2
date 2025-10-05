@@ -17,7 +17,7 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move")
         ASSUME(!IsBattleMoveStatus(MOVE_THUNDER_SHOCK));
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
 
-        PLAYER(SPECIES_BELLIBOLT) { Ability(ABILITY_ELECTROMORPHOSIS); Speed(10); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_ELECTROMORPHOSIS); Speed(10); }
         OPPONENT(SPECIES_WOBBUFFET) {Ability(ABILITY_LIMBER); Speed(5) ;} // Limber, so it doesn't get paralyzed.
     }
     WHEN {
@@ -31,10 +31,10 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move")
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_ELECTROMORPHOSIS);
         if (move == MOVE_SCRATCH) {
-            MESSAGE("Being hit by Scratch charged Bellibolt with power!");
+            MESSAGE("Being hit by Scratch charged Wobbuffet with power!");
         }
         else {
-            MESSAGE("Being hit by Gust charged Bellibolt with power!");
+            MESSAGE("Being hit by Gust charged Wobbuffet with power!");
         }
 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_THUNDER_SHOCK, player);
@@ -44,10 +44,10 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move")
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_ELECTROMORPHOSIS);
         if (move == MOVE_SCRATCH) {
-            MESSAGE("Being hit by Scratch charged Bellibolt with power!");
+            MESSAGE("Being hit by Scratch charged Wobbuffet with power!");
         }
         else {
-            MESSAGE("Being hit by Gust charged Bellibolt with power!");
+            MESSAGE("Being hit by Gust charged Wobbuffet with power!");
         }
     }
     THEN {
@@ -71,7 +71,7 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move (Trait)
         ASSUME(!IsBattleMoveStatus(MOVE_THUNDER_SHOCK));
         ASSUME(GetMoveType(MOVE_THUNDER_SHOCK) == TYPE_ELECTRIC);
 
-        PLAYER(SPECIES_BELLIBOLT) { Ability(ABILITY_STATIC); Innates(ABILITY_ELECTROMORPHOSIS); Speed(10); }
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_STATIC); Innates(ABILITY_ELECTROMORPHOSIS); Speed(10); }
         OPPONENT(SPECIES_WOBBUFFET) {Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_LIMBER); Speed(5) ;} // Limber, so it doesn't get paralyzed.
     }
     WHEN {
@@ -85,10 +85,10 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move (Trait)
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_ELECTROMORPHOSIS);
         if (move == MOVE_SCRATCH) {
-            MESSAGE("Being hit by Scratch charged Bellibolt with power!");
+            MESSAGE("Being hit by Scratch charged Wobbuffet with power!");
         }
         else {
-            MESSAGE("Being hit by Gust charged Bellibolt with power!");
+            MESSAGE("Being hit by Gust charged Wobbuffet with power!");
         }
 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_THUNDER_SHOCK, player);
@@ -98,10 +98,10 @@ SINGLE_BATTLE_TEST("Electromorphosis sets up Charge when hit by any move (Trait)
         HP_BAR(player);
         ABILITY_POPUP(player, ABILITY_ELECTROMORPHOSIS);
         if (move == MOVE_SCRATCH) {
-            MESSAGE("Being hit by Scratch charged Bellibolt with power!");
+            MESSAGE("Being hit by Scratch charged Wobbuffet with power!");
         }
         else {
-            MESSAGE("Being hit by Gust charged Bellibolt with power!");
+            MESSAGE("Being hit by Gust charged Wobbuffet with power!");
         }
     }
     THEN {

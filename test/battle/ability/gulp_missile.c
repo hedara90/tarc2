@@ -169,7 +169,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense 
     GIVEN {
         ASSUME(MoveMakesContact(MOVE_SCRATCH));
         PLAYER(SPECIES_CRAMORANT) { Ability(ABILITY_GULP_MISSILE); Item(ITEM_ROCKY_HELMET); }
-        OPPONENT(SPECIES_DRAGAPULT) { Ability(ability); }
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ability); }
     } WHEN {
         TURN { MOVE(player, MOVE_SURF); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
@@ -182,7 +182,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense 
         HP_BAR(opponent);
         if (ability == ABILITY_INFILTRATOR) {
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-            MESSAGE("The opposing Dragapult's Defense fell!");
+            MESSAGE("The opposing Wobbuffet's Defense fell!");
         } else {
             ABILITY_POPUP(opponent, ABILITY_CLEAR_BODY);
         }

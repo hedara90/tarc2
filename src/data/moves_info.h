@@ -1595,6 +1595,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_DIVE, COMBO_STARTER_RAIN_DANCE},
         .battleAnimScript = gBattleAnimMove_Surf,
         .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 
     [MOVE_ICE_BEAM] =

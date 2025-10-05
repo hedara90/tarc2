@@ -283,7 +283,7 @@ SINGLE_BATTLE_TEST("Protect: Multi-hit moves don't hit a protected target and fa
 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_ARM_THRUST) == EFFECT_MULTI_HIT);
-        PLAYER(SPECIES_RAPIDASH);
+        PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_BEAUTIFLY);
     } WHEN {
         TURN { MOVE(opponent, move); MOVE(player, MOVE_ARM_THRUST); }
@@ -291,7 +291,7 @@ SINGLE_BATTLE_TEST("Protect: Multi-hit moves don't hit a protected target and fa
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, move, opponent);
         MESSAGE("The opposing Beautifly protected itself!");
-        MESSAGE("Rapidash used Arm Thrust!");
+        MESSAGE("Wobbuffet used Arm Thrust!");
         NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_ARM_THRUST, player);
         MESSAGE("The opposing Beautifly protected itself!");
         // Each effect happens only once.

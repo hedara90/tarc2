@@ -31,8 +31,8 @@ SINGLE_BATTLE_TEST("Protosynthesis boosts either Attack or Special Attack, not b
     PARAMETRIZE { species = SPECIES_ROARING_MOON; move = MOVE_SCRATCH; }
     PARAMETRIZE { species = SPECIES_ROARING_MOON; move = MOVE_ROUND; }
 
-    PARAMETRIZE { species = SPECIES_WALKING_WAKE; move = MOVE_SCRATCH; }
-    PARAMETRIZE { species = SPECIES_WALKING_WAKE; move = MOVE_ROUND; }
+    PARAMETRIZE { species = SPECIES_FLUTTER_MANE; move = MOVE_SCRATCH; }
+    PARAMETRIZE { species = SPECIES_FLUTTER_MANE; move = MOVE_ROUND; }
 
     GIVEN {
         PLAYER(species) { Ability(ABILITY_PROTOSYNTHESIS); }
@@ -47,7 +47,7 @@ SINGLE_BATTLE_TEST("Protosynthesis boosts either Attack or Special Attack, not b
         ANIMATION(ANIM_TYPE_MOVE, move, player);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {
-        if ((move == MOVE_SCRATCH && species == SPECIES_ROARING_MOON) || (move == MOVE_ROUND && species == SPECIES_WALKING_WAKE))
+        if ((move == MOVE_SCRATCH && species == SPECIES_ROARING_MOON) || (move == MOVE_ROUND && species == SPECIES_FLUTTER_MANE))
             EXPECT_MUL_EQ(damage[0], Q_4_12(1.3), damage[1]);
         else
             EXPECT_EQ(damage[0], damage[1]);
@@ -224,8 +224,8 @@ SINGLE_BATTLE_TEST("Protosynthesis boosts either Attack or Special Attack, not b
     PARAMETRIZE { species = SPECIES_ROARING_MOON; move = MOVE_SCRATCH; }
     PARAMETRIZE { species = SPECIES_ROARING_MOON; move = MOVE_ROUND; }
 
-    PARAMETRIZE { species = SPECIES_WALKING_WAKE; move = MOVE_SCRATCH; }
-    PARAMETRIZE { species = SPECIES_WALKING_WAKE; move = MOVE_ROUND; }
+    PARAMETRIZE { species = SPECIES_FLUTTER_MANE; move = MOVE_SCRATCH; }
+    PARAMETRIZE { species = SPECIES_FLUTTER_MANE; move = MOVE_ROUND; }
 
     GIVEN {
         PLAYER(species) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_PROTOSYNTHESIS); }
@@ -240,7 +240,7 @@ SINGLE_BATTLE_TEST("Protosynthesis boosts either Attack or Special Attack, not b
         ANIMATION(ANIM_TYPE_MOVE, move, player);
         HP_BAR(opponent, captureDamage: &damage[1]);
     } THEN {
-        if ((move == MOVE_SCRATCH && species == SPECIES_ROARING_MOON) || (move == MOVE_ROUND && species == SPECIES_WALKING_WAKE))
+        if ((move == MOVE_SCRATCH && species == SPECIES_ROARING_MOON) || (move == MOVE_ROUND && species == SPECIES_FLUTTER_MANE))
             EXPECT_MUL_EQ(damage[0], Q_4_12(1.3), damage[1]);
         else
             EXPECT_EQ(damage[0], damage[1]);

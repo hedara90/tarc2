@@ -14,7 +14,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased by 50 if the user takes da
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         for (turns = 0; turns < 2; turns++) {
             TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_SCRATCH); }
@@ -39,7 +39,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased by each multi hit")
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_BULLET_SEED) == EFFECT_MULTI_HIT);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         for (turns = 0; turns < 2; turns++) {
             TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_BULLET_SEED); }
@@ -62,7 +62,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not increased by a confusion hit")
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_CONFUSE_RAY); }
         TURN {}
@@ -91,7 +91,7 @@ DOUBLE_BATTLE_TEST("Rage Fist maximum base power is 350")
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         for (turns = 1; turns <= 3; turns++) {
@@ -132,7 +132,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not increased if a substitute was hi
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_CRUNCH) == DAMAGE_CATEGORY_PHYSICAL); // Substitute doesn't fade otherwise
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); }
         TURN { MOVE(player, MOVE_SUBSTITUTE); MOVE(opponent, MOVE_CRUNCH); }
@@ -158,7 +158,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not lost if user switches out")
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_SCRATCH); }
         TURN { SWITCH(player, 1); MOVE(opponent, MOVE_SCRATCH); }
@@ -184,7 +184,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased by 50 even if a damaging m
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { HP(1); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         for (turns = 0; turns < 2; turns++) {
             TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_FALSE_SWIPE); }
@@ -207,7 +207,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased by 50 even if a damaging m
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { HP(2); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_FALSE_SWIPE); }
         TURN { MOVE(player, MOVE_ENDURE); MOVE(opponent, MOVE_SCRATCH); }
@@ -232,7 +232,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not increased if move had no affect"
 
     GIVEN {
         PLAYER(SPECIES_GASTLY);
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         for (turns = 0; turns < 2; turns++) {
             TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_SCRATCH); }
@@ -241,7 +241,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not increased if move had no affect"
         for (turns = 0; turns < 2; turns++) {
             ANIMATION(ANIM_TYPE_MOVE, MOVE_RAGE_FIST, player);
             HP_BAR(opponent, captureDamage: &timesGotHit[turns]);
-            MESSAGE("The opposing Regirock used Scratch!");
+            MESSAGE("The opposing Blastoise used Scratch!");
             MESSAGE("It doesn't affect Gastly…");
         }
     } THEN {
@@ -259,7 +259,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased if Disguise breaks")
 
     GIVEN {
         PLAYER(species) { Ability(ABILITY_DISGUISE); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_ROCK_THROW); }
         TURN { MOVE(player, MOVE_RAGE_FIST); }
@@ -280,8 +280,8 @@ SINGLE_BATTLE_TEST("Rage Fist number of hits is copied by Transform")
     s16 timesGotHit[2];
 
     GIVEN {
-        PLAYER(SPECIES_REGIROCK);
-        OPPONENT(SPECIES_REGIROCK) { Moves(MOVE_RAGE_FIST, MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_RAGE_FIST, MOVE_CELEBRATE); }
     } WHEN {
             TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_CELEBRATE); }
             TURN { MOVE(player, MOVE_TRANSFORM); MOVE(opponent, MOVE_CELEBRATE); }
@@ -302,8 +302,8 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased by 50 if user was hit and 
     s16 timesGotHit[2];
 
     GIVEN {
-        PLAYER(SPECIES_REGIROCK);
-        OPPONENT(SPECIES_REGIROCK);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(opponent, MOVE_RAGE_FIST); MOVE(player, MOVE_DRAGON_TAIL); }
@@ -353,7 +353,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased if Disguise breaks (Trait)
 
     GIVEN {
         PLAYER(species) { Ability(ABILITY_LIGHT_METAL); Innates(ABILITY_DISGUISE); }
-        OPPONENT(SPECIES_REGIROCK);
+        OPPONENT(SPECIES_BLASTOISE);
     } WHEN {
         TURN { MOVE(player, MOVE_RAGE_FIST); MOVE(opponent, MOVE_ROCK_THROW); }
         TURN { MOVE(player, MOVE_RAGE_FIST); }

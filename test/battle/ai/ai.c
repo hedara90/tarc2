@@ -482,14 +482,14 @@ AI_SINGLE_BATTLE_TEST("AI will only choose Surf 1/3 times if the opposing mon ha
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDERBOLT) == TYPE_ELECTRIC);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_LANTURN) { Ability(ABILITY_VOLT_ABSORB); };
-        OPPONENT(SPECIES_LANTURN) { Moves(MOVE_THUNDERBOLT, MOVE_ICE_BEAM, MOVE_SURF); }
+        PLAYER(SPECIES_CHINCHOU) { Ability(ABILITY_VOLT_ABSORB); };
+        OPPONENT(SPECIES_CHINCHOU) { Moves(MOVE_THUNDERBOLT, MOVE_ICE_BEAM, MOVE_SURF); }
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_SURF); }
         TURN { EXPECT_MOVE(opponent, MOVE_SURF); }
     } SCENE {
-        MESSAGE("The opposing Lanturn used Surf!");
-        MESSAGE("The opposing Lanturn used Surf!");
+        MESSAGE("The opposing Chinchou used Surf!");
+        MESSAGE("The opposing Chinchou used Surf!");
     }
 }
 
@@ -499,14 +499,14 @@ AI_SINGLE_BATTLE_TEST("AI will choose Thunderbolt then Surf 2/3 times if the opp
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDERBOLT) == TYPE_ELECTRIC);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_LANTURN) { Ability(ABILITY_VOLT_ABSORB); };
-        OPPONENT(SPECIES_LANTURN) { Moves(MOVE_THUNDERBOLT, MOVE_ICE_BEAM, MOVE_SURF); }
+        PLAYER(SPECIES_CHINCHOU) { Ability(ABILITY_VOLT_ABSORB); };
+        OPPONENT(SPECIES_CHINCHOU) { Moves(MOVE_THUNDERBOLT, MOVE_ICE_BEAM, MOVE_SURF); }
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_THUNDERBOLT); }
         TURN { EXPECT_MOVE(opponent, MOVE_SURF); }
     } SCENE {
-        MESSAGE("The opposing Lanturn used Thunderbolt!");
-        MESSAGE("The opposing Lanturn used Surf!");
+        MESSAGE("The opposing Chinchou used Thunderbolt!");
+        MESSAGE("The opposing Chinchou used Surf!");
     }
 }
 
@@ -624,7 +624,7 @@ AI_SINGLE_BATTLE_TEST("AI uses a guaranteed KO move instead of the move with the
         ASSUME(GetMoveCategory(MOVE_SLASH) == GetMoveCategory(MOVE_STRENGTH));
         AI_FLAGS(flags);
         PLAYER(SPECIES_WOBBUFFET) { HP(225); }
-        OPPONENT(SPECIES_ABSOL) { Ability(ABILITY_SUPER_LUCK); Moves(MOVE_SLASH, MOVE_STRENGTH); }
+        OPPONENT(SPECIES_ABSOL) { Ability(ABILITY_SUPER_LUCK); Innates(ABILITY_SCRAPPY, ABILITY_LIMBER, ABILITY_TORRENT); Moves(MOVE_SLASH, MOVE_STRENGTH); }
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_SLASH); }
         if (flags & AI_FLAG_TRY_TO_FAINT)

@@ -1685,7 +1685,7 @@ const struct BossAi sDrapionAi =
 
 const struct BossMoveList sToxicroak1 =
 {
-    .numMoves = 5,
+    .numMoves = 4,
     .moves =
     {
         MOVE_FURY_SWIPES,

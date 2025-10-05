@@ -199,22 +199,22 @@ SINGLE_BATTLE_TEST("Roost, if used by a Mystery/Flying type, treats the user as 
     PARAMETRIZE { damagingMove = MOVE_DISARMING_VOICE; }
 
     GIVEN {
-        ASSUME(gSpeciesInfo[SPECIES_MOLTRES].types[0] == TYPE_FIRE);
-        ASSUME(gSpeciesInfo[SPECIES_MOLTRES].types[1] == TYPE_FLYING);
-        PLAYER(SPECIES_MOLTRES) { HP(300); MaxHP(400); }
+        ASSUME(gSpeciesInfo[SPECIES_TALONFLAME].types[0] == TYPE_FIRE);
+        ASSUME(gSpeciesInfo[SPECIES_TALONFLAME].types[1] == TYPE_FLYING);
+        PLAYER(SPECIES_TALONFLAME) { HP(300); MaxHP(400); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_BURN_UP); }
         TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, damagingMove); }
     } SCENE {
         // Turn 1: Use Burn Up to change from Fire/Flying to Mystery/Flying
-        MESSAGE("Moltres used Burn Up!");
+        MESSAGE("Talonflame used Burn Up!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BURN_UP, player);
-        MESSAGE("Moltres burned itself out!");
+        MESSAGE("Talonflame burned itself out!");
         // Turn 2: Use Roost to now be treated as a Mystery/Mystery type
-        MESSAGE("Moltres used Roost!");
+        MESSAGE("Talonflame used Roost!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
-        MESSAGE("Moltres's HP was restored.");
+        MESSAGE("Talonflame's HP was restored.");
         ANIMATION(ANIM_TYPE_MOVE, damagingMove, opponent);
         NONE_OF {
             MESSAGE("It's super effective!");

@@ -267,6 +267,7 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
          && !BattlerHasTrait(battler, ABILITY_SAND_FORCE)
          && !BattlerHasTrait(battler, ABILITY_SAND_RUSH)
          && !BattlerHasTrait(battler, ABILITY_OVERCOAT)
+         && !IsLivingShadowProtected(battler)
          && !IS_BATTLER_ANY_TYPE(gBattlerAttacker, TYPE_ROCK, TYPE_GROUND, TYPE_STEEL)
          && !(gStatuses3[gBattlerAttacker] & (STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
          && GetBattlerHoldEffect(gBattlerAttacker, TRUE) != HOLD_EFFECT_SAFETY_GOGGLES
@@ -617,7 +618,8 @@ static bool32 HandleEndTurnLeechSeed(u32 battler)
     if (gStatuses3[battler] & STATUS3_LEECHSEED
      && IsBattlerAlive(gStatuses3[battler] & STATUS3_LEECHSEED_BATTLER)
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler))
+     && !IsLivingShadowProtected(battler))
     {
         if (battler == 1 && gBattleStruct->leechSeedSpecies != gBattleMons[0].species)
             return effect;
@@ -659,7 +661,8 @@ static bool32 HandleEndTurnPoison(u32 battler)
 
     if ((gBattleMons[battler].status1 & STATUS1_POISON || gBattleMons[battler].status1 & STATUS1_TOXIC_POISON)
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, ability))
+     && !IsBattlerProtectedByMagicGuard(battler, ability)
+     && !IsLivingShadowProtected(battler))
     {
         if (BattlerHasTrait(battler, ABILITY_POISON_HEAL))
         {
@@ -708,7 +711,8 @@ static bool32 HandleEndTurnBurn(u32 battler)
 
     if (gBattleMons[battler].status1 & STATUS1_BURN
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, ability))
+     && !IsBattlerProtectedByMagicGuard(battler, ability)
+     && !IsLivingShadowProtected(battler))
     {
         gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / (B_BURN_DAMAGE >= GEN_7 ? 16 : 8);
         if (BattlerHasTrait(battler, ABILITY_HEATPROOF))
@@ -735,7 +739,8 @@ static bool32 HandleEndTurnFrostbite(u32 battler)
 
     if (gBattleMons[battler].status1 & STATUS1_FROSTBITE
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler))
+     && !IsLivingShadowProtected(battler))
     {
         gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / (B_BURN_DAMAGE >= GEN_7 ? 16 : 8);
         if (gBattleStruct->moveDamage[battler] == 0)
@@ -755,7 +760,8 @@ static bool32 HandleEndTurnNightmare(u32 battler)
 
     if (gBattleMons[battler].status2 & STATUS2_NIGHTMARE
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler))
+     && !IsLivingShadowProtected(battler))
     {
         if (gBattleMons[battler].status1 & STATUS1_SLEEP)
         {
@@ -782,7 +788,8 @@ static bool32 HandleEndTurnCurse(u32 battler)
 
     if (gBattleMons[battler].status2 & STATUS2_CURSED
      && IsBattlerAlive(battler)
-     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+     && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler))
+     && !IsLivingShadowProtected(battler))
     {
         gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 4;
         if (gBattleStruct->moveDamage[battler] == 0)
@@ -804,7 +811,8 @@ static bool32 HandleEndTurnWrap(u32 battler)
     {
         if (--gDisableStructs[battler].wrapTurns != 0)
         {
-            if (IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
+            if (IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler))
+             && IsLivingShadowProtected(battler))
                 return effect;
 
             gBattleScripting.animArg1 = gBattleStruct->wrappedMove[battler];
@@ -838,6 +846,7 @@ static bool32 HandleEndTurnSubmerged(u32 battler)
     gBattleStruct->turnEffectsBattlerId++;
 
     if (gStatuses4[battler] & STATUS4_SUBMERGED
+     && !IsLivingShadowProtected(battler)
      && IsBattlerAlive(battler))
     {
         SaveBattlerTarget(gBattlerTarget);
@@ -870,6 +879,7 @@ static bool32 HandleEndTurnSaltCure(u32 battler)
 
     if (gStatuses4[battler] & STATUS4_SALT_CURE
      && IsBattlerAlive(battler)
+     && !IsLivingShadowProtected(battler)
      && !IsBattlerProtectedByMagicGuard(battler, GetBattlerAbility(battler)))
     {
         if (IS_BATTLER_ANY_TYPE(battler, TYPE_STEEL, TYPE_WATER))
@@ -909,7 +919,9 @@ static bool32 HandleEndTurnSyrupBomb(u32 battler)
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    if ((gStatuses4[battler] & STATUS4_SYRUP_BOMB) && (IsBattlerAlive(battler)))
+    if ((gStatuses4[battler] & STATUS4_SYRUP_BOMB)
+     && !IsLivingShadowProtected(battler)
+     && (IsBattlerAlive(battler)))
     {
         if (gDisableStructs[battler].syrupBombTimer > 0 && --gDisableStructs[battler].syrupBombTimer == 0)
             gStatuses4[battler] &= ~STATUS4_SYRUP_BOMB;
@@ -1101,7 +1113,8 @@ static bool32 HandleEndTurnYawn(u32 battler)
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    if (gStatuses3[battler] & STATUS3_YAWN)
+    if (gStatuses3[battler] & STATUS3_YAWN
+     && !IsLivingShadowProtected(battler))
     {
         gStatuses3[battler] -= STATUS3_YAWN_TURN(1);
         if (!(gStatuses3[battler] & STATUS3_YAWN) && !(gBattleMons[battler].status1 & STATUS1_ANY)
@@ -1586,7 +1599,7 @@ static u32 FindValidThunderstrikeTarget(void)
     while (!foundValid)
     {
         target = Random32() % 3;
-        if (target == 0)
+        if (target == 0 && IsBattlerAlive(0))
         {
             StringCopy(gBattleTextBuff1, gSpeciesInfo[gBattleMons[0].species].speciesName);
             foundValid = TRUE;
@@ -1674,7 +1687,8 @@ static bool32 HandleEndTurnBirds(u32 battler)
             }
             effect = TRUE;
         }
-        else if (SearchTraits(battlerTraits, ABILITY_INFERNO))
+        else if (SearchTraits(battlerTraits, ABILITY_INFERNO)
+              && IsBattlerAlive(0))
         {
             //  Damage active mon
             gBattlerTarget = 0;

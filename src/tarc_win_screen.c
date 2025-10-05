@@ -716,8 +716,8 @@ static void DrawStats(void)
     CopyWindowToVram(WIN_STATS, COPYWIN_FULL);
     u32 currChar = 0;
 
-    text[currChar++] = CHAR_0;
-    text[currChar++] = CHAR_x;
+    text[currChar++] = ConvertToHex(RECORDKEEPERS_VERSION % 16) - 1;
+    text[currChar++] = CHAR_x + RECORDKEEPERS_VERSION / 16;
     u32 trainerId = GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
     for (u32 i = 0; i < 8; i++)
     {

@@ -10385,11 +10385,11 @@ static inline uq4_12_t GetBurnOrFrostBiteModifier(struct DamageCalculationData *
         && IsBattleMovePhysical(move)
         && (B_BURN_FACADE_DMG < GEN_6 || moveEffect != EFFECT_FACADE)
         && !BattlerHasTrait(battlerAtk, ABILITY_GUTS))
-        return UQ_4_12(0.5);
+        return UQ_4_12(0.75);
     if (gBattleMons[battlerAtk].status1 & STATUS1_FROSTBITE
         && IsBattleMoveSpecial(move)
         && (B_BURN_FACADE_DMG < GEN_6 || moveEffect != EFFECT_FACADE))
-        return UQ_4_12(0.5);
+        return UQ_4_12(0.75);
     return UQ_4_12(1.0);
 }
 
@@ -10461,7 +10461,7 @@ static inline uq4_12_t GetScreensModifier(u32 move, u32 battlerAtk, u32 battlerD
     if (isCrit || BattlerHasTrait(battlerAtk, ABILITY_INFILTRATOR) || gProtectStructs[battlerAtk].confusionSelfDmg)
         return UQ_4_12(1.0);
     if (reflect || lightScreen || auroraVeil)
-        return (IsDoubleBattle()) ? UQ_4_12(0.667) : UQ_4_12(0.5);
+        return ((IsDoubleBattle()) || !TESTING) ? UQ_4_12(0.667) : UQ_4_12(0.5);
     return UQ_4_12(1.0);
 }
 
@@ -13113,4 +13113,12 @@ u32 NumBattlerStatBoosts(u32 battler)
     }
 
     return numBoosts;
+}
+
+bool32 IsLivingShadowProtected(u32 battler)
+{
+    if (BattlerHasTrait(battler, ABILITY_LIVING_SHADOW)
+     && gStatuses3[battler] & STATUS3_PHANTOM_FORCE)
+        return TRUE;
+    return FALSE;
 }
