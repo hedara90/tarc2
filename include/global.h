@@ -21,7 +21,7 @@
 #include "constants/items.h"
 #include "config/save.h"
 
-#define RECORDKEEPERS_VERSION 1
+#define RECORDKEEPERS_VERSION 2
 
 // Prevent cross-jump optimization.
 #define BLOCK_CROSS_JUMP asm("");
