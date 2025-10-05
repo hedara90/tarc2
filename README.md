@@ -23,6 +23,11 @@ Features:
 
 - Completely new UI's for almost everything
 
+# How to play
+- You will need a rom of pokemon emerald
+- Use the online patcher: https://teamaquashideout.github.io/tah-patchsite/hacks/recordkeepers/ which will automatically get the patch
+- Alternatively, you can download the latest release to patch yourself from the release page here: https://github.com/hedara90/tarc2/release
+
 # Credits
 hedara & Turtleye, developers
 
