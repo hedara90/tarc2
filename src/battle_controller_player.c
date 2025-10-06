@@ -2831,8 +2831,17 @@ EWRAM_DATA struct NewSwitchData *sSwitchData;
 
 static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
 {
-    if (sSwitchData->state == 0)
+    if (gBattleMons[0].hp == 0 && sSwitchData->state == 0)
+        sSwitchData->state = 19;
+    else if (sSwitchData->state < 20)
     {
+        gSprites[gBattlerSpriteIds[battler]].x2 -= 5;
+        SetHealthboxSpriteInvisible(gHealthboxSpriteIds[battler]);
+    }
+    else if (sSwitchData->state == 20)
+    {
+        gSprites[gBattlerSpriteIds[battler]].invisible = TRUE;
+        gSprites[gBattlerSpriteIds[battler]].x2 = 0;
         sSwitchData->spriteIdLeft = 255;
         if (gLeftMon.hp == 0 || gLeftMon.isBanished)
         {
@@ -2857,7 +2866,7 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
         createStruct.subpriority = 0;
         sSwitchData->spriteIdLeft = Even_CreateSprite(&createStruct);
     }
-    else if (sSwitchData->state == 1)
+    else if (sSwitchData->state == 21)
     {
         sSwitchData->spriteIdRight = 255;
         if (gRightMon.hp == 0 || gRightMon.isBanished)
@@ -2883,7 +2892,7 @@ static void NewPlayerHandleChoosePokemonDisplay(u32 battler)
         createStruct.subpriority = 0;
         sSwitchData->spriteIdRight = Even_CreateSprite(&createStruct);
     }
-    else if (sSwitchData->state < 18)
+    else if (sSwitchData->state < 38)
     {
         //  Move sprites in
         if (sSwitchData->spriteIdLeft != 255)
