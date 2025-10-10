@@ -4004,7 +4004,6 @@ static void HandleEndTurn_ContinueBattle(void)
 {
     s32 i;
     gBattleStruct->isEndOfTurnWeather = FALSE;
-    gBattleStruct->isEndOfTurnFuture = FALSE;
 
     HelpSystem_AddTrigger(TRIGGER_BOSS_MOVE);
 
@@ -4044,6 +4043,7 @@ void BattleTurnPassed(void)
     gBattleStruct->speedTieBreaks = RandomUniform(RNG_SPEED_TIE, 0, Factorial(MAX_BATTLERS_COUNT) - 1);
 
     TurnValuesCleanUp(TRUE);
+    gBattleStruct->isEndOfTurnFuture = FALSE;
 
     if (gBattleOutcome == 0 && DoEndTurnEffects())
         return;

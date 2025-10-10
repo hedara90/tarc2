@@ -394,6 +394,7 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
 
     if (gWishFutureKnock.futureSightCounter[battler] == gBattleTurnCounter)
     {
+        gBattleStruct->isEndOfTurnFuture = TRUE;
         if (gWishFutureKnock.futureSightCounter[battler] == gBattleTurnCounter
          && gWishFutureKnock.futureSightCounter[BATTLE_PARTNER(battler)] <= gBattleTurnCounter)
         {
@@ -2263,7 +2264,6 @@ u32 DoEndTurnEffects(void)
 {
     u32 battler = MAX_BATTLERS_COUNT;
     gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
-    gBattleStruct->isEndOfTurnFuture = TRUE;
 
     for (;;)
     {
