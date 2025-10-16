@@ -5947,6 +5947,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if (gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
          && IsBattlerTurnDamaged(gBattlerTarget)
          && SearchTraits(battlerTraits, ABILITY_SCORCHING_VOLTAGE)
+         && CanBeBurned(gBattlerAttacker, gBattlerTarget, GetBattlerAbility(gBattlerTarget))
          && RandomPercentage(RNG_STATIC, 30))
         {
             gBattleScripting.moveEffect = MOVE_EFFECT_BURN;
