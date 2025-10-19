@@ -5802,7 +5802,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             SET_STATCHANGER(statToBoost, 1, FALSE);
             BattleScriptPushCursor();
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_WINDS_OF_CHANGE, FALSE);
-            gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+            gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
             effect++;
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
@@ -5856,7 +5856,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_WILLPOWER, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5870,7 +5870,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_MENTAL_BLOCK, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5894,7 +5894,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_FLOURISH, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5969,7 +5969,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_FLAME_CLOAK, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
