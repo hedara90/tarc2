@@ -1730,7 +1730,9 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         effect = TRUE;
     }
 
-    if (gBattleStruct->empathCounter > 0 && SearchTraits(battlerTraits, ABILITY_EMPATH))
+    if (gBattleStruct->empathCounter > 0
+     && SearchTraits(battlerTraits, ABILITY_EMPATH)
+     && IsBattlerAlive(battler))
     {
         CreateAbilityPopUp(battler, ABILITY_EMPATH, FALSE);
         gBattleStruct->moveDamage[battler] = -gBattleStruct->empathCounter * GetNonDynamaxMaxHP(battler) / TARC_EMPATH_HP_FRACTION;
