@@ -173,7 +173,8 @@ struct ProtectStruct
     u16 usedAllySwitch:1;
     u16 lashOutAffected:1;
     u16 usedAttackingMove:1;
-    u16 padding:3;
+    u16 triggeredWeatherAbility:1;
+    u16 padding:2;
     // End of 16-bit bitfield
     u16 physicalDmg;
     u16 specialDmg;
