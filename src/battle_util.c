@@ -495,6 +495,8 @@ void HandleAction_UseMove(void)
 
     //  Set this bit to 0 if it for some reason isn't already
     gBattleStruct->cripplingPoisonFlip = FALSE;
+    for (u32 battler = 0; battler < 4; battler++)
+        gProtectStructs[battler].triggeredWeatherAbility = FALSE;
 
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     if (gBattlerAttacker == 1 && !gBattleStruct->hasCheckedSentinel)
@@ -5429,6 +5431,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if (SearchTraits(battlerTraits, ABILITY_CLOUDBURST)
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && !gProtectStructs[gBattlerTarget].triggeredWeatherAbility
          && IsBattlerTurnDamaged(gBattlerTarget)
          && !(gBattleWeather & B_WEATHER_RAIN && HasWeatherEffect()))
         {
@@ -5445,6 +5448,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 gBattleScripting.battler = battler;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_CloudburstActivates;
+                gProtectStructs[gBattlerTarget].triggeredWeatherAbility = TRUE;
                 effect++;
             }
         }
@@ -5807,12 +5811,14 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
          && SearchTraits(battlerTraits, ABILITY_SUNRISE)
+         && !gProtectStructs[gBattlerAttacker].triggeredWeatherAbility
          && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gBattleWeather & B_WEATHER_SUN))
         {
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SUNRISE, FALSE);
             BattleScriptPushCursor();
             gBattlescriptCurrInstr = BattleScript_Sunrise;
+            gProtectStructs[gBattlerAttacker].triggeredWeatherAbility = TRUE;
             effect++;
         }
         if (gMovesInfo[gCurrentMove].effect == EFFECT_TWO_TURNS_ATTACK
