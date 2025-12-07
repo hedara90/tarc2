@@ -899,7 +899,6 @@ void HandleInputChooseMove(u32 battler)
     if (HelpSystem_Process())
         return;
 
-
     if (gBattleStruct->battlerState[1].activeAbilityPopUps)
         return;
 
