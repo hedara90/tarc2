@@ -33,7 +33,7 @@ script Entrance_OnTransition {
         if(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==FALSE && var(VAR_LUGIA_PROGRESS) > 5){
             clearflag(FLAG_KENICHI)
             setobjectmovementtype(kenichi, MOVEMENT_TYPE_LOOK_AROUND)
-            setobjectxyperm(kenichi, 25, 26)            
+            setobjectxyperm(kenichi, 25, 26)
         }
         elif(flag(FLAG_KENICHI_FALSE_ENDING_CHAT)==TRUE && var(VAR_LUGIA_PROGRESS) > 5) {
             setflag(FLAG_KENICHI)
@@ -401,15 +401,15 @@ script Entrance_Satsuki_MockBattle {
 }
 
 script Entrance_Satsuki_Deciphering {
-    msgbox("{SPEAKER NAME_SATSUKI}Fufu, well that is your job now.\p"
-            "I can sit back and watch you do everything now.")
+    msgbox(format("{SPEAKER NAME_SATSUKI}Fufu, well that is your job now.\p"
+            "I can sit back and watch you do everything now."))
     waitmessage
     delay(60)
-    msgbox("{SPEAKER NAME_SATSUKI}You're too gullible.\p"
+    msgbox(format("{SPEAKER NAME_SATSUKI}You're too gullible.\p"
             "I am mostly leaving the decoding up to you.\p"
             "But this means I now have time for different things that must be done\p"
             "There's still many mysteries left to uncover.\p"
-            "However, many of them are too incomplete to enter into the system.\p")
+            "However, many of them are too incomplete to enter into the system.\p"))
     closemessage
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
@@ -417,19 +417,19 @@ script Entrance_Satsuki_Deciphering {
     closemessage
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndWalkInPlace)
-    msgbox("{SPEAKER NAME_PLAYER}Yeah, you did mention them.\p"
-            "They've got all this tech to figure\nout when and where something\lhappened, right?")
+    msgbox(format("{SPEAKER NAME_PLAYER}Yeah, you did mention them.\p"
+            "They've got all this tech to figure\nout when and where something\lhappened, right?"))
     closemessage
-    msgbox("{SPEAKER NAME_SATSUKI}{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
+    msgbox(format("{SPEAKER NAME_SATSUKI}{PAUSE 15}. {PAUSE 15}. {PAUSE 15}. close enough\p"
             "But yes. They have ways of figuring\nout where and when a myth\loriginated.\p"
-            "That's the limit though. They can't\ndetermine the actual events.")
+            "That's the limit though. They can't\ndetermine the actual events."))
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_SATSUKI}So naturally,\nthat's where we step in.\p"
+    msgbox(format("{SPEAKER NAME_SATSUKI}So naturally,\nthat's where we step in.\p"
             "I've not recently had contact with\nthem, though.\p"
             "Elio's not been answering me, and\nI don't have any other direct\lcontact points.\p"
             "Had to go through the 'Official'\nchannels.\p"
-            "I dislike all this bureaucracy.")
+            "I dislike all this bureaucracy."))
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndJumpInPlace)
     msgbox("{SPEAKER NAME_PLAYER}Haha, yeah you never were one for\nstrict rules.")
@@ -437,8 +437,8 @@ script Entrance_Satsuki_Deciphering {
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("{SPEAKER NAME_SATSUKI}Shush, I can always add more rules.\p")
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_SATSUKI}But yeah, that's the situation.\p"
-            "Will take some time before we get\nanything new.")
+    msgbox(format("{SPEAKER NAME_SATSUKI}But yeah, that's the situation.\p"
+            "Will take some time before we get\nanything new."))
 }
 
 script Entrance_Satsuki_Bodhai {
