@@ -4047,7 +4047,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_MOLD_BREAKER)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_MOLDBREAKER, ABILITY_MOLD_BREAKER, traitCheck, 0);
-            
+
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SUN, ABILITY_ESSENCE_OF_SUN, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_RAIN, ABILITY_ESSENCE_OF_RAIN, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SNOW)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SNOW, ABILITY_ESSENCE_OF_SNOW, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SAND)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SAND, ABILITY_ESSENCE_OF_SAND, traitCheck, 0);
+
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_TERAVOLT)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_TERAVOLT, ABILITY_TERAVOLT, traitCheck, 0);
 
