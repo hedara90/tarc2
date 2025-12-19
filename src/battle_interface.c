@@ -2903,49 +2903,49 @@ void CreateAbilityPopUp(u8 battler, u32 ability, bool32 isDoubleBattle)
     RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
 }
 
-u32 GetStatNumberOffset(s32 value)
+static u32 GetStatNumberOffset(s32 value)
 {
     u32 offset = 0;
-    switch (value + 6)
+    switch (value)
     {
     case 0:  // -6
-        offset = 8 * 21;
+        offset = 8 * 36;
         break;
     case 1:  // -5
-        offset = 8 * 20;
+        offset = 8 * 34;
         break;
     case 2:  // -4
-        offset = 8 * 19;
+        offset = 8 * 32;
         break;
     case 3:  // -3
-        offset = 8 * 18;
-        break;
-    case 4:  // -2
-        offset = 8 * 17;
-        break;
-    case 5:  // -1
-        offset = 8 * 16;
-        break;
-    case 6:  //  0
-        offset = 8 * 22;
-        break;
-    case 7:  // +1
-        offset = 8 * 24;
-        break;
-    case 8:  // +2
-        offset = 8 * 25;
-        break;
-    case 9:  // +3
-        offset = 8 * 26;
-        break;
-    case 10: // +4
-        offset = 8 * 27;
-        break;
-    case 11: // +5
         offset = 8 * 28;
         break;
+    case 4:  // -2
+        offset = 8 * 26;
+        break;
+    case 5:  // -1
+        offset = 8 * 24;
+        break;
+    case 6:  //  0
+        offset = 8 * 1;
+        break;
+    case 7:  // +1
+        offset = 8 * 40;
+        break;
+    case 8:  // +2
+        offset = 8 * 42;
+        break;
+    case 9:  // +3
+        offset = 8 * 44;
+        break;
+    case 10: // +4
+        offset = 8 * 48;
+        break;
+    case 11: // +5
+        offset = 8 * 50;
+        break;
     case 12: // +6
-        offset = 8 * 29;
+        offset = 8 * 52;
         break;
     }
 
@@ -2957,85 +2957,43 @@ void BuildStatSprite(u32 *sprite, u32 battler)
     if (gBattleMons[battler].statStages[STAT_ATK] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_ATK]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 16 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 16 + i] = sStatDisplayGfx[8 * 22 + i];
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 1 + i] = sStatDisplayGfx[startOffset + i];
     }
 
     if (gBattleMons[battler].statStages[STAT_DEF] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_DEF]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 17 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 17 + i] = sStatDisplayGfx[8 * 22 + i];
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 9 + i] = sStatDisplayGfx[startOffset + i];
     }
 
     if (gBattleMons[battler].statStages[STAT_SPATK] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPATK]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 18 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 18 + i] = sStatDisplayGfx[8 * 22 + i];
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 5 + i] = sStatDisplayGfx[startOffset + i];
     }
 
     if (gBattleMons[battler].statStages[STAT_SPDEF] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPDEF]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 19 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 19 + i] = sStatDisplayGfx[8 * 22 + i];
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 13 + i] = sStatDisplayGfx[startOffset + i];
     }
 
     if (gBattleMons[battler].statStages[STAT_SPEED] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPEED]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 20 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 20 + i] = sStatDisplayGfx[8 * 22 + i];
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 17 + i] = sStatDisplayGfx[startOffset + i];
     }
 
     if (gBattleMons[battler].statStages[STAT_ACC] != DEFAULT_STAT_STAGE)
     {
         u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_ACC]);
-        for (u32 i = 0; i < 8; i++)
+        for (u32 i = 0; i < 16; i++)
             sprite[8 * 21 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 21 + i] = sStatDisplayGfx[8 * 22 + i];
-    }
-
-    if (gBattleMons[battler].statStages[STAT_EVASION] != DEFAULT_STAT_STAGE)
-    {
-        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_EVASION]);
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 22 + i] = sStatDisplayGfx[startOffset + i];
-    }
-    else
-    {
-        for (u32 i = 0; i < 8; i++)
-            sprite[8 * 22 + i] = sStatDisplayGfx[8 * 22 + i];
     }
 }
 
@@ -3127,7 +3085,7 @@ void CreateBossMovePopUp(void)
 
     // Create the stat display
     u32 *statSprite = AllocZeroed(1024);
-    for (u32 i = 0; i < 128; i++)
+    for (u32 i = 0; i < 192; i++)
         statSprite[i] = sStatDisplayGfx[i];
 
     BuildStatSprite(statSprite, 0);
@@ -3149,6 +3107,8 @@ void CreateBossMovePopUp(void)
     gSprites[sPlayerStatSprite].data[2] = 0xDAD1;
     gSprites[sPlayerStatSprite].data[3] = 0xDAD1;
 
+    for (u32 i = 0; i < 192; i++)
+        statSprite[i] = sStatDisplayGfx[i];
     BuildStatSprite(statSprite, 1);
     cs.tileTag = 0xDAD2;
     cs.palTag = 0xDAD2;
