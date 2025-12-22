@@ -14364,6 +14364,7 @@ SetSteelBeamBackground:
 	goto SetHighSpeedBgFade
 SetSteelBeamBgPlayer:
 	fadetobg BG_STEEL_BEAM_PLAYER
+	goto SetHighSpeedBgFade
 
 @Credits to Skeli
 gBattleAnimMove_ExpandingForce::
