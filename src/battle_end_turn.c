@@ -421,6 +421,7 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
         if (gCurrentMove != MOVE_FUTURE_SIGHT && gCurrentMove != MOVE_DOOM_DESIRE && gCurrentMove != MOVE_REWARD_FUTURE_SIGHT)
         {
             gBattleStruct->foreseenTrigger[gBattlerAttacker] = TRUE;
+            gBattlerTarget = gWishFutureKnock.fatedTarget[gBattlerAttacker];
             BattleScriptExecute(gBattleMoveEffects[gMovesInfo[gCurrentMove].effect].battleScript);
         }
         else
