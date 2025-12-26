@@ -6036,6 +6036,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightPartyIndex[(battler + 1) & 0x1] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
 
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
+
             gBattleStruct->fatedWorkaround = TRUE;
 
             CreateAbilityPopUp(battler, ABILITY_FATED_CHANGE, FALSE);
@@ -6056,6 +6058,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
+
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
@@ -6079,6 +6083,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
+
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
