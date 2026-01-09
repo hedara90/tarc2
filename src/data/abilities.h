@@ -3318,4 +3318,18 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_TRIGGERED,
     },
+    [ABILITY_CIRCLE_OF_LIFE2] =
+    {
+        .name = _("Circle of Life"),
+        .description = COMPOUND_STRING("Ignore resistances\nand abilities if\ntarget is healthy."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
+    [ABILITY_YGGDRASILS_GIFT2] =
+    {
+        .name = _("Yggdrasil's Gift"),
+        .description = COMPOUND_STRING("Deals 1.3 times\nmore damage if\ntarget is healthy."),
+        .aiRating = 5,
+        .category = AC_CONDITIONAL,
+    },
 };

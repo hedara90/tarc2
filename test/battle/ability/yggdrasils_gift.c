@@ -66,3 +66,20 @@ SINGLE_BATTLE_TEST("Yggdrasil's Gift doesn't trigger if no battler is at full HP
         EXPECT_EQ(numBoosts, 0);
     }
 }
+
+SINGLE_BATTLE_TEST("Yggdrasil's Gift 2 increases damage if target is above 50% HP", s16 damage)
+{
+    u32 hp;
+    PARAMETRIZE { hp = 200; }
+    PARAMETRIZE { hp = 100; }
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_YGGDRASILS_GIFT2); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(hp); MaxHP(200); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.3), results[0].damage);
+    }
+}
