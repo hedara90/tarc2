@@ -6144,9 +6144,9 @@ static void Cmd_playstatchangeanimation(void)
                 else if (!gSideTimers[GetBattlerSide(battler)].mistTimer
                         && GetBattlerHoldEffect(battler, TRUE) != HOLD_EFFECT_CLEAR_AMULET
                         && !SearchTraits(battlerTraits, ABILITY_CLEAR_BODY)
-                        && !SearchTraits(battlerTraits, ABILITY_ABUNDANCE)
+                        && !(SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP)
                         && !SearchTraits(battlerTraits, ABILITY_FULL_METAL_BODY)
-                        && !(SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+                        && !SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE)
                         && !((SearchTraits(battlerTraits, ABILITY_KEEN_EYE) || SearchTraits(battlerTraits, ABILITY_MINDS_EYE)) && currStat == STAT_ACC)
                         && !(B_ILLUMINATE_EFFECT >= GEN_9 && SearchTraits(battlerTraits, ABILITY_ILLUMINATE) && currStat == STAT_ACC)
                         && !(SearchTraits(battlerTraits, ABILITY_HYPER_CUTTER) && currStat == STAT_ATK)
@@ -8651,7 +8651,7 @@ static bool32 DoSwitchInEffectsForBattler(u32 battler)
             PushTraitStack(battler, ABILITY_FULL_METAL_BODY);
         else if (SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
             PushTraitStack(battler, ABILITY_WHITE_SMOKE);
-        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP)
             PushTraitStack(battler, ABILITY_ABUNDANCE);
         gBattlescriptCurrInstr = BattleScript_StickyWebOnSwitchIn;
     }
@@ -12711,7 +12711,7 @@ u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr)
                             battlerAbility = ABILITY_FULL_METAL_BODY;
                         else if (SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
                             battlerAbility = ABILITY_WHITE_SMOKE;
-                        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+                        else if (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >=  3 * gBattleMons[battler].maxHP)
                             battlerAbility = ABILITY_ABUNDANCE;
 
                         gBattlerAbility = battler;
@@ -17272,10 +17272,9 @@ static bool8 CanBattlerPreventStatLoss(u16 battler)
 
     if (SearchTraits(battlerTraits, ABILITY_CLEAR_BODY)
      || SearchTraits(battlerTraits, ABILITY_FULL_METAL_BODY)
-     || (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+     || (SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP)
      || SearchTraits(battlerTraits, ABILITY_WHITE_SMOKE))
         return TRUE;
-    
     return FALSE;
 }
 
@@ -19446,15 +19445,9 @@ void BS_JumpIfAbundance(void)
     NATIVE_ARGS(u8 battler, const u8 *jumpInstr);
     u32 battler = GetBattlerForBattleScript(cmd->battler);
 
-    if (gBattleMons[battler].hp != gBattleMons[battler].maxHP)
-    {
-        gBattlescriptCurrInstr = cmd->nextInstr;
-        return;
-    }
-
     bool32 hasAbundance = BattlerHasTrait(battler, ABILITY_ABUNDANCE);
 
-    if (hasAbundance && gBattleMons[battler].hp == gBattleMons[battler].maxHP)
+    if (hasAbundance &&  4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP)
     {
         CreateAbilityPopUp(battler, ABILITY_ABUNDANCE, FALSE);
         gBattlescriptCurrInstr = cmd->jumpInstr;
