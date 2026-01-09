@@ -27186,4 +27186,24 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .validApprenticeMove = TRUE,
         .cd = 1,
     },
+    [MOVE_RAY_OF_LIFE] =
+    {
+        .name = COMPOUND_STRING("Ray of Life"),
+        .description = COMPOUND_STRING(
+            "Inflicts more damage if the\n"
+            "user's HP is high."),
+        .effect = EFFECT_POWER_BASED_ON_USER_HP,
+        .power = 150,
+        .type = TYPE_FAIRY,
+        .accuracy = 100,
+        .pp = 5,
+        .target = MOVE_TARGET_BOTH,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_SPECIAL,
+        .contestEffect = CONTEST_EFFECT_BETTER_WHEN_LATER,
+        .contestCategory = CONTEST_CATEGORY_BEAUTY,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {COMBO_STARTER_RAIN_DANCE},
+        .battleAnimScript = gBattleAnimMove_LightOfRuin,
+    },
 };
