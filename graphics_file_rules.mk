@@ -684,3 +684,9 @@ graphics/help_messages/help_rotation.4bpp: %.4bpp: %.png
 
 graphics/help_messages/help_cooldown.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 8 -mheight 8
+
+graphics/help_messages/help_player_effect.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8
+
+graphics/help_messages/help_foe_effect.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8

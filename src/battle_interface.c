@@ -37,6 +37,7 @@
 #include "caps.h"
 
 #include "even_sprite.h"
+#include "tarc_help_system.h"
 
 enum
 {   // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
@@ -2691,7 +2692,48 @@ static void PrintAbilityOnAbilityPopUp(u32 ability, u8 spriteId1, u8 spriteId2)
 static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 {
     ClearAbilityName(spriteId1, spriteId2);
-    PrintOnAbilityPopUp(gMovesInfo[move].name,
+    u8 moveName[32];
+    u32 currChar = 0;
+    while (gMovesInfo[move].name[currChar] != EOS)
+    {
+        moveName[currChar] = gMovesInfo[move].name[currChar];
+        currChar++;
+    }
+    uq4_12_t targetModifier = CalcTypeEffectivenessMultiplier(move, gMovesInfo[move].type, 1, 0, gBattleMons[0].ability, FALSE);
+    if (targetModifier < UQ_4_12(1.0))
+    {
+        //  TRIANGLE
+        moveName[currChar++] = 0xFC;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x0F;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x07;
+
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x16;
+        moveName[currChar] = EOS;
+    }
+    else if (targetModifier > UQ_4_12(1.0))
+    {
+        //  CIRCLE_DOT
+        moveName[currChar++] = 0xFC;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x06;
+
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x15;
+        moveName[currChar] = EOS;
+    }
+    else if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
+    {
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x18;
+        moveName[currChar] = EOS;
+    }
+
+    PrintOnAbilityPopUp(moveName,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
                         5, 12,
@@ -3217,6 +3259,10 @@ static void SpriteCb_BossMovePopUp(struct Sprite *sprite)
         gSprites[sOpponentStatSprite].callback = StatSlideRight;
         gSprites[sOpponentStatSprite].data[1] = 1;
         gSprites[sOpponentStatSprite].data[0] = 0;
+    }
+    else
+    {
+        HelpSystem_AddTrigger(TRIGGER_FOE_EFFECTIVENESS);
     }
 }
 
