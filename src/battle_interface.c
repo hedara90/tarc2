@@ -2703,8 +2703,11 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
     {
         //  TRIANGLE
         moveName[currChar++] = 0xFC;
-        moveName[currChar++] = 0x01;
-        moveName[currChar++] = 0x0E;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x0F;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x07;
+
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x16;
         moveName[currChar] = EOS;
@@ -2713,8 +2716,11 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
     {
         //  CIRCLE_DOT
         moveName[currChar++] = 0xFC;
-        moveName[currChar++] = 0x01;
-        moveName[currChar++] = 0x0F;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x06;
+
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x15;
         moveName[currChar] = EOS;
