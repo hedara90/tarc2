@@ -37,6 +37,7 @@
 #include "caps.h"
 
 #include "even_sprite.h"
+#include "tarc_help_system.h"
 
 enum
 {   // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
@@ -3258,6 +3259,10 @@ static void SpriteCb_BossMovePopUp(struct Sprite *sprite)
         gSprites[sOpponentStatSprite].callback = StatSlideRight;
         gSprites[sOpponentStatSprite].data[1] = 1;
         gSprites[sOpponentStatSprite].data[0] = 0;
+    }
+    else
+    {
+        HelpSystem_AddTrigger(TRIGGER_FOE_EFFECTIVENESS);
     }
 }
 

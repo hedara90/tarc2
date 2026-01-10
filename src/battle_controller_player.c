@@ -3269,6 +3269,7 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 move)
     u16 src[2] = {134, 135};
     if (!IsBattleMoveStatus(move))
     {
+        HelpSystem_AddTrigger(TRIGGER_PLAYER_EFFECTIVENESS);
         uq4_12_t targetModifier = CalcTypeEffectivenessMultiplier(move, gMovesInfo[move].type, 0, 1, gBattleMons[1].ability, FALSE);
         if (targetModifier > UQ_4_12(1.0))
         {
