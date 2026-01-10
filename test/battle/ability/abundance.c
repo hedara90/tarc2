@@ -112,3 +112,27 @@ SINGLE_BATTLE_TEST("Abundance stops stat drops at or above threshold")
         NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
     }
 }
+
+SINGLE_BATTLE_TEST("Abundance doesn't stop self-stat drops below threshold")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_ABUNDANCE); HP(100); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_OVERHEAT); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+    }
+}
+
+SINGLE_BATTLE_TEST("Abundance stops self-stat drops at or above threshold")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_ABUNDANCE); HP(150); MaxHP(200); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_OVERHEAT); }
+    } SCENE {
+        NOT ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
+    }
+}

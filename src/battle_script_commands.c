@@ -12616,7 +12616,6 @@ u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr)
     bool32 affectsUser = (flags & MOVE_EFFECT_AFFECTS_USER);
     bool32 mirrorArmored = (flags & STAT_CHANGE_MIRROR_ARMOR);
     u16 battlerTraits[MAX_MON_TRAITS];
-    
 
     if (affectsUser)
         battler = gBattlerAttacker;
@@ -12685,7 +12684,9 @@ u32 ChangeStatBuffs(s8 statValue, u32 statId, u32 flags, const u8 *BS_ptr)
             return STAT_CHANGE_DIDNT_WORK;
         }
         else if ((battlerHoldEffect == HOLD_EFFECT_CLEAR_AMULET || CanBattlerPreventStatLoss(battler))
-              && (!affectsUser || mirrorArmored) && !certain && gCurrentMove != MOVE_CURSE)
+              && (!(affectsUser && !(SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP)) || mirrorArmored)
+              && !(certain && !(SearchTraits(battlerTraits, ABILITY_ABUNDANCE) && 4 * gBattleMons[battler].hp >= 3 * gBattleMons[battler].maxHP))
+              && gCurrentMove != MOVE_CURSE)
         {
             if (flags == STAT_CHANGE_ALLOW_PTR)
             {
