@@ -394,6 +394,7 @@ static inline bool32 IgnoreMoveForSheerForceBoost(u32 move)
         case MOVE_REWARD_SHELL_TRAP:
         case MOVE_PYROCLASM:
         case MOVE_BANISH:
+        case MOVE_RAY_OF_LIFE:
             return TRUE;
     }
     return FALSE;

@@ -6554,6 +6554,7 @@ bool32 IsMoldBreakerTypeAbility(u32 battler, u32 ability)
     return (ability == ABILITY_MOLD_BREAKER || BattlerHasInnate(battler, ABILITY_MOLD_BREAKER)
          || ability == ABILITY_TERAVOLT || BattlerHasInnate(battler, ABILITY_TERAVOLT)
          || ability == ABILITY_TURBOBLAZE || BattlerHasInnate(battler, ABILITY_TURBOBLAZE)
+         || ((ability == ABILITY_CIRCLE_OF_LIFE2 || BattlerHasInnate(battler, ABILITY_CIRCLE_OF_LIFE2)) && (gBattleMons[gBattlerTarget].hp > gBattleMons[gBattlerTarget].maxHP / 2))
          || ((ability == ABILITY_MYCELIUM_MIGHT || BattlerHasInnate(battler, ABILITY_MYCELIUM_MIGHT))
          && IsBattleMoveStatus(gCurrentMove)));
 }
@@ -9686,6 +9687,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
     // attacker's abilities
     STORE_BATTLER_TRAITS(battlerAtk);
 
+    if (SearchTraits(battlerTraits, ABILITY_YGGDRASILS_GIFT2) && gBattleMons[battlerDef].hp > gBattleMons[battlerDef].maxHP / 2)
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.3));
     if (SearchTraits(battlerTraits, ABILITY_TECHNICIAN) && basePower <= 60)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_FLARE_BOOST) && gBattleMons[battlerAtk].status1 & STATUS1_BURN && IsBattleMoveSpecial(move))
@@ -11121,6 +11124,11 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(u32 move, u32 mov
             RecordAbilityBattle(battlerDef, gLastUsedAbility);
         }
     }
+
+    if (modifier < UQ_4_12(1.0)
+     && BattlerHasTrait(battlerAtk, ABILITY_CIRCLE_OF_LIFE2)
+     && gBattleMons[battlerDef].hp > gBattleMons[battlerDef].maxHP / 2)
+        modifier = UQ_4_12(1.0);
 
     if (recordAbilities)
         TryInitializeFirstSTABMoveTrainerSlide(battlerDef, battlerAtk, moveType);
