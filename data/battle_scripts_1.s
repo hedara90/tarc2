@@ -10137,7 +10137,7 @@ BattleScript_BossRestore::
 	waitmessage B_WAIT_TIME_LONG
 	updatestatusicon BS_ATTACKER
 	updatebgbar
-	goto BattleScript_MoveEnd
+	end2
 
 BattleScript_BacklineRestore::
 	flushtextbox
