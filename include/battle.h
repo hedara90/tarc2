@@ -823,7 +823,8 @@ struct BattleStruct
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
     u16 leechSeedSpecies;
     u16 intrepidSwordCD:4;
-    u16 padding:12;
+    u16 shouldChangePhase:1;
+    u16 padding:11;
 };
 
 struct AiBattleData
