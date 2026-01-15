@@ -5811,6 +5811,7 @@ static void HandleEndTurn_FinishBattle(void)
         if (gBattleControllerExecFlags == 0)
             gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
     }
+    TarcRestorePartyOrder();
 }
 
 static void FreeResetData_ReturnToOvOrDoEvolutions(void)

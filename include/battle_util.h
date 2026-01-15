@@ -428,4 +428,7 @@ void SwitchActiveMonRight(void);
 void AnimateSentinel(void);
 bool32 IsLivingShadowProtected(u32 battler);
 
+void TarcSetPartyOrder(void);
+void TarcRestorePartyOrder(void);
+
 #endif // GUARD_BATTLE_UTIL_H

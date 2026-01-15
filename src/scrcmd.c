@@ -63,6 +63,7 @@
 #include "constants/tarc_balance_constants.h"
 #include "hunt_setup.h"
 #include "even_sprite.h"
+#include "battle_util.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -2540,6 +2541,8 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    TarcSetPartyOrder();
 
     if (sIsScriptedWildDouble == FALSE)
         BattleSetup_StartScriptedWildBattle();
