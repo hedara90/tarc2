@@ -13152,3 +13152,48 @@ bool32 IsLivingShadowProtected(u32 battler)
         return TRUE;
     return FALSE;
 }
+
+//  Not the best solution to this
+EWRAM_DATA u8 sSwitchedLead;
+
+void TarcSetPartyOrder(void)
+{
+    bool32 alive0 = GetMonData(&gPlayerParty[0], MON_DATA_HP) > 0;
+    bool32 alive1 = GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0;
+    if (alive0)
+    {
+        sSwitchedLead = 0;
+    }
+    else
+    {
+        if (alive1)
+        {
+            sSwitchedLead = 1;
+            struct Pokemon mon = gPlayerParty[0];
+            gPlayerParty[0] = gPlayerParty[1];
+            gPlayerParty[1] = mon;
+        }
+        else
+        {
+            sSwitchedLead = 2;
+            struct Pokemon mon = gPlayerParty[0];
+            gPlayerParty[0] = gPlayerParty[2];
+            gPlayerParty[2] = mon;
+        }
+    }
+}
+
+void TarcRestorePartyOrder(void)
+{
+    if (sSwitchedLead == 0)
+    {
+        return;
+    }
+    else
+    {
+        struct Pokemon mon = gPlayerParty[0];
+        gPlayerParty[0] = gPlayerParty[sSwitchedLead];
+        gPlayerParty[sSwitchedLead] = mon;
+        sSwitchedLead = 0;
+    }
+}
