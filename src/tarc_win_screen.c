@@ -109,6 +109,12 @@ static const struct Tarc_BossWinBackground sBossBG[] =
         .tilemap = sTarcTilemap_Giratina,
         .palette = sTarcPalette_Giratina,
     },
+    [FINAL_BOSS_DELIBIRD] =
+    {
+        .tiles = sTarcTiles_Giratina,
+        .tilemap = sTarcTilemap_Giratina,
+        .palette = sTarcPalette_Giratina,
+    },
 };
 
 static const u16 sTarcTextPal[] = INCBIN_U16("graphics/tarc_party/text.gbapal");

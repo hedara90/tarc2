@@ -6916,6 +6916,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .levelUpLearnset = sDelibirdLevelUpLearnset,
         .teachableLearnset = sDelibirdTeachableLearnset,
         .eggMoveLearnset = sDelibirdEggMoveLearnset,
+        .maxPhases = 4,
     },
 #endif //P_FAMILY_DELIBIRD
 

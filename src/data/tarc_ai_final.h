@@ -198,3 +198,50 @@ const struct BossAi sGiratinaAi =
         &sGiratina4,
     },
 };
+
+const struct BossMoveList sDelibird1 =
+{
+    .numMoves = 1,
+    .moves =
+    {
+        MOVE_CELEBRATE,
+    },
+};
+
+const struct BossMoveList sDelibird2 =
+{
+    .numMoves = 1,
+    .moves =
+    {
+        MOVE_CELEBRATE,
+    },
+};
+
+const struct BossMoveList sDelibird3 =
+{
+    .numMoves = 1,
+    .moves =
+    {
+        MOVE_CELEBRATE,
+    },
+};
+
+const struct BossMoveList sDelibird4 =
+{
+    .numMoves = 1,
+    .moves =
+    {
+        MOVE_CELEBRATE,
+    },
+};
+
+const struct BossAi sDelibirdAi =
+{
+    .phaseMoves =
+    {
+        &sDelibird1,
+        &sDelibird2,
+        &sDelibird3,
+        &sDelibird4,
+    },
+};

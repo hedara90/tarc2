@@ -6,6 +6,7 @@ static const u16 sFinalBossToSpecies[] =
     [FINAL_BOSS_YVELTAL] = SPECIES_YVELTAL,
     [FINAL_BOSS_GIRATINA] = SPECIES_GIRATINA_ORIGIN,
     [FINAL_BOSS_ARCEUS] = SPECIES_ARCEUS,
+    [FINAL_BOSS_DELIBIRD] = SPECIES_DELIBIRD,
 };
 
 static const struct BossGroup sBirds =

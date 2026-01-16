@@ -2115,7 +2115,10 @@ static u32 ConvertSpecies(u32 species)
         {
         case SPECIES_FINAL_BOSS:
         case SPECIES_BOSS:
-            species = gSaveBlock1Ptr->huntTargets.currentBoss;
+            if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER_FINAL_BOSS))
+                species = SPECIES_DELIBIRD;
+            else
+                species = gSaveBlock1Ptr->huntTargets.currentBoss;
             break;
         case SPECIES_MINIBOSS_1:
             species = gSaveBlock1Ptr->huntTargets.miniBosses[3 * area];
