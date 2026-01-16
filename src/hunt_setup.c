@@ -19,6 +19,7 @@
 #include "constants/vars.h"
 
 #include "tarc_help_system.h"
+#include "constants/tarc_balance_constants.h"
 
 #include "start_menu.h"
 

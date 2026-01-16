@@ -7352,6 +7352,13 @@ u8 SpeciesHasInnate(u16 species, u16 ability, u32 personality, bool8 disablerand
                 maxInnates = 1;
             if (gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_3)
                 maxInnates = 2;
+
+            if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER1BOSS))
+                maxInnates = 0;
+            else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER2BOSS))
+                maxInnates = 1;
+            else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER3BOSS))
+                maxInnates = 2;
         }
         for (u32 i = 0; i < maxInnates; i++)
         {
@@ -7400,11 +7407,30 @@ u16 GetSpeciesInnate(u16 species, u8 traitNum, u32 personality, bool8 disableran
     {
         if (!TESTING && gSpeciesInfo[species].maxPhases < 4)
         {
-            if (traitNum >= 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_1)
+            u32 mapNum = gSaveBlock1Ptr->location.mapNum;
+            if (gSpeciesInfo[species].maxPhases == 3
+             && (mapNum == MAP_NUM(MAP_WINTER1BOSS)
+              || mapNum == MAP_NUM(MAP_WINTER2BOSS)
+              || mapNum == MAP_NUM(MAP_WINTER3BOSS)))
+            {
+                if (traitNum > gSaveBlock1Ptr->huntTargets.numBossesDefeated)
+                    return 0;
+            }
+            else
+            {
+                if (traitNum >= 1 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_1)
+                    return 0;
+                if (traitNum >= 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_2)
+                    return 0;
+                if (traitNum >= 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_3)
+                    return 0;
+            }
+
+            if (traitNum >= 1 && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER1BOSS))
                 return 0;
-            if (traitNum >= 2 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_2)
+            else if (traitNum >= 2 && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER2BOSS))
                 return 0;
-            if (traitNum >= 3 && gSaveBlock1Ptr->huntTargets.numBossesDefeated < TARC_INNATE_3)
+            else if (traitNum >= 3 && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER3BOSS))
                 return 0;
         }
         if (MAX_MON_INNATES > 0)
