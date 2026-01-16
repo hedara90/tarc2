@@ -4540,6 +4540,76 @@
       "secondary_tileset": "gTileset_hubsecondary",
       "border_filepath": "data/layouts/Entrance/border.bin",
       "blockdata_filepath": "data/layouts/Entrance/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER1",
+      "name": "Winter1_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter1/border.bin",
+      "blockdata_filepath": "data/layouts/Winter1/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER1BOSS",
+      "name": "Winter1Boss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter1Boss/border.bin",
+      "blockdata_filepath": "data/layouts/Winter1Boss/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER2",
+      "name": "Winter2_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter2/border.bin",
+      "blockdata_filepath": "data/layouts/Winter2/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER2BOSS",
+      "name": "Winter2Boss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter2Boss/border.bin",
+      "blockdata_filepath": "data/layouts/Winter2Boss/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER3",
+      "name": "Winter3_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter3/border.bin",
+      "blockdata_filepath": "data/layouts/Winter3/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER3BOSS",
+      "name": "Winter3Boss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/Winter3Boss/border.bin",
+      "blockdata_filepath": "data/layouts/Winter3Boss/map.bin"
+    },
+    {
+      "id": "LAYOUT_WINTER_FINAL_BOSS",
+      "name": "WinterFinalBoss_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_painted",
+      "secondary_tileset": "gTileset_paintedhub",
+      "border_filepath": "data/layouts/WinterFinalBoss/border.bin",
+      "blockdata_filepath": "data/layouts/WinterFinalBoss/map.bin"
     }
   ]
 }

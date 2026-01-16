@@ -1189,3 +1189,17 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Entrance/scripts.inc"
 
 	.include "data/scripts/tarc_scripts.inc"
+
+	.include "data/maps/Winter1/scripts.inc"
+
+	.include "data/maps/Winter1Boss/scripts.inc"
+
+	.include "data/maps/Winter2/scripts.inc"
+
+	.include "data/maps/Winter2Boss/scripts.inc"
+
+	.include "data/maps/Winter3/scripts.inc"
+
+	.include "data/maps/Winter3Boss/scripts.inc"
+
+	.include "data/maps/WinterFinalBoss/scripts.inc"

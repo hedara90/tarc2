@@ -2105,6 +2105,12 @@ static u32 ConvertSpecies(u32 species)
     if (gMapHeader.mapType != MAP_TYPE_CITY)
     {
         u32 area = gSaveBlock1Ptr->huntTargets.currentArea;
+        if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER1BOSS))
+            area = 0;
+        else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER2BOSS))
+            area = 1;
+        else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_WINTER3BOSS))
+            area = 2;
         switch (species)
         {
         case SPECIES_FINAL_BOSS:

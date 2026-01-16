@@ -2711,7 +2711,6 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x16;
-        moveName[currChar] = EOS;
     }
     else if (targetModifier > UQ_4_12(1.0))
     {
@@ -2724,14 +2723,13 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x15;
-        moveName[currChar] = EOS;
     }
     else if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
     {
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x18;
-        moveName[currChar] = EOS;
     }
+    moveName[currChar] = EOS;
 
     PrintOnAbilityPopUp(moveName,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
