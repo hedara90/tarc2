@@ -3922,6 +3922,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         gBattleScripting.battler = battler;
         if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
         {
+            /*
             switch (GetCurrentWeather())
             {
             case WEATHER_RAIN:
@@ -3979,6 +3980,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     break;
                 }
             }
+            */
         }
         if (effect != 0)
         {
