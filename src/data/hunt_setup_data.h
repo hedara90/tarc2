@@ -275,6 +275,10 @@ static const struct StarterPool sRainPool =
             .species = SPECIES_KILOWATTREL,
             .moves = {MOVE_WEATHER_BALL, MOVE_THUNDER},
         },
+        {
+            .species = SPECIES_FERROTHORN,
+            .moves = {MOVE_GYRO_BALL, MOVE_THUNDER_WAVE},
+        },
     },
 };
 
@@ -306,6 +310,10 @@ static const struct StarterPool sSunPool =
         {
             .species = SPECIES_FLORGES,
             .moves = {MOVE_CALM_MIND, MOVE_MOONBLAST},
+        },
+        {
+            .species = SPECIES_FLAREON,
+            .moves = {MOVE_HEADBUTT, MOVE_TRAILBLAZE},
         },
     },
 };
@@ -339,6 +347,10 @@ static const struct StarterPool sSnowPool =
             .species = SPECIES_SNEASLER,
             .moves = {MOVE_FIRE_PUNCH, MOVE_DIRE_CLAW},
         },
+        {
+            .species = SPECIES_PLAYER_MAMOSWINE,
+            .moves = {MOVE_STOMPING_TANTRUM, MOVE_ICE_FANG},
+        },
     },
 };
 
@@ -371,6 +383,10 @@ static const struct StarterPool sSandPool =
             .species = SPECIES_PALOSSAND,
             .moves = {MOVE_SHORE_UP, MOVE_SHADOW_BALL},
         },
+        {
+            .species = SPECIES_STOUTLAND,
+            .moves = {MOVE_FACADE, MOVE_HOWL},
+        }
     },
 };
 

@@ -9733,6 +9733,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
     if (SearchTraits(battlerTraits, ABILITY_AERILATE) && moveType == TYPE_FLYING && gBattleStruct->ateBoost[battlerAtk])
         modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
+    if (SearchTraits(battlerTraits, ABILITY_IGNITE) && moveType == TYPE_FIRE && gBattleStruct->ateBoost[battlerAtk])
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.0));
     if (SearchTraits(battlerTraits, ABILITY_NORMALIZE) && moveType == TYPE_NORMAL && gBattleStruct->ateBoost[battlerAtk] && GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.2));
     if (SearchTraits(battlerTraits, ABILITY_PUNK_ROCK) && IsSoundMove(move))

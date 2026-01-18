@@ -206,6 +206,7 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
 
     //  Give random mons from pool
     const struct StarterPool *pool = &sRainPool;
+    bool32 isWeatherTeam = TRUE;
     switch (monList)
     {
     case MON_LIST_RAIN_DIRECT:
@@ -234,10 +235,14 @@ static void GiveHuntMons(enum PlayerMonList monList, rng_value_t *localRngState)
         break;
     }
 
-    u32 index1 = LocalRandom32(localRngState) % pool->numMons;
-    u32 index2 = LocalRandom32(localRngState) % pool->numMons;
+    u32 numMons = pool->numMons;
+    if (isWeatherTeam && FlagGet(FLAG_DEFEATED_WINTER))
+        numMons += 1;
+
+    u32 index1 = LocalRandom32(localRngState) % numMons;
+    u32 index2 = LocalRandom32(localRngState) % numMons;
     while (index1 == index2)
-        index2 = LocalRandom32(localRngState) % pool->numMons;
+        index2 = LocalRandom32(localRngState) % numMons;
 
 
     isShiny = (LocalRandom32(localRngState) % 0xFFF) == 0;
