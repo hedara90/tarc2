@@ -1101,6 +1101,15 @@ script Entrance_PottedPlantMan {
                         "All plants here are real.",
                         "Too many shed leaves for that.")
         msgbox("{SPEAKER NAME_HIDEAKI}Ah, I guess I see leaves that\nhave fallen off the plants.")
+    case 10:
+        msgbox("{SPEAKER NAME_HIDEAKI}I bet I could throw ice cubes into\nthe pots. Then they'll melt!\pThough plants usually don't like cold…")
+    case 11:
+        msgbox("{SPEAKER NAME_HIDEAKI}Snowballs!\pThey're insulating, so they won't\ndamage the plants!")
+        msgbox("{SPEAKER NAME_PLAYER}Sir, please don't bring snow into\nthe Library…")
+    case 12:
+        msgbox("{SPEAKER NAME_HIDEAKI}What if there's a hatch in the roof\nthat open up when it rains!\pNatural water!")
+        msgbox("{SPEAKER NAME_PLAYER}That would be even worse than you\nbringing a snowball!")
+        msgbox("{SPEAKER NAME_HIDEAKI}Oh, that's true I guess.")
     default:
         msgbox("{SPEAKER NAME_HIDEAKI}How do you even water the pots over\nthere?")
         setvar(VAR_POTTED_PLANT_MAN, 0)
