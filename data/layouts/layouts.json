@@ -4554,8 +4554,8 @@
     {
       "id": "LAYOUT_WINTER1BOSS",
       "name": "Winter1Boss_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 34,
+      "height": 32,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Winter1Boss/border.bin",
@@ -4574,8 +4574,8 @@
     {
       "id": "LAYOUT_WINTER2BOSS",
       "name": "Winter2Boss_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 28,
+      "height": 28,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/Winter2Boss/border.bin",
@@ -4604,8 +4604,8 @@
     {
       "id": "LAYOUT_WINTER_FINAL_BOSS",
       "name": "WinterFinalBoss_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 26,
+      "height": 26,
       "primary_tileset": "gTileset_painted",
       "secondary_tileset": "gTileset_paintedhub",
       "border_filepath": "data/layouts/WinterFinalBoss/border.bin",
