@@ -1631,6 +1631,7 @@ static void TryMoveSelection(void)
             while (gSaveBlock1Ptr->abilityStorage[storageIndex] != ABILITY_NONE)
                 storageIndex++;
             gSaveBlock1Ptr->abilityStorage[storageIndex] = sTarcUiState->mons[activeMon].abilities[pos];
+            gSaveBlock1Ptr->extraAbilities[activeMon][pos - 1] = ABILITY_NONE;
             sTarcUiState->mons[activeMon].abilities[pos] = ABILITY_NONE;
         }
     }
@@ -1675,6 +1676,7 @@ static void TryMoveSelection(void)
                 putIndex++;
 
             sTarcUiState->mons[activeMon].abilities[putIndex] = gSaveBlock1Ptr->abilityStorage[listPos];
+            gSaveBlock1Ptr->extraAbilities[activeMon][putIndex - 1] = gSaveBlock1Ptr->abilityStorage[listPos];
             gSaveBlock1Ptr->abilityStorage[listPos] = ABILITY_NONE;
             numItems = CompactAbilityStorage();
         }
