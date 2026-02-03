@@ -173,7 +173,8 @@ struct ProtectStruct
     u16 usedAllySwitch:1;
     u16 lashOutAffected:1;
     u16 usedAttackingMove:1;
-    u16 padding:3;
+    u16 triggeredWeatherAbility:1;
+    u16 padding:2;
     // End of 16-bit bitfield
     u16 physicalDmg;
     u16 specialDmg;
@@ -273,6 +274,7 @@ struct WishFutureKnock
     u8 wishPartyId[MAX_BATTLERS_COUNT];
     u8 weatherDuration;
     u8 knockedOffMons[NUM_BATTLE_SIDES]; // Each battler is represented by a bit.
+    u8 fatedTarget[MAX_BATTLERS_COUNT];
 };
 
 struct AI_SavedBattleMon
@@ -821,7 +823,8 @@ struct BattleStruct
     bool8 foreseenTrigger[MAX_BATTLERS_COUNT];
     u16 leechSeedSpecies;
     u16 intrepidSwordCD:4;
-    u16 padding:12;
+    u16 shouldChangePhase:1;
+    u16 padding:11;
 };
 
 struct AiBattleData

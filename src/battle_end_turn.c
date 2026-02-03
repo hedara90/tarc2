@@ -394,6 +394,7 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
 
     if (gWishFutureKnock.futureSightCounter[battler] == gBattleTurnCounter)
     {
+        gBattleStruct->isEndOfTurnFuture = TRUE;
         if (gWishFutureKnock.futureSightCounter[battler] == gBattleTurnCounter
          && gWishFutureKnock.futureSightCounter[BATTLE_PARTNER(battler)] <= gBattleTurnCounter)
         {
@@ -420,6 +421,7 @@ static bool32 HandleEndTurnFutureSight(u32 battler)
         if (gCurrentMove != MOVE_FUTURE_SIGHT && gCurrentMove != MOVE_DOOM_DESIRE && gCurrentMove != MOVE_REWARD_FUTURE_SIGHT)
         {
             gBattleStruct->foreseenTrigger[gBattlerAttacker] = TRUE;
+            gBattlerTarget = gWishFutureKnock.fatedTarget[gBattlerAttacker];
             BattleScriptExecute(gBattleMoveEffects[gMovesInfo[gCurrentMove].effect].battleScript);
         }
         else
@@ -1729,7 +1731,9 @@ static bool32 HandleEndTurnAbilities(u32 battler)
         effect = TRUE;
     }
 
-    if (gBattleStruct->empathCounter > 0 && SearchTraits(battlerTraits, ABILITY_EMPATH))
+    if (gBattleStruct->empathCounter > 0
+     && SearchTraits(battlerTraits, ABILITY_EMPATH)
+     && IsBattlerAlive(battler))
     {
         CreateAbilityPopUp(battler, ABILITY_EMPATH, FALSE);
         gBattleStruct->moveDamage[battler] = -gBattleStruct->empathCounter * GetNonDynamaxMaxHP(battler) / TARC_EMPATH_HP_FRACTION;
@@ -2263,7 +2267,6 @@ u32 DoEndTurnEffects(void)
 {
     u32 battler = MAX_BATTLERS_COUNT;
     gHitMarker |= (HITMARKER_GRUDGE | HITMARKER_IGNORE_BIDE);
-    gBattleStruct->isEndOfTurnFuture = TRUE;
 
     for (;;)
     {

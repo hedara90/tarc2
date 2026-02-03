@@ -495,6 +495,8 @@ void HandleAction_UseMove(void)
 
     //  Set this bit to 0 if it for some reason isn't already
     gBattleStruct->cripplingPoisonFlip = FALSE;
+    for (u32 battler = 0; battler < 4; battler++)
+        gProtectStructs[battler].triggeredWeatherAbility = FALSE;
 
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     if (gBattlerAttacker == 1 && !gBattleStruct->hasCheckedSentinel)
@@ -4045,7 +4047,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         }
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_MOLD_BREAKER)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_MOLDBREAKER, ABILITY_MOLD_BREAKER, traitCheck, 0);
-            
+
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SUN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SUN, ABILITY_ESSENCE_OF_SUN, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_RAIN)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_RAIN, ABILITY_ESSENCE_OF_RAIN, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SNOW)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SNOW, ABILITY_ESSENCE_OF_SNOW, traitCheck, 0);
+        if ((traitCheck = SearchTraits(battlerTraits, ABILITY_ESSENCE_OF_SAND)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
+            effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_ESSENCE_OF_SAND, ABILITY_ESSENCE_OF_SAND, traitCheck, 0);
+
         if ((traitCheck = SearchTraits(battlerTraits, ABILITY_TERAVOLT)) && !gSpecialStatuses[battler].switchInTraitDone[traitCheck - 1])
             effect += CommonSwitchInAbilities(battler, B_MSG_SWITCHIN_TERAVOLT, ABILITY_TERAVOLT, traitCheck, 0);
 
@@ -5429,6 +5440,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if (SearchTraits(battlerTraits, ABILITY_CLOUDBURST)
          && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
          && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+         && !gProtectStructs[gBattlerTarget].triggeredWeatherAbility
          && IsBattlerTurnDamaged(gBattlerTarget)
          && !(gBattleWeather & B_WEATHER_RAIN && HasWeatherEffect()))
         {
@@ -5445,6 +5457,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 gBattleScripting.battler = battler;
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_CloudburstActivates;
+                gProtectStructs[gBattlerTarget].triggeredWeatherAbility = TRUE;
                 effect++;
             }
         }
@@ -5802,17 +5815,19 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             SET_STATCHANGER(statToBoost, 1, FALSE);
             BattleScriptPushCursor();
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_WINDS_OF_CHANGE, FALSE);
-            gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+            gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
             effect++;
         }
         if (gMovesInfo[gCurrentMove].type == TYPE_FIRE
          && SearchTraits(battlerTraits, ABILITY_SUNRISE)
+         && !gProtectStructs[gBattlerAttacker].triggeredWeatherAbility
          && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
          && !(gBattleWeather & B_WEATHER_SUN))
         {
             CreateAbilityPopUp(gBattlerAttacker, ABILITY_SUNRISE, FALSE);
             BattleScriptPushCursor();
             gBattlescriptCurrInstr = BattleScript_Sunrise;
+            gProtectStructs[gBattlerAttacker].triggeredWeatherAbility = TRUE;
             effect++;
         }
         if (gMovesInfo[gCurrentMove].effect == EFFECT_TWO_TURNS_ATTACK
@@ -5856,7 +5871,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_WILLPOWER, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5870,7 +5885,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_MENTAL_BLOCK, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5894,7 +5909,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_FLOURISH, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -5947,6 +5962,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         if (gMovesInfo[gCurrentMove].type == TYPE_ELECTRIC
          && IsBattlerTurnDamaged(gBattlerTarget)
          && SearchTraits(battlerTraits, ABILITY_SCORCHING_VOLTAGE)
+         && CanBeBurned(gBattlerAttacker, gBattlerTarget, GetBattlerAbility(gBattlerTarget))
          && RandomPercentage(RNG_STATIC, 30))
         {
             gBattleScripting.moveEffect = MOVE_EFFECT_BURN;
@@ -5968,7 +5984,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 SET_STATCHANGER(statToBoost, 1, FALSE);
                 BattleScriptPushCursor();
                 CreateAbilityPopUp(gBattlerAttacker, ABILITY_FLAME_CLOAK, FALSE);
-                gBattlescriptCurrInstr = BattleScript_WindsOfChange;
+                gBattlescriptCurrInstr = BattleScript_IncreaseStatAndReturn;
                 effect++;
             }
         }
@@ -6020,6 +6036,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightPartyIndex[(battler + 1) & 0x1] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[(battler + 1) & 0x1] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
 
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
+
             gBattleStruct->fatedWorkaround = TRUE;
 
             CreateAbilityPopUp(battler, ABILITY_FATED_CHANGE, FALSE);
@@ -6040,6 +6058,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
+
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
@@ -6063,6 +6083,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             gWishFutureKnock.futureSightBattlerIndex[gBattlerTarget] = gBattlerAttacker;
             gWishFutureKnock.futureSightPartyIndex[gBattlerTarget] = gBattlerPartyIndexes[gBattlerAttacker];
             gWishFutureKnock.futureSightCounter[gBattlerTarget] = gBattleTurnCounter + 3 + gMovesInfo[gCurrentMove].cd / 2;
+
+            gWishFutureKnock.fatedTarget[gBattlerAttacker] = gBattlerTarget;
 
             gBattleStruct->fatedWorkaround = TRUE;
 
@@ -6532,6 +6554,7 @@ bool32 IsMoldBreakerTypeAbility(u32 battler, u32 ability)
     return (ability == ABILITY_MOLD_BREAKER || BattlerHasInnate(battler, ABILITY_MOLD_BREAKER)
          || ability == ABILITY_TERAVOLT || BattlerHasInnate(battler, ABILITY_TERAVOLT)
          || ability == ABILITY_TURBOBLAZE || BattlerHasInnate(battler, ABILITY_TURBOBLAZE)
+         || ((ability == ABILITY_CIRCLE_OF_LIFE2 || BattlerHasInnate(battler, ABILITY_CIRCLE_OF_LIFE2)) && (gBattleMons[gBattlerTarget].hp > gBattleMons[gBattlerTarget].maxHP / 2))
          || ((ability == ABILITY_MYCELIUM_MIGHT || BattlerHasInnate(battler, ABILITY_MYCELIUM_MIGHT))
          && IsBattleMoveStatus(gCurrentMove)));
 }
@@ -9664,6 +9687,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
     // attacker's abilities
     STORE_BATTLER_TRAITS(battlerAtk);
 
+    if (SearchTraits(battlerTraits, ABILITY_YGGDRASILS_GIFT2) && gBattleMons[battlerDef].hp > gBattleMons[battlerDef].maxHP / 2)
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.3));
     if (SearchTraits(battlerTraits, ABILITY_TECHNICIAN) && basePower <= 60)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
     if (SearchTraits(battlerTraits, ABILITY_FLARE_BOOST) && gBattleMons[battlerAtk].status1 & STATUS1_BURN && IsBattleMoveSpecial(move))
@@ -11099,6 +11124,11 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(u32 move, u32 mov
             RecordAbilityBattle(battlerDef, gLastUsedAbility);
         }
     }
+
+    if (modifier < UQ_4_12(1.0)
+     && BattlerHasTrait(battlerAtk, ABILITY_CIRCLE_OF_LIFE2)
+     && gBattleMons[battlerDef].hp > gBattleMons[battlerDef].maxHP / 2)
+        modifier = UQ_4_12(1.0);
 
     if (recordAbilities)
         TryInitializeFirstSTABMoveTrainerSlide(battlerDef, battlerAtk, moveType);
@@ -13121,4 +13151,49 @@ bool32 IsLivingShadowProtected(u32 battler)
      && gStatuses3[battler] & STATUS3_PHANTOM_FORCE)
         return TRUE;
     return FALSE;
+}
+
+//  Not the best solution to this
+EWRAM_DATA u8 sSwitchedLead;
+
+void TarcSetPartyOrder(void)
+{
+    bool32 alive0 = GetMonData(&gPlayerParty[0], MON_DATA_HP) > 0;
+    bool32 alive1 = GetMonData(&gPlayerParty[1], MON_DATA_HP) > 0;
+    if (alive0)
+    {
+        sSwitchedLead = 0;
+    }
+    else
+    {
+        if (alive1)
+        {
+            sSwitchedLead = 1;
+            struct Pokemon mon = gPlayerParty[0];
+            gPlayerParty[0] = gPlayerParty[1];
+            gPlayerParty[1] = mon;
+        }
+        else
+        {
+            sSwitchedLead = 2;
+            struct Pokemon mon = gPlayerParty[0];
+            gPlayerParty[0] = gPlayerParty[2];
+            gPlayerParty[2] = mon;
+        }
+    }
+}
+
+void TarcRestorePartyOrder(void)
+{
+    if (sSwitchedLead == 0)
+    {
+        return;
+    }
+    else
+    {
+        struct Pokemon mon = gPlayerParty[0];
+        gPlayerParty[0] = gPlayerParty[sSwitchedLead];
+        gPlayerParty[sSwitchedLead] = mon;
+        sSwitchedLead = 0;
+    }
 }

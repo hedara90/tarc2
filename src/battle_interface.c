@@ -37,6 +37,7 @@
 #include "caps.h"
 
 #include "even_sprite.h"
+#include "tarc_help_system.h"
 
 enum
 {   // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
@@ -617,6 +618,9 @@ static const struct WindowTemplate sHealthboxWindowTemplate = {
     .paletteNum = 0,
     .baseBlock = 0
 };
+
+static const u32 sStatDisplayGfx[] = INCBIN_U32("graphics/battle_interface/stat_display.4bpp");
+static const u16 sStatDisplayPal[] = INCBIN_U16("graphics/battle_interface/stat_display.gbapal");
 
 // Because the healthbox is too large to fit into one sprite, it is divided into two sprites.
 // healthboxLeft  or healthboxMain  is the left part that is used as the 'main' sprite.
@@ -2688,7 +2692,46 @@ static void PrintAbilityOnAbilityPopUp(u32 ability, u8 spriteId1, u8 spriteId2)
 static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 {
     ClearAbilityName(spriteId1, spriteId2);
-    PrintOnAbilityPopUp(gMovesInfo[move].name,
+    u8 moveName[32];
+    u32 currChar = 0;
+    while (gMovesInfo[move].name[currChar] != EOS)
+    {
+        moveName[currChar] = gMovesInfo[move].name[currChar];
+        currChar++;
+    }
+    uq4_12_t targetModifier = CalcTypeEffectivenessMultiplier(move, gMovesInfo[move].type, 1, 0, gBattleMons[0].ability, FALSE);
+    if (targetModifier < UQ_4_12(1.0))
+    {
+        //  TRIANGLE
+        moveName[currChar++] = 0xFC;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x0F;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x07;
+
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x16;
+    }
+    else if (targetModifier > UQ_4_12(1.0))
+    {
+        //  CIRCLE_DOT
+        moveName[currChar++] = 0xFC;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x04;
+        moveName[currChar++] = 0x08;
+        moveName[currChar++] = 0x06;
+
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x15;
+    }
+    else if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
+    {
+        moveName[currChar++] = 0xF9;
+        moveName[currChar++] = 0x18;
+    }
+    moveName[currChar] = EOS;
+
+    PrintOnAbilityPopUp(moveName,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
                         5, 12,
@@ -2900,6 +2943,141 @@ void CreateAbilityPopUp(u8 battler, u32 ability, bool32 isDoubleBattle)
     RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
 }
 
+static u32 GetStatNumberOffset(s32 value)
+{
+    u32 offset = 0;
+    switch (value)
+    {
+    case 0:  // -6
+        offset = 8 * 36;
+        break;
+    case 1:  // -5
+        offset = 8 * 34;
+        break;
+    case 2:  // -4
+        offset = 8 * 32;
+        break;
+    case 3:  // -3
+        offset = 8 * 28;
+        break;
+    case 4:  // -2
+        offset = 8 * 26;
+        break;
+    case 5:  // -1
+        offset = 8 * 24;
+        break;
+    case 6:  //  0
+        offset = 8 * 1;
+        break;
+    case 7:  // +1
+        offset = 8 * 40;
+        break;
+    case 8:  // +2
+        offset = 8 * 42;
+        break;
+    case 9:  // +3
+        offset = 8 * 44;
+        break;
+    case 10: // +4
+        offset = 8 * 48;
+        break;
+    case 11: // +5
+        offset = 8 * 50;
+        break;
+    case 12: // +6
+        offset = 8 * 52;
+        break;
+    }
+
+    return offset;
+}
+
+void BuildStatSprite(u32 *sprite, u32 battler)
+{
+    if (gBattleMons[battler].statStages[STAT_ATK] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_ATK]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 1 + i] = sStatDisplayGfx[startOffset + i];
+    }
+
+    if (gBattleMons[battler].statStages[STAT_DEF] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_DEF]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 9 + i] = sStatDisplayGfx[startOffset + i];
+    }
+
+    if (gBattleMons[battler].statStages[STAT_SPATK] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPATK]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 5 + i] = sStatDisplayGfx[startOffset + i];
+    }
+
+    if (gBattleMons[battler].statStages[STAT_SPDEF] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPDEF]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 13 + i] = sStatDisplayGfx[startOffset + i];
+    }
+
+    if (gBattleMons[battler].statStages[STAT_SPEED] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_SPEED]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 17 + i] = sStatDisplayGfx[startOffset + i];
+    }
+
+    if (gBattleMons[battler].statStages[STAT_ACC] != DEFAULT_STAT_STAGE)
+    {
+        u32 startOffset = GetStatNumberOffset(gBattleMons[battler].statStages[STAT_ACC]);
+        for (u32 i = 0; i < 16; i++)
+            sprite[8 * 21 + i] = sStatDisplayGfx[startOffset + i];
+    }
+}
+
+static void StatSlideRight(struct Sprite *sprite)
+{
+    if (sprite->data[0] < 16)
+    {
+        sprite->x += 4;
+        sprite->data[0]++;
+    }
+    else
+    {
+        sprite->callback = SpriteCallbackDummy;
+        if (sprite->data[1] == 1)
+        {
+            FreeSpriteTilesByTag(sprite->data[2]);
+            FreeSpritePaletteByTag(sprite->data[3]);
+            DestroySprite(sprite);
+        }
+    }
+}
+
+static void StatSlideLeft(struct Sprite *sprite)
+{
+    if (sprite->data[0] < 16)
+    {
+        sprite->x -= 4;
+        sprite->data[0]++;
+    }
+    else
+    {
+        sprite->callback = SpriteCallbackDummy;
+        if (sprite->data[1] == 1)
+        {
+            FreeSpriteTilesByTag(sprite->data[2]);
+            FreeSpritePaletteByTag(sprite->data[3]);
+            DestroySprite(sprite);
+        }
+    }
+}
+
+EWRAM_DATA u8 sPlayerStatSprite;
+EWRAM_DATA u8 sOpponentStatSprite;
+
 void CreateBossMovePopUp(void)
 {
     const s16 (*coords)[2];
@@ -2944,6 +3122,46 @@ void CreateBossMovePopUp(void)
     PrintThingOnAbilityPopUp(spriteId1, spriteId2);
     PrintMoveOnAbilityPopUp(gBattleMons[1].moves[0], spriteId1, spriteId2);
     RestoreOverwrittenPixels((void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32));
+
+    // Create the stat display
+    u32 *statSprite = AllocZeroed(1024);
+    for (u32 i = 0; i < 192; i++)
+        statSprite[i] = sStatDisplayGfx[i];
+
+    BuildStatSprite(statSprite, 0);
+
+    struct Even_CreateSpriteStruct cs = {0};
+    cs.sprite = statSprite;
+    cs.tileTag = 0xDAD1;
+    cs.palette = sStatDisplayPal;
+    cs.palTag = 0xDAD1;
+    cs.spriteSize = SPRITE_SIZE(64x32);
+    cs.spriteShape = SPRITE_SHAPE(64x32);
+    cs.posX = -32;
+    cs.posY = 100;
+
+    sPlayerStatSprite = Even_CreateSprite(&cs);
+    gSprites[sPlayerStatSprite].oam.priority = 0;
+    gSprites[sPlayerStatSprite].callback = StatSlideRight;
+    gSprites[sPlayerStatSprite].data[0] = 0;
+    gSprites[sPlayerStatSprite].data[2] = 0xDAD1;
+    gSprites[sPlayerStatSprite].data[3] = 0xDAD1;
+
+    for (u32 i = 0; i < 192; i++)
+        statSprite[i] = sStatDisplayGfx[i];
+    BuildStatSprite(statSprite, 1);
+    cs.tileTag = 0xDAD2;
+    cs.palTag = 0xDAD1;
+    cs.posX = 272;
+    cs.posY = 32;
+    sOpponentStatSprite = Even_CreateSprite(&cs);
+    gSprites[sOpponentStatSprite].oam.priority = 0;
+    gSprites[sOpponentStatSprite].callback = StatSlideLeft;
+    gSprites[sOpponentStatSprite].data[0] = 0;
+    gSprites[sOpponentStatSprite].data[2] = 0xDAD2;
+    gSprites[sOpponentStatSprite].data[3] = 0xDAD1;
+
+    Free(statSprite);
 }
 
 void UpdateAbilityPopup(u8 battler)
@@ -3030,9 +3248,21 @@ static void SpriteCb_BossMovePopUp(struct Sprite *sprite)
     }
     else if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY | START_BUTTON | SELECT_BUTTON | R_BUTTON | L_BUTTON))
     {
+        if (gHelpStruct.isShowingHelp)
+            return;
         PlaySE(SE_BALL_TRAY_ENTER);
         sprite->tGotInput = TRUE;
         sprite->tFrames = 0;
+        gSprites[sPlayerStatSprite].callback = StatSlideLeft;
+        gSprites[sPlayerStatSprite].data[1] = 1;
+        gSprites[sPlayerStatSprite].data[0] = 0;
+        gSprites[sOpponentStatSprite].callback = StatSlideRight;
+        gSprites[sOpponentStatSprite].data[1] = 1;
+        gSprites[sOpponentStatSprite].data[0] = 0;
+    }
+    else
+    {
+        HelpSystem_AddTrigger(TRIGGER_FOE_EFFECTIVENESS);
     }
 }
 

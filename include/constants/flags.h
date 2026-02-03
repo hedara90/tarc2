@@ -81,8 +81,8 @@
 #define FLAG_BOSS_BOSS          0x43
 #define FLAG_PESTERED_NAOTO     0x44
 #define FLAG_NO_WHITEOUT        0x45
-#define FLAG_UNUSED_0x046    0x46 // Unused Flag
-#define FLAG_UNUSED_0x047    0x47 // Unused Flag
+#define FLAG_HELP_PLAYER_EFFECT 0x46
+#define FLAG_HELP_FOE_EFFECT    0x47
 #define FLAG_UNUSED_0x048    0x48 // Unused Flag
 #define FLAG_UNUSED_0x049    0x49 // Unused Flag
 #define FLAG_UNUSED_0x04A    0x4A // Unused Flag

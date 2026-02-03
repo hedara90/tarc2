@@ -30,3 +30,27 @@ SINGLE_BATTLE_TEST("Eruption's damage is affected by the user's current HP", s16
         EXPECT_EQ(results[3].damage, 1);
     }
 }
+
+SINGLE_BATTLE_TEST("Ray of Life's damage is affected by the user's current HP", s16 damage)
+{
+    s16 hp, maxHp = 256;
+
+    PARAMETRIZE { hp = maxHp; }
+    PARAMETRIZE { hp = maxHp / 2; }
+    PARAMETRIZE { hp = maxHp / 8; }
+    PARAMETRIZE { hp = 1; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { HP(hp); MaxHP(maxHp); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_RAY_OF_LIFE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_RAY_OF_LIFE, player);
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.125), results[2].damage);
+        EXPECT_EQ(results[3].damage, 1);
+    }
+}

@@ -18,6 +18,12 @@ const u16 sHelpBossMovePal[] = INCBIN_U16("graphics/help_messages/help_boss_move
 const u32 sHelpChooseBossGfx[] = INCBIN_U32("graphics/help_messages/help_choose_boss.4bpp");
 const u16 sHelpChooseBossPal[] = INCBIN_U16("graphics/help_messages/help_choose_boss.gbapal");
 
+const u32 sHelpPlayerEffectGfx[] = INCBIN_U32("graphics/help_messages/help_player_effect.4bpp");
+const u16 sHelpPlayerEffectPal[] = INCBIN_U16("graphics/help_messages/help_player_effect.gbapal");
+
+const u32 sHelpFoeEffectGfx[] = INCBIN_U32("graphics/help_messages/help_foe_effect.4bpp");
+const u16 sHelpFoeEffectPal[] = INCBIN_U16("graphics/help_messages/help_foe_effect.gbapal");
+
 const struct HelpData sHelpDatas[] =
 {
     [TRIGGER_ROTATION] = {
@@ -71,5 +77,21 @@ const struct HelpData sHelpDatas[] =
     [TRIGGER_MOVES] = {
     },
     [TRIGGER_ABILITIES] = {
+    },
+    [TRIGGER_PLAYER_EFFECTIVENESS] = {
+        .x = 120,
+        .y = 91,
+        .spritePtr = sHelpPlayerEffectGfx,
+        .palettePtr = sHelpPlayerEffectPal,
+        .flag = FLAG_HELP_PLAYER_EFFECT,
+        .numSprites = 2,
+    },
+    [TRIGGER_FOE_EFFECTIVENESS] = {
+        .x = 175,
+        .y = 88,
+        .spritePtr = sHelpFoeEffectGfx,
+        .palettePtr = sHelpFoeEffectPal,
+        .flag = FLAG_HELP_FOE_EFFECT,
+        .numSprites = 2,
     },
 };
