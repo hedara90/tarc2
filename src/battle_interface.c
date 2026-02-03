@@ -2711,7 +2711,6 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x16;
-        moveName[currChar] = EOS;
     }
     else if (targetModifier > UQ_4_12(1.0))
     {
@@ -2724,14 +2723,13 @@ static void PrintMoveOnAbilityPopUp(u32 move, u8 spriteId1, u8 spriteId2)
 
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x15;
-        moveName[currChar] = EOS;
     }
     else if (gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS)
     {
         moveName[currChar++] = 0xF9;
         moveName[currChar++] = 0x18;
-        moveName[currChar] = EOS;
     }
+    moveName[currChar] = EOS;
 
     PrintOnAbilityPopUp(moveName,
                         (void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
@@ -3153,7 +3151,7 @@ void CreateBossMovePopUp(void)
         statSprite[i] = sStatDisplayGfx[i];
     BuildStatSprite(statSprite, 1);
     cs.tileTag = 0xDAD2;
-    cs.palTag = 0xDAD2;
+    cs.palTag = 0xDAD1;
     cs.posX = 272;
     cs.posY = 32;
     sOpponentStatSprite = Even_CreateSprite(&cs);
@@ -3161,7 +3159,7 @@ void CreateBossMovePopUp(void)
     gSprites[sOpponentStatSprite].callback = StatSlideLeft;
     gSprites[sOpponentStatSprite].data[0] = 0;
     gSprites[sOpponentStatSprite].data[2] = 0xDAD2;
-    gSprites[sOpponentStatSprite].data[3] = 0xDAD2;
+    gSprites[sOpponentStatSprite].data[3] = 0xDAD1;
 
     Free(statSprite);
 }
@@ -3250,6 +3248,8 @@ static void SpriteCb_BossMovePopUp(struct Sprite *sprite)
     }
     else if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY | START_BUTTON | SELECT_BUTTON | R_BUTTON | L_BUTTON))
     {
+        if (gHelpStruct.isShowingHelp)
+            return;
         PlaySE(SE_BALL_TRAY_ENTER);
         sprite->tGotInput = TRUE;
         sprite->tFrames = 0;
