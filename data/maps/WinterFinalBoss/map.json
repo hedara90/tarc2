@@ -14,8 +14,8 @@
     {
       "local_id": "LOCALID_FINAL_BOSS",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FINAL_BOSS)",
-      "x": 12,
-      "y": 7,
+      "x": 13,
+      "y": 11,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,

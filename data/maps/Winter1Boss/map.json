@@ -28,7 +28,7 @@
     {
       "local_id": "LOCALID_MINIBOSS1",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MINIBOSS_1)",
-      "x": 16,
+      "x": 19,
       "y": 22,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -42,8 +42,8 @@
     {
       "local_id": "LOCALID_MINIBOSS2",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MINIBOSS_2)",
-      "x": 21,
-      "y": 19,
+      "x": 18,
+      "y": 15,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
