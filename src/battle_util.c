@@ -9427,6 +9427,10 @@ static inline u32 CalcMoveBasePower(struct DamageCalculationData *damageCalcData
          && !((GetMoveAdditionalEffectById(move, 0)->moveEffect == MOVE_EFFECT_REMOVE_STATUS) && DoesSubstituteBlockMove(battlerAtk, battlerDef, move)))
             basePower *= 2;
         break;
+    case EFFECT_TARC_PRESENT:
+        if (gBattleMons[battlerDef].status1 & STATUS1_ANY)
+            basePower = 3 * basePower / 2;
+        break;
     case EFFECT_POWER_BASED_ON_TARGET_HP:
         basePower = gBattleMons[battlerDef].hp * basePower / gBattleMons[battlerDef].maxHP;
         break;
