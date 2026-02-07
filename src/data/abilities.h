@@ -3335,7 +3335,14 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_IGNITE] =
     {
         .name = _("Ignite"),
-        .description = COMPOUND_STRING("Normal moves become Fire"),
+        .description = COMPOUND_STRING("Normal moves become Fire."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_GENEROSITY] =
+    {
+        .name = _("Generosity"),
+        .description = COMPOUND_STRING("Effect depending on\nfoe status."),
         .aiRating = 5,
         .category = AC_PASSIVE,
     },

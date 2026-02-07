@@ -10824,3 +10824,41 @@ BattleScript_PurifyingWaterProtectsRet::
 	printstring STRINGID_PURIFYING_WATER
 	waitmessage B_WAIT_TIME_LONG
 	return
+
+@Damage entire player side
+BattleScript_GenerosityBurn::
+	printstring STRINGID_GENEROSITY_BURN
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+@Decrease speed
+BattleScript_GenerosityFrostbite::
+	printstring STRINGID_GENEROSITY_FROSTBITE
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+@Add +2 CD to random move
+BattleScript_GenerosityParalysis::
+	printstring STRINGID_GENEROSITY_PARALYSIS
+	waitmessage B_WAIT_TIME_LONG
+	saveattacker
+	setbyte gBattlerAttacker, 0
+	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND
+	waitanimation
+	restoreattacker
+	end2
+
+@Boost random stat for Delibird
+BattleScript_GenerosityNothing::
+	printstring STRINGID_GENEROSITY_NOTHING
+	waitmessage B_WAIT_TIME_LONG
+	saveattacker
+	setbyte gBattlerAttacker, 1
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_GenerosityEnd
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_GENEROSITY_NOTHING2
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_GenerosityEnd:
+	restoreattacker
+	end2

@@ -960,7 +960,11 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ESSENCE_OF_RAIN_ENTER]                = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} carries the Essence of Rain!"),
     [STRINGID_ESSENCE_OF_SNOW_ENTER]                = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} carries the Essence of Snow!"),
     [STRINGID_ESSENCE_OF_SAND_ENTER]                = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} carries the Essence of Sand!"),
-
+    [STRINGID_GENEROSITY_BURN]                      = COMPOUND_STRING("The opposing Delibird is happy with its generous burn!\pThe burning feeling was shared!"),
+    [STRINGID_GENEROSITY_FROSTBITE]                 = COMPOUND_STRING("The opposing Delibird is happy with its generous frostbite!\pIt's hard to move…"),
+    [STRINGID_GENEROSITY_PARALYSIS]                 = COMPOUND_STRING("The opposing Delibird is happy with its generous paralysis!\pSomething was delayed…"),
+    [STRINGID_GENEROSITY_NOTHING]                   = COMPOUND_STRING("The opposing Delibird is angry that you don't have its gifts!"),
+    [STRINGID_GENEROSITY_NOTHING2]                  = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_BUFF1} rose!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

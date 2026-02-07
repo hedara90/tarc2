@@ -75,6 +75,7 @@ enum EndTurnResolutionOrder
     ENDTURN_FOURTH_EVENT_BLOCK,
     ENDTURN_DYNAMAX,
     ENDTURN_BACKLINE_RESTORE,
+    ENDTURN_GENEROSITY,
     ENDTURN_PLAYER_CD,
     ENDTURN_COUNT,
 };
@@ -1021,6 +1022,91 @@ static bool32 HandleEndTurnDisable(u32 battler)
         }
     }
 
+    return effect;
+}
+
+static bool32 HandleEndTurnGenerosity(u32 battler)
+{
+    bool32 effect = FALSE;
+    gBattleStruct->turnEffectsBattlerId++;
+    if (battler != 1)
+        return effect;
+
+    u16 battlerTraits[MAX_MON_TRAITS];
+    STORE_BATTLER_TRAITS(battler);
+
+    if (SearchTraits(battlerTraits, ABILITY_GENEROSITY))
+    {
+        u32 status = gBattleMons[0].status1;
+
+        if ((status & STATUS1_BURN) != 0)
+        {
+            CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
+            BattleScriptExecute(BattleScript_GenerosityBurn);
+            if (!TESTING)
+            {
+                DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 24);
+                DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 24);
+            }
+        }
+        else if ((status & STATUS1_FROSTBITE) != 0)
+        {
+            CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
+            BattleScriptExecute(BattleScript_GenerosityFrostbite);
+        }
+        else if ((status & STATUS1_PARALYSIS) != 0)
+        {
+            CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
+            BattleScriptExecute(BattleScript_GenerosityParalysis);
+            if (!TESTING)
+            {
+                u32 index = Random32() % 4;
+                while (gBattleMons[0].moves[index] == MOVE_NONE)
+                    index = Random32() % 4;
+                gBattleMons[0].moveCD[index] += 2;
+            }
+        }
+        else
+        {
+            if (gBattleMons[battler].statStages[STAT_ATK] == DEFAULT_STAT_STAGE + 6
+                && gBattleMons[battler].statStages[STAT_DEF] == DEFAULT_STAT_STAGE + 6
+                && gBattleMons[battler].statStages[STAT_SPATK] == DEFAULT_STAT_STAGE + 6
+                && gBattleMons[battler].statStages[STAT_SPDEF] == DEFAULT_STAT_STAGE + 6
+                && gBattleMons[battler].statStages[STAT_SPEED] == DEFAULT_STAT_STAGE + 6)
+            {
+                return effect;
+            }
+
+            CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
+            u32 statToBoost = 1 + (Random32() % 5);
+            while (gBattleMons[battler].statStages[statToBoost] == DEFAULT_STAT_STAGE + 6)
+                statToBoost = 1 + (Random32() % 5);
+
+            switch (statToBoost)
+            {
+            case STAT_ATK:
+                StringCopy(gBattleTextBuff1, COMPOUND_STRING("attack"));
+                break;
+            case STAT_DEF:
+                StringCopy(gBattleTextBuff1, COMPOUND_STRING("defense"));
+                break;
+            case STAT_SPATK:
+                StringCopy(gBattleTextBuff1, COMPOUND_STRING("special attack"));
+                break;
+            case STAT_SPDEF:
+                StringCopy(gBattleTextBuff1, COMPOUND_STRING("special defense"));
+                break;
+            case STAT_SPEED:
+                StringCopy(gBattleTextBuff1, COMPOUND_STRING("speed"));
+                break;
+            }
+
+            SET_STATCHANGER(statToBoost, 1, FALSE);
+            BattleScriptExecute(BattleScript_GenerosityNothing);
+        }
+
+        effect = TRUE;
+    }
     return effect;
 }
 
@@ -2236,6 +2322,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(u32 battler) =
     [ENDTURN_TORMENT] = HandleEndTurnTorment,
     [ENDTURN_ENCORE] = HandleEndTurnEncore,
     [ENDTURN_DISABLE] = HandleEndTurnDisable,
+    [ENDTURN_GENEROSITY] = HandleEndTurnGenerosity,
     [ENDTURN_CLOUDWALKER] = HandleEndTurnCloudwalker,
     [ENDTURN_MAGNET_RISE] = HandleEndTurnMagnetRise,
     [ENDTURN_TELEKINESIS] = HandleEndTurnTelekinesis,
