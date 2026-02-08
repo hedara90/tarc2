@@ -10830,12 +10830,16 @@ BattleScript_PurifyingWaterProtectsRet::
 BattleScript_GenerosityBurn::
 	printstring STRINGID_GENEROSITY_BURN
 	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_GENEROSITY_BURN2
+	waitmessage B_WAIT_TIME_MED
 	end2
 
 @Decrease speed
 BattleScript_GenerosityFrostbite::
 	printstring STRINGID_GENEROSITY_FROSTBITE
 	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_GENEROSITY_FROSTBITE2
+	waitmessage B_WAIT_TIME_MED
 	saveattacker
 	setbyte gBattlerAttacker, 0
 	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_GenerosityEnd
@@ -10850,6 +10854,8 @@ BattleScript_GenerosityFrostbite::
 BattleScript_GenerosityParalysis::
 	printstring STRINGID_GENEROSITY_PARALYSIS
 	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_GENEROSITY_PARALYSIS2
+	waitmessage B_WAIT_TIME_SHORT
 	saveattacker
 	setbyte gBattlerAttacker, 0
 	playmoveanimation BS_ATTACKER, MOVE_STUPID_WORKAROUND
