@@ -2486,6 +2486,7 @@ script Entrance_Winter {
     waitmovement(naoto)
     special(RemoveCameraObject)
     setvar(VAR_STORY, 3)
+    setflag(FLAG_UNLOCKED_WINTER)
     release
 }
 
