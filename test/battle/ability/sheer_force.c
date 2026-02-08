@@ -609,6 +609,9 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
         case MOVE_ZING_ZAP:
         case MOVE_ELECTRO_SHOT:
         case MOVE_PSYCHIC_NOISE:
+        case MOVE_RED_PRESENT:
+        case MOVE_BLUE_PRESENT:
+        case MOVE_YELLOW_PRESENT:
 
         case MOVE_REWARD_ANCIENT_POWER:
         case MOVE_REWARD_BLIZZARD:

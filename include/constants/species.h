@@ -1642,8 +1642,9 @@
 #define SPECIES_MINIBOSS_2                              1526
 #define SPECIES_MINIBOSS_3                              1527
 #define SPECIES_FINAL_BOSS                              1528
+#define SPECIES_PLAYER_MAMOSWINE                        1529
 
-#define SPECIES_EGG                                     (SPECIES_FINAL_BOSS + 1)
+#define SPECIES_EGG                                     (SPECIES_PLAYER_MAMOSWINE + 1)
 
 #define NUM_SPECIES SPECIES_EGG
 

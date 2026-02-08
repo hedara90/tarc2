@@ -18233,7 +18233,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
-        .abilities = { ABILITY_FLASH_FIRE, ABILITY_FLASH_FIRE, ABILITY_GUTS },
+        .abilities = { ABILITY_IGNITE, ABILITY_IGNITE, ABILITY_GUTS },
         //.innates = { ABILITY_ADAPTABILITY, ABILITY_FLAME_BODY, ABILITY_GUTS },
 		.bodyColor = BODY_COLOR_RED,
         .speciesName = _("Flareon"),
@@ -18281,6 +18281,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         )
         .levelUpLearnset = sFlareonLevelUpLearnset,
         .teachableLearnset = sFlareonTeachableLearnset,
+        .isPlayer = TRUE,
     },
 
 #if P_GEN_2_CROSS_EVOS
