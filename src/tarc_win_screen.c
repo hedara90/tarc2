@@ -89,6 +89,10 @@ static const u32 sTarcTiles_Giratina[] = INCBIN_U32("graphics/tarc_win/win_girat
 static const u32 sTarcTilemap_Giratina[] = INCBIN_U32("graphics/tarc_win/win_giratina_tiles.bin.lz");
 static const u16 sTarcPalette_Giratina[] = INCBIN_U16("graphics/tarc_win/win_giratina_tiles.gbapal");
 
+static const u32 sTarcTiles_Delibird[] = INCBIN_U32("graphics/tarc_win/win_delibird_tiles.4bpp.lz");
+static const u32 sTarcTilemap_Delibird[] = INCBIN_U32("graphics/tarc_win/win_delibird_tiles.bin.lz");
+static const u16 sTarcPalette_Delibird[] = INCBIN_U16("graphics/tarc_win/win_delibird_tiles.gbapal");
+
 static const struct Tarc_BossWinBackground sBossBG[] =
 {
     [FINAL_BOSS_XERNEAS] =
