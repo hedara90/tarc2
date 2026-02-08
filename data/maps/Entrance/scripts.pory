@@ -15,6 +15,7 @@ const nakamura = ENTRANCE_NAKAMURA
 const hanzo = ENTRANCE_HANZO
 const empress = ENTRANCE_EMPRESS
 const chisa = ENTRANCE_CHISA
+const naoto = LOCALID_NAOTO
 
 script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
@@ -71,6 +72,16 @@ script Entrance_OnTransition {
                 setflag(FLAG_MONKS_HANZO)
                 setobjectxyperm(nakamura, 10, 32)
             }
+        }
+    }
+
+    if(var(VAR_STORY) == 1) {
+        totalmythscleared
+        if(var(VAR_RESULT) >= 3) {
+            setvar(VAR_STORY, 2)
+            setobjectxyperm(chisa, 25, 26)
+            setobjectmovementtype(chisa, MOVEMENT_TYPE_FACE_DOWN)
+            //add flags here
         }
     }
 }
@@ -2203,8 +2214,55 @@ script Entrance_Empress_TrueEnding {
     release
 }
 
+script Entrance_Chisa_Winter_Intro {
+    lock
+    msgbox("{SPEAKER NAME_NAOTO}Hey {PLAYER}, there's someo-")
+    closemessage
+    applymovement(chisa, moves(emote_exclamation_mark, face_up))
+    playse(SE_PIN)
+    waitmovement(chisa)
+    msgbox("{SPEAKER NAME_CHISA}Hey hey {PLAYER}! Kept me waiting, huh.")
+    waitmessage
+    //applymovement(naoto, ) new emote
+    applymovement(player, moves(face_down))
+    msgbox("{SPEAKER NAME_PLAYER}Oh hey there Chisa. What're you doing here? Slacking off again?")
+    waitmessage
+    applymovement(chisa, moves(jump_in_place_up*2))
+    playse(SE_PIN * 2)
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}No you dummy! I'm here for work. And I have got a new task for you, miss Recordkeeper.")
+    waitmessage
+    applymovement(player, moves(walk_in_place_down))
+    msgbox("{SPEAKER NAME_PLAYER}Hey, you don't get to boss me around. That's reserved for miss Satsuki.")
+    applymovement(chisa, moves(face_right, delay_16*3, face_up))
+    msgbox("Hehe, don't worry about that. We have already cleared everything up with Satsuki.")
+    msgbox("{SPEAKER NAME_PLAYER}We...? Oh right-")
+    msgbox("Yup, a request from the Archivologists. Honetsly, did you forget I worked there now")
+    msgbox("Hey, you never told me you finished your training!")
+    msgbox("I did! do you not check your messages anymore?")
+    msgbox("... Woops.")
+    msgbox("Anyway, yes, I am here as representative of the Archivologists to ask for help. The [police org] has recieved an unusual number of reports of theft.
+            Specifically, a lot of gifts have been stolen. Despite a thorough investigation - according to them, at least - they couldn't find the culprit or locate the gifts.
+            They contacted us, and I got put on this case. I guess my supervisor thought it was fitting to be my first investigation
+            But as it turns out, this isn't the first time a large scale gift heist has happened.
+            I've collected all the clues, anecdotes and evidence from our archives and compiled it into data that's usable for you guys.
+            Now you can work your magic and solve this.
+            Please. I want to work on something more exciting...")
+    msgbox("{SPEAKER NAME_NAOTO} Ah. Looks like Satsuki's done setting up the simulation. She named it... 'Nightmare after Christmas'")
+    msgbox("Pfft, way to make it sound unserious.")
+    msgbox("That's all for now, I have to get back to work")
+    msgbox("Although... Maybe I can stretch out this trip a liiitle longer. Milk tea does sound nice right now.")
+    msgbox("Bye-bye!")
+    applymovement(chisa, moves(walk_down*7))
+    waitmovement
+    setflag(FLAG_CHISA_ENTRANCE)
+    msgbox("{SPEAKER NAME_NAOTO}Did she just tell you she's skipping work?")
+    msgbox("Eh, probably not a big deal. Not like I'm going to snitch.")
+    msgbox("{SPEAKER NAME_NAOTO}... sigh")
+}
+
 script Entrance_Chisa {
-    if(flag(FLAG_CHIA_CHAT)==FALSE){
+    if(flag(FLAG_CHISA_CHAT)==FALSE){
         goto(Entrance_Chisa_Intro)
     }
     else {
@@ -2242,7 +2300,7 @@ script Entrance_Chisa_Intro {
             "Well then, good luck with\nyour stories.\p"
             "Miss Recordkeeper.")
     closemessage
-    setflag(FLAG_CHIA_CHAT)
+    setflag(FLAG_CHISA_CHAT)
     release
 }
 

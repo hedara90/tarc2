@@ -7,9 +7,6 @@
   "requires_flash": false,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_CITY",
-  "allow_cycling": false,
-  "allow_escaping": false,
-  "allow_running": false,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
@@ -301,6 +298,33 @@
       "var": "VAR_TEMP_F",
       "var_value": "1",
       "script": "Entrance_Empress_Satsuki"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
     }
   ],
   "bg_events": [
@@ -400,5 +424,8 @@
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
       "script": "Entrance_Archive"
     }
-  ]
+  ],
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false
 }
