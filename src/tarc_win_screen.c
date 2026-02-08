@@ -116,9 +116,9 @@ static const struct Tarc_BossWinBackground sBossBG[] =
     },
     [FINAL_BOSS_DELIBIRD] =
     {
-        .tiles = sTarcTiles_Giratina,
-        .tilemap = sTarcTilemap_Giratina,
-        .palette = sTarcPalette_Giratina,
+        .tiles = sTarcTiles_Delibird,
+        .tilemap = sTarcTilemap_Delibird,
+        .palette = sTarcPalette_Delibird,
     },
 };
 
