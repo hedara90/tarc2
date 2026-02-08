@@ -328,7 +328,7 @@ script Entrance_Boss {
                         "The Lost Archipelago",
                         "Overflowing Abundance",
                         "The Original Sinner",
-                        "A Tale of Winter Blessings",
+                        "Nightmare after Christmas",
                         "Exit")
         switch(var(VAR_RESULT)) {
             case 0:
