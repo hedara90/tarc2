@@ -824,7 +824,8 @@ struct BattleStruct
     u16 leechSeedSpecies;
     u16 intrepidSwordCD:4;
     u16 shouldChangePhase:1;
-    u16 padding:11;
+    u16 currentSpeedup:4;
+    u16 padding:7;
 };
 
 struct AiBattleData
