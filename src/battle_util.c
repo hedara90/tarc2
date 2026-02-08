@@ -3922,6 +3922,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         gBattleScripting.battler = battler;
         if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
         {
+            /*
             switch (GetCurrentWeather())
             {
             case WEATHER_RAIN:
@@ -3979,6 +3980,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     break;
                 }
             }
+            */
         }
         if (effect != 0)
         {
@@ -9425,6 +9427,10 @@ static inline u32 CalcMoveBasePower(struct DamageCalculationData *damageCalcData
          && !((GetMoveAdditionalEffectById(move, 0)->moveEffect == MOVE_EFFECT_REMOVE_STATUS) && DoesSubstituteBlockMove(battlerAtk, battlerDef, move)))
             basePower *= 2;
         break;
+    case EFFECT_TARC_PRESENT:
+        if (gBattleMons[battlerDef].status1 & STATUS1_ANY)
+            basePower = 3 * basePower / 2;
+        break;
     case EFFECT_POWER_BASED_ON_TARGET_HP:
         basePower = gBattleMons[battlerDef].hp * basePower / gBattleMons[battlerDef].maxHP;
         break;
@@ -9733,6 +9739,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
     if (SearchTraits(battlerTraits, ABILITY_AERILATE) && moveType == TYPE_FLYING && gBattleStruct->ateBoost[battlerAtk])
         modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
+    if (SearchTraits(battlerTraits, ABILITY_IGNITE) && moveType == TYPE_FIRE && gBattleStruct->ateBoost[battlerAtk])
+        modifier = uq4_12_multiply(modifier, UQ_4_12(1.0));
     if (SearchTraits(battlerTraits, ABILITY_NORMALIZE) && moveType == TYPE_NORMAL && gBattleStruct->ateBoost[battlerAtk] && GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7)
         modifier = uq4_12_multiply(modifier, UQ_4_12(1.2));
     if (SearchTraits(battlerTraits, ABILITY_PUNK_ROCK) && IsSoundMove(move))
@@ -13195,5 +13203,19 @@ void TarcRestorePartyOrder(void)
         gPlayerParty[0] = gPlayerParty[sSwitchedLead];
         gPlayerParty[sSwitchedLead] = mon;
         sSwitchedLead = 0;
+    }
+}
+
+void BoostAttackOfAllies(void)
+{
+    NATIVE_ARGS();
+    gBattlescriptCurrInstr = cmd->nextInstr;
+
+    if (!TESTING && gBattlerAttacker == 0)
+    {
+        if (gLeftMon.statStages[STAT_ATK] != DEFAULT_STAT_STAGE + 6)
+            gLeftMon.statStages[STAT_ATK] += 1;
+        if (gRightMon.statStages[STAT_ATK] != DEFAULT_STAT_STAGE + 6)
+            gRightMon.statStages[STAT_ATK] += 1;
     }
 }

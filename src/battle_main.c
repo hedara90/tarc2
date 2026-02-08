@@ -6014,6 +6014,8 @@ u32 TrySetAteType(u32 move, u32 battlerAtk, u32 attackerAbility)
         ateType = TYPE_FLYING;
     else if (BattlerHasTrait(battlerAtk, ABILITY_GALVANIZE))
         ateType = TYPE_ELECTRIC;
+    else if (BattlerHasTrait(battlerAtk, ABILITY_IGNITE))
+        ateType = TYPE_FIRE;
 
     return ateType;
 }

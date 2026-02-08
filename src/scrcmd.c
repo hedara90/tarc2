@@ -3452,6 +3452,15 @@ void GetBehindCounterPos(void)
 
 void CheckBossPowerUp(void)
 {
+    u32 mapNum = gSaveBlock1Ptr->location.mapNum;
+    if (mapNum == MAP_NUM(MAP_WINTER_FINAL_BOSS)
+     || mapNum == MAP_NUM(MAP_WINTER2)
+     || mapNum == MAP_NUM(MAP_WINTER3))
+    {
+        gSpecialVar_Result = 4;
+        return;
+    }
+
     switch (gSaveBlock1Ptr->huntTargets.numBossesDefeated)
     {
     case TARC_INNATE_1:
@@ -3477,7 +3486,6 @@ void CheckBossDefeated (struct ScriptContext *ctx)
     else {
         gSpecialVar_Result = TRUE;
     }
-    
 }
 
 void CheckTotalBossesDefeated (void)

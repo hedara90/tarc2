@@ -7795,6 +7795,7 @@ static void Cmd_moveend(void)
             {
                 u32 overrideCount = gBattleStruct->usedCDMove + gBattleMons[0].numOverrides;
                 gBattleStruct->moveDamage[0] = gBattleMons[0].maxHP * overrideCount / TARC_OVERRIDE_EXHAUSTION_FRACTION;
+                BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_CooldownOverride;
                 gBattleStruct->usedCDMove = 0;
                 gBattleMons[0].numOverrides++;

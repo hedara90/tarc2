@@ -83,8 +83,8 @@
 #define FLAG_NO_WHITEOUT        0x45
 #define FLAG_HELP_PLAYER_EFFECT 0x46
 #define FLAG_HELP_FOE_EFFECT    0x47
-#define FLAG_UNUSED_0x048    0x48 // Unused Flag
-#define FLAG_UNUSED_0x049    0x49 // Unused Flag
+#define FLAG_UNLOCKED_WINTER    0x48 // Unused Flag
+#define FLAG_DEFEATED_WINTER    0x49 // Unused Flag
 #define FLAG_UNUSED_0x04A    0x4A // Unused Flag
 #define FLAG_UNUSED_0x04B    0x4B // Unused Flag
 #define FLAG_UNUSED_0x04C    0x4C // Unused Flag

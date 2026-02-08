@@ -26743,6 +26743,57 @@ gBattleAnimMove_Present::
 	jumprettrue PresentHeal
 	end
 
+gBattleAnimMove_RedPresent::
+	loadspritegfx ANIM_TAG_ITEM_BAG
+	createvisualtask AnimTask_BlendParticle, 5, ANIM_TAG_ITEM_BAG, 0, 12, 12, RGB(31, 0, 0)
+	createvisualtask AnimTask_IsHealingMove, 2
+	createsprite gPresentSpriteTemplate, ANIM_TARGET, 2, 0, -5, 10, 2, -1
+	playsewithpan SE_M_TAIL_WHIP, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, 0
+	delay 20
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_TARGET
+	waitforvisualfinish
+	jumpretfalse PresentDamage
+	jumprettrue PresentHeal
+	end
+
+gBattleAnimMove_BluePresent::
+	loadspritegfx ANIM_TAG_ITEM_BAG
+	createvisualtask AnimTask_BlendParticle, 5, ANIM_TAG_ITEM_BAG, 0, 12, 12, RGB(0, 0, 31)
+	createvisualtask AnimTask_IsHealingMove, 2
+	createsprite gPresentSpriteTemplate, ANIM_TARGET, 2, 0, -5, 10, 2, -1
+	playsewithpan SE_M_TAIL_WHIP, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, 0
+	delay 20
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_TARGET
+	waitforvisualfinish
+	jumpretfalse PresentDamage
+	jumprettrue PresentHeal
+	end
+
+gBattleAnimMove_YellowPresent::
+	loadspritegfx ANIM_TAG_ITEM_BAG
+	createvisualtask AnimTask_BlendParticle, 5, ANIM_TAG_ITEM_BAG, 0, 12, 12, RGB(31, 31, 0)
+	createvisualtask AnimTask_IsHealingMove, 2
+	createsprite gPresentSpriteTemplate, ANIM_TARGET, 2, 0, -5, 10, 2, -1
+	playsewithpan SE_M_TAIL_WHIP, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_M_BUBBLE2, 0
+	delay 20
+	playsewithpan SE_M_BUBBLE2, SOUND_PAN_TARGET
+	waitforvisualfinish
+	jumpretfalse PresentDamage
+	jumprettrue PresentHeal
+	end
+
 PresentDamage:
 	loadspritegfx ANIM_TAG_EXPLOSION
 	playsewithpan SE_M_SELF_DESTRUCT, SOUND_PAN_TARGET
