@@ -10214,7 +10214,11 @@ BattleScript_CooldownOverride::
 	playanimation BS_ATTACKER, B_ANIM_OVERRIDE_EXHAUSTION
 	printstring STRINGID_CD_OVERRIDE
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_DoTurnDmg
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_IGNORE_DISGUISE
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER
+	tryfaintmon BS_ATTACKER
+	return
 
 BattleScript_RessMon::
 	playanimation BS_PLAYER1, B_ANIM_RESS_MON
