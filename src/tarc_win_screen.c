@@ -40,6 +40,7 @@
 #include "overworld.h"
 #include "random.h"
 #include "new_game.h"
+#include "event_data.h"
 
 #include "tarc_debug.h"
 
@@ -495,6 +496,8 @@ static bool8 TarcUi_LoadGraphics(void)
         LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
     default:
+        if (bossId == FINAL_BOSS_DELIBIRD)
+            FlagSet(FLAG_DEFEATED_WINTER);
         sTarcUiState->loadState = 0;
         return TRUE;
     }
