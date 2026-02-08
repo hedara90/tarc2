@@ -7,6 +7,9 @@
   "requires_flash": false,
   "weather": "WEATHER_SNOW",
   "map_type": "MAP_TYPE_NONE",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
@@ -22,7 +25,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "Winter2_BossBattle",
+      "script": "Winter3_BossBattle",
       "flag": "0"
     },
     {
@@ -70,8 +73,5 @@
   ],
   "warp_events": [],
   "coord_events": [],
-  "bg_events": [],
-  "allow_cycling": false,
-  "allow_escaping": false,
-  "allow_running": false
+  "bg_events": []
 }

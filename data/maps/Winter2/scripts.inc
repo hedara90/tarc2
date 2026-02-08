@@ -31,7 +31,7 @@ Winter2_1_2:
 
 Winter2_1_5:
 # 15 "data/maps/Winter2/scripts.pory"
-	warpsilent MAP_WINTER2BOSS, 15, 10
+	warpsilent MAP_WINTER2BOSS, 15, 15
 	goto Winter2_1_4
 
 
@@ -64,7 +64,7 @@ Winter2_2_2:
 
 Winter2_2_5:
 # 31 "data/maps/Winter2/scripts.pory"
-	warpsilent MAP_WINTER2BOSS, 15, 10
+	warpsilent MAP_WINTER2BOSS, 15, 15
 	goto Winter2_2_4
 
 
@@ -97,7 +97,7 @@ Winter2_3_2:
 
 Winter2_3_5:
 # 47 "data/maps/Winter2/scripts.pory"
-	warpsilent MAP_WINTER2BOSS, 15, 10
+	warpsilent MAP_WINTER2BOSS, 15, 15
 	goto Winter2_3_4
 
 

@@ -23,7 +23,7 @@ script Winter2_BossBattle {
         special(ShakeCamera)
         waitstate
         delay(40)
-        warpcontinuescript(MAP_WINTER3, 20, 18, MythHub_AfterBoss)
+        warpcontinuescript(MAP_WINTER3, 12, 13, MythHub_AfterBoss)
     }
     release
 }

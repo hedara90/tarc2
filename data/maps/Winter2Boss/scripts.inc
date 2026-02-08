@@ -51,7 +51,7 @@ Winter2_BossBattle_2:
 # 25 "data/maps/Winter2Boss/scripts.pory"
 	delay 40
 # 26 "data/maps/Winter2Boss/scripts.pory"
-	warpcontinuescript MAP_WINTER3, 20, 18, MythHub_AfterBoss
+	warpcontinuescript MAP_WINTER3, 12, 13, MythHub_AfterBoss
 	goto Winter2_BossBattle_1
 
 

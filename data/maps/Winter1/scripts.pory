@@ -12,7 +12,7 @@ script Winter1_1 {
     choosecurrentboss(1)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_WINTER1BOSS, 15 , 10)
+        warpsilent(MAP_WINTER1BOSS, 15 , 24)
     }
     release
 }
@@ -28,7 +28,7 @@ script Winter1_2 {
     choosecurrentboss(2)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_WINTER1BOSS, 15 , 10)
+        warpsilent(MAP_WINTER1BOSS, 15 , 24)
     }
     release
 }
@@ -44,7 +44,7 @@ script Winter1_3 {
     choosecurrentboss(3)
     waitstate
     if (var(VAR_RESULT) == TRUE) {
-        warpsilent(MAP_WINTER1BOSS, 15 , 10)
+        warpsilent(MAP_WINTER1BOSS, 15 , 24)
     }
     release
 }
