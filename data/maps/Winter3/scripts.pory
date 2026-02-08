@@ -1,0 +1,50 @@
+mapscripts Winter3_MapScripts {
+}
+
+script Winter3_1 {
+    checkbossstatus(7)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(7)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_WINTER3BOSS, 15 , 10)
+    }
+    release
+}
+
+script Winter3_2 {
+    checkbossstatus(8)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(8)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_WINTER3BOSS, 15 , 10)
+    }
+    release
+}
+
+script Winter3_3 {
+    checkbossstatus(9)
+    if (var(VAR_RESULT) == TRUE) {
+        msgbox("The image of {STR_VAR_1} has faded.")
+        waitmessage
+        release
+        end
+    }
+    choosecurrentboss(9)
+    waitstate
+    if (var(VAR_RESULT) == TRUE) {
+        warpsilent(MAP_WINTER3BOSS, 15 , 10)
+    }
+    release
+}

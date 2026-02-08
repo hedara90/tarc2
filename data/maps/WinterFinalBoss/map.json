@@ -1,0 +1,54 @@
+{
+  "id": "MAP_WINTER_FINAL_BOSS",
+  "name": "WinterFinalBoss",
+  "layout": "LAYOUT_WINTER_FINAL_BOSS",
+  "music": "MUS_DUMMY",
+  "region_map_section": "MAPSEC_ABANDONED_SHIP",
+  "requires_flash": false,
+  "weather": "WEATHER_SNOW",
+  "map_type": "MAP_TYPE_NONE",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "local_id": "LOCALID_FINAL_BOSS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(FINAL_BOSS)",
+      "x": 13,
+      "y": 11,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Boss_BossBattle",
+      "flag": "FLAG_BOSS_BOSS"
+    }
+  ],
+  "warp_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 13,
+      "y": 13,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "Boss_BossBattle"
+    },
+    {
+      "type": "trigger",
+      "x": 13,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "Boss_Exit"
+    }
+  ],
+  "bg_events": []
+}

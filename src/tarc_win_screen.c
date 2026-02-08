@@ -40,6 +40,7 @@
 #include "overworld.h"
 #include "random.h"
 #include "new_game.h"
+#include "event_data.h"
 
 #include "tarc_debug.h"
 
@@ -108,6 +109,12 @@ static const struct Tarc_BossWinBackground sBossBG[] =
         .palette = sTarcPalette_Lugia,
     },
     [FINAL_BOSS_GIRATINA] =
+    {
+        .tiles = sTarcTiles_Giratina,
+        .tilemap = sTarcTilemap_Giratina,
+        .palette = sTarcPalette_Giratina,
+    },
+    [FINAL_BOSS_DELIBIRD] =
     {
         .tiles = sTarcTiles_Giratina,
         .tilemap = sTarcTilemap_Giratina,
@@ -493,6 +500,8 @@ static bool8 TarcUi_LoadGraphics(void)
         LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
     default:
+        if (bossId == FINAL_BOSS_DELIBIRD)
+            FlagSet(FLAG_DEFEATED_WINTER);
         sTarcUiState->loadState = 0;
         return TRUE;
     }

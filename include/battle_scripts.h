@@ -939,5 +939,9 @@ extern const u8 BattleScript_Rattled[];
 extern const u8 BattleScript_WaterCompaction[];
 extern const u8 BattleScript_PurifyingWaterProtects[];
 extern const u8 BattleScript_IncreaseStatAndReturn[];
+extern const u8 BattleScript_GenerosityBurn[];
+extern const u8 BattleScript_GenerosityFrostbite[];
+extern const u8 BattleScript_GenerosityParalysis[];
+extern const u8 BattleScript_GenerosityNothing[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

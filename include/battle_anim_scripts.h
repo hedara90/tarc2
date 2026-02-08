@@ -1039,4 +1039,8 @@ extern const u8 gBattleAnimMove_Banish[];
 
 extern const u8 gBattleAnimMove_Refraction[];
 
+extern const u8 gBattleAnimMove_RedPresent[];
+extern const u8 gBattleAnimMove_BluePresent[];
+extern const u8 gBattleAnimMove_YellowPresent[];
+
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H
