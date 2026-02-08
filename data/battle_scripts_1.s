@@ -10835,6 +10835,14 @@ BattleScript_GenerosityBurn::
 BattleScript_GenerosityFrostbite::
 	printstring STRINGID_GENEROSITY_FROSTBITE
 	waitmessage B_WAIT_TIME_LONG
+	saveattacker
+	setbyte gBattlerAttacker, 0
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_GenerosityEnd
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+	restoreattacker
 	end2
 
 @Add +2 CD to random move

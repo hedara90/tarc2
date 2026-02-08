@@ -1045,13 +1045,17 @@ static bool32 HandleEndTurnGenerosity(u32 battler)
             BattleScriptExecute(BattleScript_GenerosityBurn);
             if (!TESTING)
             {
-                DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 24);
-                DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 24);
+                DamageBackline(TARC_LEFT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 16);
+                DamageBackline(TARC_RIGHT_BATTLER, DAMAGE_METHOD_FRACTIONAL, 16);
             }
         }
         else if ((status & STATUS1_FROSTBITE) != 0)
         {
+            if (gBattleMons[0].statStages[STAT_SPEED] == DEFAULT_STAT_STAGE - 6)
+                return effect;
+
             CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
+            SET_STATCHANGER(STAT_SPEED, 2, TRUE);
             BattleScriptExecute(BattleScript_GenerosityFrostbite);
         }
         else if ((status & STATUS1_PARALYSIS) != 0)
@@ -1078,7 +1082,7 @@ static bool32 HandleEndTurnGenerosity(u32 battler)
             }
 
             CreateAbilityPopUp(1, ABILITY_GENEROSITY, FALSE);
-            u32 statToBoost = 1 + (Random32() % 5);
+            u32 statToBoost = STAT_SPATK;
             while (gBattleMons[battler].statStages[statToBoost] == DEFAULT_STAT_STAGE + 6)
                 statToBoost = 1 + (Random32() % 5);
 
