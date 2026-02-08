@@ -16,6 +16,7 @@ const hanzo = ENTRANCE_HANZO
 const empress = ENTRANCE_EMPRESS
 const chisa = ENTRANCE_CHISA
 const naoto = LOCALID_NAOTO
+const camera = LOCALID_CAMERA
 
 script Entrance_OnTransition {
     if(var(VAR_STORY) == 0) {
@@ -78,6 +79,7 @@ script Entrance_OnTransition {
     if(var(VAR_STORY) == 1) {
         totalmythscleared
         if(var(VAR_RESULT) >= 3) {
+            clearflag(FLAG_CHISA_ENTRANCE)
             setvar(VAR_STORY, 2)
             setobjectxyperm(chisa, 25, 26)
             setobjectmovementtype(chisa, MOVEMENT_TYPE_FACE_DOWN)
@@ -198,19 +200,19 @@ script Entrance_SatsukiIntro {
 
 script Entrance_StartingAnAdventure {
     special(SpawnCameraObject)
-    applymovement(LOCALID_CAMERA, moves(walk_left*4, walk_diag_northwest))
+    applymovement(camera, moves(walk_left*4, walk_diag_northwest))
     applymovement(player, moves(delay_16*2, face_left))
-    waitmovement(LOCALID_CAMERA)
+    waitmovement(camera)
     msgbox("{SPEAKER NAME_SATSUKI}From now on, you can select your\nstrategy there.")
     closemessage
-    applymovement(LOCALID_CAMERA, moves(walk_right*2, walk_diag_northeast*2, walk_right*3))
+    applymovement(camera, moves(walk_right*2, walk_diag_northeast*2, walk_right*3))
     applymovement(satsuki, moves(delay_16*2, face_up))
     applymovement(player, moves(delay_16*2, face_up))
-    waitmovement(LOCALID_CAMERA)
+    waitmovement(camera)
     msgbox("{SPEAKER NAME_SATSUKI}Interact with the Bodhai Tree\nto enter a Myth")
     closemessage
-    applymovement(LOCALID_CAMERA, moves(walk_down, walk_diag_southwest*2))
-    waitmovement(LOCALID_CAMERA)
+    applymovement(camera, moves(walk_down, walk_diag_southwest*2))
+    waitmovement(camera)
     applymovement(satsuki, moves(face_left))
     applymovement(player, moves(face_right))
     special(RemoveCameraObject)
@@ -369,7 +371,7 @@ script Entrance_Satsuki {
         dynmultipush("I managed to clear one of the stories!",4)
     }
     if(var(VAR_RESULT)>= 2 && flag(FLAG_SATSUKI_TWOMYTHS)==FALSE){
-        dynmultipush("The visitors seem... different?",5)
+        dynmultipush("The visitors seem⋯ different?",5)
     }
     if(var(VAR_RESULT)>= 3 && var(VAR_GIRATINA_PROGRESS)<=5 && var(VAR_LUGIA_PROGRESS)<=5 && var(VAR_XERNEAS_PROGRESS)<=5){
         dynmultipush("I think I've finished everything!",6)
@@ -395,7 +397,7 @@ script Entrance_Satsuki_AnythingNew {
             "Focus on them first before\nasking me for more.\p"
             "History doesn't write itself.")
     closemessage
-    msgbox("{SPEAKER NAME_PLAYER}Sigh... Fair point.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Sigh⋯ Fair point.\p"
             "I'll get back to work.")
     closemessage
     release
@@ -489,7 +491,7 @@ script Entrance_Satsuki_Bodhai {
             "And you're the variable factor that's\nacting as the hero.\p")
     setvar(VAR_TEMP_2, player)
     call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_PLAYER}... Aha.{PAUSE 45} So it's like that.")
+    msgbox("{SPEAKER NAME_PLAYER}⋯ Aha.{PAUSE 45} So it's like that.")
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndWalkInPlace)
     msgbox("{SPEAKER NAME_SATSUKI}It is a lot more complicated than\nthat, but we'd be here all day for\lthe detailed explanation.\p"
@@ -553,7 +555,7 @@ script Entrance_Satsuki_AllMyths {
     msgbox("{SPEAKER NAME_SATSUKI}Marvelous.")
     closemessage
     applymovement(player, moves(emote_question_mark))
-    msgbox("{SPEAKER NAME_PLAYER}So... now what?")
+    msgbox("{SPEAKER NAME_PLAYER}So⋯ now what?")
     closemessage
     setvar(VAR_TEMP_2, satsuki)
     call(Entrance_GetDirectionAndLookToSide)
@@ -571,7 +573,7 @@ script Entrance_PlayerTerminal {
         msgbox("{SPEAKER NAME_PLAYER}Im running late, I don't have time\nto review anything right now!")
         goto(Entrance_PlayerTerminal_Exit)
     }
-    msgbox("{SPEAKER NAME_PLAYER}Time for another review...")
+    msgbox("{SPEAKER NAME_PLAYER}Time for another review⋯")
     closemessage
     setboxframe(BOX_FRAME_PC)
     dynmultichoice(0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE,
@@ -596,7 +598,7 @@ script Entrance_PlayerTerminal_Exit {
 }
 
 script Entrance_PlayerTerminal_Story {
-    msgbox("Hmm... I think I had my notes on the\nrecording process here.")
+    msgbox("Hmm⋯ I think I had my notes on the\nrecording process here.")
     dynmultichoice(0, 0, FALSE, 4, 0, DYN_MULTICHOICE_CB_NONE,
                     "General structure",
                     "Initializing Pokémon",
@@ -715,7 +717,7 @@ text Entrance_Text_Cooldowns {
 
 text Entrance_Abilities {
     format("Just like my own Pokémon, enemies can also have multiple abilities.\p"
-    "The longer the story goes on, the more abilities they will have...")
+    "The longer the story goes on, the more abilities they will have⋯")
 }
 
 text Entrance_StatBoosts {
@@ -743,7 +745,7 @@ script Entrance_PlayerTerminal_Affinity {
 text Entrance_Text_Archetypes {
     format("I can pick from certain presets.\p"
             "Currently, I only have access to the 4 weather types: Sun, Rain, Snow and Sand.\p"
-            "Satsuki did tell me that there are more team styles, but I can't use them yet...\p"
+            "Satsuki did tell me that there are more team styles, but I can't use them yet⋯\p"
             "Wonder what they are.")
 }
 
@@ -1384,7 +1386,7 @@ script Entrance_Kenichi {
 
 script Entrance_Kenichi_Introduction {
     lock
-    msgbox("Hmmm...\nHow does this even work...")
+    msgbox("Hmmm⋯\nHow does this even work⋯")
     closemessage
     msgbox("{SPEAKER NAME_PLAYER}Heya! Looking for something, mister?")
     closemessage
@@ -1400,8 +1402,8 @@ script Entrance_Kenichi_Introduction {
     msgbox("{SPEAKER NAME_PLAYER}Sir this is a library, not a\nfighting ring.\p"
             "Are you okay?")
     closemessage
-    msgbox("...sigh. {PAUSE 30} Yeah, I'm fine.\p"
-            "I'm not used to...")
+    msgbox("⋯sigh. {PAUSE 30} Yeah, I'm fine.\p"
+            "I'm not used to⋯")
     waitmessage
     applymovement(kenichi, moves(face_right, delay_16, face_left, delay_16, face_down))
     msgbox("All this.\p"
@@ -1418,12 +1420,12 @@ script Entrance_Kenichi_Introduction {
             "I can't afford that.")
     closemessage
     applymovement(player, moves(emote_question_mark))
-    msgbox("{SPEAKER NAME_PLAYER}Have you... ever been to\na library?\p"
+    msgbox("{SPEAKER NAME_PLAYER}Have you⋯ ever been to\na library?\p"
             "You won't get charged here for\njust asking me to help.")
     closemessage
     delay(30)
     applymovement(kenichi, moves(walk_in_place_down))
-    msgbox("...Okay. You sure?")
+    msgbox("⋯Okay. You sure?")
     waitmessage
     applymovement(kenichi, moves(face_up, delay_16*3, face_down))
     waitmovement(kenichi)
@@ -1449,7 +1451,7 @@ script Entrance_Kenichi_Introduction {
     msgbox("Oh, that seems quite simple,\nI think.")
     closemessage
     applymovement(player, moves(face_up))
-    msgbox("{SPEAKER NAME_PLAYER}Allright, let me see...\p"
+    msgbox("{SPEAKER NAME_PLAYER}Allright, let me see⋯\p"
             "'Everlasting storm'{PAUSE 15}. {PAUSE 15}. {PAUSE 15}.\p"
             "Sweet, there's info about it.")
     closemessage
@@ -1466,7 +1468,7 @@ script Entrance_Kenichi_Introduction {
     playSE(SE_PIN)
     applymovement(kenichi, moves(emote_exclamation_mark))
     msgbox("Amazing, this looks like what I need!\p"
-            "'The Lost Archipelago.'\nSo that's what you call it...")
+            "'The Lost Archipelago.'\nSo that's what you call it⋯")
     applymovement(kenichi, moves(face_right))
     msgbox("Thank you, lass. Means a lot to me.")
     closemessage
@@ -1480,7 +1482,7 @@ script Entrance_Kenichi_Introduction {
     waitmovement(kenichi)
     msgbox("Nevermind.")
     applymovement(kenichi, moves(face_up))
-    msgbox("Okay, lets see...")
+    msgbox("Okay, lets see⋯")
     setobjectmovementtype(kenichi, MOVEMENT_TYPE_FACE_UP)
     setobjectxyperm(kenichi, 38, 26)
     setflag(FLAG_KENICHI_INTRO_CHAT)
@@ -1491,9 +1493,9 @@ script Entrance_Kenichi_Introduction {
 
 script Entrance_Kenichi_Intro_Followup {
     lock
-    msgbox("{SPEAKER NAME_KENICHI}400 years... Never-ending winds.\nLightning strikes, dark clouds.\lProbably cursed by some deity.\p"
+    msgbox("{SPEAKER NAME_KENICHI}400 years⋯ Never-ending winds.\nLightning strikes, dark clouds.\lProbably cursed by some deity.\p"
             "Dang, it really is the whole package.\p"
-            "Kenichi, what did you get yourself in to...")
+            "Kenichi, what did you get yourself in to⋯")
     closemessage
     release
 }
@@ -1550,7 +1552,7 @@ script Entrance_Kenichi_FalseEnding {
     msgbox("{SPEAKER NAME_KENICHI}I'm off now back home.\p"
             "I'm sure the missus wants to see her\nKenichi again.")
     closemessage
-    msgbox("{SPEAKER NAME_PLAYER}Haha... Well then Kenichi, enjoy\nyour day.")
+    msgbox("{SPEAKER NAME_PLAYER}Haha⋯ Well then Kenichi, enjoy\nyour day.")
     closemessage
     getobjectfacingdirection(kenichi, VAR_TEMP_3)
     if(var(VAR_RESULT)==1){
@@ -1591,7 +1593,7 @@ script Entrance_Kenichi_TrueEnding {
     applymovement(player, moves(jump_in_place_up))
     waitmovement
     msgbox("{SPEAKER NAME_PLAYER}Yep! Ple-\p"
-            "(Hmm...)")
+            "(Hmm⋯)")
     closemessage
     playse(SE_LEDGE)
     applymovement(akuwa, moves(jump_in_place_right))
@@ -1610,7 +1612,7 @@ script Entrance_Kenichi_TrueEnding {
     applymovement(kenichi, moves(face_right))
     applymovement(player, moves(face_up))
     waitmovement(scilla)
-    msgbox("{SPEAKER NAME_SCILLA}Sigh... your enthusiam's rubbing off\non her.")
+    msgbox("{SPEAKER NAME_SCILLA}Sigh⋯ your enthusiam's rubbing off\non her.")
     waitmessage
     applymovement(scilla, moves(face_down))
     applymovement(kenichi, moves(face_down))
@@ -1636,7 +1638,7 @@ script Entrance_Kenichi_TrueEnding {
     msgbox("{SPEAKER NAME_PLAYER}Kenichi, is there anything you want\nme to look at?")
     closemessage
     applymovement(kenichi, moves(walk_in_place_down))
-    msgbox("{SPEAKER NAME_KENICHI}Mmm... Well, ever since ya figured\nout the history of Lugia, I don't got\nany personal requests")
+    msgbox("{SPEAKER NAME_KENICHI}Mmm⋯ Well, ever since ya figured\nout the history of Lugia, I don't got\nany personal requests")
     applymovement(kenichi, moves(face_right, delay_16*4, face_down))
     waitmovement
     msgbox("{SPEAKER NAME_KENICHI}'tis nice that that's figured out now,\nthough.\p"
@@ -1665,7 +1667,7 @@ script Entrance_Kenichi_TrueEnding {
     closemessage
     applymovement(player, moves(face_up))
     msgbox("{SPEAKER NAME_PLAYER}Sounds like everything is fine, then.\nI'll let you enjoy your day!\p"
-            "Gotta go back to work...")
+            "Gotta go back to work⋯")
     closemessage
     applymovement(kenichi, moves(walk_in_place_down))
     msgbox("{SPEAKER NAME_KENICHI}Aye, don' let me hold you up.\p"
@@ -1798,7 +1800,7 @@ script Entrance_Monks_Intro {
     closemessage
     applymovement(nakamura, moves(face_down, delay_16*3, face_up, delay_16*2, face_right))
     waitmovement
-    msgbox("{SPEAKER NAME_NAKAMURA}Hum. I see...\p"
+    msgbox("{SPEAKER NAME_NAKAMURA}Hum. I see⋯\p"
             "Well, I hope you'll get it done soon.")
     closemessage
     applymovement(player, moves(walk_in_place_left))
@@ -1856,7 +1858,7 @@ script Entrance_Monks_MovementScript {
 script Entrance_Monks_FalseEnding {
     lock
     applymovement(hanzo, moves(walk_in_place_up))
-    msgbox("{SPEAKER NAME_HANZO}Uff, let's see. Giratina...")
+    msgbox("{SPEAKER NAME_HANZO}Uff, let's see. Giratina⋯")
     closemessage
     applymovement(player, moves(emote_question_mark))
     waitmovement
@@ -1876,11 +1878,11 @@ script Entrance_Monks_FalseEnding {
     waitmessage
     applymovement(hanzo, moves(face_up))
     msgbox("{SPEAKER NAME_HANZO}Okay.{PAUSE 15}.{PAUSE 15}.{PAUSE 15} Distortion world.{PAUSE 15}.{PAUSE 15}. Giratina.{PAUSE 15}.{PAUSE 15}.\nDimensional rifts.{PAUSE 15}.{PAUSE 15}.\p"
-            "Seems mostly the same...")
+            "Seems mostly the same⋯")
     waitmessage
     applymovement(hanzo, moves(emote_question_mark))
     waitmovement
-    msgbox("{SPEAKER NAME_HANZO}Wait. It needs an... anchor entity?")
+    msgbox("{SPEAKER NAME_HANZO}Wait. It needs an⋯ anchor entity?")
     closemessage
     applymovement(player, moves(emote_exclamation_mark))
     faceplayer
@@ -1892,7 +1894,7 @@ script Entrance_Monks_FalseEnding {
             "(wait, hold on. That seems bad.)")
     closemessage
     applymovement(hanzo, moves(face_up))
-    msgbox("{SPEAKER NAME_HANZO}It also says something here about\nthe... Griseous orb?\p"
+    msgbox("{SPEAKER NAME_HANZO}It also says something here about\nthe⋯ Griseous orb?\p"
             "Okay. That's all.\nGriseous orb, hm. Got it.")
     waitmessage
     faceplayer
@@ -1922,11 +1924,11 @@ script Entrance_Monks_FalseEnding {
         applymovement(player, moves(walk_left, face_up))
         waitmovement(player)
     }
-    msgbox("{SPEAKER NAME_PLAYER}(Hmmm... Did the situation change\nrecently?)")
+    msgbox("{SPEAKER NAME_PLAYER}(Hmmm⋯ Did the situation change\nrecently?)")
     closemessage
     applymovement(player, moves(walk_in_place_up))
     delay(60)
-    msgbox("{SPEAKER NAME_PLAYER}Oh. That's... a problem.\p"
+    msgbox("{SPEAKER NAME_PLAYER}Oh. That's⋯ a problem.\p"
             "I thought the rifts were stable?\p"
             "Wait a second, was Giratina actually\nslain?\p"
             "Oh crap, this is very, very bad.")
@@ -1969,7 +1971,7 @@ script Entrance_Monks_TrueEnding {
     closemessage
     applymovement(player, moves(emote_question_mark))
     waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}In the... Distortion World?\p"
+    msgbox("{SPEAKER NAME_PLAYER}In the⋯ Distortion World?\p"
             "Probably nothing good.")
     closemessage
     setvar(VAR_TEMP_2, nakamura)
@@ -2042,7 +2044,7 @@ script Entrance_Empress_Intro {
     applymovement(player, moves(lock_facing_direction, walk_down, unlock_facing_direction, face_right, delay_16, face_down, delay_16, face_left, delay_16, face_up))
     waitmovement
     msgbox("{SPEAKER NAME_PLAYER}It's technically my work outfit,\nthough the only requirement\lwas a big white coat.\p"
-            "For... some reason.")
+            "For⋯ some reason.")
     closemessage
     applymovement(empress, moves(walk_down))
     waitmovement
@@ -2089,7 +2091,7 @@ script Entrance_Empress_Intro {
     closemessage
     applymovement(empress, moves(walk_in_place_right))
     waitmovement
-    msgbox("Anyway, about those coats of\nyours...")
+    msgbox("Anyway, about those coats of\nyours⋯")
     closemessage
     playse(SE_LEDGE)
     applymovement(player, moves(jump_in_place_left))
@@ -2180,7 +2182,7 @@ script Entrance_Empress_Satsuki {
     closemessage
     applymovement(satsuki, moves(face_down, delay_16*4, face_left))
     waitmovement
-    msgbox("{SPEAKER NAME_SATSUKI}I suppose I did. Hmm...\p"
+    msgbox("{SPEAKER NAME_SATSUKI}I suppose I did. Hmm⋯\p"
             "Did you not recognize her?")
     closemessage
     applymovement(player, moves(walk_in_place_right))
@@ -2209,57 +2211,236 @@ script Entrance_Empress_TrueEnding {
     faceplayer
     msgbox("{SPEAKER NAME_LUCY}Morning Tiana! Good job on\ndeciphering Giratina's story.\p"
             "Heard it was a pretty tough nut\nto crack.\p"
-            "Hmm... Wonder what THEY would think of\nthis place.")
+            "Hmm⋯ Wonder what THEY would think of\nthis place.")
     closemessage
     release
 }
 
-script Entrance_Chisa_Winter_Intro {
+script Entrance_Winter_IntroLeft {
     lock
-    msgbox("{SPEAKER NAME_NAOTO}Hey {PLAYER}, there's someo-")
+    call(Entrance_Winter_Intro)
+    applymovement(player, moves(walk_down*2, face_left))
+    waitmovement
+    goto(Entrance_Winter)
+}
+
+script Entrance_Winter_IntroCenter {
+    lock
+    call(Entrance_Winter_Intro)
+    applymovement(player, moves(walk_down*2, walk_left))
+    waitmovement
+    goto(Entrance_Winter)
+}
+
+script Entrance_Winter_IntroRight {
+    lock
+    call(Entrance_Winter_Intro)
+    applymovement(player, moves(walk_down*2, walk_left*2))
+    waitmovement
+    goto(Entrance_Winter)
+}
+
+script Entrance_Winter_Intro {
+    applymovement(naoto, moves(emote_exclamation_mark))
+    playse(SE_PIN)
+    waitse
+    msgbox("{SPEAKER NAME_NAOTO}Hey {PLAYER}, I have some news.")
     closemessage
-    applymovement(chisa, moves(emote_exclamation_mark, face_up))
+    return
+}
+
+script Entrance_Winter {
+    lock
+    msgbox("There's someo-")
+    closemessage
+    applymovement(chisa, moves(emote_exclamation_mark, walk_up))
     playse(SE_PIN)
     waitmovement(chisa)
-    msgbox("{SPEAKER NAME_CHISA}Hey hey {PLAYER}! Kept me waiting, huh.")
+    msgbox("{SPEAKER NAME_CHISA}Hey hey {PLAYER}!\nKept me waiting, huh.")
     waitmessage
-    //applymovement(naoto, ) new emote
-    applymovement(player, moves(face_down))
-    msgbox("{SPEAKER NAME_PLAYER}Oh hey there Chisa. What're you doing here? Slacking off again?")
+    special(SpawnCameraObject)
+    applymovement(player, moves(walk_right, face_down))
+    applymovement(camera, moves(walk_right, walk_down*2))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Ah, Chisa? What're you doing here,\nslacking off again?")
     waitmessage
     applymovement(chisa, moves(jump_in_place_up*2))
-    playse(SE_PIN * 2)
+    playse(SE_LEDGE)
+    waitse
+    playse(SE_LEDGE)
+    waitse
     waitmovement
-    msgbox("{SPEAKER NAME_CHISA}No you dummy! I'm here for work. And I have got a new task for you, miss Recordkeeper.")
+    msgbox("{SPEAKER NAME_CHISA}No you dummy! I'm here for work.\nAnd I have got a new task for you,\lmiss Recordkeeper.")
     waitmessage
+    applymovement(player, moves(jump_in_place_down))
+    playse(SE_LEDGE)
+    msgbox("{SPEAKER NAME_PLAYER}Hey, you don't get to boss me\naround! That's reserved for miss\lSatsuki.")
+    closemessage
+    applymovement(naoto, moves(walk_down, face_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}Girls, please stop shouting.\nThis is still a library.")
+    waitmessage
+    applymovement(player, moves(face_left))
+    applymovement(chisa, moves(face_left))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}Satsuki has already been informed of\nthe Archivologists's request.\p"
+            "She's preparing the simulation.")
+    closemessage
+    applymovement(player, moves(emote_question_mark))
+    playse(SE_PIN)
+    waitse
+    msgbox("{SPEAKER NAME_PLAYER}A request from them⋯?\nOh right-")
+    closemessage
+    applymovement(player, moves(face_down))
+    applymovement(chisa, moves(walk_in_place_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Yup, from us.\p"
+            "Honestly, did you forget I work there\nnow?")
+    closemessage
+    applymovement(player, moves(face_down))
+    msgbox("{SPEAKER NAME_PLAYER}Hey, you never told me you finished\nyour training!")
+    closemessage
+    applymovement(chisa, moves(jump_in_place_up))
+    playse(SE_LEDGE)
+    waitse
+    msgbox("{SPEAKER NAME_CHISA}I did! Do you not check your\nmessages anymore?")
+    closemessage
+    applymovement(player, moves(face_right, delay_16*4, face_down))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}⋯ Woops.")
+    closemessage
+    applymovement(chisa, moves(walk_in_place_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}I figured as much when you didn't\nreply.")
+    waitmessage
+    applymovement(chisa, moves(lock_facing_direction, walk_down, unlock_facing_direction, face_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Honestly, what am I to do with you,\nmiss homebody? Do you even leave\lthis place anymore?")
+    waitmessage
+    applymovement(chisa, moves(walk_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Anyway, yes, I am here for work.\p"
+            "The precincts have recieved an\nunusual amount of theft reports.\p"
+            "Specifically, a lot of presents\nhave been stolen.\p"
+            "Despite a thorough investigation -")
+    waitmessage
+    applymovement(chisa, moves(face_left, delay_16*3, face_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}according to them, at least -\lthey haven't found anything.\p"
+            "They contacted us, and I got put on\nthis case.\p"
+            "My supervisor thought it was\nfitting to be my first task.")
+    closemessage
     applymovement(player, moves(walk_in_place_down))
-    msgbox("{SPEAKER NAME_PLAYER}Hey, you don't get to boss me around. That's reserved for miss Satsuki.")
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}You sound like you are already\nbored of this.")
+    closemessage
+    applymovement(chisa, moves(walk_in_place_up)
+    waitmovement)
+    msgbox("{SPEAKER NAME_CHISA}Ugh, shut it.")
+    waitmessage
+    applymovement(chisa, moves(face_right))
+    waitmovement
+    msgbox("It's⋯ not what I expected, but\nit wasn't all that bad.")
+    waitmessage
+    applymovement(chisa, moves(walk_up))
+    waitmovement
+    msgbox("I did learn some fun facts!\p"
+            "Did you know there's already\nmerchandise of you?\p"
+            "You're basically a celebrity!")
+    closemessage
+    applymovement(player, moves(walk_down))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}...Did you find anything that\nwas actually useful?")
+    closemessage
+    applymovement(chisa, moves(jump_in_place_up))
+    playse(SE_LEDGE)
+    waitse
+    msgbox("{SPEAKER NAME_CHISA}Ofcourse!\p"
+            "I found out that this isn't the first\ntime a large scale gift heist has\lhappened.\p"
+            "But, that was all in the past.\p"
+            "Which is where you come in,\nmiss Recordkeeper.")
+    waitmessage
+    applymovement(chisa, moves(face_right, delay_16*3))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Heh, never gets old.")
+    waitmessage
+    applymovement(chisa, moves(face_up))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}I've compiled everything I could find\nand gave it to Naoto there.")
+    waitmessage
+    applymovement(chisa, moves(face_up))
+    msgbox("{SPEAKER NAME_CHISA}Now you girls can work your magic to\nsolve this.\p"
+            "Please.{PAUSE_UNTIL_PRESS} I want to work on something\nmore exciting⋯")
+    playse(SE_SUCCESS)
+    waitse
+    applymovement(camera, moves(walk_left*2))
+    applymovement(naoto, moves(emote_exclamation_mark, walk_left, face_down, delay_16*3))
+    waitmovement
+    applymovement(player, moves(face_left))
+    applymovement(chisa, moves(face_left))
+    msgbox("{SPEAKER NAME_NAOTO}Ah. Looks like Satsuki's finished\nsetting up the simulation.\p"
+            "She named it⋯{PAUSE_UNTIL_PRESS}\n'Nightmare after Christmas'")
+    closemessage
+    applymovement(camera, moves(walk_right*2))
+    waitmovement
+    applymovement(naoto, moves(face_right))
+    applymovement(chisa, moves(face_up))
+    applymovement(player, moves(face_down))
+    msgbox("{SPEAKER NAME_CHISA}Pfft, way to make it sound unserious.")
+    closemessage
+    applymovement(player,moves(walk_in_place_down))
+    msgbox("{SPEAKER NAME_PLAYER}She does have an odd sense of humor.")
+    closemessage
+    applymovement(chisa, moves(walk_in_place_up))
+    msgbox("{SPEAKER NAME_CHISA}Heh, you tell me.\nI've not spoken to Satsuki.\p"
+            "That's all for now though.\nI have to get back to work.")
+    waitmessage
     applymovement(chisa, moves(face_right, delay_16*3, face_up))
-    msgbox("Hehe, don't worry about that. We have already cleared everything up with Satsuki.")
-    msgbox("{SPEAKER NAME_PLAYER}We...? Oh right-")
-    msgbox("Yup, a request from the Archivologists. Honetsly, did you forget I worked there now")
-    msgbox("Hey, you never told me you finished your training!")
-    msgbox("I did! do you not check your messages anymore?")
-    msgbox("... Woops.")
-    msgbox("Anyway, yes, I am here as representative of the Archivologists to ask for help. The [police org] has recieved an unusual number of reports of theft.
-            Specifically, a lot of gifts have been stolen. Despite a thorough investigation - according to them, at least - they couldn't find the culprit or locate the gifts.
-            They contacted us, and I got put on this case. I guess my supervisor thought it was fitting to be my first investigation
-            But as it turns out, this isn't the first time a large scale gift heist has happened.
-            I've collected all the clues, anecdotes and evidence from our archives and compiled it into data that's usable for you guys.
-            Now you can work your magic and solve this.
-            Please. I want to work on something more exciting...")
-    msgbox("{SPEAKER NAME_NAOTO} Ah. Looks like Satsuki's done setting up the simulation. She named it... 'Nightmare after Christmas'")
-    msgbox("Pfft, way to make it sound unserious.")
-    msgbox("That's all for now, I have to get back to work")
-    msgbox("Although... Maybe I can stretch out this trip a liiitle longer. Milk tea does sound nice right now.")
+    waitmovement
+    msgbox("Although⋯ Maybe I can stretch out\nthis trip a little longer.\pMilk tea does sound nice right now.")
+    waitmessage
+    applymovement(chisa, moves(lock_facing_direction, walk_down, unlock_facing_direction))
+    waitmovement
     msgbox("Bye-bye!")
-    applymovement(chisa, moves(walk_down*7))
+    closemessage
+    applymovement(camera, moves(walk_down*2))
+    applymovement(chisa, moves(walk_down*2, delay_16*3))
+    waitmovement
+    applymovement(chisa, moves(jump_in_place_up))
+    playse(SE_LEDGE)
+    waitse
+    msgbox("{SPEAKER NAME_CHISA}Oh right, I'm dragging you to dinner\nwhen you solve this, okay?\p"
+            "It's like you're locked up here,\ngood grief.")
+    closemessage
+    applymovement(chisa, moves(walk_down*6))
     waitmovement
     setflag(FLAG_CHISA_ENTRANCE)
-    msgbox("{SPEAKER NAME_NAOTO}Did she just tell you she's skipping work?")
-    msgbox("Eh, probably not a big deal. Not like I'm going to snitch.")
-    msgbox("{SPEAKER NAME_NAOTO}... sigh")
+    applymovement(naoto, moves(walk_right, face_down))
+    applymovement(camera, moves(walk_up *2))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}Did she just tell you she's skipping\nwork?")
+    closemessage
+    applymovement(player, moves(walk_in_place_down))
+    msgbox("{SPEAKER NAME_PLAYER}Eh, probably not a big deal.\nNot like I'm going to snitch.")
+    waitmessage
+    msgbox("{SPEAKER NAME_NAOTO}{PAUSE 10}.{PAUSE 10}.{PAUSE 10}. sigh.")
+    waitmessage
+    applymovement(naoto, moves(face_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}Anyway. You know the drill,\nmiss Recordkeeper.")
+    applymovement(player, moves(face_left, emote_exclamation_mark))
+    playse(SE_PIN)
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Hey! You don't get to call me that!")
+    closemessage
+    applymovement(naoto, moves(walk_up, face_right))
+    applymovement(camera, moves(walk_up))
+    waitmovement(naoto)
+    special(RemoveCameraObject)
+    setvar(VAR_STORY, 3)
+    release
 }
+
 
 script Entrance_Chisa {
     if(flag(FLAG_CHISA_CHAT)==FALSE){
