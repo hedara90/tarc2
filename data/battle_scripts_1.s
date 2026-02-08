@@ -504,6 +504,7 @@ BattleScript_SpikesActivates::
 	return
 
 BattleScript_EffectAttackUpUserAlly::
+	callnative BoostAttackOfAllies
 	jumpifnoally BS_ATTACKER, BattleScript_EffectAttackUp
 	attackcanceler
 	attackstring

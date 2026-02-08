@@ -13205,3 +13205,17 @@ void TarcRestorePartyOrder(void)
         sSwitchedLead = 0;
     }
 }
+
+void BoostAttackOfAllies(void)
+{
+    NATIVE_ARGS();
+    gBattlescriptCurrInstr = cmd->nextInstr;
+
+    if (!TESTING && gBattlerAttacker == 0)
+    {
+        if (gLeftMon.statStages[STAT_ATK] != DEFAULT_STAT_STAGE + 6)
+            gLeftMon.statStages[STAT_ATK] += 1;
+        if (gRightMon.statStages[STAT_ATK] != DEFAULT_STAT_STAGE + 6)
+            gRightMon.statStages[STAT_ATK] += 1;
+    }
+}

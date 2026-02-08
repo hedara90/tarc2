@@ -8866,8 +8866,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Howl"),
         .description = COMPOUND_STRING(
-            "Howls to raise the spirit\n"
-            "and boosts Attack."),
+            "Howls to raise the attack\n"
+            "of the party."),
         .power = 0,
         .effect = B_UPDATED_MOVE_DATA >= GEN_8 ? EFFECT_ATTACK_UP_USER_ALLY : EFFECT_ATTACK_UP,
         .type = TYPE_NORMAL,
@@ -8887,6 +8887,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Howl,
         .validApprenticeMove = TRUE,
+        .cd = 2,
     },
 
     [MOVE_DRAGON_CLAW] =
