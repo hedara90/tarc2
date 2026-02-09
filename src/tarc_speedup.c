@@ -5,6 +5,7 @@
 #include "even_sprite.h"
 #include "tarc_debug.h"
 #include "palette.h"
+#include "battle.h"
 
 EWRAM_DATA u32 sSkipCounter = 0;
 EWRAM_DATA bool32 sDoSpeedup = FALSE;
@@ -22,7 +23,10 @@ void StartSpeedup(void)
     if (gSaveBlock2Ptr->speedup != 0 && !sDoSpeedup)
     {
         sDoSpeedup = TRUE;
-        sNumSkips = gSaveBlock2Ptr->speedup;
+        if (gBattleStruct->currentSpeedup != 0)
+            sNumSkips = gBattleStruct->currentSpeedup;
+        else
+            sNumSkips = gSaveBlock2Ptr->speedup;
         //  Create speedup sprite
         struct Even_CreateSpriteStruct cs = {0};
         cs.sprite = &sSpeedupGfx[(TILE_SIZE_4BPP / 4) * (sNumSkips + 1)];
@@ -42,6 +46,7 @@ void StartSpeedup(void)
 
 void StopSpeedup(void)
 {
+    gBattleStruct->currentSpeedup = sNumSkips;
     sDoSpeedup = FALSE;
     sNumSkips = 0;
     //  Remove speedup sprite
