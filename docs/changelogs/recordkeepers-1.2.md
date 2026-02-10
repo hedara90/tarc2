@@ -7,22 +7,23 @@ New Features:
 
 Changes:
 - Bouncy Bubble absorb percent changed from 100 to 50.
-- Mandibuzz, starting move Tailwind replaced with Dual Wingbeat.
-- Thunder, added 1 turn CD.
-- Add popups to "Essence of X" abilities.
+- Mandibuzz starting move changed from Tailwind -> DUal Wingbeat.
+- Added a 1 turn cooldown to Thunder.
+- Add popups to "Essence of Weather" abilities.
 - General Xerneas adjustments
-  - New move, Ray of Life, stronger the higher HP user has
+  - New move added: Ray of Life - deals damage based on HP of user (Eruption/Water Spout clone)
   - Circle of Life now ignores resistances and abilities of targets above 50% HP
   - Yggdrasil's Gift now increases damage against targets above 50% HP
-  - Abundance now works between 75 and 100% HP and also prevents self-inflicted stat drops.
-  - Move set has been changed
-  - Boss selection has been moved to be after Lugia
-- Phase Changes no longer stop every move effect from happening
+  - Abundance is now active when Xerneas is above 75% HP
+  - Abundance now also prevents self-inflicted stat drops.
+  - Move set has been changed.
+  - Boss selection has been moved to be after Lugia.
+- Phase Changes no longer stop every move effect from happening.
 - Adjusted speedup speed now persists within single battles, it's reset to default settings next battle.
 
 Fixes:
 - Fix Fated abilities not triggering after the first turn.
-- Fix Scorching voltage not checking if the target can be burned
+- Fix Scorching voltage not checking if the target can be burned.
 - Fixes the following abilities prematurely ending MoveEnd checks:
   - Winds of Change
   - Flame Cloak
@@ -33,8 +34,8 @@ Fixes:
 - Fixes Cloudburst and Sunrise causing an infinite loop if triggering off the same attack.
 - Fix line breaks in Satsuki "Deciphering" dialogue.
 - Remove behaviour from SELECT_BUTTON in the overworld.
-- Fix Steel Beam colouring all sprites pink when using speedup
+- Fix Steel Beam colouring all sprites pink when using speedup.
 - Fated Change, fix self-targeting status moves targeting the wrong battler.
-- Fix Fire Spin+ crashing the game
+- Fix Fire Spin+ crashing the game.
 - Fixes side-mons being incorrectly assigned when the lead is fainted at start of battle.
-- Fix abilities sometimes disappearing
+- Fix abilities sometimes disappearing.
