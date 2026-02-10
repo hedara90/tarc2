@@ -9429,7 +9429,7 @@ static inline u32 CalcMoveBasePower(struct DamageCalculationData *damageCalcData
         break;
     case EFFECT_TARC_PRESENT:
         if (gBattleMons[battlerDef].status1 & STATUS1_ANY)
-            basePower = 3 * basePower / 2;
+            basePower += 3 * basePower / 4;
         break;
     case EFFECT_POWER_BASED_ON_TARGET_HP:
         basePower = gBattleMons[battlerDef].hp * basePower / gBattleMons[battlerDef].maxHP;

@@ -27211,7 +27211,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Red Present"),
         .description = COMPOUND_STRING(
-            "Gives the target a present!"),
+            "Inflicts burn, stronger\nif target has status."),
         .effect = EFFECT_TARC_PRESENT,
         .power = 90,
         .type = TYPE_FIRE,
@@ -27234,7 +27234,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Blue Present"),
         .description = COMPOUND_STRING(
-            "Gives the target a present!"),
+            "Inflicts frostbite, stronger\nif target has status."),
         .effect = EFFECT_TARC_PRESENT,
         .power = 90,
         .type = TYPE_WATER,
@@ -27257,7 +27257,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Yellow Present"),
         .description = COMPOUND_STRING(
-            "Gives the target a present!"),
+            "Inflicts paralysis, stronger\nif target has status."),
         .effect = EFFECT_TARC_PRESENT,
         .power = 90,
         .type = TYPE_ELECTRIC,
