@@ -213,10 +213,9 @@ const struct BossMoveList sDelibird1 =
 
 const struct BossMoveList sDelibird2 =
 {
-    .numMoves = 4,
+    .numMoves = 3,
     .moves =
     {
-        MOVE_FORESTS_CURSE,
         MOVE_RED_PRESENT,
         MOVE_METAL_SOUND,
         MOVE_YELLOW_PRESENT,
@@ -237,10 +236,11 @@ const struct BossMoveList sDelibird3 =
 
 const struct BossMoveList sDelibird4 =
 {
-    .numMoves = 1,
+    .numMoves = 2,
     .moves =
     {
         MOVE_BLIZZARD,
+        MOVE_HEX,
     },
 };
 
