@@ -86,6 +86,11 @@ script Entrance_OnTransition {
             //add flags here
         }
     }
+
+    if(var(VAR_STORY)== 3 && flag(FLAG_DEFEATED_WINTER) == TRUE) {
+        setflag(FLAG_SATSUKI_ENTRANCE)
+        setvar(VAR_STORY, 4) 
+    }
 }
 
 script Entrance_FirstDay_Top {
@@ -321,15 +326,26 @@ script Entrance_PickWeather_Exit {
 }
 
 script Entrance_Boss {
+    switch(var(VAR_STORY)) {
+        case 0: goto(Entrance_Boss_Multichoice)
+        case 1: goto(Entrance_Boss_Multichoice)
+        case 2: goto(Entrance_Boss_Multichoice)
+        case 3: goto(Entrance_Boss_Multichoice)
+        case 4: goto(Entrance_Boss_NoEntry)
+    }
+}
+
+script Entrance_Boss_Multichoice {
     msgbox("Confirm Myth to uncover.")
     setboxframe(BOX_FRAME_BODHAI)
+    dynmultipush("The Lost Archipelago", 0)
+    dynmultipush("Overflowing Abundance", 1)
+    dynmultipush("The Original Sinner", 2)
     if (flag(FLAG_UNLOCKED_WINTER)) {
-        dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
-                        "The Lost Archipelago",
-                        "Overflowing Abundance",
-                        "The Original Sinner",
-                        "Nightmare after Christmas",
-                        "Exit")
+        dynmultipush("Nightmare after Christmas", 3)
+    }
+    dynmultipush("Exit", 4)
+    dynmultistack(0,0, FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE)
         switch(var(VAR_RESULT)) {
             case 0:
                 setuphunt(FINAL_BOSS_LUGIA)
@@ -345,36 +361,11 @@ script Entrance_Boss {
                 goto(Entrance_BossStart)
             case 3:
                 setuphunt(FINAL_BOSS_DELIBIRD)
-                msgbox(format("Initializing 'A Tale of Winter Blessings'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
+                msgbox(format("Initializing 'Nightmare after Christmas'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
                 goto(Entrance_WinterStart)
             case 4: closemessage
                 release
-        }
-    }
-    else {
-        dynmultichoice(0,0,FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE,
-                        "The Lost Archipelago",
-                        "Overflowing Abundance",
-                        "The Original Sinner",
-                        "Exit")
-        switch(var(VAR_RESULT)) {
-            case 0:
-                setuphunt(FINAL_BOSS_LUGIA)
-                msgbox(format("Initializing 'The Lost Archipelago'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
-                goto(Entrance_BossStart)
-            case 1:
-                setuphunt(FINAL_BOSS_XERNEAS)
-                msgbox(format("Initializing 'Overflowing Abundance'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
-                goto(Entrance_BossStart)
-            case 2:
-                setuphunt(FINAL_BOSS_GIRATINA)
-                msgbox(format("Initializing 'The Original Sinner'\n{PAUSE 15}. {PAUSE 15}. {PAUSE 15}."))
-                goto(Entrance_BossStart)
-            case 3:
-                closemessage
-                release
-        }
-    }
+        } 
     closemessage
     release
 }
@@ -387,6 +378,12 @@ script Entrance_BossStart {
 script Entrance_WinterStart {
     msgbox("Story initialized succesfully.{PAUSE 60}\nEntering story.")
     warpsilent(MAP_WINTER1, 20, 18)
+}
+
+script Entrance_Boss_NoEntry {
+    msgbox("There's something else to do first.")
+    closemessage
+    release
 }
 
 script Entrance_Satsuki {
@@ -2488,6 +2485,168 @@ script Entrance_Winter {
     setvar(VAR_STORY, 3)
     setflag(FLAG_UNLOCKED_WINTER)
     release
+}
+
+script Entrance_Winter_Success_Room_Left {
+    lock
+    call(Entrance_Winter_Notification)
+    applymovement(player, moves(walk_up*2, walk_left*2, walk_up))
+    goto(Entrance_Winter_Succes_PC)
+}
+
+script Entrance_Winter_Notification {
+    playse(SE_SUCCESS)
+    waitse
+    delay(30)
+    applymovement(player, moves(emote_exclamation_mark))
+    playse(SE_PIN)
+    delay(30)
+    msgbox("(Oh, a message?)")
+    closemessage
+}
+
+script Entrance_Winter_Succes_PC {
+    msgbox("Mmm, it's the front desk? Well, guess I'll head there now then.")
+    closemessage
+    applymovement(player, moves(walk_down, delay_16*3, face_up))
+    waitmovement
+    msgbox("Wonder what it could be")
+    closemessage
+    applymovement(player, moves(face_right))
+    waitmovement
+    release
+}
+
+script Entrance_Winter_Succes {
+    //After completion, Satsuki tells the player good job and gives them a gift  This contains the new mons
+    //Chisa storyline is now different, she's here to complain about her hangover. Last night, she and the player + some friends went out for drinks after she passed her training.
+    //Fortunately, she has the day off
+    //script opens with the player getting a notification when they leave their room to head to the front desk
+
+    msgbox("{SPEAKER NAME_NAOTO}Good morning Tiana.\nI've got some news for you.")
+    //do the move towards the desk here - add line above to the trigger scripts
+    msgbox("{SPEAKER NAME_PLAYER}Figures, since you called me here.")
+    closemessage
+    applymovement(naoto, moves(walk_in_place_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}Obviously, I wouldn't have asked you\nto chat with me otherwise.")
+    closemessage
+    applymovement(player, moves(jump_in_place_left))
+    playse(SE_LEDGE)
+    waitse
+    msgbox("{SPEAKER NAME_PLAYER}Aww come on, do I bother you\nthat much?")
+    closemessage
+    applymovement(naoto, moves(walk_in_place_right))
+    msgbox("{SPEAKER NAME_NAOTO}Ofcourse not. That was just a joke.\p"
+            "Anyway, miss Satsuki has made more pokemon available for you.\p"
+            "She said something about them fitting\ncertain parameters and all that.\lShould be effective immediately")
+    closemessage
+    applymovement(player, moves(emote_exclamation_mark))
+    playse(SE_PIN)
+    waitse
+    msgbox("{SPEAKER NAME_PLAYER}Oh, sweet!{PAUSE_UNTIL_PRESS} But why are you the one\ntelling me this? Is she not here?")
+    closemessage
+    applymovement(player, moves(face_down, delay_16*4))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}I don't think I've ever seen her\nleave the library.")
+    waitmessage
+    applymovement(naoto, moves(walk_down))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}It doesn't happen frequently, yeah.\pI think this year's tally is... 15 times?")
+    closemessage
+    applymovement(player, moves(face_left))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Why's she out?")
+    closemessage
+    applymovement(naoto, moves(walk_up, face_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_NAOTO}She told me it was something\nimportant, and then left in a hurry.")
+    closemessage
+    applymovement(player, moves(walk_in_place_left))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Weird.{PAUSE_UNTIL_PRESS} Do you think something's\nwrong?")
+    closemessage
+    msgbox("{SPEAKER NAME_NAOTO}Who knows, maybe?")
+    closemessage
+    applymovement(naoto, moves(face_down))
+    msgbox("{SPEAKER NAME_NAOTO}We'll just have to wait and see.")
+    closemessage
+
+    msgbox("Good morning, miss Recordkeeper!")
+    msgbox("Chisa? Are you skipping work again?")
+    msgbox("Skipping work? No, silly, I'm starting tomorrow!")
+    msgbox("Did the alcohol wipe your memory?")
+    msgbox("Girl what are you talking about. I was here all day yesterday to solve that gift thief story.")
+    msgbox("Didn't you already figure that out like a month ago? You were quite hammered yesterday but I didn't think you'd start hallucinating.")
+    msgbox("Maybe next time we'll need to stay clear of the bars.")
+    msgbox("Hey Naoto, I was here all day yesterday right?")
+    msgbox("No clue. I sign out at 6.")
+
+    msgbox("Oho, no you were definitely not here yesterday")
+    msgbox("...")
+    msgbox("What's with the long face, Tiana? Not feeling well?")
+    msgbox("Clearly, she's probably still hangover.")
+    msgbox("That's no good. Tiana, this way. You can't work in such a state. I have just the thing for hangovers.")
+    msgbox("Take good care of her for me!")
+    msgbox("But ofcourse, young lady. I would never let down one of Tiana's friends.")
+    msgbox("Nice to meet you, Chisa")
+    msgbox("Likewise, see you around! And get well soon Tiana!")
+
+    msgbox("Wait-")
+    //fade to black
+
+    msgbox("Miss Satsuki, I'm feeling fine...")
+    msgbox("You are. And I also know you stayed here yesterday.")
+    msgbox("Then why did you-")
+    msgbox("Affirm Chisa's thoughts? It's because they also happened")
+    msgbox("What?")
+    msgbox("I'm sure you've noticed. People and events no longer being the same when you complete a myth.")
+    msgbox("you mean like the Dimensional Rift and that sailor?")
+    msgbox("Precisely.")
+    msgbox("For now, all you need to know is that finding out the truth of a story affects our world. I will take care of the rest.")
+    msgbox("I want you to take this very seriously. If you do not want to, or are not ready to, you can no longer be a Recordkeeper.")
+    msgbox("...")
+    msgbox("Take some time to think about the implications.")
+    msgbox("No, I think I already know the answer. I was already suspecting this, anyway. It's just... weird to get confirmation. From you.")
+    msgbox("Hum. Very well.")
+    msgbox("For now, you may return to your duties. I have no new myths yet, but Isaac just called me over. They're working on a big archival right now.")
+    msgbox("Who's Isaac? Someone from the Archivologists")
+    msgbox("Correct, he's the Chief of Fieldwork there. Also, Chisa's boss.")
+    msgbox("So that's how you knew her name!")
+    msgbox("Haha, no. I just heard that when you two were chatting a couple weeks back. Did you know you're quite loud whenever you talk with her?")
+    msgbox("... I apologize.")
+    msgbox("So does this mean the Archivologists will be in contact soon?")
+    msgbox("Possibly. But that is a problem for the future.")
+    msgbox("Now, you can take the rest of the day off. I think I've burdened you enough today.")
+    //fade to black
+
+    // msgbox("I know. I have my reasons for this, don't worry.")
+    // msgbox("It;s just a side effect of our work.")
+    // msgbox("Wait what-")
+    // msgbox("Oh don't play dumb, I'm sure you've noticed by now. People and events change whenever you make progress on a myth.")
+    // msgbox("... So it is that after all.")
+    // msgbox("You call this a SIDE effect? This sounds like a big deal, hello?")
+    // msgbox("What'sd next, I'll solve something and my own friends won't know my name anymore?")
+    // msgbox("Calm down, Tiana. Do you really think I'm so unconsiderate?")
+    // msgbox("It's easy to set up a simulation in the tree. The reason I do it, and take so much time, is to keep changes within reasonable parameters.")
+    // msgbox("Ofcourse, nothing is certain. but-")
+    // msgbox("You're telling me you're playing god?")
+
+    // msgbox("You were indeed here yesterday. But that is not the experience that Chisa had.")
+    // msgbox("Have you noticed that every time you discover more about a story, things feel different?")
+    // msgbox("Hmmm.. like that sailor? Or the Distortion Rift?")
+    // msgbox("Exactly.")
+    // msgbox("So... what, am I rewriting history?")
+    // msgbox("Possibly.")
+    // msgbox("Possibly? Is this another test?!")
+    // msgbox("No. It's a possibie explanation. ")
+
+    // msgbox("I'm sure you've noticed by now, and it would be foolish of me to keep avoiding the topic.")
+    // msgbox("What, people acting strange? I did notice that...")
+    // msgbox("Mmm, you're in the right direction but on the wrong path. It's not that they are acting strange, it's that they're different.")
+    // msgbox("Different?")
+    // msgbox("Yes. Different.")
+    // msgbox("Tell me, is a person with different ")
 }
 
 

@@ -23,7 +23,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Satsuki",
-      "flag": "0"
+      "flag": "FLAG_SATSUKI_ENTRANCE"
     },
     {
       "local_id": "ENTRANCE_MORGAN",
@@ -325,6 +325,24 @@
       "var": "VAR_STORY",
       "var_value": "2",
       "script": "Entrance_Winter_IntroRight"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 17,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 17,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
     }
   ],
   "bg_events": [
