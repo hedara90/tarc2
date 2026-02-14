@@ -329,7 +329,7 @@
     {
       "type": "trigger",
       "x": 10,
-      "y": 17,
+      "y": 15,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -338,11 +338,20 @@
     {
       "type": "trigger",
       "x": 11,
-      "y": 17,
+      "y": 15,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
       "script": "NULL"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "4",
+      "script": "Entrance_Winter_Succes"
     }
   ],
   "bg_events": [

@@ -89,6 +89,9 @@ script Entrance_OnTransition {
 
     if(var(VAR_STORY)== 3 && flag(FLAG_DEFEATED_WINTER) == TRUE) {
         setflag(FLAG_SATSUKI_ENTRANCE)
+        setflag(FLAG_CHISA_ENTRANCE)
+        setobjectxyperm(chisa, 25, 29)
+        setobjectxyperm(satsuki, 26, 29)
         setvar(VAR_STORY, 4) 
     }
 }
@@ -2572,28 +2575,94 @@ script Entrance_Winter_Succes {
     msgbox("{SPEAKER NAME_NAOTO}We'll just have to wait and see.")
     closemessage
 
-    msgbox("Good morning, miss Recordkeeper!")
-    msgbox("Chisa? Are you skipping work again?")
-    msgbox("Skipping work? No, silly, I'm starting tomorrow!")
-    msgbox("Did the alcohol wipe your memory?")
-    msgbox("Girl what are you talking about. I was here all day yesterday to solve that gift thief story.")
-    msgbox("Didn't you already figure that out like a month ago? You were quite hammered yesterday but I didn't think you'd start hallucinating.")
-    msgbox("Maybe next time we'll need to stay clear of the bars.")
-    msgbox("Hey Naoto, I was here all day yesterday right?")
-    msgbox("No clue. I sign out at 6.")
+    clearflag(FLAG_CHISA_ENTRANCE)
+    showobjectat(chisa, MAP_ENTRANCE)
+    applymovement(chisa, moves(walk_up*5))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Good morning, miss Recordkeeper!")
+    closemessage
+    applymovement(player, moves(emote_exclamation_mark, delay_16*3,face_down))
+    waitmovement
+    msgbox("Chisa?{PAUSE_UNTIL_PRESS} Are you skipping work again?")
+    closemessage
+    applymovement(chisa, moves(emote_question_mark, delay_16* 3))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Skipping work?\p"
+            "No, silly, I'm starting tomorrow!")
+    waitmessage
+    applymovement(chisa, moves(jump_in_place_up))
+    playse(SE_PIN)
+    waitse
+    msgbox("{SPEAKER NAME_CHISA}Did the alcohol wipe your memory?")
+    closemessage
+    applymovement(player, moves(walk_in_place_down))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Girl, what are you even talking about?\p"
+            "I was here all day yesterday\nsolving your gift thief story.")
+    closemessage
+    applymovement(chisa, moves(emote_question_mark, delay_16*2))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}Didn't you already figure that out\nlike, a month ago?\p"
+            "Maybe next time we'll need to limit\nyour drinks.")
+    waitmessage
+    applymovement(chisa, moves(face_right))
+    waitmovement
+    msgbox("{SPEAKER NAME_CHISA}But karaoke isn't nearly as fun when you're sober...")
+    closemessage
+    applymovement(player, moves(face_left))
+    waitmovement
+    msgbox("{SPEAKER NAME_PLAYER}Hey Naoto, back me up.{PAUSE_UNTIL_PRESS} I was here all day yesterday right?")
+    closemessage
+    applymovement(naoto, moves(walk_in_place_right))
+    applymovement(chisa, moves(face_left))
+    waitmovement(naoto)
+    msgbox("{SPEAKER NAME_NAOTO}No clue.\nI sign out at 6.")
+    closemessage
+    applymovement(player, moves(face_down, delay_16*2, face_left, delay_16*2))
 
-    msgbox("Oho, no you were definitely not here yesterday")
+    clearflag(FLAG_SATSUKI_ENTRANCE)
+    showobjectat(satsuki, MAP_ENTRANCE)
+    applymovement(satsuki, moves(walk_up*4))
+    msgbox("Oho, no you were definitely not here\nyesterday.")
+    closemessage
+    applymovement(satsuki, moves(walk_up*3, face_left))
+    applymovement(chisa, moves(face_down, delay_16, face_right, delay_16, face_up))
+    waitmovement
+    applymovement(player, moves(face_right))
     msgbox("...")
-    msgbox("What's with the long face, Tiana? Not feeling well?")
-    msgbox("Clearly, she's probably still hangover.")
-    msgbox("That's no good. Tiana, this way. You can't work in such a state. I have just the thing for hangovers.")
+    closemessage
+    applymovement(satsuki, moves(walk_left))
+    waitmovement
+    msgbox("What's with the long face, Tiana?\nNot feeling well?")
+    closemessage
+    applymovement(chisa, moves(walk_in_place_up))
+    applymovement(satsuki, moves(face_down))
+    msgbox("She's probably still hangover.")
+    closemessage
+    applymovement(satsuki, moves(face_left))
+    msgbox("Oh sweetie, that's no good. You can't\nwork in such a state.")
+    closemessage
+    applymovement(satsuki, moves(face_down))
+    msgbox("I'll take her upstairs, I've got just the cure for hangovers.")
+    closemessage
+    applymovement(satsuki, moves(walk_up))
+    applymovement(player, moves(walk_up))
+    applymovement(chisa, moves(jump_in_place_up))
+    playse(SE_PIN)
+    waitse
     msgbox("Take good care of her for me!")
-    msgbox("But ofcourse, young lady. I would never let down one of Tiana's friends.")
-    msgbox("Nice to meet you, Chisa")
+    closemessage
+    applymovement(satsuki, moves(face_down))
+    msgbox("But ofcourse, miss Chisa. I would never let down one of Tiana's friends.")
+    closemessage
+    applymovement(chisa, moves(walk_right, walk_up))
     msgbox("Likewise, see you around! And get well soon Tiana!")
-
+    closemessage
+    applymovement(satsuki, moves(walk_up*6))
+    applymovement(player, moves(delay_16, walk_up*6))
     msgbox("Wait-")
-    //fade to black
+    fadescreen(FADE_TO_BLACK)
+    setvar(VAR_STORY, 5)
 
     msgbox("Miss Satsuki, I'm feeling fine...")
     msgbox("You are. And I also know you stayed here yesterday.")
@@ -2618,35 +2687,6 @@ script Entrance_Winter_Succes {
     msgbox("So does this mean the Archivologists will be in contact soon?")
     msgbox("Possibly. But that is a problem for the future.")
     msgbox("Now, you can take the rest of the day off. I think I've burdened you enough today.")
-    //fade to black
-
-    // msgbox("I know. I have my reasons for this, don't worry.")
-    // msgbox("It;s just a side effect of our work.")
-    // msgbox("Wait what-")
-    // msgbox("Oh don't play dumb, I'm sure you've noticed by now. People and events change whenever you make progress on a myth.")
-    // msgbox("... So it is that after all.")
-    // msgbox("You call this a SIDE effect? This sounds like a big deal, hello?")
-    // msgbox("What'sd next, I'll solve something and my own friends won't know my name anymore?")
-    // msgbox("Calm down, Tiana. Do you really think I'm so unconsiderate?")
-    // msgbox("It's easy to set up a simulation in the tree. The reason I do it, and take so much time, is to keep changes within reasonable parameters.")
-    // msgbox("Ofcourse, nothing is certain. but-")
-    // msgbox("You're telling me you're playing god?")
-
-    // msgbox("You were indeed here yesterday. But that is not the experience that Chisa had.")
-    // msgbox("Have you noticed that every time you discover more about a story, things feel different?")
-    // msgbox("Hmmm.. like that sailor? Or the Distortion Rift?")
-    // msgbox("Exactly.")
-    // msgbox("So... what, am I rewriting history?")
-    // msgbox("Possibly.")
-    // msgbox("Possibly? Is this another test?!")
-    // msgbox("No. It's a possibie explanation. ")
-
-    // msgbox("I'm sure you've noticed by now, and it would be foolish of me to keep avoiding the topic.")
-    // msgbox("What, people acting strange? I did notice that...")
-    // msgbox("Mmm, you're in the right direction but on the wrong path. It's not that they are acting strange, it's that they're different.")
-    // msgbox("Different?")
-    // msgbox("Yes. Different.")
-    // msgbox("Tell me, is a person with different ")
 }
 
 
