@@ -857,10 +857,24 @@ const struct BossAi sAmpharosAi =
 
 const struct BossMoveList sAzumarill1 =
 {
-    .numMoves = 4,
+    .numMoves = 7,
     .moves =
     {
         MOVE_BELLY_DRUM,
+        MOVE_PLAY_ROUGH,
+        MOVE_AQUA_JET,
+        MOVE_SUPERPOWER,
+        MOVE_PLAY_ROUGH,
+        MOVE_AQUA_JET,
+        MOVE_SUPERPOWER
+    },
+};
+
+const struct BossMoveList sAzumarill2 =
+{
+    .numMoves = 3,
+    .moves =
+    {
         MOVE_PLAY_ROUGH,
         MOVE_AQUA_JET,
         MOVE_SUPERPOWER
@@ -872,9 +886,9 @@ const struct BossAi sAzumarillAi =
     .phaseMoves =
     {
         &sAzumarill1,
-        &sAzumarill1,
-        &sAzumarill1,
-        &sAzumarill1,
+        &sAzumarill2,
+        &sAzumarill2,
+        &sAzumarill2,
     },
 };
 
