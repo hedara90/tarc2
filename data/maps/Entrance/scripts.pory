@@ -456,14 +456,22 @@ script Entrance_Satsuki {
 
 script Entrance_Satsuki_AnythingNew {
     setvar(VAR_TEMP_2, satsuki)
-    call(Entrance_GetDirectionAndLookToSide)
-    msgbox("{SPEAKER NAME_SATSUKI}You're still working on the\nassignments, aren't you?\p"
+    if(flag(FLAG_UNLOCKED_WINTER)==FALSE){
+        call(Entrance_GetDirectionAndLookToSide)
+        msgbox("{SPEAKER NAME_SATSUKI}You're still working on the\nassignments, aren't you?\p"
             "Focus on them first before\nasking me for more.\p"
             "History doesn't write itself.")
-    closemessage
-    msgbox("{SPEAKER NAME_PLAYER}Sigh⋯ Fair point.\p"
-            "I'll get back to work.")
-    closemessage
+        closemessage
+        msgbox("{SPEAKER NAME_PLAYER}Sigh⋯ Fair point.\p"
+                "I'll get back to work.")
+        closemessage
+    }
+    else {
+        msgbox("{SPEAKER NAME_SATSUKI}No, I will let you know when Isaac\ngives me an update")
+        closemessage
+        msgbox("{SPEAKER NAME_PLAYER}Alright, I'll keep myself busy in\nthe meantime")
+        closemessage
+    }
     release
 }
 
@@ -2429,11 +2437,11 @@ script Entrance_Winter {
     waitmessage
     applymovement(chisa, moves(face_right))
     waitmovement
-    msgbox("It's⋯ not what I expected, but\nit wasn't all that bad.")
+    msgbox("{SPEAKER NAME_CHISA}It's⋯ not what I expected, but\nit wasn't all that bad.")
     waitmessage
     applymovement(chisa, moves(walk_up))
     waitmovement
-    msgbox("I did learn some fun facts!\p"
+    msgbox("{SPEAKER NAME_CHISA}I did learn some fun facts!\p"
             "Did you know there's already\nmerchandise of you?\p"
             "You're basically a celebrity!")
     closemessage
@@ -2486,11 +2494,11 @@ script Entrance_Winter {
     waitmessage
     applymovement(chisa, moves(face_right, delay_16*3, face_up))
     waitmovement
-    msgbox("Although⋯ Maybe I can stretch out\nthis trip a little longer.\pMilk tea does sound nice right now.")
+    msgbox("{SPEAKER NAME_CHISA}Although⋯ Maybe I can stretch out\nthis trip a little longer.\pMilk tea does sound nice right now.")
     waitmessage
     applymovement(chisa, moves(lock_facing_direction, walk_down, unlock_facing_direction))
     waitmovement
-    msgbox("Bye-bye!")
+    msgbox("{SPEAKER NAME_CHISA}Bye-bye!")
     closemessage
     applymovement(camera, moves(walk_down*2))
     applymovement(chisa, moves(walk_down*2, delay_16*3))
