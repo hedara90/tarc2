@@ -367,7 +367,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CHARGE, COMBO_STARTER_FIRE_PUNCH, COMBO_STARTER_ICE_PUNCH},
         .battleAnimScript = gBattleAnimMove_ThunderPunch,
         .validApprenticeMove = TRUE,
-        .cd = 1,
     },
 
     [MOVE_SCRATCH] =
@@ -2373,6 +2372,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboMoves = {COMBO_STARTER_CHARGE, COMBO_STARTER_LOCK_ON, COMBO_STARTER_RAIN_DANCE},
         .battleAnimScript = gBattleAnimMove_Thunder,
         .validApprenticeMove = TRUE,
+        .cd = 1,
     },
 
     [MOVE_ROCK_THROW] =
