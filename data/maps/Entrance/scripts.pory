@@ -2,7 +2,13 @@ mapscripts Entrance_MapScripts {
     MAP_SCRIPT_ON_RESUME {
         callnative(Init_PulseNeonLights)
     }
+    MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE [
+        VAR_STORY, 6: Entrance_Winter_Success_FacePlayerWest
+    ]
     MAP_SCRIPT_ON_TRANSITION: Entrance_OnTransition
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_STORY, 6: Entrance_Winter_Success_SatsukiTalk
+    ]
 }
 
 const satsuki = ENTRANCE_SATSUKI
@@ -88,11 +94,17 @@ script Entrance_OnTransition {
     }
 
     if(var(VAR_STORY)== 3 && flag(FLAG_DEFEATED_WINTER) == TRUE) {
-        setflag(FLAG_SATSUKI_ENTRANCE)
-        setflag(FLAG_CHISA_ENTRANCE)
+        clearflag(FLAG_CHISA_ENTRANCE)
         setobjectxyperm(chisa, 25, 29)
-        setobjectxyperm(satsuki, 26, 29)
+        setobjectmovementtype(chisa, MOVEMENT_TYPE_FACE_DOWN)
+        setobjectxyperm(satsuki, 27, 29)
         setvar(VAR_STORY, 4) 
+    }
+
+    if(var(VAR_STORY) == 6) {
+        setobjectxyperm(satsuki, 39, 13)
+        setobjectxy(satsuki, 39, 13)
+        setobjectmovementtype(satsuki, MOVEMENT_TYPE_FACE_RIGHT)
     }
 }
 
@@ -348,7 +360,7 @@ script Entrance_Boss_Multichoice {
         dynmultipush("Nightmare after Christmas", 3)
     }
     dynmultipush("Exit", 4)
-    dynmultistack(0,0, FALSE, 5, 0, DYN_MULTICHOICE_CB_NONE)
+    dynmultistack(0,0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
         switch(var(VAR_RESULT)) {
             case 0:
                 setuphunt(FINAL_BOSS_LUGIA)
@@ -2494,6 +2506,15 @@ script Entrance_Winter_Success_Room_Left {
     lock
     call(Entrance_Winter_Notification)
     applymovement(player, moves(walk_up*2, walk_left*2, walk_up))
+    waitmovement
+    goto(Entrance_Winter_Succes_PC)
+}
+
+script Entrance_Winter_Success_Room_Right {
+    lock
+    call(Entrance_Winter_Notification)
+    applymovement(player, moves(walk_up*2, walk_left*3, walk_up))
+    waitmovement
     goto(Entrance_Winter_Succes_PC)
 }
 
@@ -2509,15 +2530,39 @@ script Entrance_Winter_Notification {
 }
 
 script Entrance_Winter_Succes_PC {
-    msgbox("Mmm, it's the front desk? Well, guess I'll head there now then.")
+    msgbox("...")
+    waitmessage
+    msgbox("Mmm, it's the front desk? Well,\nguess I'll head there now then.")
     closemessage
     applymovement(player, moves(walk_down, delay_16*3, face_up))
     waitmovement
-    msgbox("Wonder what it could be")
+    msgbox("Wonder what it could be...")
     closemessage
     applymovement(player, moves(face_right))
     waitmovement
+    setvar(VAR_STORY, 5)
     release
+}
+
+script Entrance_Winter_Succes_DeskLeft {
+    lock
+    applymovement(player, moves(walk_down, face_left))
+    waitmovement
+    goto(Entrance_Winter_Succes)
+}
+
+script Entrance_Winter_Succes_DeskMiddle {
+    lock
+    applymovement(player, moves(walk_down, walk_left))
+    waitmovement
+    goto(Entrance_Winter_Succes)
+}
+
+script Entrance_Winter_Succes_DeskRight {
+    lock
+    applymovement(player, moves(walk_down, walk_left*2))
+    waitmovement
+    goto(Entrance_Winter_Succes)
 }
 
 script Entrance_Winter_Succes {
@@ -2527,144 +2572,155 @@ script Entrance_Winter_Succes {
     //script opens with the player getting a notification when they leave their room to head to the front desk
 
     msgbox("{SPEAKER NAME_NAOTO}Good morning Tiana.\nI've got some news for you.")
-    //do the move towards the desk here - add line above to the trigger scripts
-    msgbox("{SPEAKER NAME_PLAYER}Figures, since you called me here.")
-    closemessage
-    applymovement(naoto, moves(walk_in_place_right))
-    waitmovement
-    msgbox("{SPEAKER NAME_NAOTO}Obviously, I wouldn't have asked you\nto chat with me otherwise.")
-    closemessage
-    applymovement(player, moves(jump_in_place_left))
-    playse(SE_LEDGE)
-    waitse
-    msgbox("{SPEAKER NAME_PLAYER}Aww come on, do I bother you\nthat much?")
-    closemessage
-    applymovement(naoto, moves(walk_in_place_right))
-    msgbox("{SPEAKER NAME_NAOTO}Ofcourse not. That was just a joke.\p"
-            "Anyway, miss Satsuki has made more pokemon available for you.\p"
-            "She said something about them fitting\ncertain parameters and all that.\lShould be effective immediately")
-    closemessage
-    applymovement(player, moves(emote_exclamation_mark))
-    playse(SE_PIN)
-    waitse
-    msgbox("{SPEAKER NAME_PLAYER}Oh, sweet!{PAUSE_UNTIL_PRESS} But why are you the one\ntelling me this? Is she not here?")
-    closemessage
-    applymovement(player, moves(face_down, delay_16*4))
-    waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}I don't think I've ever seen her\nleave the library.")
-    waitmessage
-    applymovement(naoto, moves(walk_down))
-    waitmovement
-    msgbox("{SPEAKER NAME_NAOTO}It doesn't happen frequently, yeah.\pI think this year's tally is... 15 times?")
-    closemessage
-    applymovement(player, moves(face_left))
-    waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}Why's she out?")
-    closemessage
-    applymovement(naoto, moves(walk_up, face_right))
-    waitmovement
-    msgbox("{SPEAKER NAME_NAOTO}She told me it was something\nimportant, and then left in a hurry.")
-    closemessage
-    applymovement(player, moves(walk_in_place_left))
-    waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}Weird.{PAUSE_UNTIL_PRESS} Do you think something's\nwrong?")
-    closemessage
-    msgbox("{SPEAKER NAME_NAOTO}Who knows, maybe?")
-    closemessage
-    applymovement(naoto, moves(face_down))
-    msgbox("{SPEAKER NAME_NAOTO}We'll just have to wait and see.")
-    closemessage
+    // msgbox("{SPEAKER NAME_PLAYER}Figures, since you called me here.")
+    // closemessage
+    // applymovement(naoto, moves(walk_in_place_right))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_NAOTO}Obviously, I wouldn't have asked you\nto chat with me otherwise.")
+    // closemessage
+    // applymovement(player, moves(jump_in_place_left))
+    // playse(SE_LEDGE)
+    // waitse
+    // msgbox("{SPEAKER NAME_PLAYER}Aww come on, do I bother you\nthat much?")
+    // closemessage
+    // applymovement(naoto, moves(walk_in_place_right))
+    // msgbox("{SPEAKER NAME_NAOTO}Ofcourse not. That was just a joke.\p"
+    //         "Anyway, miss Satsuki has made more\npokemon available for you.\p"
+    //         "She said something about them fitting\ncertain parameters and all that.\lIt should be effective immediately.")
+    // closemessage
+    // applymovement(player, moves(emote_exclamation_mark))
+    // playse(SE_PIN)
+    // waitse
+    // msgbox("{SPEAKER NAME_PLAYER}Oh, sweet!{PAUSE_UNTIL_PRESS} But why are you the one\ntelling me this? Is she not here?")
+    // closemessage
+    // special(SpawnCameraObject)
+    // applymovement(player, moves(walk_right, face_down))
+    // applymovement(camera, moves(walk_right, walk_down))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_PLAYER}I don't think I've ever seen her\nleave the library.")
+    // waitmessage
+    // applymovement(naoto, moves(walk_down))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_NAOTO}It doesn't happen frequently, yeah.\pI think this year's tally is... 15 times?")
+    // closemessage
+    // applymovement(player, moves(face_left))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_PLAYER}Why's she out?")
+    // closemessage
+    // applymovement(naoto, moves(walk_up, face_right))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_NAOTO}She told me it was something\nimportant, and then left in a hurry.")
+    // closemessage
+    // applymovement(player, moves(walk_in_place_left))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_PLAYER}Weird.{PAUSE_UNTIL_PRESS} Do you think something's\nwrong?")
+    // closemessage
+    // msgbox("{SPEAKER NAME_NAOTO}Who knows, maybe?")
+    // closemessage
+    // applymovement(naoto, moves(face_down))
+    // msgbox("{SPEAKER NAME_NAOTO}We'll just have to wait and see.")
+    // closemessage
 
-    clearflag(FLAG_CHISA_ENTRANCE)
-    showobjectat(chisa, MAP_ENTRANCE)
-    applymovement(chisa, moves(walk_up*5))
-    waitmovement
-    msgbox("{SPEAKER NAME_CHISA}Good morning, miss Recordkeeper!")
-    closemessage
-    applymovement(player, moves(emote_exclamation_mark, delay_16*3,face_down))
-    waitmovement
-    msgbox("Chisa?{PAUSE_UNTIL_PRESS} Are you skipping work again?")
-    closemessage
-    applymovement(chisa, moves(emote_question_mark, delay_16* 3))
-    waitmovement
-    msgbox("{SPEAKER NAME_CHISA}Skipping work?\p"
-            "No, silly, I'm starting tomorrow!")
-    waitmessage
-    applymovement(chisa, moves(jump_in_place_up))
-    playse(SE_PIN)
-    waitse
-    msgbox("{SPEAKER NAME_CHISA}Did the alcohol wipe your memory?")
-    closemessage
-    applymovement(player, moves(walk_in_place_down))
-    waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}Girl, what are you even talking about?\p"
-            "I was here all day yesterday\nsolving your gift thief story.")
-    closemessage
-    applymovement(chisa, moves(emote_question_mark, delay_16*2))
-    waitmovement
-    msgbox("{SPEAKER NAME_CHISA}Didn't you already figure that out\nlike, a month ago?\p"
-            "Maybe next time we'll need to limit\nyour drinks.")
-    waitmessage
-    applymovement(chisa, moves(face_right))
-    waitmovement
-    msgbox("{SPEAKER NAME_CHISA}But karaoke isn't nearly as fun when you're sober...")
-    closemessage
-    applymovement(player, moves(face_left))
-    waitmovement
-    msgbox("{SPEAKER NAME_PLAYER}Hey Naoto, back me up.{PAUSE_UNTIL_PRESS} I was here all day yesterday right?")
-    closemessage
-    applymovement(naoto, moves(walk_in_place_right))
-    applymovement(chisa, moves(face_left))
-    waitmovement(naoto)
-    msgbox("{SPEAKER NAME_NAOTO}No clue.\nI sign out at 6.")
-    closemessage
-    applymovement(player, moves(face_down, delay_16*2, face_left, delay_16*2))
-
-    clearflag(FLAG_SATSUKI_ENTRANCE)
-    showobjectat(satsuki, MAP_ENTRANCE)
-    applymovement(satsuki, moves(walk_up*4))
-    msgbox("Oho, no you were definitely not here\nyesterday.")
-    closemessage
-    applymovement(satsuki, moves(walk_up*3, face_left))
-    applymovement(chisa, moves(face_down, delay_16, face_right, delay_16, face_up))
-    waitmovement
-    applymovement(player, moves(face_right))
-    msgbox("...")
-    closemessage
-    applymovement(satsuki, moves(walk_left))
-    waitmovement
-    msgbox("What's with the long face, Tiana?\nNot feeling well?")
-    closemessage
-    applymovement(chisa, moves(walk_in_place_up))
-    applymovement(satsuki, moves(face_down))
-    msgbox("She's probably still hangover.")
-    closemessage
-    applymovement(satsuki, moves(face_left))
-    msgbox("Oh sweetie, that's no good. You can't\nwork in such a state.")
-    closemessage
-    applymovement(satsuki, moves(face_down))
-    msgbox("I'll take her upstairs, I've got just the cure for hangovers.")
-    closemessage
-    applymovement(satsuki, moves(walk_up))
-    applymovement(player, moves(walk_up))
-    applymovement(chisa, moves(jump_in_place_up))
-    playse(SE_PIN)
-    waitse
-    msgbox("Take good care of her for me!")
-    closemessage
-    applymovement(satsuki, moves(face_down))
-    msgbox("But ofcourse, miss Chisa. I would never let down one of Tiana's friends.")
-    closemessage
-    applymovement(chisa, moves(walk_right, walk_up))
-    msgbox("Likewise, see you around! And get well soon Tiana!")
-    closemessage
-    applymovement(satsuki, moves(walk_up*6))
-    applymovement(player, moves(delay_16, walk_up*6))
-    msgbox("Wait-")
+    // applymovement(chisa, moves(walk_up*5))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_CHISA}Good morning, miss Recordkeeper!")
+    // closemessage
+    // applymovement(player, moves(emote_exclamation_mark, delay_16*3, face_down))
+    // waitmovement
+    // msgbox("Chisa?{PAUSE_UNTIL_PRESS} Are you skipping work again?")
+    // closemessage
+    // applymovement(chisa, moves(emote_question_mark, delay_16* 3))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_CHISA}Skipping work?\p"
+    //         "No, silly, I'm starting tomorrow!")
+    // waitmessage
+    // applymovement(chisa, moves(jump_in_place_up))
+    // playse(SE_PIN)
+    // waitse
+    // msgbox("{SPEAKER NAME_CHISA}Did the alcohol wipe your memory?")
+    // closemessage
+    // applymovement(player, moves(walk_in_place_down))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_PLAYER}Girl, what are you even talking about?\p"
+    //         "I was here all day yesterday\nsolving your gift thief story.")
+    // closemessage
+    // applymovement(chisa, moves(emote_question_mark, delay_16*2))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_CHISA}Didn't you already figure that out\nlike, a month ago?\p"
+    //         "Hmmm... Maybe next time we'll need\nto limit your drinks.")
+    // waitmessage
+    // applymovement(chisa, moves(face_right))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_CHISA}But karaoke isn't nearly as fun when\nyou're not drunk...")
+    // closemessage
+    // applymovement(player, moves(face_left))
+    // waitmovement
+    // msgbox("{SPEAKER NAME_PLAYER}Hey Naoto, back me up.{PAUSE_UNTIL_PRESS}\nI was here all day yesterday right?")
+    // closemessage
+    // applymovement(naoto, moves(face_right))
+    // applymovement(chisa, moves(face_left))
+    // waitmovement(naoto)
+    // msgbox("{SPEAKER NAME_NAOTO}No clue.\nI sign out at 6.")
+    // closemessage
+    // applymovement(player, moves(face_down, delay_16*2, face_left, delay_16*2))
+    // waitmovement
+    // applymovement(satsuki, moves(walk_up*4))
+    // waitmovement
+    // msgbox("Oho, no you were definitely not here\nyesterday.")
+    // closemessage
+    // applymovement(satsuki, moves(walk_up*3, face_left))
+    // applymovement(chisa, moves(face_down, delay_16, face_right, delay_16, face_up))
+    // waitmovement(satsuki)
+    // applymovement(player, moves(face_right))
+    // msgbox("...")
+    // closemessage
+    // applymovement(satsuki, moves(walk_left))
+    // waitmovement
+    // msgbox("What's with the long face, Tiana?\nNot feeling well?")
+    // closemessage
+    // applymovement(chisa, moves(walk_in_place_up))
+    // applymovement(satsuki, moves(face_down))
+    // msgbox("She's probably still hangover.")
+    // closemessage
+    // applymovement(satsuki, moves(face_left))
+    // msgbox("Oh sweetie, that's no good. You can't\nwork in such a state.")
+    // closemessage
+    // applymovement(satsuki, moves(face_down))
+    // msgbox("I'll take her upstairs, I've got\njust the cure for hangovers.\p"
+    //         "Did you know a strong ginger tea\nworks wonders?")
+    // closemessage
+    // applymovement(satsuki, moves(walk_up))
+    // applymovement(player, moves(walk_up))
+    // applymovement(chisa, moves(jump_in_place_up))
+    // playse(SE_PIN)
+    // waitse
+    // msgbox("Take good care of her for me!")
+    // closemessage
+    // applymovement(satsuki, moves(face_down))
+    // msgbox("But ofcourse, miss Chisa.\p"
+    //         "I would never let down one of\nTiana's friends.")
+    // closemessage
+    // applymovement(chisa, moves(walk_right, walk_up))
+    // msgbox("Thanks! Get well soon, Tiana!")
+    // closemessage
+    // applymovement(satsuki, moves(walk_up*6))
+    // applymovement(player, moves(delay_16, walk_up*6))
+    // waitmovement
+    // msgbox("Wait-")
     fadescreen(FADE_TO_BLACK)
-    setvar(VAR_STORY, 5)
+    special(RemoveCameraObject)
+    setvar(VAR_STORY, 6)
+    setflag(FLAG_CHISA_ENTRANCE)
+    warpsilent(MAP_ENTRANCE, 40, 13)
+}
 
+script Entrance_Winter_Success_FacePlayerWest {
+    turnobject(player, DIR_WEST)
+}
+
+script Entrance_Winter_Success_SatsukiTalk {
     msgbox("Miss Satsuki, I'm feeling fine...")
+    closemessage
     msgbox("You are. And I also know you stayed here yesterday.")
     msgbox("Then why did you-")
     msgbox("Affirm Chisa's thoughts? It's because they also happened")
@@ -2687,6 +2743,7 @@ script Entrance_Winter_Succes {
     msgbox("So does this mean the Archivologists will be in contact soon?")
     msgbox("Possibly. But that is a problem for the future.")
     msgbox("Now, you can take the rest of the day off. I think I've burdened you enough today.")
+    setvar(VAR_STORY, 7)
 }
 
 

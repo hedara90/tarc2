@@ -48,7 +48,14 @@
     "Area8",
     "Area9",
     "Boss",
-    "Entrance"
+    "Entrance",
+    "Winter1",
+    "Winter1Boss",
+    "Winter2",
+    "Winter2Boss",
+    "Winter3",
+    "Winter3Boss",
+    "WinterFinalBoss"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",

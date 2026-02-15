@@ -4917,7 +4917,8 @@ void AddStuff(void)
     gSaveBlock1Ptr->bestBosses[FINAL_BOSS_XERNEAS].teamMembers[0] = SPECIES_GALVANTULA;
     gSaveBlock1Ptr->bestBosses[FINAL_BOSS_LUGIA].teamMembers[0] = SPECIES_GALVANTULA;
     VarSet(VAR_GIRATINA_PROGRESS, 3);
-    VarSet(VAR_STORY, 1);
+    FlagSet(FLAG_DEFEATED_WINTER);
+    VarSet(VAR_STORY, 3);
 }
 
 u32 RomXor();

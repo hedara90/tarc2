@@ -331,18 +331,18 @@
       "x": 10,
       "y": 15,
       "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "NULL"
+      "var": "VAR_STORY",
+      "var_value": "4",
+      "script": "Entrance_Winter_Success_Room_Left"
     },
     {
       "type": "trigger",
       "x": 11,
       "y": 15,
       "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "NULL"
+      "var": "VAR_STORY",
+      "var_value": "4",
+      "script": "Entrance_Winter_Success_Room_Right"
     },
     {
       "type": "trigger",
@@ -350,8 +350,26 @@
       "y": 21,
       "elevation": 0,
       "var": "VAR_STORY",
-      "var_value": "4",
-      "script": "Entrance_Winter_Succes"
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskMiddle"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskRight"
     }
   ],
   "bg_events": [
