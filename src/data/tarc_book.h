@@ -185,4 +185,36 @@ const struct BookPage sAllPages[PAGE_COUNT] =
         .goLeft = PAGE_GIRATINA_TRUE_2,
         .goRight = PAGE_NONE,
     },
+    [PAGE_WINTER_UNFINISHED_1] =
+    {   
+        .pageTitle = COMPOUND_STRING("Nightmare After Christmas"),
+        .leftPage = COMPOUND_STRING("'t Was a cold night, on a winter full of snow.\nThe birds took flight, I watched them go.\n\nSouthwards, lit by the glow of the firelight. Then, boom, I saw their show."),
+        .rightPage = COMPOUND_STRING("Mesmerized, I lost sight of what I had in tow.\n\nAnd to my fright\nMy presents were no longer in my prescence\n\n\nA poem written by an unknown poet."),
+        .goLeft = PAGE_NONE,
+        .goRight = PAGE_WINTER_UNFINISHED_2,
+    },
+    [PAGE_WINTER_UNFINISHED_2] =
+    {   
+        .pageTitle = COMPOUND_STRING("Nightmare After"),
+        .leftPage = COMPOUND_STRING("That was just one of many examples of people's gifts going missing or being switched around christmas. The reports are often accompanied by an increase in explosive activity."),
+        .rightPage = COMPOUND_STRING("The irregularity of this phenomenon has lead people to believe that it caused by pokemon. Possible species that could be culprits include Thievul, Delibird, Voltorb, Grafaiai, Bombirdier, Nuzleaf, Banette, and - unfortunately - many, many more."),
+        .goLeft = PAGE_WINTER_UNFINISHED_1,
+        .goRight = PAGE_NONE,
+    },
+    [PAGE_WINTER_FINISHED_1] =
+    {   
+        .pageTitle = COMPOUND_STRING("Nightmare After"),
+        .leftPage = COMPOUND_STRING("GIFTS FOUND AND  RETURNED TO OWNERS\n      December 18th, 2462\n\nThe 7PSOC has succesfully retrieved most missing gifts with the help of the Library and the Archivologists."),
+        .rightPage = COMPOUND_STRING("A flock of Delibird was found stockpiling various boxes, bags and other containers in the Glass Forests' center, underneath a giant tree. After careful negotiation, the Delibird voluntarily parted with their gifts in exchange for various other items."),
+        .goLeft = PAGE_NONE,
+        .goRight = PAGE_WINTER_FINISHED_2,
+    },
+    [PAGE_WINTER_FINISHED_2] =
+    {   
+        .pageTitle = COMPOUND_STRING("Nightmare After"),
+        .leftPage = COMPOUND_STRING("Moving forward, any reports of stolen gifts will be handled by a special branch of 7PSOC. An expert on Ice types has been selected to lead this branch, and it aims to both prevent gift loss, and make sure missing gifts are efficiently returned."),
+        .rightPage = COMPOUND_STRING("The mystery would not have been silved without the cooperation of the Archivologists and the Recordkeepers, who worked tirelessly to solve the case. Sometimes, the answers to our issues can be found in the very history books in our own archives."),
+        .goLeft = PAGE_WINTER_FINISHED_1,
+        .goRight = PAGE_NONE,
+    },
 };

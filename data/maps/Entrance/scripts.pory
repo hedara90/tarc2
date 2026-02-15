@@ -832,19 +832,24 @@ script Entrance_Archive {
     lock
     msgbox("Welcome to the Archive.\nSelect a topic.")
     setboxframe(BOX_FRAME_PC)
-    dynmultichoice(0, 0, TRUE, 3, 0, DYN_MULTICHOICE_CB_NONE,
-                    "Overflowing Abundance",
-                    "The Lost Archipelago",
-                    "The Original Sinner",
-                    "Exit")
+    dynmultipush("The Lost Archipelago", 0)
+    dynmultipush("Overflowing Abundance", 1)
+    dynmultipush("The Original Sinner", 2)
+    if (flag(FLAG_UNLOCKED_WINTER)) {
+        dynmultipush("Nightmare after Christmas", 3)
+    }
+    dynmultipush("Exit", 4)
+    dynmultistack(0,0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
-        case 0:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+        case 0:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
             goto(Entrance_Archive_Xerneas)
-        case 1:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+        case 1:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
             goto(Entrance_Archive_Lugia)
-        case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p. Data retrieved.")
+        case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
             goto(Entrance_Archive_Giratina)
-        case 3: closemessage
+        case 3:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
+            goto(Entrance_Archive_Winter)
+        case 4: closemessage
             release
     }
     closemessage
@@ -902,6 +907,17 @@ script Entrance_Archive_Giratina {
             fadescreen(FADE_TO_BLACK)
             openbook(PAGE_GIRATINA_TRUE_1)
         }
+    }
+}
+
+script Entrance_Archive_Winter {
+    if(flag(FLAG_DEFEATED_WINTER)==FALSE){
+        fadescreen(FADE_TO_BLACK)
+        openbook(PAGE_WINTER_UNFINISHED_1)
+    }
+    else {
+        fadescreen(FADE_TO_BLACK)
+        openbook(PAGE_WINTER_FINISHED_1)
     }
 }
 
@@ -2882,7 +2898,7 @@ script Entrance_Chisa {
     elif(var(VAR_STORY) >= 7){
         goto(Entrance_Chisa_PostWinter)
     }
-    
+
 }
 
 script Entrance_Chisa_Intro {
