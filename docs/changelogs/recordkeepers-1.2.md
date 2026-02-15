@@ -7,7 +7,7 @@ New Features:
 
 Changes:
 - Bouncy Bubble absorb percent changed from 100 to 50.
-- Mandibuzz starting move changed from Tailwind -> DUal Wingbeat.
+- Mandibuzz starting move changed from Tailwind -> Dual Wingbeat.
 - Added a 1 turn cooldown to Thunder.
 - Add popups to "Essence of Weather" abilities.
 - General Xerneas adjustments
@@ -20,6 +20,7 @@ Changes:
   - Boss selection has been moved to be after Lugia.
 - Phase Changes no longer stop every move effect from happening.
 - Adjusted speedup speed now persists within single battles, it's reset to default settings next battle.
+- Azumarill no longer uses Belly Drum in P2, lengthened P1 to reduce chance of it using it twice in P1.
 
 Fixes:
 - Fix Fated abilities not triggering after the first turn.
