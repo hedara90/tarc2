@@ -20,6 +20,7 @@
 #include "gpu_regs.h"
 #include "field_camera.h"
 #include "overworld.h"
+#include "tarc_pulse.h"
 
 #define DROUGHT_COLOR_INDEX(color) ((((color) >> 1) & 0xF) | (((color) >> 2) & 0xF0) | (((color) >> 3) & 0xF00))
 
@@ -737,18 +738,22 @@ void FadeScreen(u8 mode, s8 delay)
     switch (mode)
     {
     case FADE_FROM_BLACK:
+        UnpauseNeonPulse();
         fadeColor = RGB_BLACK;
         fadeOut = FALSE;
         break;
     case FADE_FROM_WHITE:
+        UnpauseNeonPulse();
         fadeColor = RGB_WHITEALPHA;
         fadeOut = FALSE;
         break;
     case FADE_TO_BLACK:
+        PauseNeonPulse();
         fadeColor = RGB_BLACK;
         fadeOut = TRUE;
         break;
     case FADE_TO_WHITE:
+        PauseNeonPulse();
         fadeColor = RGB_WHITEALPHA;
         fadeOut = TRUE;
         break;
