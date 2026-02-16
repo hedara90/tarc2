@@ -968,6 +968,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_GENEROSITY_BURN2]                      = COMPOUND_STRING("The burning feeling was shared!"),
     [STRINGID_GENEROSITY_FROSTBITE2]                 = COMPOUND_STRING("It's hard to move…"),
     [STRINGID_GENEROSITY_PARALYSIS2]                 = COMPOUND_STRING("Something was delayed…"),
+    [STRINGID_ATTENTION]                             = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} holds your attention!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

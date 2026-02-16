@@ -57,7 +57,7 @@ SINGLE_BATTLE_TEST("Red Present deal more damage to statused opponents", s16 dam
         ANIMATION(ANIM_TYPE_MOVE, MOVE_RED_PRESENT, player);
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.5), results[0].damage);
+        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.75), results[0].damage);
     }
 }
 
@@ -75,7 +75,7 @@ SINGLE_BATTLE_TEST("Blue Present deal more damage to statused opponents", s16 da
         ANIMATION(ANIM_TYPE_MOVE, MOVE_BLUE_PRESENT, player);
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.5), results[0].damage);
+        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.75), results[0].damage);
     }
 }
 
@@ -93,6 +93,6 @@ SINGLE_BATTLE_TEST("Yellow Present deal more damage to statused opponents", s16 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_YELLOW_PRESENT, player);
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } FINALLY {
-        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.5), results[0].damage);
+        EXPECT_MUL_EQ(results[1].damage, Q_4_12(1.75), results[0].damage);
     }
 }

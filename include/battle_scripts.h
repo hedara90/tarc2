@@ -943,5 +943,6 @@ extern const u8 BattleScript_GenerosityBurn[];
 extern const u8 BattleScript_GenerosityFrostbite[];
 extern const u8 BattleScript_GenerosityParalysis[];
 extern const u8 BattleScript_GenerosityNothing[];
+extern const u8 BattleScript_Attention[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H
