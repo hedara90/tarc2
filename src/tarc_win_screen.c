@@ -40,6 +40,7 @@
 #include "overworld.h"
 #include "random.h"
 #include "new_game.h"
+#include "event_data.h"
 
 #include "tarc_debug.h"
 
@@ -89,6 +90,10 @@ static const u32 sTarcTiles_Giratina[] = INCBIN_U32("graphics/tarc_win/win_girat
 static const u32 sTarcTilemap_Giratina[] = INCBIN_U32("graphics/tarc_win/win_giratina_tiles.bin.lz");
 static const u16 sTarcPalette_Giratina[] = INCBIN_U16("graphics/tarc_win/win_giratina_tiles.gbapal");
 
+static const u32 sTarcTiles_Delibird[] = INCBIN_U32("graphics/tarc_win/win_delibird_tiles.4bpp.lz");
+static const u32 sTarcTilemap_Delibird[] = INCBIN_U32("graphics/tarc_win/win_delibird_tiles.bin.lz");
+static const u16 sTarcPalette_Delibird[] = INCBIN_U16("graphics/tarc_win/win_delibird_tiles.gbapal");
+
 static const struct Tarc_BossWinBackground sBossBG[] =
 {
     [FINAL_BOSS_XERNEAS] =
@@ -108,6 +113,12 @@ static const struct Tarc_BossWinBackground sBossBG[] =
         .tiles = sTarcTiles_Giratina,
         .tilemap = sTarcTilemap_Giratina,
         .palette = sTarcPalette_Giratina,
+    },
+    [FINAL_BOSS_DELIBIRD] =
+    {
+        .tiles = sTarcTiles_Delibird,
+        .tilemap = sTarcTilemap_Delibird,
+        .palette = sTarcPalette_Delibird,
     },
 };
 
@@ -489,6 +500,8 @@ static bool8 TarcUi_LoadGraphics(void)
         LoadPalette(sTarcTextPal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sTarcUiState->loadState++;
     default:
+        if (bossId == FINAL_BOSS_DELIBIRD)
+            FlagSet(FLAG_DEFEATED_WINTER);
         sTarcUiState->loadState = 0;
         return TRUE;
     }

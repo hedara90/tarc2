@@ -27,6 +27,8 @@ script MythHub_AfterBoss {
         msgBox("The dissipated power energized the\nremaining foes.")
     case 3:
         msgBox("The dissipated power energized the\nremaining foes.")
+    case 4:
+        msgBox("Blessings have been given to worthy\nrecipients.")
     }
     release
 }

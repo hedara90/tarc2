@@ -83,8 +83,8 @@
 #define FLAG_NO_WHITEOUT        0x45
 #define FLAG_HELP_PLAYER_EFFECT 0x46
 #define FLAG_HELP_FOE_EFFECT    0x47
-#define FLAG_UNUSED_0x048    0x48 // Unused Flag
-#define FLAG_UNUSED_0x049    0x49 // Unused Flag
+#define FLAG_UNLOCKED_WINTER    0x48 // Unused Flag
+#define FLAG_DEFEATED_WINTER    0x49 // Unused Flag
 #define FLAG_UNUSED_0x04A    0x4A // Unused Flag
 #define FLAG_UNUSED_0x04B    0x4B // Unused Flag
 #define FLAG_UNUSED_0x04C    0x4C // Unused Flag
@@ -674,9 +674,9 @@
 #define FLAG_SATSUKI_FIRSTMYTH  0x273 // Unused Flag
 #define FLAG_SATSUKI_TWOMYTHS  0x274 // Unused Flag
 #define FLAG_SASTUKI_THREEMYTHS  0x275 // Unused Flag
-#define FLAG_CHIA_CHAT 0x276 // Unused Flag
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
-#define FLAG_UNUSED_0x278  0x278 // Unused Flag
+#define FLAG_CHISA_CHAT 0x276 // Unused Flag
+#define FLAG_CHISA_ENTRANCE  0x277 // Unused Flag
+#define FLAG_SATSUKI_ENTRANCE  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag
 #define FLAG_UNUSED_0x27A  0x27A // Unused Flag
 #define FLAG_UNUSED_0x27B  0x27B // Unused Flag

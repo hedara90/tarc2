@@ -3332,4 +3332,25 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
         .category = AC_CONDITIONAL,
     },
+    [ABILITY_IGNITE] =
+    {
+        .name = _("Ignite"),
+        .description = COMPOUND_STRING("Normal moves become Fire."),
+        .aiRating = 5,
+        .category = AC_PASSIVE,
+    },
+    [ABILITY_GENEROSITY] =
+    {
+        .name = _("Generosity"),
+        .description = COMPOUND_STRING("Effect depending on\nfoe status."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
+    [ABILITY_ATTENTION] =
+    {
+        .name = _("Attention"),
+        .description = COMPOUND_STRING("Targets hit by status\nget trapped."),
+        .aiRating = 5,
+        .category = AC_TRIGGERED,
+    },
 };

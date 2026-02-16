@@ -209,6 +209,7 @@ enum Bosses
     BOSS_FINAL_GIRATINA,
     BOSS_CELEBI,
     BOSS_MINI_GLIMMORA,
+    BOSS_FINAL_DELIBIRD,
 };
 
 #endif
