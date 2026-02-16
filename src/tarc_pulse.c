@@ -72,9 +72,11 @@ const struct PulseData sPulseDatas[PULSE_COUNT] =
 
 EWRAM_DATA u32 gPulseState;
 EWRAM_DATA s8 sPulseDirections[PULSE_COUNT];
+EWRAM_DATA bool32 sIsPaused = FALSE;
 
 void Init_PulseNeonLights(void)
 {
+    sIsPaused = FALSE;
     gPulseState = 0;
     for (u32 i = 0; i < PULSE_COUNT; i++)
         sPulseDirections[i] = 1;
@@ -91,6 +93,9 @@ void Task_WaitForFade(u8 taskId)
 
 void Task_PulseNeonLights(u8 taskId)
 {
+    if (sIsPaused)
+        return;
+
     if ((gPulseState & 0x3) == 0)
     {
         for (u32 i = 0; i < PULSE_COUNT; i++)
@@ -113,4 +118,17 @@ void Task_PulseNeonLights(u8 taskId)
         }
     }
     gPulseState++;
+}
+
+void PauseNeonPulse(void)
+{
+    sIsPaused = TRUE;
+}
+
+void UnpauseNeonPulse(void)
+{
+    sIsPaused = FALSE;
+    u32 taskId = FindTaskIdByFunc(Task_PulseNeonLights);
+    if (taskId != TASK_NONE)
+        gTasks[taskId].func = Task_WaitForFade;
 }

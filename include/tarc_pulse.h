@@ -9,5 +9,7 @@ extern u32 gPulseState;
 void Init_PulseNeonLights(void);
 void Task_WaitForFade(u8 taskId);
 void Task_PulseNeonLights(u8 taskId);
+void PauseNeonPulse(void);
+void UnpauseNeonPulse(void);
 
 #endif

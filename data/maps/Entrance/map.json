@@ -23,7 +23,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Satsuki",
-      "flag": "0"
+      "flag": "FLAG_SATSUKI_ENTRANCE"
     },
     {
       "local_id": "ENTRANCE_MORGAN",
@@ -177,7 +177,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Entrance_Chisa",
-      "flag": "0"
+      "flag": "FLAG_CHISA_ENTRANCE"
     }
   ],
   "warp_events": [],
@@ -298,6 +298,78 @@
       "var": "VAR_TEMP_F",
       "var_value": "1",
       "script": "Entrance_Empress_Satsuki"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "2",
+      "script": "Entrance_Winter_IntroLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "2",
+      "script": "Entrance_Winter_IntroCenter"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "2",
+      "script": "Entrance_Winter_IntroRight"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 15,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "4",
+      "script": "Entrance_Winter_Success_Room_Left"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 15,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "4",
+      "script": "Entrance_Winter_Success_Room_Right"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskMiddle"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_STORY",
+      "var_value": "5",
+      "script": "Entrance_Winter_Succes_DeskRight"
     }
   ],
   "bg_events": [
