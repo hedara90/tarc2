@@ -10881,3 +10881,8 @@ BattleScript_GenerosityNothing::
 BattleScript_GenerosityEnd:
 	restoreattacker
 	end2
+
+BattleScript_Attention::
+	printstring STRINGID_ATTENTION
+	waitmessage B_WAIT_TIME_LONG
+	end2
