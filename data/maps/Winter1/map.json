@@ -2,7 +2,7 @@
   "id": "MAP_WINTER1",
   "name": "Winter1",
   "layout": "LAYOUT_WINTER1",
-  "music": "MUS_DUMMY",
+  "music": "MUS_RG_SEVII_DUNGEON",
   "region_map_section": "MAPSEC_ABANDONED_SHIP",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
