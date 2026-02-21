@@ -19592,3 +19592,37 @@ void BS_BanishCurrentMon(void)
     }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+void BS_BuildUncontainedBlazeStringBuffers(void)
+{
+    NATIVE_ARGS();
+    u32 count = 0;
+
+    if (gLeftMon.hp > 0)
+        count++;
+    if (gRightMon.hp > 0)
+        count++;
+
+    gBattleTextBuff1[0] = EOS;
+    gBattleTextBuff2[0] = EOS;
+    gBattleTextBuff3[0] = EOS;
+    if (count == 1)
+    {
+        if (gLeftMon.hp > 0)
+            StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        else
+            StringCopy(gBattleTextBuff1, gRightMon.nickname);
+    }
+    else
+    {
+        gBattleTextBuff2[0] = CHAR_SPACE;
+        gBattleTextBuff2[1] = CHAR_a;
+        gBattleTextBuff2[2] = CHAR_n;
+        gBattleTextBuff2[3] = CHAR_d;
+        gBattleTextBuff2[4] = CHAR_SPACE;
+        gBattleTextBuff2[5] = EOS;
+        StringCopy(gBattleTextBuff1, gLeftMon.nickname);
+        StringCopy(gBattleTextBuff3, gRightMon.nickname);
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
