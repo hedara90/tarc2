@@ -24,6 +24,7 @@
 #include "window.h"
 #include "tarc_info_menu.h"
 #include "pokemon_icon.h"
+#include "event_data.h"
 
 #include "constants/abilities.h"
 #include "constants/characters.h"
@@ -738,6 +739,22 @@ static void Task_TarcUiWaitFadeIn(u8 taskId)
         gTasks[taskId].func = Task_TarcUiMainInput;
 }
 
+static bool32 IsNextBossUnlocked(void)
+{
+    if (sTarcUiState->finalBossSelector == FINAL_BOSS_COUNT - 1)
+        return FALSE;
+    if (sTarcUiState->finalBossSelector + 1 == FINAL_BOSS_DELIBIRD && !FlagGet(FLAG_UNLOCKED_WINTER))
+        return FALSE;
+    return TRUE;
+}
+
+static u32 GetLastUnlockedBoss(void)
+{
+    if (FlagGet(FLAG_UNLOCKED_WINTER))
+        return FINAL_BOSS_DELIBIRD;
+    return FINAL_BOSS_GIRATINA;
+}
+
 static void Task_TarcUiMainInput(u8 taskId)
 {
     if (JOY_NEW(B_BUTTON))
@@ -752,7 +769,7 @@ static void Task_TarcUiMainInput(u8 taskId)
         {
             //  Change boss left
             if (sTarcUiState->finalBossSelector == 0)
-                sTarcUiState->finalBossSelector = FINAL_BOSS_COUNT - 1;
+                sTarcUiState->finalBossSelector = GetLastUnlockedBoss();
             else
                 sTarcUiState->finalBossSelector--;
             PrintAllInfoText();
@@ -760,7 +777,7 @@ static void Task_TarcUiMainInput(u8 taskId)
         if (JOY_NEW(R_BUTTON))
         {
             //  Change boss right
-            if (sTarcUiState->finalBossSelector == FINAL_BOSS_COUNT - 1)
+            if (!IsNextBossUnlocked())
                 sTarcUiState->finalBossSelector = 0;
             else
                 sTarcUiState->finalBossSelector++;
@@ -908,6 +925,7 @@ static const u8 *const sMythNames[] =
     gText_XerneasMyth,
     gText_LugiaMyth,
     gText_GiratinaMyth,
+    gText_DelibirdMyth,
 };
 
 

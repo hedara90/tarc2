@@ -5713,6 +5713,9 @@ const u32 gObjectEventPic_Substitute[] = INCBIN_COMP("graphics/pokemon/question_
 #else
     const u8 gMonIcon_Flareon[] = INCBIN_U8("graphics/pokemon/flareon/icon_gba.4bpp");
 #endif //P_GBA_STYLE_SPECIES_ICONS
+    const u32 gMonPortraitPic_Flareon[] = INCBIN_U32("graphics/pokemon/flareon/pmd.4bpp");
+    const u16 gMonPortraitPal_Flareon[] = INCBIN_U16("graphics/pokemon/flareon/pmd.gbapal");
+
 #if P_FOOTPRINTS
     const u8 gMonFootprint_Flareon[] = INCBIN_U8("graphics/pokemon/flareon/footprint.1bpp");
 #endif //P_FOOTPRINTS
@@ -8800,6 +8803,8 @@ const u32 gObjectEventPic_Substitute[] = INCBIN_COMP("graphics/pokemon/question_
     const u32 gMonBackPic_Mamoswine[] = INCBIN_U32("graphics/pokemon/mamoswine/back.4bpp.lz");
     const u16 gMonShinyPalette_Mamoswine[] = INCBIN_U16("graphics/pokemon/mamoswine/shiny.gbapal");
     const u8 gMonIcon_Mamoswine[] = INCBIN_U8("graphics/pokemon/mamoswine/icon.4bpp");
+    const u32 gMonPortraitPic_Mamoswine[] = INCBIN_U32("graphics/pokemon/mamoswine/pmd.4bpp");
+    const u16 gMonPortraitPal_Mamoswine[] = INCBIN_U16("graphics/pokemon/mamoswine/pmd.gbapal");
 #if P_FOOTPRINTS
     const u8 gMonFootprint_Mamoswine[] = INCBIN_U8("graphics/pokemon/mamoswine/footprint.1bpp");
 #endif //P_FOOTPRINTS
@@ -16181,6 +16186,8 @@ const u32 gObjectEventPic_Substitute[] = INCBIN_COMP("graphics/pokemon/question_
     const u32 gMonBackPic_Stoutland[] = INCBIN_U32("graphics/pokemon/stoutland/back.4bpp.lz");
     const u16 gMonShinyPalette_Stoutland[] = INCBIN_U16("graphics/pokemon/stoutland/shiny.gbapal");
     const u8 gMonIcon_Stoutland[] = INCBIN_U8("graphics/pokemon/stoutland/icon.4bpp");
+    const u32 gMonPortraitPic_Stoutland[] = INCBIN_U32("graphics/pokemon/stoutland/pmd.4bpp");
+    const u16 gMonPortraitPal_Stoutland[] = INCBIN_U16("graphics/pokemon/stoutland/pmd.gbapal");
 #if P_FOOTPRINTS
     const u8 gMonFootprint_Stoutland[] = INCBIN_U8("graphics/pokemon/stoutland/footprint.1bpp");
 #endif //P_FOOTPRINTS
@@ -18023,6 +18030,8 @@ const u32 gObjectEventPic_Substitute[] = INCBIN_COMP("graphics/pokemon/question_
     const u32 gMonBackPic_Ferrothorn[] = INCBIN_U32("graphics/pokemon/ferrothorn/back.4bpp.lz");
     const u16 gMonShinyPalette_Ferrothorn[] = INCBIN_U16("graphics/pokemon/ferrothorn/shiny.gbapal");
     const u8 gMonIcon_Ferrothorn[] = INCBIN_U8("graphics/pokemon/ferrothorn/icon.4bpp");
+    const u32 gMonPortraitPic_Ferrothorn[] = INCBIN_U32("graphics/pokemon/ferrothorn/pmd.4bpp");
+    const u16 gMonPortraitPal_Ferrothorn[] = INCBIN_U16("graphics/pokemon/ferrothorn/pmd.gbapal");
 #if P_FOOTPRINTS
     const u8 gMonFootprint_Ferrothorn[] = INCBIN_U8("graphics/pokemon/ferrothorn/footprint.1bpp");
 #endif //P_FOOTPRINTS

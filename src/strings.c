@@ -1309,3 +1309,4 @@ const u8 gText_PkmnTraits[] = _("TRAITS");
 const u8 gText_XerneasMyth[] = _("Overflowing Abundance");
 const u8 gText_LugiaMyth[] = _("The Lost Archipelago");
 const u8 gText_GiratinaMyth[] = _("The Original Sinner");
+const u8 gText_DelibirdMyth[] = _("Nightmare After Christmas");

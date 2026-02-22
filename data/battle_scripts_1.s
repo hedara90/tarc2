@@ -10241,6 +10241,7 @@ BattleScript_TriggerTailwind::
 	end2
 
 BattleScript_UncontainedBlaze::
+	createuncontainedblazestringbuffers
 	printstring STRINGID_UNCONTAINED_BLAZE
 	waitmessage B_WAIT_TIME_LONG
 	end2

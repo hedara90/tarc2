@@ -12,6 +12,7 @@ baronessfaron	Discord:<@!544245909639397378>
 		Florges: Normal
 		Diancie: Normal
 		Sandaconda: Normal
+		Flareon: Normal
 Blanky	Discord:<@!230913498916323329>	Contact:https://www.tumblr.com/theblankest123
 	Portrait:
 		Tauros Paldea_Blaze: Normal
@@ -35,6 +36,8 @@ CHUNSOFT	Discord:<@!CHUNSOFT>	Contact:https://www.spike-chunsoft.com/
 		Leafeon: Normal
 		Glaceon: Normal
 		Froslass: Normal
+		Flareon: Normal
+		Mamoswine: Normal
 Emmuffin	Discord:<@!356635814668664832>	Contact:https://twitter.com/Ernmuffin
 	Portrait:
 		Kingdra: Normal
@@ -62,3 +65,6 @@ Novie	Discord:<@!229363481852379136>	Contact:<https://twitter.com/themagolord>
 Soulja	Discord:<@!229131140903075840>	Contact:https://twitter.com/OlSoulja
 	Portrait:
 		Sandaconda: Normal
+Gã€œ	Discord:<@!350050109741858829>	Contact:https://bsky.app/profile/justtr4sh.pmd.social
+	Portrait:
+		Ferrothorn: Normal
