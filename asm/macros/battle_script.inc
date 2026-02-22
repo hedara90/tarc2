@@ -2652,3 +2652,7 @@
 	.macro banishcurrentmon
 	callnative BS_BanishCurrentMon
 	.endm
+
+	.macro createuncontainedblazestringbuffers
+	callnative BS_BuildUncontainedBlazeStringBuffers
+	.endm

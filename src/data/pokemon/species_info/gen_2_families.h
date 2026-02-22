@@ -6520,6 +6520,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .backAnimId = BACK_ANIM_V_SHAKE_LOW,
         .palette = gMonPalette_Mamoswine,
         .shinyPalette = gMonShinyPalette_Mamoswine,
+        .portraitPic = gMonPortraitPic_Mamoswine,
+        .portraitPal = gMonPortraitPal_Mamoswine,
         .iconSprite = gMonIcon_Mamoswine,
         .iconPalIndex = 2,
 #if P_GENDER_DIFFERENCES

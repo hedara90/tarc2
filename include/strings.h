@@ -2434,5 +2434,6 @@ extern const u8 gText_PkmnTraits[];
 extern const u8 gText_XerneasMyth[];
 extern const u8 gText_LugiaMyth[];
 extern const u8 gText_GiratinaMyth[];
+extern const u8 gText_DelibirdMyth[];
 
 #endif // GUARD_STRINGS_H
