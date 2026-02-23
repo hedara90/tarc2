@@ -564,15 +564,17 @@ static const u8 *const sMythNames[] =
     gText_XerneasMyth,
     gText_LugiaMyth,
     gText_GiratinaMyth,
+    gText_DelibirdMyth,
 };
 
 static void PrintMythName(u32 bossId)
 {
     const u8 *currString = sMythNames[bossId];
     FillWindowPixelBuffer(WIN_TITLE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    u32 fontId = GetFontIdToFit(currString, FONT_NORMAL, 0, 0);
     AddTextPrinterParameterized4(WIN_TITLE,
-                                 FONT_NORMAL,
-                                 TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, FONT_NORMAL), 0, 0, 0,
+                                 fontId,
+                                 TarcUi_JustifyCenter(currString, TITLE_WIDTH * 8, fontId), 0, 0, 0,
                                  sTarcUiWindowFontColors[FONT_BLACK],
                                  TEXT_SKIP_DRAW,
                                  currString);
