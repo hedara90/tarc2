@@ -121,3 +121,31 @@ SINGLE_BATTLE_TEST("Recoil: Flare Blitz is absorbed by Flash Fire and no recoil 
         }
     }
 }
+
+SINGLE_BATTLE_TEST("Recoil: Volt Tackle has recoil")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_VOLT_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_VOLT_TACKLE, player);
+        HP_BAR(opponent);
+        HP_BAR(player);
+    }
+}
+
+SINGLE_BATTLE_TEST("Recoil: Volt Tackle reward has recoil")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_REWARD_VOLT_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_REWARD_VOLT_TACKLE, player);
+        HP_BAR(opponent);
+        HP_BAR(player);
+    }
+}
