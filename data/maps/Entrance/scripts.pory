@@ -850,9 +850,9 @@ script Entrance_Archive {
     dynmultistack(0,0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
     switch(var(VAR_RESULT)){
         case 0:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
-            goto(Entrance_Archive_Xerneas)
-        case 1:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
             goto(Entrance_Archive_Lugia)
+        case 1:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
+            goto(Entrance_Archive_Xerneas)
         case 2:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
             goto(Entrance_Archive_Giratina)
         case 3:msgbox("Loading{PAUSE 15}.{PAUSE 15}.{PAUSE 15}.\p Data retrieved.")
